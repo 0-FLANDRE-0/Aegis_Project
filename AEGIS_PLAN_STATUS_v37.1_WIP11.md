@@ -1,5 +1,14 @@
 # CIWS Closure B2 로컬 RF 속도 안정화 WIP11 — 2026-09-12
 
+## Actions 종결 결과
+
+- PR #6 head `3345ef43781e1f4b84410c529b70ca4b9e34346e`의 Actions run `34691900821`(#24)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver` 5개 job이 모두 통과했다.
+- B2 Chromium 결과는 시작 자기검사 실패 0, 합성 직선 0.017 m/s²·비기동, 합성 24 m/s² 횡기동 17.59 m/s²·기동, Phalanx 가속도 예측점 이동 7.27 m, coast 감쇠, 4.5 km 거리 gate, 1×/8×/16× 결정성 통과다.
+- 생산 로컬 RF 측정 경로의 이동 fixture는 직선 70 hit에서 1.95 m/s²·비기동, 횡기동 75 hit에서 18.18 m/s²·기동을 기록했다. 두 경우 모두 마지막 소스는 `LOCAL_RF`다.
+- B2 JSON의 `pass`는 `true`, 콘솔 오류와 uncaught page error는 0건이며 시뮬레이터 SHA-256은 `7ddbacc8e5df0d4c41f61606ee5697204f23d20913e77875dd5973889c29623d`로 일치한다.
+- B2 artifact ID는 `10297239425`, archive digest는 `sha256:e1813a97c523ebfd5ea073d3fafaaed6c420f49d854cd23d3621a2157935899b`다. B1 회귀도 2 tests가 통과했고 artifact ID `10297980150`, digest `sha256:7b5c8920082687450e015977ca3275202ec0d47d081bc0ed9ec99ecf85237715`다.
+- 이 범위의 CIWS Closure B2 가속도·기동 추정 및 예측 연결은 완료했다. B3 부분손상 연속 성능은 다음 작업으로 남긴다.
+
 ## WIP10 live RF 실패 수정
 
 - WIP10 커밋 `ac248018f6616b3924f51b55230b15f125278bdd`의 Actions run `34691679929`(#23)에서 정적·WebGL 검사는 통과했지만 강화한 B2 live RF noise guard가 실패했다.
