@@ -1,5 +1,12 @@
 # CIWS Closure B1 종결 검증 결함 수정 — 2026-09-12
 
+## B1 종결용 Actions 검증 추가 — 2026-09-12
+
+- 기준 커밋 `e717666110e3d7762a4fabb45331fbcc3803ad29`에 WIP03 HTML과 대응 상태 문서가 포함되고, HTML SHA-256이 기존 인계값 `56d6fd07ff6701ef3136ded9f62a6eadf501ae92f0fcea5cb5cee51be85daa20`과 일치함을 확인했다.
+- GitHub Actions Chromium/Playwright에서 페이지 오류, 시작 자기검사, 허가된 Phalanx/SeaRAM 실발사, 보호 상태 자동발사 차단, cue/local 탐지 경계, 소실/재획득, 정상/40% 부분손상, 동일 seed 1×/8×/16× 고정 tick 결과, 2D/3D 상태 격리를 한 번에 판정하는 종결 검증을 추가했다.
+- 검증은 `ciws-b1-results.json`, `ciws-engagement.png`, `aegis-3d.png`, `SHA256SUMS`를 `ciws-b1-closure-<commit SHA>` artifact로 보존한다.
+- 이 문서 변경 시점에는 새 Actions 실행 결과가 아직 없으므로 B1을 완료로 승격하지 않는다. 모든 브라우저 항목의 실제 통과 결과가 확인된 뒤에만 완료로 기록하며 B2는 시작하지 않는다.
+
 - WIP02 정적 종결 검토에서 두 안전 결함을 확인해 검증만으로 B1 완료 처리하지 않고 `Aegis_SIM_v37.1_WIP03.html`을 만들었다.
 - 첫째, WIP02의 관측 트랙 후보 필터가 A3 자동 교전권한을 확인하지 않아 `FRIEND`, `NEUTRAL`, `UNKNOWN`, `UNASSESSED`, `WITHHELD` 트랙이 CIWS 후보가 될 수 있었다. WIP03은 `trackEngagementGateA3(trackId,{automatic:true})` 통과를 위협 평가의 필수 조건으로 둔다.
 - 둘째, WIP02는 함정 cue가 있으면 `ciwsResolveLocalContactB1`에서 로컬 탐지 성공 없이 실제 접촉을 선택할 수 있었다. WIP03은 cue 유무와 관계없이 로컬 RF 탐지를 요구하되, cue가 있을 때만 `cueTrackRangeKm`까지 좁은 빔 획득 범위를 확장한다.
