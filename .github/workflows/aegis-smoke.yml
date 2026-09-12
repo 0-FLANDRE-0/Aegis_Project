@@ -1,0 +1,64 @@
+name: AEGIS smoke check
+
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v*.html'
+      - '.github/workflows/aegis-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate latest simulator source
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          test -n "$sim_file"
+          SIM_FILE="$sim_file" python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          path = Path(os.environ["SIM_FILE"])
+          text = path.read_text(encoding="utf-8")
+          required = (
+              "<!doctype html>",
+              "</html>",
+              'id="external3DRadarBtn"',
+              'id="external3DSpq9bBtn"',
+              'id="external3DSps73Btn"',
+          )
+          missing = [marker for marker in required if marker.lower() not in text.lower()]
+          if missing:
+              raise SystemExit(f"{path}: missing markers: {missing}")
+          if "<<<<<<<" in text or "=======" in text or ">>>>>>>" in text:
+              raise SystemExit(f"{path}: unresolved merge conflict marker")
+          print(f"validated {path} ({path.stat().st_size:,} bytes)")
+          PY
+
+      - name: Verify static HTTP serving
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          cp "$sim_file" index.html
+          python3 -m http.server 4173 >/tmp/aegis-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..20}; do
+            if curl --fail --silent --show-error http://127.0.0.1:4173/ -o /tmp/aegis-index.html; then
+              break
+            fi
+            sleep 0.25
+          done
+          test -s /tmp/aegis-index.html
+          grep -qi '</html>' /tmp/aegis-index.html
