@@ -26,6 +26,7 @@ jobs:
           test -n "$sim_file"
           SIM_FILE="$sim_file" python3 - <<'PY'
           import os
+          import re
           from pathlib import Path
 
           path = Path(os.environ["SIM_FILE"])
@@ -40,7 +41,7 @@ jobs:
           missing = [marker for marker in required if marker.lower() not in text.lower()]
           if missing:
               raise SystemExit(f"{path}: missing markers: {missing}")
-          if "<<<<<<<" in text or "=======" in text or ">>>>>>>" in text:
+          if re.search(r"(?m)^(?:<<<<<<< .+|=======\\s*|>>>>>>> .+)$", text):
               raise SystemExit(f"{path}: unresolved merge conflict marker")
           print(f"validated {path} ({path.stat().st_size:,} bytes)")
           PY
