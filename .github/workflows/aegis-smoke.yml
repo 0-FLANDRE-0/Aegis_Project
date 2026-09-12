@@ -7,13 +7,14 @@ on:
       - '.github/workflows/aegis-smoke.yml'
       - 'tests/ciws-b1-closure.spec.js'
       - 'package.json'
+      - 'package-lock.json'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v37.1_WIP03.html
+  SIM_FILE: Aegis_SIM_v37.1_WIP04.html
 
 jobs:
   ciws-b1-closure:
@@ -30,7 +31,7 @@ jobs:
 
       - name: Install Playwright and Chromium
         run: |
-          npm install --no-package-lock
+          npm ci
           npx playwright install --with-deps chromium
 
       - name: Run CIWS B1 closure in Chromium
