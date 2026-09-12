@@ -1,9 +1,17 @@
 # CIWS Closure B1 종결 검증 WIP08 — 2026-09-12
 
+## Actions 종결 결과
+
+- PR #6 head `6a92d724095b4a4230aec91db62bf2152e2b52e1`의 Actions run `34690224354`(#20)이 완료됐고, `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure` 4개 job이 모두 통과했다.
+- Playwright matrix에서 페이지 로드, 시작 자기검사 실패 0, `CORE SELFTEST PASS`, Phalanx/SeaRAM 허가 교전, 보호 트랙 자동발사 차단, cue/local 탐지 경계, 소실·재획득, 정상·40% 부분손상, 1×/8×/16× 결정성이 모두 통과했다.
+- visual test에서 출항 오버레이 종료, 진단 경계 정지 상태, 3D 열기 전·중·닫기 후 상태 동일성이 모두 통과했다. 콘솔 오류와 uncaught page error는 0건이다.
+- CIWS artifact ID는 `10297306876`, archive digest는 `sha256:e4de7ac8bdf8930958264fe024449796558670adcab4426058a510f162ca2d69`이다. 내부 matrix/visual JSON의 `pass`는 모두 `true`이고 시뮬레이터 SHA-256은 `d4cc083cf7756f76bd2a40b1d00dae8315e511ed9ba18476011d12549c207168`로 일치한다.
+- 이 범위의 CIWS Closure B1 종결 검증은 완료했다. B2(로컬 가속도·기동 추정)는 시작하지 않았으며 다음 코드 작업으로 남긴다.
+
 - WIP07 Actions run `34690047243`(#19)에서 3개 비-CIWS job과 정지 상태 3D 격리 검사는 통과했다. AUTO mode 및 선수 0° 기하 수정 뒤 시작 자기검사는 다음 fixture 단계인 `A3 classification confidence alone must not authorize`에서 실패했다.
 - 원인은 fixture 위치·초기 운동을 x축 선수 접근으로 바꾼 뒤 이탈/재접근 전이는 이전 y축의 `vy/_kfX[4]`만 반전한 불일치다. WIP08은 이 두 전이를 `vx/_kfX[3]`로 맞춰 실제 운동 상태와 EKF 상태를 함께 전환한다.
 - 생산 분류·권한·CIWS 선택 로직은 수정하지 않았다. WIP07 HTML과 상태 문서는 `archive/v37.1/WIP07/`에 원본 blob 그대로 보존한다.
-- workflow 대표 파일은 `Aegis_SIM_v37.1_WIP08.html`이며 HTML SHA-256은 `d4cc083cf7756f76bd2a40b1d00dae8315e511ed9ba18476011d12549c207168`이다. B1 완료 승격과 B2 작업은 새 Actions 및 artifact 확인 전까지 보류한다.
+- workflow 대표 파일은 `Aegis_SIM_v37.1_WIP08.html`이며 HTML SHA-256은 `d4cc083cf7756f76bd2a40b1d00dae8315e511ed9ba18476011d12549c207168`이다. Actions #20과 artifact 확인으로 B1 종결 검증을 완료했으며 B2는 시작하지 않았다.
 
 ---
 
