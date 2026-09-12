@@ -63,3 +63,120 @@ jobs:
           done
           test -s /tmp/aegis-index.html
           grep -qi '</html>' /tmp/aegis-index.html
+
+  webgl-render-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create Three.js WebGL probe
+        shell: bash
+        run: |
+          cat > webgl-probe.html <<'HTML'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>AEGIS Actions WebGL probe</title>
+            <style>
+              html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07141c;color:#d7f4ef;font:16px monospace}
+              #status{position:fixed;left:12px;top:12px;z-index:2;padding:8px;background:#001018cc;border:1px solid #49c5a5}
+              canvas{display:block;width:100%;height:100%}
+            </style>
+          </head>
+          <body>
+            <div id="status">BOOT</div>
+            <canvas id="c"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+            <script>
+              (function(){
+                const status=document.getElementById('status');
+                try{
+                  if(!window.THREE) throw new Error('THREE_LOAD_FAILED');
+                  const canvas=document.getElementById('c');
+                  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
+                  renderer.setSize(800,600,false);
+                  renderer.setClearColor(0x07141c,1);
+                  const scene=new THREE.Scene();
+                  const camera=new THREE.PerspectiveCamera(55,800/600,0.1,100);
+                  camera.position.set(2.8,2.1,4.0);
+                  camera.lookAt(0,0,0);
+                  scene.add(new THREE.HemisphereLight(0xbfffea,0x142030,2.2));
+                  const key=new THREE.DirectionalLight(0xffffff,2.4);
+                  key.position.set(3,4,5);
+                  scene.add(key);
+                  const cube=new THREE.Mesh(
+                    new THREE.BoxGeometry(1.6,1.6,1.6),
+                    new THREE.MeshStandardMaterial({color:0x38b48c,roughness:0.48,metalness:0.22})
+                  );
+                  cube.rotation.set(0.42,0.68,0.12);
+                  scene.add(cube);
+                  renderer.render(scene,camera);
+                  const gl=renderer.getContext();
+                  const pixel=new Uint8Array(4);
+                  gl.readPixels(400,300,1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);
+                  const dbg=gl.getExtension('WEBGL_debug_renderer_info');
+                  const info={
+                    three:THREE.REVISION,
+                    webgl2:renderer.capabilities.isWebGL2,
+                    version:gl.getParameter(gl.VERSION),
+                    renderer:dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),
+                    pixel:Array.from(pixel)
+                  };
+                  document.documentElement.dataset.webgl='PASS';
+                  status.textContent='WEBGL_PASS '+JSON.stringify(info);
+                }catch(err){
+                  document.documentElement.dataset.webgl='FAIL';
+                  status.textContent='WEBGL_FAIL '+(err&&err.stack||err);
+                }
+              })();
+            </script>
+          </body>
+          </html>
+          HTML
+
+      - name: Render WebGL through Chromium SwiftShader
+        shell: bash
+        run: |
+          set -euo pipefail
+          chrome_bin="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome_bin"
+          "$chrome_bin" --version
+          python3 -m http.server 4173 >/tmp/aegis-webgl-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..20}; do
+            curl --fail --silent http://127.0.0.1:4173/webgl-probe.html -o /dev/null && break
+            sleep 0.25
+          done
+          flags=(
+            --headless=new
+            --no-sandbox
+            --disable-dev-shm-usage
+            --enable-webgl
+            --ignore-gpu-blocklist
+            --use-gl=angle
+            --use-angle=swiftshader
+            --enable-unsafe-swiftshader
+            --window-size=800,600
+            --virtual-time-budget=10000
+          )
+          dom="$("$chrome_bin" "${flags[@]}" --dump-dom http://127.0.0.1:4173/webgl-probe.html)"
+          if ! grep -q 'data-webgl="PASS"' <<<"$dom"; then
+            printf '%s\n' "$dom"
+            exit 1
+          fi
+          grep -o 'WEBGL_PASS[^<]*' <<<"$dom"
+          "$chrome_bin" "${flags[@]}" --screenshot=webgl-probe.png http://127.0.0.1:4173/webgl-probe.html
+          test -s webgl-probe.png
+
+      - name: Upload WebGL proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-probe
+          path: webgl-probe.png
+          if-no-files-found: warn
+          retention-days: 7
