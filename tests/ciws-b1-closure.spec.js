@@ -9,15 +9,26 @@ const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   seed: 3710401, checks: {}, consoleErrors: [], pageErrors: [] };
 
 test.use({ viewport: { width: 1600, height: 900 } });
-test.afterAll(() => {
+const resetResults = () => {
+  results.checks = {};
+  results.consoleErrors = [];
+  results.pageErrors = [];
+  delete results.completedAt;
+  delete results.pass;
+};
+test.afterEach(({}, testInfo) => {
   fs.mkdirSync(artifactDir, { recursive: true });
   results.completedAt = new Date().toISOString();
   results.pass = Object.values(results.checks).every(x => x.pass) && !results.consoleErrors.length && !results.pageErrors.length;
-  fs.writeFileSync(`${artifactDir}/ciws-b1-results.json`, `${JSON.stringify(results, null, 2)}\n`);
+  const kind = testInfo.title.includes('browser matrix') ? 'matrix' : 'visual';
+  fs.writeFileSync(`${artifactDir}/ciws-b1-${kind}-results.json`, `${JSON.stringify(results, null, 2)}\n`);
+  const failures = Object.entries(results.checks).filter(([, value]) => !value.pass).map(([name, value]) => ({ name, value }));
+  console.log('CIWS_B1_FAILED_CHECKS ' + JSON.stringify(failures));
 });
 
 test('CIWS Closure B1 browser matrix', async ({ page }) => {
   test.setTimeout(120_000);
+  resetResults();
   page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
   page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
   await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
@@ -91,13 +102,15 @@ test('CIWS Closure B1 browser matrix', async ({ page }) => {
     rngState: row.snapshot.rngState, simStepCounter: row.snapshot.simStepCounter });
   results.checks.timeScaleDeterminism = { pass: digest(speedRows.x1) === digest(speedRows.x8) && digest(speedRows.x1) === digest(speedRows.x16), result: speedRows };
 
-  expect(results.consoleErrors, 'JavaScript console errors').toEqual([]);
-  expect(results.pageErrors, 'uncaught page errors').toEqual([]);
-  for (const [name, check] of Object.entries(results.checks)) expect(check.pass, name).toBe(true);
+  console.log('CIWS_B1_STARTUP_FAILURES ' + JSON.stringify(startup.failures));
+  expect.soft(results.consoleErrors, 'JavaScript console errors').toEqual([]);
+  expect.soft(results.pageErrors, 'uncaught page errors').toEqual([]);
+  for (const [name, check] of Object.entries(results.checks)) expect.soft(check.pass, name).toBe(true);
 });
 
 test('CIWS and 3D evidence capture', async ({ page }) => {
   test.setTimeout(120_000);
+  resetResults();
   page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
   page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
   await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
@@ -107,9 +120,12 @@ test('CIWS and 3D evidence capture', async ({ page }) => {
   for (let i = 0; i < 100; i++) { const s = (await api('stepCiws', 0.1)).snapshot; if (s.mounts[0].spent > 0) break; }
   await page.locator('#wip125DepartBtn').click();
   await page.screenshot({ path: `${artifactDir}/ciws-engagement.png` });
-  // Reload leaves the normal pre-sail pause in place while the independent 3D renderer initializes.
+  // Reload recreates the pre-sail overlay, so dismiss it before collecting 3D evidence.
   await page.reload({ waitUntil: 'load' });
   await page.waitForFunction(() => window.__NAVAL_SIM_DIAG__?.ciwsB1Closure);
+  await page.locator('#wip125DepartBtn').click();
+  await expect(page.locator('#wip125LoadoutOverlay')).toBeHidden({ timeout: 5_000 });
+  results.checks.preSailOverlayHidden = { pass: true };
   const before3d = await api('snapshot');
   await page.evaluate(() => window.__WIP148_3D_VIEW__.open());
   await page.waitForFunction(() => window.__WIP148_3D_VIEW__?.ready === true, null, { timeout: 60_000 });
