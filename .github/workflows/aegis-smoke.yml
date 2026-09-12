@@ -180,3 +180,74 @@ jobs:
           path: webgl-probe.png
           if-no-files-found: warn
           retention-days: 7
+
+  aegis-3d-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare latest simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          test -n "$sim_file"
+          cp "$sim_file" index.html
+          printf '%s\n' "$sim_file" > rendered-source.txt
+
+      - name: Render actual AEGIS 3D view
+        shell: bash
+        run: |
+          set -euo pipefail
+          chrome_bin="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome_bin"
+          python3 -m http.server 4173 >/tmp/aegis-3d-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..20}; do
+            curl --fail --silent http://127.0.0.1:4173/index.html -o /dev/null && break
+            sleep 0.25
+          done
+          flags=(
+            --headless=new
+            --no-sandbox
+            --disable-dev-shm-usage
+            --enable-webgl
+            --ignore-gpu-blocklist
+            --use-gl=angle
+            --use-angle=swiftshader
+            --enable-unsafe-swiftshader
+            --window-size=1600,900
+            --hide-scrollbars
+            --run-all-compositor-stages-before-draw
+            --virtual-time-budget=18000
+          )
+          target_url='http://127.0.0.1:4173/index.html?view3d=1'
+          dom="$("$chrome_bin" "${flags[@]}" --dump-dom "$target_url")"
+          printf '%s' "$dom" > aegis-3d-dom.html
+          if ! grep -Eq 'id="external3DView"[^>]*class="[^"]*active|class="[^"]*active[^"]*"[^>]*id="external3DView"' <<<"$dom"; then
+            echo 'AEGIS 3D overlay did not activate'
+            grep -o 'id="external3DReadout"[^<]*' <<<"$dom" || true
+            exit 1
+          fi
+          if grep -q 'THREE.JS 로드 실패' <<<"$dom"; then
+            echo 'AEGIS Three.js load failed'
+            exit 1
+          fi
+          "$chrome_bin" "${flags[@]}" --screenshot=aegis-3d.png "$target_url"
+          test -s aegis-3d.png
+          printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
+
+      - name: Upload AEGIS 3D proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-3d-render
+          path: |
+            aegis-3d.png
+            aegis-3d-dom.html
+            rendered-source.txt
+          if-no-files-found: warn
+          retention-days: 7
