@@ -1,4 +1,56 @@
+# CIWS Closure B1 종결 검증 WIP07 — 2026-09-12
+
+- WIP06 Actions run `34689854972`(#18)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`가 통과했다. CIWS visual test의 정지 상태 3D 격리 검사도 통과했으며 `CIWS_B1_FAILED_CHECKS []`를 기록했다.
+- WIP06에서 AUTO 모드 전달 누락은 해소됐고, 시작 자기검사의 다음 실제 탈락 사유가 `DIRECTION_BLOCKED / 구조물: 함교(상부전)`로 드러났다. 우현 90° fixture를 같은 run에서 실발사가 통과한 Phalanx 브라우저 fixture와 동일한 선수 0° 인바운드 배치로 교체했다.
+- 생산 교전 게이트, blind sector, traverse 판정은 완화하지 않았다. 변경은 자기검사 입력 기하만 실제 검증된 경로와 일치시키는 범위다.
+- WIP06 HTML과 상태 문서는 `archive/v37.1/WIP06/`에 원본 blob 그대로 보존한다. workflow의 대표 파일은 `Aegis_SIM_v37.1_WIP07.html`로 변경한다.
+- WIP07 HTML SHA-256은 `c58612857f35303570c41ed17350165a5dafd31e7369f961c463e105400a5726`이다. B1 완료 승격과 B2 작업은 새 Actions 및 artifact 확인 전까지 보류한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP06 — 2026-09-12
+
+- 기준 원격은 PR #6 head `c7ccf2dba2c9f635e2debcb54ae5e58cfeb44f5a`, Actions run `34685404177`(#17)이다. `static-smoke`, `webgl-render-probe`, `aegis-3d-render`는 통과했고 `ciws-b1-closure`의 핵심 브라우저 검사 8개도 통과했다.
+- 시작 자기검사 fixture가 `updateTrackOperationalStateA3(...,{mode:'AUTO'})`만 호출하고 실제 `engagementControlMode`는 MANUAL로 남겨 `ciwsObservedThreatAuditB1`에서 `MODE` 차단되던 문제를 수정했다. fixture 동안만 AUTO로 전환하고 기존 모드를 `finally`에서 복원한다.
+- 3D 격리 검사는 실행 중 시뮬레이션의 자연스러운 tick 변화를 3D 부작용으로 오판하지 않도록, 진단 경계의 `setPaused(true)`로 물리 시간과 accumulator를 정지한 뒤 3D 열기 전·중·닫기 후 상태를 비교한다.
+- 잘못 생성된 `archive/v37.1/WIP05/Aegis_SIM_v37.1_WIP05.html` 0바이트 blob은 루트 WIP05 원본 blob으로 복구한다. 루트 WIP05는 수정하지 않는다.
+- workflow의 대표 파일은 `Aegis_SIM_v37.1_WIP06.html`로 변경한다. WIP06 HTML SHA-256은 `d36d0988e2e177cf2a3ef4d1a6a5167cae8b8f92b22ec1f0515194e15f4ce343`이다. B1 완료 승격과 B2 작업은 새 Actions 및 artifact 확인 전까지 보류한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP05 — 2026-09-12
+
+- 원격 기준은 PR #6 head `273206404540e52187bc7964a15df9beb0b2ad00`, Actions run `34682645360`이다. `static-smoke`, `webgl-render-probe`, `aegis-3d-render`는 통과했고 `ciws-b1-closure`는 실패했다. 콘솔/page 오류는 0건이며 WIP04 SHA-256은 `c3786921b81436db46fd624a593b5f818d5231fa4cb0fb1aadc8b9f31d27d3f4`로 일치했다.
+- 후보 평가에 `ciwsObservedThreatAuditB1` 단계별 사유를 추가했다. 정상 자기검사 fixture는 AUTO gate 통과 뒤 물리 mount 방향 조건에서 탈락하던 선수 방향 대신 연결된 우현 traverse의 인바운드 표적을 사용하며, 재실패 시 정확한 최초 탈락 단계가 자기검사 메시지에 남는다. gate 자체는 약화하거나 삭제하지 않았다.
+- SeaRAM fixture의 기존 선수 방위는 SeaRAM 선수 사각과 겹쳤다. WIP05 fixture는 실제 bearing 입력을 지원하고 SeaRAM은 우현 인바운드로 배치한다. JSON snapshot에 후보 사유, SEARCH/TRACK 상태 이력, 로컬 track freshness/LOS/range 품질, traverse와 hardware health를 남긴다.
+- 보호 상태는 매 tick 상태를 덮어쓰지 않는다. UNKNOWN은 ASM 자동 적성 증거를 제거한 운동 표적, UNASSESSED는 tentative track, WITHHELD는 memory/FCS 보류 상태로 한 번만 입력하며 실제 updateCIWS가 이후 상태와 발사를 결정한다.
+- 소실/재획득은 실제 SPY lifecycle 함수의 dwell miss 두 번(COAST→REACQUIRE)과 accepted reacquisition hit 두 번(REACQUIRE→FIRM)을 사용한다. 재획득 중 CIWS 해제·무발사와 FIRM 복귀 뒤 재교전을 검사한다.
+- 기능 검증과 이미지 검증을 별도 Playwright test로 분리하고 각각 120초 제한을 둔다. CIWS 이미지는 출항 버튼으로 VLS 편성 모달을 정상 종료한 뒤 촬영하며, 3D는 full-page가 아니라 `external3DCanvas`만 촬영한다.
+- WIP05 HTML SHA-256은 `81a94bd3003c910a9bcee6ea29e646c0500bf4a1051171933db9755b03f3fcc3`이다.
+- B1 완료 승격 및 B2 작업은 하지 않았다. 수정 후 Actions 결과는 아직 미실행이며 사용자가 원격 브랜치를 갱신한 뒤 확인한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP04 — 2026-09-12
+
+- Actions run `34681951551`에서 브라우저 테스트가 비공개 함수 `_wip75ResetCase`를 페이지 전역 API로 잘못 취급해 실패했다. 같은 문제가 있던 `_wip75CreateTarget`, `_wip75SyncTrack` 직접 의존성도 제거했다.
+- 브라우저가 사용하는 단일 명시적 진단 경계 `window.__NAVAL_SIM_DIAG__.ciwsB1Closure`를 추가했다. fixture 준비, 독립 차단 조건, 소실/재획득, 실제 고정-step accumulator 배속 진행, 로컬 탐지 실패 probe와 결과 snapshot은 이 경계로만 제공한다.
+- WIP03에서 획득 뒤 트랙이 소실·재획득·보호 상태로 바뀌어도 기존 로컬 접촉을 계속 추적할 수 있던 결함을 확인했다. WIP04는 매 tick 현재 관측 후보와 권한을 재검증하고 후보에서 빠진 파일의 Phalanx/SeaRAM 추적 및 발사를 즉시 해제한다.
+- FRIEND, NEUTRAL, UNKNOWN, UNASSESSED, WITHHELD는 각 fixture에서 공통 AUTO 가능 기준을 만든 뒤 해당 운용 상태 입력만 바꾸어 자동발사 0회를 별도로 기록한다.
+- 1×/8×/16× 검사는 `worldTimeScale`, `simAccumulator`, `SIM_FIXED_DT`, `simulateFixedTick`으로 구성된 실제 런타임 시간 진행 경계를 사용하고 동일 seed와 6초 시뮬레이션 시간의 결과를 비교한다.
+- Playwright 의존성 lockfile을 추가했으며 Actions 설치는 `npm ci`를 사용한다.
+- 이 문서 시점에는 수정 커밋의 Actions 재실행 결과가 없으므로 B1은 완료로 승격하지 않는다. B2는 시작하지 않았다.
+
+---
+
 # CIWS Closure B1 종결 검증 결함 수정 — 2026-09-12
+
+## B1 종결용 Actions 검증 추가 — 2026-09-12
+
+- 기준 커밋 `e717666110e3d7762a4fabb45331fbcc3803ad29`에 WIP03 HTML과 대응 상태 문서가 포함되고, HTML SHA-256이 기존 인계값 `56d6fd07ff6701ef3136ded9f62a6eadf501ae92f0fcea5cb5cee51be85daa20`과 일치함을 확인했다.
+- GitHub Actions Chromium/Playwright에서 페이지 오류, 시작 자기검사, 허가된 Phalanx/SeaRAM 실발사, 보호 상태 자동발사 차단, cue/local 탐지 경계, 소실/재획득, 정상/40% 부분손상, 동일 seed 1×/8×/16× 고정 tick 결과, 2D/3D 상태 격리를 한 번에 판정하는 종결 검증을 추가했다.
+- 검증은 `ciws-b1-results.json`, `ciws-engagement.png`, `aegis-3d.png`, `SHA256SUMS`를 `ciws-b1-closure-<commit SHA>` artifact로 보존한다.
+- 이 문서 변경 시점에는 새 Actions 실행 결과가 아직 없으므로 B1을 완료로 승격하지 않는다. 모든 브라우저 항목의 실제 통과 결과가 확인된 뒤에만 완료로 기록하며 B2는 시작하지 않는다.
 
 - WIP02 정적 종결 검토에서 두 안전 결함을 확인해 검증만으로 B1 완료 처리하지 않고 `Aegis_SIM_v37.1_WIP03.html`을 만들었다.
 - 첫째, WIP02의 관측 트랙 후보 필터가 A3 자동 교전권한을 확인하지 않아 `FRIEND`, `NEUTRAL`, `UNKNOWN`, `UNASSESSED`, `WITHHELD` 트랙이 CIWS 후보가 될 수 있었다. WIP03은 `trackEngagementGateA3(trackId,{automatic:true})` 통과를 위협 평가의 필수 조건으로 둔다.
