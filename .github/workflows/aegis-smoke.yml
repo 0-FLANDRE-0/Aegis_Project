@@ -196,6 +196,105 @@ jobs:
           test -n "$sim_file"
           cp "$sim_file" index.html
           printf '%s\n' "$sim_file" > rendered-source.txt
+          npm install --no-save --no-package-lock ws@8
+
+      - name: Create bounded CDP capture script
+        shell: bash
+        run: |
+          cat > cdp-capture.mjs <<'JS'
+          import fs from 'node:fs';
+          import WebSocket from 'ws';
+
+          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+          let targets = [];
+          for (let attempt = 0; attempt < 80; attempt++) {
+            try {
+              targets = await (await fetch('http://127.0.0.1:9222/json')).json();
+              if (targets.some(t => t.type === 'page' && t.url.includes('view3d=1'))) break;
+            } catch {}
+            await sleep(250);
+          }
+          const page = targets.find(t => t.type === 'page' && t.url.includes('view3d=1'));
+          if (!page) throw new Error('CDP_PAGE_NOT_FOUND');
+
+          const ws = new WebSocket(page.webSocketDebuggerUrl);
+          await new Promise((resolve, reject) => {
+            ws.once('open', resolve);
+            ws.once('error', reject);
+          });
+          let seq = 0;
+          const pending = new Map();
+          ws.on('message', raw => {
+            const msg = JSON.parse(String(raw));
+            if (!msg.id || !pending.has(msg.id)) return;
+            const { resolve, reject } = pending.get(msg.id);
+            pending.delete(msg.id);
+            if (msg.error) reject(new Error(JSON.stringify(msg.error)));
+            else resolve(msg.result);
+          });
+          const send = (method, params = {}) => new Promise((resolve, reject) => {
+            const id = ++seq;
+            pending.set(id, { resolve, reject });
+            ws.send(JSON.stringify({ id, method, params }));
+          });
+
+          await send('Page.enable');
+          await send('Runtime.enable');
+          await sleep(20000);
+
+          const expression = `(() => {
+            const view = document.getElementById('external3DView');
+            const readout = document.getElementById('external3DReadout');
+            const loading = document.getElementById('external3DLoading');
+            let rendererInfo = null;
+            let ready = false;
+            let auditPass = false;
+            try {
+              ready = !!WIP148_EXTERNAL_3D.ready;
+              auditPass = !!WIP148_EXTERNAL_3D.contractAudit().pass;
+              const gl = WIP148_EXTERNAL_3D.renderer?.getContext?.();
+              if (gl) {
+                const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+                rendererInfo = {
+                  webgl2: !!WIP148_EXTERNAL_3D.renderer.capabilities.isWebGL2,
+                  version: gl.getParameter(gl.VERSION),
+                  renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
+                };
+              }
+            } catch (error) {
+              rendererInfo = { error: String(error?.stack || error) };
+            }
+            return {
+              active: !!view?.classList.contains('active'),
+              three: window.THREE?.REVISION || null,
+              ready,
+              auditPass,
+              rendererInfo,
+              readout: readout?.textContent || null,
+              loadingVisible: !!loading?.classList.contains('show'),
+              canvas: {
+                width: document.getElementById('external3DCanvas')?.width || 0,
+                height: document.getElementById('external3DCanvas')?.height || 0
+              }
+            };
+          })()`;
+          const evaluated = await send('Runtime.evaluate', { expression, returnByValue: true });
+          const state = evaluated.result?.value || { evaluationError: evaluated.exceptionDetails || null };
+          fs.writeFileSync('aegis-3d-state.json', JSON.stringify(state, null, 2));
+
+          const shot = await send('Page.captureScreenshot', {
+            format: 'png',
+            fromSurface: true,
+            captureBeyondViewport: false
+          });
+          fs.writeFileSync('aegis-3d.png', Buffer.from(shot.data, 'base64'));
+          console.log('AEGIS_3D_STATE '+JSON.stringify(state));
+          ws.close();
+
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !state.rendererInfo?.version) {
+            process.exitCode = 1;
+          }
+          JS
 
       - name: Render actual AEGIS 3D view
         shell: bash
@@ -205,38 +304,35 @@ jobs:
           test -n "$chrome_bin"
           python3 -m http.server 4173 >/tmp/aegis-3d-http.log 2>&1 &
           server_pid=$!
-          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          for _ in {1..20}; do
-            curl --fail --silent http://127.0.0.1:4173/index.html -o /dev/null && break
-            sleep 0.25
-          done
-          flags=(
-            --headless=new
-            --no-sandbox
-            --disable-dev-shm-usage
-            --enable-webgl
-            --ignore-gpu-blocklist
-            --use-gl=angle
-            --use-angle=swiftshader
-            --enable-unsafe-swiftshader
-            --window-size=1600,900
-            --hide-scrollbars
-            --run-all-compositor-stages-before-draw
-            --virtual-time-budget=18000
-          )
-          target_url='http://127.0.0.1:4173/index.html?view3d=1'
-          dom="$("$chrome_bin" "${flags[@]}" --dump-dom "$target_url")"
-          printf '%s' "$dom" > aegis-3d-dom.html
-          if ! grep -Eq 'id="external3DView"[^>]*class="[^"]*active|class="[^"]*active[^"]*"[^>]*id="external3DView"' <<<"$dom"; then
-            echo 'AEGIS 3D overlay did not activate'
-            grep -o 'id="external3DReadout"[^<]*' <<<"$dom" || true
-            exit 1
-          fi
-          if grep -q 'THREE.JS 로드 실패' <<<"$dom"; then
-            echo 'AEGIS Three.js load failed'
-            exit 1
-          fi
-          "$chrome_bin" "${flags[@]}" --screenshot=aegis-3d.png "$target_url"
+          "$chrome_bin" \
+            --headless=new \
+            --no-sandbox \
+            --disable-dev-shm-usage \
+            --enable-webgl \
+            --ignore-gpu-blocklist \
+            --use-gl=angle \
+            --use-angle=swiftshader \
+            --enable-unsafe-swiftshader \
+            --window-size= étoiles 2>/dev/null || true
+          true
+          "$chrome_bin" \
+            --headless=new \
+            --no-sandbox \
+            --disable-dev-shm-usage \
+            --enable-webgl \
+            --ignore-gpu-blocklist \
+            --use-gl=angle \
+            --use-angle=swiftshader \
+            --enable-unsafe-swiftshader \
+            --window-size=1600,900 \
+            --hide-scrollbars \
+            --remote-debugging-address=127.0.0.1 \
+            --remote-debugging-port=9222 \
+            --user-data-dir=/tmp/aegis-chrome-profile \
+            'http://127.0.0.1:4173/index.html?view3d=1' >/tmp/aegis-chrome.log 2>&1 &
+          chrome_pid=$!
+          trap 'kill "$chrome_pid" "$server_pid" 2>/dev/null || true' EXIT
+          timeout 70s node cdp-capture.mjs
           test -s aegis-3d.png
           printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
 
@@ -247,7 +343,8 @@ jobs:
           name: aegis-3d-render
           path: |
             aegis-3d.png
-            aegis-3d-dom.html
+            aegis-3d-state.json
             rendered-source.txt
+            /tmp/aegis-chrome.log
           if-no-files-found: warn
           retention-days: 7
