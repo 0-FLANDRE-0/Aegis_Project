@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP05.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP06.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b1-closure';
 const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'),
@@ -126,6 +126,8 @@ test('CIWS and 3D evidence capture', async ({ page }) => {
   await page.locator('#wip125DepartBtn').click();
   await expect(page.locator('#wip125LoadoutOverlay')).toBeHidden({ timeout: 5_000 });
   results.checks.preSailOverlayHidden = { pass: true };
+  const pause = await api('setPaused', true);
+  results.checks.simulationPausedFor3D = { pass: pause.paused === true && pause.timeScale === 0, result: pause };
   const before3d = await api('snapshot');
   await page.evaluate(() => window.__WIP148_3D_VIEW__.open());
   await page.waitForFunction(() => window.__WIP148_3D_VIEW__?.ready === true, null, { timeout: 60_000 });
@@ -134,6 +136,9 @@ test('CIWS and 3D evidence capture', async ({ page }) => {
   await page.evaluate(() => window.__WIP148_3D_VIEW__.close());
   const after3d = await api('snapshot');
   const digest = x => JSON.stringify({ track:x.track,mounts:x.mounts,ramLaunched:x.ramLaunched,bullets:x.bullets,rngState:x.rngState,simStepCounter:x.simStepCounter });
-  results.checks.viewModeIsolation = { pass: digest(before3d) === digest(in3d) && digest(in3d) === digest(after3d) };
+  const beforeDigest = digest(before3d), in3dDigest = digest(in3d), afterDigest = digest(after3d);
+  results.checks.viewModeIsolation = { pass: beforeDigest === in3dDigest && in3dDigest === afterDigest,
+    beforeDigest, in3dDigest, afterDigest };
+  expect(results.checks.simulationPausedFor3D.pass).toBe(true);
   expect(results.checks.viewModeIsolation.pass).toBe(true);
 });
