@@ -240,7 +240,9 @@ jobs:
 
           await send('Page.enable');
           await send('Runtime.enable');
-          await sleep(20000);
+          await sleep(3500);
+          await send('Runtime.evaluate', { expression: `document.getElementById('wip125DepartBtn')?.click(); window.__WIP148_3D_VIEW__?.resetCamera?.(); true` });
+          await sleep(16500);
 
           const expression = `(() => {
             const view = document.getElementById('external3DView');
@@ -250,13 +252,14 @@ jobs:
             let ready = false;
             let auditPass = false;
             try {
-              ready = !!WIP148_EXTERNAL_3D.ready;
-              auditPass = !!WIP148_EXTERNAL_3D.contractAudit().pass;
-              const gl = WIP148_EXTERNAL_3D.renderer?.getContext?.();
+              const view3d = window.__WIP148_3D_VIEW__;
+              ready = !!view3d?.ready;
+              auditPass = !!view3d?.contractAudit?.().pass;
+              const gl = view3d?.renderer?.getContext?.();
               if (gl) {
                 const dbg = gl.getExtension('WEBGL_debug_renderer_info');
                 rendererInfo = {
-                  webgl2: !!WIP148_EXTERNAL_3D.renderer.capabilities.isWebGL2,
+                  webgl2: !!view3d.renderer.capabilities.isWebGL2,
                   version: gl.getParameter(gl.VERSION),
                   renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
                 };
