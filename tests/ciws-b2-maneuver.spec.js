@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP09.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP10.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b2-maneuver';
 const results = {
   schema: 'AEGIS_CIWS_B2_MANEUVER_V1',
@@ -87,16 +87,18 @@ test('CIWS Closure B2 acceleration and maneuver prediction', async ({ page }) =>
   scan(audit);
   results.checks.diagnosticBoundary = { pass: leaked.length === 0, leaked };
 
-  const liveTrack = await page.evaluate(() => {
-    const diag = window.__NAVAL_SIM_DIAG__.ciwsB1Closure;
-    diag.prepare({ mount: 'GUN', seed: 3710909, rangeKm: 2.4, speedMps: 300 });
-    return diag.stepCiws(1.5).snapshot.mounts[0].localTrack;
-  });
-  results.checks.productionLocalTrackFields = {
-    pass: !!liveTrack && liveTrack.localHits >= 5 && Number.isFinite(liveTrack.accelMps2) &&
-      Number.isFinite(liveTrack.jerkMps3) && Number.isFinite(liveTrack.maneuverScore) &&
-      typeof liveTrack.maneuvering === 'boolean',
-    liveTrack
+  const liveSensor = await page.evaluate(() => window.__NAVAL_SIM_DIAG__.ciwsB2Maneuver.liveSensorAudit());
+  results.checks.liveLocalRfNoiseGuard = {
+    pass: liveSensor.straight.valid && liveSensor.straight.localHits >= 16 &&
+      liveSensor.straight.accelMps2 < 12 && !liveSensor.straight.maneuvering &&
+      liveSensor.straight.lastSource === 'LOCAL_RF',
+    result: liveSensor.straight
+  };
+  results.checks.liveLocalRfManeuver = {
+    pass: liveSensor.maneuver.valid && liveSensor.maneuver.localHits >= 16 &&
+      liveSensor.maneuver.estimatedAyMps2 > 8 && liveSensor.maneuver.accelMps2 <= 90.01 &&
+      liveSensor.maneuver.maneuvering && liveSensor.maneuver.lastSource === 'LOCAL_RF',
+    result: liveSensor.maneuver
   };
 
   expect(Object.entries(results.checks).filter(([, value]) => !value.pass)).toEqual([]);
