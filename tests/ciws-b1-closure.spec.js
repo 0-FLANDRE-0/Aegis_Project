@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP04.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP05.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b1-closure';
 const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'),
@@ -17,6 +17,7 @@ test.afterAll(() => {
 });
 
 test('CIWS Closure B1 browser matrix', async ({ page }) => {
+  test.setTimeout(120_000);
   page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
   page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
   await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
@@ -30,43 +31,54 @@ test('CIWS Closure B1 browser matrix', async ({ page }) => {
   const run = (method, ...args) => page.evaluate(([method, args]) => window.__NAVAL_SIM_DIAG__.ciwsB1Closure[method](...args), [method, args]);
   const engagement = async (mount, seed, damage = 0) => {
     await run('prepare', { mount, seed, damage, rangeKm: mount === 'GUN' ? 2.4 : 6.0 });
-    return (await run('advance', { timeScale: 1, simSeconds: 12, fps: 60 })).snapshot;
+    const transitions = [];
+    for (let i = 0; i < 120; i++) {
+      const snapshot = (await run('stepCiws', 0.1)).snapshot;
+      const previous = transitions.at(-1);
+      if (!previous || previous.mounts.some((m, n) => m.state !== snapshot.mounts[n].state || m.spent !== snapshot.mounts[n].spent)) transitions.push(snapshot);
+    }
+    return { final: transitions.at(-1), transitions };
   };
   const gun = await engagement('GUN', results.seed);
   const ram = await engagement('RAM', results.seed + 1);
-  results.checks.authorizedPhalanxEngagement = { pass: gun.mounts[0].spent > 0, result: gun };
-  results.checks.authorizedSeaRamEngagement = { pass: ram.mounts[1].spent > 0 && ram.ramLaunched > 0, result: ram };
+  results.checks.authorizedPhalanxEngagement = { pass: gun.final.mounts[0].spent > 0, result: gun };
+  results.checks.authorizedSeaRamEngagement = { pass: ram.final.mounts[1].spent > 0 && ram.final.ramLaunched > 0, result: ram };
 
   const protectedRows = [];
   for (const condition of ['FRIEND', 'NEUTRAL', 'UNKNOWN', 'UNASSESSED', 'WITHHELD']) {
     const baseline = await run('prepare', { seed: results.seed + 10 + protectedRows.length, rangeKm: 2.0 });
     const configured = await run('setCondition', condition);
-    const final = (await run('advance', { timeScale: 1, simSeconds: 5, fps: 60 })).snapshot;
-    protectedRows.push({ condition, baseline: { track: baseline.track, gate: baseline.gate }, configured: configured.track, gate: final.gate,
+    const final = (await run('stepCiws', 5)).snapshot;
+    protectedRows.push({ condition, baseline: { track: baseline.track, gate: baseline.gate }, configured: { track: configured.track, gate: configured.gate }, final: { track: final.track, gate: final.gate },
       automaticShots: final.mounts.reduce((sum, m) => sum + m.spent, 0) });
   }
-  results.checks.protectedTracksNoAutoFire = { pass: protectedRows.every(x => x.baseline.gate.ok && x.automaticShots === 0 && !x.gate.ok), rows: protectedRows };
+  const conditionHeld = row => row.condition === 'UNASSESSED' ? (!row.final.track.confirmed && row.final.track.threatStatus === 'UNASSESSED') :
+    row.condition === 'WITHHELD' ? row.final.track.engagementAuthority === 'WITHHELD' : row.final.track.identity === row.condition;
+  results.checks.protectedTracksNoAutoFire = { pass: protectedRows.every(x => x.baseline.gate.ok && !x.configured.gate.ok && !x.final.gate.ok && conditionHeld(x) && x.automaticShots === 0), rows: protectedRows };
 
   await run('prepare', { mount: 'RAM', seed: results.seed + 30, rangeKm: 5.5 });
   results.checks.cueRequiresLocalDetection = { pass: await run('probeCueWithoutLocalDetection') };
 
   await run('prepare', { mount: 'GUN', seed: results.seed + 40, rangeKm: 2.4 });
-  const acquired = (await run('advance', { timeScale: 1, simSeconds: 4, fps: 60 })).snapshot;
-  await run('setLifecycle', 'LOST');
-  const lost = (await run('advance', { timeScale: 1, simSeconds: 1, fps: 60 })).snapshot;
-  await run('setLifecycle', 'REACQUIRING');
-  const reacquiring = (await run('advance', { timeScale: 1, simSeconds: 1, fps: 60 })).snapshot;
-  await run('setLifecycle', 'PRESENT');
-  const reacquired = (await run('advance', { timeScale: 1, simSeconds: 5, fps: 60 })).snapshot;
-  const lostSpent = lost.mounts[0].spent;
+  let acquired;
+  for (let i = 0; i < 100; i++) { acquired = (await run('stepCiws', 0.1)).snapshot; if (acquired.mounts[0].spent > 0) break; }
+  const misses = await run('recordSensorMisses', 2);
+  const lost = misses[0], reacquiring = misses[1];
+  const blocked = (await run('stepCiws', 1)).snapshot;
+  const reacquisitionHits = await run('recordReacquisitionHits', 2);
+  const restored = reacquisitionHits.at(-1);
+  const reacquired = (await run('stepCiws', 5)).snapshot;
+  const lostSpent = reacquiring.mounts[0].spent;
   results.checks.lossAndReacquisition = { pass: acquired.mounts[0].spent > 0 &&
-    lost.mounts[0].state === 'IDLE' && !lost.mounts[0].tracking &&
-    reacquiring.mounts[0].spent === lostSpent && reacquiring.mounts[0].state === 'IDLE' &&
-    reacquired.mounts[0].spent > lostSpent, result: { acquired, lost, reacquiring, reacquired } };
+    lost.track.trackLifecycle === 'COAST' && reacquiring.track.reacquiring &&
+    reacquiring.mounts[0].state === 'IDLE' && !reacquiring.mounts[0].tracking &&
+    blocked.mounts[0].spent === lostSpent && blocked.track.reacquiring &&
+    !restored.track.reacquiring && restored.track.trackLifecycle === 'FIRM' &&
+    reacquired.mounts[0].spent > lostSpent, result: { acquired, misses, blocked, reacquisitionHits, reacquired } };
 
   const gunDamaged = await engagement('GUN', results.seed + 50, 40);
   const ramDamaged = await engagement('RAM', results.seed + 51, 40);
-  results.checks.healthyAndPartialDamage = { pass: gunDamaged.mounts[0].spent > 0 && ramDamaged.mounts[1].spent > 0, gunDamaged, ramDamaged };
+  results.checks.healthyAndPartialDamage = { pass: gunDamaged.final.mounts[0].spent > 0 && ramDamaged.final.mounts[1].spent > 0, gunDamaged, ramDamaged };
 
   const speedRows = {};
   for (const scale of [1, 8, 16]) {
@@ -79,20 +91,33 @@ test('CIWS Closure B1 browser matrix', async ({ page }) => {
     rngState: row.snapshot.rngState, simStepCounter: row.snapshot.simStepCounter });
   results.checks.timeScaleDeterminism = { pass: digest(speedRows.x1) === digest(speedRows.x8) && digest(speedRows.x1) === digest(speedRows.x16), result: speedRows };
 
-  await run('prepare', { mount: 'GUN', seed: results.seed + 70, rangeKm: 2.0 });
-  await run('advance', { timeScale: 1, simSeconds: 4, fps: 60 });
-  await page.screenshot({ path: `${artifactDir}/ciws-engagement.png`, fullPage: true });
-  const before3d = await run('snapshot');
-  await page.evaluate(() => window.__WIP148_3D_VIEW__.open());
-  await page.waitForFunction(() => window.__WIP148_3D_VIEW__?.ready === true, null, { timeout: 30_000 });
-  const in3d = await run('snapshot');
-  await page.screenshot({ path: `${artifactDir}/aegis-3d.png`, fullPage: true });
-  await page.evaluate(() => window.__WIP148_3D_VIEW__.close());
-  const after3d = await run('snapshot');
-  const combatDigest = x => JSON.stringify({ track: x.track, mounts: x.mounts, ramLaunched: x.ramLaunched, bullets: x.bullets, rngState: x.rngState, simStepCounter: x.simStepCounter });
-  results.checks.viewModeIsolation = { pass: combatDigest(before3d) === combatDigest(in3d) && combatDigest(in3d) === combatDigest(after3d) };
-
   expect(results.consoleErrors, 'JavaScript console errors').toEqual([]);
   expect(results.pageErrors, 'uncaught page errors').toEqual([]);
   for (const [name, check] of Object.entries(results.checks)) expect(check.pass, name).toBe(true);
+});
+
+test('CIWS and 3D evidence capture', async ({ page }) => {
+  test.setTimeout(120_000);
+  page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
+  page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
+  await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
+  await page.waitForFunction(() => window.__NAVAL_SIM_DIAG__?.ciwsB1Closure);
+  const api = (method, ...args) => page.evaluate(([method, args]) => window.__NAVAL_SIM_DIAG__.ciwsB1Closure[method](...args), [method, args]);
+  await api('prepare', { mount: 'GUN', seed: results.seed + 70, rangeKm: 2.0 });
+  for (let i = 0; i < 100; i++) { const s = (await api('stepCiws', 0.1)).snapshot; if (s.mounts[0].spent > 0) break; }
+  await page.locator('#wip125DepartBtn').click();
+  await page.screenshot({ path: `${artifactDir}/ciws-engagement.png` });
+  // Reload leaves the normal pre-sail pause in place while the independent 3D renderer initializes.
+  await page.reload({ waitUntil: 'load' });
+  await page.waitForFunction(() => window.__NAVAL_SIM_DIAG__?.ciwsB1Closure);
+  const before3d = await api('snapshot');
+  await page.evaluate(() => window.__WIP148_3D_VIEW__.open());
+  await page.waitForFunction(() => window.__WIP148_3D_VIEW__?.ready === true, null, { timeout: 60_000 });
+  const in3d = await api('snapshot');
+  await page.locator('#external3DCanvas').screenshot({ path: `${artifactDir}/aegis-3d.png` });
+  await page.evaluate(() => window.__WIP148_3D_VIEW__.close());
+  const after3d = await api('snapshot');
+  const digest = x => JSON.stringify({ track:x.track,mounts:x.mounts,ramLaunched:x.ramLaunched,bullets:x.bullets,rngState:x.rngState,simStepCounter:x.simStepCounter });
+  results.checks.viewModeIsolation = { pass: digest(before3d) === digest(in3d) && digest(in3d) === digest(after3d) };
+  expect(results.checks.viewModeIsolation.pass).toBe(true);
 });
