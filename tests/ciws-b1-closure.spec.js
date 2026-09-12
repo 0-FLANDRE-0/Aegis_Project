@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP08.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP09.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b1-closure';
 const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'),
