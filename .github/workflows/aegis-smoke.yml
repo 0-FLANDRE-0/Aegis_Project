@@ -9,6 +9,7 @@ on:
       - 'tests/ciws-b2-maneuver.spec.js'
       - 'tests/ciws-b3-damage.spec.js'
       - 'tests/ship-mass-ledger.spec.js'
+      - 'tests/ship-impact-penetration.spec.js'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -17,7 +18,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP01.html
+  SIM_FILE: Aegis_SIM_v48_WIP02.html
 
 jobs:
   ciws-b1-closure:
@@ -229,6 +230,59 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-ship-mass-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-impact-penetration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP02 impact and through-hull regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-impact-penetration
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-impact-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-impact
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-impact-penetration -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-impact-penetration/SHA256SUMS
+
+      - name: Upload ship impact evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-impact-penetration-${{ github.sha }}
+          path: |
+            artifacts/ship-impact-penetration/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-impact-http.log
           if-no-files-found: warn
           retention-days: 14
 
