@@ -1,6 +1,14 @@
 # CIWS Phalanx Block 1B 공통 센서 WIP13 — 2026-09-13
 
-## 구현 및 검증 대기
+## Actions 종결 결과
+
+- PR #9 code head `4337a6a65a28a35097758c5c4078c849493097a4`의 Actions run `34731192249`(#31)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `aegis-3d-render`, `webgl-render-probe` 6개 job이 모두 통과했다.
+- B1 visual artifact는 시작 자기검사와 페이지·콘솔 오류 없이 통과했다. 시뮬레이션을 `timeScale: 0`, `simStepCounter: 0`으로 정지한 상태에서 3D 열기 전·중·닫기 후 CIWS 상태 digest가 정확히 동일했다.
+- B3 artifact의 `pass`는 `true`이고 실패 check는 0건이다. Phalanx와 SeaRAM은 정상 및 40/70/80% 손상에서 탐색거리·추적거리·cue 거리·측정오차·dwell·탐지확률이 모두 수치적으로 동일했다.
+- 정상 센서 endpoint는 두 마운트 모두 자체 탐색 15 km, 고품질 추적 10 km, cue/local 측정 한계 15 km다. 12 km 표적 경계검사에서 정상 센서는 `SEARCH`, 70% 손상 센서는 `IDLE`을 기록해 연속 거리 열화가 실제 생산 탐지 경로에 적용됨을 확인했다.
+- 저장소 기준 WIP13 HTML SHA-256은 `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`이며 B1/B3 JSON에 기록된 값과 일치한다.
+- artifact ID/digest는 B3 `10309710151` / `sha256:7c650cdd245685ca7fb7ad4596a0e61e221bfb4cb5e46a044daa05571580442c`, B2 `10308429516` / `sha256:8e37e36f6cd2354565e26ca1a92e5c95290a08672d3c4d259fde6880788fb422`, B1 `10310065228` / `sha256:35c129911300724d4eb142d74774b34a3dd40b42920b51a4618b6af606734c5a`, 실제 3D `10309465496` / `sha256:5e5668d55dd4ee19a1abf399bc1e61a980ecfdaf0bc110b3e1d119cb12cb33a2`, WebGL `10310115087` / `sha256:77be55c23c9f13e1fa3efced50d3f778f5f1fdf4f741281f32f285b6e6d8d3f9`다.
+- 이 범위의 Phalanx Block 1B 공통 센서 통합과 전체 CIWS 회귀를 완료 처리한다.
 
 - Phalanx와 SeaRAM이 Phalanx Block 1B 탐색·추적·EO 센서 계통을 공유한다는 구성에 맞춰 두 마운트의 센서 기준을 단일 `CIWS_BLOCK1B_SENSOR_MODEL`로 통합했다.
 - 공통 자체 탐색 최대거리는 15 km, 고품질 추적 기준거리는 10 km, cue/local 측정 한계는 15 km로 둔다. 10~15 km에서는 기존 거리 품질식에 따라 측정 품질이 점진적으로 낮아진다.
@@ -10,7 +18,6 @@
 - 기존 B1 익명 관측·권한·로컬 RF 경계, B2 기동 예측, 정지 상태 3D 격리 검사는 동일한 WIP13에서 다시 실행한다.
 - WIP12 HTML과 상태 문서는 `archive/v37.1/WIP12/`에 원본 blob 그대로 보존하고 루트 대표 파일 및 workflow는 WIP13으로 변경한다.
 - WIP13 HTML SHA-256은 `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`다.
-- 새 Actions와 artifact 확인 전에는 이 공통 센서 수정 또는 CIWS Closure 재종결을 완료로 승격하지 않는다.
 
 ---
 
