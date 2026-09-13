@@ -1,6 +1,6 @@
 # 함정 구획 질량·배수량·동적 GM 기반 v48 WIP01 — 2026-09-13
 
-## 구현 완료 · 명칭 정정 재검증 대기
+## 구현 및 명칭 정정 검증 완료
 
 - 기존 `dryMass = z=0 수선 아래 선체 체적 × 해수 밀도`를 만재배수량처럼 사용하던 경로를 분리했다. v48 WIP01의 Flight IIA 게임 기준 만재 질량은 9,652,445.6336 kg(9,500 long tons), 유효 lightship 질량은 7,085,245.6336 kg이며 두 값의 의미를 진단값에 별도로 남긴다.
 - 24개 기존 침수 구획에 lightship 질량을 배분하고, 추진연료 1,500 t, 항공유 120 t, 담수 180 t, service/ballast 220 t, 기술유체 80 t, 무장 116.1 t, MH-60R 2대 17 t, 승조원·개인장구 34.1 t, 보급·예비품 250 t, 임무 적재물 50 t를 위치·모멘트가 있는 질량 노드로 구성했다. 상세 위치와 일부 탄약 질량은 실제 함정 중량 보고가 아닌 `SIM_ESTIMATED`로 명시한다.
@@ -17,6 +17,8 @@
 - 질량 artifact JSON은 11개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. 표준 만재 9,652,445.6336 kg, 220 t ballast 제거 후 9,432,445.6336 kg / KG 4.537255 m / GM 1.406117 m, SM-2 1발 소모 후 정확히 708 kg 감소를 기록했다. 20,000회 hot-path 조회는 재합산 0회, cache hit 20,001회, 7.9 ms였다.
 - 실제 3D artifact는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas와 WIP14 대표 파일을 확인했다. CIWS B1은 2개 test 통과 및 실패 check 0, B2·B3도 전부 통과했다.
 - artifact ID/digest는 질량 `10311445246` / `sha256:a49a7e10c7f4f5169d73be81ee73222b98e247d7acf652cc7bc493d64c6e5d64`, B1 `10311172385` / `sha256:890f6f2ef7efd529bc31edb9ec99ceb55045e1e047817facc30fa20641b9b538`, B2 `10310957922` / `sha256:8c2684a2154fc691bf9f9e63f5757d2b55f496024fbb0369fc40fc3b3bb1d227`, B3 `10310678730` / `sha256:9912d4367a460428f0f45aac59c924b8d1e167e19f2ec16534d459333c32be74`, 실제 3D `10310793291` / `sha256:429a25bf7b71c4ac604917a5a01d38c5f441d62e865e98eee64be2f8b301f556`, WebGL `10311445228` / `sha256:21d03743cba9aaba1af75e27145a4b83445bfaa2710477db11cec52422d28b7f`다.
+- PR #12 code head `7ac49eeb55f706bcd2fb5e1fc8761077d2b47e6b`의 Actions run `34737299131`(#40)에서 동일한 7개 job이 모두 통과했다. 질량 artifact JSON은 schema `AEGIS_SHIP_MASS_LEDGER_V48_WIP01_V1`, 대표 파일 `Aegis_SIM_v48_WIP01.html`, 위 SHA-256 일치, 11개 check 모두 `true`, console/page 오류 0건, 20,000회 hot path 재합산 0회·cache hit 20,001회·6.5 ms를 기록했다.
+- v48 WIP01 artifact ID/digest는 질량 `10310754879` / `sha256:418281ac75eddb5dc582c5803710c95caf9cd53c938bf7b1665f1241ef20c8f0`, B1 `10311596102` / `sha256:2e3bf807b090faefd9c072b8f489d458b907f929004f222c87a163b0912c6335`, B2 `10311134176` / `sha256:b53fb41328a741f7c4c20f8b94ca43ab68d73f2784c8990ecf21bf8989930898`, B3 `10311024375` / `sha256:66972e3a092822e7ffdcd9258c3b830e11a5e89db6c7ab71c651285a5824592f`, 실제 3D `10311178892` / `sha256:32492564cf6072a08bfa84d006d7d84e1704b38ae28903f378341d552c373bf1`, WebGL `10310809724` / `sha256:bda4ac6115e1934ef36ec394df958c666c558395aa290e1a42f205e0590696be`다.
 
 ---
 
