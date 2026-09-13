@@ -14,6 +14,14 @@
 - workflow 대표 파일은 `Aegis_SIM_v48_WIP05.html`이며 기존 10개 job에 `ship-wave-flooding`을 더한 총 11개 job을 사용한다. 실제 원격 run과 artifact는 사용자 수동 HTML 업로드 후 PR Actions에서 확인해 이 문서에 추가한다.
 - WIP04 HTML과 상태 문서는 `archive/v48/WIP04/`에 원본 그대로 보존한다. 아카이브 HTML SHA-256은 `a1397424bd0f7ed6123f8bbc26f3ac8fbeba7f53f180f05eb929fb20967bf07f`다.
 
+## 원격 종결 결과
+
+- PR #16 code head `62e558cded50d7fc3e18f31e538e03eb15070399`의 Actions run `34753048245`(#52)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `ship-stability-maneuver`, `ship-wave-flooding` 11개 job이 모두 통과했다.
+- 원격 WIP05 HTML은 2,493,890바이트, Git blob `43916ff86f96c3b834fc99eea880f4912bead3f8`, SHA-256 `a34fda9ccbfa2103f6de90a114a6b7e19f96de07d2964cec75b257a10029aa6f`로 로컬 종결본과 일치한다.
+- 원격 `AEGIS_SHIP_WAVE_FLOODING_V48_WIP05_V1` artifact는 15개 check 전부 `true`, console/page 오류 0건이다. Hs 2 m 기준 국부 해수면 -0.719698~+0.612092 m, wet fraction 0~1, 최대 유입 0.358467 m³/s, 16초 후 침수 1.399314 m³, 체적 장부 오차 `2.28e-14 m³`, GM₀ 1.498907 m, 흘수 1.020699 m였다. calm 역류는 3초간 7.328683 m³이고 20,000회 snapshot 조회 중 파고 평가는 0회였다.
+- 실제 3D job은 Three.js r160 / WebGL 2 / renderer ready를 확인했다. 우현 ENTRY는 y=+3.619242 m, 면적 1.540313 m²이고 좌현 EXIT는 y=-3.669242 m, 면적 1.182560 m²다. 두 파괴구 모두 `meshMatched:true`, `actualHole:true`, `attached:true`이며 `dualHullOpenings:true`, `pending:false`, `unmatched:0`, 면적 보존과 렌더 read-only가 모두 통과했다.
+- artifact ID/digest는 파도 침수 `10316022810` / `sha256:07e056ad7a54d19e29b88ae84d47a400a004abdce57691c58425bb7fca707049`, 안정성 `10315987780` / `sha256:e9ffda05bd9f4d742226f130da2eff10f408ecf0c28d4de8ccaa4149f0ff11dc`, 구조 피로 `10316258412` / `sha256:d27b3330b22d167f9eb1f47742e663cf1b2dd53dd965f213bf7c69b9e08e09eb`, 관통 피해 `10315922774` / `sha256:8f787bcf48fca714f10c71be1619bf0148b22ed40fc276af75b018bedc2d2258`, 질량 장부 `10316487818` / `sha256:b8318e550caf3f541d5fd4a347cee6b9be4f020ff1a6aada75acf7acfe514123`, B1 `10316213600` / `sha256:14541394f9b7aee7e360a8bacadbf3dd27f1404b867b29dd625f84f02318a2a2`, B2 `10316233479` / `sha256:d4c74c538570240d430dd7130bdcaec26d0cb8d28979869f75bd46e74669c54a`, B3 `10316002681` / `sha256:83bd1a7b24f966ac7fb5d4287fa8b1b310fcde816dae56118229d34a292c8610`, 실제 3D `10316577611` / `sha256:bb7f79d4a0cff3eba94437e537fe956a8009243815367732b621f448fc4a01f2`, WebGL `10316712274` / `sha256:15e35c449d55bdc12d502f5e38317f5f3e1d6362380e2148a5194dce3029473d`다.
+
 ## 미포함 범위
 
 - 파랑에 의한 함체 6DOF 강제운동, RAO, slamming, green water는 포함하지 않는다.
