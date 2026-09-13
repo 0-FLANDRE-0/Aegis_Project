@@ -1,0 +1,611 @@
+# 직립 GM₀·유한각 GZ 분리 및 선회 안정성 기준 v48 WIP04 — 2026-09-13
+
+## 구현 완료 · 원격 검증 대기
+
+- 기준은 v48 WIP03 병합 main `ce82245a23e2b94da68ad07bcd942356513512ea`다. 이번 범위는 함정 안정성 표시·복원력 기준에 한정하며, 예정했던 파도 위상별 침수 유량은 v48 WIP05로 이동한다.
+- 기존 진단에서 30 kt / 우현 30° 정상 선회 시 경사 약 13.99°와 함께 표시 GM이 1.500 m에서 1.573 m로 증가했다. 원인은 현재 동적 흘수·트림을 그대로 사용해 경사만 0으로 만든 `uprightSample`을 매 20 Hz 계산한 데 있었다.
+- `AEGIS_INTACT_STABILITY_V48_WIP04`는 GM을 현재 적재·침수 상태의 직립 등배수량 소각도 값 `GM₀`로 정의한다. 선회에 따른 순간 heave·trim은 GM₀에 들어가지 않으며, 질량 변화에 따른 직립 기준 흘수·BM·KM은 1 Hz 또는 질량 0.5% 변화 시 bounded Newton 보정으로 갱신한다.
+- 유한 경사 복원력은 `rightingArmM`의 GZ로 별도 유지한다. 기존 maneuvering range의 calibrated wall-sided 식과 30° 이후 기하 적분 blend를 유지해 검증된 선회 응답을 보존하되, UI에서는 `GM₀`와 `GZ`를 분리해 표시한다. 호환용 `gmM`은 `gm0M`과 같은 값을 반환한다.
+- 시각용 선체 형상을 등배수량으로 직접 적분한 GZ 곡선은 `v48Wip04StabilityCurve()`에서 제공하지만 `DIAGNOSTIC_ONLY_UNTIL_HULL_LINES_VALIDATED`로 명시한다. 기준 형상은 14°에서 geometric GZ 약 0.291 m, wall-sided GZ 약 0.416 m로 차이가 커서 직접 기하곡선을 실시간 권위값으로 승격하지 않는다.
+- 새 진단 API는 `v48Wip04StabilityModel`, `v48Wip04StabilityState`, `v48Wip04StabilityCurve`, `setShipRudderTest`다. 3D는 기존과 같이 read-only `shipDynamicsV15` snapshot만 소비한다.
+- 신규 Playwright `ship-stability-maneuver`는 15/25/30 kt × 타각 10/20/30°의 9개 정상 선회, 직립 GM 보존, 유한각 GZ 분리, 등배수량 곡선, 소각도 기하 기울기, 저부 ballast 220 t 제거·복구를 검사한다.
+- 로컬 Chromium에서 신규 안정성 검사 11개 check와 기존 B1 핵심/B2/B3/질량/관통/구조 회귀가 통과했다. 로컬 B1의 3D 캡처만 jsDelivr/Three.js 차단으로 `ready` 타임아웃이 발생했으며 실제 3D/WebGL 종결은 GitHub Actions에서 확인한다.
+- 수정 후 30 kt / 30° 정상 선회는 경사 약 14.48°, GM₀ 1.500000 m, GZ 약 0.43414 m, 정상 선회 지름 약 4.797 L다. 15/25/30 kt의 30° 타각 지름은 각각 약 4.986/4.847/4.797 L다.
+- 저부 ballast 220 t 제거 시 GM₀는 약 1.40612 m로 감소하고 복구 시 1.50000 m로 돌아온다. 선회 9개 조건 전체에서는 적재 상태가 같은 동안 GM₀ 편차가 0.0001 m 미만이다.
+- workflow 대표 파일은 `Aegis_SIM_v48_WIP04.html`로 변경하고 `ship-stability-maneuver` job을 추가한다. 기존 9개 job과 신규 안정성 job, 총 10개를 모두 통과한 뒤 원격 결과·artifact를 이 문서에 추가한다.
+
+---
+
+# 함체 종강도·용골 피로·균열 및 3D 양현 파괴구 v48 WIP03 — 2026-09-13
+
+## 구현 및 GitHub Actions 검증 완료
+
+- 기준은 main `036b314e5588762e1777a5aa42038a602a3c5701`에 병합된 v48 WIP02다. 대표 작업본은 `Aegis_SIM_v48_WIP03.html`, 크기는 2,478,255바이트, SHA-256은 `bb6610d1191da1bc17ee6fcc32a172d756f427f33ad420ed691648043a47c397`이다.
+- `AEGIS_LONGITUDINAL_STRENGTH_V48_WIP03`은 기존 24개 침수 구획을 8개 종방향 구조 구역으로 묶고 현측/사이드 거더, 갑판 거더, 용골 피로와 잔존 종강도를 분리해 유지한다.
+- 승인된 impact event마다 충돌 운동에너지, 출구 잔존에너지, 운동량, 실제 폭약량과 충돌 x/y/z 위치를 한 번만 반영한다. 같은 event ID는 다시 계산하지 않으며 직접 피격 구역과 인접 2개 구역까지 거리 가중치를 사용한다.
+- 구조 환경 하중은 침수 비대칭·구배, 속력, roll/pitch 각속도를 입력으로 1 Hz에서만 평가한다. 120 Hz 침수 substep과 렌더 프레임은 전체 구조 구역을 반복 순회하지 않으며 상태 조회는 계산을 일으키지 않는 캐시 경로다.
+- 피로 임계 초과 시 `SIDE_STRENGTH_CRACK`, `KEEL_CRACK`, `DECK_STRENGTH_CRACK`을 실제 flood opening으로 발행한다. published area를 사용해 변화 없는 균열이 매초 중복 추가되거나 무한 팽창하지 않게 한다.
+- `damageFloodImpactV1`의 승인된 실제 미사일 피격만 구조 모델에 전달된다. DUD는 폭약량 0, 정상 폭발은 탄두 전체 질량이 아닌 실제 `explosiveMassKg`를 사용한다.
+- 3D 표현 계약은 `AEGIS_SHIP_DAMAGE_VISUAL_V48_WIP03` / `PRESENTATION_ONLY_SOLVED_DAMAGE`다. 2D 피해 계산의 `openingId`, `openingKind`, `impactRole`, `sourceAreaM2`, solved point와 normal을 그대로 소비하며 출구를 다시 계산하거나 물리에 값을 되먹이지 않는다.
+- `damageAuditV48Wip03()`는 ENTRY/EXIT가 실제 mesh와 일치하고, `actualHole`이며, 장면에 부착됐는지 확인한다. 두 역할이 모두 이 조건을 만족할 때만 `dualHullOpenings:true`다.
+- 피해통제 UI에는 화재, 침수량, 잔존 종강도, 용골 균열 수를 표시하며 침수 패널에는 종강도와 현측/용골/갑판 균열 수를 표시한다.
+- 진단 API는 `runV48Wip03StructuralProbe`, `v48Wip03StructuralModel`, `v48Wip03StructuralState`, `v48Wip03DamageVisualState`, `v48Wip03StructuralReadPerformance`를 제공한다.
+
+## 로컬 검증
+
+- 인라인 JavaScript를 `new Function`과 동등한 전체 파서로 검사해 문법이 통과했다.
+- Kh-32 DUD 2발을 x=12 m, z=-3.5 m의 우현 하부에 관통시키는 구조 fixture와 기존 WIP02 관통 fixture의 Playwright 검사 2개가 통과했다.
+- 비3D 회귀는 CIWS B1의 CDN 의존 3D 증거 test를 제외한 B1/B2/B3, 질량 장부, WIP02 충돌, WIP03 구조 검사 6개가 통과했다.
+- 기준 구조 프로브는 흡수 운동에너지 약 10,442.62 MJ, 현측 피로 약 0.93667, 용골 피로 약 0.96557, 잔존 종강도 약 0.15088을 기록했다.
+- 현측 균열 면적은 약 0.13117 m², 용골 균열 면적은 약 0.11406 m²다. Actions 기준 4초 뒤 침수량은 약 63.68 m³, 침수 구획 3개, 순유입량은 약 15.36 m³/s다.
+- Actions에서 상태 20,000회 조회는 약 52.1 ms였고 조회 중 impact evaluation과 load evaluation은 모두 0회였다.
+- 로컬 환경에서 jsDelivr/Three.js가 차단될 수 있으므로 실제 3D mesh 종결 판정은 GitHub Actions의 `aegis-3d-render` job에서 수행한다.
+
+## 원격 종결 결과
+
+- PR #14 code head `bdf7065e92949af5d6e1ff28e8f49c5d3a749a2b`의 Actions run `34746640711`(#48)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `aegis-3d-render`, `webgl-render-probe` 9개 job이 모두 통과했다.
+- 구조 artifact의 schema는 `AEGIS_SHIP_STRUCTURAL_FATIGUE_V48_WIP03_V1`이며 14개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. Kh-32 DUD 2발은 흡수 운동에너지 10,442.6198 MJ, 현측 피로 0.93667345, 용골 피로 0.96556517, 잔존 종강도 0.15088278을 기록했다.
+- 실제 3D artifact는 Three.js r160 / WebGL 2 / renderer ready를 확인했다. 우현 ENTRY는 y=+3.619242 m, 면적 1.540313 m²이고 좌현 EXIT는 y=-3.669242 m, 면적 1.182560 m²다. 둘 다 `meshMatched:true`, `actualHole:true`, `attached:true`이며 `dualHullOpenings:true`, ENTRY/EXIT `pending:false`, `unmatched:0`, 면적 보존과 렌더 read-only가 모두 통과했다.
+- artifact ID/digest는 구조 피로 `10314611684` / `sha256:620f14c9b1e68868c3614d73c87133e99427cd49382402fd510fb4472aeb42af`, 관통 피해 `10314541109` / `sha256:46e91b6e1ecce3d519850dfe0436a216ba7e933ee2b46354ea577637c022d7bc`, 질량 장부 `10314017012` / `sha256:72eebc679fbdd6288f6556c10521b797a9084b72c250e6d01e29869b0d06b1e8`, B1 `10313729040` / `sha256:59f426b4f9c5cfa66104409809b7381d5cb5b693e45f98088bcd7ce53a50a91b`, B2 `10314357404` / `sha256:38cfa59a44133f1841a5b10f5f1c64d9062a60ae2e484e3695bf2fcd49c0251d`, B3 `10314182897` / `sha256:0eabc210693bb84dd76059db78b0653235ac7b2cdbf1581951e03009fd5c5b9a`, 실제 3D `10313833683` / `sha256:19813e499367b7a54039b05473f4b4d39ba9856d16842a6af43549fc370adfc5`, WebGL `10313723927` / `sha256:5615e1171eb826145b12ae7cbcee993079b82af1bc63aeca576efe4af138a827`다.
+- WIP02 HTML과 상태 문서는 `archive/v48/WIP02/`에 원본 blob 그대로 보존한다. WIP02 HTML SHA-256은 `711b0863390e7e25f8cf751c4f5406cbc58db247b08aaba1688b2ba72911b874`다.
+- WIP03은 릴리스나 태그를 만들지 않는다. 전체 Actions 통과와 상태 문서 갱신 후 PR을 main에 병합한다.
+
+## 후속 범위
+
+- v48 WIP04: 파도 위상과 흘수 변화에 따른 개구부 침수 유량 변동 고도화.
+- 승조원 직접 사망·중상 및 폭압/파편 피해 고도화는 별도 후속 WIP로 유지한다.
+
+---
+
+
+# 미사일 운동에너지·관통 출구·함체 충격 반응 v48 WIP02 — 2026-09-13
+
+## 구현 및 Actions 검증 완료
+
+- PR #13 code head `00d08c33680a4db359d4ec1dd8a51ceae4cfe318`의 Actions run `34738474270`(#45)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `aegis-3d-render`, `webgl-render-probe` 8개 job이 모두 통과했다.
+- 충돌 artifact의 schema는 `AEGIS_SHIP_IMPACT_V48_WIP02_V1`, 대표 파일은 `Aegis_SIM_v48_WIP02.html`, 기록 SHA-256은 `711b0863390e7e25f8cf751c4f5406cbc58db247b08aaba1688b2ba72911b874`로 일치한다. 11개 check가 모두 `true`이고 시작 자기검사·console·page 오류는 0건이다.
+- 원격 기준 Kh-32는 5,458.9136 MJ / 7,957,600 N·s, 반대 외판까지 19.8267 m, 출구 잔류에너지 204.531 MJ, 입구 1.5403 m² / 출구 1.1317 m²를 기록했다. Kh-35U는 2.8835 m에서 선내 정지했다. 수선 아래 Kh-32 불발 관통 후 4초에는 40.445 m³가 두 구획으로 유입되고 현재 GM은 1.47343 m로 변했다.
+- 질량 회귀도 WIP02 대표 파일과 같은 SHA에서 11개 check 전부 `true`, console/page 오류 0건, 20,000회 hot path 재합산 0회·cache hit 20,001회·3.6 ms를 기록했다. 실제 3D는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas를 확인했다. B1 matrix도 `pass: true`, 시간배율 1×/8×/16× 결정성 및 정지 상태 3D 격리를 통과했다.
+- artifact ID/digest는 충돌 `10312190994` / `sha256:ec989f90c2082d187ec93a49797e5adf5adfc61084d55d180138a41fd18c7454`, 질량 `10311497357` / `sha256:b3c30eb60cb64edae8a701cabe361656f4a6d23e8b62836ca9bff6ca6a9674cc`, B1 `10312335711` / `sha256:301c48f06ef9c0527a00932debfc90edb253efcbd83733b345ffb3c0a8c163f8`, B2 `10312151117` / `sha256:8168f656b1dbb707b06073613e98cb5aefcd7b8711d9293252d8f32db73afed4`, B3 `10311956409` / `sha256:f188ca859bd8563eec257165fbc82435c69281a9236b542ef13333bd376aaf0c`, 실제 3D `10311258139` / `sha256:d1e0e3baee5d6b4756063e0b473acc5fa35a763d2b31618622a535339cd247ec`, WebGL `10312280846` / `sha256:cb928528885907148fb1ae2ba8245ea546acde6bdb76d13ff2ce3bb0e243eb1a`다.
+
+- v48 WIP01의 구획 질량 장부와 동적 배수량/CG/GM을 그대로 사용하면서, 함정 충돌 1건마다 미사일 전체 질량·충돌 속도에서 운동에너지 `1/2 mv²`와 운동량 `mv`를 명시적으로 계산해 단일 impact event에 기록한다. 이 계산은 렌더 프레임이나 매 물리 tick에서 반복하지 않는다.
+- 기존 WIP100의 잔류에너지·외판/격벽 저항 경로를 유지하고, 동일한 선체 포함 판정으로 반대편 외판까지의 실제 chord를 고정 간격 추적+이분법으로 결정한다. 잔류 관통에너지가 그 거리까지 도달할 때만 `throughHull`과 출구를 생성한다.
+- Kh-32의 coherent penetration 길이 상한은 1.50 길이에서 2.20 길이로 조정했다. 이는 1,372 m/s 정횡 충돌에서 약 19.83 m 폭의 반대편 외판을 도달 가능하게 하는 `SIM_TUNED` 값이며 공개 야금 성능 주장으로 취급하지 않는다. Kh-35U의 기존 0.95 길이 상한은 유지한다.
+- 기준 정횡 진단에서 Kh-32(5,800 kg, 1,372 m/s)는 운동에너지 5,458.9136 MJ, 운동량 7,957,600 N·s, 물리 관통 상한 25.52 m를 기록하며 약 19.83 m에서 반대편 외판을 통과한다. Kh-35U(670 kg, 280 m/s)는 운동에너지 26.264 MJ이고 약 2.88 m에서 내부 정지해 출구가 생기지 않는다.
+- 미사일 단면적·입사각·유효 관통에너지와 출구 잔류에너지로 입구와 출구의 개구 면적을 별도로 계산한다. 기준 Kh-32 정횡은 입구 약 1.540 m², 출구 약 1.132 m²이며, 침수 모듈은 이 명시 면적을 기존 피해 누적 개구 면적과 함께 보수적으로 취한다.
+- 관통선이 외판을 들어가고 나오는 전이를 각각 `SHELL_ENTRY`, `SHELL_EXIT`로 구분하고 서로 반대인 외향 법선을 보존한다. 수선 아래 z=-1 m 진단에서는 양현 개구부가 모두 해수에 젖고 4초 뒤 약 40.4 m³가 유입되어 양측 구획 침수·배수량 증가·GM 변화를 만든다.
+- impact momentum의 함체 전달분을 현재 v48 WIP01 만재 질량·CG와 충돌점 레버암에 적용한다. surge/sway/heave 선속도와 roll/pitch/yaw 각속도 증분을 한 번만 주입하며 이후 기존 120 Hz 함체 동역학·감쇠·복원력에서 반응한다. 불발 관통탄은 반대편으로 빠져나가는 잔류 운동량을 빼고, 내부 폭발탄은 함내 결합으로 취급한다.
+- 시작 자기검사는 Kh-32 에너지/운동량 항등식, 반대편 출구, Kh-35U 내부 정지, 입·출구 개구 및 강체 충격 방향을 검사한다. 새 Playwright `ship-impact-penetration` 검사는 동일 기하의 결정성, 수선 아래 실제 침수, 질량/GM 연결, 그리고 240 tick 동안 동일 충격을 재주입하지 않는 event-only 계약을 JSON·화면 artifact로 남긴다.
+- 이번 WIP02는 충돌·관통·개구부·순간 함체 반응 범위다. 반복 피격에 따른 종강도/용골 피로와 균열 전파는 v48 WIP03, 파도 위상에 따른 개구부 침수 변동은 v48 WIP04에서 별도 상태와 고정-step 회귀를 붙인다.
+- 루트의 v48 WIP01 HTML과 상태 문서는 최종 PR에서 `archive/v48/WIP01/`에 원본 blob 그대로 보존하고, 루트 대표 파일과 workflow를 `Aegis_SIM_v48_WIP02.html`로 교체한다. 원격 Actions와 artifact를 확인하기 전에는 WIP02를 종결 완료로 승격하지 않는다.
+- v48 WIP02 HTML SHA-256은 `711b0863390e7e25f8cf751c4f5406cbc58db247b08aaba1688b2ba72911b874`다. 로컬 Chromium에서 시작 자기검사 실패 0, CIWS B1/B2/B3·v48 WIP01 질량·v48 WIP02 충돌 브라우저 검사 5개가 모두 통과했다. 로컬 3D는 실행환경 CDN 제한 때문에 종결 증거로 쓰지 않고 원격 Actions의 실제 3D/WebGL job을 확인한다.
+
+---
+
+# 함정 구획 질량·배수량·동적 GM 기반 v48 WIP01 — 2026-09-13
+
+## 구현 및 명칭 정정 검증 완료
+
+- 기존 `dryMass = z=0 수선 아래 선체 체적 × 해수 밀도`를 만재배수량처럼 사용하던 경로를 분리했다. v48 WIP01의 Flight IIA 게임 기준 만재 질량은 9,652,445.6336 kg(9,500 long tons), 유효 lightship 질량은 7,085,245.6336 kg이며 두 값의 의미를 진단값에 별도로 남긴다.
+- 24개 기존 침수 구획에 lightship 질량을 배분하고, 추진연료 1,500 t, 항공유 120 t, 담수 180 t, service/ballast 220 t, 기술유체 80 t, 무장 116.1 t, MH-60R 2대 17 t, 승조원·개인장구 34.1 t, 보급·예비품 250 t, 임무 적재물 50 t를 위치·모멘트가 있는 질량 노드로 구성했다. 상세 위치와 일부 탄약 질량은 실제 함정 중량 보고가 아닌 `SIM_ESTIMATED`로 명시한다.
+- VLS는 실제 셀 좌표와 현재 SM-2/ESSM 잔탄을 사용한다. SeaRAM, Phalanx 탄약, Mk 214도 실제 잔탄 변화 때 질량 장부를 dirty 처리한다. 연료·물·ballast·기술유체는 개별 탱크 ID와 질량/비율 변경 경계를 가진다. 승조원은 사망자는 함내 질량으로 유지하고 퇴함 인원만 제외하며, 구획 이동·퇴함 반영은 매 프레임이 아닌 시뮬레이션 1초 저주기 동기화다.
+- 장부는 dirty flag와 캐시를 사용한다. 고정 스텝의 함선 동역학은 대부분 O(1) 스냅샷만 읽고, VLS/CIWS/Mk36/탱크/승조원 배치가 실제로 변할 때만 최대 약 150개 질량 노드를 다시 합산한다. 로컬 Chromium 20,000회 연속 조회는 재합산 0회, 약 4 ms를 기록했다.
+- GM 1.5 m는 더 이상 매 tick 고정값이 아니다. 공개 세부 중량분포가 없는 lightship KG를 최초 표준 만재 상태에 맞추는 `CALIBRATED_REFERENCE`로만 사용한다. 이후 런타임 GM은 현재 배수량에서 구한 `KM - KG - free-surface correction`이며 침수수, 탄약 소모, 저부 유체 제거, 승조원 이동 및 기존 외판·mast 질량 손실 모멘트를 반영한다.
+- 9,652,445.6336 kg 표준 만재 상태의 평형 흘수 보정은 +1.020125 m, KG는 4.388257 m, 계산 GM은 1.500000017 m다. 선수·선미 저부 ballast 220 t 제거 진단에서는 질량 9,432,445.6336 kg, KG 4.537255 m, GM 1.406117 m, 평형 흘수 약 +0.9353 m로 변해 GM이 고정되지 않음을 확인했다.
+- 시작 자기검사에 만재 질량·무장 질량 폐합, 24구획 소유권, clean-cache 무재계산, 여러 dirty 변경의 단일 재합산, 저부 ballast 제거의 KG 증가 및 복구 검사를 추가했다. 별도 Playwright `ship-mass-ledger` 검사는 같은 계약과 실제 동역학 연결, SM-2 1발 소모 시 708 kg 감소, 20,000회 cache hot path를 브라우저에서 검증하고 JSON·화면 artifact를 남긴다.
+- 로컬 Chromium에서 시작 자기검사 실패 0, 질량 장부 11개 check, CIWS B1 matrix, B2, B3는 통과했다. 로컬 3D visual은 실행환경의 jsDelivr 차단으로 실행할 수 없었으나, 아래 Actions의 실제 네트워크/3D job과 artifact로 종결했다.
+- workflow 대표 파일은 `Aegis_SIM_v48_WIP01.html`로 변경했으며 새 `ship-mass-ledger` job을 추가했다. WIP13 HTML·상태 문서는 이미 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존되어 있으며, v48 WIP01에서는 그 아카이브를 변경하지 않는다.
+- 이 작업은 기능 변경 없이 잘못 이어진 `v37.1_WIP14` 명칭을 목표 버전 계보에 맞춰 `v48_WIP01`로 정정한 기준본이다. 아래 PR #11 검증은 동일 기능 구현의 최초 종결 증거이며, 명칭 정정본은 별도 Actions에서 다시 검증한다.
+- v48 WIP01 HTML SHA-256은 `2d571674c0e0f7c5d2eb6dedfdfc61b225d0e8e75865f750ddccb031d6a7653a`다. 정정본 inline JavaScript 문법 검사와 질량 장부 Playwright 11개 check가 로컬에서 통과했으며, 원격 Actions와 artifact 확인 전에는 명칭 정정을 완료로 승격하지 않는다.
+- PR #11 code head `6ceb3d01f23208eb45706bad3ea2b3646bf29677`의 Actions run `34736193172`(#36)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `aegis-3d-render`, `webgl-render-probe` 7개 job이 모두 통과했다.
+- 질량 artifact JSON은 11개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. 표준 만재 9,652,445.6336 kg, 220 t ballast 제거 후 9,432,445.6336 kg / KG 4.537255 m / GM 1.406117 m, SM-2 1발 소모 후 정확히 708 kg 감소를 기록했다. 20,000회 hot-path 조회는 재합산 0회, cache hit 20,001회, 7.9 ms였다.
+- 실제 3D artifact는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas와 WIP14 대표 파일을 확인했다. CIWS B1은 2개 test 통과 및 실패 check 0, B2·B3도 전부 통과했다.
+- artifact ID/digest는 질량 `10311445246` / `sha256:a49a7e10c7f4f5169d73be81ee73222b98e247d7acf652cc7bc493d64c6e5d64`, B1 `10311172385` / `sha256:890f6f2ef7efd529bc31edb9ec99ceb55045e1e047817facc30fa20641b9b538`, B2 `10310957922` / `sha256:8c2684a2154fc691bf9f9e63f5757d2b55f496024fbb0369fc40fc3b3bb1d227`, B3 `10310678730` / `sha256:9912d4367a460428f0f45aac59c924b8d1e167e19f2ec16534d459333c32be74`, 실제 3D `10310793291` / `sha256:429a25bf7b71c4ac604917a5a01d38c5f441d62e865e98eee64be2f8b301f556`, WebGL `10311445228` / `sha256:21d03743cba9aaba1af75e27145a4b83445bfaa2710477db11cec52422d28b7f`다.
+- PR #12 code head `7ac49eeb55f706bcd2fb5e1fc8761077d2b47e6b`의 Actions run `34737299131`(#40)에서 동일한 7개 job이 모두 통과했다. 질량 artifact JSON은 schema `AEGIS_SHIP_MASS_LEDGER_V48_WIP01_V1`, 대표 파일 `Aegis_SIM_v48_WIP01.html`, 위 SHA-256 일치, 11개 check 모두 `true`, console/page 오류 0건, 20,000회 hot path 재합산 0회·cache hit 20,001회·6.5 ms를 기록했다.
+- v48 WIP01 artifact ID/digest는 질량 `10310754879` / `sha256:418281ac75eddb5dc582c5803710c95caf9cd53c938bf7b1665f1241ef20c8f0`, B1 `10311596102` / `sha256:2e3bf807b090faefd9c072b8f489d458b907f929004f222c87a163b0912c6335`, B2 `10311134176` / `sha256:b53fb41328a741f7c4c20f8b94ca43ab68d73f2784c8990ecf21bf8989930898`, B3 `10311024375` / `sha256:66972e3a092822e7ffdcd9258c3b830e11a5e89db6c7ab71c651285a5824592f`, 실제 3D `10311178892` / `sha256:32492564cf6072a08bfa84d006d7d84e1704b38ae28903f378341d552c373bf1`, WebGL `10310809724` / `sha256:bda4ac6115e1934ef36ec394df958c666c558395aa290e1a42f205e0590696be`다.
+
+---
+
+# CIWS Phalanx Block 1B 공통 센서 WIP13 — 2026-09-13
+
+## Actions 종결 결과
+
+- PR #9 code head `4337a6a65a28a35097758c5c4078c849493097a4`의 Actions run `34731192249`(#31)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `aegis-3d-render`, `webgl-render-probe` 6개 job이 모두 통과했다.
+- B1 visual artifact는 시작 자기검사와 페이지·콘솔 오류 없이 통과했다. 시뮬레이션을 `timeScale: 0`, `simStepCounter: 0`으로 정지한 상태에서 3D 열기 전·중·닫기 후 CIWS 상태 digest가 정확히 동일했다.
+- B3 artifact의 `pass`는 `true`이고 실패 check는 0건이다. Phalanx와 SeaRAM은 정상 및 40/70/80% 손상에서 탐색거리·추적거리·cue 거리·측정오차·dwell·탐지확률이 모두 수치적으로 동일했다.
+- 정상 센서 endpoint는 두 마운트 모두 자체 탐색 15 km, 고품질 추적 10 km, cue/local 측정 한계 15 km다. 12 km 표적 경계검사에서 정상 센서는 `SEARCH`, 70% 손상 센서는 `IDLE`을 기록해 연속 거리 열화가 실제 생산 탐지 경로에 적용됨을 확인했다.
+- 저장소 기준 WIP13 HTML SHA-256은 `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`이며 B1/B3 JSON에 기록된 값과 일치한다.
+- artifact ID/digest는 B3 `10309710151` / `sha256:7c650cdd245685ca7fb7ad4596a0e61e221bfb4cb5e46a044daa05571580442c`, B2 `10308429516` / `sha256:8e37e36f6cd2354565e26ca1a92e5c95290a08672d3c4d259fde6880788fb422`, B1 `10310065228` / `sha256:35c129911300724d4eb142d74774b34a3dd40b42920b51a4618b6af606734c5a`, 실제 3D `10309465496` / `sha256:5e5668d55dd4ee19a1abf399bc1e61a980ecfdaf0bc110b3e1d119cb12cb33a2`, WebGL `10310115087` / `sha256:77be55c23c9f13e1fa3efced50d3f778f5f1fdf4f741281f32f285b6e6d8d3f9`다.
+- 이 범위의 Phalanx Block 1B 공통 센서 통합과 전체 CIWS 회귀를 완료 처리한다.
+
+- Phalanx와 SeaRAM이 Phalanx Block 1B 탐색·추적·EO 센서 계통을 공유한다는 구성에 맞춰 두 마운트의 센서 기준을 단일 `CIWS_BLOCK1B_SENSOR_MODEL`로 통합했다.
+- 공통 자체 탐색 최대거리는 15 km, 고품질 추적 기준거리는 10 km, cue/local 측정 한계는 15 km로 둔다. 10~15 km에서는 기존 거리 품질식에 따라 측정 품질이 점진적으로 낮아진다.
+- 두 마운트는 탐색거리, 추적거리, cue 거리, 탐색→추적 시간과 손상별 탐지확률·dwell·측정오차·거리 열화곡선을 정확히 공유한다. 각 마운트의 실제 손상 상태는 독립적으로 유지한다.
+- Phalanx 3.0 km, SeaRAM 0.8~9.6 km의 실제 교전거리, 탄약, 탄도/유도, 발사율/발사간격, 포탑·발사기 구동계와 설치 위치별 사각은 변경하지 않았다.
+- B3 시작 자기검사와 Playwright 회귀에 정상 15/10/15 km endpoint 및 0/40/70/80% 손상 전 구간에서 GUN/RAM 센서 성능의 수치적 동일성 검사를 추가했다.
+- 기존 B1 익명 관측·권한·로컬 RF 경계, B2 기동 예측, 정지 상태 3D 격리 검사는 동일한 WIP13에서 다시 실행한다.
+- WIP12 HTML과 상태 문서는 `archive/v37.1/WIP12/`에 원본 blob 그대로 보존하고 루트 대표 파일 및 workflow는 WIP13으로 변경한다.
+- WIP13 HTML SHA-256은 `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`다.
+
+---
+
+# CIWS Closure B3 부분손상 연속 성능 WIP12 — 2026-09-13
+
+## Actions 종결 결과
+
+- PR #8 code head `1491f2786d34cf497383c048a7a962ebae5e6c95`의 Actions run `34729654050`(#28)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage` 6개 job이 모두 통과했다.
+- B1 matrix artifact는 시작 자기검사 실패 0, `CORE SELFTEST PASS`, 허가된 Phalanx/SeaRAM 교전, 보호 트랙 무발사, cue/local 탐지 경계, 소실·재획득, 정상·부분손상, 1×/8×/16× 결정성을 모두 통과했다. visual artifact도 시뮬레이션을 정지한 뒤 3D 열기 전·중·닫기 후 상태가 동일함을 확인했다.
+- B3 artifact의 `pass`는 `true`, 실패 check·콘솔 오류·page error는 모두 0건이다. 곡선 endpoint, Phalanx/SeaRAM 연속 열화, 진단 truth 경계, 생산 손상 측정 경로, 부분손상 작동, 80% 파괴 정지, 탐색거리 경계, 손상 상태 1×/8×/16× 결정성이 모두 통과했다.
+- 저장소 기준 WIP12 HTML SHA-256은 `47bf293823802849dedd0a9f798cd90e117a3de7e7ae53528eecbc495dd948da`이며 B1/B3 JSON에 기록된 값과 일치한다.
+- artifact ID/digest는 B3 `10309212562` / `sha256:d01e08f4b5b3efc18683bc41d4861682b06863d31954ea7292f7324c4ba9b3ca`, B2 `10309227304` / `sha256:7185a581d9cd8706a13f1ff971cf76c396182bc0c2465555e137c45e020fd82d`, B1 `10308499314` / `sha256:a3b4f712e1b8ca5112ea4cc4f730f4fe47bdf11aba44177d8d0d954bab7e3674`, 실제 3D `10308233190` / `sha256:7ebfb9cb733d681c9af210d0a6b705f849edc135164508b566c2e1a831d156b2`, WebGL `10309003089` / `sha256:d57c2f3cc0d54fd9d7b253d2a75f7ee709f6ae81da45847bf74cb6c1c26003db`다.
+- 이 범위의 CIWS Closure B3와 전체 CIWS Closure를 완료 처리한다.
+
+- WIP11에서 완료한 B1 관측 트랙/권한/로컬 탐지 경계와 B2 가속도·기동 예측은 변경하지 않는다. 이번 변경은 원래 CIWS Closure의 마지막 범위인 B3 부분손상 연속 성능에 한정한다.
+- 기존 `ciwsHardwareHealth01`은 80% 파괴 임계값 판정에만 실질적으로 쓰였다. WIP12는 같은 건강도에서 Phalanx와 SeaRAM별 연속 성능곡선을 만들고, 손상 0%에서는 WIP11 명목값을 정확히 보존하며 80%에서는 기존과 같이 작동을 정지한다.
+- 생산 로컬 RF 탐지와 측정 경로에 손상별 탐색·cue·추적 거리, dwell 증가, 탐지확률 감소, 거리/방위/고각 측정오차 증가를 연결했다. 진단 결과에는 적용된 sigma, Pd 및 유효거리 계수를 남긴다.
+- 공통 CIWS yaw 구동과 SeaRAM elevation 구동은 손상별 최대 속도·가속도를 사용한다. Phalanx shot accumulator는 유효 발사율을 사용하고 SeaRAM은 손상별 발사 간격을 사용한다.
+- 시작 자기검사는 정상/40%/70%/80%에서 탐색거리·추적오차·구동·발사율/발사간격의 단조 연속성과 정상값 보존, 파괴 정지를 확인한다.
+- 새 Playwright B3 검사는 곡선 endpoint/단조성, 진단 truth 경계, 손상 로컬 RF 생산 경로, 40% 손상 실제 Phalanx/SeaRAM 교전, 80% 정지, 탐색거리 경계, 1×/8×/16× 결정성을 검사한다. 기존 B1/B2 및 3D/WebGL job도 같은 WIP12로 다시 실행한다.
+- WIP11 HTML·상태 문서는 `archive/v37.1/WIP11/`에 원본 blob 그대로 보존한다. 루트 대표 파일과 workflow의 `SIM_FILE`은 `Aegis_SIM_v37.1_WIP12.html`로 변경한다.
+- WIP12 HTML SHA-256은 `47bf293823802849dedd0a9f798cd90e117a3de7e7ae53528eecbc495dd948da`이다.
+
+---
+
+# CIWS Closure B2 로컬 RF 속도 안정화 WIP11 — 2026-09-12
+
+## Actions 종결 결과
+
+- PR #6 head `3345ef43781e1f4b84410c529b70ca4b9e34346e`의 Actions run `34691900821`(#24)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver` 5개 job이 모두 통과했다.
+- B2 Chromium 결과는 시작 자기검사 실패 0, 합성 직선 0.017 m/s²·비기동, 합성 24 m/s² 횡기동 17.59 m/s²·기동, Phalanx 가속도 예측점 이동 7.27 m, coast 감쇠, 4.5 km 거리 gate, 1×/8×/16× 결정성 통과다.
+- 생산 로컬 RF 측정 경로의 이동 fixture는 직선 70 hit에서 1.95 m/s²·비기동, 횡기동 75 hit에서 18.18 m/s²·기동을 기록했다. 두 경우 모두 마지막 소스는 `LOCAL_RF`다.
+- B2 JSON의 `pass`는 `true`, 콘솔 오류와 uncaught page error는 0건이며 시뮬레이터 SHA-256은 `7ddbacc8e5df0d4c41f61606ee5697204f23d20913e77875dd5973889c29623d`로 일치한다.
+- B2 artifact ID는 `10297239425`, archive digest는 `sha256:e1813a97c523ebfd5ea073d3fafaaed6c420f49d854cd23d3621a2157935899b`다. B1 회귀도 2 tests가 통과했고 artifact ID `10297980150`, digest `sha256:7b5c8920082687450e015977ca3275202ec0d47d081bc0ed9ec99ecf85237715`다.
+- 이 범위의 CIWS Closure B2 가속도·기동 추정 및 예측 연결은 완료했다. B3 부분손상 연속 성능은 다음 작업으로 남긴다.
+
+## WIP10 live RF 실패 수정
+
+- WIP10 커밋 `ac248018f6616b3924f51b55230b15f125278bdd`의 Actions run `34691679929`(#23)에서 정적·WebGL 검사는 통과했지만 강화한 B2 live RF noise guard가 실패했다.
+- 실제로 이동하는 직선 표적은 로컬 RF 70 hit 뒤에도 22.56 m/s², `maneuvering:true`를 기록했다. 가속도 feed-forward 분리만으로는 초기 속도 획득과 측정 잡음의 창 경계 차분을 충분히 억제하지 못했다.
+- WIP11은 25 local-hit warm-up 동안 가속도 상태를 0으로 유지하고, 원시 alpha-beta 속도가 아니라 시간상수 0.30초(GUN)·0.35초(RAM)의 저역통과 속도를 측정창 간 차분한다. cue 속도 보정은 평활 속도와 기준 속도 양쪽에도 동일하게 상쇄한다.
+- 기존 합성 직선·24 m/s² 횡기동, bounded coast/range, Phalanx/SeaRAM 예측 연결 검사는 유지한다. 강화한 생산 `ciwsLocalMeasurement → ciwsStepLocalTrack` 직선/횡기동 검사를 통과해야만 B2를 완료 처리한다.
+- WIP10 HTML·상태 문서는 `archive/v37.1/WIP10/`에 원본 blob 그대로 보존한다. workflow 대표 파일은 `Aegis_SIM_v37.1_WIP11.html`로 변경한다.
+- WIP11 HTML SHA-256은 `7ddbacc8e5df0d4c41f61606ee5697204f23d20913e77875dd5973889c29623d`이다. 새 Actions와 artifact 확인 전에는 B2 완료로 승격하지 않는다. B3 부분손상 연속 성능은 수정하지 않았다.
+
+---
+
+# CIWS Closure B2 로컬 RF 안정화 WIP10 — 2026-09-12
+
+## WIP09 artifact 진단 반영
+
+- WIP09 커밋 `20f04cfb14cbb8c5831db367831984400d91b966`의 Actions run `34691302509`(#22)은 B1, B2, 정적, WebGL, 실제 3D 렌더 5개 job이 모두 통과했다.
+- B2 artifact의 합성 직선·기동 검사는 통과했지만, 생산 필드 smoke가 물리 이동 없이 `stepCiws`만 호출한 B1 격리 fixture를 사용했다. 실제 객체는 정지한 반면 cue 속도는 -300 m/s여서 81.28 m/s²의 가짜 감속과 기동 판정을 만들었고도 필드 존재만 검사해 통과했다.
+- WIP10은 가속도 추정값을 alpha-beta 추적 상태 전파에서 분리한다. 추적 상태는 등속으로 안정적으로 전파하고, 가속도는 거리·품질·freshness·jerk 제한을 거친 사격 예측에만 feed-forward한다.
+- 초기 속도 획득을 기동으로 오인하지 않도록 로컬 RF warm-up을 12 hit로 늘리고, GUN/RAM 측정창과 응답·히스테리시스를 완만하게 조정했다.
+- 새 live sensor 진단은 실제 객체를 매 고정 tick 이동시킨 뒤 생산 `ciwsLocalMeasurement → ciwsStepLocalTrack` 경로를 사용한다. 직선 표적의 noise guard와 24 m/s² 횡기동 표적의 탐지를 각각 별도 seed로 검사한다.
+- WIP09 HTML·상태 문서는 `archive/v37.1/WIP09/`에 원본 blob 그대로 보존한다. workflow 대표 파일은 `Aegis_SIM_v37.1_WIP10.html`로 변경한다.
+- WIP10 HTML SHA-256은 `fce6b33d31b36bb7fab7107eed15328068d4564752eb119f1b49564d8e32e928`이다. 새 Actions와 artifact 확인 전에는 B2 완료로 승격하지 않는다. B3 부분손상 연속 성능은 수정하지 않았다.
+
+---
+
+# CIWS Closure B2 가속도·기동 예측 WIP09 — 2026-09-12
+
+## 구현 및 검증 대기
+
+- WIP08의 B1 익명 관측·교전권한·로컬 탐지 경계는 유지한다. 이번 변경은 CIWS 로컬 RF 트랙의 속도 이력으로 가속도와 jerk를 추정하고, 기동 상태를 히스테리시스로 판정하는 B2 범위다.
+- 함정 cue 속도 보정량은 가속도 표본 기준에도 같은 양을 반영해 상위 트랙 보정이 로컬 기동으로 오인되지 않게 했다. 실제 ASM 객체는 기존과 같이 로컬 측정 합성 및 충돌 경계 밖의 추적·예측에 전달하지 않는다.
+- 추정 가속도와 jerk는 마운트별 상한, 측정 창, 응답·coast 감쇠를 적용한다. 예측은 로컬 hit 수, 품질, freshness, jerk와 마운트별 거리·시간 한계로 제한한다.
+- 같은 가속도 예측 함수를 Phalanx Mk244 탄도 반복해와 SeaRAM 선행해에 연결했다. 범위 밖이거나 신뢰도가 낮으면 기존 등속 예측으로 자동 복귀한다.
+- 시작 자기검사와 Playwright B2 검사는 직선 표적 noise guard, 횡가속 표적 추정, 예측점 변화, coast 감쇠, 거리 gate, 진단 truth 필드 부재, 생산 로컬 트랙 필드, 1×/8×/16× 결정성을 확인한다.
+- WIP08 HTML·상태 문서는 `archive/v37.1/WIP08/`에 원본 blob 그대로 보존한다. workflow 대표 파일은 `Aegis_SIM_v37.1_WIP09.html`로 변경한다.
+- WIP09 HTML SHA-256은 `a5f02f99fdf115387702646e6ad2a1f038fd55d6f5bb4bb0afd75998c5d8e368`이다. 이 문서 시점에는 새 Actions와 artifact 결과가 없으므로 B2 완료로 승격하지 않는다. B3 부분손상 연속 성능은 수정하지 않았다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP08 — 2026-09-12
+
+## Actions 종결 결과
+
+- PR #6 head `6a92d724095b4a4230aec91db62bf2152e2b52e1`의 Actions run `34690224354`(#20)이 완료됐고, `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure` 4개 job이 모두 통과했다.
+- Playwright matrix에서 페이지 로드, 시작 자기검사 실패 0, `CORE SELFTEST PASS`, Phalanx/SeaRAM 허가 교전, 보호 트랙 자동발사 차단, cue/local 탐지 경계, 소실·재획득, 정상·40% 부분손상, 1×/8×/16× 결정성이 모두 통과했다.
+- visual test에서 출항 오버레이 종료, 진단 경계 정지 상태, 3D 열기 전·중·닫기 후 상태 동일성이 모두 통과했다. 콘솔 오류와 uncaught page error는 0건이다.
+- CIWS artifact ID는 `10297306876`, archive digest는 `sha256:e4de7ac8bdf8930958264fe024449796558670adcab4426058a510f162ca2d69`이다. 내부 matrix/visual JSON의 `pass`는 모두 `true`이고 시뮬레이터 SHA-256은 `d4cc083cf7756f76bd2a40b1d00dae8315e511ed9ba18476011d12549c207168`로 일치한다.
+- 이 범위의 CIWS Closure B1 종결 검증은 완료했다. B2(로컬 가속도·기동 추정)는 시작하지 않았으며 다음 코드 작업으로 남긴다.
+
+- WIP07 Actions run `34690047243`(#19)에서 3개 비-CIWS job과 정지 상태 3D 격리 검사는 통과했다. AUTO mode 및 선수 0° 기하 수정 뒤 시작 자기검사는 다음 fixture 단계인 `A3 classification confidence alone must not authorize`에서 실패했다.
+- 원인은 fixture 위치·초기 운동을 x축 선수 접근으로 바꾼 뒤 이탈/재접근 전이는 이전 y축의 `vy/_kfX[4]`만 반전한 불일치다. WIP08은 이 두 전이를 `vx/_kfX[3]`로 맞춰 실제 운동 상태와 EKF 상태를 함께 전환한다.
+- 생산 분류·권한·CIWS 선택 로직은 수정하지 않았다. WIP07 HTML과 상태 문서는 `archive/v37.1/WIP07/`에 원본 blob 그대로 보존한다.
+- workflow 대표 파일은 `Aegis_SIM_v37.1_WIP08.html`이며 HTML SHA-256은 `d4cc083cf7756f76bd2a40b1d00dae8315e511ed9ba18476011d12549c207168`이다. Actions #20과 artifact 확인으로 B1 종결 검증을 완료했으며 B2는 시작하지 않았다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP07 — 2026-09-12
+
+- WIP06 Actions run `34689854972`(#18)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`가 통과했다. CIWS visual test의 정지 상태 3D 격리 검사도 통과했으며 `CIWS_B1_FAILED_CHECKS []`를 기록했다.
+- WIP06에서 AUTO 모드 전달 누락은 해소됐고, 시작 자기검사의 다음 실제 탈락 사유가 `DIRECTION_BLOCKED / 구조물: 함교(상부전)`로 드러났다. 우현 90° fixture를 같은 run에서 실발사가 통과한 Phalanx 브라우저 fixture와 동일한 선수 0° 인바운드 배치로 교체했다.
+- 생산 교전 게이트, blind sector, traverse 판정은 완화하지 않았다. 변경은 자기검사 입력 기하만 실제 검증된 경로와 일치시키는 범위다.
+- WIP06 HTML과 상태 문서는 `archive/v37.1/WIP06/`에 원본 blob 그대로 보존한다. workflow의 대표 파일은 `Aegis_SIM_v37.1_WIP07.html`로 변경한다.
+- WIP07 HTML SHA-256은 `c58612857f35303570c41ed17350165a5dafd31e7369f961c463e105400a5726`이다. B1 완료 승격과 B2 작업은 새 Actions 및 artifact 확인 전까지 보류한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP06 — 2026-09-12
+
+- 기준 원격은 PR #6 head `c7ccf2dba2c9f635e2debcb54ae5e58cfeb44f5a`, Actions run `34685404177`(#17)이다. `static-smoke`, `webgl-render-probe`, `aegis-3d-render`는 통과했고 `ciws-b1-closure`의 핵심 브라우저 검사 8개도 통과했다.
+- 시작 자기검사 fixture가 `updateTrackOperationalStateA3(...,{mode:'AUTO'})`만 호출하고 실제 `engagementControlMode`는 MANUAL로 남겨 `ciwsObservedThreatAuditB1`에서 `MODE` 차단되던 문제를 수정했다. fixture 동안만 AUTO로 전환하고 기존 모드를 `finally`에서 복원한다.
+- 3D 격리 검사는 실행 중 시뮬레이션의 자연스러운 tick 변화를 3D 부작용으로 오판하지 않도록, 진단 경계의 `setPaused(true)`로 물리 시간과 accumulator를 정지한 뒤 3D 열기 전·중·닫기 후 상태를 비교한다.
+- 잘못 생성된 `archive/v37.1/WIP05/Aegis_SIM_v37.1_WIP05.html` 0바이트 blob은 루트 WIP05 원본 blob으로 복구한다. 루트 WIP05는 수정하지 않는다.
+- workflow의 대표 파일은 `Aegis_SIM_v37.1_WIP06.html`로 변경한다. WIP06 HTML SHA-256은 `d36d0988e2e177cf2a3ef4d1a6a5167cae8b8f92b22ec1f0515194e15f4ce343`이다. B1 완료 승격과 B2 작업은 새 Actions 및 artifact 확인 전까지 보류한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP05 — 2026-09-12
+
+- 원격 기준은 PR #6 head `273206404540e52187bc7964a15df9beb0b2ad00`, Actions run `34682645360`이다. `static-smoke`, `webgl-render-probe`, `aegis-3d-render`는 통과했고 `ciws-b1-closure`는 실패했다. 콘솔/page 오류는 0건이며 WIP04 SHA-256은 `c3786921b81436db46fd624a593b5f818d5231fa4cb0fb1aadc8b9f31d27d3f4`로 일치했다.
+- 후보 평가에 `ciwsObservedThreatAuditB1` 단계별 사유를 추가했다. 정상 자기검사 fixture는 AUTO gate 통과 뒤 물리 mount 방향 조건에서 탈락하던 선수 방향 대신 연결된 우현 traverse의 인바운드 표적을 사용하며, 재실패 시 정확한 최초 탈락 단계가 자기검사 메시지에 남는다. gate 자체는 약화하거나 삭제하지 않았다.
+- SeaRAM fixture의 기존 선수 방위는 SeaRAM 선수 사각과 겹쳤다. WIP05 fixture는 실제 bearing 입력을 지원하고 SeaRAM은 우현 인바운드로 배치한다. JSON snapshot에 후보 사유, SEARCH/TRACK 상태 이력, 로컬 track freshness/LOS/range 품질, traverse와 hardware health를 남긴다.
+- 보호 상태는 매 tick 상태를 덮어쓰지 않는다. UNKNOWN은 ASM 자동 적성 증거를 제거한 운동 표적, UNASSESSED는 tentative track, WITHHELD는 memory/FCS 보류 상태로 한 번만 입력하며 실제 updateCIWS가 이후 상태와 발사를 결정한다.
+- 소실/재획득은 실제 SPY lifecycle 함수의 dwell miss 두 번(COAST→REACQUIRE)과 accepted reacquisition hit 두 번(REACQUIRE→FIRM)을 사용한다. 재획득 중 CIWS 해제·무발사와 FIRM 복귀 뒤 재교전을 검사한다.
+- 기능 검증과 이미지 검증을 별도 Playwright test로 분리하고 각각 120초 제한을 둔다. CIWS 이미지는 출항 버튼으로 VLS 편성 모달을 정상 종료한 뒤 촬영하며, 3D는 full-page가 아니라 `external3DCanvas`만 촬영한다.
+- WIP05 HTML SHA-256은 `81a94bd3003c910a9bcee6ea29e646c0500bf4a1051171933db9755b03f3fcc3`이다.
+- B1 완료 승격 및 B2 작업은 하지 않았다. 수정 후 Actions 결과는 아직 미실행이며 사용자가 원격 브랜치를 갱신한 뒤 확인한다.
+
+---
+
+# CIWS Closure B1 종결 검증 WIP04 — 2026-09-12
+
+- Actions run `34681951551`에서 브라우저 테스트가 비공개 함수 `_wip75ResetCase`를 페이지 전역 API로 잘못 취급해 실패했다. 같은 문제가 있던 `_wip75CreateTarget`, `_wip75SyncTrack` 직접 의존성도 제거했다.
+- 브라우저가 사용하는 단일 명시적 진단 경계 `window.__NAVAL_SIM_DIAG__.ciwsB1Closure`를 추가했다. fixture 준비, 독립 차단 조건, 소실/재획득, 실제 고정-step accumulator 배속 진행, 로컬 탐지 실패 probe와 결과 snapshot은 이 경계로만 제공한다.
+- WIP03에서 획득 뒤 트랙이 소실·재획득·보호 상태로 바뀌어도 기존 로컬 접촉을 계속 추적할 수 있던 결함을 확인했다. WIP04는 매 tick 현재 관측 후보와 권한을 재검증하고 후보에서 빠진 파일의 Phalanx/SeaRAM 추적 및 발사를 즉시 해제한다.
+- FRIEND, NEUTRAL, UNKNOWN, UNASSESSED, WITHHELD는 각 fixture에서 공통 AUTO 가능 기준을 만든 뒤 해당 운용 상태 입력만 바꾸어 자동발사 0회를 별도로 기록한다.
+- 1×/8×/16× 검사는 `worldTimeScale`, `simAccumulator`, `SIM_FIXED_DT`, `simulateFixedTick`으로 구성된 실제 런타임 시간 진행 경계를 사용하고 동일 seed와 6초 시뮬레이션 시간의 결과를 비교한다.
+- Playwright 의존성 lockfile을 추가했으며 Actions 설치는 `npm ci`를 사용한다.
+- 이 문서 시점에는 수정 커밋의 Actions 재실행 결과가 없으므로 B1은 완료로 승격하지 않는다. B2는 시작하지 않았다.
+
+---
+
+# CIWS Closure B1 종결 검증 결함 수정 — 2026-09-12
+
+## B1 종결용 Actions 검증 추가 — 2026-09-12
+
+- 기준 커밋 `e717666110e3d7762a4fabb45331fbcc3803ad29`에 WIP03 HTML과 대응 상태 문서가 포함되고, HTML SHA-256이 기존 인계값 `56d6fd07ff6701ef3136ded9f62a6eadf501ae92f0fcea5cb5cee51be85daa20`과 일치함을 확인했다.
+- GitHub Actions Chromium/Playwright에서 페이지 오류, 시작 자기검사, 허가된 Phalanx/SeaRAM 실발사, 보호 상태 자동발사 차단, cue/local 탐지 경계, 소실/재획득, 정상/40% 부분손상, 동일 seed 1×/8×/16× 고정 tick 결과, 2D/3D 상태 격리를 한 번에 판정하는 종결 검증을 추가했다.
+- 검증은 `ciws-b1-results.json`, `ciws-engagement.png`, `aegis-3d.png`, `SHA256SUMS`를 `ciws-b1-closure-<commit SHA>` artifact로 보존한다.
+- 이 문서 변경 시점에는 새 Actions 실행 결과가 아직 없으므로 B1을 완료로 승격하지 않는다. 모든 브라우저 항목의 실제 통과 결과가 확인된 뒤에만 완료로 기록하며 B2는 시작하지 않는다.
+
+- WIP02 정적 종결 검토에서 두 안전 결함을 확인해 검증만으로 B1 완료 처리하지 않고 `Aegis_SIM_v37.1_WIP03.html`을 만들었다.
+- 첫째, WIP02의 관측 트랙 후보 필터가 A3 자동 교전권한을 확인하지 않아 `FRIEND`, `NEUTRAL`, `UNKNOWN`, `UNASSESSED`, `WITHHELD` 트랙이 CIWS 후보가 될 수 있었다. WIP03은 `trackEngagementGateA3(trackId,{automatic:true})` 통과를 위협 평가의 필수 조건으로 둔다.
+- 둘째, WIP02는 함정 cue가 있으면 `ciwsResolveLocalContactB1`에서 로컬 탐지 성공 없이 실제 접촉을 선택할 수 있었다. WIP03은 cue 유무와 관계없이 로컬 RF 탐지를 요구하되, cue가 있을 때만 `cueTrackRangeKm`까지 좁은 빔 획득 범위를 확장한다.
+- 따라서 오표적 교전 0회와 CIWS 로컬 센서 실제 접촉 획득을 WIP02 코드로 통과 선언할 수 없으며 B1은 아직 종결되지 않았다.
+- 현재 컨테이너에는 Chromium 실행 파일이 없고 GitHub/Ubuntu/npm 경로가 프록시 403으로 차단되어 요구된 실제 브라우저 1×/8×/16×, 정상/부분손상, 콘솔/WebGL 검증은 수행하지 못했다. 새 PR의 Actions artifact에서 실제 브라우저 검증을 계속해야 한다.
+- B2는 시작하지 않았다.
+
+---
+
+# CIWS Closure B1 작업 상태 — 2026-09-12
+
+- 현재 작업 파일은 `Aegis_SIM_v37.1_WIP03.html`이다.
+- CIWS 상위 위협 평가 `ciwsObservedThreatsB1`과 cueing은 이제 `tracks`의 익명 관측 트랙만 순회한다. 실제 ASM 배열, 실제 객체 ID 역조회, `truthRef`는 이 판단 경로에서 사용하지 않는다.
+- 위협 순위는 관측 위치·속도의 상대운동으로 계산한 거리, 폐쇄속도, CPA/TTI, 관측 고도와 현재 RAM 교전 트랙 ID만 사용한다. 동점은 독립 `trackId` 순으로 결정해 고정 seed에서 안정적이다.
+- CIWS 로컬 RF 경계 `ciwsResolveLocalContactB1`만 실제 ASM 반사를 순회한다. 선택된 익명 트랙의 예측 위치와 공간 게이트로 반사를 연관하며, cue 유무와 관계없이 로컬 탐지 성공을 요구한다. 이후 탄환·요격탄 충돌 판정은 기존과 같이 truth 물리를 사용한다.
+- 마운트에는 상위 관측 파일 키 `trackingTrackId`와 로컬 센서가 획득한 물리 접촉 `trackingTarget`을 분리해 저장한다. SeaRAM 발사체의 `targetId`도 실제 ASM ID가 아니라 관측 트랙 ID다.
+- 시작 자기검사에 익명 행만으로 이루어진 CIWS 순위 결정성, 동점 경계, truth 필드 부재 검사를 추가했다.
+- JavaScript 문법 검사와 CIWS 판단부 truth 접근 정적 검사를 통과했다. 실제 Chromium/WebGL 검증은 GitHub Actions의 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`와 업로드되는 PNG artifact로 수행한다.
+- HTML SHA-256은 `56d6fd07ff6701ef3136ded9f62a6eadf501ae92f0fcea5cb5cee51be85daa20`이다.
+- 이번 범위에서 B2(로컬 가속도/기동 추정), B3(부분손상 연속 성능)는 수정하지 않았다. 다음 작업은 CIWS Closure B2다.
+
+---
+
+# 원래 작업 계획 대조 — 2026-09-11
+
+현재 기준: `naval_combined_SI_REFACTOR_WIP202_SM2_PHOTO_BASED_MESH.html`.
+2026-09-11 Track Association V31에서 대표 HTML의 SPY 익명 관측 연관과 허위 plot 입력을 구현하고, 대표 파일 직접 브라우저 검사 및 기존 회귀 묶음을 다시 실행했다.
+
+## 3D 보조 레이더 시각화 V37.1_WIP01 작업 업데이트 — 2026-09-12
+
+- 현재 작업 파일은 `Aegis_SIM_v37.1_WIP01.html`이다.
+- 3D 툴바에 기존 `SPY RADAR`와 독립된 `SPQ-9B`, `SPS-73` 토글 버튼을 추가했다. SPQ-9B는 주황색, SPS-73은 녹색 활성 상태로 구분한다.
+- SPQ-9B는 실제 `spq9bRotorAngle`, 30 RPM, 양면 배열 2개, 1° × 1° 빔, 현재 손상 연동 탐색거리 상태를 읽는다.
+- SPS-73은 실제 `sps73RotorAngle`, 24 RPM, 단일 회전 빔, 0.75° × 20° 빔, 177.792 km 계기 최대거리를 읽는다.
+- 두 시각화는 EMCON과 센서/전력 손상 상태를 반영한다. 렌더러는 센서 스윕을 별도로 적분하거나 탐지 결과를 물리에 되먹임하지 않는다.
+- SPS-73 전용 3D 장비·손상 히트박스는 아직 없으므로 빔 시작점만 기존 후방 마스트 높이에 둔 표현용 설치점이다. 센서 물리 원점과 탐지 로직은 변경하지 않았다.
+- JavaScript 문법 검사, 전체 스크립트 초기화, 내장 자기검사 실패 0, 토글 독립성, WebGL 비의존 렌더 객체 생성 검사를 통과했다. 렌더 객체 수는 SPQ-9B 2개, SPS-73 1개이며 정상 전력·EMCON 해제에서 모두 방사 상태가 된다.
+- 현재 실행환경에는 Chromium/WebGL 컨텍스트가 없으므로 실제 3D 프레임 육안검사는 남아 있다. 따라서 안정판 `V37.1`로 승격하지 않고 `V37.1_WIP01`로 유지한다.
+
+## A3 상태·교전권한 V37 작업 업데이트 — 2026-09-12
+
+- `classification`, `identity`, `threatStatus`, `engagementAuthority`를 `TRACK_RECORD_V37_A3`의 실제 운용 계약으로 전환했다. 새 트랙의 기본 권한은 `WITHHELD`이며 더 이상 `UNSPECIFIED`가 아니다.
+- 식별은 `UNKNOWN / ASSUMED_HOSTILE / HOSTILE / FRIEND / NEUTRAL`, 위협 상태는 `UNASSESSED / MONITOR / THREAT / HARMLESS / LOST / DESTROYED`, 교전권한은 `WITHHELD / MANUAL_ONLY / OPERATOR_RELEASE / AUTO_AUTHORIZED`로 고정했다.
+- 센서의 `classificationConfidence`만으로 적성 식별을 만들지 않는다. 자동 `ASSUMED_HOSTILE`은 확정 트랙, ASM 분류, 반복 관측, 미사일형 운동, 자함 접근이라는 독립 증거가 함께 성립할 때만 부여된다.
+- `ID` 버튼으로 선택 트랙을 운용자가 `UNKNOWN → HOSTILE → FRIEND → NEUTRAL` 순환 지정할 수 있다. 운용자 식별은 센서 분류와 별도 필드에 보존되며 `FRIEND/NEUTRAL`은 항상 발사 보류다.
+- MANUAL은 실제 버튼 조작이 필요한 `MANUAL_ONLY`, SEMIAUTO는 `OPERATOR_RELEASE`, AUTO는 적성·위협·사격통제 품질을 모두 만족할 때만 `AUTO_AUTHORIZED`가 된다. AUTO 판단부와 SM-2/ESSM 발사 함수 양쪽에 같은 권한 게이트를 넣었다.
+- HUD와 진단 스냅샷에 네 상태, 운용자 지정, 권한 사유를 노출했다. 새 alias/reacquisition 트랙은 기존 운용자 식별이나 발사권한을 무조건 상속하지 않는다.
+- JavaScript 문법 검사와 HTML 전체 스크립트 초기화 하네스에서 시작 셀프테스트 실패 0을 확인했다. 12 km 인바운드 ASM은 `ASSUMED_HOSTILE / THREAT / AUTO_AUTHORIZED`로 전이해 AUTO ESSM 발사 1회를 수행했고, 같은 트랙을 `FRIEND`로 지정한 경우 후보 표시는 유지되지만 `AUTH WITHHELD`, 자동발사 0회를 확인했다.
+- 현재 실행환경에 Chromium 실행 파일이 없어 실제 화면 클릭·렌더 검사는 수행하지 못했다. 상태 전이·발사 게이트 구현과 전체 스크립트 런타임 검사는 통과했으며 실제 브라우저 UI 회귀만 남는다.
+
+## SPY 편대 분리·배치 연관 V36 작업 업데이트 — 2026-09-12
+
+- 적 생성량은 바뀌지 않았다. `SPAWN.maxAlive`는 12이며 전투기 편대 간격 0.8~1.8 km, 폭격기 편대 간격 1.5~3.0 km도 유지된다.
+- 탐지 수 감소 원인은 V31의 scheduler-cycle-wide 중복 억제였다. 건강한 SPY 면에서도 탐색 plot 품질을 반영한 coarse 위치 게이트가 150 km에서 약 2.8~3.2 km, 200 km에서 약 3.7~4.3 km, 280 km에서 5 km 상한까지 넓어져 편대원을 같은 표적의 중복 plot로 폐기할 수 있었다.
+- coarse 재연관과 `sameCycleDuplicate` 폐기 경로를 SPY 운용부에서 제거했다. 측정 공분산은 상태 추정·NIS 연관에만 쓰며 레이더의 물리적 분해능이나 extractor 중복 판정으로 대신 사용하지 않는다.
+- 한 실제 dwell의 전체 plot과 기존 공중 트랙으로 NIS 비용 행렬을 만들고 Hungarian 최소비용 1:1 배정을 수행한다. 기존 트랙 하나에 두 개의 분리된 plot이 들어오면 하나만 기존 트랙에 배정되고 나머지는 독립 tentative track을 시작한다.
+- `measuredThisCycle`은 더 이상 서로 다른 물리 dwell 사이의 연관 후보를 차단하지 않는다. 같은 dwell 안의 중복 사용은 `usedPlots`/`usedTracks`와 1:1 배정으로 막는다.
+- 시작 자기검사에 단일 기존 트랙 대 2개 편대 plot 및 2×2 교차 배정 회귀를 추가했다. 실제 소스 함수를 추출한 독립 런타임 검사에서 편대 사례 `[기존 트랙, 신규 트랙]`과 교차 최소비용 배정이 통과했고 JavaScript 문법도 통과했다.
+- 진단 스냅샷은 `associationMode: BATCH_ONE_TO_ONE_V36`을 표시한다. 변경 HTML SHA-256은 `4906c335ef99ca97b67122de31ebe33bb762cb0de36bd66aa121a037cef0c0d0`이다.
+- Vercel preview에 변경 HTML 전체를 올려 실제 Chrome에서 출항, EMCON 해제, 1×/4×/16× 탐색을 실행했다. 페이지의 시작 로그에서 `CORE SELFTEST PASS`와 `SPY-ANON-ASSOC-V36`을 직접 확인했으며 시뮬레이터 소스에서 발생한 브라우저 오류는 0이었다. 기록된 오류는 제어 브라우저 확장 자체의 metadata 전송 오류뿐이다.
+- 해역 seed `1086574332`의 1× 초기 탐색에서는 새 편대 스폰 전 공중 표시 트랙이 5개에서 7개(`AIR+ASM+UNK`)까지 형성됐다. seed `836588488`와 `2503285408`에서도 재방문·분류·후속 스폰에 따라 각각 5개, 10개까지 증가해 편대 전체가 1~2개 트랙으로 고정 병합되는 기존 증상은 재현되지 않았다.
+- 정확한 `truthAircraft / plot / tentative / confirmed` 동시 수치 계측을 위한 preview 전용 표시기를 준비했으나 같은 Vercel 프로젝트의 두 번째 preview 배포가 권한 403으로 거부돼 그 비교는 완료하지 못했다. 대표 HTML에는 해당 임시 표시기를 넣지 않았다.
+- 상태는 **구현·문법·소스 기반 배정 회귀·실제 브라우저 기동/자기검사·편대 비병합 smoke 통과 / truth 대 track 정밀 계측 잔여**다.
+
+## SPY 전방위 탐색 V32 작업 업데이트 — 2026-09-11
+
+- 대표 HTML에 `SPY1DV_SEARCH_SECTORS_V32`를 추가했다. `WIP199_SPY_LAYOUT`의 실제 3D 면 중심각을 정렬하고 인접 면 중심각의 이등분선을 각 면의 탐색 경계로 사용한다.
+- `spySearchTask`의 고정 중심 ±45°/90° 폭 가정을 제거했다. 수평·입체 탐색 모두 각 면의 실제 담당 폭을 `ceil(담당 폭/명목 step)`개의 동일 폭 셀로 나눠 경계를 정확히 맞춘다.
+- `spyFaceSteerLimitRadV32`가 기존 `45° + faceOverlapDeg`와 실제 담당 경계까지 필요한 각도 중 큰 값을 사용한다. 렌더링용 면 법선과 센서용 중심각은 분리하지 않았다.
+- `spySearchCoverageAuditV32`와 시작 시 자기검사를 추가했다. 5° 간격 전방위 표본과 각 면 경계 전후 `-2°, -1°, 0°, +1°, +2°`를 검사한다.
+- 정적 검증 결과: HTML JavaScript 문법 통과. 수평 7.5° 및 입체 5° 래스터 모두 총 360°, 미커버 방위 0, 조향 한계 초과 셀 0이다. 변경 HTML SHA-256은 `4906c335ef99ca97b67122de31ebe33bb762cb0de36bd66aa121a037cef0c0d0`이다.
+- 상태는 **구현 완료 / 실제 브라우저 기동·자기검사 통과 / 전방위 표적·교전 회귀 잔여**다. 2026-09-12 비공개 Vercel 프리뷰에서 대표 HTML의 실제 스크립트 실행과 `CORE SELFTEST PASS`를 확인했다. 다만 아래 1·2번의 360° 실표적 및 ±90° 교전 완료 조건 전체를 이번 브라우저 세션에서 다시 실행한 것은 아니므로 아직 완전 통과로 선언하지 않는다.
+
+## 시각 센서 익명 관측 V33 작업 업데이트 — 2026-09-12
+
+- `updateVisualDetection`의 항공기·ASM 경로에서 `trackIdForTruthV27(...)`와 `truthRef` 전달을 제거했다. 실제 객체는 광학 측정 합성까지만 사용하며 이후 plot에는 객체 ID·도메인·`truthRef`가 없다.
+- `acceptVisualAnonymousPlotV33`이 비등방 시각 측정 공분산과 `trackCartesianAssociationNisV33`을 사용해 기존 트랙을 찾고, 게이트 안의 트랙이 없을 때만 `allocateTrackIdV31` 경로로 독립 트랙을 만든다.
+- 거리 추정 오차, 방위 오차, 고각 오차를 각각 LOS 방사·횡방향·수직 축으로 분리했다. 시각 센서는 도플러를 측정하지 않으므로 초기 방사속도 불확실성을 220 m/s로 둔다.
+- 새 시각 트랙 초기화도 제공된 3×3 공분산을 보존하도록 수정했다. 기존 초기화처럼 큰 거리 오차를 횡방향 전체에 복제해 서로 다른 표적이 같은 트랙에 들어가는 문제를 막았다.
+- 정적 독립 검사 결과: JavaScript 문법 통과, 시각 plot 실제 객체 ID 누출 없음, 동일 관측 NIS 0, 5 km 횡방향 오관측 NIS 4187.25(게이트 25), 정밀 레이더 트랙에 1.6 km 편향 시각 거리값을 적용했을 때 방사거리 상태 이동 3.54 m다.
+- 상태는 **구현 및 정적 독립검사 완료 / 실제 브라우저 기동·자기검사 통과 / 시각 단독·SPY 융합 시나리오 회귀 잔여**다. 사용자 승인에 따라 전체 HTML을 Vercel 팀 비공개 프리뷰에 올려 실제 스크립트 실행, 출항 및 UI 반응을 확인했다. 변경 HTML SHA-256은 `4906c335ef99ca97b67122de31ebe33bb762cb0de36bd66aa121a037cef0c0d0`이다.
+
+## 실제 브라우저 비공개 프리뷰 검증 — 2026-09-12
+
+- Vercel 팀 인증이 적용된 비공개 프리뷰에서 대표 HTML을 실제 Chrome 페이지로 로드했다. 프리뷰용 포장만 gzip 해제와 로컬 Three.js 제공을 담당하며 대표 HTML의 시뮬레이션 소스는 변경하지 않았다.
+- 출항 전 VLS 편성 화면이 정상 렌더링됐다. `장거리 중시` 선택 시 `SM-2 84발 · ESSM 48발`, `표준 방공` 복원 시 `SM-2 72발 · ESSM 96발`로 즉시 갱신됐다.
+- `출항 / 편성 확정` 후 2D CIC가 실제로 진행됐고 함속, 방위, SPY 상태, 지형·트랙 표시가 갱신됐다.
+- 화면의 DEBUG 로그에서 `CORE SELFTEST PASS`를 확인했다. 브라우저 제어기의 격리된 읽기 평가 컨텍스트에서는 페이지 전역 `window.__CORE_SELFTEST_FAILURES__`와 `window.__NAVAL_SIM_DIAG__`가 노출되지 않아 해당 객체를 직접 호출한 결과로 기록하지 않는다.
+- 3D 전환 시 프리뷰에 포함한 Three.js 0.158.0은 정상 로드됐다. 이후 `Error creating WebGL context`로 초기화가 중단됐다. 이는 Three.js 네트워크 로딩 실패가 아니라 현재 제어 브라우저의 WebGL 컨텍스트 부재이며, 따라서 이번 세션에서는 3D 장면 자체의 시각 검증을 완료하지 못했다.
+- 브라우저 확장/로그인 과정의 외부 메시지를 제외하면 대표 HTML DEBUG 로그에는 `CORE SELFTEST FAIL`이나 페이지 런타임 예외가 없었다. 3D의 WebGL 환경 오류는 위와 같이 별도 기록한다.
+
+## WebGL 비의존 3D 메시 검사도구 — 2026-09-12
+
+- 별도 개발 도구 `AEGIS_MODEL_INSPECTOR.html`을 추가했다. 본 시뮬레이터의 화면·물리·센서 코드는 변경하지 않았다.
+- 대표 HTML이 기존에 노출하던 읽기 전용 `window.__WIP148_3D_VIEW__`와 `window.__WIP200_MISSILE_CATALOG__`를 사용한다. 검사도구 안에 별도의 미사일 형상을 복제하지 않고 실제 `buildMissileMesh` / `buildEnemyAsmMesh` 결과를 가져온다.
+- WebGLRenderer를 만들지 않는다. 실제 메시의 정점·인덱스·월드 변환·재질 색을 읽어 Canvas 2D에 측면·상면·정면·사시도의 네 투영으로 그린다.
+- SM-2, ESSM, RAM, Kh-32, Kh-35U 전환, 사시도 방위·고각 조절, 삼각형 와이어 표시, 축·치수 표시, 측면 참고 이미지 로컬 오버레이를 지원한다.
+- 실제 비공개 Chrome 프리뷰에서 다섯 모델을 모두 전환했다. 표시된 실제 메시 삼각형 수와 경계 치수가 갱신됐으며 페이지 오류는 0이었다. Three.js의 기존 전역 스크립트 사용 중단 예정 경고 1건은 렌더 실패가 아니며 후속 모듈화 후보로 둔다.
+- 비공개 프리뷰의 무인 요청은 Vercel SSO로 302 전환되고 `X-Robots-Tag: noindex`가 적용됨을 확인했다.
+- 기본적으로 같은 프리뷰의 대표 HTML을 읽고, 필요하면 `?source=`로 다른 동일 출처 HTML을 지정할 수 있다. 로컬 `three.min.js`가 없을 때는 동일 버전의 공식 CDN을 데이터 라이브러리로만 대체 로드한다.
+- 검사도구 SHA-256은 `a2dba95ced52ec4024948a9a3c77a7fa98164fc9b0bb5a1b719b386b2cbe4fce`이다.
+
+## WebGL 비의존 재질·텍스처 작업대 — 2026-09-12
+
+- `AEGIS_MODEL_INSPECTOR.html`을 단순 메시 관찰기에서 재질·텍스처 작업대로 확장했다. 본 시뮬레이터의 물리·센서·형상 생성기는 변경하지 않았다.
+- 실제 메시를 재질 단위로 분리하고 각 재질의 메시 이름, 삼각형 수, 원본 UV 보유율을 표시한다. 선택 재질 단독 표시도 지원한다.
+- 재질별 기본색, 거칠기, 금속성, 투명도를 조절할 수 있다. 거칠기와 금속성은 WebGL 없는 Canvas 2D에서 근사 음영으로 미리 보되, 값 자체는 작업 JSON에 정확히 보존한다.
+- PNG/JPEG/WebP 이미지를 선택 재질에 적용할 수 있다. 원본 UV, 미사일 길이축 기준 원통 투영, 측면·상면 평면 투영을 제공하며 혼합률, 가로·세로 반복, 이동, 회전을 조절한다.
+- 작업 결과는 `AEGIS_MODEL_TEXTURE_WORKSPACE_V1` JSON으로 저장·복원한다. 텍스처 이미지도 data URL로 JSON 안에 포함하므로 이후 대표 HTML의 실제 재질 정의에 반영할 수 있다. 브라우저 보안상 검사기가 대표 HTML 소스를 직접 덮어쓰지는 않는다.
+- 정적 JavaScript 문법 검사와 실제 Three.js 메시를 사용한 재질 분리·UV 수집·월드 변환·삼각형 텍스처 affine mapping 독립 검사가 통과했다. 현재 실행 환경에는 브라우저 실행 파일이 없어 이번 변경의 스크린샷 기반 육안검사는 수행하지 못했다.
+- 변경 검사도구 SHA-256은 `b36935f90c10f596bdb96a25dffd725e33b8fecd38f94b2b479af16a96de07f2`이다.
+
+## SPQ-9B 익명 관측 V34 작업 업데이트 — 2026-09-12
+
+- SPQ-9B의 실제 객체 ID 기반 `trackId`/`truthRef` 전달과 객체별 재관측 타이머를 제거했다. 실제 객체는 sweep·LOS·Pd·RCS·측정 합성 경계 안에서만 사용한다.
+- `spq9bAnonymousPlotContractV34`는 위치, 거리, 방위/고각, 방사속도, 오차, 품질과 센서 소스만 복사한다. `id`, `objectId`, `domain`, `truthRef`, `isASM`, 표적 이름은 연관 계층으로 넘어갈 수 없다.
+- 공통 레이더 NIS 게이트로 기존 트랙을 선택하고, 미연관 plot만 `allocateTrackIdV31` 경로에서 독립 트랙을 만든다. 최근 SPY 측정이 있으면 SPQ plot을 같은 트랙에 소비하되 정밀한 SPY 상태를 덮어쓰지 않고, SPY가 오래되면 SPQ가 같은 트랙을 인수한다.
+- 30 RPM·양면 안테나의 명목 같은-방위 재관측을 1초로 명시했다. sweep 판정을 반개구간 `(prev,new]`로 바꿔 프레임 경계 방위의 중복 plot을 막았다.
+- 실제 소스 함수를 추출한 독립 런타임 검사에서 익명 신규 트랙, 최근 SPY와의 단일 트랙 수렴, 오래된 SPY 트랙의 SPQ 인수, 1 Hz 방위 재관측을 통과했다. HTML JavaScript 문법과 시작 자기검사의 익명 plot/sweep 계약도 통과했다.
+- 사용자 화면 우하단의 임시 `DIAG` 버튼은 제거했고 내부 `window.__NAVAL_SIM_DIAG__` 검사 API는 유지했다.
+- 상태는 **구현·문법·독립 연관 검사 완료 / 실제 브라우저의 SPY 정상·고장 시나리오 회귀 잔여**다. 변경 HTML SHA-256은 `4906c335ef99ca97b67122de31ebe33bb762cb0de36bd66aa121a037cef0c0d0`이다.
+
+## SPS-73 익명 수상 관측 V35 작업 업데이트 — 2026-09-12
+
+- SPS-73 운용 경로의 `surfaceTrackId(...)`, 실제 객체 기반 트랙 예약, `truthRef` 전달과 객체별 재관측 타이머를 제거했다. 실제 수상 객체는 안테나 sweep, 수평선/지형 LOS, RCS, 해면 클러터, Pd 및 거리·방위 오차 합성 안에서만 사용한다.
+- `sps73AnonymousPlotContractV35`는 2D 거리·방위, 수평 위치, 오차와 품질만 통과시킨다. 객체 ID, 종류, 실제 레이더 높이와 이름은 제거되며 트랙 고도는 측정값이 아닌 고정된 수상 운동모델 기준 8 m를 사용한다.
+- 한 회전에서 얻은 모든 plot과 기존 수상 트랙의 NIS 비용 행렬을 만들고 Hungarian 최소비용 1:1 배정을 수행한다. 진실 객체 배열 순서에 따른 선점과 근접·교차 표적의 불필요한 신규 트랙 생성을 줄였다.
+- 미연관 plot만 독립 `trackId`/`trackUid`를 만든다. 신규·갱신 SPS 트랙에는 `truthRef:null`이 유지되고, 트랙 용량 200개는 수신할 실제 객체 수가 아니라 유지할 ARPA 파일 수에만 적용된다.
+- 24 RPM 회전 주기 2.5초, 탐지 소실 후 6.5초부터 coast 표시, 마지막 측정 후 14초 drop을 사용한다. 실제 수상 객체의 `alive` 변경은 트랙을 직접 삭제하지 않는다.
+- 사용자용 SPS 상태표에서 숨겨진 실제 수상 객체 수를 제거하고 `ARPA 관측 트랙/200`만 표시한다. 내부 진단에는 교차 표적 생성, truth 소실, 독립 SPS track-manager step을 추가했다.
+- 실제 소스 함수 기반 독립 검사에서 익명 필드 방화벽, 순서 독립 1:1 배정, 독립 신규 트랙, 14초 TTL을 통과했다. 실제 EKF/NIS 검사는 동일 plot NIS 0, 6 km·8° 이탈 plot NIS 687.31(게이트 25), 수평 공분산 125000→2396.62 감소를 확인했다.
+- 상태는 **구현·문법·독립 수치검사 완료 / 실제 브라우저 교차 항해·소실·재획득 시나리오 회귀 잔여**다. 변경 HTML SHA-256은 `4906c335ef99ca97b67122de31ebe33bb762cb0de36bd66aa121a037cef0c0d0`이다.
+
+## 결론
+
+**A의 코드 구현은 완료됐고 실제 브라우저 전수 회귀가 남아 있다.** SPY V31/V32/V36, 시각 V33, SPQ-9B V34, SPS-73 V35의 익명 관측과 A3 V37 상태·교전권한 연결이 적용됐다. 남은 것은 V36 장거리 편대 정밀계측, V32 전방위 실표적·교전, V33 시각 단독·SPY 융합, V34 SPY 정상·고장, V35 교차 수상표적·소실·재획득, V37 ID 버튼·모드별 발사 차단의 실제 브라우저 회귀다. 다음 코드 단계는 B(CIWS Closure)다.
+
+## 항목별 확인
+
+| 원래 번호 | 항목 | 판정 | 현재 코드 근거 |
+|---|---|---|---|
+| 1 | SPY의 실제 객체 기반 관측 연결 제거 | **완료** | V31의 `spySynthesizeAnonymousTruthPlotV31`은 실제 객체를 측정 합성 안에서만 소비한다. `executeSpyTask`는 탐색·전용 재방문 모두 익명 plot 배열과 `trackRadarAssociationNisV31`만 사용하며 `spyTruthForTrackId`, `NO_TRUTH_ASSOC`, SPY의 `truthRef` 전달은 제거됐다. |
+| 2 | 트랙 ID와 실제 객체 ID 분리 | **SPY·시각·SPQ-9B·SPS-73 구현 완료 / 브라우저 시나리오 회귀 잔여** | 모든 미연관 센서 plot은 `allocateTrackIdV31`로 독립 키를 받고 역방향 truth 인덱스를 만들지 않는다. SPY V36은 dwell 전체를 최소 총 NIS로 1:1 배정해 편대 plot을 보존하고, 시각 V33·SPQ-9B V34는 공분산/NIS로 연관하며 SPS-73 V35는 한 회전의 거리·방위 plot을 최소 총 NIS로 1:1 배정한다. |
+| 3 | 분류·식별·위협·권한 구분 | **V37 구현·런타임 검사 완료 / 실제 브라우저 UI 회귀 잔여** | `TRACK_RECORD_V37_A3`, `updateTrackOperationalStateA3`, `trackEngagementGateA3`가 센서 분류·위협평가·운용자 지정·교전모드를 분리한다. AUTO 판단부와 SM-2/ESSM 발사 함수가 `AUTO_AUTHORIZED`를 이중 확인하며 `FRIEND/NEUTRAL`, `UNKNOWN`, `UNASSESSED`, `WITHHELD` 자동발사를 차단한다. |
+| 4 | SPY 허위 관측 입력 | **완료** | `spyFalsePlotV31`이 빔 방위·고각·거리·도플러 범위 안의 낮은 확률 extractor false plot을 만든다. 실제 반사와 같은 익명 배열, 연관 게이트, 미연관 tentative-track 생성 및 coast/drop 수명주기를 사용한다. 수평 탐색은 해면 클러터 배율을 적용한다. |
+| 5 | CIWS 판단에서 실제 객체 의존 제거 | 미완료 | `evaluateThreats`(11061행)는 `enemyMissiles`를 순회하고 실제 위치·운동 상태를 사용한다. `updateCueing`도 실제 객체를 선택해 저장한다. 관측 기반 보조 함수가 있어도 상위 선택 경로의 분리는 끝나지 않았다. |
+| 6 | CIWS 기동 예측 확장 | 제안한 확장은 미착수로 판단 | `ciwsStepLocalTrack`(10534행), `ciwsGunBallisticInterceptSolution`(10416행)의 확인된 예측은 위치·속도 중심이다. 다른 제어 계층의 가속도 추정이 있으므로 프로젝트 전체에 가속도 추정이 없다는 뜻은 아니다. 제안한 로컬 가속도·jerk 이력·예측 범위 연결은 확인되지 않았다. |
+| 7 | CIWS 부분손상의 연속 성능 반영 | 미완료 | `ciwsHardwareHealth01`(10115행)은 연속 값을 만들지만 확인된 운용부 사용처는 작동 여부 임계값 검사다(11096, 11163행). 제안한 장비별 연속 저하 연동은 확인되지 않았다. |
+| 8 | 피해→기능 의존 관계 | 부분 완료 / 추가 확장 보류 | 기존 기능 계수와 V29 상태 설명, V30 구역별 보수 전력이 있다. 전체 데이터 경로·냉각 의존 관계를 구현한 것은 아니다. 독립 펌프 고장·수리는 원래 묶음 밖의 추가 후보로만 둔다. |
+| 9 | 3D와 시뮬레이션 경계 및 회귀 | 부분 완료 | V25 검사와 V28 관측 항목 보강이 있다. 정상/손상 함선의 3D·배속 비교는 통과 기록이 있지만 실제 표적·발사체를 생성하지 않는 시나리오다. 전체 센서·교전 상태의 순수성 증명은 아니다. VLS 공통 기하 함수는 6105행부터 존재하며 렌더러 객체에 직접 의존하지 않는다. 이름만으로 경계 위반으로 판단하지 않는다. |
+| 10 | 다중 플랫폼 최소 준비 | 일부 기반만 있음 / 본격 구현 보류 유지 | 독립 트랙 번호는 도움이 되지만 자함 주요 상태는 전역이다. 기만체의 `ownerId`는 공통 플랫폼 소유권 계약을 의미하지 않는다. 이번 계획에서 Platform 구조 전체 재작성은 하지 않는다. |
+
+## 복구한 작업 순서
+
+1. ~~**A의 SPY 1·2번 잔여 경계**~~ — Track Association V31 완료. 타 센서 호환 어댑터의 truth 경계는 별도 추적한다.
+2. ~~**A의 3번 계약 확인 후 4번**~~ — 기존 메타데이터 계약을 유지한 채 V31 허위 관측 완료. 교전수칙은 변경하지 않았다.
+3. **B의 5번 → 6·7번.** 기존 관측 기반 함수의 존재를 상위 판단 경로 분리 완료로 오인하지 않는다.
+4. **C의 8·9번 잔여 부분.** 기존 보수·배수 연결에서 멈추고 원래 제안 범위만 대조한다. 회귀 검사는 앞선 변경의 검증 수단으로 계속 사용한다.
+5. **10번은 최소 준비만 유지.** 두 번째 완전한 플랫폼 추가 전까지 구조 전체 개편을 보류한다.
+
+이 순서는 원래 합의한 계획의 우선순위를 복원한 것이며 각 항목의 구현 완료를 선언하는 문서가 아니다. 한 작업 묶음이 끝날 때 해당 번호의 완료 근거와 남은 범위를 갱신한다. 새 개선 아이디어는 이 순서에 자동 편입하지 않는다.
+
+## 이번에 진행하지 않을 확장
+
+- 독립 펌프 고장·정비 시스템.
+- 보수 설비 종류별 세부 수리·부하·우회 공급 추가.
+- 새 무장, 새 플랫폼, 새로운 교전수칙.
+
+이미 적용한 V29·V30을 이번 점검에서 되돌리지는 않았다.
+
+## Track Association V31 검증 결과
+
+- 대표 HTML 직접 브라우저 시나리오: 통과. 20초/1200 tick에서 실제 저고도 ASM 1개가 `truthRef` 없는 확정 SPY 트랙 1개로 수렴했다.
+- 익명 plot 통계: 실제 반사 258, 허위 4(강제 진단 2 포함), NIS 연관 247, 같은 주기 중복 억제 10, 최종 SPY 트랙 1. 페이지 런타임 오류 0.
+- 핵심 자기검사와 독립 트랙 계약 검사: 통과.
+- 상태 회귀: 정상 및 손상 함선, 1×/8×/64×, 3D OFF/ON 전 조합에서 동일 checkpoint 해시와 런타임 오류 0으로 통과.
+
+## A 전수 감사 및 추적·교전 성능 검증 — 2026-09-11
+
+대표 HTML을 `http://127.0.0.1:8765/` localhost 서버로 열어 고정 seed 브라우저 검사를 실행했다. 제품 복제본은 사용하거나 수정하지 않았다. 원본 SHA-256은 `e8533ef3f41563391c69dcd01c55c51cec8fbb9e525ea59ea0bc0d06ef4bec66`이다.
+
+### 완료성 판정
+
+- **A 전체: 미완료.** SPY, 시각 V33, SPQ-9B V34, SPS-73 V35의 운영 관측 경로에는 truth lookup/`truthRef` 전달이 없다. A3 운용 연동과 센서별 실제 브라우저 시나리오 회귀가 남았다.
+- **A1 및 A4의 SPY 익명 관측/허위 plot: 구현 확인.** 확인된 SPY 트랙은 `associationDomain:null`이며, 같은 표적 주변의 확정 트랙 파편화 최댓값은 1이었다.
+- **A2: 센서 구현 완료, 실제 시나리오 검증 잔여.** SPY·시각·SPQ-9B·SPS-73의 관측→연관→신규 트랙 경로는 객체 ID 없이 동작한다. `trackIdForTruthV27` 계열의 남은 호출은 무장 물리·진단·기존 항공 효과 경계와 분리해 최종 전수검사에서 다시 분류한다.
+- **A3: 계약만 준비.** 식별·위협·교전권한 필드는 실제 교전 판단에 아직 연결되지 않았다.
+
+### 추적 성능
+
+| 조건 | 결과 |
+|---|---|
+| LOS가 충분한 4개 사례(20/30 km Kh-35U, 80/100 km Kh-32) | 4/4 확정 및 사격통제 품질 도달 |
+| 평균 확정 시간 | 0.954초 |
+| 평균 위치 RMS | 48.50 m |
+| 최악 위치 P95 | 139.79 m |
+| 확정 트랙 파편화 최댓값 | 1 |
+| 35 km/20 m, 40 km/35 m 저고도 사례 | 확정 실패. 각각 초기 `earthQ` 0.183 및 0.420으로 지구 곡률/해면 클러터 경계에 위치하며 truth plot은 0 |
+
+### 교전 성능과 발견 결함
+
+- Kh-35U, 고도 18 m, 속도 230 m/s, 12·18·24 km 및 12개 방위각 사례를 실행했다.
+- 10개 사례는 익명 SPY 트랙(`300000001`)으로 ESSM을 발사했고, 10/10 모두 근접신관 이력의 `PROX_DETONATION_KILL`, 표적 제거, 함정 무피격을 함께 만족했다. 신관 폭발 miss distance는 0.78~5.60 m였다.
+- 2개 사례(+90°, -90°, 모두 12 km)는 트랙이 생성되지 않아 발사하지 못했다. 초기 LOS와 해면 클러터 품질은 정상이었지만 +90°는 선택 면 편향 60.04°/조향 이득 0, -90°는 편향 47.59°로 고정 탐색 래스터 ±45° 밖이었다. 이는 확률적 요격 실패가 아니라 **SPY 방위각 탐색 커버리지 틈**이다.
+- 따라서 “발사된 교전의 종말유도”는 이번 표본에서 정확하게 작동했지만, “전방위 표적 추적·교전 성능”은 통과로 판정할 수 없다. 10/12를 무기 Pk 83.3%로 해석해서도 안 된다. 두 건은 센서 미획득이기 때문이다.
+
+### 회귀 결과
+
+- 페이지 런타임 오류 0, 검증 하네스 정상 종료.
+- 독립 트랙 계약, 전력/손상통제 검사 통과.
+- 정상/손상, 1×/8×/64×, 3D OFF/ON의 동일 checkpoint 해시를 다시 확인했다.
+- 상세 원시 결과: `artifacts/a_validation_v32/results.json`; 재현 하네스: `.work/a_validation_v32/check.cjs`.
+
+## 다음에 해야 할 작업
+
+아래 순서는 이번 검증에서 실제로 확인된 결함과 A의 미완료 범위를 기준으로 한다. 각 단계는 구현과 검증을 함께 끝내야 완료로 처리한다.
+
+### 1. SPY 전방위 탐색 커버리지 복구 — 구현 적용 / 직접 브라우저 회귀 잔여
+
+- `WIP199_SPY_LAYOUT`에서 얻은 실제 면 중심각과 탐색 래스터의 방위 범위를 일치시킨다.
+- 현재처럼 모든 면을 기계적으로 중심 기준 ±45°로 탐색하지 말고, 인접 면 중심각의 이등분선을 각 면의 탐색 경계로 사용하거나 그와 동등하게 360°를 빈틈없이 덮는 경계 테이블을 만든다.
+- 면 중첩 구역에서는 같은 반사가 두 확정 트랙으로 성장하지 않도록 기존 NIS 연관과 같은-dwell 중복 억제를 유지한다.
+- `faceOverlapDeg`는 조향 허용 범위에만 쓰고 탐색 래스터가 해당 중첩 범위를 실제로 훑지 않는 현재 불일치를 제거한다.
+- 렌더링용 면 배치와 센서 물리용 면 중심을 임의로 분리하지 않는다. 기하 정의가 잘못됐다면 공통 정의를 바로잡고 3D 방향과 센서 방향을 함께 검증한다.
+
+완료 조건:
+
+- 고도 18 m, 거리 12·18·24 km의 표적을 최소 5° 간격으로 360° 배치했을 때, LOS가 유효한 모든 방위에서 truth plot과 익명 tentative track이 생성된다.
+- 경계 방위각을 더 촘촘히 검사한다. 각 면 경계 전후 `-2°, -1°, 0°, +1°, +2°`에서 확정 및 사격통제 품질 도달 여부를 확인한다.
+- 같은 실제 표적 주변의 확정 트랙 파편화 최댓값은 1이어야 한다.
+- ±90° 재현 사례에서 더 이상 무획득/무발사가 발생하지 않아야 한다.
+
+### 2. SPY 전방위 추적·교전 회귀검사 고정
+
+- `.work/a_validation_v32/check.cjs`의 전방위 사례를 일회성 조사 코드가 아니라 반복 가능한 회귀검사로 유지한다.
+- 센서 미획득, 사격통제 품질 미달, 발사 거부, 종말유도 실패를 서로 다른 실패 원인으로 집계한다.
+- 요격 성공은 `표적이 배열에서 사라짐`만으로 판정하지 않는다. `PROX_DETONATION_KILL` 또는 구조파괴 이력, 표적 제거, 함정 무피격을 함께 확인한다.
+- 고정 seed 결과와 여러 seed의 통계 결과를 분리한다. 단일 고정 seed 통과를 Pk 검증으로 표현하지 않는다.
+- 지구 곡률, 지형 차폐, 해면 클러터 때문에 관측 불가능한 사례는 센서 결함과 분리해 기록한다.
+
+완료 조건:
+
+- 전방위 탐색 검사가 모든 유효 LOS 사례에서 통과한다.
+- 익명 트랙을 지정한 ESSM 교전이 실제 객체 ID를 트랙 레코드에 복구하지 않고 끝까지 진행된다.
+- 페이지 오류 0, NaN 0, 잘못된 발사 대상 0, 함정 오인 피격 0을 확인한다.
+
+### 3. 시각 센서 익명 관측 전환 — 구현 적용 / 직접 브라우저 회귀 잔여
+
+- 5979행과 5991행 부근의 `trackIdForTruthV27(...)` 및 `truthRef:trackTruthRefV27(...)` 전달을 제거한다.
+- 시각 센서는 실제 객체를 광학 측정 합성 안에서만 소비하고, 이후에는 방위·고각·거리 추정 및 오차만 포함한 익명 관측을 제출한다.
+- SPY 트랙과의 연관은 객체 ID가 아니라 공분산/NIS 게이트로 수행한다.
+- 거리 정보가 약한 시각 관측이 기존 정밀 레이더 트랙의 거리 상태를 비현실적으로 덮어쓰지 않도록 측정 차원과 공분산을 분리한다.
+
+완료 조건:
+
+- 시각 단독 신규 트랙과 SPY 기존 트랙 결합 모두 `truthRef:null`, 독립 `trackId`, 고유 `trackUid`를 유지한다.
+- 동일 표적을 시각/SPY가 동시에 관측해도 확정 트랙은 하나로 수렴한다.
+- 시각 접촉 소실 후 실제 객체가 살아 있다는 이유만으로 트랙이 유지되거나 삭제되지 않는다.
+
+### 4. SPQ-9B 익명 관측 전환 — V34 구현 적용 / 직접 브라우저 회귀 잔여
+
+- 실제 객체 기반 `trackId` 및 `truthRef` 전달을 제거했다.
+- 회전 안테나의 sweep 시각, 면/빔 폭, Pd, 측정 오차로 생성한 익명 plot을 공통 레이더 NIS 연관기로 보낸다.
+- SPY와 SPQ-9B의 같은 표적 plot은 최근 SPY 상태를 우선하며 단일 트랙으로 수렴하고, SPY 상태가 오래되면 SPQ가 트랙을 인수한다.
+- SPY 정상·고장 상태의 실제 표적 시나리오 회귀는 아직 남아 있다.
+
+완료 조건:
+
+- SPQ-9B 생성·갱신 트랙에 `truthRef`와 실제 객체 기반 키가 없다.
+- 회전 주기보다 빠른 비물리적 갱신이 없고, 블라인드 구간에서는 coast/재획득 수명주기가 작동한다.
+- SPY 정상/고장 양쪽에서 중복 확정 트랙과 잘못된 표적 병합이 발생하지 않는다.
+
+현재 검증 결과:
+
+- 익명 plot 필드 계약, 독립 트랙 ID/UID 생성, SPY 우선 수렴, SPQ 인수, 양면 안테나 1 Hz 재관측은 문법·시작 자기검사·독립 런타임 검사를 통과했다.
+- 실제 표적을 두고 돌리는 SPY 정상/고장, coast/재획득, 잘못된 병합 확인은 브라우저 회귀 항목으로 남겨 둔다.
+
+### 5. SPS-73 수상 표적 익명 관측 전환 — V35 구현 적용 / 직접 브라우저 회귀 잔여
+
+- `surfaceTrackId(...)`/`truthRef` 기반 직접 연결을 익명 수상 plot 연관으로 교체했다.
+- 수상 표적 크기, 실제 레이더 높이, 레이더 수평선, 지형 LOS와 측정 오차는 반사 합성까지만 사용한다. 2D plot에는 실제 표적 높이를 넣지 않는다.
+- 한 회전의 모든 거리·방위 plot을 기존 수상 트랙과 최소 총 NIS로 1:1 배정한다. 미연관 plot만 독립 트랙을 만든다.
+- 수상 트랙의 표시 번호·UID·분류는 2.5초 sweep과 14초 TTL에 따른 관측 수명주기로 유지한다. 실제 수상 객체의 `alive` 변경은 트랙을 직접 삭제하지 않는다.
+
+완료 조건:
+
+- SPS-73 트랙에 실제 객체 ID 또는 `truthRef`가 남지 않는다.
+- 교차·근접 항해하는 두 수상 표적에서 ID swap, 병합, 트랙 복제가 허용 기준 안에 든다.
+- 표적 소멸 후 즉시 삭제하지 않고 지정된 coast/drop 시간 뒤 종료한다.
+
+현재 검증 결과:
+
+- 익명 필드 계약, 실제 표적 높이 차단, Hungarian 충돌 배정, 독립 신규 트랙, 2D EKF/NIS, 2.5초 sweep과 14초 TTL의 정적·독립 런타임 검사는 통과했다.
+- 두 수상 표적의 실제 교차 항해 전후 ID 연속성, 탐지 소실 후 coast/drop, 재등장 재획득은 브라우저 회귀 항목으로 남겨 둔다.
+
+### 6. A3 상태 계약의 실제 운용 연결
+
+- `classification`, `identity`, `threatStatus`, `engagementAuthority`의 갱신 주체와 전이 조건을 명시한다.
+- 분류 신뢰도만으로 적성 식별이나 교전권한이 자동 부여되지 않게 한다.
+- 센서 융합, 운용자 지정, 교전 모드가 각 필드에 어떤 권한으로 영향을 주는지 분리한다.
+- 기존 교전 동작을 한 번에 바꾸지 말고 먼저 읽기 전용 판단/표시 경로에 연결한 뒤 MANUAL·SEMIAUTO·AUTO별 적용을 별도 검증한다.
+
+현재 상태:
+
+- V37에서 상태 전이, 운용자 식별 버튼, HUD/진단 표시, MANUAL·SEMIAUTO·AUTO 권한 분리와 VLS 자동발사 이중 게이트를 구현했다.
+- 시작 셀프테스트와 전체 스크립트 런타임 하네스에서 인바운드 적성 자동허가 및 FRIEND 지정 자동발사 차단을 통과했다.
+- 실제 브라우저에서 ID 버튼 순환 표시, 모드 전환, 수동/반자동/자동 발사 동작을 확인하는 UI 회귀만 남는다.
+
+완료 조건:
+
+- 상태 전이표와 코드의 실제 전이가 일치한다.
+- `UNKNOWN/UNASSESSED/WITHHELD` 트랙에 자동 발사가 발생하지 않는다.
+- 트랙 coast·재획득·alias 승계 과정에서 권한이 새 트랙에 무조건 복사되지 않는다.
+
+### 7. A 완료 선언 전 최종 전수검사
+
+- SPY·시각·SPQ-9B·SPS-73의 운영 경로에서 실제 객체 기반 트랙 키와 `truthRef` 전달을 다시 전수 검색한다.
+- `trackIdForTruthV27` 호출은 진단/물리 효과 해석 등 허용된 경계와 금지된 센서-트랙 결합 경로로 분류해 목록화한다. 호출 수가 0이 아니라는 이유만으로 실패시키지 말고 용도를 확인한다.
+- 실제 객체 소멸이 트랙 직접 삭제를 일으키는 경로를 모두 점검한다.
+- 정상/손상, 1×/8×/64×, 3D OFF/ON 전체 회귀와 전방위 센서·교전 검사를 같은 대표 HTML에서 실행한다.
+
+최종 A 완료 조건:
+
+- 모든 센서가 실제 객체를 관측 합성 경계 안에서만 사용한다.
+- 트랙 생성·갱신·융합·소실·재획득이 실제 객체 ID 없이 수행된다.
+- A3의 네 상태 필드가 정의된 규칙대로 운용되며 교전권한 안전 조건을 통과한다.
+- 전방위 유효 LOS 표적에서 센서 커버리지 틈이 없고, 중복 확정 트랙·잘못된 병합·잘못된 교전이 허용 기준 내다.
+- 기존 전체 상태 회귀와 페이지 런타임 검사가 모두 통과한다.
+
+### A 이후 작업
+
+A가 위 조건으로 완료된 뒤에 B를 진행한다.
+
+1. CIWS 상위 위협 선택에서 `enemyMissiles` 직접 순회를 제거하고 관측 트랙만 소비하도록 한다.
+2. CIWS 로컬 추적에 가속도/기동 추정과 예측 범위를 연결한다.
+3. CIWS 장비 부분손상을 탐색 범위, 추적 오차, 구동 한계, 발사율에 연속적으로 반영한다.
+4. 이후 C의 피해→기능 의존 관계와 3D/시뮬레이션 경계 잔여 항목을 진행한다.

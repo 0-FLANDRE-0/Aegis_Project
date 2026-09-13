@@ -11,6 +11,7 @@ on:
       - 'tests/ship-mass-ledger.spec.js'
       - 'tests/ship-impact-penetration.spec.js'
       - 'tests/ship-structural-fatigue.spec.js'
+      - 'tests/ship-stability-maneuver.spec.js'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -19,7 +20,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP03.html
+  SIM_FILE: Aegis_SIM_v48_WIP04.html
 
 jobs:
   ciws-b1-closure:
@@ -337,6 +338,59 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-ship-structure-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-stability-maneuver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP04 stability and manoeuvring regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-stability-maneuver
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-stability-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-stability
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-stability-maneuver -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-stability-maneuver/SHA256SUMS
+
+      - name: Upload stability evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-stability-maneuver-${{ github.sha }}
+          path: |
+            artifacts/ship-stability-maneuver/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-stability-http.log
           if-no-files-found: warn
           retention-days: 14
 
