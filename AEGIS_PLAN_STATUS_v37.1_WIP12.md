@@ -1,6 +1,13 @@
-# CIWS Closure B3 부분손상 연속 성능 WIP12 — 2026-09-12
+# CIWS Closure B3 부분손상 연속 성능 WIP12 — 2026-09-13
 
-## 구현 및 검증 대기
+## Actions 종결 결과
+
+- PR #8 code head `1491f2786d34cf497383c048a7a962ebae5e6c95`의 Actions run `34729654050`(#28)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage` 6개 job이 모두 통과했다.
+- B1 matrix artifact는 시작 자기검사 실패 0, `CORE SELFTEST PASS`, 허가된 Phalanx/SeaRAM 교전, 보호 트랙 무발사, cue/local 탐지 경계, 소실·재획득, 정상·부분손상, 1×/8×/16× 결정성을 모두 통과했다. visual artifact도 시뮬레이션을 정지한 뒤 3D 열기 전·중·닫기 후 상태가 동일함을 확인했다.
+- B3 artifact의 `pass`는 `true`, 실패 check·콘솔 오류·page error는 모두 0건이다. 곡선 endpoint, Phalanx/SeaRAM 연속 열화, 진단 truth 경계, 생산 손상 측정 경로, 부분손상 작동, 80% 파괴 정지, 탐색거리 경계, 손상 상태 1×/8×/16× 결정성이 모두 통과했다.
+- 저장소 기준 WIP12 HTML SHA-256은 `47bf293823802849dedd0a9f798cd90e117a3de7e7ae53528eecbc495dd948da`이며 B1/B3 JSON에 기록된 값과 일치한다.
+- artifact ID/digest는 B3 `10309212562` / `sha256:d01e08f4b5b3efc18683bc41d4861682b06863d31954ea7292f7324c4ba9b3ca`, B2 `10309227304` / `sha256:7185a581d9cd8706a13f1ff971cf76c396182bc0c2465555e137c45e020fd82d`, B1 `10308499314` / `sha256:a3b4f712e1b8ca5112ea4cc4f730f4fe47bdf11aba44177d8d0d954bab7e3674`, 실제 3D `10308233190` / `sha256:7ebfb9cb733d681c9af210d0a6b705f849edc135164508b566c2e1a831d156b2`, WebGL `10309003089` / `sha256:d57c2f3cc0d54fd9d7b253d2a75f7ee709f6ae81da45847bf74cb6c1c26003db`다.
+- 이 범위의 CIWS Closure B3와 전체 CIWS Closure를 완료 처리한다.
 
 - WIP11에서 완료한 B1 관측 트랙/권한/로컬 탐지 경계와 B2 가속도·기동 예측은 변경하지 않는다. 이번 변경은 원래 CIWS Closure의 마지막 범위인 B3 부분손상 연속 성능에 한정한다.
 - 기존 `ciwsHardwareHealth01`은 80% 파괴 임계값 판정에만 실질적으로 쓰였다. WIP12는 같은 건강도에서 Phalanx와 SeaRAM별 연속 성능곡선을 만들고, 손상 0%에서는 WIP11 명목값을 정확히 보존하며 80%에서는 기존과 같이 작동을 정지한다.
@@ -9,7 +16,7 @@
 - 시작 자기검사는 정상/40%/70%/80%에서 탐색거리·추적오차·구동·발사율/발사간격의 단조 연속성과 정상값 보존, 파괴 정지를 확인한다.
 - 새 Playwright B3 검사는 곡선 endpoint/단조성, 진단 truth 경계, 손상 로컬 RF 생산 경로, 40% 손상 실제 Phalanx/SeaRAM 교전, 80% 정지, 탐색거리 경계, 1×/8×/16× 결정성을 검사한다. 기존 B1/B2 및 3D/WebGL job도 같은 WIP12로 다시 실행한다.
 - WIP11 HTML·상태 문서는 `archive/v37.1/WIP11/`에 원본 blob 그대로 보존한다. 루트 대표 파일과 workflow의 `SIM_FILE`은 `Aegis_SIM_v37.1_WIP12.html`로 변경한다.
-- WIP12 HTML SHA-256은 `5d30e440ca2f3345d3de2c0dbed86178623ae72c118864e65116f23e7814b001`이다. 새 Actions와 artifact 확인 전에는 B3 또는 CIWS Closure 완료로 승격하지 않는다.
+- WIP12 HTML SHA-256은 `47bf293823802849dedd0a9f798cd90e117a3de7e7ae53528eecbc495dd948da`이다.
 
 ---
 
@@ -471,4 +478,3 @@ A가 위 조건으로 완료된 뒤에 B를 진행한다.
 2. CIWS 로컬 추적에 가속도/기동 추정과 예측 범위를 연결한다.
 3. CIWS 장비 부분손상을 탐색 범위, 추적 오차, 구동 한계, 발사율에 연속적으로 반영한다.
 4. 이후 C의 피해→기능 의존 관계와 3D/시뮬레이션 경계 잔여 항목을 진행한다.
-
