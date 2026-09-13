@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP04.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP05.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b1-closure';
 const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'),
@@ -31,7 +31,7 @@ test('CIWS Closure B1 browser matrix', async ({ page }) => {
   resetResults();
   page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
   page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
-  await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
+  await page.goto(`http://127.0.0.1:4173/${simulator}`, { waitUntil: 'load' });
   await page.waitForFunction(() => Array.isArray(window.__CORE_SELFTEST_FAILURES__) && window.__NAVAL_SIM_DIAG__?.ciwsB1Closure, null, { timeout: 30_000 });
 
   const startup = await page.evaluate(() => ({ failures: window.__CORE_SELFTEST_FAILURES__.slice(), logs: window.__NAVAL_SIM_DIAG__.debugLogSnapshot() }));
