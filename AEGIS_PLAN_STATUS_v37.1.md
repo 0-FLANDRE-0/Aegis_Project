@@ -1,12 +1,15 @@
 # AEGIS v37.1 정식 릴리스 — 2026-09-13
 
-## 정식 승격 후보
+## 정식 승격 검증 결과
 
-- 검증이 끝난 `Aegis_SIM_v37.1_WIP13.html`을 내용 변경 없이 `Aegis_SIM_v37.1.html`로 승격한다.
+- 검증이 끝난 `Aegis_SIM_v37.1_WIP13.html`을 내용 변경 없이 `Aegis_SIM_v37.1.html`로 승격했다.
 - 안정판 HTML은 WIP13과 byte-identical하며 SHA-256은 `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`다.
-- WIP13 HTML·상태 문서는 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존한다.
-- CIWS Closure B1/B2/B3와 Phalanx Block 1B 공통 센서 범위는 완료됐다. 새 기능은 이 안정판을 수정하지 않고 다음 WIP에서 시작한다.
-- 정식판 파일명으로 동일한 6개 Actions job을 다시 통과하고 artifact를 확인한 뒤 `v37.1` 태그와 GitHub Release를 발행한다.
+- WIP13 HTML·상태 문서는 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존했다.
+- PR #10 code head `1e078273aaaf8420f810edad83de47f3a2547d2e`의 Actions run `34731936856`(#33)에서 정식 파일명을 대상으로 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `aegis-3d-render`, `webgl-render-probe` 6개 job이 모두 통과했다.
+- B1 matrix/visual과 B3 JSON의 `pass`는 모두 `true`이고, 실패 check·콘솔 오류·page error는 0건이다. B1 정지 상태 3D 격리와 B3 Phalanx/SeaRAM 공통 센서 parity도 통과했다.
+- artifact ID/digest는 B3 `10309611921` / `sha256:5a65fe425115a1c83869ba820a4270824bd70f2e718f4c46405ab0054955f16f`, B2 `10309966421` / `sha256:11e31747df9dd729fd7c024dfc602b5f3f874ea6359b725125f2287ab2397dc0`, B1 `10309721702` / `sha256:11a6180913e29740ebb39441509783cd3b782703905bf080c92a114b1e5284c7`, 실제 3D `10310435075` / `sha256:00c34c50b15b9fc1956b804dd83e3ef24e909e62012dd7e398da4627f308d50e`, WebGL `10309841428` / `sha256:d664a0dcb86b935cbe8ede5d5f550827f5122718978706aadc08981fb13d0bd3`다.
+- CIWS Closure B1/B2/B3와 Phalanx Block 1B 공통 센서 범위를 포함한 `v37.1`을 안정판으로 완료하며, 새 기능은 다음 WIP에서 시작한다.
+- PR 병합 commit을 대상으로 `v37.1` 태그와 GitHub Release를 발행한다.
 
 ---
 
