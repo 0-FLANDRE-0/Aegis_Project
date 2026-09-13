@@ -23,6 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build final WIP12 tree
+        if: ${{ hashFiles('tools/wip12-html.patch') != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -33,14 +34,13 @@ jobs:
           patch --batch Aegis_SIM_v37.1_WIP12.html < tools/wip12-html.patch
           cp tools/wip12-payload/AEGIS_PLAN_STATUS_v37.1_WIP12.md .
           cp tools/wip12-payload/tests/*.js tests/
-          cp tools/wip12-payload/aegis-smoke.yml .github/workflows/aegis-smoke.yml
           cp tools/wip12-payload/package.json package.json
           cp tools/wip12-payload/package-lock.json package-lock.json
           rm Aegis_SIM_v37.1_WIP11.html AEGIS_PLAN_STATUS_v37.1_WIP11.md
-          rm -rf tools/wip12-payload tools/wip12-html.patch
-          rm .github/workflows/wip12-materialize.yml
+          rm -rf tools/wip12-payload
 
       - name: Verify generated HTML
+        if: ${{ hashFiles('tools/wip12-html.patch') != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -49,9 +49,11 @@ jobs:
           test ! -e Aegis_SIM_v37.1_WIP11.html
 
       - name: Commit generated files
+        if: ${{ hashFiles('tools/wip12-html.patch') != '' }}
         shell: bash
         run: |
           set -euo pipefail
+          rm tools/wip12-html.patch
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
