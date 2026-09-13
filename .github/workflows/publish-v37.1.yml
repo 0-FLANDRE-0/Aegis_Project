@@ -1,0 +1,47 @@
+name: Publish AEGIS v37.1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Aegis_SIM_v37.1.html'
+      - 'AEGIS_PLAN_STATUS_v37.1.md'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out release commit
+        uses: actions/checkout@v4
+
+      - name: Verify stable payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s Aegis_SIM_v37.1.html
+          test -s AEGIS_PLAN_STATUS_v37.1.md
+          actual="$(sha256sum Aegis_SIM_v37.1.html | cut -d' ' -f1)"
+          test "$actual" = "b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca"
+
+      - name: Create tag and GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v37.1 >/dev/null 2>&1; then
+            echo "v37.1 release already exists"
+            exit 0
+          fi
+          gh release create v37.1 \
+            "Aegis_SIM_v37.1.html#AEGIS Simulator v37.1" \
+            "AEGIS_PLAN_STATUS_v37.1.md#Verification and development status" \
+            --target "$GITHUB_SHA" \
+            --title "AEGIS Simulator v37.1" \
+            --latest \
+            --notes "First stable v37.1 release after CIWS Closure B1-B3. Phalanx and SeaRAM share the Block 1B sensor model with 15 km autonomous search and a 10 km effective tracking reference. Includes the validated HTML simulator and complete status record."

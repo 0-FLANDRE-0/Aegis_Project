@@ -1,22 +1,26 @@
 # AEGIS 이전 작업본
 
-루트에는 현재 최신 작업본만 두며, 아래 파일은 내용 변경 없이 버전별 폴더에 보존한다. `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상이 아니다.
+루트에는 현재 최신 안정판만 두며, 아래 파일은 내용 변경 없이 버전별 폴더에 보존한다. `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상이 아니다.
 
-| 버전 | 상태 | 주요 변경 | 검증 상태 | 후속 버전 |
-| --- | --- | --- | --- | --- |
-| v37.1 WIP01 | 보관 | SPQ-9B·SPS-73 독립 3D 스윕 시각화 | JavaScript 문법, 전체 스크립트 초기화, 내장 자기검사, 토글 독립성 및 WebGL 비의존 렌더 객체 생성 통과; 실제 3D 육안검사 잔여 | v37.1 WIP02 |
-| v37.1 WIP02 | 보관 | CIWS Closure B1의 익명 관측 트랙 기반 위협 평가·cueing 및 로컬 RF 경계 분리 | JavaScript 문법 및 CIWS 판단부 truth 접근 정적 검사 통과; 자동 교전권한과 cue 시 로컬 탐지 조건 결함이 WIP03 검토에서 확인됨 | v37.1 WIP03 |
-| v37.1 WIP03 | 보관 | CIWS 후보의 A3 AUTO 권한 및 cue 시 로컬 탐지 필수화 | 정적 검사 통과; Actions run 34681951551의 비공개 fixture 호출 실패와 획득 후 권한/소실 재검증 누락을 WIP04에서 수정 | v37.1 WIP04 |
-| v37.1 WIP04 | 보관 | 명시적 B1 진단 API와 획득 후 권한 재검증 | Actions run 34682645360에서 자기검사 fixture 방향, SeaRAM 선수 사각, 지속되지 않는 보호/재획득 fixture 및 이미지 timeout 결함 확인 | v37.1 WIP05 |
+| 버전 | 주요 변경 | 최종 상태 | 후속 버전 |
+| --- | --- | --- | --- |
+| v37.1 WIP01 | SPQ-9B·SPS-73 독립 3D 스윕 시각화 | 기능 구현 및 비-WebGL 검사 완료 | WIP02 |
+| v37.1 WIP02 | CIWS B1 익명 관측·로컬 RF 경계 분리 | 안전 결함 확인 | WIP03 |
+| v37.1 WIP03 | A3 AUTO 권한·로컬 탐지 필수화 | 브라우저 fixture 결함 확인 | WIP04 |
+| v37.1 WIP04 | 명시적 B1 진단 API·획득 후 권한 재검증 | 회귀 fixture 보강 필요 | WIP05 |
+| v37.1 WIP05 | 후보 audit·사각·재획득 fixture 보강 | AUTO 전달·3D 격리 문제 확인 | WIP06 |
+| v37.1 WIP06 | AUTO fixture·정지 상태 3D 격리 수정 | 후속 기하 fixture 문제 확인 | WIP07 |
+| v37.1 WIP07 | Phalanx 자기검사 접근 기하 수정 | A3 재접근 축 불일치 확인 | WIP08 |
+| v37.1 WIP08 | A3 재접근 fixture 수정·CIWS B1 종결 | Actions B1 통과 | WIP09 |
+| v37.1 WIP09 | CIWS B2 가속도·기동 예측 | 생산 RF noise guard 부족 | WIP10 |
+| v37.1 WIP10 | 가속도 feed-forward 분리·live RF fixture | 속도 안정화 부족 | WIP11 |
+| v37.1 WIP11 | 로컬 RF 속도 평활·B2 종결 | Actions B1/B2 통과 | WIP12 |
+| v37.1 WIP12 | CIWS B3 연속 손상 성능 | Actions B1/B2/B3 통과 | WIP13 |
+| v37.1 WIP13 | Phalanx/SeaRAM Block 1B 공통 센서 15/10 km | Actions 6개 job 통과·정식 승격 기준 | v37.1 |
 
 ## 보관 경로
 
-- `v37.1/WIP01/Aegis_SIM_v37.1_WIP01.html`
-- `v37.1/WIP01/AEGIS_PLAN_STATUS_v37.1_WIP01.md`
-- `v37.1/WIP02/Aegis_SIM_v37.1_WIP02.html`
-- `v37.1/WIP02/AEGIS_PLAN_STATUS_v37.1_WIP02.md`
-- `v37.1/WIP03/Aegis_SIM_v37.1_WIP03.html`
-- `v37.1/WIP03/AEGIS_PLAN_STATUS_v37.1_WIP03.md`
+각 작업본은 `v37.1/WIPNN/` 아래에 다음 두 파일로 보존한다.
 
-- `v37.1/WIP04/Aegis_SIM_v37.1_WIP04.html`
-- `v37.1/WIP04/AEGIS_PLAN_STATUS_v37.1_WIP04.md`
+- `Aegis_SIM_v37.1_WIPNN.html`
+- `AEGIS_PLAN_STATUS_v37.1_WIPNN.md`
