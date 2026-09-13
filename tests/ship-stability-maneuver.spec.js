@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP04.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP05.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-stability-maneuver';
 
 test.use({ viewport: { width: 1600, height: 900 } });
@@ -14,7 +14,7 @@ test('v48 WIP04 upright GM0 and finite-angle GZ stay separated in manoeuvres', a
   page.on('pageerror', error => pageErrors.push(error.stack || String(error)));
 
   async function freshPage() {
-    await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
+    await page.goto(`http://127.0.0.1:4173/${simulator}`, { waitUntil: 'load' });
     await page.waitForFunction(() => Array.isArray(window.__CORE_SELFTEST_FAILURES__) && window.__NAVAL_SIM_DIAG__?.v48Wip04StabilityState, null, { timeout: 30_000 });
   }
 
