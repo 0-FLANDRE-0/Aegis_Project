@@ -7,6 +7,7 @@ on:
       - '.github/workflows/aegis-smoke.yml'
       - 'tests/ciws-b1-closure.spec.js'
       - 'tests/ciws-b2-maneuver.spec.js'
+      - 'tests/ciws-b3-damage.spec.js'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -15,7 +16,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v37.1_WIP11.html
+  SIM_FILE: Aegis_SIM_v37.1_WIP12.html
 
 jobs:
   ciws-b1-closure:
@@ -121,6 +122,59 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-ciws-b2-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ciws-b3-damage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CIWS B3 continuous-damage regression in Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ciws-b3-damage
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ciws-b3-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ciws-b3
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ciws-b3-damage -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ciws-b3-damage/SHA256SUMS
+
+      - name: Upload CIWS B3 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ciws-b3-damage-${{ github.sha }}
+          path: |
+            artifacts/ciws-b3-damage/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ciws-b3-http.log
           if-no-files-found: warn
           retention-days: 14
 
