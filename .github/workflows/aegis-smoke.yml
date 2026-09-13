@@ -10,6 +10,7 @@ on:
       - 'tests/ciws-b3-damage.spec.js'
       - 'tests/ship-mass-ledger.spec.js'
       - 'tests/ship-impact-penetration.spec.js'
+      - 'tests/ship-structural-fatigue.spec.js'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -18,7 +19,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP02.html
+  SIM_FILE: Aegis_SIM_v48_WIP03.html
 
 jobs:
   ciws-b1-closure:
@@ -286,6 +287,59 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  ship-structural-fatigue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP03 structural fatigue and secondary flooding regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-structural-fatigue
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-structure-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-structure
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-structural-fatigue -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-structural-fatigue/SHA256SUMS
+
+      - name: Upload structural fatigue evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-structural-fatigue-${{ github.sha }}
+          path: |
+            artifacts/ship-structural-fatigue/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-structure-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
   static-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -482,7 +536,7 @@ jobs:
 
           const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
           let targets = [];
-          for (let attempt = 0; attempt < 80; attempt++) {
+          for (let attempt = 0; attempt < 160; attempt++) {
             try {
               targets = await (await fetch('http://127.0.0.1:9222/json')).json();
               if (targets.some(t => t.type === 'page' && t.url.includes('view3d=1'))) break;
@@ -516,8 +570,30 @@ jobs:
           await send('Page.enable');
           await send('Runtime.enable');
           await sleep(3500);
-          await send('Runtime.evaluate', { expression: `document.getElementById('wip125DepartBtn')?.click(); window.__WIP148_3D_VIEW__?.resetCamera?.(); true` });
+          const setupExpression = `(() => {
+            document.getElementById('wip125DepartBtn')?.click();
+            const d = window.__NAVAL_SIM_DIAG__;
+            d.ciwsB1Closure?.setPaused?.(true);
+            const probe = d.runV48Wip03StructuralProbe({ hits: 2, label: 'Kh-32', xM: 12, zM: -3.5, side: 'STARBOARD' });
+            const authoritativeBefore = JSON.stringify({
+              flood: d.damageFloodSnapshotV1(),
+              structure: d.v48Wip03StructuralState(),
+              visual: d.v48Wip03DamageVisualState()
+            });
+            window.__V48_WIP03_3D_PROBE__ = { probe, authoritativeBefore };
+            window.__WIP148_3D_VIEW__?.resetCamera?.();
+            return true;
+          })()`;
+          await send('Runtime.evaluate', { expression: setupExpression });
           await sleep(16500);
+          for (let attempt = 0; attempt < 80; attempt++) {
+            const probe = await send('Runtime.evaluate', {
+              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0; })()`,
+              returnByValue: true
+            });
+            if (probe.result?.value) break;
+            await sleep(250);
+          }
 
           const expression = `(() => {
             const view = document.getElementById('external3DView');
@@ -526,10 +602,37 @@ jobs:
             let rendererInfo = null;
             let ready = false;
             let auditPass = false;
+            let damageAudit = null;
+            let damageChecks = null;
             try {
               const view3d = window.__WIP148_3D_VIEW__;
               ready = !!view3d?.ready;
               auditPass = !!view3d?.contractAudit?.().pass;
+              damageAudit = view3d?.damageAuditV48Wip03?.() || null;
+              const setup = window.__V48_WIP03_3D_PROBE__;
+              const d = window.__NAVAL_SIM_DIAG__;
+              const authoritativeAfter = JSON.stringify({
+                flood: d.damageFloodSnapshotV1(),
+                structure: d.v48Wip03StructuralState(),
+                visual: d.v48Wip03DamageVisualState()
+              });
+              const openingById = new Map((setup?.probe?.flood?.openings || []).map(o => [o.id, o]));
+              const entry = damageAudit?.entry || [], exit = damageAudit?.exit || [];
+              const rows = [...entry, ...exit];
+              damageChecks = {
+                dualHullOpenings: damageAudit?.dualHullOpenings === true,
+                entryExitPresent: entry.length > 0 && exit.length > 0,
+                oppositeSides: entry.some(a => exit.some(b => a.point.y * b.point.y < 0)),
+                meshMatched: rows.length > 0 && rows.every(r => r.meshMatched),
+                actualHoles: rows.length > 0 && rows.every(r => r.actualHole),
+                attached: rows.length > 0 && rows.every(r => r.attached),
+                settled: damageAudit?.pending === false && damageAudit?.unmatched === 0,
+                areaPreserved: rows.length > 0 && rows.every(r => {
+                  const o = openingById.get(r.openingId);
+                  return !!o && Math.abs(o.areaM2 - r.sourceAreaM2) < 1e-9;
+                }),
+                renderReadOnly: setup?.authoritativeBefore === authoritativeAfter
+              };
               const gl = view3d?.renderer?.getContext?.();
               if (gl) {
                 const dbg = gl.getExtension('WEBGL_debug_renderer_info');
@@ -547,6 +650,8 @@ jobs:
               three: window.THREE?.REVISION || null,
               ready,
               auditPass,
+              damageAudit,
+              damageChecks,
               rendererInfo,
               readout: readout?.textContent || null,
               loadingVisible: !!loading?.classList.contains('show'),
@@ -569,7 +674,8 @@ jobs:
           console.log('AEGIS_3D_STATE '+JSON.stringify(state));
           ws.close();
 
-          if (!state.active || !state.three || !state.ready || !state.auditPass || !state.rendererInfo?.version) {
+          const damagePass = state.damageChecks && Object.values(state.damageChecks).every(Boolean);
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !state.rendererInfo?.version) {
             process.exitCode = 1;
           }
           JS
@@ -599,7 +705,7 @@ jobs:
             'http://127.0.0.1:4173/index.html?view3d=1' >/tmp/aegis-chrome.log 2>&1 &
           chrome_pid=$!
           trap 'kill "$chrome_pid" "$server_pid" 2>/dev/null || true' EXIT
-          timeout 70s node cdp-capture.mjs
+          timeout 90s node cdp-capture.mjs
           test -s aegis-3d.png
           printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
 
