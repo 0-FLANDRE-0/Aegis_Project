@@ -1,8 +1,8 @@
 # 함체 종강도·용골 피로·균열 및 3D 양현 파괴구 v48 WIP03 — 2026-09-13
 
-## 구현 완료 / GitHub Actions 검증 대기
+## 구현 및 GitHub Actions 검증 완료
 
-- 기준은 main `036b314e5588762e1777a5aa42038a602a3c5701`에 병합된 v48 WIP02다. 대표 작업본은 `Aegis_SIM_v48_WIP03.html`, 크기는 2,477,499바이트, SHA-256은 `967c49beb76cba3bc3b79bf0792dc875f783dcc2766363b5b438e1d84e409027`이다.
+- 기준은 main `036b314e5588762e1777a5aa42038a602a3c5701`에 병합된 v48 WIP02다. 대표 작업본은 `Aegis_SIM_v48_WIP03.html`, 크기는 2,478,255바이트, SHA-256은 `bb6610d1191da1bc17ee6fcc32a172d756f427f33ad420ed691648043a47c397`이다.
 - `AEGIS_LONGITUDINAL_STRENGTH_V48_WIP03`은 기존 24개 침수 구획을 8개 종방향 구조 구역으로 묶고 현측/사이드 거더, 갑판 거더, 용골 피로와 잔존 종강도를 분리해 유지한다.
 - 승인된 impact event마다 충돌 운동에너지, 출구 잔존에너지, 운동량, 실제 폭약량과 충돌 x/y/z 위치를 한 번만 반영한다. 같은 event ID는 다시 계산하지 않으며 직접 피격 구역과 인접 2개 구역까지 거리 가중치를 사용한다.
 - 구조 환경 하중은 침수 비대칭·구배, 속력, roll/pitch 각속도를 입력으로 1 Hz에서만 평가한다. 120 Hz 침수 substep과 렌더 프레임은 전체 구조 구역을 반복 순회하지 않으며 상태 조회는 계산을 일으키지 않는 캐시 경로다.
@@ -19,15 +19,16 @@
 - Kh-32 DUD 2발을 x=12 m, z=-3.5 m의 우현 하부에 관통시키는 구조 fixture와 기존 WIP02 관통 fixture의 Playwright 검사 2개가 통과했다.
 - 비3D 회귀는 CIWS B1의 CDN 의존 3D 증거 test를 제외한 B1/B2/B3, 질량 장부, WIP02 충돌, WIP03 구조 검사 6개가 통과했다.
 - 기준 구조 프로브는 흡수 운동에너지 약 10,442.62 MJ, 현측 피로 약 0.93667, 용골 피로 약 0.96557, 잔존 종강도 약 0.15088을 기록했다.
-- 현측 균열 면적은 약 0.13117 m², 용골 균열 면적은 약 0.11406 m²다. 4초 뒤 침수량은 약 78.92 m³, 침수 구획 3개, 순유입량은 약 15.13 m³/s다.
-- 상태 20,000회 조회는 약 24.9 ms였고 조회 중 impact evaluation과 load evaluation은 모두 0회였다.
+- 현측 균열 면적은 약 0.13117 m², 용골 균열 면적은 약 0.11406 m²다. Actions 기준 4초 뒤 침수량은 약 63.68 m³, 침수 구획 3개, 순유입량은 약 15.36 m³/s다.
+- Actions에서 상태 20,000회 조회는 약 52.1 ms였고 조회 중 impact evaluation과 load evaluation은 모두 0회였다.
 - 로컬 환경에서 jsDelivr/Three.js가 차단될 수 있으므로 실제 3D mesh 종결 판정은 GitHub Actions의 `aegis-3d-render` job에서 수행한다.
 
-## 원격 종결 조건
+## 원격 종결 결과
 
-- workflow의 대표 파일을 `Aegis_SIM_v48_WIP03.html`로 바꾸고 `ship-structural-fatigue`를 추가해 기존 8개와 합쳐 9개 job을 모두 통과시킨다.
-- 실제 3D job은 구조 프로브를 먼저 실행한 뒤 renderer ready, ENTRY/EXIT 반대 현측, mesh match, actual hole, attachment, pending 0, unmatched 0, 면적 보존과 렌더 전후 authoritative damage state 불변을 검사한다.
-- Actions run ID, 9개 job, artifact ID/digest와 실제 3D audit 값은 첫 실행 통과 후 이 문서에 추가한다.
+- PR #14 code head `bdf7065e92949af5d6e1ff28e8f49c5d3a749a2b`의 Actions run `34746640711`(#48)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `aegis-3d-render`, `webgl-render-probe` 9개 job이 모두 통과했다.
+- 구조 artifact의 schema는 `AEGIS_SHIP_STRUCTURAL_FATIGUE_V48_WIP03_V1`이며 14개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. Kh-32 DUD 2발은 흡수 운동에너지 10,442.6198 MJ, 현측 피로 0.93667345, 용골 피로 0.96556517, 잔존 종강도 0.15088278을 기록했다.
+- 실제 3D artifact는 Three.js r160 / WebGL 2 / renderer ready를 확인했다. 우현 ENTRY는 y=+3.619242 m, 면적 1.540313 m²이고 좌현 EXIT는 y=-3.669242 m, 면적 1.182560 m²다. 둘 다 `meshMatched:true`, `actualHole:true`, `attached:true`이며 `dualHullOpenings:true`, ENTRY/EXIT `pending:false`, `unmatched:0`, 면적 보존과 렌더 read-only가 모두 통과했다.
+- artifact ID/digest는 구조 피로 `10314611684` / `sha256:620f14c9b1e68868c3614d73c87133e99427cd49382402fd510fb4472aeb42af`, 관통 피해 `10314541109` / `sha256:46e91b6e1ecce3d519850dfe0436a216ba7e933ee2b46354ea577637c022d7bc`, 질량 장부 `10314017012` / `sha256:72eebc679fbdd6288f6556c10521b797a9084b72c250e6d01e29869b0d06b1e8`, B1 `10313729040` / `sha256:59f426b4f9c5cfa66104409809b7381d5cb5b693e45f98088bcd7ce53a50a91b`, B2 `10314357404` / `sha256:38cfa59a44133f1841a5b10f5f1c64d9062a60ae2e484e3695bf2fcd49c0251d`, B3 `10314182897` / `sha256:0eabc210693bb84dd76059db78b0653235ac7b2cdbf1581951e03009fd5c5b9a`, 실제 3D `10313833683` / `sha256:19813e499367b7a54039b05473f4b4d39ba9856d16842a6af43549fc370adfc5`, WebGL `10313723927` / `sha256:5615e1171eb826145b12ae7cbcee993079b82af1bc63aeca576efe4af138a827`다.
 - WIP02 HTML과 상태 문서는 `archive/v48/WIP02/`에 원본 blob 그대로 보존한다. WIP02 HTML SHA-256은 `711b0863390e7e25f8cf751c4f5406cbc58db247b08aaba1688b2ba72911b874`다.
 - WIP03은 릴리스나 태그를 만들지 않는다. 전체 Actions 통과와 상태 문서 갱신 후 PR을 main에 병합한다.
 
