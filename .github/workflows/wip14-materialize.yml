@@ -1,0 +1,53 @@
+name: Materialize WIP14
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/wip14-materialize.yml'
+      - 'tools/wip14-html.patch'
+      - 'tools/wip14-payload/**'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Build final WIP14 files
+        if: hashFiles('tools/wip14-html.patch') != ''
+        run: |
+          set -euo pipefail
+          cp Aegis_SIM_v37.1.html Aegis_SIM_v37.1_WIP14.html
+          patch -p0 < tools/wip14-html.patch
+          cp tools/wip14-payload/AEGIS_PLAN_STATUS_v37.1_WIP14.md .
+          cp tools/wip14-payload/tests/ship-mass-ledger.spec.js tests/
+          cp tools/wip14-payload/.github/workflows/aegis-smoke.yml .github/workflows/aegis-smoke.yml
+          cp tools/wip14-payload/package.json package.json
+          rm -rf tools/wip14-payload
+
+      - name: Verify materialized files
+        if: hashFiles('tools/wip14-html.patch') != ''
+        run: |
+          set -euo pipefail
+          test "$(sha256sum Aegis_SIM_v37.1_WIP14.html | cut -d' ' -f1)" = "fcc1cd00cc07f3f3747eb4ab81651172462570d4852d35567ba862aef0c2e3e4"
+          test "$(sha256sum Aegis_SIM_v37.1.html | cut -d' ' -f1)" = "b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca"
+          test -s archive/v37.1/WIP13/Aegis_SIM_v37.1_WIP13.html
+          test -s archive/v37.1/WIP13/AEGIS_PLAN_STATUS_v37.1_WIP13.md
+
+      - name: Commit final WIP14 files
+        if: hashFiles('tools/wip14-html.patch') != ''
+        run: |
+          set -euo pipefail
+          rm tools/wip14-html.patch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: add event-driven ship mass ledger in WIP14"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
