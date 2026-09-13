@@ -13,6 +13,7 @@ on:
       - 'tests/ship-structural-fatigue.spec.js'
       - 'tests/ship-stability-maneuver.spec.js'
       - 'tests/ship-wave-flooding.spec.js'
+      - 'tests/ship-interior-topology.spec.js'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -21,7 +22,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP05.html
+  SIM_FILE: Aegis_SIM_v48_WIP06.html
 
 jobs:
   ciws-b1-closure:
@@ -448,6 +449,59 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  ship-interior-topology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP06 interior-topology regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-interior-topology
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-interior-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-interior
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-interior-topology -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-interior-topology/SHA256SUMS
+
+      - name: Upload ship interior evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-interior-topology-${{ github.sha }}
+          path: |
+            artifacts/ship-interior-topology/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-interior-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
   static-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -474,6 +528,7 @@ jobs:
               'id="external3DRadarBtn"',
               'id="external3DSpq9bBtn"',
               'id="external3DSps73Btn"',
+              'id="external3DInteriorBtn"',
           )
           missing = [marker for marker in required if marker.lower() not in text.lower()]
           if missing:
@@ -686,17 +741,19 @@ jobs:
             const authoritativeBefore = JSON.stringify({
               flood: d.damageFloodSnapshotV1(),
               structure: d.v48Wip03StructuralState(),
-              visual: d.v48Wip03DamageVisualState()
+              visual: d.v48Wip03DamageVisualState(),
+              interior: d.v48Wip06InteriorState()
             });
             window.__V48_WIP03_3D_PROBE__ = { probe, authoritativeBefore };
             window.__WIP148_3D_VIEW__?.resetCamera?.();
+            if (!window.__WIP148_3D_VIEW__?.interiorTopologyVisible) window.__WIP148_3D_VIEW__?.toggleInteriorTopology?.();
             return true;
           })()`;
           await send('Runtime.evaluate', { expression: setupExpression });
           await sleep(16500);
           for (let attempt = 0; attempt < 80; attempt++) {
             const probe = await send('Runtime.evaluate', {
-              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0; })()`,
+              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.exteriorTransparent; })()`,
               returnByValue: true
             });
             if (probe.result?.value) break;
@@ -712,17 +769,21 @@ jobs:
             let auditPass = false;
             let damageAudit = null;
             let damageChecks = null;
+            let interiorAudit = null;
+            let interiorChecks = null;
             try {
               const view3d = window.__WIP148_3D_VIEW__;
               ready = !!view3d?.ready;
               auditPass = !!view3d?.contractAudit?.().pass;
               damageAudit = view3d?.damageAuditV48Wip03?.() || null;
+              interiorAudit = view3d?.interiorAuditV48Wip06?.() || null;
               const setup = window.__V48_WIP03_3D_PROBE__;
               const d = window.__NAVAL_SIM_DIAG__;
               const authoritativeAfter = JSON.stringify({
                 flood: d.damageFloodSnapshotV1(),
                 structure: d.v48Wip03StructuralState(),
-                visual: d.v48Wip03DamageVisualState()
+                visual: d.v48Wip03DamageVisualState(),
+                interior: d.v48Wip06InteriorState()
               });
               const openingById = new Map((setup?.probe?.flood?.openings || []).map(o => [o.id, o]));
               const entry = damageAudit?.entry || [], exit = damageAudit?.exit || [];
@@ -740,6 +801,16 @@ jobs:
                   return !!o && Math.abs(o.areaM2 - r.sourceAreaM2) < 1e-9;
                 }),
                 renderReadOnly: setup?.authoritativeBefore === authoritativeAfter
+              };
+              interiorChecks = {
+                buttonPresent: interiorAudit?.buttonPresent === true,
+                buttonPressed: interiorAudit?.buttonPressed === true,
+                visible: interiorAudit?.visible === true,
+                allSpacesRepresented: interiorAudit?.allSpacesRepresented === true && interiorAudit?.spaceMeshes === interiorAudit?.expectedSpaces,
+                allPortalsRepresented: interiorAudit?.allPortalsRepresented === true && interiorAudit?.portalMeshes === interiorAudit?.expectedPortals,
+                exteriorTransparent: interiorAudit?.exteriorTransparent === true && interiorAudit?.exteriorTransparentMaterials > 0,
+                presentationOnly: interiorAudit?.presentationOnly === true && interiorAudit?.physicsFeedback === false,
+                snapshotContract: interiorAudit?.renderContract === 'PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT'
               };
               const gl = view3d?.renderer?.getContext?.();
               if (gl) {
@@ -760,6 +831,8 @@ jobs:
               auditPass,
               damageAudit,
               damageChecks,
+              interiorAudit,
+              interiorChecks,
               rendererInfo,
               readout: readout?.textContent || null,
               loadingVisible: !!loading?.classList.contains('show'),
@@ -783,7 +856,8 @@ jobs:
           ws.close();
 
           const damagePass = state.damageChecks && Object.values(state.damageChecks).every(Boolean);
-          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !state.rendererInfo?.version) {
+          const interiorPass = state.interiorChecks && Object.values(state.interiorChecks).every(Boolean);
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !state.rendererInfo?.version) {
             process.exitCode = 1;
           }
           JS
