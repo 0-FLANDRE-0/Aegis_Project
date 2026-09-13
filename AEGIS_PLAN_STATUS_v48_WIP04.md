@@ -1,6 +1,6 @@
 # 직립 GM₀·유한각 GZ 분리 및 선회 안정성 기준 v48 WIP04 — 2026-09-13
 
-## 구현 완료 · 원격 검증 대기
+## 구현 및 GitHub Actions 검증 완료
 
 - 기준은 v48 WIP03 병합 main `ce82245a23e2b94da68ad07bcd942356513512ea`다. 이번 범위는 함정 안정성 표시·복원력 기준에 한정하며, 예정했던 파도 위상별 침수 유량은 v48 WIP05로 이동한다.
 - 기존 진단에서 30 kt / 우현 30° 정상 선회 시 경사 약 13.99°와 함께 표시 GM이 1.500 m에서 1.573 m로 증가했다. 원인은 현재 동적 흘수·트림을 그대로 사용해 경사만 0으로 만든 `uprightSample`을 매 20 Hz 계산한 데 있었다.
@@ -13,6 +13,15 @@
 - 수정 후 30 kt / 30° 정상 선회는 경사 약 14.48°, GM₀ 1.500000 m, GZ 약 0.43414 m, 정상 선회 지름 약 4.797 L다. 15/25/30 kt의 30° 타각 지름은 각각 약 4.986/4.847/4.797 L다.
 - 저부 ballast 220 t 제거 시 GM₀는 약 1.40612 m로 감소하고 복구 시 1.50000 m로 돌아온다. 선회 9개 조건 전체에서는 적재 상태가 같은 동안 GM₀ 편차가 0.0001 m 미만이다.
 - workflow 대표 파일은 `Aegis_SIM_v48_WIP04.html`로 변경하고 `ship-stability-maneuver` job을 추가한다. 기존 9개 job과 신규 안정성 job, 총 10개를 모두 통과한 뒤 원격 결과·artifact를 이 문서에 추가한다.
+
+## 원격 종결 결과
+
+- PR #15 code head `a8328aff0fa644bf549f7bad56cd2e30a25c601d`의 Actions run `34750791456`(#50)에서 `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `ship-stability-maneuver` 10개 job이 모두 통과했다.
+- 원격 대표 HTML은 2,481,764바이트이며 Git blob `753bfdccc354926ff8a3ad34af8cd1e091c76062`, SHA-256 `a1397424bd0f7ed6123f8bbc26f3ac8fbeba7f53f180f05eb929fb20967bf07f`로 로컬 종결본과 일치한다.
+- 신규 안정성 검사는 15/25/30 kt × 타각 10/20/30°의 9개 조건, 등배수량 직립 GM₀ 보존, 유한각 GZ 분리, 곡선 진단, 저부 ballast 220 t 제거·복구를 통과했다. 동일 적재 상태의 GM₀ 편차는 0.0001 m 미만이고, 30 kt / 30°에서는 경사 약 14.48°, GM₀ 1.500000 m, GZ 약 0.43414 m, 정상 선회 지름 약 4.797 L다. ballast 제거 시 GM₀는 약 1.40612 m, 복구 시 1.50000 m다.
+- 실제 3D job은 Three.js r160 / WebGL 2 / renderer ready를 확인했다. 우현 ENTRY는 y=+3.619242 m, 면적 1.540313 m²이고 좌현 EXIT는 y=-3.669242 m, 면적 1.182560 m²다. 두 파괴구 모두 `meshMatched:true`, `actualHole:true`, `attached:true`이고 `dualHullOpenings:true`, `pending:false`, `unmatched:0`, 면적 보존과 렌더 read-only가 모두 통과했다. 3D readout도 `GM₀ 1.50 m · GZ 0.00 m`로 분리 표시됐다.
+- artifact ID/digest는 안정성 `10315259722` / `sha256:75adcc1a4b1ab994a63c94564e65be8bd046be29c7381b5b5e61a1dd3716b307`, 구조 피로 `10315224687` / `sha256:12d73e0f79dbeb93e1daf785d8f95f927d0c448392a5ea39341edd1de4b710df`, 관통 피해 `10316200281` / `sha256:d525d29236b61848dcd143ef1a89b0794ebb4a9618feac57e9264694026a845f`, 질량 장부 `10315647651` / `sha256:2ddb51462bccdee7d0e33eb2b36f26bfefa0ba2204e160cf5479adb09ef56573`, B1 `10315721063` / `sha256:52ccb694dc2c2dbea0d9b15514f28e0188a6dfbee6cb2f87573af696ef96e8e9`, B2 `10316260183` / `sha256:71ccd7a0725aa56bee8c3af3fb6d7fbbdd4018d0eab208152479a550d3a26749`, B3 `10316200291` / `sha256:f875b0940fc378003c12ec3987ccfbac2dea3858b0c644e6a9bdcde03a16cb4e`, 실제 3D `10315134915` / `sha256:b38c81ff26ee23d3488b5138ef70b68f16c6b6aaddc9598e7517a0f7780aaae3`, WebGL `10315224670` / `sha256:ce2f2093ddad985f79ea4501a71731c5dc5023d235a4c045b08b5edd68d38d73`다.
+- v48 WIP03 HTML과 상태 문서는 `archive/v48/WIP03/`에 원본 blob 그대로 보존하고 루트에서는 제거했다. WIP04 단계에서는 릴리스나 태그를 만들지 않는다.
 
 ---
 
