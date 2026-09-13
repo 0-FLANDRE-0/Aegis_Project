@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           cp Aegis_SIM_v37.1.html Aegis_SIM_v37.1_WIP14.html
-          patch -p0 < tools/wip14-html.patch
+          patch Aegis_SIM_v37.1_WIP14.html < tools/wip14-html.patch
           cp tools/wip14-payload/AEGIS_PLAN_STATUS_v37.1_WIP14.md .
           cp tools/wip14-payload/tests/ship-mass-ledger.spec.js tests/
           cp tools/wip14-payload/.github/workflows/aegis-smoke.yml .github/workflows/aegis-smoke.yml
