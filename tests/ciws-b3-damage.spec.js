@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP12.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP13.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b3-damage';
 const results = {
   schema: 'AEGIS_CIWS_B3_CONTINUOUS_DAMAGE_V1',
@@ -62,10 +62,23 @@ test('CIWS Closure B3 continuous partial-damage performance', async ({ page }) =
     pass: audit.destroyThresholdPct === 80 &&
       gun[0].performance.health === 1 && ram[0].performance.health === 1 &&
       gun.at(-1).performance.health === 0 && ram.at(-1).performance.health === 0 &&
-      gun[0].performance.searchRangeKm === 5.5 && ram[0].performance.searchRangeKm === 7 &&
+      audit.sensorModel?.searchRangeKm === 15 && audit.sensorModel?.trackRangeKm === 10 &&
+      audit.sensorModel?.cueTrackRangeKm === 15 &&
+      gun[0].performance.searchRangeKm === 15 && ram[0].performance.searchRangeKm === 15 &&
+      gun[0].performance.trackRangeKm === 10 && ram[0].performance.trackRangeKm === 10 &&
       gun[0].performance.fireRateRps === 75 && ram[0].performance.reloadIntervalS === 2 &&
       !gun.at(-1).performance.operational && !ram.at(-1).performance.operational,
     audit
+  };
+  const commonSensorKeys = ['searchRangeKm', 'trackRangeKm', 'cueTrackRangeKm',
+    'trackingSigmaFactor', 'dwellFactor', 'detectionProbabilityFactor'];
+  results.checks.commonBlock1BSensorParity = {
+    pass: gun.every((row, i) => commonSensorKeys.every(key =>
+      Math.abs(row.performance[key] - ram[i].performance[key]) < 1e-12)),
+    gun: gun.map(row => ({ damagePct: row.damagePct,
+      sensor: Object.fromEntries(commonSensorKeys.map(key => [key, row.performance[key]])) })),
+    ram: ram.map(row => ({ damagePct: row.damagePct,
+      sensor: Object.fromEntries(commonSensorKeys.map(key => [key, row.performance[key]])) }))
   };
   results.checks.phalanxContinuousDegradation = {
     pass: strictDown(gun, 'searchRangeKm') && strictDown(gun, 'trackRangeKm') &&
@@ -106,7 +119,7 @@ test('CIWS Closure B3 continuous partial-damage performance', async ({ page }) =
   const dm = damagedMeasurement.mounts[0];
   results.checks.liveDamagedMeasurementPath = {
     pass: dm.performance.health > 0 && dm.performance.health < 1 &&
-      dm.performance.searchRangeKm < 5.5 &&
+      dm.performance.searchRangeKm < 15 &&
       dm.localTrack?.damageSigmaFactor > 1 &&
       dm.localTrack?.damagePdFactor < 1 &&
       dm.localTrack?.effectiveRangeKm <= dm.performance.cueTrackRangeKm + 1e-9,
@@ -139,14 +152,14 @@ test('CIWS Closure B3 continuous partial-damage performance', async ({ page }) =
     destroyed
   };
 
-  await run('prepare', { mount: 'GUN', seed: results.seed + 3, damage: 0, rangeKm: 4.5 });
+  await run('prepare', { mount: 'GUN', seed: results.seed + 3, damage: 0, rangeKm: 12.0 });
   const healthyBoundary = (await run('stepCiws', 0.02)).snapshot;
-  await run('prepare', { mount: 'GUN', seed: results.seed + 3, damage: 70, rangeKm: 4.5 });
+  await run('prepare', { mount: 'GUN', seed: results.seed + 3, damage: 70, rangeKm: 12.0 });
   const severeBoundary = (await run('stepCiws', 0.02)).snapshot;
   results.checks.liveSearchRangeBoundary = {
     pass: healthyBoundary.mounts[0].state !== 'IDLE' &&
       severeBoundary.mounts[0].state === 'IDLE' &&
-      severeBoundary.mounts[0].performance.cueTrackRangeKm < 4.5,
+      severeBoundary.mounts[0].performance.cueTrackRangeKm < 12.0,
     healthyBoundary,
     severeBoundary
   };
