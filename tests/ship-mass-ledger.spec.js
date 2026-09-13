@@ -2,12 +2,12 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v37.1_WIP14.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP01.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-mass-ledger';
 
 test.use({ viewport: { width: 1600, height: 900 } });
 
-test('WIP14 compartment mass ledger, dynamic GM and cache contract', async ({ page }) => {
+test('v48 WIP01 compartment mass ledger, dynamic GM and cache contract', async ({ page }) => {
   test.setTimeout(120_000);
   const consoleErrors = [], pageErrors = [];
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
@@ -58,7 +58,7 @@ test('WIP14 compartment mass ledger, dynamic GM and cache contract', async ({ pa
   };
 
   fs.mkdirSync(artifactDir, { recursive: true });
-  const artifact = { schema: 'AEGIS_SHIP_MASS_LEDGER_WIP14_V1', simulator, simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'), checks, consoleErrors, pageErrors, result };
+  const artifact = { schema: 'AEGIS_SHIP_MASS_LEDGER_V48_WIP01_V1', simulator, simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'), checks, consoleErrors, pageErrors, result };
   fs.writeFileSync(`${artifactDir}/ship-mass-ledger-results.json`, `${JSON.stringify(artifact, null, 2)}\n`);
   await page.screenshot({ path: `${artifactDir}/ship-mass-ledger-page.png`, fullPage: true });
   expect(checks).toEqual(Object.fromEntries(Object.keys(checks).map(key => [key, true])));

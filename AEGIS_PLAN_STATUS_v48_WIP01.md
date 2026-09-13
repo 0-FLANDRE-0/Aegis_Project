@@ -1,8 +1,8 @@
-# 함정 구획 질량·배수량·동적 GM 기반 WIP14 — 2026-09-13
+# 함정 구획 질량·배수량·동적 GM 기반 v48 WIP01 — 2026-09-13
 
-## 구현 및 검증 완료
+## 구현 및 명칭 정정 검증 완료
 
-- 기존 `dryMass = z=0 수선 아래 선체 체적 × 해수 밀도`를 만재배수량처럼 사용하던 경로를 분리했다. WIP14의 Flight IIA 게임 기준 만재 질량은 9,652,445.6336 kg(9,500 long tons), 유효 lightship 질량은 7,085,245.6336 kg이며 두 값의 의미를 진단값에 별도로 남긴다.
+- 기존 `dryMass = z=0 수선 아래 선체 체적 × 해수 밀도`를 만재배수량처럼 사용하던 경로를 분리했다. v48 WIP01의 Flight IIA 게임 기준 만재 질량은 9,652,445.6336 kg(9,500 long tons), 유효 lightship 질량은 7,085,245.6336 kg이며 두 값의 의미를 진단값에 별도로 남긴다.
 - 24개 기존 침수 구획에 lightship 질량을 배분하고, 추진연료 1,500 t, 항공유 120 t, 담수 180 t, service/ballast 220 t, 기술유체 80 t, 무장 116.1 t, MH-60R 2대 17 t, 승조원·개인장구 34.1 t, 보급·예비품 250 t, 임무 적재물 50 t를 위치·모멘트가 있는 질량 노드로 구성했다. 상세 위치와 일부 탄약 질량은 실제 함정 중량 보고가 아닌 `SIM_ESTIMATED`로 명시한다.
 - VLS는 실제 셀 좌표와 현재 SM-2/ESSM 잔탄을 사용한다. SeaRAM, Phalanx 탄약, Mk 214도 실제 잔탄 변화 때 질량 장부를 dirty 처리한다. 연료·물·ballast·기술유체는 개별 탱크 ID와 질량/비율 변경 경계를 가진다. 승조원은 사망자는 함내 질량으로 유지하고 퇴함 인원만 제외하며, 구획 이동·퇴함 반영은 매 프레임이 아닌 시뮬레이션 1초 저주기 동기화다.
 - 장부는 dirty flag와 캐시를 사용한다. 고정 스텝의 함선 동역학은 대부분 O(1) 스냅샷만 읽고, VLS/CIWS/Mk36/탱크/승조원 배치가 실제로 변할 때만 최대 약 150개 질량 노드를 다시 합산한다. 로컬 Chromium 20,000회 연속 조회는 재합산 0회, 약 4 ms를 기록했다.
@@ -10,12 +10,15 @@
 - 9,652,445.6336 kg 표준 만재 상태의 평형 흘수 보정은 +1.020125 m, KG는 4.388257 m, 계산 GM은 1.500000017 m다. 선수·선미 저부 ballast 220 t 제거 진단에서는 질량 9,432,445.6336 kg, KG 4.537255 m, GM 1.406117 m, 평형 흘수 약 +0.9353 m로 변해 GM이 고정되지 않음을 확인했다.
 - 시작 자기검사에 만재 질량·무장 질량 폐합, 24구획 소유권, clean-cache 무재계산, 여러 dirty 변경의 단일 재합산, 저부 ballast 제거의 KG 증가 및 복구 검사를 추가했다. 별도 Playwright `ship-mass-ledger` 검사는 같은 계약과 실제 동역학 연결, SM-2 1발 소모 시 708 kg 감소, 20,000회 cache hot path를 브라우저에서 검증하고 JSON·화면 artifact를 남긴다.
 - 로컬 Chromium에서 시작 자기검사 실패 0, 질량 장부 11개 check, CIWS B1 matrix, B2, B3는 통과했다. 로컬 3D visual은 실행환경의 jsDelivr 차단으로 실행할 수 없었으나, 아래 Actions의 실제 네트워크/3D job과 artifact로 종결했다.
-- workflow 대표 파일은 `Aegis_SIM_v37.1_WIP14.html`로 변경했으며 새 `ship-mass-ledger` job을 추가했다. WIP13 HTML·상태 문서는 이미 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존되어 있으며, WIP14에서는 그 아카이브를 변경하지 않는다.
-- WIP14 HTML SHA-256은 `fcc1cd00cc07f3f3747eb4ab81651172462570d4852d35567ba862aef0c2e3e4`다.
+- workflow 대표 파일은 `Aegis_SIM_v48_WIP01.html`로 변경했으며 새 `ship-mass-ledger` job을 추가했다. WIP13 HTML·상태 문서는 이미 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존되어 있으며, v48 WIP01에서는 그 아카이브를 변경하지 않는다.
+- 이 작업은 기능 변경 없이 잘못 이어진 `v37.1_WIP14` 명칭을 목표 버전 계보에 맞춰 `v48_WIP01`로 정정한 기준본이다. 아래 PR #11 검증은 동일 기능 구현의 최초 종결 증거이며, 명칭 정정본은 별도 Actions에서 다시 검증한다.
+- v48 WIP01 HTML SHA-256은 `2d571674c0e0f7c5d2eb6dedfdfc61b225d0e8e75865f750ddccb031d6a7653a`다. 정정본 inline JavaScript 문법 검사와 질량 장부 Playwright 11개 check가 로컬에서 통과했으며, 원격 Actions와 artifact 확인 전에는 명칭 정정을 완료로 승격하지 않는다.
 - PR #11 code head `6ceb3d01f23208eb45706bad3ea2b3646bf29677`의 Actions run `34736193172`(#36)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `aegis-3d-render`, `webgl-render-probe` 7개 job이 모두 통과했다.
 - 질량 artifact JSON은 11개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. 표준 만재 9,652,445.6336 kg, 220 t ballast 제거 후 9,432,445.6336 kg / KG 4.537255 m / GM 1.406117 m, SM-2 1발 소모 후 정확히 708 kg 감소를 기록했다. 20,000회 hot-path 조회는 재합산 0회, cache hit 20,001회, 7.9 ms였다.
 - 실제 3D artifact는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas와 WIP14 대표 파일을 확인했다. CIWS B1은 2개 test 통과 및 실패 check 0, B2·B3도 전부 통과했다.
 - artifact ID/digest는 질량 `10311445246` / `sha256:a49a7e10c7f4f5169d73be81ee73222b98e247d7acf652cc7bc493d64c6e5d64`, B1 `10311172385` / `sha256:890f6f2ef7efd529bc31edb9ec99ceb55045e1e047817facc30fa20641b9b538`, B2 `10310957922` / `sha256:8c2684a2154fc691bf9f9e63f5757d2b55f496024fbb0369fc40fc3b3bb1d227`, B3 `10310678730` / `sha256:9912d4367a460428f0f45aac59c924b8d1e167e19f2ec16534d459333c32be74`, 실제 3D `10310793291` / `sha256:429a25bf7b71c4ac604917a5a01d38c5f441d62e865e98eee64be2f8b301f556`, WebGL `10311445228` / `sha256:21d03743cba9aaba1af75e27145a4b83445bfaa2710477db11cec52422d28b7f`다.
+- PR #12 code head `7ac49eeb55f706bcd2fb5e1fc8761077d2b47e6b`의 Actions run `34737299131`(#40)에서 동일한 7개 job이 모두 통과했다. 질량 artifact JSON은 schema `AEGIS_SHIP_MASS_LEDGER_V48_WIP01_V1`, 대표 파일 `Aegis_SIM_v48_WIP01.html`, 위 SHA-256 일치, 11개 check 모두 `true`, console/page 오류 0건, 20,000회 hot path 재합산 0회·cache hit 20,001회·6.5 ms를 기록했다.
+- v48 WIP01 artifact ID/digest는 질량 `10310754879` / `sha256:418281ac75eddb5dc582c5803710c95caf9cd53c938bf7b1665f1241ef20c8f0`, B1 `10311596102` / `sha256:2e3bf807b090faefd9c072b8f489d458b907f929004f222c87a163b0912c6335`, B2 `10311134176` / `sha256:b53fb41328a741f7c4c20f8b94ca43ab68d73f2784c8990ecf21bf8989930898`, B3 `10311024375` / `sha256:66972e3a092822e7ffdcd9258c3b830e11a5e89db6c7ab71c651285a5824592f`, 실제 3D `10311178892` / `sha256:32492564cf6072a08bfa84d006d7d84e1704b38ae28903f378341d552c373bf1`, WebGL `10310809724` / `sha256:bda4ac6115e1934ef36ec394df958c666c558395aa290e1a42f205e0590696be`다.
 
 ---
 
