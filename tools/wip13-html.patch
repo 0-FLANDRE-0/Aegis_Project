@@ -1,0 +1,170 @@
+--- Aegis_SIM_v37.1_WIP13.html
++++ Aegis_SIM_v37.1_WIP13.html
+@@ -10266,6 +10266,17 @@
+   const GUN_CIWS_RANGE_KM = 3.0;
+   const RAM_CIWS_RANGE_KM = 9.6; // SIM_TUNED engagement envelope; US Navy public RAM range is classified.
+   const CIWS_RANGE_KM = RAM_CIWS_RANGE_KM;
++  // WIP13: SeaRAM retains the Phalanx Block 1B search/track/EO sensor suite.
++  // Public sources do not expose exact detection performance, so these are shared
++  // SIM_TUNED limits: autonomous detection to 15 km and full-quality tracking to
++  // 10 km, with measurement quality tapering from 10-15 km.
++  const CIWS_BLOCK1B_SENSOR_MODEL=Object.freeze({
++    schema:'PHALANX_BLOCK_1B_COMMON_SENSOR_WIP13',
++    searchRangeKm:15.0,
++    trackRangeKm:10.0,
++    cueTrackRangeKm:15.0,
++    searchToTrackTime:0.8,
++  });
+ 
+   // Phalanx: 20mm Vulcan, 4500 RPM, 1550 rounds
+   // SeaRAM: 11-cell launcher, currently modeled with RIM-116B Block 1A kinematics from WIP145.
+@@ -10278,10 +10289,10 @@
+       posOffsetM: WIP199_FINAL_LAYOUT.ciws.phalanx.x,
+       heightM: WIP199_FINAL_LAYOUT.ciws.phalanx.z,           // WIP165 baseline height retained; WIP181 nudges forward Phalanx ~1.2 m toward the bow for visual placement.
+       mountHalfLengthM: WIP199_FINAL_LAYOUT.ciws.phalanx.hL, mountHalfWidthM: WIP199_FINAL_LAYOUT.ciws.phalanx.hW, mountHalfHeightM: 1.24,
+-      // Ranges
+-      searchRangeKm: 5.5,        // Ku-band search radar detect
+-      trackRangeKm: 3.8,         // nominal full-quality local track reference
+-      cueTrackRangeKm: 5.5,      // narrow-beam/cued local-track limit; cue never reduces search range
++      // Shared Phalanx Block 1B sensor suite; weapon engagement remains gun-specific.
++      searchRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.searchRangeKm,
++      trackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.trackRangeKm,
++      cueTrackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.cueTrackRangeKm,
+       engageRangeKm: GUN_CIWS_RANGE_KM,
+       ammo: 1550, maxAmmo: 1550,
+       fireRate: 75,               // rounds/s = 4500 RPM
+@@ -10307,7 +10318,7 @@
+         { center: deg(180), half: deg(35) },  // stern: mast/bridge blocks
+       ],
+       // Reaction timing
+-      searchToTrackTime: 0.8,     // s to transition search→track
++      searchToTrackTime: CIWS_BLOCK1B_SENSOR_MODEL.searchToTrackTime,
+       trackToFireTime: 0.4,       // s to stabilize fire solution
+       // CUE from ship radar
+       cuedTarget: null,
+@@ -10319,9 +10330,10 @@
+       posOffsetM: WIP199_FINAL_LAYOUT.ciws.searam.x,
+       heightM: WIP199_FINAL_LAYOUT.ciws.searam.z,            // WIP165: compacted hangar roof 16.384 + 1.40 m half-height
+       mountHalfLengthM: 2.20, mountHalfWidthM: WIP199_FINAL_LAYOUT.ciws.searam.hW, mountHalfHeightM: 2.05,
+-      searchRangeKm: 7.0,         // uncued local search sensor range
+-      trackRangeKm: 6.5,          // nominal full-quality local track reference
+-      cueTrackRangeKm: RAM_CIWS_RANGE_KM, // cued narrow-beam local-track envelope (SIM_TUNED)
++      // SeaRAM replaces the gun with RAM effectors but uses the same Block 1B sensor suite.
++      searchRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.searchRangeKm,
++      trackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.trackRangeKm,
++      cueTrackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.cueTrackRangeKm,
+       engageRangeKm: RAM_CIWS_RANGE_KM,
+       minEngageKm: 0.8,           // too close = can't intercept
+       ammo: 11, maxAmmo: 11,
+@@ -10347,7 +10359,7 @@
+       blindSectors: [
+         { center: 0, half: deg(40) },  // bow: bridge/mast blocks
+       ],
+-      searchToTrackTime: 1.0,
++      searchToTrackTime: CIWS_BLOCK1B_SENSOR_MODEL.searchToTrackTime,
+       trackToFireTime: 0.6,
+       cuedTarget: null,
+       cueAge: 0,
+@@ -10475,25 +10487,26 @@
+   for(const mount of ciws)ciwsGameResetYawV1(mount);
+ 
+   const WIP199_CIWS_DESTROY_THRESHOLD=80;
+-  // WIP12 / CIWS Closure B3: partial mount damage continuously degrades the local
+-  // sensor, servo and firing cadence. Values are SIM_TUNED response curves; zero
+-  // damage preserves every WIP11 nominal exactly and the existing 80% destroy gate
+-  // remains the hard-stop boundary.
+-  const CIWS_B3_DAMAGE_MODEL=Object.freeze({
+-    GUN:Object.freeze({searchFloor:.36,trackFloor:.44,cueFloor:.42,sigmaAtZero:3.40,dwellAtZero:1.85,pdFloor:.48,traverseRateFloor:.30,traverseAccelFloor:.25,fireRateFloor:.45,reloadAtZero:1}),
+-    RAM:Object.freeze({searchFloor:.42,trackFloor:.48,cueFloor:.45,sigmaAtZero:3.00,dwellAtZero:1.70,pdFloor:.55,traverseRateFloor:.35,traverseAccelFloor:.30,fireRateFloor:1,reloadAtZero:2.40}),
++  // WIP13: both mounts use the same Block 1B sensor damage response. Only the
++  // gun/launcher mechanics and firing cadence retain effector-specific curves.
++  const CIWS_BLOCK1B_SENSOR_DAMAGE_MODEL=Object.freeze({
++    searchFloor:.36,trackFloor:.44,cueFloor:.42,sigmaAtZero:3.40,dwellAtZero:1.85,pdFloor:.48,
++  });
++  const CIWS_B3_EFFECTOR_DAMAGE_MODEL=Object.freeze({
++    GUN:Object.freeze({traverseRateFloor:.30,traverseAccelFloor:.25,fireRateFloor:.45,reloadAtZero:1}),
++    RAM:Object.freeze({traverseRateFloor:.35,traverseAccelFloor:.30,fireRateFloor:1,reloadAtZero:2.40}),
+   });
+   function ciwsHardwareHealthFromDamageB3(damagePct){const dmg=clamp(Number(damagePct)||0,0,100);if(dmg>=WIP199_CIWS_DESTROY_THRESHOLD)return 0;return Math.pow(clamp(1-dmg/WIP199_CIWS_DESTROY_THRESHOLD,0,1),.55);}
+   function ciwsHardwareHealth01(mount){return ciwsHardwareHealthFromDamageB3(getModuleDmg(mount?.moduleName??mount?.label??''));}
+   function ciwsB3PerformanceForHealth(mount,health){
+-    const h=clamp(Number(health)||0,0,1),P=CIWS_B3_DAMAGE_MODEL[mount?.type]??CIWS_B3_DAMAGE_MODEL.GUN;
++    const h=clamp(Number(health)||0,0,1),S=CIWS_BLOCK1B_SENSOR_DAMAGE_MODEL,E=CIWS_B3_EFFECTOR_DAMAGE_MODEL[mount?.type]??CIWS_B3_EFFECTOR_DAMAGE_MODEL.GUN;
+     const scaled=(floor,exponent=.82)=>h<=0?0:floor+(1-floor)*Math.pow(h,exponent);
+-    const searchFac=scaled(P.searchFloor,.82),trackFac=scaled(P.trackFloor,.86),cueFac=scaled(P.cueFloor,.84);
+-    const trackingSigmaFactor=1+(P.sigmaAtZero-1)*Math.pow(1-h,1.18),dwellFactor=1+(P.dwellAtZero-1)*(1-h);
+-    const detectionProbabilityFactor=h<=0?0:P.pdFloor+(1-P.pdFloor)*Math.pow(h,.72);
+-    const traverseRateFactor=scaled(P.traverseRateFloor,.80),traverseAccelFactor=scaled(P.traverseAccelFloor,.90),fireRateFactor=scaled(P.fireRateFloor,.88);
+-    const reloadIntervalFactor=1+(P.reloadAtZero-1)*Math.pow(1-h,1.05);
+-    return {schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP12',type:mount?.type??'GUN',health:h,operational:h>.05,
++    const searchFac=scaled(S.searchFloor,.82),trackFac=scaled(S.trackFloor,.86),cueFac=scaled(S.cueFloor,.84);
++    const trackingSigmaFactor=1+(S.sigmaAtZero-1)*Math.pow(1-h,1.18),dwellFactor=1+(S.dwellAtZero-1)*(1-h);
++    const detectionProbabilityFactor=h<=0?0:S.pdFloor+(1-S.pdFloor)*Math.pow(h,.72);
++    const traverseRateFactor=scaled(E.traverseRateFloor,.80),traverseAccelFactor=scaled(E.traverseAccelFloor,.90),fireRateFactor=scaled(E.fireRateFloor,.88);
++    const reloadIntervalFactor=1+(E.reloadAtZero-1)*Math.pow(1-h,1.05);
++    return {schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP13',sensorModel:CIWS_BLOCK1B_SENSOR_MODEL.schema,type:mount?.type??'GUN',health:h,operational:h>.05,
+       searchRangeKm:Math.max(0,Number(mount?.searchRangeKm)||0)*searchFac,
+       trackRangeKm:Math.max(0,Number(mount?.trackRangeKm)||0)*trackFac,
+       cueTrackRangeKm:Math.max(0,Number(mount?.cueTrackRangeKm)||0)*cueFac,
+@@ -10517,7 +10530,7 @@
+       for(let i=0;i<60;i++)oneSecondRounds+=ciwsB3AdvanceGunAccumulator(scratch,1/60,performance);
+       return {damagePct,performance,oneSecondRounds};
+     })}));
+-    return {schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP12',destroyThresholdPct:WIP199_CIWS_DESTROY_THRESHOLD,mounts};
++    return {schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP13',sensorModel:CIWS_BLOCK1B_SENSOR_MODEL,destroyThresholdPct:WIP199_CIWS_DESTROY_THRESHOLD,mounts};
+   }
+ 
+   // Phalanx bullet streams (physical projectiles)
+@@ -23771,7 +23784,7 @@
+       if(!(cross<1e-12&&Math.abs(miss-4)<1e-9)) failures.push(`Phalanx swept geometry ${cross}/${miss}`);
+       const ps=ciwsInterceptSolution({}, {valid:true,rxM:1000,ryM:0,rzM:0,rvxMps:-100,rvyMps:0,rvzMps:0},1100);
+       if(!(ps&&ps.tof>0&&ps.tof<1&&Math.abs(ps.azRad)<1e-12)) failures.push(`CIWS local-track fire solution ${JSON.stringify(ps)}`);
+-      if(!(ciws[0].trackRangeKm>0&&ciws[1].trackRangeKm>0&&ciws[0].cueTrackRangeKm>=ciws[0].searchRangeKm&&ciws[1].cueTrackRangeKm>=ciws[1].trackRangeKm)) failures.push('CIWS track/cue range contract');
++      if(!(ciws.every(m=>m.searchRangeKm===15&&m.trackRangeKm===10&&m.cueTrackRangeKm===15&&m.searchToTrackTime===.8))) failures.push('WIP13 common Block 1B sensor range/timing contract');
+       // WIP203: intrinsic Mk244 dispersion is immutable and independent of track quality. Track
+       // degradation instead increases correlated group-centre error, and live rounds lose speed/drop.
+       const sigma=phalanxDispersionSigmaRad(),expectedSigma=.0015/Math.sqrt(2*Math.log(5));
+@@ -23788,10 +23801,12 @@
+       if(!(b2.prediction.enabled&&b2.prediction.horizonS>0&&b2.prediction.horizonS<=CIWS_LOCAL_TRACK_MODEL.GUN.maxPredictionHorizonS&&b2.prediction.interceptShiftM>1&&b2.coast.bounded&&!b2.rangeGate.enabled&&b2.rangeGate.horizonS===0))failures.push(`WIP11 CIWS B2 bounded prediction ${JSON.stringify(b2)}`);
+       const b3=ciwsB3DamageAudit(),gunRows=b3.mounts.find(x=>x.type==='GUN')?.rows??[],ramRows=b3.mounts.find(x=>x.type==='RAM')?.rows??[];
+       const monotonic=(rows,key,descending=true)=>rows.slice(1).every((row,i)=>descending?row.performance[key]<rows[i].performance[key]:row.performance[key]>rows[i].performance[key]);
+-      if(!(gunRows.length===4&&ramRows.length===4&&gunRows[0].performance.health===1&&ramRows[0].performance.health===1&&gunRows.at(-1).performance.health===0&&ramRows.at(-1).performance.health===0))failures.push(`WIP12 CIWS B3 health endpoints ${JSON.stringify(b3)}`);
+-      if(!(monotonic(gunRows,'searchRangeKm')&&monotonic(gunRows,'maxTurretRateRadS')&&monotonic(gunRows,'fireRateRps')&&monotonic(gunRows,'trackingSigmaFactor',false)))failures.push(`WIP12 CIWS B3 Phalanx ordering ${JSON.stringify(gunRows)}`);
+-      if(!(monotonic(ramRows,'searchRangeKm')&&monotonic(ramRows,'maxTurretRateRadS')&&monotonic(ramRows,'trackingSigmaFactor',false)&&monotonic(ramRows,'reloadIntervalS',false)))failures.push(`WIP12 CIWS B3 SeaRAM ordering ${JSON.stringify(ramRows)}`);
+-      if(!(gunRows[0].oneSecondRounds===75&&gunRows[1].oneSecondRounds>gunRows[2].oneSecondRounds&&gunRows[2].oneSecondRounds>0&&gunRows[3].oneSecondRounds===0))failures.push(`WIP12 CIWS B3 firing cadence ${JSON.stringify(gunRows)}`);
++      if(!(gunRows.length===4&&ramRows.length===4&&gunRows[0].performance.health===1&&ramRows[0].performance.health===1&&gunRows.at(-1).performance.health===0&&ramRows.at(-1).performance.health===0))failures.push(`WIP13 CIWS B3 health endpoints ${JSON.stringify(b3)}`);
++      const commonSensorKeys=['searchRangeKm','trackRangeKm','cueTrackRangeKm','trackingSigmaFactor','dwellFactor','detectionProbabilityFactor'];
++      if(!(b3.sensorModel?.searchRangeKm===15&&b3.sensorModel?.trackRangeKm===10&&b3.sensorModel?.cueTrackRangeKm===15&&gunRows.every((row,i)=>commonSensorKeys.every(k=>Math.abs(row.performance[k]-ramRows[i].performance[k])<1e-12))))failures.push(`WIP13 common Block 1B sensor parity ${JSON.stringify(b3)}`);
++      if(!(monotonic(gunRows,'searchRangeKm')&&monotonic(gunRows,'maxTurretRateRadS')&&monotonic(gunRows,'fireRateRps')&&monotonic(gunRows,'trackingSigmaFactor',false)))failures.push(`WIP13 CIWS B3 Phalanx ordering ${JSON.stringify(gunRows)}`);
++      if(!(monotonic(ramRows,'searchRangeKm')&&monotonic(ramRows,'maxTurretRateRadS')&&monotonic(ramRows,'trackingSigmaFactor',false)&&monotonic(ramRows,'reloadIntervalS',false)))failures.push(`WIP13 CIWS B3 SeaRAM ordering ${JSON.stringify(ramRows)}`);
++      if(!(gunRows[0].oneSecondRounds===75&&gunRows[1].oneSecondRounds>gunRows[2].oneSecondRounds&&gunRows[2].oneSecondRounds>0&&gunRows[3].oneSecondRounds===0))failures.push(`WIP13 CIWS B3 firing cadence ${JSON.stringify(gunRows)}`);
+     }
+     // WIP92 SPG-62 target-engagement sharing / priority / cleanup regression.
+     {
+@@ -24161,7 +24176,7 @@
+     }
+ 
+     debugLog('A3-STATE-AUTH-V37 SELFTEST PASS');
+-    debugLog('CORE SELFTEST PASS: units+probability+CPA+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+SPS73-ANON-V35+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP12+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+terrain');
++    debugLog('CORE SELFTEST PASS: units+probability+CPA+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+SPS73-ANON-V35+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP13+CIWS-BLOCK1B-COMMON-SENSOR-WIP13+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+terrain');
+     return true;
+   }
+ 
+@@ -24891,7 +24906,7 @@
+   // WIP08 CIWS B1 closure surface. This is the sole mutable test fixture boundary for B1;
+   // browser tests do not reach private WIP75 helpers or simulator lexical state directly.
+   const CIWS_B1_CLOSURE_DIAG={
+-    schema:'CIWS_B1_CLOSURE_WIP12',fixture:null,condition:'AUTHORIZED',timeline:[],
++    schema:'CIWS_B1_CLOSURE_WIP13',fixture:null,condition:'AUTHORIZED',timeline:[],
+     resetMounts(){for(const m of ciws){Object.assign(m,{state:'IDLE',stateTimer:0,tracking:false,trackingTarget:null,trackingTrackId:null,cuedTarget:null,cueAge:999,firing:false,trackQuality:0,reloadTimer:0,_shotAccumulator:0});delete m._localTrack;}ciwsLocalDetectB1._contacts?.clear?.();},
+     prepare(opts={}){
+       _wip75ResetCase((Number(opts.seed)>>>0)||3710501);this.resetMounts();setEngagementControlMode('AUTO');resetModules();
+@@ -24928,7 +24943,7 @@
+     ciwsB1Snapshot:()=>({schema:'CIWS_OBSERVED_TRACK_CLOSURE_B1',mounts:ciws.map(m=>({id:m.id,type:m.type,cuedTrackId:m.cuedTarget??null,trackingTrackId:m.trackingTrackId??null,rankedThreats:ciwsObservedThreatsB1(m).map(r=>({...r}))}))}),
+     ciwsB1Closure:CIWS_B1_CLOSURE_DIAG,
+     ciwsB2Maneuver:Object.freeze({schema:'CIWS_B2_MANEUVER_WIP11',audit:()=>ciwsB2SyntheticAudit(),liveSensorAudit:()=>ciwsB2LiveSensorAudit()}),
+-    ciwsB3Damage:Object.freeze({schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP12',audit:()=>ciwsB3DamageAudit()}),
++    ciwsB3Damage:Object.freeze({schema:'CIWS_B3_CONTINUOUS_DAMAGE_WIP13',audit:()=>ciwsB3DamageAudit()}),
+     shipDynamics:()=>({physics:getShipDynamicsV15().snapshot(),pose:floodAttitudePreviewV1.snapshot(),speedMps:shipNav.speed,swayMps:shipNav.swayMps||0,turnRateRadS:shipNav.turnRate}),
+     setSeed: setSimulationSeed,
+     setArhSeekerModel: (mode) => setArhSeekerModel(mode),
