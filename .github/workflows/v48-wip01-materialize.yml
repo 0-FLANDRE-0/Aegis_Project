@@ -1,0 +1,54 @@
+name: Materialize v48 WIP01
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/v48-wip01-materialize.yml'
+      - 'tools/v48-wip01-html.patch'
+      - 'tools/v48-wip01-payload/**'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Materialize corrected version lineage
+        if: hashFiles('tools/v48-wip01-html.patch') != ''
+        run: |
+          set -euo pipefail
+          cp Aegis_SIM_v37.1_WIP14.html Aegis_SIM_v48_WIP01.html
+          patch Aegis_SIM_v48_WIP01.html < tools/v48-wip01-html.patch
+          cp tools/v48-wip01-payload/AEGIS_PLAN_STATUS_v48_WIP01.md .
+          cp tools/v48-wip01-payload/tests/ship-mass-ledger.spec.js tests/
+          rm Aegis_SIM_v37.1_WIP14.html AEGIS_PLAN_STATUS_v37.1_WIP14.md
+          rm -rf tools/v48-wip01-payload
+
+      - name: Verify corrected files and preserved stable baseline
+        if: hashFiles('tools/v48-wip01-html.patch') != ''
+        run: |
+          set -euo pipefail
+          test "$(sha256sum Aegis_SIM_v48_WIP01.html | cut -d' ' -f1)" = "2d571674c0e0f7c5d2eb6dedfdfc61b225d0e8e75865f750ddccb031d6a7653a"
+          test "$(sha256sum Aegis_SIM_v37.1.html | cut -d' ' -f1)" = "b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca"
+          test -s archive/v37.1/WIP13/Aegis_SIM_v37.1_WIP13.html
+          test -s archive/v37.1/WIP13/AEGIS_PLAN_STATUS_v37.1_WIP13.md
+          test ! -e Aegis_SIM_v37.1_WIP14.html
+          test ! -e AEGIS_PLAN_STATUS_v37.1_WIP14.md
+
+      - name: Commit corrected v48 WIP01 baseline
+        if: hashFiles('tools/v48-wip01-html.patch') != ''
+        run: |
+          set -euo pipefail
+          rm tools/v48-wip01-html.patch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: correct mass baseline to v48 WIP01"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
