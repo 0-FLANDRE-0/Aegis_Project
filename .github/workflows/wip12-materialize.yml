@@ -1,0 +1,59 @@
+name: Materialize WIP12
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/wip12-materialize.yml"
+      - "tools/wip12-html.patch"
+      - "tools/wip12-payload/**"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Build final WIP12 tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p archive/v37.1/WIP11 tests .github/workflows
+          cp Aegis_SIM_v37.1_WIP11.html archive/v37.1/WIP11/
+          cp AEGIS_PLAN_STATUS_v37.1_WIP11.md archive/v37.1/WIP11/
+          cp Aegis_SIM_v37.1_WIP11.html Aegis_SIM_v37.1_WIP12.html
+          patch --batch Aegis_SIM_v37.1_WIP12.html < tools/wip12-html.patch
+          cp tools/wip12-payload/AEGIS_PLAN_STATUS_v37.1_WIP12.md .
+          cp tools/wip12-payload/tests/*.js tests/
+          cp tools/wip12-payload/aegis-smoke.yml .github/workflows/aegis-smoke.yml
+          cp tools/wip12-payload/package.json package.json
+          cp tools/wip12-payload/package-lock.json package-lock.json
+          rm Aegis_SIM_v37.1_WIP11.html AEGIS_PLAN_STATUS_v37.1_WIP11.md
+          rm -rf tools/wip12-payload tools/wip12-html.patch
+          rm .github/workflows/wip12-materialize.yml
+
+      - name: Verify generated HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum Aegis_SIM_v37.1_WIP12.html | cut -d' ' -f1)" = "5d30e440ca2f3345d3de2c0dbed86178623ae72c118864e65116f23e7814b001"
+          test -s archive/v37.1/WIP11/Aegis_SIM_v37.1_WIP11.html
+          test ! -e Aegis_SIM_v37.1_WIP11.html
+
+      - name: Commit generated files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: complete CIWS closure B3"
+          git push origin "HEAD:${{ github.head_ref }}"
