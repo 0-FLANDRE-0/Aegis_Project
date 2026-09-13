@@ -1,6 +1,12 @@
 # 미사일 운동에너지·관통 출구·함체 충격 반응 v48 WIP02 — 2026-09-13
 
-## 구현 완료 · Actions 검증 대기
+## 구현 및 Actions 검증 완료
+
+- PR #13 code head `00d08c33680a4db359d4ec1dd8a51ceae4cfe318`의 Actions run `34738474270`(#45)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `aegis-3d-render`, `webgl-render-probe` 8개 job이 모두 통과했다.
+- 충돌 artifact의 schema는 `AEGIS_SHIP_IMPACT_V48_WIP02_V1`, 대표 파일은 `Aegis_SIM_v48_WIP02.html`, 기록 SHA-256은 `711b0863390e7e25f8cf751c4f5406cbc58db247b08aaba1688b2ba72911b874`로 일치한다. 11개 check가 모두 `true`이고 시작 자기검사·console·page 오류는 0건이다.
+- 원격 기준 Kh-32는 5,458.9136 MJ / 7,957,600 N·s, 반대 외판까지 19.8267 m, 출구 잔류에너지 204.531 MJ, 입구 1.5403 m² / 출구 1.1317 m²를 기록했다. Kh-35U는 2.8835 m에서 선내 정지했다. 수선 아래 Kh-32 불발 관통 후 4초에는 40.445 m³가 두 구획으로 유입되고 현재 GM은 1.47343 m로 변했다.
+- 질량 회귀도 WIP02 대표 파일과 같은 SHA에서 11개 check 전부 `true`, console/page 오류 0건, 20,000회 hot path 재합산 0회·cache hit 20,001회·3.6 ms를 기록했다. 실제 3D는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas를 확인했다. B1 matrix도 `pass: true`, 시간배율 1×/8×/16× 결정성 및 정지 상태 3D 격리를 통과했다.
+- artifact ID/digest는 충돌 `10312190994` / `sha256:ec989f90c2082d187ec93a49797e5adf5adfc61084d55d180138a41fd18c7454`, 질량 `10311497357` / `sha256:b3c30eb60cb64edae8a701cabe361656f4a6d23e8b62836ca9bff6ca6a9674cc`, B1 `10312335711` / `sha256:301c48f06ef9c0527a00932debfc90edb253efcbd83733b345ffb3c0a8c163f8`, B2 `10312151117` / `sha256:8168f656b1dbb707b06073613e98cb5aefcd7b8711d9293252d8f32db73afed4`, B3 `10311956409` / `sha256:f188ca859bd8563eec257165fbc82435c69281a9236b542ef13333bd376aaf0c`, 실제 3D `10311258139` / `sha256:d1e0e3baee5d6b4756063e0b473acc5fa35a763d2b31618622a535339cd247ec`, WebGL `10312280846` / `sha256:cb928528885907148fb1ae2ba8245ea546acde6bdb76d13ff2ce3bb0e243eb1a`다.
 
 - v48 WIP01의 구획 질량 장부와 동적 배수량/CG/GM을 그대로 사용하면서, 함정 충돌 1건마다 미사일 전체 질량·충돌 속도에서 운동에너지 `1/2 mv²`와 운동량 `mv`를 명시적으로 계산해 단일 impact event에 기록한다. 이 계산은 렌더 프레임이나 매 물리 tick에서 반복하지 않는다.
 - 기존 WIP100의 잔류에너지·외판/격벽 저항 경로를 유지하고, 동일한 선체 포함 판정으로 반대편 외판까지의 실제 chord를 고정 간격 추적+이분법으로 결정한다. 잔류 관통에너지가 그 거리까지 도달할 때만 `throughHull`과 출구를 생성한다.
