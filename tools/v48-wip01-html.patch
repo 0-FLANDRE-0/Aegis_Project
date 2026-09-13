@@ -1,0 +1,52 @@
+--- Aegis_SIM_v37.1_WIP14.html
++++ Aegis_SIM_v48_WIP01.html
+@@ -8891,7 +8891,7 @@
+ // detailed tank, store and compartment positions are SIM_ESTIMATED. The 1.5 m GM
+ // value is used once to calibrate the unknown lightship KG, never pinned at runtime.
+ const SHIP_MASS_BASIS_V32=Object.freeze({
+-  schema:'SHIP_COMPARTMENT_MASS_LEDGER_WIP14',
++  schema:'SHIP_COMPARTMENT_MASS_LEDGER_V48_WIP01',
+   fullLoadTargetKg:9652445.6336,
+   lightshipKg:7085245.6336,
+   calibratedFullLoadCGM:Object.freeze({x:-6.8719565,y:0,z:4.3882570}),
+@@ -24261,21 +24261,21 @@
+       if(!(probe.fragmentSpeedMps>1850&&probe.fragmentSpeedMps<1970)) failures.push(`WIP142 ESSM Gurney speed ${probe.fragmentSpeedMps}`);
+     }catch(err){failures.push('WIP142 ESSM warhead self-test '+String(err?.message??err));}
+ 
+-    // WIP14 event-driven mass ledger: exact default closure, spatial ownership,
++    // V48 WIP01 event-driven mass ledger: exact default closure, spatial ownership,
+     // cache reuse and low-tank KG response. Mutations are restored before exit.
+     try{
+       const ledger=getShipMassLedgerV32(),full=ledger.snapshot({detail:true}),p0=full.performance;
+-      if(Math.abs(full.massKg-SHIP_MASS_BASIS_V32.fullLoadTargetKg)>.001)failures.push(`WIP14 full-load mass closure ${full.massKg}`);
+-      if(Math.abs((full.categoryMassKg.ORDNANCE_FIXED||0)+(full.categoryMassKg.ORDNANCE_DYNAMIC||0)-SHIP_MASS_BASIS_V32.variableLoadsKg.ordnance)>.001)failures.push('WIP14 ordnance mass closure');
+-      const light=full.nodes.filter(q=>q.category==='LIGHTSHIP');if(light.length!==24||light.some(q=>!q.compartmentId))failures.push(`WIP14 lightship compartment ownership ${light.length}`);
+-      ledger.snapshot();const cached=ledger.snapshot();if(cached.performance.rebuilds!==p0.rebuilds)failures.push('WIP14 clean snapshot rebuilt ledger');
++      if(Math.abs(full.massKg-SHIP_MASS_BASIS_V32.fullLoadTargetKg)>.001)failures.push(`V48 WIP01 full-load mass closure ${full.massKg}`);
++      if(Math.abs((full.categoryMassKg.ORDNANCE_FIXED||0)+(full.categoryMassKg.ORDNANCE_DYNAMIC||0)-SHIP_MASS_BASIS_V32.variableLoadsKg.ordnance)>.001)failures.push('V48 WIP01 ordnance mass closure');
++      const light=full.nodes.filter(q=>q.category==='LIGHTSHIP');if(light.length!==24||light.some(q=>!q.compartmentId))failures.push(`V48 WIP01 lightship compartment ownership ${light.length}`);
++      ledger.snapshot();const cached=ledger.snapshot();if(cached.performance.rebuilds!==p0.rebuilds)failures.push('V48 WIP01 clean snapshot rebuilt ledger');
+       const baseMass=full.massKg,baseKg=full.cgM.z,baseRebuilds=cached.performance.rebuilds;
+       ledger.setLoadFraction('ballast.fwd',0);ledger.setLoadFraction('ballast.aft',0);const lightened=ledger.snapshot();
+-      if(Math.abs((baseMass-lightened.massKg)-220000)>.001||!(lightened.cgM.z>baseKg))failures.push('WIP14 low ballast mass/KG response');
+-      if(lightened.performance.rebuilds!==baseRebuilds+1)failures.push('WIP14 dirty changes must coalesce into one rebuild');
+-      ledger.snapshot();if(ledger.snapshot().performance.rebuilds!==lightened.performance.rebuilds)failures.push('WIP14 post-change cache reuse');
+-      ledger.setLoadFraction('ballast.fwd',1);ledger.setLoadFraction('ballast.aft',1);const restored=ledger.snapshot();if(Math.abs(restored.massKg-baseMass)>.001)failures.push('WIP14 ledger restore closure');
+-    }catch(err){failures.push('WIP14 mass-ledger self-test '+String(err?.message??err));}
++      if(Math.abs((baseMass-lightened.massKg)-220000)>.001||!(lightened.cgM.z>baseKg))failures.push('V48 WIP01 low ballast mass/KG response');
++      if(lightened.performance.rebuilds!==baseRebuilds+1)failures.push('V48 WIP01 dirty changes must coalesce into one rebuild');
++      ledger.snapshot();if(ledger.snapshot().performance.rebuilds!==lightened.performance.rebuilds)failures.push('V48 WIP01 post-change cache reuse');
++      ledger.setLoadFraction('ballast.fwd',1);ledger.setLoadFraction('ballast.aft',1);const restored=ledger.snapshot();if(Math.abs(restored.massKg-baseMass)>.001)failures.push('V48 WIP01 ledger restore closure');
++    }catch(err){failures.push('V48 WIP01 mass-ledger self-test '+String(err?.message??err));}
+ 
+     window.__CORE_SELFTEST_FAILURES__=failures.slice();
+     if(failures.length){
+@@ -24285,7 +24285,7 @@
+     }
+ 
+     debugLog('A3-STATE-AUTH-V37 SELFTEST PASS');
+-    debugLog('CORE SELFTEST PASS: units+probability+CPA+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+SPS73-ANON-V35+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP13+CIWS-BLOCK1B-COMMON-SENSOR-WIP13+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+SHIP-COMPARTMENT-MASS-LEDGER-WIP14+terrain');
++    debugLog('CORE SELFTEST PASS: units+probability+CPA+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+SPS73-ANON-V35+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP13+CIWS-BLOCK1B-COMMON-SENSOR-WIP13+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+SHIP-COMPARTMENT-MASS-LEDGER-V48-WIP01+terrain');
+     return true;
+   }
+ 
