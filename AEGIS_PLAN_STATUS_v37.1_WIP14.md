@@ -1,6 +1,6 @@
 # 함정 구획 질량·배수량·동적 GM 기반 WIP14 — 2026-09-13
 
-## 구현 및 검증 대기
+## 구현 및 검증 완료
 
 - 기존 `dryMass = z=0 수선 아래 선체 체적 × 해수 밀도`를 만재배수량처럼 사용하던 경로를 분리했다. WIP14의 Flight IIA 게임 기준 만재 질량은 9,652,445.6336 kg(9,500 long tons), 유효 lightship 질량은 7,085,245.6336 kg이며 두 값의 의미를 진단값에 별도로 남긴다.
 - 24개 기존 침수 구획에 lightship 질량을 배분하고, 추진연료 1,500 t, 항공유 120 t, 담수 180 t, service/ballast 220 t, 기술유체 80 t, 무장 116.1 t, MH-60R 2대 17 t, 승조원·개인장구 34.1 t, 보급·예비품 250 t, 임무 적재물 50 t를 위치·모멘트가 있는 질량 노드로 구성했다. 상세 위치와 일부 탄약 질량은 실제 함정 중량 보고가 아닌 `SIM_ESTIMATED`로 명시한다.
@@ -9,9 +9,13 @@
 - GM 1.5 m는 더 이상 매 tick 고정값이 아니다. 공개 세부 중량분포가 없는 lightship KG를 최초 표준 만재 상태에 맞추는 `CALIBRATED_REFERENCE`로만 사용한다. 이후 런타임 GM은 현재 배수량에서 구한 `KM - KG - free-surface correction`이며 침수수, 탄약 소모, 저부 유체 제거, 승조원 이동 및 기존 외판·mast 질량 손실 모멘트를 반영한다.
 - 9,652,445.6336 kg 표준 만재 상태의 평형 흘수 보정은 +1.020125 m, KG는 4.388257 m, 계산 GM은 1.500000017 m다. 선수·선미 저부 ballast 220 t 제거 진단에서는 질량 9,432,445.6336 kg, KG 4.537255 m, GM 1.406117 m, 평형 흘수 약 +0.9353 m로 변해 GM이 고정되지 않음을 확인했다.
 - 시작 자기검사에 만재 질량·무장 질량 폐합, 24구획 소유권, clean-cache 무재계산, 여러 dirty 변경의 단일 재합산, 저부 ballast 제거의 KG 증가 및 복구 검사를 추가했다. 별도 Playwright `ship-mass-ledger` 검사는 같은 계약과 실제 동역학 연결, SM-2 1발 소모 시 708 kg 감소, 20,000회 cache hot path를 브라우저에서 검증하고 JSON·화면 artifact를 남긴다.
-- 로컬 Chromium에서 시작 자기검사 실패 0, 질량 장부 11개 check, CIWS B1 matrix, B2, B3는 통과했다. 3D visual은 코드 오류가 아니라 현재 실행환경에서 jsDelivr Three.js 요청이 `ERR_EMPTY_RESPONSE`로 차단되어 로컬 종결하지 않았다. WIP14 Actions의 실제 네트워크/3D job과 artifact 확인 전에는 완료로 승격하지 않는다.
+- 로컬 Chromium에서 시작 자기검사 실패 0, 질량 장부 11개 check, CIWS B1 matrix, B2, B3는 통과했다. 로컬 3D visual은 실행환경의 jsDelivr 차단으로 실행할 수 없었으나, 아래 Actions의 실제 네트워크/3D job과 artifact로 종결했다.
 - workflow 대표 파일은 `Aegis_SIM_v37.1_WIP14.html`로 변경했으며 새 `ship-mass-ledger` job을 추가했다. WIP13 HTML·상태 문서는 이미 `archive/v37.1/WIP13/`에 원본 blob 그대로 보존되어 있으며, WIP14에서는 그 아카이브를 변경하지 않는다.
 - WIP14 HTML SHA-256은 `fcc1cd00cc07f3f3747eb4ab81651172462570d4852d35567ba862aef0c2e3e4`다.
+- PR #11 code head `6ceb3d01f23208eb45706bad3ea2b3646bf29677`의 Actions run `34736193172`(#36)에서 `static-smoke`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `aegis-3d-render`, `webgl-render-probe` 7개 job이 모두 통과했다.
+- 질량 artifact JSON은 11개 check가 모두 `true`, 시작 자기검사·console·page 오류가 모두 0건이다. 표준 만재 9,652,445.6336 kg, 220 t ballast 제거 후 9,432,445.6336 kg / KG 4.537255 m / GM 1.406117 m, SM-2 1발 소모 후 정확히 708 kg 감소를 기록했다. 20,000회 hot-path 조회는 재합산 0회, cache hit 20,001회, 7.9 ms였다.
+- 실제 3D artifact는 Three.js r160, WebGL 2, `ready: true`, `auditPass: true`, 1600×757 canvas와 WIP14 대표 파일을 확인했다. CIWS B1은 2개 test 통과 및 실패 check 0, B2·B3도 전부 통과했다.
+- artifact ID/digest는 질량 `10311445246` / `sha256:a49a7e10c7f4f5169d73be81ee73222b98e247d7acf652cc7bc493d64c6e5d64`, B1 `10311172385` / `sha256:890f6f2ef7efd529bc31edb9ec99ceb55045e1e047817facc30fa20641b9b538`, B2 `10310957922` / `sha256:8c2684a2154fc691bf9f9e63f5757d2b55f496024fbb0369fc40fc3b3bb1d227`, B3 `10310678730` / `sha256:9912d4367a460428f0f45aac59c924b8d1e167e19f2ec16534d459333c32be74`, 실제 3D `10310793291` / `sha256:429a25bf7b71c4ac604917a5a01d38c5f441d62e865e98eee64be2f8b301f556`, WebGL `10311445228` / `sha256:21d03743cba9aaba1af75e27145a4b83445bfaa2710477db11cec52422d28b7f`다.
 
 ---
 
