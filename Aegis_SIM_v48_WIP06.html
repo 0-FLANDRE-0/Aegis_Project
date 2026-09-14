@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-  <title>Naval Combat Simulator — AEGIS + Ship Control</title>
+  <title>AEGIS v48 WIP06 — Functional Interior / Clear Hangars</title>
   <style>
     :root {
       --bg: #020a0f;
@@ -8722,7 +8722,9 @@ const V48_WIP06_INTERIOR_MODEL=Object.freeze({
   contract:'AUTHORITATIVE_SPATIAL_TOPOLOGY',
   renderContract:'PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT',
   automation:Object.freeze({mode:'AUTO_ASSISTED',automaticIsolation:true,automaticTeamAssignment:true,automaticSafeRouteSelection:true,playerControl:'ZONE_PRIORITY_AND_OVERRIDE',perDoorMicromanagement:false}),
+  updatePolicy:Object.freeze({cadenceHz:1,eventDrivenOverrides:true,floodParentCells:24,renderFrameRecompute:false}),
   coordinates:Object.freeze({frame:'SHIP_LOCAL_METRES',longitudinal:'+X_BOW',transverse:'+Y_STARBOARD',vertical:'+Z_UP'}),
+  buildId:'WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3',
   provenance:'PLAUSIBLE_FLIGHT_IIA_INSPIRED_SIM_LAYOUT_NOT_SHIPYARD_DRAWING'
 });
 
@@ -8734,9 +8736,13 @@ function createShipInteriorTopologyV48Wip06(flood){
     {id:'L1',label:'하부 1갑판',z0:-2.0,z1:.6,color:0x4ea49c},
     {id:'MAIN',label:'주갑판',z0:.8,z1:3.2,color:0x62b5d4},
     {id:'UPPER',label:'상갑판',z0:3.4,z1:5.8,color:0x78c6a3},
+    {id:'H0',label:'격납고 주층',z0:5.30,z1:6.05,color:0x89c98b},
     {id:'S1',label:'상부구조 1층',z0:6.15,z1:8.85,color:0xe0a85d},
     {id:'S2',label:'상부구조 2층',z0:9.05,z1:11.75,color:0xd47e64},
-    {id:'S3',label:'상부구조 3층',z0:11.95,z1:14.45,color:0xc66aa0}
+    {id:'S3',label:'상부구조 3층',z0:11.95,z1:14.45,color:0xc66aa0},
+    {id:'S4',label:'상부구조 4층',z0:14.65,z1:17.25,color:0xad72c9},
+    {id:'S5',label:'상부 함교층',z0:17.45,z1:20.05,color:0x8f7bd8},
+    {id:'S6',label:'연돌·마스트 상부 트렁크',z0:20.25,z1:23.85,color:0x6f7794}
   ];
   const deckById=new Map(decks.map(d=>[d.id,d])),raw=[];
   const add=(id,label,deck,x0,x1,y0,y1,kind='ROOM',options={})=>{const d=deckById.get(deck);raw.push({id,label,deck,kind,x0,x1,y0,y1,z0:options.z0??d.z0,z1:options.z1??d.z1,routeable:options.routeable!==false,occupiable:options.occupiable!==false,watertightClass:options.watertightClass??(deck==='L1'||deck==='L2'?'WT':'WEATHERTIGHT'),fireZone:options.fireZone??`${deck}.${Math.round((x0+x1)/20)}`,system:options.system??null,capacity:Math.max(0,Math.floor(options.capacity??12)),notes:options.notes??null});};
@@ -8792,68 +8798,197 @@ function createShipInteriorTopologyV48Wip06(flood){
   add('upper.cic.lower','전투정보실 하부','UPPER',3,18,-4.8,4.8,'CONTROL',{system:'CDC',capacity:34});
   add('upper.galley.mess','조리실·식당','UPPER',-16,3,-4.9,4.9,'HABITABLE',{capacity:54});
   add('upper.vls.aft','후방 VLS 구획','UPPER',-38,-20,-4.5,4.5,'MAGAZINE',{system:'VLS_AFT',capacity:6});
-  add('upper.hangar','격납고','UPPER',-58,-38,-6.2,6.2,'AVIATION',{system:'HANGAR',capacity:20});
   add('upper.flight.access','비행갑판 출입구','UPPER',-68,-58,-3.8,3.8,'EXTERIOR_ACCESS',{capacity:12});
 
-  // Superstructure compartments are not assumed watertight. Their main combat
-  // significance is fire/smoke, blast shielding and equipment/crew exposure.
-  add('s1.passage.fwd','전방 상부구조 통로','S1',8,36,-.9,.9,'PASSAGE',{capacity:12,watertightClass:'FIRE_BOUNDARY'});
-  add('s1.passage.aft','후방 상부구조 통로','S1',-43,8,-.9,.9,'PASSAGE',{capacity:12,watertightClass:'FIRE_BOUNDARY'});
-  add('s1.combat.center','전투지휘소','S1',15,34,-4.7,4.7,'CONTROL',{system:'COMBAT_CENTER',capacity:38,watertightClass:'CITADEL'});
-  add('s1.comms.port','통신실 좌현','S1',0,15,-4.5,-1.15,'ELECTRONICS',{system:'COMMS',capacity:12});
-  add('s1.ew.starboard','전자전실 우현','S1',0,15,1.15,4.5,'ELECTRONICS',{system:'EW',capacity:12});
-  add('s1.engineering.control','기관제어실','S1',-14,0,-4.3,4.3,'CONTROL',{system:'ENGINE_CONTROL',capacity:16});
-  add('s1.hangar.upper','격납고 상부 작업대','S1',-43,-20,-5.6,5.6,'AVIATION',{capacity:12});
+  // The accepted hangar shell begins above the weather deck.  It is a separate
+  // vertical layer, not a longitudinal subdivision of the old UPPER room.
+  add('h0.passage.hangar','격납고 주층 중앙통로','H0',-56.6,-30.3,-.72,.72,'PASSAGE',{capacity:12,watertightClass:'FIRE_BOUNDARY'});
+  add('h0.hangar.bay.port','좌현 헬기 격납고 주실','H0',-56.6,-30.3,-8.45,-.92,'AVIATION',{system:'HANGAR_PORT',capacity:18,watertightClass:'FIRE_BOUNDARY'});
+  add('h0.hangar.bay.starboard','우현 헬기 격납고 주실','H0',-56.6,-30.3,.92,8.45,'AVIATION',{system:'HANGAR_STARBOARD',capacity:18,watertightClass:'FIRE_BOUNDARY'});
 
-  add('s2.passage','함교층 중앙 통로','S2',-28,38,-.85,.85,'PASSAGE',{capacity:12,watertightClass:'FIRE_BOUNDARY'});
-  add('s2.bridge','함교·조타실','S2',20,38,-4.5,4.5,'CONTROL',{system:'BRIDGE',capacity:22,watertightClass:'CITADEL'});
-  add('s2.navigation','항해·작전지원실','S2',7,20,-4.2,4.2,'CONTROL',{capacity:14});
-  add('s2.radar.equipment','SPY 신호처리실','S2',-7,7,-4.0,4.0,'ELECTRONICS',{system:'SPY_1D',capacity:12});
-  add('s2.fan.port','전방 환기기실 좌현','S2',-22,-7,-3.9,-1.05,'MACHINERY',{system:'VENTILATION',capacity:6});
-  add('s2.fan.starboard','전방 환기기실 우현','S2',-22,-7,1.05,3.9,'MACHINERY',{system:'VENTILATION',capacity:6});
-  add('s3.flag.bridge','상부 함교·감시소','S3',12,32,-3.6,3.6,'CONTROL',{capacity:12,watertightClass:'WEATHERTIGHT'});
-  add('s3.mast.electronics','마스트 전자장비실','S3',-6,12,-3.2,3.2,'ELECTRONICS',{system:'MAST',capacity:8,watertightClass:'WEATHERTIGHT'});
+  // Superstructure: plausible functional zoning constrained to the accepted
+  // exterior envelope.  This is deliberately not claimed as a shipyard plan.
+  const superPassage=(id,label,deck,x0,x1,options={})=>add(id,label,deck,x0,x1,-.72,.72,'PASSAGE',{capacity:10,watertightClass:'FIRE_BOUNDARY',...options});
+  const sidePair=(base,label,deck,x0,x1,yOuter,kind='ELECTRONICS',system=null,options={})=>{
+    add(`${base}.port`,`${label} 좌현`,deck,x0,x1,-yOuter,-.92,kind,{system,capacity:7,watertightClass:kind==='CONTROL'?'CITADEL':'FIRE_BOUNDARY',...options});
+    add(`${base}.starboard`,`${label} 우현`,deck,x0,x1,.92,yOuter,kind,{system,capacity:7,watertightClass:kind==='CONTROL'?'CITADEL':'FIRE_BOUNDARY',...options});
+  };
 
-  const spaces=raw.map(q=>{const cx=(q.x0+q.x1)/2,cy=(q.y0+q.y1)/2,cz=(q.z0+q.z1)/2,parent=flood?.cellAt?.({x:cx,y:cy,z:cz});return deepFreeze({...q,center:{x:cx,y:cy,z:cz},volumeM3:(q.x1-q.x0)*(q.y1-q.y0)*(q.z1-q.z0),parentFloodCellId:parent?.id??null});});
-  const byId=new Map(spaces.map(s=>[s.id,s])),portals=[];let serial=0;
-  const link=(aId,bId,kind='DOOR',options={})=>{const a=byId.get(aId),b=byId.get(bId);if(!a||!b)throw Error(`WIP06 unknown portal endpoint ${aId}/${bId}`);const dx=Math.abs(a.center.x-b.center.x),dy=Math.abs(a.center.y-b.center.y),dz=Math.abs(a.center.z-b.center.z),axis=options.axis??(dz>Math.max(dx,dy)?'Z':dx>=dy?'X':'Y'),position={x:(a.center.x+b.center.x)/2,y:(a.center.y+b.center.y)/2,z:(a.center.z+b.center.z)/2};portals.push(deepFreeze({id:`portal.${String(++serial).padStart(3,'0')}`,a:aId,b:bId,kind,axis,position,widthM:options.widthM??(kind==='STAIR'?1.2:kind==='LADDER'?.75:1),heightM:options.heightM??(axis==='Z'?.3:2),capacity:options.capacity??(kind==='STAIR'?4:2),normallyOpen:options.normallyOpen??!['WATERTIGHT_DOOR','FIRE_DOOR','ACCESS_HATCH'].includes(kind),automatic:options.automatic!==false,stretcherPassable:options.stretcherPassable??!['LADDER','ACCESS_HATCH'].includes(kind)}));};
+  superPassage('s1.passage.bridge','전방 전투구역 통로','S1',15.5,39.2,{z0:7.60});
+  superPassage('s1.passage.mid','중앙 서비스 통로','S1',-8.5,8.7,{z0:6.95});
+  superPassage('s1.passage.aft','후방 지원구역 통로','S1',-29.6,-17.5,{z0:6.90});
+  superPassage('s1.passage.hangar','격납고 상부 통로','S1',-56.5,-30.3);
+  sidePair('s1.cic','전투정보실','S1',15.8,21.5,5.8,'CONTROL','COMBAT_CENTER',{z0:7.60});
+  sidePair('s1.weapons.control','무장통제실','S1',21.7,27.3,5.6,'CONTROL','WEAPON_CONTROL',{z0:7.60});
+  sidePair('s1.comms','전술통신실','S1',27.5,33.2,5.25,'ELECTRONICS','COMMS',{z0:7.60});
+  sidePair('s1.ew','전자전실','S1',33.4,39.0,4.25,'ELECTRONICS','EW',{z0:7.60});
+  sidePair('s1.engineering.control','기관제어실','S1',-8.3,.0,5.55,'CONTROL','ENGINE_CONTROL',{z0:6.95});
+  sidePair('s1.damage.control.aux','보조 피해통제실','S1',.2,8.5,5.55,'CONTROL','DAMAGE_CONTROL_AUX',{z0:6.95});
+  sidePair('s1.aft.electrical','후방 배전실','S1',-29.4,-23.6,4.75,'MACHINERY','ELECTRICAL_AFT',{z0:6.90});
+  sidePair('s1.aft.vent','후방 환기기실','S1',-23.4,-17.7,4.75,'MACHINERY','VENTILATION_AFT',{z0:6.90});
+  sidePair('s1.hangar.catwalk','격납고 상부 작업대','S1',-56.2,-30.6,8.45,'AVIATION','HANGAR_SUPPORT');
+
+  superPassage('s2.passage.bridge','함교 하부 중앙 통로','S2',16.0,38.8);
+  superPassage('s2.passage.mid','중앙 전자구역 통로','S2',-8.4,8.5,{z1:11.10});
+  superPassage('s2.passage.aft','후방 센서지원 통로','S2',-29.4,-17.6);
+  superPassage('s2.passage.hangar','격납고 상부 탈출 통로','S2',-56.2,-30.5);
+  sidePair('s2.spy.front','SPY 전방 송수신기실','S2',16.2,21.7,5.4,'ELECTRONICS','SPY_FWD');
+  sidePair('s2.navigation','항해계획실','S2',21.9,27.3,5.15,'CONTROL','NAVIGATION');
+  sidePair('s2.spy.aft','SPY 후방 송수신기실','S2',27.5,33.0,4.9,'ELECTRONICS','SPY_AFT');
+  sidePair('s2.bridge.support','함교 지원실','S2',33.2,38.6,4.15,'CONTROL','BRIDGE_SUPPORT');
+  sidePair('s2.spy.processor','SPY 신호처리실','S2',-8.2,.0,5.45,'ELECTRONICS','SPY_PROCESSOR',{z1:11.10});
+  sidePair('s2.spy.cooling','SPY 냉각·전력변환실','S2',.2,8.3,5.45,'MACHINERY','SPY_COOLING_POWER',{z1:11.10});
+  sidePair('s2.aft.radar','후방 레이더 기기실','S2',-29.2,-23.5,4.65,'ELECTRONICS','AFT_RADAR');
+  sidePair('s2.aft.fan','후방 급배기실','S2',-23.3,-17.8,4.65,'MACHINERY','VENTILATION_AFT');
+  sidePair('s2.hangar.escape','격납고 상부 탈출로','S2',-55.9,-30.8,8.15,'AVIATION','HANGAR_ESCAPE');
+
+  superPassage('s3.passage.bridge','함교 운용층 중앙 통로','S3',17.0,37.8);
+  superPassage('s3.passage.aft','후방 상부구조 통로','S3',-29.2,-17.8);
+  sidePair('s3.spy.interface.fwd','SPY 전방 배열 접속실','S3',17.2,22.2,4.95,'ELECTRONICS','SPY_FWD_INTERFACE');
+  sidePair('s3.combat.systems','전투체계 정비실','S3',22.4,27.4,4.75,'ELECTRONICS','AEGIS_CSE');
+  sidePair('s3.flag.plot','지휘·기함 작전실','S3',27.6,32.5,4.5,'CONTROL','FLAG_PLOT');
+  sidePair('s3.spy.interface.aft','SPY 후방 배열 접속실','S3',32.7,37.5,3.8,'ELECTRONICS','SPY_AFT_INTERFACE');
+  sidePair('s3.aft.mast.control','후방 마스트 제어실','S3',-29.0,-23.4,4.4,'ELECTRONICS','AFT_MAST');
+  sidePair('s3.aft.dc.locker','상부 보수반 대기실','S3',-23.2,-18.0,4.4,'CONTROL','DAMAGE_CONTROL_AFT');
+  add('s3.hangar.loft.port','격납고 상부 점검공간 좌현','S3',-55.7,-31.0,-7.85,-.92,'AVIATION',{system:'HANGAR_LOFT',capacity:5,watertightClass:'FIRE_BOUNDARY',z1:12.40});
+  add('s3.hangar.loft.starboard','격납고 상부 점검공간 우현','S3',-55.7,-31.0,.92,7.85,'AVIATION',{system:'HANGAR_LOFT',capacity:5,watertightClass:'FIRE_BOUNDARY',z1:12.40});
+
+  superPassage('s4.passage.bridge','상부 함교 중앙 통로','S4',18.0,35.8);
+  sidePair('s4.spy.power','SPY 배열 전력조절실','S4',18.2,23.8,4.35,'ELECTRONICS','SPY_POWER');
+  sidePair('s4.spy.waveguide','SPY 도파관·분배실','S4',24.0,29.6,4.15,'ELECTRONICS','SPY_WAVEGUIDE');
+  sidePair('s4.bridge.watch','함교 당직지원실','S4',29.8,34.0,3.30,'CONTROL','BRIDGE_WATCH');
+  add('s4.mast.electronics','주 마스트 기부 전자실','S4',15.0,18.0,-2.25,2.25,'ELECTRONICS',{system:'MAIN_MAST',capacity:5,watertightClass:'WEATHERTIGHT'});
+  add('s4.stair.lobby','상부 함교 계단실','S4',26.0,29.2,-.68,.68,'PASSAGE',{capacity:6,watertightClass:'FIRE_BOUNDARY'});
+
+  superPassage('s5.passage.bridge','최상부 함교 중앙 통로','S5',19.0,34.2);
+  sidePair('s5.pilothouse','조타·함정통제소','S5',19.2,24.0,3.7,'CONTROL','PILOTHOUSE');
+  sidePair('s5.ood','당직사관·항해당직소','S5',24.2,29.0,3.55,'CONTROL','OOD');
+  sidePair('s5.lookout','견시·신호소','S5',29.2,33.0,2.90,'CONTROL','LOOKOUT');
+  add('s5.stair.lobby','최상부 함교 계단실','S5',25.5,28.5,-.62,.62,'PASSAGE',{capacity:5,watertightClass:'WEATHERTIGHT'});
+
+  // Exhaust and mast trunks are structural/service voids, not crew rooms. They
+  // fill the visible upper shells without becoming normal route nodes.
+  const trunk=(id,label,deck,x0,x1,options={})=>add(id,label,deck,x0,x1,options.y0??-3.45,options.y1??3.45,options.kind??'EXHAUST_TRUNK',{routeable:false,occupiable:false,capacity:0,system:options.system??'EXHAUST_UPTAKE',watertightClass:'STRUCTURAL_VOID',...options});
+  for(const deck of ['S1','S2','S3','S4','S5']){
+    trunk(`${deck.toLowerCase()}.funnel.forward`,`전방 연돌 배기 트렁크 ${deck}`,deck,8.0,15.7);
+    trunk(`${deck.toLowerCase()}.funnel.aft`,`후방 연돌 배기 트렁크 ${deck}`,deck,-15.4,-8.0,{z1:deck==='S5'?20.00:undefined});
+  }
+  trunk('s6.funnel.forward','전방 연돌 상부 배기 트렁크','S6',8.4,14.8,{z1:23.80});
+  trunk('s6.funnel.aft','후방 연돌 상부 배기 트렁크','S6',-14.8,-8.8,{z1:22.40});
+  trunk('s4.mast.trunk','주 마스트 기부 구조 트렁크','S4',15.2,18.2,{y0:-1.35,y1:1.35,kind:'MAST_TRUNK',system:'MAIN_MAST'});
+  trunk('s5.mast.trunk','주 마스트 중부 구조 트렁크','S5',15.2,18.0,{y0:-1.15,y1:1.15,kind:'MAST_TRUNK',system:'MAIN_MAST'});
+  trunk('s6.mast.trunk','주 마스트 상부 구조 트렁크','S6',15.3,17.9,{y0:-1.0,y1:1.0,kind:'MAST_TRUNK',system:'MAIN_MAST'});
+
+  // WIP06 R3: usable interiors. Hangar clearance is a single tall volume per bay;
+  // only perimeter galleries have intermediate floors. No aircraft performance claim.
+  const obsolete=q=>q.id.includes('hangar')||q.deck.startsWith('S')&&q.x0>=15&&q.kind!=='EXHAUST_TRUNK'&&q.kind!=='MAST_TRUNK';
+  for(let i=raw.length-1;i>=0;i--)if(obsolete(raw[i]))raw.splice(i,1);
+  const room=(id,label,deck,x0,x1,y0,y1,kind,system,z0,z1)=>add(id,label,deck,x0,x1,y0,y1,kind,{system,z0,z1,watertightClass:'FIRE_BOUNDARY'});
+  // Long clear door-to-bay lane, aligned with the existing paired hangar doors.
+  for(const [side,sign] of [['port',-1],['starboard',1]]){
+    const bounds=(a,b)=>sign<0?[-b,-a]:[a,b];
+    room(`h0.hangar.bay.${side}`,`${sign<0?'좌':'우'}현 격납고 · 전고 개방`,'H0',-56.45,-34.4,...bounds(1.2,7.3),'HANGAR_BAY','HANGAR',5.65,11.95);
+    room(`h0.hangar.service.${side}`,'격납고 측면 보행로','H0',-56.45,-34.4,...bounds(7.45,8.05),'PASSAGE',null,5.65,8.1);
+    room(`s2.hangar.catwalk.${side}`,'측벽 상부 점검 갤러리','S2',-54.8,-34.4,...bounds(7.45,8.05),'CATWALK','HANGAR_SUPPORT',9.5,11.65);
+    room(`h0.hangar.shop.${side}`,'항공 정비 작업실','H0',-32.95,-30.25,...bounds(.2,4.0),'WORKSHOP','AVIATION_MAINTENANCE',5.65,8.35);
+    room(`h0.hangar.store.${side}`,'항공 공구·부품실','H0',-32.95,-30.25,...bounds(4.2,8.05),'STORE','AVIATION_STORE',5.65,8.35);
+    room(`s2.hangar.support.${side}`,'항공 지원·설비실','S2',-32.95,-30.25,...bounds(.2,8.05),'MACHINERY','AVIATION_SUPPORT',8.55,11.95);
+  }
+  room('h0.passage.hangar','격납고 전방 횡통로','H0',-34.2,-33.15,-8.05,8.05,'PASSAGE',null,5.65,8.35);
+  room('h0.hangar.divider','격납고 중앙 분리벽·설비 통로','H0',-56.45,-34.4,-1.0,1.0,'PASSAGE',null,5.65,8.1);
+  // Different function-led floor plans. +X is forward: the pilothouse occupies
+  // the forward glazing, with chart/radio/captain spaces behind it.
+  const levels=[
+    ['S1',7.65,9.85,15.9,38.3,-.9,.7,
+      [[15.9,26.2,'전투정보실','CONTROL','COMBAT_CENTER'],[26.4,33.2,'무장통제실','CONTROL','WEAPON_CONTROL'],[33.4,38.3,'전술통신실','ELECTRONICS','COMMS']],
+      [[15.9,20.1,'서버·배전실','ELECTRONICS','CIC_POWER'],[20.3,30.8,'전투체계 운용실','CONTROL','AEGIS_CSE'],[31,38.3,'전자전실','ELECTRONICS','EW']],5.8],
+    ['S2',10.05,12.25,16.6,37.7,-.5,1.1,
+      [[16.6,23.7,'SPY 후방 송수신실','ELECTRONICS','SPY_AFT'],[23.9,28.1,'레이더 냉각실','MACHINERY','SPY_COOLING'],[28.3,37.7,'SPY 전방 송수신실','ELECTRONICS','SPY_FWD']],
+      [[16.6,21.2,'SPY 전력변환실','ELECTRONICS','SPY_POWER'],[21.4,32.5,'SPY 신호처리실','ELECTRONICS','SPY_PROCESSOR'],[32.7,37.7,'레이더 정비실','WORKSHOP','SPY_MAINTENANCE']],5.35],
+    ['S3',12.45,14.65,17.5,36.7,-1.0,.6,
+      [[17.5,22,'센서 접속실','ELECTRONICS','SPY_INTERFACE'],[22.2,31.4,'지휘·작전실','CONTROL','FLAG_PLOT'],[31.6,36.7,'항해계획실','CONTROL','NAVIGATION']],
+      [[17.5,25.4,'SPY 도파관실','ELECTRONICS','SPY_WAVEGUIDE'],[25.6,29,'통신 교환실','ELECTRONICS','COMMS'],[29.2,36.7,'전투체계 정비실','WORKSHOP','AEGIS_CSE']],4.85],
+    ['S4',14.85,17.25,18.8,34.0,-.6,1.0,
+      [[18.8,25.1,'마스트 전자지원실','ELECTRONICS','MAIN_MAST'],[25.3,29,'함장 해상대기실','HABITABLE','CAPTAIN'],[29.2,34,'항해 당직지원실','CONTROL','BRIDGE_WATCH']],
+      [[18.8,22,'전원 분배실','ELECTRONICS','SPY_POWER'],[22.2,30.4,'레이더 배열 기기실','ELECTRONICS','SPY_INTERFACE'],[30.6,34,'신호장구실','STORE','SIGNAL']],4.2]
+  ];
+  for(const [d,z0,z1,xa,xb,ya,yb,left,right,width] of levels){
+    room(`${d.toLowerCase()}.passage.bridge`,'함교 종통로',d,xa,xb,ya,yb,'PASSAGE',null,z0,z1);
+    for(const [side,rows,y0,y1] of [['port',left,-width,ya-.18],['starboard',right,yb+.18,width]])rows.forEach(([a,b,label,kind,system],i)=>room(`${d.toLowerCase()}.bridge.${side}.${i}`,label,d,a,b,y0,y1,kind,system,z0,z1));
+  }
+  room('s5.passage.bridge','함교 후부 횡통로','S5',24.35,25.85,-5.0,4.6,'PASSAGE',null,17.45,20.05);
+  room('s5.bridge.pilothouse','전방 통합 조타·견시실','S5',26.05,33.2,-5.3,4.8,'CONTROL','PILOTHOUSE',17.45,20.05);
+  room('s5.bridge.chart','해도·항해실','S5',19.6,24.15,-4.2,-1.35,'CONTROL','NAVIGATION',17.45,20.05);
+  room('s5.bridge.radio','함교 무선실','S5',19.6,22.1,1.35,4.0,'ELECTRONICS','COMMS',17.45,20.05);
+  room('s5.bridge.captain','함장 대기실','S5',22.3,24.15,1.35,4.0,'HABITABLE','CAPTAIN',17.45,20.05);
+  room('s5.bridge.stair','함교 계단 전실','S5',19.6,24.15,-1.15,1.15,'PASSAGE',null,17.45,20.05);
+
+  // Preserve every original/functional room as one room.  Density comes from
+  // additional vertical shells and real functional spaces, never ID inflation.
+  const macroMembers=new Map(raw.map(q=>[q.id,[q.id]]));
+  const expanded=raw.map(q=>({...q,macroId:q.id,segmentIndex:0,segmentCount:1}));
+  const spaces=expanded.map(q=>{const cx=(q.x0+q.x1)/2,cy=(q.y0+q.y1)/2,cz=(q.z0+q.z1)/2,parent=flood?.cellAt?.({x:cx,y:cy,z:Math.min(cz,5)});return deepFreeze({...q,center:{x:cx,y:cy,z:cz},volumeM3:(q.x1-q.x0)*(q.y1-q.y0)*(q.z1-q.z0),parentFloodCellId:parent?.id??null});});
+  const byId=new Map(spaces.map(s=>[s.id,s])),macroById=new Map(raw.map(s=>[s.id,s])),portals=[];let serial=0;
+  const candidates=id=>macroMembers.has(id)?macroMembers.get(id).map(q=>byId.get(q)):[byId.get(id)].filter(Boolean);
+  const resolvePair=(aId,bId)=>{let best=null,score=Infinity;for(const a of candidates(aId))for(const b of candidates(bId)){const d=(a.center.x-b.center.x)**2+(a.center.y-b.center.y)**2+(a.center.z-b.center.z)**2;if(d<score){score=d;best=[a,b];}}return best;};
+  const link=(aId,bId,kind='DOOR',options={})=>{const pair=resolvePair(aId,bId);if(!pair)throw Error(`WIP06 unknown portal endpoint ${aId}/${bId}`);const [a,b]=pair,dx=Math.abs(a.center.x-b.center.x),dy=Math.abs(a.center.y-b.center.y),dz=Math.abs(a.center.z-b.center.z),axis=options.axis??(dz>Math.max(dx,dy)?'Z':Math.max(a.x0,b.x0)>=Math.min(a.x1,b.x1)-.01?'X':'Y'),mid=(lo,hi,u,v)=>(Math.max(lo,u)+Math.min(hi,v))/2,position={x:axis==='X'?(a.center.x<b.center.x?(a.x1+b.x0)/2:(b.x1+a.x0)/2):mid(a.x0,a.x1,b.x0,b.x1),y:axis==='Y'?(a.center.y<b.center.y?(a.y1+b.y0)/2:(b.y1+a.y0)/2):mid(a.y0,a.y1,b.y0,b.y1),z:axis==='Z'?(a.z0+b.z0)/2:Math.max(a.z0,b.z0)+1};portals.push(deepFreeze({id:`portal.${String(++serial).padStart(3,'0')}`,a:a.id,b:b.id,kind,axis,position,widthM:options.widthM??(kind==='STAIR'?1.2:kind==='LADDER'?.75:1),heightM:options.heightM??(axis==='Z'?.3:2),capacity:options.capacity??(kind==='STAIR'?4:2),normallyOpen:options.normallyOpen??!['WATERTIGHT_DOOR','FIRE_DOOR','ACCESS_HATCH'].includes(kind),automatic:options.automatic!==false,stretcherPassable:options.stretcherPassable??!['LADDER','ACCESS_HATCH'].includes(kind)}));};
   const chain=(ids,kind)=>{for(let i=1;i<ids.length;i++)link(ids[i-1],ids[i],kind);};
+  // Internal bulkheads between detailed child spaces.
+  for(const q of raw){const ids=macroMembers.get(q.id);if(ids.length<2||!q.routeable)continue;const kind=q.deck==='L1'||q.kind==='MAGAZINE'?'WATERTIGHT_DOOR':q.deck.startsWith('S')?'FIRE_DOOR':'DOOR';chain(ids,kind);}
   const l1=['l1.sonar.aux','l1.magazine.fwd','l1.aux.fwd','l1.machinery.one','l1.generator.one','l1.machinery.two','l1.generator.two','l1.engine.aft','l1.generator.emergency','l1.magazine.aft','l1.steering'];chain(l1,'WATERTIGHT_DOOR');
   const main=mainBounds.map((_,i)=>`main.passage.${i+1}`);chain(main,'WATERTIGHT_DOOR');
   chain(['upper.passage.fwd','upper.passage.mid','upper.passage.aft'],'WATERTIGHT_DOOR');
-  chain(['s1.passage.fwd','s1.passage.aft'],'FIRE_DOOR');
   const attach={
     'main.berthing.fwd.port':'main.passage.7','main.berthing.fwd.starboard':'main.passage.7','main.store.fwd.port':'main.passage.6','main.store.fwd.starboard':'main.passage.6','main.damage.control':'main.passage.5','main.infirmary':'main.passage.5','main.workshop.port':'main.passage.4','main.workshop.starboard':'main.passage.4','main.repair.lockers.port':'main.passage.3','main.repair.lockers.starboard':'main.passage.3','main.berthing.aft.port':'main.passage.3','main.berthing.aft.starboard':'main.passage.3','main.aviation.shop.port':'main.passage.2','main.aviation.shop.starboard':'main.passage.2',
-    'upper.mk45.handling':'upper.passage.fwd','upper.vls.fwd':'upper.passage.fwd','upper.cic.lower':'upper.passage.fwd','upper.galley.mess':'upper.passage.mid','upper.vls.aft':'upper.passage.aft','upper.hangar':'upper.passage.aft','upper.flight.access':'upper.passage.aft',
-    's1.combat.center':'s1.passage.fwd','s1.comms.port':'s1.passage.fwd','s1.ew.starboard':'s1.passage.fwd','s1.engineering.control':'s1.passage.aft','s1.hangar.upper':'s1.passage.aft',
-    's2.bridge':'s2.passage','s2.navigation':'s2.passage','s2.radar.equipment':'s2.passage','s2.fan.port':'s2.passage','s2.fan.starboard':'s2.passage','s3.flag.bridge':'s3.mast.electronics'
+    'upper.mk45.handling':'upper.passage.fwd','upper.vls.fwd':'upper.passage.fwd','upper.cic.lower':'upper.passage.fwd','upper.galley.mess':'upper.passage.mid','upper.vls.aft':'upper.passage.aft','upper.flight.access':'upper.passage.aft'
   };
-  for(const [room,passage] of Object.entries(attach))link(room,passage,byId.get(room).kind==='MAGAZINE'?'WATERTIGHT_DOOR':'FIRE_DOOR');
-  // Vertical escape routes are redundant; future route planning may lose one
-  // ladder or stair without disconnecting the whole ship.
+  for(const [r,p] of Object.entries(attach))link(r,p,macroById.get(r).kind==='MAGAZINE'?'WATERTIGHT_DOOR':'FIRE_DOOR');
+  // Only shared boundaries create horizontal doors. Separate deckhouses are
+  // reached from the weather-deck routes, not through doors floating in air.
+  const upperRows=spaces.filter(s=>(s.deck==='H0'||s.deck.startsWith('S'))&&s.routeable);
+  for(let i=0;i<upperRows.length;i++)for(let j=i+1;j<upperRows.length;j++){
+    const a=upperRows[i],b=upperRows[j];if(a.deck!==b.deck)continue;
+    const ox=Math.min(a.x1,b.x1)-Math.max(a.x0,b.x0),oy=Math.min(a.y1,b.y1)-Math.max(a.y0,b.y0),oz=Math.min(a.z1,b.z1)-Math.max(a.z0,b.z0);
+    const gx=Math.max(a.x0,b.x0)-Math.min(a.x1,b.x1),gy=Math.max(a.y0,b.y0)-Math.min(a.y1,b.y1);
+    if(oz>.5&&((ox>.45&&gy>=-.01&&gy<=.31)||(oy>.45&&gx>=-.01&&gx<=.31)))link(a.id,b.id,a.kind==='HANGAR_BAY'||b.kind==='HANGAR_BAY'?'DOOR':'FIRE_DOOR');
+  }
   link('l1.machinery.one','main.passage.5','LADDER',{axis:'Z'});link('l1.engine.aft','main.passage.3','LADDER',{axis:'Z'});
-  link('main.passage.6','upper.passage.fwd','STAIR',{axis:'Z',stretcherPassable:true});link('main.passage.4','upper.passage.mid','STAIR',{axis:'Z',stretcherPassable:true});link('main.passage.2','upper.passage.aft','STAIR',{axis:'Z',stretcherPassable:true});
-  link('upper.passage.fwd','s1.passage.fwd','STAIR',{axis:'Z'});link('upper.passage.aft','s1.passage.aft','STAIR',{axis:'Z'});link('s1.passage.fwd','s2.passage','STAIR',{axis:'Z'});link('s2.passage','s3.mast.electronics','LADDER',{axis:'Z'});
+  for(const [a,b] of [['main.passage.6','upper.passage.fwd'],['main.passage.4','upper.passage.mid'],['main.passage.2','upper.passage.aft'],['upper.passage.fwd','s1.passage.bridge'],['upper.passage.mid','s1.passage.mid'],['upper.passage.aft','s1.passage.aft'],['upper.passage.aft','h0.passage.hangar'],['s1.passage.bridge','s2.passage.bridge'],['s2.passage.bridge','s3.passage.bridge'],['s3.passage.bridge','s4.passage.bridge'],['s4.passage.bridge','s5.bridge.stair'],['s1.passage.mid','s2.passage.mid'],['s1.passage.aft','s2.passage.aft'],['s2.passage.aft','s3.passage.aft']])link(a,b,'STAIR',{axis:'Z'});
+  for(const side of ['port','starboard']){
+    link('h0.hangar.service.'+side,'s2.hangar.catwalk.'+side,'LADDER',{axis:'Z'});
+    link('h0.hangar.shop.'+side,'s2.hangar.support.'+side,'STAIR',{axis:'Z'});
+  }
   const tankAccess={'l2.ballast.fwd':'l1.sonar.aux','l2.fuel.fwd.port':'l1.aux.fwd','l2.fuel.fwd.starboard':'l1.aux.fwd','l2.fuel.mid.port':'l1.machinery.one','l2.fuel.mid.starboard':'l1.machinery.two','l2.fuel.aft.port':'l1.engine.aft','l2.fuel.aft.starboard':'l1.engine.aft','l2.ballast.aft':'l1.steering'};for(const [tank,room] of Object.entries(tankAccess))link(tank,room,'ACCESS_HATCH',{axis:'Z',stretcherPassable:false});
 
+  const equipmentKinds=new Set(['MACHINERY','MAGAZINE','CONTROL','ELECTRONICS','MEDICAL','WORKSHOP','AVIATION']);
+  const equipmentRole={MACHINERY:'PLANT',MAGAZINE:'ORDNANCE_CONTROL',CONTROL:'OPERATOR_CONSOLE',ELECTRONICS:'ELECTRONICS_RACK',MEDICAL:'MEDICAL_STATION',WORKSHOP:'REPAIR_STATION',AVIATION:'AVIATION_SUPPORT'};
+  const equipmentNodes=raw.filter(q=>equipmentKinds.has(q.kind)).map((q,i)=>{const members=candidates(q.id),s=members[Math.floor((members.length-1)/2)],criticality=q.system?.startsWith('SPY')||['COMBAT_CENTER','WEAPON_CONTROL','BRIDGE','PILOTHOUSE','STEERING'].includes(q.system)?'MISSION_CRITICAL':q.kind==='CONTROL'||q.kind==='MACHINERY'?'ESSENTIAL':'SUPPORT';return deepFreeze({id:`equipment.${String(i+1).padStart(3,'0')}`,label:`${q.label} 주 장비`,spaceId:s.id,macroSpaceId:q.id,system:q.system??q.kind,role:equipmentRole[q.kind],criticality,position:{x:s.center.x,y:s.center.y,z:s.center.z}});});
+
+  const hangarClearance=()=>{
+    const bays=spaces.filter(s=>s.kind==='HANGAR_BAY'),conflicts=[];
+    for(const b of bays)for(const s of spaces){if(s===b)continue;
+      if(Math.min(b.x1,s.x1)>Math.max(b.x0,s.x0)+.01&&Math.min(b.y1,s.y1)>Math.max(b.y0,s.y0)+.01&&Math.min(11.05,s.z1)>Math.max(5.85,s.z0)+.01)conflicts.push([b.id,s.id]);
+    }
+    return {bays:bays.length,clear:bays.length===2&&!conflicts.length,conflicts,clearHeightM:5.2,bayHeightM:6.3,simulationEnvelopeOnly:true};
+  };
   const graph=new Map(spaces.map(s=>[s.id,[]]));for(const p of portals){graph.get(p.a).push(p);graph.get(p.b).push(p);}
   const reachable=()=>{const candidates=spaces.filter(s=>s.routeable),seen=new Set(candidates.length?[candidates[0].id]:[]),queue=[...seen];while(queue.length){const id=queue.shift();for(const p of graph.get(id)){const n=p.a===id?p.b:p.a;if(byId.get(n)?.routeable&&!seen.has(n)){seen.add(n);queue.push(n);}}}return {routeable:candidates.length,reached:seen.size,unreachable:candidates.filter(s=>!seen.has(s.id)).map(s=>s.id)};};
-  const topologyAudit=()=>{const ids=new Set(spaces.map(s=>s.id)),portalIds=new Set(portals.map(p=>p.id)),reach=reachable();return {schema:'AEGIS_SHIP_INTERIOR_AUDIT_V48_WIP06',spaceCount:spaces.length,portalCount:portals.length,deckCount:decks.length,upperStructureSpaces:spaces.filter(s=>s.deck.startsWith('S')).length,watertightDoors:portals.filter(p=>p.kind==='WATERTIGHT_DOOR').length,fireDoors:portals.filter(p=>p.kind==='FIRE_DOOR').length,stairs:portals.filter(p=>p.kind==='STAIR').length,ladders:portals.filter(p=>p.kind==='LADDER').length,accessHatches:portals.filter(p=>p.kind==='ACCESS_HATCH').length,uniqueSpaceIds:ids.size===spaces.length,uniquePortalIds:portalIds.size===portals.length,endpointsValid:portals.every(p=>ids.has(p.a)&&ids.has(p.b)),...reach};};
+  const topologyAudit=()=>{const ids=new Set(spaces.map(s=>s.id)),portalIds=new Set(portals.map(p=>p.id)),equipmentIds=new Set(equipmentNodes.map(q=>q.id)),reach=reachable(),upper=s=>s.deck==='H0'||s.deck.startsWith('S'),deckCountFor=rows=>new Set(rows.map(s=>s.deck)).size;return {schema:'AEGIS_SHIP_INTERIOR_AUDIT_V48_WIP06',hangarClearance:hangarClearance(),spaceCount:spaces.length,macroSpaceCount:raw.length,portalCount:portals.length,equipmentCount:equipmentNodes.length,deckCount:decks.length,upperStructureSpaces:spaces.filter(upper).length,upperStructureDecks:deckCountFor(spaces.filter(upper)),bridgeSpaces:spaces.filter(s=>/bridge|pilothouse|ood|lookout|flag\.plot/.test(s.macroId)).length,bridgeDecks:deckCountFor(spaces.filter(s=>/bridge|pilothouse|ood|lookout|flag\.plot/.test(s.macroId))),hangarSpaces:spaces.filter(s=>/hangar/.test(s.macroId)).length,hangarDecks:deckCountFor(spaces.filter(s=>/hangar/.test(s.macroId))),spySpaces:spaces.filter(s=>s.system?.startsWith('SPY')).length,exhaustTrunks:spaces.filter(s=>s.kind==='EXHAUST_TRUNK').length,mastTrunks:spaces.filter(s=>s.kind==='MAST_TRUNK').length,watertightDoors:portals.filter(p=>p.kind==='WATERTIGHT_DOOR').length,fireDoors:portals.filter(p=>p.kind==='FIRE_DOOR').length,stairs:portals.filter(p=>p.kind==='STAIR').length,ladders:portals.filter(p=>p.kind==='LADDER').length,accessHatches:portals.filter(p=>p.kind==='ACCESS_HATCH').length,uniqueSpaceIds:ids.size===spaces.length,uniquePortalIds:portalIds.size===portals.length,uniqueEquipmentIds:equipmentIds.size===equipmentNodes.length,endpointsValid:portals.every(p=>ids.has(p.a)&&ids.has(p.b)),equipmentSpacesValid:equipmentNodes.every(q=>ids.has(q.spaceId)),...reach};};
   let evaluations=0,signature=null,cached=null;
   function derive(input={}){
     const floodCells=new Map((input.flood?.cells??[]).map(c=>[c.id,c])),controlCells=new Map((input.control?.cells??[]).map(c=>[c.id,c])),overrides=input.spaceHazards??{};
     const hazards=spaces.map(s=>{const f=floodCells.get(s.parentFloodCellId)??{},c=controlCells.get(s.parentFloodCellId)??{},o=overrides[s.id]??{},flood01=clamp(Number(o.flood01??((f.waterM3||0)/Math.max(1e-9,f.capacityM3||1)))||0,0,1),fire01=clamp(Number(o.fire01??c.fire)||0,0,1),smoke01=clamp(Number(o.smoke01??c.smoke)||0,0,1),temperatureC=Math.max(0,Number(o.temperatureC??c.temperatureC)||20);return deepFreeze({spaceId:s.id,parentFloodCellId:s.parentFloodCellId,flood01,fire01,smoke01,temperatureC,status:flood01>.05?'FLOODING':fire01>.15?'FIRE':smoke01>.35?'SMOKE':'NORMAL'});});
     const hazardById=new Map(hazards.map(h=>[h.spaceId,h])),automaticActions=[],portalStates=portals.map(p=>{const a=hazardById.get(p.a),b=hazardById.get(p.b),floodSplit=Math.max(a.flood01,b.flood01)>.01&&Math.abs(a.flood01-b.flood01)>.005,fireSplit=Math.max(a.fire01,b.fire01)>.1&&Math.abs(a.fire01-b.fire01)>.04,smokeSplit=Math.max(a.smoke01,b.smoke01)>.25&&Math.abs(a.smoke01-b.smoke01)>.08;let open=p.normallyOpen,reason='NORMAL_CONFIGURATION';if(p.automatic&&['WATERTIGHT_DOOR','ACCESS_HATCH'].includes(p.kind)&&floodSplit){open=false;reason='AUTO_FLOOD_ISOLATION';}else if(p.automatic&&p.kind==='FIRE_DOOR'&&(fireSplit||smokeSplit)){open=false;reason='AUTO_FIRE_SMOKE_ISOLATION';}if(reason.startsWith('AUTO_'))automaticActions.push({portalId:p.id,action:'CLOSE',reason,priority:reason.includes('FLOOD')?1:2});return deepFreeze({id:p.id,open,reason});});
     automaticActions.sort((a,b)=>a.priority-b.priority||a.portalId.localeCompare(b.portalId));
-    const summary={spaces:spaces.length,portals:portals.length,decks:decks.length,normal:hazards.filter(h=>h.status==='NORMAL').length,flooding:hazards.filter(h=>h.status==='FLOODING').length,fire:hazards.filter(h=>h.status==='FIRE').length,smoke:hazards.filter(h=>h.status==='SMOKE').length,automaticActions:automaticActions.length};
-    return deepFreeze({schema:M.schema,contract:M.contract,renderContract:M.renderContract,revision:evaluations,automation:M.automation,coordinates:M.coordinates,provenance:M.provenance,decks:decks.map(d=>({...d})),spaces,portals,hazards,portalStates,automaticActions,summary,audit:topologyAudit()});
+    const summary={spaces:spaces.length,macroSpaces:raw.length,portals:portals.length,equipment:equipmentNodes.length,decks:decks.length,normal:hazards.filter(h=>h.status==='NORMAL').length,flooding:hazards.filter(h=>h.status==='FLOODING').length,fire:hazards.filter(h=>h.status==='FIRE').length,smoke:hazards.filter(h=>h.status==='SMOKE').length,automaticActions:automaticActions.length};
+    return deepFreeze({schema:M.schema,contract:M.contract,renderContract:M.renderContract,revision:evaluations,buildId:M.buildId,automation:M.automation,coordinates:M.coordinates,provenance:M.provenance,decks:decks.map(d=>({...d})),spaces,portals,equipmentNodes,hazards,portalStates,automaticActions,summary,audit:topologyAudit()});
   }
   function step(input={}){const key=JSON.stringify([(input.flood?.cells??[]).map(c=>[c.id,Number(c.waterM3)||0,Number(c.capacityM3)||0]),(input.control?.cells??[]).map(c=>[c.id,Number(c.fire)||0,Number(c.smoke)||0,Number(c.temperatureC)||20]),input.spaceHazards??null]);if(key===signature)return false;signature=key;evaluations++;cached=derive(input);return true;}
   function locate(point){if(!point||![point.x,point.y,point.z].every(Number.isFinite))return null;const rows=spaces.filter(s=>point.x>=s.x0&&point.x<=s.x1&&point.y>=s.y0&&point.y<=s.y1&&point.z>=s.z0&&point.z<=s.z1).sort((a,b)=>a.volumeM3-b.volumeM3);return rows[0]??null;}
   function reset(){signature=null;evaluations=0;step({});return snapshot();}
   function snapshot(){return cached;}
-  function performance(){return {evaluations,snapshotRecomputes:evaluations,spaceCount:spaces.length,portalCount:portals.length};}
-  reset();return {step,reset,snapshot,performance,locate,audit:topologyAudit,spaces,portals,decks};
+  function performance(){return {evaluations,snapshotRecomputes:evaluations,spaceCount:spaces.length,portalCount:portals.length,equipmentCount:equipmentNodes.length};}
+  reset();return {step,reset,snapshot,performance,locate,audit:topologyAudit,spaces,portals,equipmentNodes,decks};
 }
 let shipInteriorTopologyV48Wip06=null;
 function getShipInteriorTopologyV48Wip06(){
@@ -8863,7 +8998,7 @@ function getShipInteriorTopologyV48Wip06(){
 function runV48Wip06InteriorProbe(){
   const make=()=>createShipInteriorTopologyV48Wip06(getDamageFloodV1()),a=make(),base=a.snapshot(),door=base.portals.find(p=>p.kind==='WATERTIGHT_DOOR'&&base.spaces.find(s=>s.id===p.a)?.routeable&&base.spaces.find(s=>s.id===p.b)?.routeable),fireDoor=base.portals.find(p=>p.kind==='FIRE_DOOR'),spaceHazards={};
   if(door)spaceHazards[door.a]={flood01:.42};if(fireDoor)spaceHazards[fireDoor.a]={fire01:.7,smoke01:.8,temperatureC:180};a.step({spaceHazards});const emergency=a.snapshot(),b=make(),deterministic=JSON.stringify(base)===JSON.stringify(b.snapshot()),loc=a.locate({x:20,y:3,z:2});
-  const checks={schema:base.schema===V48_WIP06_INTERIOR_MODEL.schema,spaceDetail:base.summary.spaces>=55&&base.audit.deckCount===7,upperStructure:base.audit.upperStructureSpaces>=12,portalTypes:base.audit.watertightDoors>0&&base.audit.fireDoors>0&&base.audit.stairs>=4&&base.audit.ladders>=3&&base.audit.accessHatches===8,connected:base.audit.unreachable.length===0&&base.audit.reached===base.audit.routeable,automationDefault:base.automation.mode==='AUTO_ASSISTED'&&base.automation.perDoorMicromanagement===false,automaticIsolation:emergency.automaticActions.some(q=>q.reason==='AUTO_FLOOD_ISOLATION')&&emergency.automaticActions.some(q=>q.reason==='AUTO_FIRE_SMOKE_ISOLATION'),locate:!!loc?.id,deterministic,renderReadOnly:base.renderContract==='PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT'};
+  const checks={schema:base.schema===V48_WIP06_INTERIOR_MODEL.schema,spaceDetail:base.summary.spaces>=90&&base.summary.spaces===base.summary.macroSpaces,upperStructure:base.audit.upperStructureSpaces>=50&&base.audit.bridgeSpaces>=12&&base.audit.spySpaces>=10,verticalShellFill:base.audit.upperStructureDecks>=7&&base.audit.bridgeDecks>=5&&base.audit.hangarClearance.clear&&base.audit.hangarClearance.bays===2&&base.audit.exhaustTrunks>=12&&base.audit.mastTrunks>=3,equipmentDetail:base.audit.equipmentCount>=40&&base.audit.uniqueEquipmentIds&&base.audit.equipmentSpacesValid,portalTypes:base.audit.watertightDoors>0&&base.audit.fireDoors>0&&base.audit.stairs>=10&&base.audit.ladders>=4&&base.audit.accessHatches===8,connected:base.audit.unreachable.length===0&&base.audit.reached===base.audit.routeable,oneHzCadence:V48_WIP06_INTERIOR_MODEL.updatePolicy.cadenceHz===1&&!V48_WIP06_INTERIOR_MODEL.updatePolicy.renderFrameRecompute,automationDefault:base.automation.mode==='AUTO_ASSISTED'&&base.automation.perDoorMicromanagement===false,automaticIsolation:emergency.automaticActions.some(q=>q.reason==='AUTO_FLOOD_ISOLATION')&&emergency.automaticActions.some(q=>q.reason==='AUTO_FIRE_SMOKE_ISOLATION'),locate:!!loc?.id,deterministic,renderReadOnly:base.renderContract==='PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT'};
   return {schema:'AEGIS_SHIP_INTERIOR_PROBE_V48_WIP06_V1',checks,base,emergency,locatedSpace:loc?.id??null,performance:a.performance()};
 }
 // FLOOD_HYDROSTATICS_V2. Vented, quasi-static game compartments; not a stability solver.
@@ -9674,7 +9809,7 @@ function getShipCrewV21(){if(!shipCrewV21)shipCrewV21=createShipCrewV21(getDamag
     draw(85,10.2,'y','좌현','우현');draw(255,70,'x','선미','선수');
     c.font='10px sans-serif';c.textAlign='center';c.fillStyle='#809caa';c.fillText('청색선: 해수면 · 단면별 축척 상이 · 자세 표시용',170,108);
   }
-  function resetModules(){for(const cells of Object.values(vlsCells))for(const c of cells)delete c.incident;shipHP=100;getDamageFloodV1().reset();getWaveFloodEnvironmentV48Wip05().reset({preserveConfig:true});shipCrewV21?.reset();shipMassLedgerV32?.reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSurvivalBannerV1(floodAttitudePreviewV1.snapshot());}
+  function resetModules(){for(const cells of Object.values(vlsCells))for(const c of cells)delete c.incident;shipHP=100;getDamageFloodV1().reset();getWaveFloodEnvironmentV48Wip05().reset({preserveConfig:true});shipCrewV21?.reset();shipMassLedgerV32?.reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;interiorTopologyAccumulatorV48Wip06=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSurvivalBannerV1(floodAttitudePreviewV1.snapshot());}
   function damageFloodPowerV1(){if(shipEquipmentOfflineV1())return {GEN_1:0,GEN_2:0,GEN_3:0};return Object.fromEntries(['GEN_1','GEN_2','GEN_3'].map(id=>[id,clamp(1-getShipSystemDamage(id)/100,0,1)]));}
   function damageFloodTickV1(dt){
     if(!(Number.isFinite(dt)&&dt>0))return;
@@ -9864,7 +9999,7 @@ function createDamageControlV1(flood,boxes,options={}){
 }
 
 const DAMAGE_CONTROL_FEATURES_V1=Object.freeze({manualTeams:true,structure:true});
-let damageControlV1=null,damageControlAccumulatorV1=0;
+let damageControlV1=null,damageControlAccumulatorV1=0,interiorTopologyAccumulatorV48Wip06=0;
 function getDamageControlV1(){if(!damageControlV1)damageControlV1=createDamageControlV1(getDamageFloodV1(),buildShipHitBoxes(),{...DAMAGE_CONTROL_FEATURES_V1,halfBeam:wip199HullHalfBeamAt});return damageControlV1;}
 // Fictional auxiliary feeds reuse the four existing pump zones. No hidden state.
 function damageSupportPowerV30(generators){
@@ -9876,7 +10011,7 @@ function damageSupportPowerV30(generators){
 }
 function damageControlStepV1(dt,power){
   damageControlAccumulatorV1+=dt;
-  while(damageControlAccumulatorV1>=.1-1e-9){damageControlAccumulatorV1-=.1;const p=floodAttitudePreviewV1.snapshot(),power01=damageSupportPowerV30(power),crew=getShipCrewV21(),dc=getDamageControlV1();crew.syncTeams(dc.snapshot().teams);dc.tick(.1,power01,p,shipNav.speed,shipEquipmentOfflineV1(),id=>crew.teamStatus(id));const control=dc.snapshot(),flood=getDamageFloodV1().snapshot();crew.syncTeams(control.teams);crew.step(.1,flood.cells,control.cells,p);getShipMassLedgerV32().syncCrew(crew.snapshot().groups,.1);getShipInteriorTopologyV48Wip06().step({flood,control});vlsIncidentsStepV23(.1,power01,control,p);}
+  while(damageControlAccumulatorV1>=.1-1e-9){damageControlAccumulatorV1-=.1;const p=floodAttitudePreviewV1.snapshot(),power01=damageSupportPowerV30(power),crew=getShipCrewV21(),dc=getDamageControlV1();crew.syncTeams(dc.snapshot().teams);dc.tick(.1,power01,p,shipNav.speed,shipEquipmentOfflineV1(),id=>crew.teamStatus(id));const control=dc.snapshot(),flood=getDamageFloodV1().snapshot();crew.syncTeams(control.teams);crew.step(.1,flood.cells,control.cells,p);getShipMassLedgerV32().syncCrew(crew.snapshot().groups,.1);interiorTopologyAccumulatorV48Wip06+=.1;if(interiorTopologyAccumulatorV48Wip06>=1-1e-9){interiorTopologyAccumulatorV48Wip06-=1;getShipInteriorTopologyV48Wip06().step({flood,control});}vlsIncidentsStepV23(.1,power01,control,p);}
   for(const e of getDamageControlV1().drainEvents()){const c=getDamageFloodV1().cells.find(c=>c.id===e.cellId);notify((c?.label??'구획')+' · '+e.text);}
 }
 // Presentation-only adapter. It never writes damage, openings, fire, or game RNG.
@@ -27078,31 +27213,110 @@ function createInteriorSectionsV9(T,root,originals){
       if(this.interiorTopologyVisible&&!this.follow.enabled){this.orbit.distance=Math.max(this.orbit.distance,205);this.orbit.targetY=4.5;}
       this.refreshFollowButton();return this.interiorTopologyVisible;
     },
+    upperStructureIntervalsV48Wip06(x,z){
+      const intervals=[],add=(a,b)=>{a=Number(a);b=Number(b);if(Number.isFinite(a+b)&&b-a>.04)intervals.push([a,b]);};
+      // Exact accepted bridge/deckhouse polygon.  The polygon is stored in the
+      // bridge's local frame; ship +Y is the inverse of local polygon X.
+      const poly=wip199BridgeSectionAtY(z);
+      if(poly){
+        const q=x-WIP199_BRIDGE_GEOMETRY.groupX,cross=[];
+        for(let i=0;i<poly.length;i++){
+          const a=poly[i],b=poly[(i+1)%poly.length],az=a[1],bz=b[1];
+          if((az<=q&&q<bz)||(bz<=q&&q<az))cross.push(a[0]+(b[0]-a[0])*(q-az)/(bz-az));
+        }
+        cross.sort((a,b)=>a-b);for(let i=0;i+1<cross.length;i+=2)add(-cross[i+1],-cross[i]);
+      }
+      // Forward low house, amidships service house and the two funnel trunks.
+      if(z>=7.55&&z<=13.65&&x>=33.15&&x<=42.85)add(-3.52,3.52);
+      if(z>=6.92&&z<=11.18&&x>=-9.0&&x<=9.0)add(-5.82,5.82);
+      for(const [cx,top] of [[11.8,24.0],[-11.6,22.5]])if(z>=7.48&&z<=top){const t=Math.max(0,Math.min(1,(z-7.48)/Math.max(.1,top-7.48))),xa=cx+(-4.8+1.4*t),xb=cx+(4.8-2.7*t),half=4.02-.67*t;if(x>=xa&&x<=xb)add(-half,half);}
+      // Main-mast structural trunk. It is shown as a service void, not a room.
+      if(z>=14.35&&z<=35.6&&x>=14.75&&x<=18.45){const t=Math.max(0,Math.min(1,(z-14.35)/21.25)),half=1.42-.48*t;add(-half,half);}
+      // Aft support house and twin hangar use the same accepted dimensions as
+      // buildFlightIiaHangar(), inset to keep the translucent volume inside skin.
+      if(z>=6.86&&z<=14.62&&x>=-30.05&&x<=-17.35)add(-4.96,4.96);
+      if(z>=5.24&&z<=12.48){const t=Math.max(0,Math.min(1,(z-5.24)/(12.48-5.24))),aft=-57+.30*t,half=8.76-.60*t;if(x>=aft&&x<=-29.98)add(-half,half);}
+      if(!intervals.length)return intervals;
+      intervals.sort((a,b)=>a[0]-b[0]);const merged=[intervals[0].slice()];
+      for(let i=1;i<intervals.length;i++){const q=merged[merged.length-1],n=intervals[i];if(n[0]<=q[1]+.08)q[1]=Math.max(q[1],n[1]);else merged.push(n.slice());}
+      return merged;
+    },
+    upperStructureOverlapV48Wip06(x,z,y0,y1,inset=.12){
+      let best=null,amount=0;for(const q of this.upperStructureIntervalsV48Wip06(x,z)){const a=Math.max(y0,q[0]+inset),b=Math.min(y1,q[1]-inset),n=b-a;if(n>amount){amount=n;best=[a,b];}}
+      return best;
+    },
+    fitUpperStructurePointV48Wip06(point){
+      const src={x:Number(point?.x)||0,y:Number(point?.y)||0,z:Number(point?.z)||0},tries=[0,.35,-.35,.8,-.8,1.6,-1.6,3.2,-3.2];let best=null;
+      for(const dx of tries)for(const dz of [0,.22,-.22,.55,-.55])for(const q of this.upperStructureIntervalsV48Wip06(src.x+dx,src.z+dz)){const y=Math.max(q[0]+.14,Math.min(q[1]-.14,src.y)),cost=Math.abs(dx)+Math.abs(dz)*1.4+Math.abs(y-src.y)*.2;if(!best||cost<best.cost)best={x:src.x+dx,y,z:src.z+dz,cost};}
+      return best?{x:best.x,y:best.y,z:best.z}:src;
+    },
     buildInteriorTopologyV48Wip06(parent,state){
       const T=this.THREE,group=new T.Group();group.name='V48_WIP06_INTERIOR_TOPOLOGY';group.userData.interiorTopologyV48Wip06=true;group.userData.damageInterior=true;group.userData.presentationOnly=true;group.userData.physicsFeedback=false;
-      const deckColors=new Map((state?.decks??[]).map(d=>[d.id,d.color]));
+      const usesUpperEnvelope=s=>s?.deck==='H0'||s?.deck?.startsWith('S');
+      const deckColors=new Map((state?.decks??[]).map(d=>[d.id,d.color])),positions=[],colors=[],indices=[],edgePositions=[],edgeColors=[],spaceIds=new Set(),fragmentCorners=[];
+      const pushColor=(arr,c,n)=>{for(let i=0;i<n;i++)arr.push(c.r,c.g,c.b);};
+      const kindColors={PASSAGE:0x70d6aa,CATWALK:0xe2c776,HANGAR_BAY:0x719fac,CONTROL:0x65bce6,ELECTRONICS:0xb595db,MACHINERY:0xcc975e,WORKSHOP:0xbab879,STORE:0x959eae,HABITATION:0xb5b994};
+      const addFragment=(s,corners,boundary={left:true,right:true,bottom:true,top:true})=>{
+        const base=positions.length/3,color=new T.Color(kindColors[s.kind]??deckColors.get(s.deck)??0x6fb6c9);if(s.kind==='TANK')color.multiplyScalar(.68);else if(s.kind==='EXHAUST_TRUNK')color.multiplyScalar(.38);else if(s.kind==='MAST_TRUNK')color.multiplyScalar(.55);
+        for(const p of corners)positions.push(p[0],p[1],p[2]);pushColor(colors,color,8);
+        // Shell tessellation never introduces physical bulkheads or intermediate floors.
+        const face=a=>{for(const i of a)indices.push(base+i);},open=s.kind==='CATWALK';
+        if(boundary.bottom)face([0,1,4,1,5,4]);
+        if(!open){if(boundary.left)face([0,2,1,1,2,3]);if(boundary.right)face([4,5,6,5,7,6]);face([0,4,2,4,6,2,1,3,5,5,3,7]);}
+        // Ceilings are omitted only in cutaway presentation.
+        const edges=[],edge=(a,b)=>edges.push([a,b]);
+        if(boundary.left){if(boundary.bottom)edge(0,1);if(boundary.top)edge(2,3);if(!open){edge(0,2);edge(1,3);}}
+        if(boundary.right){if(boundary.bottom)edge(4,5);if(boundary.top)edge(6,7);if(!open){edge(4,6);edge(5,7);}}
+        if(boundary.bottom){edge(0,4);edge(1,5);}if(boundary.top){edge(2,6);edge(3,7);}
+        for(const [a,b] of edges){edgePositions.push(...corners[a],...corners[b]);pushColor(edgeColors,color,2);}
+        spaceIds.add(s.id);if(usesUpperEnvelope(s))fragmentCorners.push(...corners.map(p=>({x:p[0],y:p[2],z:p[1]})));
+      };
       for(const s of state?.spaces??[]){
-        const color=deckColors.get(s.deck)??0x6fb6c9,fill=new T.MeshBasicMaterial({color,transparent:true,opacity:s.kind==='TANK'?.055:.095,depthWrite:false,side:T.DoubleSide}),geo=new T.BoxGeometry(Math.max(.1,s.x1-s.x0),Math.max(.1,s.z1-s.z0),Math.max(.1,s.y1-s.y0)),mesh=new T.Mesh(geo,fill);mesh.position.set(s.center.x,s.center.z,s.center.y);mesh.name='INTERIOR_SPACE:'+s.id;mesh.userData.spaceId=s.id;mesh.userData.deckId=s.deck;mesh.userData.kind=s.kind;group.add(mesh);
-        const edge=new T.LineSegments(new T.EdgesGeometry(geo),new T.LineBasicMaterial({color,transparent:true,opacity:s.kind==='PASSAGE'?.62:.38,depthWrite:false,fog:false}));edge.position.copy(mesh.position);edge.name='INTERIOR_SPACE_EDGE:'+s.id;edge.userData.spaceId=s.id;group.add(edge);
-      }
-      const portalColor={WATERTIGHT_DOOR:0x4f9cff,FIRE_DOOR:0xff9b54,DOOR:0x68e0b5,ACCESS_HATCH:0xe2cd67,STAIR:0xffe070,LADDER:0xffd15c};
-      for(const p of state?.portals??[]){
-        const color=portalColor[p.kind]??0x70e4bc,mat=new T.MeshBasicMaterial({color,transparent:true,opacity:.78,depthWrite:false,side:T.DoubleSide}),root=new T.Group();root.name='INTERIOR_PORTAL:'+p.id;root.userData.portalId=p.id;root.userData.portalKind=p.kind;root.position.set(p.position.x,p.position.z,p.position.y);group.add(root);
-        const a=state.spaces.find(s=>s.id===p.a),b=state.spaces.find(s=>s.id===p.b);
-        if(p.kind==='STAIR'){
-          const lo=Math.min(a.center.z,b.center.z),hi=Math.max(a.center.z,b.center.z),rise=Math.max(.8,hi-lo),dir=(b.center.x-a.center.x)>=0?1:-1;root.position.y=lo;for(let i=0;i<8;i++){const step=this.addBox(root,dir*(i-3.5)*.34,(i+.5)*rise/8,0,.42,.12,Math.max(.8,p.widthM),mat);step.userData.portalId=p.id;}
-        }else if(p.kind==='LADDER'||p.kind==='ACCESS_HATCH'){
-          const lo=Math.min(a.center.z,b.center.z),hi=Math.max(a.center.z,b.center.z),height=Math.max(.8,hi-lo);root.position.y=lo+height/2;for(const x of [-.32,.32]){const rail=this.addBox(root,x,0,0,.055,height,.055,mat);rail.userData.portalId=p.id;}for(let y=-height/2+.2;y<height/2;y+=.32){const rung=this.addBox(root,0,y,0,.72,.04,.04,mat);rung.userData.portalId=p.id;}
-        }else{
-          const dims=p.axis==='X'?[.14,p.heightM,p.widthM]:[p.widthM,p.heightM,.14],door=this.addBox(root,0,0,0,dims[0],dims[1],dims[2],mat);door.userData.portalId=p.id;
+        if(!usesUpperEnvelope(s)){addFragment(s,[[s.x0,s.z0,s.y0],[s.x0,s.z0,s.y1],[s.x0,s.z1,s.y0],[s.x0,s.z1,s.y1],[s.x1,s.z0,s.y0],[s.x1,s.z0,s.y1],[s.x1,s.z1,s.y0],[s.x1,s.z1,s.y1]]);continue;}
+        const nx=Math.max(1,Math.ceil((s.x1-s.x0)/3.2)),nz=Math.max(1,Math.ceil((s.z1-s.z0)/1.1));
+        for(let iz=0;iz<nz;iz++)for(let i=0;i<nx;i++){
+          const xa=s.x0+(s.x1-s.x0)*i/nx,xb=s.x0+(s.x1-s.x0)*(i+1)/nx,za=s.z0+(s.z1-s.z0)*iz/nz,zb=s.z0+(s.z1-s.z0)*(iz+1)/nz,ex=0,ez=0,z0=za+ez,z1=zb-ez;
+          const a0=this.upperStructureOverlapV48Wip06(xa+ex,z0,s.y0,s.y1),a1=this.upperStructureOverlapV48Wip06(xa+ex,z1,s.y0,s.y1),b0=this.upperStructureOverlapV48Wip06(xb-ex,z0,s.y0,s.y1),b1=this.upperStructureOverlapV48Wip06(xb-ex,z1,s.y0,s.y1);
+          if(!a0||!a1||!b0||!b1)continue;addFragment(s,[[xa+ex,z0,a0[0]],[xa+ex,z0,a0[1]],[xa+ex,z1,a1[0]],[xa+ex,z1,a1[1]],[xb-ex,z0,b0[0]],[xb-ex,z0,b0[1]],[xb-ex,z1,b1[0]],[xb-ex,z1,b1[1]]],{left:i===0,right:i===nx-1,bottom:iz===0,top:iz===nz-1});
         }
       }
+      if(positions.length){
+        const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('color',new T.Float32BufferAttribute(colors,3));geo.setIndex(indices);geo.computeVertexNormals();
+        const mesh=new T.Mesh(geo,new T.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.118,depthWrite:false,side:T.DoubleSide}));mesh.name='INTERIOR_SPACES_BATCH';mesh.userData.spaceIds=[...spaceIds];group.add(mesh);
+        const lineGeo=new T.BufferGeometry();lineGeo.setAttribute('position',new T.Float32BufferAttribute(edgePositions,3));lineGeo.setAttribute('color',new T.Float32BufferAttribute(edgeColors,3));const lines=new T.LineSegments(lineGeo,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.36,depthWrite:false,fog:false}));lines.name='INTERIOR_BULKHEAD_EDGES_BATCH';lines.userData.spaceIds=[...spaceIds];group.add(lines);
+      }
+      const portalColor={WATERTIGHT_DOOR:0x4f9cff,FIRE_DOOR:0xff9b54,DOOR:0x68e0b5,ACCESS_HATCH:0xe2cd67,STAIR:0xffe070,LADDER:0xffd15c};
+      const primitives=new Map(),portalIds=new Set(),addPrimitive=(kind,id,x,z,y,sx,sz,sy,rx=0,ry=0,rz=0)=>{if(!primitives.has(kind))primitives.set(kind,[]);primitives.get(kind).push({id,x,z,y,sx,sz,sy,rx,ry,rz});portalIds.add(id);};
+      for(const p of state?.portals??[]){
+        const a=state.spaces.find(s=>s.id===p.a),b=state.spaces.find(s=>s.id===p.b);
+        const upper=usesUpperEnvelope(a)||usesUpperEnvelope(b),q=upper?this.fitUpperStructurePointV48Wip06(p.position):p.position;
+        if(p.kind==='STAIR'){
+          const lo=Math.min(a.z0,b.z0),hi=Math.max(a.z0,b.z0),rise=Math.max(.8,hi-lo),dir=(b.center.x-a.center.x)>=0?1:-1;for(let i=0;i<8;i++)addPrimitive(p.kind,p.id,q.x+dir*(i-3.5)*.34,lo+(i+.5)*rise/8,q.y,.42,.12,Math.max(.8,p.widthM));
+        }else if(p.kind==='LADDER'||p.kind==='ACCESS_HATCH'){
+          const lo=Math.min(a.z0,b.z0),hi=Math.max(a.z0,b.z0),height=Math.max(.8,hi-lo),cz=lo+height/2;for(const dx of [-.32,.32])addPrimitive(p.kind,p.id,q.x+dx,cz,q.y,.055,height,.055);for(let dz=lo+.2;dz<hi;dz+=.32)addPrimitive(p.kind,p.id,q.x,dz,q.y,.72,.04,.04);
+        }else{
+          const dims=p.axis==='X'?[.14,p.heightM,p.widthM]:[p.widthM,p.heightM,.14];addPrimitive(p.kind,p.id,q.x,q.z,q.y,dims[0],dims[1],dims[2]);
+        }
+      }
+      const unit=new T.BoxGeometry(1,1,1),dummy=new T.Object3D();let portalDrawables=0,portalPrimitiveCount=0;
+      for(const [kind,list] of primitives){const mat=new T.MeshBasicMaterial({color:portalColor[kind]??0x70e4bc,transparent:true,opacity:.76,depthWrite:false,side:T.DoubleSide}),mesh=new T.InstancedMesh(unit,mat,list.length);mesh.name='INTERIOR_PORTALS_BATCH:'+kind;mesh.userData.portalIds=[...new Set(list.map(q=>q.id))];mesh.userData.portalKind=kind;for(let i=0;i<list.length;i++){const p=list[i];dummy.position.set(p.x,p.z,p.y);dummy.rotation.set(p.rx,p.ry,p.rz);dummy.scale.set(Math.max(.04,p.sx),Math.max(.04,p.sz),Math.max(.04,p.sy));dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);}mesh.instanceMatrix.needsUpdate=true;mesh.frustumCulled=false;group.add(mesh);portalDrawables++;portalPrimitiveCount+=list.length;}
+      const equipmentIds=new Set(),equipment=state?.equipmentNodes??[];let equipmentDrawables=0;
+      if(equipment.length){
+        const cabinet=new T.InstancedMesh(unit,new T.MeshBasicMaterial({color:0xf08cff,transparent:true,opacity:.72,depthWrite:false,side:T.DoubleSide}),equipment.length);cabinet.name='INTERIOR_EQUIPMENT_BATCH';
+        for(let i=0;i<equipment.length;i++){
+          const e=equipment[i],s=state.spaces.find(q=>q.id===e.spaceId),kind=s?.kind,shape=kind==='CONTROL'?[1.65,.85,.65]:kind==='ELECTRONICS'?[.65,1.8,.62]:kind==='MACHINERY'?[1.7,1.25,1.15]:kind==='WORKSHOP'?[1.8,.85,.7]:[.72,1.05,.55],sx=Math.min(shape[0],Math.max(.2,s.x1-s.x0-.3)),sz=Math.min(shape[1],s.z1-s.z0-.12),sy=Math.min(shape[2],Math.max(.2,s.y1-s.y0-.3)),src={x:s.center.x,y:s.center.y+(s.center.y<0?-1:1)*Math.max(0,(s.y1-s.y0)/2-sy/2-.3),z:s.z0+sz/2},q=usesUpperEnvelope(s)?this.fitUpperStructurePointV48Wip06(src):src;
+          dummy.position.set(q.x,q.z,q.y);dummy.rotation.set(0,0,0);dummy.scale.set(sx,sz,sy);dummy.updateMatrix();cabinet.setMatrixAt(i,dummy.matrix);equipmentIds.add(e.id);
+        }cabinet.instanceMatrix.needsUpdate=true;cabinet.frustumCulled=false;cabinet.userData.equipmentIds=[...equipmentIds];group.add(cabinet);equipmentDrawables=1;
+      }
+      const outside=fragmentCorners.filter(p=>!this.upperStructureIntervalsV48Wip06(p.x,p.z).some(q=>p.y>=q[0]-.18&&p.y<=q[1]+.18)).length;
+      group.userData.spaceIds=[...spaceIds];group.userData.portalIds=[...portalIds];group.userData.equipmentIds=[...equipmentIds];group.userData.renderStats={spaceFragments:positions.length/24,spaceDrawables:positions.length?2:0,portalDrawables,portalPrimitiveCount,equipmentDrawables,totalDrawables:(positions.length?2:0)+portalDrawables+equipmentDrawables,legacyEstimatedDrawables:(state?.spaces?.length??0)*2+(state?.portals?.length??0)+(state?.equipmentNodes?.length??0),superstructureOutsideVertices:outside};
       group.visible=!!this.interiorTopologyVisible;parent.add(group);this.interiorTopologyLayer=group;return group;
     },
     interiorAuditV48Wip06(){
-      const state=get3DRenderState().shipInteriorTopology,group=this.interiorTopologyLayer,spaceIds=new Set(),portalIds=new Set();group?.traverse(o=>{if(o.userData?.spaceId)spaceIds.add(o.userData.spaceId);if(o.userData?.portalId)portalIds.add(o.userData.portalId);});
+      const state=get3DRenderState().shipInteriorTopology,group=this.interiorTopologyLayer,spaceIds=new Set(group?.userData?.spaceIds??[]),portalIds=new Set(group?.userData?.portalIds??[]),equipmentIds=new Set(group?.userData?.equipmentIds??[]);group?.traverse(o=>{if(o.userData?.spaceId)spaceIds.add(o.userData.spaceId);if(o.userData?.portalId)portalIds.add(o.userData.portalId);for(const id of o.userData?.spaceIds??[])spaceIds.add(id);for(const id of o.userData?.portalIds??[])portalIds.add(id);for(const id of o.userData?.equipmentIds??[])equipmentIds.add(id);});
       const button=document.getElementById('external3DInteriorBtn'),transparent=[...this.interiorExteriorMaterials.keys()].filter(m=>m.opacity<=.160001&&!m.depthWrite).length;
-      return {schema:'AEGIS_3D_INTERIOR_AUDIT_V48_WIP06',presentationOnly:true,physicsFeedback:false,rendererReady:!!this.ready,buttonPresent:!!button,buttonPressed:button?.getAttribute('aria-pressed')==='true',visible:!!group?.visible,spaceMeshes:spaceIds.size,portalMeshes:portalIds.size,expectedSpaces:state?.spaces?.length??0,expectedPortals:state?.portals?.length??0,allSpacesRepresented:spaceIds.size===(state?.spaces?.length??-1),allPortalsRepresented:portalIds.size===(state?.portals?.length??-1),exteriorTransparentMaterials:transparent,exteriorTransparent:this.interiorTopologyVisible?transparent>0:this.interiorExteriorMaterials.size===0,renderContract:state?.renderContract??null};
+      const stats=group?.userData?.renderStats??{},represented=(state?.spaces??[]).filter(s=>spaceIds.has(s.id)),deckCount=rows=>new Set(rows.map(s=>s.deck)).size,bridgeRows=represented.filter(s=>/bridge|pilothouse|ood|lookout|flag\.plot/.test(s.macroId)),hangarRows=represented.filter(s=>/hangar/.test(s.macroId)),trunks=represented.filter(s=>s.kind==='EXHAUST_TRUNK'),mastTrunks=represented.filter(s=>s.kind==='MAST_TRUNK');
+      return {schema:'AEGIS_3D_INTERIOR_AUDIT_V48_WIP06',presentationOnly:true,physicsFeedback:false,rendererReady:!!this.ready,buttonPresent:!!button,buttonPressed:button?.getAttribute('aria-pressed')==='true',visible:!!group?.visible,spaceMeshes:spaceIds.size,portalMeshes:portalIds.size,equipmentMeshes:equipmentIds.size,expectedSpaces:state?.spaces?.length??0,expectedPortals:state?.portals?.length??0,expectedEquipment:state?.equipmentNodes?.length??0,allSpacesRepresented:spaceIds.size===(state?.spaces?.length??-1),allPortalsRepresented:portalIds.size===(state?.portals?.length??-1),allEquipmentRepresented:equipmentIds.size===(state?.equipmentNodes?.length??-1),verticalShellFilled:deckCount(bridgeRows)>=5&&state?.audit?.hangarClearance?.clear===true&&represented.filter(s=>s.kind==='HANGAR_BAY').length===2&&trunks.length>=12&&mastTrunks.length>=3,representedBridgeDecks:deckCount(bridgeRows),representedHangarDecks:deckCount(hangarRows),hangarClearance:state?.audit?.hangarClearance??null,representedExhaustTrunks:trunks.length,representedMastTrunks:mastTrunks.length,superstructureContained:(Number(stats.superstructureOutsideVertices)||0)===0,superstructureOutsideVertices:Number(stats.superstructureOutsideVertices)||0,spaceFragments:Number(stats.spaceFragments)||0,portalPrimitiveCount:Number(stats.portalPrimitiveCount)||0,interiorDrawables:Number(stats.totalDrawables)||0,legacyEstimatedDrawables:Number(stats.legacyEstimatedDrawables)||0,batched:!!stats.totalDrawables&&stats.totalDrawables<stats.legacyEstimatedDrawables,exteriorTransparentMaterials:transparent,exteriorTransparent:this.interiorTopologyVisible?transparent>0:this.interiorExteriorMaterials.size===0,renderContract:state?.renderContract??null};
     },
     addBox(parent,x,y,z,l,h,w,mat,rx=0,ry=0,rz=0){
       const T=this.THREE,m=new T.Mesh(new T.BoxGeometry(Math.max(.05,l),Math.max(.05,h),Math.max(.05,w)),mat);
@@ -28828,7 +29042,7 @@ function createInteriorSectionsV9(T,root,originals){
       }else if(ev.type==='SEA_IMPACT')this.spawnSeaSplash(pos,ev.massKg,ev.impactSpeedMps,{velocity:srcVel,explosive:false});
     },
     // V2: geometry follows the struck mesh; a failed surface match never creates a floating marker.
-    damageSurfaceCandidatesV2(){const out=[];this.shipRoot.traverse(o=>{if(!o.isMesh||!o.geometry?.attributes.position)return;let p=o;while(p&&p!==this.shipRoot){if(!p.visible||p.userData.damageScar||p.userData.damageInterior)return;p=p.parent;}const mats=Array.isArray(o.material)?o.material:[o.material];if(mats.every(m=>m.opacity<.2))return;out.push(o);});return out;},
+    damageSurfaceCandidatesV2(){const out=[];this.shipRoot.traverse(o=>{if(!o.isMesh||!o.geometry?.attributes.position)return;let p=o;while(p&&p!==this.shipRoot){if(!p.visible||p.userData.damageScar||p.userData.damageInterior)return;p=p.parent;}const mats=Array.isArray(o.material)?o.material:[o.material],surfaceOpacity=m=>this.interiorExteriorMaterials?.get(m)?.opacity??m.opacity;if(mats.every(m=>surfaceOpacity(m)<.2))return;out.push(o);});return out;},
     findDamageSurfaceV2(s,meshes){const T=this.THREE,point=new T.Vector3(s.p.x,s.p.z,s.p.y),normal=new T.Vector3(s.normal[0],s.normal[2],s.normal[1]).normalize(),origin=this.shipRoot.localToWorld(point.clone().addScaledVector(normal,6)),wn=normal.clone().transformDirection(this.shipRoot.matrixWorld),ray=new T.Raycaster(origin,wn.clone().negate(),0,12);
       const hits=ray.intersectObjects(meshes,false).filter(h=>{const n=h.face?.normal.clone().applyMatrix3(new T.Matrix3().getNormalMatrix(h.object.matrixWorld)).normalize();return n&&Math.abs(n.dot(wn))>.12;});
       hits.sort((a,b)=>Math.abs(a.distance-6)-Math.abs(b.distance-6));const hit=hits[0];if(!hit)return null;
@@ -29636,7 +29850,7 @@ FOV ${fovPair}${envLine} · RANGE ${rng}${scanLine}${gateLine}`;
       if(this.fxLayer)this.fxLayer.rotation.y=-st.ship.headingRad;
       this.applyShipBodyFrame(st);this.syncTerrainVisuals(st);this.syncShipFittings(st);this.syncCiwsVisuals(st);this.syncMissileVisuals(st,dt);this.syncEnemyAsmVisuals(st,dt);this.syncSeekerVisual(st);this.syncRadarVisuals(st);this.syncAuxRadarVisuals(st);this.syncIllumVisuals(st);this.syncPhalanxTracers(st);this.syncChaffVisuals(st);this.syncVisualEvents(st);this.syncDamageScarsV1(st);this.syncCompartmentInteriorV8(st);this.syncExposedFireV1(st,dt);this.updatePhalanxGunFx(st,dt);this.updateDeckSmokeEmitters(dt,st);this.updateEventParticles(dt,st);this.updateSmoke(dt,st);this.updateFlash(dt,st);this.updateBurstLightsV4(dt,st);this.updateImpactBatchesV3();this.updateMissileStatus(st);this.drawAuxCic(st);
       this.syncFloodAttitudePreview(st);this.syncCamera();this.syncOceanEffects(st);this.renderer.render(this.scene,this.camera);
-      if(this.readout){const sel=this.currentFollowState(st),followTxt=this.follow.enabled?(this.follow.holdingLost?` · HOLD LAST POS ${this.follow.key??''}`:` · FOLLOW ${sel?.side==='HOSTILE'?'HOSTILE ':''}${sel?.state?.label??sel?.state?.kind??this.follow.key??''} ${sel?.state?.id??''}`):'',interiorTxt=this.interiorTopologyVisible?` · 내부 ${st.shipInteriorTopology?.summary?.spaces??0}구획/${st.shipInteriorTopology?.summary?.portals??0}연결`:'';this.readout.textContent=`3D VIEW · HDG ${String(Math.round(((st.ship.headingRad*180/Math.PI)+450)%360)).padStart(3,'0')}° · ${Math.round(st.ship.speedMps/0.514444)} kt${followTxt}${interiorTxt} · 횡경사 ${((st.floodAttitudePreview?.heelRad||0)*180/Math.PI).toFixed(1)}° · GM₀ ${(st.shipDynamicsV15?.gm0M??st.shipDynamicsV15?.gmM??0).toFixed(2)} m · GZ ${(st.shipDynamicsV15?.rightingArmM??0).toFixed(2)} m`;}
+      if(this.readout){const sel=this.currentFollowState(st),followTxt=this.follow.enabled?(this.follow.holdingLost?` · HOLD LAST POS ${this.follow.key??''}`:` · FOLLOW ${sel?.side==='HOSTILE'?'HOSTILE ':''}${sel?.state?.label??sel?.state?.kind??this.follow.key??''} ${sel?.state?.id??''}`):'',interiorTxt=this.interiorTopologyVisible?` · WIP06 R3 내부 ${st.shipInteriorTopology?.summary?.spaces??0}공간/${st.shipInteriorTopology?.summary?.portals??0}연결`:'';this.readout.textContent=`3D VIEW · HDG ${String(Math.round(((st.ship.headingRad*180/Math.PI)+450)%360)).padStart(3,'0')}° · ${Math.round(st.ship.speedMps/0.514444)} kt${followTxt}${interiorTxt} · 횡경사 ${((st.floodAttitudePreview?.heelRad||0)*180/Math.PI).toFixed(1)}° · GM₀ ${(st.shipDynamicsV15?.gm0M??st.shipDynamicsV15?.gmM??0).toFixed(2)} m · GZ ${(st.shipDynamicsV15?.rightingArmM??0).toFixed(2)} m`;}
     },
     contractAudit(){const s=get3DRenderState(),f=s.hardpoints.vlsForward,a=s.hardpoints.vlsAft,q=s?.radar?.spq9bBeams??[],p=s?.radar?.sps73Beams??[],controls={spy:!!document.getElementById('external3DRadarBtn'),spq9b:!!document.getElementById('external3DSpq9bBtn'),sps73:!!document.getElementById('external3DSps73Btn'),interior:!!document.getElementById('external3DInteriorBtn')};return {pass:s.contract==='NAVAL_RENDER_STATE_V1'&&f?.xM===WIP199_FINAL_LAYOUT.vls.fwd.x&&a?.xM===WIP199_FINAL_LAYOUT.vls.aft.x&&s.vls.forwardCells===32&&s.vls.aftCells===64&&Array.isArray(s.terrainIslands)&&q.length===SPQ9B_PANEL_COUNT&&p.length===1&&s.shipInteriorTopology?.schema===V48_WIP06_INTERIOR_MODEL.schema&&Object.values(controls).every(Boolean),threeVersion:WIP148_THREE_VERSION,dependencyUrl:String(window.__NAVAL_THREE_URL__||WIP148_THREE_SCRIPT_URL),auxRadarControls:controls,renderState:s};}
   };
