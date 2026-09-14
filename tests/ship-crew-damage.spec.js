@@ -19,12 +19,15 @@ test('v48 WIP07 spatial crew routing, casualties and medical evacuation', async 
     window.__NAVAL_SIM_DIAG__?.v48Wip07CrewReadPerformance,
   null, { timeout: 30_000 });
 
+  // Damage-control UI is materialized after the pre-sail overlay is dismissed.
+  await page.locator('#wip125DepartBtn').click();
+  await page.waitForFunction(() =>
+    document.getElementById('damageControlPanelV1') &&
+    document.getElementById('damageControlToggleV1') &&
+    document.getElementById('external3DInteriorBtn'),
+  null, { timeout: 10_000 });
+
   const result = await page.evaluate(() => {
-    // The damage-control panel is intentionally created on its first UI refresh.
-    // Materialize that lazy UI before asserting the DOM contract.
-    if (typeof window.updateDamageControlPanelV1 === 'function') {
-      window.updateDamageControlPanelV1();
-    }
     const d = window.__NAVAL_SIM_DIAG__;
     const model = d.v48Wip07CrewDamageModel();
     const live = d.v48Wip07CrewState();
