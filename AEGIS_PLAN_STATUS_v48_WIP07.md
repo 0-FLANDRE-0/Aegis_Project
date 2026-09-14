@@ -4,7 +4,7 @@
 
 WIP06 R3의 실제 내부 공간·통로 그래프 위에 승조원 배치, 이동, 보수반 출동, 폭압·파편·관통체 인명피해, 의무후송과 3D 표시를 통합했다.
 
-현재 판정은 **구현 완료 / 독립 결정적 런타임 계약 통과 / 실제 브라우저·WebGL·전체 GitHub Actions 검증 잔여**다. 실제 Actions 결과가 없으므로 아직 최종 완료나 정식 버전으로 판정하지 않는다.
+현재 판정은 **구현 완료 / 독립 결정적 런타임 계약 통과 / 실제 브라우저·WebGL·GitHub Actions 13개 job 통과**다. WIP 단계이므로 릴리스·태그는 만들지 않으며 PR 병합 전 상태다.
 
 ## 구현 내용
 
@@ -68,8 +68,32 @@ WIP06 R3의 실제 내부 공간·통로 그래프 위에 승조원 배치, 이�
 - workflow YAML 파싱 통과.
 - 기존 12개 job에 `ship-crew-damage`를 추가해 총 13개 job으로 구성.
 - `aegis-3d-render`는 내부 구조 표시 상태에서 승조원 310명, instance batch 1개, presentation-only 계약, WIP07 결정적 프로브와 권위 상태 불변을 검사하도록 확장.
-- 현재 환경에는 Chromium 실행 파일이 없어 실제 페이지 로드, UI 클릭, WebGL 캡처, 전체 Playwright와 GitHub Actions는 실행하지 않았다.
-- Actions 통과 후 run ID, 13개 job 결과, artifact ID/digest, 실제 3D 승조원 audit 값을 이 문서에 추가해야 한다.
+- 최종 검증: GitHub Actions `AEGIS smoke check` run #64, run ID `34841619976`, branch head `bf68e948bea69ef27c13f34c94ae3bce2aa8f570`.
+- 13개 job 전부 success: `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-impact-penetration`, `ship-mass-ledger`, `ship-structural-fatigue`, `ship-stability-maneuver`, `ship-wave-flooding`, `ship-interior-topology`, `ship-crew-damage`.
+- 신규 브라우저 검사는 페이지 로드, 출항 오버레이 해제 후 보수반 UI 생성, 310명 정확 배치, 그래프 이동, 들것 후송, 폭압·파편·관통체 혼합 사상, 캐시 조회, presentation-only 상태를 모두 통과.
+- 실제 3D Chromium/WebGL audit: renderer ready, 내부 구조 버튼 표시·눌림, 승조원 레이어 visible, `InstancedMesh` 1 batch, 310/310명 표시, `allPersonnelRepresented=true`, `physicsFeedback=false`, `PRESENTATION_ONLY_CREW_SNAPSHOT` 통과.
+- 같은 3D capture에서 WIP06 내부 구조 138공간/160연결/70장비가 모두 실제 mesh에 표현되고, WIP03 ENTRY/EXIT 양현 파괴구가 `meshMatched=true`, `actualHole=true`, `attached=true`로 유지됨.
+- 3D 증거 artifact: ID `10346890422`, digest `sha256:01dc1a60269dd729e0b48b78a5d44c0d2ee4666422f7ee75569da3ffef45879e`.
+- 승조원 피해 증거 artifact: ID `10346561330`, digest `sha256:d2a22f96adb1d3437f4b83649580b5c31e7cd258f1566f5563141b1ce4af8d7a`.
+
+### 최종 Actions artifact
+
+| 검사 | Artifact ID | SHA-256 digest |
+|---|---:|---|
+| aegis-3d-render | 10346890422 | `01dc1a60269dd729e0b48b78a5d44c0d2ee4666422f7ee75569da3ffef45879e` |
+| ship-stability-maneuver | 10346850630 | `71ed9b59a868efdc64f09f4de3bb14f6e0eec4d2cafb75ea3357354dcdeb7f12` |
+| ship-interior-topology | 10346656039 | `e06e5981daa04451395470ce3a08378f90aa2059fbe94ccf0fa6fa907816df84` |
+| ship-crew-damage | 10346561330 | `d2a22f96adb1d3437f4b83649580b5c31e7cd258f1566f5563141b1ce4af8d7a` |
+| ciws-b2-maneuver | 10346341426 | `a57f3a1bbb7739ba0ca3b5e0145c353f26be37a335c404521499f5c25364436f` |
+| webgl-render-probe | 10346312394 | `176774bd6ff874a60cea30fd33e78898c5aadf4f2241ced1df29732b58707cf0` |
+| ship-mass-ledger | 10346212108 | `fc7461d853ae8df7b58c1d61b13fc2b506fbccdf6294879d4a795b37d243f77d` |
+| ship-wave-flooding | 10346147222 | `4223f328443b75a18afdd634e7364907fa7e4ad38d3fd74d17b1b1a466cda356` |
+| ship-impact-penetration | 10346112335 | `09e56b7b1632fe40d8ad1ab2aad3507a53e7e85051b1d911b4d9d12899663609` |
+| ciws-b3-damage | 10346087298 | `8d22dbe552e6b2c171831f759403fb000d066c5fb8f92c5373886207aae4d4f6` |
+| ship-structural-fatigue | 10346022605 | `853da399cc275004b2ab413f3f1fd45337c9c92bd2a3c74e82f58c1668bf7707` |
+| ciws-b1-closure | 10345324476 | `ef5067e237a3096e1ef2626cd8b079c406c97d6eac5fc9c7b244c8aa752bfc77` |
+
+`static-smoke`는 별도 artifact 없이 success로 종료됐다.
 
 ## 변경하지 않은 범위
 
