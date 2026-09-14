@@ -20,6 +20,11 @@ test('v48 WIP07 spatial crew routing, casualties and medical evacuation', async 
   null, { timeout: 30_000 });
 
   const result = await page.evaluate(() => {
+    // The damage-control panel is intentionally created on its first UI refresh.
+    // Materialize that lazy UI before asserting the DOM contract.
+    if (typeof window.updateDamageControlPanelV1 === 'function') {
+      window.updateDamageControlPanelV1();
+    }
     const d = window.__NAVAL_SIM_DIAG__;
     const model = d.v48Wip07CrewDamageModel();
     const live = d.v48Wip07CrewState();
