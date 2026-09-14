@@ -14,6 +14,8 @@ on:
       - 'tests/ship-stability-maneuver.spec.js'
       - 'tests/ship-wave-flooding.spec.js'
       - 'tests/ship-interior-topology.spec.js'
+      - 'tests/ship-crew-damage.spec.js'
+      - 'tests/crew-wip07-contract.cjs'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -22,7 +24,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP06.html
+  SIM_FILE: Aegis_SIM_v48_WIP07.html
 
 jobs:
   ciws-b1-closure:
@@ -502,6 +504,60 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  ship-crew-damage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP07 spatial crew and casualty regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-crew-damage
+          node tests/crew-wip07-contract.cjs "$SIM_FILE" | tee artifacts/ship-crew-damage/crew-wip07-node-contract.json
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-crew-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-crew
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-crew-damage -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-crew-damage/SHA256SUMS
+
+      - name: Upload crew damage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-crew-damage-${{ github.sha }}
+          path: |
+            artifacts/ship-crew-damage/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-crew-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
   static-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -738,13 +794,15 @@ jobs:
             const d = window.__NAVAL_SIM_DIAG__;
             d.ciwsB1Closure?.setPaused?.(true);
             const probe = d.runV48Wip03StructuralProbe({ hits: 2, label: 'Kh-32', xM: 12, zM: -3.5, side: 'STARBOARD' });
+            const crewProbe = d.runV48Wip07CrewDamageProbe({ readCount: 0 });
             const authoritativeBefore = JSON.stringify({
               flood: d.damageFloodSnapshotV1(),
               structure: d.v48Wip03StructuralState(),
               visual: d.v48Wip03DamageVisualState(),
-              interior: d.v48Wip06InteriorState()
+              interior: d.v48Wip06InteriorState(),
+              crew: d.v48Wip07CrewState()
             });
-            window.__V48_WIP03_3D_PROBE__ = { probe, authoritativeBefore };
+            window.__V48_WIP03_3D_PROBE__ = { probe, crewProbe, authoritativeBefore };
             window.__WIP148_3D_VIEW__?.resetCamera?.();
             if (!window.__WIP148_3D_VIEW__?.interiorTopologyVisible) window.__WIP148_3D_VIEW__?.toggleInteriorTopology?.();
             return true;
@@ -753,7 +811,7 @@ jobs:
           await sleep(16500);
           for (let attempt = 0; attempt < 80; attempt++) {
             const probe = await send('Runtime.evaluate', {
-              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.exteriorTransparent; })()`,
+              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(),c=v?.crewAuditV48Wip07?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.allEquipmentRepresented && !!i?.verticalShellFilled && !!i?.superstructureContained && !!i?.batched && !!i?.exteriorTransparent && !!c?.visible && !!c?.allPersonnelRepresented && c?.instanceBatches===1; })()`,
               returnByValue: true
             });
             if (probe.result?.value) break;
@@ -771,19 +829,23 @@ jobs:
             let damageChecks = null;
             let interiorAudit = null;
             let interiorChecks = null;
+            let crewAudit = null;
+            let crewChecks = null;
             try {
               const view3d = window.__WIP148_3D_VIEW__;
               ready = !!view3d?.ready;
               auditPass = !!view3d?.contractAudit?.().pass;
               damageAudit = view3d?.damageAuditV48Wip03?.() || null;
               interiorAudit = view3d?.interiorAuditV48Wip06?.() || null;
+              crewAudit = view3d?.crewAuditV48Wip07?.() || null;
               const setup = window.__V48_WIP03_3D_PROBE__;
               const d = window.__NAVAL_SIM_DIAG__;
               const authoritativeAfter = JSON.stringify({
                 flood: d.damageFloodSnapshotV1(),
                 structure: d.v48Wip03StructuralState(),
                 visual: d.v48Wip03DamageVisualState(),
-                interior: d.v48Wip06InteriorState()
+                interior: d.v48Wip06InteriorState(),
+                crew: d.v48Wip07CrewState()
               });
               const openingById = new Map((setup?.probe?.flood?.openings || []).map(o => [o.id, o]));
               const entry = damageAudit?.entry || [], exit = damageAudit?.exit || [];
@@ -808,9 +870,23 @@ jobs:
                 visible: interiorAudit?.visible === true,
                 allSpacesRepresented: interiorAudit?.allSpacesRepresented === true && interiorAudit?.spaceMeshes === interiorAudit?.expectedSpaces,
                 allPortalsRepresented: interiorAudit?.allPortalsRepresented === true && interiorAudit?.portalMeshes === interiorAudit?.expectedPortals,
+                allEquipmentRepresented: interiorAudit?.allEquipmentRepresented === true && interiorAudit?.equipmentMeshes === interiorAudit?.expectedEquipment,
+                verticalShellFilled: interiorAudit?.verticalShellFilled === true && interiorAudit?.representedBridgeDecks >= 5 && interiorAudit?.representedHangarDecks >= 2 && interiorAudit?.representedExhaustTrunks >= 12 && interiorAudit?.representedMastTrunks >= 3,
+                superstructureContained: interiorAudit?.superstructureContained === true && interiorAudit?.superstructureOutsideVertices === 0,
+                batchedDrawables: interiorAudit?.batched === true && interiorAudit?.interiorDrawables > 0 && interiorAudit?.interiorDrawables < interiorAudit?.legacyEstimatedDrawables,
                 exteriorTransparent: interiorAudit?.exteriorTransparent === true && interiorAudit?.exteriorTransparentMaterials > 0,
                 presentationOnly: interiorAudit?.presentationOnly === true && interiorAudit?.physicsFeedback === false,
                 snapshotContract: interiorAudit?.renderContract === 'PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT'
+              };
+              crewChecks = {
+                schema: crewAudit?.schema === 'AEGIS_3D_CREW_AUDIT_V48_WIP07',
+                visible: crewAudit?.visible === true,
+                oneInstanceBatch: crewAudit?.instanceBatches === 1,
+                exactRoster: crewAudit?.renderedPersonnel === 310 && crewAudit?.expectedPersonnel === 310,
+                allPersonnelRepresented: crewAudit?.allPersonnelRepresented === true,
+                presentationOnly: crewAudit?.presentationOnly === true && crewAudit?.physicsFeedback === false,
+                snapshotContract: crewAudit?.renderContract === 'PRESENTATION_ONLY_CREW_SNAPSHOT',
+                deterministicProbe: !!setup?.crewProbe?.checks && Object.values(setup.crewProbe.checks).every(Boolean)
               };
               const gl = view3d?.renderer?.getContext?.();
               if (gl) {
@@ -833,6 +909,8 @@ jobs:
               damageChecks,
               interiorAudit,
               interiorChecks,
+              crewAudit,
+              crewChecks,
               rendererInfo,
               readout: readout?.textContent || null,
               loadingVisible: !!loading?.classList.contains('show'),
@@ -857,7 +935,8 @@ jobs:
 
           const damagePass = state.damageChecks && Object.values(state.damageChecks).every(Boolean);
           const interiorPass = state.interiorChecks && Object.values(state.interiorChecks).every(Boolean);
-          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !state.rendererInfo?.version) {
+          const crewPass = state.crewChecks && Object.values(state.crewChecks).every(Boolean);
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !crewPass || !state.rendererInfo?.version) {
             process.exitCode = 1;
           }
           JS
