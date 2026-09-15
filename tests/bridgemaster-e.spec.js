@@ -46,7 +46,8 @@ test('v48 WIP08 BridgeMaster E authoritative sensor, mount and damage contract',
     mainMastYardarm: same(i.xM, 15.75) && same(i.yM, 5.15) && same(i.zM, 31.78),
     physicalDamageTarget: i.hitbox?.system === 'BRIDGEMASTER_E' && i.hitbox?.targetId === 'bridgemaster_e.01',
     sharedHardpoint: same(i.xM, result.hardpoint.xM) && same(i.yM, result.hardpoint.yM) && same(i.zM, result.hardpoint.zM) &&
-      same(i.xM, result.beam.xM) && same(i.yM, result.beam.yM) && same(i.zM, result.beam.zM),
+      result.beam.sourceFrame === 'SHIP_BODY_X_BOW_Y_STARBOARD_Z_UP' &&
+      same(i.xM, result.beam.sourceXM) && same(i.yM, result.beam.sourceYM) && same(i.zM, result.beam.sourceZM),
     publicSbandBaseline: result.audit.band === 'S' && result.audit.frequencyMHz === 3050 && result.audit.peakPowerW === 30000 &&
       i.antennaApertureFt === 12 && result.audit.beamAzDeg === 2 && result.audit.beamElDeg === 30 && result.audit.antennaGainDb === 26,
     scanModel: result.audit.rpm === 30 && result.audit.highSpeedRpm === 50 && Math.abs(result.audit.nominalRevisitS - 2) < 1e-12 && result.beam.sensor === 'BRIDGEMASTER_E',
