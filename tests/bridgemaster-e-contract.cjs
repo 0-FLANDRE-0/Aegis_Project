@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP08.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP09.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -39,16 +39,17 @@ const checks = {
   publicSbandBaseline: html.includes('frequencyMHz:3050') && html.includes('peakPowerKw:30') &&
     html.includes('antennaApertureFt:12') && html.includes('horizontalBeamwidthDeg:2') &&
     html.includes('verticalBeamwidthDeg:30') && html.includes('antennaGainDb:26'),
-  pulseModes: html.includes("SHORT:Object.freeze({id:'SHORT',pulseWidthUs:.05,prfHz:1800") &&
-    html.includes("MEDIUM:Object.freeze({id:'MEDIUM',pulseWidthUs:.25,prfHz:1800") &&
-    html.includes("LONG:Object.freeze({id:'LONG',pulseWidthUs:.75,prfHz:785"),
-  trackingLimits: html.includes('const BRIDGEMASTER_E_TRACK_CAPACITY = 60;') &&
-    html.includes('const BRIDGEMASTER_E_TRACK_MAX_KM = 40*1.852;') &&
-    html.includes('const BRIDGEMASTER_E_DISPLAY_SCALE_MAX_KM = 96*1.852;') &&
+  pulseModes: html.includes("pulseModes:{SHORT:{id:'SHORT',pulseWidthUs:.05,prfHz:1800") &&
+    html.includes("MEDIUM:{id:'MEDIUM',pulseWidthUs:.25,prfHz:1800") &&
+    html.includes("LONG:{id:'LONG',pulseWidthUs:.75,prfHz:785") &&
+    html.includes('pulseModes:BRIDGEMASTER_E_PULSE_MODES,...BRIDGEMASTER_E_PROFILE_INSTALLATION}=ACTIVE_SHIP_PROFILE.sensors.bridgeMasterE;'),
+  trackingLimits: html.includes('const BRIDGEMASTER_E_TRACK_CAPACITY = BRIDGEMASTER_E_INSTALLATION.maxRadarTracks;') &&
+    html.includes('const BRIDGEMASTER_E_TRACK_MAX_KM = BRIDGEMASTER_E_INSTALLATION.trackMaxNmi*1.852;') &&
+    html.includes('const BRIDGEMASTER_E_DISPLAY_SCALE_MAX_KM = BRIDGEMASTER_E_INSTALLATION.displayScaleMaxNmi*1.852;') &&
     html.includes('rangeM:BRIDGEMASTER_E_TRACK_MAX_KM*1000,trackRangeM:BRIDGEMASTER_E_TRACK_MAX_KM*1000') &&
     html.includes('displayScaleMaxM:BRIDGEMASTER_E_DISPLAY_SCALE_MAX_KM*1000'),
-  cadence: html.includes('const BRIDGEMASTER_E_RPM = 30;') &&
-    html.includes('const BRIDGEMASTER_E_HIGH_SPEED_RPM = 50;') &&
+  cadence: html.includes('const BRIDGEMASTER_E_RPM = BRIDGEMASTER_E_INSTALLATION.nominalRpm;') &&
+    html.includes('const BRIDGEMASTER_E_HIGH_SPEED_RPM = BRIDGEMASTER_E_INSTALLATION.highSpeedRpm;') &&
     html.includes('const BRIDGEMASTER_E_NOMINAL_REVISIT_S = 60/BRIDGEMASTER_E_RPM;')
 };
 
