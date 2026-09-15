@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP07.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP08.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {

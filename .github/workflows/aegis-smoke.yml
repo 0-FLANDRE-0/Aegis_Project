@@ -16,6 +16,8 @@ on:
       - 'tests/ship-interior-topology.spec.js'
       - 'tests/ship-crew-damage.spec.js'
       - 'tests/crew-wip07-contract.cjs'
+      - 'tests/bridgemaster-e.spec.js'
+      - 'tests/bridgemaster-e-contract.cjs'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -24,7 +26,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP07.html
+  SIM_FILE: Aegis_SIM_v48_WIP08.html
 
 jobs:
   ciws-b1-closure:
@@ -558,6 +560,60 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  bridgemaster-e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP08 BridgeMaster E contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/bridgemaster-e
+          node tests/bridgemaster-e-contract.cjs "$SIM_FILE" | tee artifacts/bridgemaster-e/bridgemaster-e-node-contract.json
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-bridgemaster-e-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:bridgemaster-e
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/bridgemaster-e -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/bridgemaster-e/SHA256SUMS
+
+      - name: Upload BridgeMaster E evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bridgemaster-e-${{ github.sha }}
+          path: |
+            artifacts/bridgemaster-e/
+            playwright-report/
+            test-results/
+            /tmp/aegis-bridgemaster-e-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
   static-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -583,7 +639,7 @@ jobs:
               "</html>",
               'id="external3DRadarBtn"',
               'id="external3DSpq9bBtn"',
-              'id="external3DSps73Btn"',
+              'id="external3DBridgeMasterEBtn"',
               'id="external3DInteriorBtn"',
           )
           missing = [marker for marker in required if marker.lower() not in text.lower()]
@@ -831,6 +887,8 @@ jobs:
             let interiorChecks = null;
             let crewAudit = null;
             let crewChecks = null;
+            let bridgeMasterEAudit = null;
+            let bridgeMasterEChecks = null;
             try {
               const view3d = window.__WIP148_3D_VIEW__;
               ready = !!view3d?.ready;
@@ -838,6 +896,7 @@ jobs:
               damageAudit = view3d?.damageAuditV48Wip03?.() || null;
               interiorAudit = view3d?.interiorAuditV48Wip06?.() || null;
               crewAudit = view3d?.crewAuditV48Wip07?.() || null;
+              bridgeMasterEAudit = view3d?.bridgeMasterEAuditV48Wip08?.() || null;
               const setup = window.__V48_WIP03_3D_PROBE__;
               const d = window.__NAVAL_SIM_DIAG__;
               const authoritativeAfter = JSON.stringify({
@@ -888,6 +947,22 @@ jobs:
                 snapshotContract: crewAudit?.renderContract === 'PRESENTATION_ONLY_CREW_SNAPSHOT',
                 deterministicProbe: !!setup?.crewProbe?.checks && Object.values(setup.crewProbe.checks).every(Boolean)
               };
+              bridgeMasterEChecks = {
+                rendererReady: bridgeMasterEAudit?.rendererReady === true,
+                meshPresent: bridgeMasterEAudit?.meshPresent === true,
+                mountPresent: bridgeMasterEAudit?.mountPresent === true,
+                meshAtAuthoritativeHardpoint: bridgeMasterEAudit?.meshAtAuthoritativeHardpoint === true,
+                upperStarboardYardarm: bridgeMasterEAudit?.upperStarboardYardarm === true,
+                rotorMirrorsAuthoritative: bridgeMasterEAudit?.rotorMirrorsAuthoritative === true,
+                physicalHitbox: bridgeMasterEAudit?.physicalHitbox === true,
+                sharedHardpoint: bridgeMasterEAudit?.sharedHardpoint === true,
+                mastOutfitPresent: bridgeMasterEAudit?.mastOutfitPresent === true,
+                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === 14,
+                singleFunctionalRadar: bridgeMasterEAudit?.duplicateFunctionalRadar === false,
+                publicSbandBaseline: bridgeMasterEAudit?.publicSbandBaseline === true,
+                trackDisplayRangeSeparated: bridgeMasterEAudit?.trackDisplayRangeSeparated === true,
+                presentationOnly: bridgeMasterEAudit?.presentationOnly === true && bridgeMasterEAudit?.physicsFeedback === false
+              };
               const gl = view3d?.renderer?.getContext?.();
               if (gl) {
                 const dbg = gl.getExtension('WEBGL_debug_renderer_info');
@@ -911,6 +986,8 @@ jobs:
               interiorChecks,
               crewAudit,
               crewChecks,
+              bridgeMasterEAudit,
+              bridgeMasterEChecks,
               rendererInfo,
               readout: readout?.textContent || null,
               loadingVisible: !!loading?.classList.contains('show'),
@@ -936,7 +1013,8 @@ jobs:
           const damagePass = state.damageChecks && Object.values(state.damageChecks).every(Boolean);
           const interiorPass = state.interiorChecks && Object.values(state.interiorChecks).every(Boolean);
           const crewPass = state.crewChecks && Object.values(state.crewChecks).every(Boolean);
-          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !crewPass || !state.rendererInfo?.version) {
+          const bridgeMasterEPass = state.bridgeMasterEChecks && Object.values(state.bridgeMasterEChecks).every(Boolean);
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !crewPass || !bridgeMasterEPass || !state.rendererInfo?.version) {
             process.exitCode = 1;
           }
           JS
