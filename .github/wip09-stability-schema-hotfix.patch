@@ -1,0 +1,20 @@
+--- a/Aegis_SIM_v48_WIP09.html
++++ b/Aegis_SIM_v48_WIP09.html
+@@ -692,7 +692,7 @@
+     targetLightshipCGM:{x:-6.0592692503,y:.0042134870,z:5.5079026044},
+     fixedNodes:[['ordnance.mk45','ORDNANCE_FIXED',30000,{x:48,y:0,z:4}],['ordnance.torpedo','ORDNANCE_FIXED',1400,{x:-10,y:0,z:4}],['ordnance.misc','ORDNANCE_FIXED',5078.35,{x:0,y:0,z:3}],['helo.port','AIRCRAFT',8500,{x:-58,y:-3,z:7}],['helo.starboard','AIRCRAFT',8500,{x:-58,y:3,z:7}],['stores.provisions','STORES',250000,{x:-20,y:0,z:2.5}],['stores.mission','STORES',50000,{x:0,y:0,z:2.5}]]
+   },
+-  hydrostatics:{modelId:'SHIP_DYNAMIC_STABILITY_V48_WIP04',initialGMM:1.5,gridXM:2,gridYM:.5,thrustPerKg:.25,powerPerKg:5.5,engineResponseS:5,rollDamping:.22},
++  hydrostatics:{schema:'AEGIS_INTACT_STABILITY_V48_WIP04',modelId:'SHIP_DYNAMIC_STABILITY_V48_WIP04',initialGMM:1.5,gridXM:2,gridYM:.5,thrustPerKg:.25,powerPerKg:5.5,engineResponseS:5,rollDamping:.22},
+   environment:{waveFlood:{modelId:'AEGIS_WAVE_FLOODING_V48_WIP05',componentCount:12,g:9.81,defaultSeed:4805,defaultHsM:0,defaultTpS:8,defaultDirectionDeg:90,directionSpreadDeg:18,minHsM:0,maxHsM:8,minTpS:3.5,maxTpS:16,presets:{CALM:{hsM:0,tpS:8},LIGHT:{hsM:.8,tpS:6},MODERATE:{hsM:2,tpS:8},ROUGH:{hsM:4,tpS:10},STORM:{hsM:6,tpS:12}}}},
+   interior:{builderId:'WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3',modelId:'AEGIS_SHIP_INTERIOR_TOPOLOGY_V48_WIP06',expected:{floodParentCells:24,spaces:138,portals:160,equipment:70}},
+   crew:{modelId:'AEGIS_CREW_ROUTING_DAMAGE_V48_WIP07',builderId:'DDG119_CREW_WIP07',roster:310,movementHz:5,physiologyHz:1,routeInvalidationHz:1,pathCacheLimit:512,damageEventLimit:48,medicalBeds:8,stretcherTeams:4,speedsMps:{DUTY:1.15,DAMAGE_CONTROL:.85,SELF_EVAC:.70,STRETCHER:.52,ABANDON:.75},departments:[['ENGINEERING','기관부',100],['COMBAT','전투체계부',85],['OPERATIONS','작전부',60],['AVIATION','항공부',25],['SUPPORT','보급·행정·의무',35],['COMMAND','지휘부',5]]},
+@@ -9431,7 +9431,7 @@
+ // V48 WIP04 keeps the established manoeuvring force model, but separates the
+ // loading-condition GM0 from the finite-angle GZ used by the roll equation.
+ const V48_WIP04_STABILITY_MODEL=Object.freeze({
+-  schema:ACTIVE_SHIP_PROFILE.hydrostatics.modelId,
++  schema:ACTIVE_SHIP_PROFILE.hydrostatics.schema,
+   gmDefinition:'UPRIGHT_CONSTANT_DISPLACEMENT_SMALL_ANGLE',
+   rightingArmModel:'CALIBRATED_WALL_SIDED_TO_GEOMETRIC',
+   referenceRefreshS:1,
