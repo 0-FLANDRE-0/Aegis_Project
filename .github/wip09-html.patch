@@ -1,0 +1,777 @@
+--- a/Aegis_SIM_v48_WIP09.html
++++ b/Aegis_SIM_v48_WIP09.html
+@@ -3,7 +3,7 @@
+ <head>
+   <meta charset="utf-8"/>
+   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+-  <title>AEGIS v48 WIP08 — BridgeMaster E Navigation Radar</title>
++  <title>AEGIS v48 WIP09 — DDG-119 Ship Profile Foundation</title>
+   <style>
+     :root {
+       --bg: #020a0f;
+@@ -631,6 +631,87 @@
+ });
+ 
+ // ===== SHIP MOVEMENT =====
++// ===== V48 WIP09 SHIP PROFILE FOUNDATION =====
++// One immutable authored profile selects every ship-specific model/builder. Mutable
++// battle state lives in ACTIVE_SHIP_RUNTIME_V48_WIP09 and must never be written back
++// into this object. WIP09 deliberately reserves protection/material slots without
++// changing the WIP08 penetration or damage equations.
++function deepFreezeShipProfileV48Wip09(value,seen=new WeakSet()){
++  if(!value||typeof value!=='object'||seen.has(value)||Object.isFrozen(value))return value;
++  seen.add(value);for(const child of Object.values(value))deepFreezeShipProfileV48Wip09(child,seen);return Object.freeze(value);
++}
++const DDG_119_LATE_FLIGHT_IIA_PROFILE=deepFreezeShipProfileV48Wip09({
++  schema:'AEGIS_SHIP_PROFILE_V48_WIP09',schemaVersion:1,id:'DDG_119_LATE_FLIGHT_IIA',revision:'V48_WIP09',
++  identity:{classId:'ARLEIGH_BURKE',className:'Arleigh Burke-class destroyer',flight:'IIA',variant:'LATE_FLIGHT_IIA',hullNumber:'DDG-119',shipName:'USS Delbert D. Black',country:'US',basis:'DDG119_PUBLIC_PHOTO_DERIVED_AND_SIM_TUNED'},
++  coordinates:{frame:'SHIP_LOCAL_METRES',longitudinal:'+X_BOW',transverse:'+Y_STARBOARD',vertical:'+Z_UP',headingRadZero:'+X_BOW'},
++  geometry:{
++    builderId:'DDG119_WIP199_FLIGHT_IIA_GEOMETRY',deckZM:7,bowXM:82,sternXM:-73.3,lengthM:155.3,referenceHeightM:15,
++    superstructure:{horizontal:.90,vertical:.875,hangarHorizontal:.95,hangarVertical:.92,mastTopM:36,mastHorizontal:.80},
++    bridge:{builderId:'WIP199_CANONICAL_BRIDGE_GEOMETRY',groupXM:26.9,yawRad:Math.PI/2},
++    hullStations:[[-73.3,4.2,4.45,-4.95],[-68,8,4.85,-6.05],[-58.4,8.9,5.25,-5.75],[-57.8,9.1,7,-5.3],[-48,9.8,7,-5],[18,10.2,7.2,-5.2],[52,9.2,7.3,-4.7],[70,6.4,7.2,-3.7],[82,.6,7.6,-1]],
++    hardpoints:{
++      vlsForward:{name:'VLS(전)',x:47.5,y:0,z:8.12,rows:4,cols:8,spanX:5.4,spanY:8},
++      vlsAft:{name:'VLS(후)',x:-44.5,y:0,z:10.95,rows:8,cols:8,spanX:8,spanY:10.8},
++      phalanx:{name:'Phalanx',x:38.7,y:0,z:15.7375,hL:1.60,hW:1.40,hH:1.90},
++      seaRam:{name:'SeaRAM',x:-36.7,y:0,z:15.81,hL:2.75,hW:1.55,hH:1.45},
++      spq9b:{name:'AN/SPQ-9B',x:15.26,y:0,z:32.28,hL:1.20,hW:1.20,hH:.95},
++      mast:{name:'마스트',x:16.62,y:0,z:25.90,hL:2.10,hW:.85,hH:8.75},
++      bridgeMasterE:{name:'BridgeMaster E',x:15.75,y:5.15,z:31.78,hL:2.10,hW:2.10,hH:.72,antennaLengthM:3.70,mountBasis:'DDG119_PHOTO_DERIVED_UPPER_STARBOARD_YARDARM'},
++      flightDeck:{name:'비행갑판',x:-65.75,y:0,z:4.88,hL:7.05,hW:8.70,hH:.38},
++      spg62:[
++        {id:0,oX:28,oY:0,heightM:24.95,label:'ILL-1(전방/함교상부)',mountRole:'FWD_HIGH',moduleName:'AN/SPG-62(전방)',sectorHalfDeg:120,blindCenterDeg:180,blindHalfDeg:40},
++        {id:1,oX:-19.7,oY:0,heightM:20.63,label:'ILL-2(후방/상단)',mountRole:'AFT_HIGH',moduleName:'AN/SPG-62(후방상단)',sectorHalfDeg:120,blindCenterDeg:0,blindHalfDeg:38},
++        {id:2,oX:-27.2,oY:0,heightM:18.41,label:'ILL-3(후방/하단)',mountRole:'AFT_LOW',moduleName:'AN/SPG-62(후방하단)',sectorHalfDeg:120,blindCenterDeg:0,blindHalfDeg:52}
++      ]
++    }
++  },
++  navigation:{initialHeadingRad:-Math.PI/2,maxTrail:800,maxAheadKt:35,maxAsternKt:5},
++  sensors:{
++    modelId:'DDG119_SENSOR_MODEL_V48_WIP09',spy1dv:{snrReferenceRangeKm:190,searchMaxRangeKm:320,heightM:15.82},
++    spq9b:{heightM:32.28,rpm:30,panelCount:2,snrReferenceRangeKm:70,searchMaxRangeKm:100},
++    spg62:{destroyThresholdPct:80},
++    bridgeMasterE:{
++      schema:'AEGIS_BRIDGEMASTER_E_INSTALLATION_V48_WIP08',family:'Northrop Grumman Sperry Marine BridgeMaster E',channel:'S_BAND_NAV_SURFACE_WORKING_BASELINE',navalVariantExactConfiguration:'PUBLIC_UNKNOWN',
++      band:'S',frequencyMHz:3050,frequencyToleranceMHz:10,peakPowerKw:30,antennaApertureFt:12,antennaApertureM:3.70,horizontalBeamwidthDeg:2,verticalBeamwidthDeg:30,antennaGainDb:26,polarization:'HORIZONTAL',
++      nominalRpm:30,highSpeedRpm:50,maxRelativeWindKt:100,receiverNoiseFigureDb:5,receiverDynamicRangeDb:80,ifMHz:60,publishedMinimumRangeLessThanM:35,publishedRangeResolutionBetterThanM:35,workingMinimumRangeM:30,workingRangeResolutionM:34,
++      systemBearingAccuracyDeg:1,maxRadarTracks:60,combinedRadarTracks:40,maxAisTracks:40,trackMinNmi:.25,trackMaxNmi:40,maxTrackRelativeSpeedKt:150,displayScaleMaxNmi:96,
++      pulseModes:{SHORT:{id:'SHORT',pulseWidthUs:.05,prfHz:1800,ifBandwidthMHz:20},MEDIUM:{id:'MEDIUM',pulseWidthUs:.25,prfHz:1800,ifBandwidthMHz:20},LONG:{id:'LONG',pulseWidthUs:.75,prfHz:785,ifBandwidthMHz:3}},
++      performanceBasis:'PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN'
++    }
++  },
++  weapons:{
++    vls:{builderId:'MK41_WIP125',sections:{fwd:{cells:32,rows:4,cols:8,defaultLoadout:[{type:'SM2',cells:32}]},aft:{cells:64,rows:8,cols:8,defaultLoadout:[{type:'SM2',cells:40},{type:'ESSM4',cells:24}]}}},
++    closeIn:{builderId:'CIWS_BLOCK1B_WIP13',sensor:{searchRangeKm:15,trackRangeKm:10,cueTrackRangeKm:15,searchToTrackTimeS:.8},mounts:{phalanx:{type:'GUN',engageRangeKm:3,ammo:1550,fireRateRps:75},seaRam:{type:'RAM',engageRangeKm:9.6,minEngageKm:.8,ammo:11,reloadIntervalS:2}}}
++  },
++  mass:{
++    modelId:'SHIP_COMPARTMENT_MASS_LEDGER_V48_WIP01',fullLoadTargetKg:9652445.6336,lightshipKg:7085245.6336,calibratedFullLoadCGM:{x:-6.8719565,y:0,z:4.388257},calibratedReferenceGMM:1.5,personKg:110,
++    weapons:{sm2Kg:708,essmKg:280,ramKg:74.4,phalanxRoundKg:.255,mk214Kg:23,staticOrdnanceKg:36478.35},
++    variableLoadsKg:{propulsionFuel:1500000,aviationFuel:120000,freshWater:180000,serviceBallast:220000,technicalFluids:80000,helicopters:17000,crew:34100,provisionsSpares:250000,missionStores:50000,ordnance:116100},
++    initialLoads:[['fuel.fwd',375000],['fuel.mid_fwd',375000],['fuel.mid_aft',375000],['fuel.aft',375000],['fuel.aviation',120000],['water.fresh',180000],['ballast.fwd',110000],['ballast.aft',110000],['fluids.mid',40000],['fluids.aft',40000]],
++    loadLocations:{'fuel.fwd':{x:40,y:0,z:1},'fuel.mid_fwd':{x:8,y:0,z:1},'fuel.mid_aft':{x:-14,y:0,z:1},'fuel.aft':{x:-36,y:0,z:1},'fuel.aviation':{x:-48,y:0,z:1},'water.fresh':{x:-56,y:0,z:1},'ballast.fwd':{x:62,y:0,z:-2},'ballast.aft':{x:-64.5,y:0,z:-2},'fluids.mid':{x:0,y:0,z:1},'fluids.aft':{x:-20,y:0,z:1}},
++    targetLightshipCGM:{x:-6.0592692503,y:.0042134870,z:5.5079026044},
++    fixedNodes:[['ordnance.mk45','ORDNANCE_FIXED',30000,{x:48,y:0,z:4}],['ordnance.torpedo','ORDNANCE_FIXED',1400,{x:-10,y:0,z:4}],['ordnance.misc','ORDNANCE_FIXED',5078.35,{x:0,y:0,z:3}],['helo.port','AIRCRAFT',8500,{x:-58,y:-3,z:7}],['helo.starboard','AIRCRAFT',8500,{x:-58,y:3,z:7}],['stores.provisions','STORES',250000,{x:-20,y:0,z:2.5}],['stores.mission','STORES',50000,{x:0,y:0,z:2.5}]]
++  },
++  hydrostatics:{modelId:'SHIP_DYNAMIC_STABILITY_V48_WIP04',initialGMM:1.5,gridXM:2,gridYM:.5,thrustPerKg:.25,powerPerKg:5.5,engineResponseS:5,rollDamping:.22},
++  environment:{waveFlood:{modelId:'AEGIS_WAVE_FLOODING_V48_WIP05',componentCount:12,g:9.81,defaultSeed:4805,defaultHsM:0,defaultTpS:8,defaultDirectionDeg:90,directionSpreadDeg:18,minHsM:0,maxHsM:8,minTpS:3.5,maxTpS:16,presets:{CALM:{hsM:0,tpS:8},LIGHT:{hsM:.8,tpS:6},MODERATE:{hsM:2,tpS:8},ROUGH:{hsM:4,tpS:10},STORM:{hsM:6,tpS:12}}}},
++  interior:{builderId:'WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3',modelId:'AEGIS_SHIP_INTERIOR_TOPOLOGY_V48_WIP06',expected:{floodParentCells:24,spaces:138,portals:160,equipment:70}},
++  crew:{modelId:'AEGIS_CREW_ROUTING_DAMAGE_V48_WIP07',builderId:'DDG119_CREW_WIP07',roster:310,movementHz:5,physiologyHz:1,routeInvalidationHz:1,pathCacheLimit:512,damageEventLimit:48,medicalBeds:8,stretcherTeams:4,speedsMps:{DUTY:1.15,DAMAGE_CONTROL:.85,SELF_EVAC:.70,STRETCHER:.52,ABANDON:.75},departments:[['ENGINEERING','기관부',100],['COMBAT','전투체계부',85],['OPERATIONS','작전부',60],['AVIATION','항공부',25],['SUPPORT','보급·행정·의무',35],['COMMAND','지휘부',5]]},
++  damage:{hitboxBuilderId:'DDG119_WIP199_HITBOXES',floodBuilderId:'DAMAGE_FLOODING_V1',damageControlBuilderId:'DAMAGE_CONTROL_V1',flood:{cd:.60,g:9.81,permeability:.80,dz:.10,dx:.75,patchCapM2:18,crack:8,workScale:180,perforationMinM2:.005,pumpM3s:.035},control:{manualTeams:true,structure:true,crewRouting:true,teamCount:3,travelS:0,fireWaterM3s:.012,portablePumpM3s:.05,patchRateS:.025,crackAreaM2:.045},survival:{criticalWaterM3:2200,disableWaterM3:4200,sinkWaterM3:6500,capMomentM4:22000,capMinWaterM3:2000,capHoldS:12,sinkHoldS:20,capsizedHoldS:10,sinkRateMps:.45,lostDraftM:60,responseS:8}},
++  protection:{schema:'AEGIS_PROTECTION_SLOTS_V48_WIP09',status:'SCHEMA_ONLY_DEFERRED_TO_WIP10',physicsCoupled:false,externalShell:null,decks:null,bulkheads:null,equipment:null},
++  renderer:{builderId:'DDG119_THREE_WIP199',rootName:'DDG_119_LATE_FLIGHT_IIA_V48_WIP09',contract:'PRESENTATION_ONLY_PROFILE_CONSUMER',physicsFeedback:false},
++  parity:{baselineId:'V48_WIP08_BRIDGEMASTER_E',baselineSha256:'fe537db57d08f7c87120ed80a6118acd7c83389e75169e3fde9d404834f67eb8',expectedBehavior:'NO_GAMEPLAY_CHANGE'}
++});
++const SHIP_PROFILE_REGISTRY_V48_WIP09=Object.freeze({[DDG_119_LATE_FLIGHT_IIA_PROFILE.id]:DDG_119_LATE_FLIGHT_IIA_PROFILE});
++const ACTIVE_SHIP_PROFILE_ID_V48_WIP09='DDG_119_LATE_FLIGHT_IIA';
++const ACTIVE_SHIP_PROFILE=SHIP_PROFILE_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE_ID_V48_WIP09];
++function createShipRuntimeV48Wip09(profile){
++  return {schema:'AEGIS_SHIP_RUNTIME_V48_WIP09',profileId:profile.id,profileRevision:profile.revision,navigation:{
++    heading:profile.navigation.initialHeadingRad,speed:0,targetSpeedKt:0,rudder:0,targetRudder:0,turnRate:0,vx:0,vy:0,trail:[],maxTrail:profile.navigation.maxTrail,manualSpeedV15:false,manualRudderV15:false
++  },subsystems:{sensors:null,weapons:null,damage:null,environment:null,interior:null,crew:null,mass:null,dynamics:null},createdFromImmutableProfile:true};
++}
++const ACTIVE_SHIP_RUNTIME_V48_WIP09=createShipRuntimeV48Wip09(ACTIVE_SHIP_PROFILE);
++const shipNav = ACTIVE_SHIP_RUNTIME_V48_WIP09.navigation;
++/* WIP08 parity shape retained by the profile-backed navigation runtime:
+ const shipNav = {
+   heading: -Math.PI/2,
+   speed: 0,           // m/s
+@@ -645,6 +726,7 @@
+   manualSpeedV15:false,
+   manualRudderV15:false,
+ };
++*/
+ 
+ function shipHdgDeg(){ return ((shipNav.heading * 180 / Math.PI) + 450) % 360; }
+ 
+@@ -995,8 +1077,8 @@
+   // Exact AN/SPY-1D(V) target-specific detection ranges are not public; these are SIM_TUNED.
+   // SPY1DV_SNR_REF_RANGE_KM is the radar-equation reference used by Pd; it is NOT a hard cutoff.
+   // SPY1DV_SEARCH_MAX_RANGE_KM is the instrumented/search volume used by the scheduler.
+-  const SPY1DV_SNR_REF_RANGE_KM = 190; // WIP14 SIM_TUNED idealized SPY-1D(V) sensitivity reference
+-  const SPY1DV_SEARCH_MAX_RANGE_KM = 320; // WIP14 instrumented/search volume, not guaranteed detection
++  const SPY1DV_SNR_REF_RANGE_KM = ACTIVE_SHIP_PROFILE.sensors.spy1dv.snrReferenceRangeKm; // profile-owned WIP14 SIM_TUNED reference
++  const SPY1DV_SEARCH_MAX_RANGE_KM = ACTIVE_SHIP_PROFILE.sensors.spy1dv.searchMaxRangeKm; // profile-owned search volume
+   let RADAR_MAX_KM = 300;     // tactical map display extent
+   let RADAR_MAX_KM_VAR = 300;
+   // ===== WORLD / SI UNIT CONTRACT (SI-REFRACTOR WIP1) =====
+@@ -1242,50 +1324,28 @@
+   }
+ 
+   // ===== RADAR HORIZON / LOS SYSTEM =====
+-  const SPY1DV_HEIGHT_M = 15.82; // WIP199: final bridge-wall SPY face center height (fallback/average)
+-  const SPQ9B_HEIGHT_M = 32.28; // WIP199: aligned to the final visible upper-mast sensor block
++  const SPY1DV_HEIGHT_M = ACTIVE_SHIP_PROFILE.sensors.spy1dv.heightM; // final bridge-wall SPY face center height (fallback/average)
++  const SPQ9B_HEIGHT_M = ACTIVE_SHIP_PROFILE.sensors.spq9b.heightM; // final visible upper-mast sensor block
+   // SPG-62 mount geometry — Arleigh Burke Flight IIA-inspired longitudinal stack.
+   // These are simulation mount coordinates/heights, not claimed shipyard drawings.
+   // +oX = forward along ship centerline, +oY = starboard.
+-  const SPG62_FWD_HEIGHT_M = 24.95; // WIP199: aligned to final forward SPG 3D center
+-  const SPG62_AFT_HIGH_HEIGHT_M = 20.63; // WIP199: aligned to final aft-high SPG 3D center
+-  const SPG62_AFT_LOW_HEIGHT_M = 18.41; // WIP199: aligned to final aft-low SPG 3D center
++  const SPG62_FWD_HEIGHT_M = ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62[0].heightM;
++  const SPG62_AFT_HIGH_HEIGHT_M = ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62[1].heightM;
++  const SPG62_AFT_LOW_HEIGHT_M = ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62[2].heightM;
+   // WIP94: SPG-62 is now a physical damageable mount. Damage below the destroy threshold
+   // degrades illumination/RF gain continuously; at/above threshold the mount is unavailable.
+-  const SPG62_DESTROY_THRESHOLD = 80;
+-  const SHIP_REF_HEIGHT_M = 15;
++  const SPG62_DESTROY_THRESHOLD = ACTIVE_SHIP_PROFILE.sensors.spg62.destroyThresholdPct;
++  const SHIP_REF_HEIGHT_M = ACTIVE_SHIP_PROFILE.geometry.referenceHeightM;
+   const SEA_SKIM_CLUTTER_ALT_M = 30;
+   const EXTREME_LOW_ALT_M = 10;
+   const HORIZON_MARGIN_KM = 1.5;
+   const HORIZON_FADE_KM = 3.0;
+ 
+-  const SPG62_ILLUMINATORS = [
+-    { id: 0, oX: 28, oY: 0, height: SPG62_FWD_HEIGHT_M, label: 'ILL-1(전방/함교상부)', mountRole:'FWD_HIGH',
+-      moduleName:'AN/SPG-62(전방)', hitboxHalfLengthM:1.45, hitboxHalfWidthM:1.45, hitboxHalfHeightM:1.35,
+-      // Forward bridge-top illuminator: best forward coverage; aft blocked by mast/superstructure.
+-      preferredBrg: 0,          // ship-relative preferred direction (0=bow)
+-      sectorHalf: deg(120),
+-      blindCenter: deg(180),    // stern
+-      blindHalf: deg(40),
+-    },
+-    { id: 1, oX:-19.7, oY: 0, height: SPG62_AFT_HIGH_HEIGHT_M, label: 'ILL-2(후방/상단)', mountRole:'AFT_HIGH',
+-      moduleName:'AN/SPG-62(후방상단)', hitboxHalfLengthM:1.45, hitboxHalfWidthM:1.45, hitboxHalfHeightM:1.35,
+-      // Higher aft illuminator just abaft the exhaust/superstructure. Both aft mounts are aft-centered,
+-      // not port/starboard-dedicated. The higher mount retains the better forward crossover.
+-      preferredBrg: deg(180),   // aft
+-      sectorHalf: deg(120),
+-      blindCenter: 0,           // bow
+-      blindHalf: deg(38),
+-    },
+-    { id: 2, oX:-27.2, oY: 0, height: SPG62_AFT_LOW_HEIGHT_M, label: 'ILL-3(후방/하단)', mountRole:'AFT_LOW',
+-      moduleName:'AN/SPG-62(후방하단)', hitboxHalfLengthM:1.45, hitboxHalfWidthM:1.45, hitboxHalfHeightM:1.35,
+-      // Lower, farther-aft illuminator. Forward coverage is more strongly masked by the exhaust/upper mount.
+-      preferredBrg: deg(180),
+-      sectorHalf: deg(120),
+-      blindCenter: 0,
+-      blindHalf: deg(52),
+-    },
+-  ];
++  const SPG62_ILLUMINATORS = ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62.map(q=>({
++    id:q.id,oX:q.oX,oY:q.oY,height:q.heightM,label:q.label,mountRole:q.mountRole,moduleName:q.moduleName,
++    hitboxHalfLengthM:1.45,hitboxHalfWidthM:1.45,hitboxHalfHeightM:1.35,
++    preferredBrg:deg(q.blindCenterDeg===180?0:180),sectorHalf:deg(q.sectorHalfDeg),blindCenter:deg(q.blindCenterDeg),blindHalf:deg(q.blindHalfDeg)
++  }));
+ 
+   function spg62HitboxForIlluminator(ill){
+     const hz=Math.max(0.25,Number(ill?.hitboxHalfHeightM)||1.35);
+@@ -1310,16 +1370,16 @@
+   // ===== WIP95 SHIP EXTERIOR GEOMETRY CONTRACT =====
+   // One geometry source drives external hitboxes and the SHIP detail silhouette.
+   // +X = bow, -X = stern, +Y = starboard. Dimensions are SIM_TUNED to the current hull/reference image.
+-  const SHIP_DECK_Z_M = 7.0;
++  const SHIP_DECK_Z_M = ACTIVE_SHIP_PROFILE.geometry.deckZM;
+   // ===== WIP173 FLIGHT IIA LENGTH ALIGNMENT =====
+   // Keep the established bow reference at +82.0 m and trim the stern to -73.3 m: total 155.3 m.
+   // Beam and all midships/superstructure coordinates remain unchanged unless explicitly noted below.
+-  const WIP173_SHIP_BOW_X_M=82.0, WIP173_SHIP_STERN_X_M=-73.3, WIP173_SHIP_LENGTH_M=WIP173_SHIP_BOW_X_M-WIP173_SHIP_STERN_X_M;
++  const WIP173_SHIP_BOW_X_M=ACTIVE_SHIP_PROFILE.geometry.bowXM, WIP173_SHIP_STERN_X_M=ACTIVE_SHIP_PROFILE.geometry.sternXM, WIP173_SHIP_LENGTH_M=ACTIVE_SHIP_PROFILE.geometry.lengthM;
+   // ===== WIP165 COMPACTION + WIP166/167 LONGITUDINAL REALIGNMENT =====
+   // WIP173 basis carries the compacted/repositioned superstructure forward. Mk45/VLS/funnels stay fixed; the stern hull/flight deck are shortened to the 155.3 m length contract.
+   // Main bridge/deckhouse footprint is reduced 10%, height above the weather deck 12.5%.
+   // Hangar is reduced more gently (5% footprint / 8% height). WIP166 keeps the slimmer mast but lowers the top to a more realistic 36 m.
+-  const WIP165_SUPERSTRUCTURE_SCALE=Object.freeze({horizontal:0.90,vertical:0.875,hangarHorizontal:0.95,hangarVertical:0.92,mastTopM:36.0,mastHorizontal:0.80});
++  const WIP165_SUPERSTRUCTURE_SCALE=ACTIVE_SHIP_PROFILE.geometry.superstructure;
+   function wip165ScaleAboveDeck(z,fac=WIP165_SUPERSTRUCTURE_SCALE.vertical){return SHIP_DECK_Z_M+(Number(z)-SHIP_DECK_Z_M)*fac;}
+ 
+   // ===== WIP199 FINAL SHIP GEOMETRY CANONICALIZATION =====
+@@ -1330,7 +1390,7 @@
+     const y0=wip165ScaleAboveDeck(8.10),y1=wip165ScaleAboveDeck(22.20),spyY=wip165ScaleAboveDeck(17.05);
+     const q=a=>Object.freeze(a.map(p=>Object.freeze(p.slice())));
+     return Object.freeze({
+-      groupX:26.9,yawRad:Math.PI/2,y0,y1,spyY,spyStandOffM:.08,
++      groupX:ACTIVE_SHIP_PROFILE.geometry.bridge.groupXM,yawRad:ACTIVE_SHIP_PROFILE.geometry.bridge.yawRad,y0,y1,spyY,spyStandOffM:.08,
+       footing:q([[9.90,7.45],[5.80,13.20],[-5.80,13.20],[-9.90,7.55],[-9.90,-5.95],[-7.30,-11.65],[7.30,-11.65],[9.90,-6.30]]),
+       bottom:q([[9.70,7.35],[5.45,12.85],[-5.45,12.85],[-9.70,7.45],[-9.70,-5.80],[-6.95,-11.35],[6.95,-11.35],[9.70,-6.20]]),
+       top:q([[7.45,3.45],[3.35,7.45],[-3.10,7.45],[-6.75,3.58],[-6.75,-4.33],[-3.95,-8.98],[4.80,-8.98],[7.45,-4.60]]),
+@@ -1370,25 +1430,22 @@
+   });
+   const WIP199_FINAL_LAYOUT=Object.freeze({
+     vls:Object.freeze({
+-      fwd:Object.freeze({name:'VLS(전)',x:47.5,y:0,z:8.12,rows:4,cols:8,spanX:5.4,spanY:8.0}),
+-      aft:Object.freeze({name:'VLS(후)',x:-44.5,y:0,z:10.95,rows:8,cols:8,spanX:8.0,spanY:10.8})
++      fwd:ACTIVE_SHIP_PROFILE.geometry.hardpoints.vlsForward,
++      aft:ACTIVE_SHIP_PROFILE.geometry.hardpoints.vlsAft
+     }),
+     ciws:Object.freeze({
+-      phalanx:Object.freeze({name:'Phalanx',x:38.7,y:0,z:15.7375,hL:1.60,hW:1.40,hH:1.90}),
+-      searam:Object.freeze({name:'SeaRAM',x:-36.7,y:0,z:15.81,hL:2.75,hW:1.55,hH:1.45})
++      phalanx:ACTIVE_SHIP_PROFILE.geometry.hardpoints.phalanx,
++      searam:ACTIVE_SHIP_PROFILE.geometry.hardpoints.seaRam
+     }),
+-    spq9b:Object.freeze({name:'AN/SPQ-9B',x:15.26,y:0,z:32.28,hL:1.20,hW:1.20,hH:.95}),
+-    mast:Object.freeze({name:'마스트',x:16.62,y:0,z:25.90,hL:2.10,hW:.85,hH:8.75}),
++    spq9b:ACTIVE_SHIP_PROFILE.geometry.hardpoints.spq9b,
++    mast:ACTIVE_SHIP_PROFILE.geometry.hardpoints.mast,
+     // DDG-119 released-photo-derived upper main-mast yardarm mount. +Y is starboard.
+     // Public imagery supports the region and side, not a released installation drawing; RF performance
+     // remains the separately declared S-band working baseline while every physical consumer shares this point.
+-    bridgeMasterE:Object.freeze({name:'BridgeMaster E',x:15.75,y:5.15,z:31.78,hL:2.10,hW:2.10,hH:.72,antennaLengthM:3.70,mountBasis:'DDG119_PHOTO_DERIVED_UPPER_STARBOARD_YARDARM'}),
+-    flightDeck:Object.freeze({name:'비행갑판',x:-65.75,y:0,z:4.88,hL:7.05,hW:8.70,hH:.38})
++    bridgeMasterE:ACTIVE_SHIP_PROFILE.geometry.hardpoints.bridgeMasterE,
++    flightDeck:ACTIVE_SHIP_PROFILE.geometry.hardpoints.flightDeck
+   });
+-  const WIP199_HULL_STATIONS=Object.freeze([
+-    Object.freeze([WIP173_SHIP_STERN_X_M,4.2,4.45,-4.95]),Object.freeze([-68,8.0,4.85,-6.05]),Object.freeze([-58.4,8.9,5.25,-5.75]),Object.freeze([-57.8,9.1,7.0,-5.3]),
+-    Object.freeze([-48,9.8,7.0,-5.0]),Object.freeze([18,10.2,7.2,-5.2]),Object.freeze([52,9.2,7.3,-4.7]),Object.freeze([70,6.4,7.2,-3.7]),Object.freeze([WIP173_SHIP_BOW_X_M,.6,7.6,-1.0])
+-  ]);
++  const WIP199_HULL_STATIONS=ACTIVE_SHIP_PROFILE.geometry.hullStations;
+   function wip199Smooth01(u){u=Math.max(0,Math.min(1,u));return u*u*(3-2*u);}
+   function wip199HullSection(x,b,deck,keel){
+     const sternX=Number(WIP173_SHIP_STERN_X_M),bowX=Number(WIP173_SHIP_BOW_X_M),spanX=Math.max(1,bowX-sternX),t=Math.max(0,Math.min(1,(x-sternX)/spanX));
+@@ -3640,7 +3697,7 @@
+   // but detailed revisit rates and accuracies are not public. Values below are explicit
+   // SIM_TUNED engineering assumptions; they are centralized here instead of being
+   // scattered through detection/render/guidance code.
+-  const SENSOR_MODEL = Object.freeze({
++  const DDG119_SENSOR_MODEL_V48_WIP09 = Object.freeze({
+     spy1dv: Object.freeze({
+       searchRevisitAircraftS: 0.80,
+       trackRevisitAircraftS: 0.24,
+@@ -3776,6 +3833,9 @@
+       contactHoldS: 30
+     })
+   });
++  const SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09=Object.freeze({DDG119_SENSOR_MODEL_V48_WIP09});
++  const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.sensors.modelId];
++  ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.sensors={modelId:ACTIVE_SHIP_PROFILE.sensors.modelId,model:SENSOR_MODEL};
+ 
+   // ===== TRACK MANAGER EKF / COVARIANCE (WIP10) =====
+   // Canonical combat-system track state is SI-native and independent from rendering/world units.
+@@ -6268,13 +6328,14 @@
+ 
+   // ===== VLS CELL INVENTORY =====
+   // Forward: 32 cells (4×8), Aft: 64 cells (8×8)
+-  const VLS_FWD_CELLS = 32;
+-  const VLS_AFT_CELLS = 64;
++  const VLS_FWD_CELLS = ACTIVE_SHIP_PROFILE.weapons.vls.sections.fwd.cells;
++  const VLS_AFT_CELLS = ACTIVE_SHIP_PROFILE.weapons.vls.sections.aft.cells;
+   // Loadout: Fwd=all SM-2, Aft=40 SM-2 + 24 ESSM quad-pack cells (24×4=96 ESSM)
+   const vlsCells = {
+     fwd: [], // {type:'SM2'|'EMPTY', row, col}
+     aft: [], // {type:'SM2'|'ESSM4'|'EMPTY', row, col, essmCount:4|0}
+   };
++  ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.weapons={vls:vlsCells,closeIn:null};
+   let wip125VlsConsumeTieFlip = 0;
+   let wip125CommittedLoadout = null;
+   let wip125PreSailOpen = true;
+@@ -6336,12 +6397,15 @@
+   function initVlsCells(){
+     // WIP125 default preset = the exact pre-WIP125 inventory: forward 32 SM-2; aft 40 SM-2 + 24 ESSM quad-packs.
+     vlsCells.fwd = [];
+-    for(let i=0; i<VLS_FWD_CELLS; i++) vlsCells.fwd.push(wip125MakeVlsCell('SM2',Math.floor(i/8),i%8));
++    const fwdCfg=ACTIVE_SHIP_PROFILE.weapons.vls.sections.fwd,aftCfg=ACTIVE_SHIP_PROFILE.weapons.vls.sections.aft;
++    for(let i=0; i<VLS_FWD_CELLS; i++) vlsCells.fwd.push(wip125MakeVlsCell('SM2',Math.floor(i/fwdCfg.cols),i%fwdCfg.cols));
+     vlsCells.aft = [];
+-    for(let i=0; i<VLS_AFT_CELLS; i++) vlsCells.aft.push(wip125MakeVlsCell(i>=40?'ESSM4':'SM2',Math.floor(i/8),i%8));
++    const aftSm2Cells=aftCfg.defaultLoadout.find(q=>q.type==='SM2')?.cells??0;
++    for(let i=0; i<VLS_AFT_CELLS; i++) vlsCells.aft.push(wip125MakeVlsCell(i>=aftSm2Cells?'ESSM4':'SM2',Math.floor(i/aftCfg.cols),i%aftCfg.cols));
+     wip125VlsConsumeTieFlip=0;shipMassMarkWeaponsV32('VLS_INIT');
+   }
+-  initVlsCells();
++  const SHIP_VLS_BUILDER_REGISTRY_V48_WIP09=Object.freeze({MK41_WIP125:initVlsCells});
++  SHIP_VLS_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.weapons.vls.builderId]();
+ 
+   function wip125CellRoundCount(c,weaponType){
+     if(!c||!vlsCellReadyV23(c))return 0;
+@@ -7987,7 +8051,7 @@
+     return out;
+   }
+   let WIP101_SHIP_HITBOX_CACHE=null;
+-  function buildShipHitBoxes(){
++  function buildDdg119ShipHitBoxesV48Wip09(){
+     if(WIP101_SHIP_HITBOX_CACHE)return WIP101_SHIP_HITBOX_CACHE;
+     const legacy=[      // === 선체 외판 (격벽 구획, 바깥층) ===
+       { oX: 70,  hL: 12, hW: 6,  zMin: 0, zMax: 7,  name: '선체(선수구획)', damageVulnerability:1.015, blastVulnerability:0.783, penetrationResistanceMJ:0.90},
+@@ -8027,6 +8091,8 @@
+     ].map(structureShipHitbox);
+     const out=[];for(const box of legacy){if(box.system==='HULL_SKIN'&&/^선체\(/.test(box.name))out.push(...splitHullSkinBox(box));else out.push(box);}WIP101_SHIP_HITBOX_CACHE=Object.freeze(out);return WIP101_SHIP_HITBOX_CACHE;
+   }
++  const SHIP_HITBOX_BUILDER_REGISTRY_V48_WIP09=Object.freeze({DDG119_WIP199_HITBOXES:buildDdg119ShipHitBoxesV48Wip09});
++  function buildShipHitBoxes(){const build=SHIP_HITBOX_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.damage.hitboxBuilderId];if(!build)throw Error('Unknown ship hitbox builder: '+ACTIVE_SHIP_PROFILE.damage.hitboxBuilderId);return build();}
+ 
+ // Frame-only adapter: existing collision boxes and damage solvers stay in body metres.
+ function shipImpactFrameV1(){return shipGameFrameV1();}
+@@ -8682,10 +8748,9 @@
+ // V48 WIP05 adds a deterministic local sea boundary for shell openings. It does
+ // not drive ship motion or sensor clutter and never consumes the combat RNG.
+ const V48_WIP05_WAVE_FLOOD_MODEL=Object.freeze({
+-  schema:'AEGIS_WAVE_FLOODING_V48_WIP05',contract:'DETERMINISTIC_LOCAL_SEA_BOUNDARY',
+-  componentCount:12,g:9.81,defaultSeed:4805,defaultHsM:0,defaultTpS:8,defaultDirectionDeg:90,
+-  directionSpreadDeg:18,minHsM:0,maxHsM:8,minTpS:3.5,maxTpS:16,
+-  presets:Object.freeze({CALM:Object.freeze({hsM:0,tpS:8}),LIGHT:Object.freeze({hsM:.8,tpS:6}),MODERATE:Object.freeze({hsM:2,tpS:8}),ROUGH:Object.freeze({hsM:4,tpS:10}),STORM:Object.freeze({hsM:6,tpS:12})})
++  schema:ACTIVE_SHIP_PROFILE.environment.waveFlood.modelId,contract:'DETERMINISTIC_LOCAL_SEA_BOUNDARY',
++  ...ACTIVE_SHIP_PROFILE.environment.waveFlood,
++  schema:ACTIVE_SHIP_PROFILE.environment.waveFlood.modelId,contract:'DETERMINISTIC_LOCAL_SEA_BOUNDARY'
+ });
+ function createWaveFloodEnvironmentV48Wip05(options={}){
+   const M=V48_WIP05_WAVE_FLOOD_MODEL,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rad=d=>d*Math.PI/180;
+@@ -8723,13 +8788,13 @@
+ // spatial detail needed by later crew routing, smoke/blast propagation and
+ // casualty exposure.  The renderer consumes snapshots only.
+ const V48_WIP06_INTERIOR_MODEL=Object.freeze({
+-  schema:'AEGIS_SHIP_INTERIOR_TOPOLOGY_V48_WIP06',
++  schema:ACTIVE_SHIP_PROFILE.interior.modelId,
+   contract:'AUTHORITATIVE_SPATIAL_TOPOLOGY',
+   renderContract:'PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT',
+   automation:Object.freeze({mode:'AUTO_ASSISTED',automaticIsolation:true,automaticTeamAssignment:true,automaticSafeRouteSelection:true,playerControl:'ZONE_PRIORITY_AND_OVERRIDE',perDoorMicromanagement:false}),
+-  updatePolicy:Object.freeze({cadenceHz:1,eventDrivenOverrides:true,floodParentCells:24,renderFrameRecompute:false}),
++  updatePolicy:Object.freeze({cadenceHz:1,eventDrivenOverrides:true,floodParentCells:ACTIVE_SHIP_PROFILE.interior.expected.floodParentCells,renderFrameRecompute:false}),
+   coordinates:Object.freeze({frame:'SHIP_LOCAL_METRES',longitudinal:'+X_BOW',transverse:'+Y_STARBOARD',vertical:'+Z_UP'}),
+-  buildId:'WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3',
++  buildId:ACTIVE_SHIP_PROFILE.interior.builderId,
+   provenance:'PLAUSIBLE_FLIGHT_IIA_INSPIRED_SIM_LAYOUT_NOT_SHIPYARD_DRAWING'
+ });
+ 
+@@ -8996,8 +9061,9 @@
+   reset();return {step,reset,snapshot,performance,locate,audit:topologyAudit,spaces,portals,equipmentNodes,decks};
+ }
+ let shipInteriorTopologyV48Wip06=null;
++const SHIP_INTERIOR_BUILDER_REGISTRY_V48_WIP09=Object.freeze({WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3:createShipInteriorTopologyV48Wip06});
+ function getShipInteriorTopologyV48Wip06(){
+-  if(!shipInteriorTopologyV48Wip06){shipInteriorTopologyV48Wip06=createShipInteriorTopologyV48Wip06(getDamageFloodV1());shipInteriorTopologyV48Wip06.step({flood:getDamageFloodV1().snapshot(),control:getDamageControlV1().snapshot()});}
++  if(!shipInteriorTopologyV48Wip06){const build=SHIP_INTERIOR_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.interior.builderId];if(!build)throw Error('Unknown ship interior builder: '+ACTIVE_SHIP_PROFILE.interior.builderId);shipInteriorTopologyV48Wip06=build(getDamageFloodV1());shipInteriorTopologyV48Wip06.step({flood:getDamageFloodV1().snapshot(),control:getDamageControlV1().snapshot()});ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.interior=shipInteriorTopologyV48Wip06;}
+   return shipInteriorTopologyV48Wip06;
+ }
+ function runV48Wip06InteriorProbe(){
+@@ -9086,7 +9152,7 @@
+ 
+ function createDamageFloodModel(geo){
+   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), finite=v=>Number.isFinite(Number(v))?Number(v):0;
+-  const cfg=Object.freeze({cd:.60,g:9.81,permeability:.80,dz:.10,dx:.75,patchCapM2:18.0,crack:8,workScale:180,perforationMinM2:.005,pumpM3s:.035});
++  const cfg=ACTIVE_SHIP_PROFILE.damage.flood;
+   const xs=[geo.stern,-55.825,-38,-18,2,22,42,61,geo.bow],bands=[[-20,-2.5],[-2.5,2.5],[2.5,20]],side=['좌현','중앙','우현'];
+   const cells=[],byId=new Map(),targets=new Map(),names=new Map(),aliases=new Map(),boundaries=[],connections=[];
+   const z0=Math.floor(Math.min(...geo.stations.map(p=>p[3]))*10)/10-.1,z1=Math.ceil(Math.max(...geo.stations.map(p=>p[2]))*10)/10;
+@@ -9295,28 +9361,20 @@
+ // detailed tank, store and compartment positions are SIM_ESTIMATED. The 1.5 m GM
+ // value is used once to calibrate the unknown lightship KG, never pinned at runtime.
+ const SHIP_MASS_BASIS_V32=Object.freeze({
+-  schema:'SHIP_COMPARTMENT_MASS_LEDGER_V48_WIP01',
+-  fullLoadTargetKg:9652445.6336,
+-  lightshipKg:7085245.6336,
+-  calibratedFullLoadCGM:Object.freeze({x:-6.8719565,y:0,z:4.3882570}),
+-  calibratedReferenceGMM:1.5,
+-  personKg:110,
+-  weapons:Object.freeze({sm2Kg:708,essmKg:280,ramKg:74.4,phalanxRoundKg:.255,mk214Kg:23,staticOrdnanceKg:36478.35}),
+-  variableLoadsKg:Object.freeze({propulsionFuel:1500000,aviationFuel:120000,freshWater:180000,serviceBallast:220000,technicalFluids:80000,helicopters:17000,crew:34100,provisionsSpares:250000,missionStores:50000,ordnance:116100})
++  schema:ACTIVE_SHIP_PROFILE.mass.modelId,
++  fullLoadTargetKg:ACTIVE_SHIP_PROFILE.mass.fullLoadTargetKg,
++  lightshipKg:ACTIVE_SHIP_PROFILE.mass.lightshipKg,
++  calibratedFullLoadCGM:ACTIVE_SHIP_PROFILE.mass.calibratedFullLoadCGM,
++  calibratedReferenceGMM:ACTIVE_SHIP_PROFILE.mass.calibratedReferenceGMM,
++  personKg:ACTIVE_SHIP_PROFILE.mass.personKg,
++  weapons:ACTIVE_SHIP_PROFILE.mass.weapons,
++  variableLoadsKg:ACTIVE_SHIP_PROFILE.mass.variableLoadsKg
+ });
+ function shipMassMarkWeaponsV32(reason){window.__SHIP_MASS_LEDGER_V32__?.markWeaponsDirty(reason);}
+ function createShipMassLedgerV32(compartments,sources={}){
+   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),basis=SHIP_MASS_BASIS_V32;
+-  const loads=new Map([
+-    ['fuel.fwd',375000],['fuel.mid_fwd',375000],['fuel.mid_aft',375000],['fuel.aft',375000],
+-    ['fuel.aviation',120000],['water.fresh',180000],['ballast.fwd',110000],['ballast.aft',110000],
+-    ['fluids.mid',40000],['fluids.aft',40000]
+-  ]),initialLoads=new Map(loads);
+-  const loadLocations=Object.freeze({
+-    'fuel.fwd':{x:40,y:0,z:1},'fuel.mid_fwd':{x:8,y:0,z:1},'fuel.mid_aft':{x:-14,y:0,z:1},'fuel.aft':{x:-36,y:0,z:1},
+-    'fuel.aviation':{x:-48,y:0,z:1},'water.fresh':{x:-56,y:0,z:1},'ballast.fwd':{x:62,y:0,z:-2},'ballast.aft':{x:-64.5,y:0,z:-2},
+-    'fluids.mid':{x:0,y:0,z:1},'fluids.aft':{x:-20,y:0,z:1}
+-  });
++  const loads=new Map(ACTIVE_SHIP_PROFILE.mass.initialLoads.map(q=>[q[0],q[1]])),initialLoads=new Map(loads);
++  const loadLocations=ACTIVE_SHIP_PROFILE.mass.loadLocations;
+   const locate=p=>compartments.find(c=>p.x>=c.x0&&p.x<=c.x1&&p.y>=c.y0&&p.y<=c.y1)?.id??null;
+   const node=(id,category,massKg,p,model='SIM_ESTIMATED')=>({id,category,massKg:Math.max(0,Number(massKg)||0),x:Number(p.x)||0,y:Number(p.y)||0,z:Number(p.z)||0,compartmentId:locate(p),model});
+   const compartmentCenter=c=>{const v=Math.max(1e-9,c.capacityM3),last=a=>Number(a?.at?.(-1))||0;return {x:last(c.mx)/v,y:last(c.my)/v,z:last(c.mz)/v};};
+@@ -9326,14 +9384,10 @@
+   // Effective lightship CG closes the standard-load displacement/GM contract.
+   // It is distributed across all 24 existing flood compartments so later losses
+   // and asymmetric loads have a spatial basis without claiming a real weight report.
+-  const targetLightshipCG=Object.freeze({x:-6.0592692503,y:.0042134870,z:5.5079026044});
++  const targetLightshipCG=ACTIVE_SHIP_PROFILE.mass.targetLightshipCGM;
+   const shift={x:targetLightshipCG.x-rawMoment.x/basis.lightshipKg,y:targetLightshipCG.y-rawMoment.y/basis.lightshipKg,z:targetLightshipCG.z-rawMoment.z/basis.lightshipKg};
+   const lightshipNodes=compartments.map((c,i)=>{const q=node('lightship.'+c.id,'LIGHTSHIP',rawMasses[i],{x:rawCenters[i].x+shift.x,y:rawCenters[i].y+shift.y,z:rawCenters[i].z+shift.z},'CALIBRATED_EFFECTIVE_DISTRIBUTION');q.compartmentId=c.id;return q;});
+-  const fixedNodes=[
+-    node('ordnance.mk45','ORDNANCE_FIXED',30000,{x:48,y:0,z:4}),node('ordnance.torpedo','ORDNANCE_FIXED',1400,{x:-10,y:0,z:4}),node('ordnance.misc','ORDNANCE_FIXED',5078.35,{x:0,y:0,z:3}),
+-    node('helo.port','AIRCRAFT',8500,{x:-58,y:-3,z:7}),node('helo.starboard','AIRCRAFT',8500,{x:-58,y:3,z:7}),
+-    node('stores.provisions','STORES',250000,{x:-20,y:0,z:2.5}),node('stores.mission','STORES',50000,{x:0,y:0,z:2.5})
+-  ];
++  const fixedNodes=ACTIVE_SHIP_PROFILE.mass.fixedNodes.map(q=>node(q[0],q[1],q[2],q[3]));
+   let crewNodes=[],crewSignature='',crewAgeS=Infinity,dirty=true,revision=0,rebuilds=0,cacheHits=0,dirtyMarks=0,lastDirtyReason='INITIAL',cache=null;
+   function markDirty(reason='EXTERNAL'){dirty=true;dirtyMarks++;lastDirtyReason=String(reason);}
+   function syncCrew(groups=[],dt=0,force=false){
+@@ -9356,6 +9410,7 @@
+   function reset(){loads.clear();for(const [id,m] of initialLoads)loads.set(id,m);crewAgeS=Infinity;crewSignature='';crewNodes=[];cache=null;dirty=true;revision=0;rebuilds=0;cacheHits=0;dirtyMarks=0;lastDirtyReason='RESET';}
+   return {basis,markDirty,markWeaponsDirty:reason=>markDirty('WEAPONS:'+reason),syncCrew,snapshot,setLoadMassKg,setLoadFraction,reset,loadIds:()=>[...loads.keys()]};
+ }
++const SHIP_MASS_MODEL_REGISTRY_V48_WIP09=Object.freeze({SHIP_COMPARTMENT_MASS_LEDGER_V48_WIP01:createShipMassLedgerV32});
+ let shipMassLedgerV32=null;
+ function shipMassWeaponNodesV32(make){
+   const w=SHIP_MASS_BASIS_V32.weapons,out=[];
+@@ -9364,19 +9419,19 @@
+     else if(c.type==='ESSM4'&&c.essmCount>0){const p=wip148VlsCellLocal({section,row:c.row,col:c.col,weaponType:'ESSM',quadIndex:0});out.push(make(`vls.${section}.${c.row}.${c.col}.essm`,'ORDNANCE_DYNAMIC',c.essmCount*w.essmKg,{x:p.xM,y:p.zM,z:p.deckM-1.83},'PUBLIC_MASS_SIM_POSITION'));}
+   }
+   const phalanx=ciws.find(q=>q.type==='GUN'),ram=ciws.find(q=>q.type==='RAM');
+-  out.push(make('ciws.phalanx.ammo','ORDNANCE_DYNAMIC',(phalanx?.ammo||0)*w.phalanxRoundKg,{x:38.7,y:0,z:15.7375},'SIM_ESTIMATED_CARTRIDGE_MASS'));
+-  out.push(make('ciws.searam.ammo','ORDNANCE_DYNAMIC',(ram?.ammo||0)*w.ramKg,{x:-36.7,y:0,z:15.81},'PUBLIC_MASS_SIM_POSITION'));
++  out.push(make('ciws.phalanx.ammo','ORDNANCE_DYNAMIC',(phalanx?.ammo||0)*w.phalanxRoundKg,{x:WIP199_FINAL_LAYOUT.ciws.phalanx.x,y:WIP199_FINAL_LAYOUT.ciws.phalanx.y,z:WIP199_FINAL_LAYOUT.ciws.phalanx.z},'SIM_ESTIMATED_CARTRIDGE_MASS'));
++  out.push(make('ciws.searam.ammo','ORDNANCE_DYNAMIC',(ram?.ammo||0)*w.ramKg,{x:WIP199_FINAL_LAYOUT.ciws.searam.x,y:WIP199_FINAL_LAYOUT.ciws.searam.y,z:WIP199_FINAL_LAYOUT.ciws.searam.z},'PUBLIC_MASS_SIM_POSITION'));
+   out.push(make('mk36.chaff','ORDNANCE_DYNAMIC',mk36LoadedRounds()*w.mk214Kg,{x:0,y:0,z:12},'SIM_ESTIMATED_CARTRIDGE_MASS'));
+   return out;
+ }
+ function getShipMassLedgerV32(){
+-  if(!shipMassLedgerV32){shipMassLedgerV32=createShipMassLedgerV32(getDamageFloodV1().cells,{weaponNodes:shipMassWeaponNodesV32});window.__SHIP_MASS_LEDGER_V32__=shipMassLedgerV32;shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);}
++  if(!shipMassLedgerV32){const build=SHIP_MASS_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.mass.modelId];if(!build)throw Error('Unknown ship mass model: '+ACTIVE_SHIP_PROFILE.mass.modelId);shipMassLedgerV32=build(getDamageFloodV1().cells,{weaponNodes:shipMassWeaponNodesV32});window.__SHIP_MASS_LEDGER_V32__=shipMassLedgerV32;shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.mass=shipMassLedgerV32;}
+   return shipMassLedgerV32;
+ }
+ // V48 WIP04 keeps the established manoeuvring force model, but separates the
+ // loading-condition GM0 from the finite-angle GZ used by the roll equation.
+ const V48_WIP04_STABILITY_MODEL=Object.freeze({
+-  schema:'AEGIS_INTACT_STABILITY_V48_WIP04',
++  schema:ACTIVE_SHIP_PROFILE.hydrostatics.modelId,
+   gmDefinition:'UPRIGHT_CONSTANT_DISPLACEMENT_SMALL_ANGLE',
+   rightingArmModel:'CALIBRATED_WALL_SIDED_TO_GEOMETRIC',
+   referenceRefreshS:1,
+@@ -9384,8 +9439,9 @@
+ });
+ function createShipDynamicsV15(geo, options={}){
+   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rho=1025,g=9.81;
+-  const cfg=Object.freeze({initialGMM:options.initialGMM??SHIP_MASS_BASIS_V32.calibratedReferenceGMM,gridXM:2,gridYM:.5,
+-    thrustPerKg:.25,powerPerKg:5.5,engineResponseS:5,rollDamping:.22,
++  const P=ACTIVE_SHIP_PROFILE.hydrostatics;
++  const cfg=Object.freeze({initialGMM:options.initialGMM??P.initialGMM,gridXM:P.gridXM,gridYM:P.gridYM,
++    thrustPerKg:P.thrustPerKg,powerPerKg:P.powerPerKg,engineResponseS:P.engineResponseS,rollDamping:P.rollDamping,
+     lengthM:geo.bow-geo.stern,beamM:2*Math.max(...geo.stations.map(s=>s[1]))});
+   const columns=[];
+   const nx=Math.ceil(cfg.lengthM/cfg.gridXM),dx=cfg.lengthM/nx;
+@@ -9533,8 +9589,9 @@
+   reset();return {config:cfg,reset,navigation,attitude,hydro,load,impactImpulse,stabilityCurve,snapshot:()=>({...diagnostic,cgM:{...diagnostic.cgM},cbM:{...diagnostic.cbM},lastImpactImpulse:lastImpactImpulse?{...lastImpactImpulse,pointLocal:{...lastImpactImpulse.pointLocal},impulseLocal:{...lastImpactImpulse.impulseLocal},delta:{...lastImpactImpulse.delta,torqueImpulseNms:{...lastImpactImpulse.delta.torqueImpulseNms}}}:null})};
+ }
+ let shipDynamicsV15=null;
++const SHIP_DYNAMICS_BUILDER_REGISTRY_V48_WIP09=Object.freeze({SHIP_DYNAMIC_STABILITY_V48_WIP04:createShipDynamicsV15});
+ function getShipDynamicsV15(){
+-  if(!shipDynamicsV15)shipDynamicsV15=createShipDynamicsV15({stations:WIP199_HULL_STATIONS,stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt,bowAtZ:wip199BowMaxXAtZ});
++  if(!shipDynamicsV15){const build=SHIP_DYNAMICS_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.hydrostatics.modelId];if(!build)throw Error('Unknown ship dynamics builder: '+ACTIVE_SHIP_PROFILE.hydrostatics.modelId);shipDynamicsV15=build({stations:WIP199_HULL_STATIONS,stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt,bowAtZ:wip199BowMaxXAtZ});ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.dynamics=shipDynamicsV15;}
+   return shipDynamicsV15;
+ }
+ 
+@@ -9560,7 +9617,7 @@
+ 
+ // Game survival state, intentionally tunable; not a naval stability calculation.
+ function createShipSurvivalV1(options={}){
+-  const rad=Math.PI/180,config=Object.freeze({criticalWaterM3:2200,disableWaterM3:4200,sinkWaterM3:6500,capMomentM4:22000,capMinWaterM3:2000,capHoldS:12,sinkHoldS:20,capsizedHoldS:10,sinkRateMps:.45,lostDraftM:60,responseS:8});
++  const rad=Math.PI/180,config=ACTIVE_SHIP_PROFILE.damage.survival;
+   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),num=x=>Number.isFinite(x)?x:0;
+   let pose,target,state,timeS,phaseS,capTimer,sinkTimer,side,events,waterM3,imbalance;
+   const labels={NORMAL:'정상',DAMAGED:'복원력 저하',FLOODING:'침수',CRITICAL:'침수 위험',CAPSIZING:'전복 진행',CAPSIZED:'전복',SINKING:'침몰 진행',LOST:'함선 상실'};
+@@ -9701,10 +9758,10 @@
+ // space.  Route solving is event/1 Hz invalidation driven; 310 people are moved
+ // at 5 Hz and never cause path finding or blast work in the render loop.
+ const V48_WIP07_CREW_DAMAGE_MODEL=Object.freeze({
+-  schema:'AEGIS_CREW_ROUTING_DAMAGE_V48_WIP07',contract:'AUTHORITATIVE_SPATIAL_CREW_AND_CASUALTY_STATE',
+-  renderContract:'PRESENTATION_ONLY_CREW_SNAPSHOT',roster:310,movementHz:5,physiologyHz:1,routeInvalidationHz:1,
+-  pathCacheLimit:512,damageEventLimit:48,medicalBeds:8,stretcherTeams:4,
+-  speedsMps:Object.freeze({DUTY:1.15,DAMAGE_CONTROL:.85,SELF_EVAC:.70,STRETCHER:.52,ABANDON:.75}),
++  schema:ACTIVE_SHIP_PROFILE.crew.modelId,contract:'AUTHORITATIVE_SPATIAL_CREW_AND_CASUALTY_STATE',
++  renderContract:'PRESENTATION_ONLY_CREW_SNAPSHOT',roster:ACTIVE_SHIP_PROFILE.crew.roster,movementHz:ACTIVE_SHIP_PROFILE.crew.movementHz,physiologyHz:ACTIVE_SHIP_PROFILE.crew.physiologyHz,routeInvalidationHz:ACTIVE_SHIP_PROFILE.crew.routeInvalidationHz,
++  pathCacheLimit:ACTIVE_SHIP_PROFILE.crew.pathCacheLimit,damageEventLimit:ACTIVE_SHIP_PROFILE.crew.damageEventLimit,medicalBeds:ACTIVE_SHIP_PROFILE.crew.medicalBeds,stretcherTeams:ACTIVE_SHIP_PROFILE.crew.stretcherTeams,
++  speedsMps:ACTIVE_SHIP_PROFILE.crew.speedsMps,
+   policy:Object.freeze({automaticDutyRouting:true,automaticDamageControlRouting:true,automaticMedicalEvacuation:true,playerControl:'ZONE_PRIORITY_AND_OVERRIDE',individualDoorMicromanagement:false}),
+   provenance:'PLAUSIBLE_EVENT_DRIVEN_GAME_MODEL_NOT_MEDICAL_OR_SHIPYARD_CERTIFICATION'
+ });
+@@ -9722,7 +9779,7 @@
+   };
+ }
+ function createShipCrewV48Wip07(topology,posts=crewDutyPostsV48Wip07()){
+-  const M=V48_WIP07_CREW_DAMAGE_MODEL,defs=[['ENGINEERING','기관부',100],['COMBAT','전투체계부',85],['OPERATIONS','작전부',60],['AVIATION','항공부',25],['SUPPORT','보급·행정·의무',35],['COMMAND','지휘부',5]],clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
++  const M=V48_WIP07_CREW_DAMAGE_MODEL,defs=ACTIVE_SHIP_PROFILE.crew.departments,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+   const base=topology.snapshot(),spaces=base.spaces,portals=base.portals,byId=new Map(spaces.map(s=>[s.id,s])),graph=new Map(spaces.map(s=>[s.id,[]]));for(const p of portals){graph.get(p.a)?.push(p);graph.get(p.b)?.push(p);}
+   const hash32=s=>{let h=2166136261;for(const c of String(s))h=Math.imul(h^c.charCodeAt(0),16777619)>>>0;return h>>>0;},unit=s=>(hash32(s)+.5)/4294967296;
+   const positionIn=(space,id)=>{const a=.14+.72*unit(id+':x'),b=.14+.72*unit(id+':y');return {x:space.x0+(space.x1-space.x0)*a,y:space.y0+(space.y1-space.y0)*b,z:Math.min(space.z1-.22,space.z0+.88+.18*unit(id+':z'))};};
+@@ -9837,6 +9894,7 @@
+   function byFinite(p){return p&&[p.x,p.y,p.z].every(Number.isFinite);}
+ }
+ let shipCrewV21=null;
++const SHIP_CREW_BUILDER_REGISTRY_V48_WIP09=Object.freeze({DDG119_CREW_WIP07:createShipCrewV48Wip07});
+ function crewDutyPostsV24(){
+   // Authored GAME duty areas anchored to existing model components, not a real
+   // ship's manning plan. Flood/fire still use the shared coarse compartment grid.
+@@ -9853,14 +9911,16 @@
+     medical,staging:[post('1반 전방 대기','',20,28,-4),post('2반 중앙 대기','',20,-10,-4),post('3반 후방 대기','',20,-48,4)]
+   };
+ }
+-function getShipCrewV21(){if(!shipCrewV21)shipCrewV21=createShipCrewV48Wip07(getShipInteriorTopologyV48Wip06(),crewDutyPostsV48Wip07());return shipCrewV21;}
++function getShipCrewV21(){if(!shipCrewV21){const build=SHIP_CREW_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.crew.builderId];if(!build)throw Error('Unknown ship crew builder: '+ACTIVE_SHIP_PROFILE.crew.builderId);shipCrewV21=build(getShipInteriorTopologyV48Wip06(),crewDutyPostsV48Wip07());ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.crew=shipCrewV21;}return shipCrewV21;}
++  const SHIP_WAVE_MODEL_REGISTRY_V48_WIP09=Object.freeze({AEGIS_WAVE_FLOODING_V48_WIP05:createWaveFloodEnvironmentV48Wip05});
+   let waveFloodEnvironmentV48Wip05=null;
+-  function getWaveFloodEnvironmentV48Wip05(){if(!waveFloodEnvironmentV48Wip05)waveFloodEnvironmentV48Wip05=createWaveFloodEnvironmentV48Wip05();return waveFloodEnvironmentV48Wip05;}
++  function getWaveFloodEnvironmentV48Wip05(){if(!waveFloodEnvironmentV48Wip05){const build=SHIP_WAVE_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.environment.waveFlood.modelId];if(!build)throw Error('Unknown wave model: '+ACTIVE_SHIP_PROFILE.environment.waveFlood.modelId);waveFloodEnvironmentV48Wip05=build();ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.environment={waveFlood:waveFloodEnvironmentV48Wip05};}return waveFloodEnvironmentV48Wip05;}
+   const floodAttitudePreviewV1=createShipSurvivalV1({dynamics:getShipDynamicsV15,resetDynamics:()=>{shipDynamicsV15?.reset();shipNav.swayMps=0;shipNav.thrustN=0;shipNav.accelerationMps2=0;shipNav.manualSpeedV15=false;shipNav.manualRudderV15=false;}});
+   function shipEquipmentOfflineV1(){return floodAttitudePreviewV1.snapshot().equipmentOffline||!!shipCrewV21?.offline();}
+   let damageFloodV1=null;
++  const SHIP_DAMAGE_FLOOD_BUILDER_REGISTRY_V48_WIP09=Object.freeze({DAMAGE_FLOODING_V1:createDamageFloodModel});
+   function getDamageFloodV1(){
+-    if(!damageFloodV1)damageFloodV1=createDamageFloodModel({boxes:buildShipHitBoxes(),targetIds:DF_TARGET_IDS,stations:WIP199_HULL_STATIONS,stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,halfBeam:wip199HullHalfBeamAt,bowAtZ:wip199BowMaxXAtZ,contains:wip199HullContainsPoint});
++    if(!damageFloodV1){const build=SHIP_DAMAGE_FLOOD_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.damage.floodBuilderId];if(!build)throw Error('Unknown damage flood builder: '+ACTIVE_SHIP_PROFILE.damage.floodBuilderId);damageFloodV1=build({boxes:buildShipHitBoxes(),targetIds:DF_TARGET_IDS,stations:WIP199_HULL_STATIONS,stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,halfBeam:wip199HullHalfBeamAt,bowAtZ:wip199BowMaxXAtZ,contains:wip199HullContainsPoint});ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.damage={flood:damageFloodV1,control:null};}
+     return damageFloodV1;
+   }
+   // ===== V48 WIP03 LONGITUDINAL STRENGTH / KEEL FATIGUE =====
+@@ -10000,7 +10060,8 @@
+   }
+ // Game damage control: finite fuel, per-compartment heat/smoke, limited teams, and residual strength.
+ function createDamageControlV1(flood,boxes,options={}){
+-  const cfg=Object.freeze({manualTeams:!!options.manualTeams,structure:!!options.structure,crewRouting:!!options.crewRouting,teamCount:3,travelS:options.crewRouting?0:8,fireWaterM3s:.012,portablePumpM3s:.05,patchRateS:.025,crackAreaM2:.045});
++  const P=ACTIVE_SHIP_PROFILE.damage.control;
++  const cfg=Object.freeze({manualTeams:!!options.manualTeams,structure:!!options.structure,crewRouting:!!options.crewRouting,teamCount:P.teamCount,travelS:options.crewRouting?P.travelS:8,fireWaterM3s:P.fireWaterM3s,portablePumpM3s:P.portablePumpM3s,patchRateS:P.patchRateS,crackAreaM2:P.crackAreaM2});
+   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),finite=v=>Number.isFinite(v)?v:0;
+   const ids=flood.cells.map(c=>c.id),cellById=new Map(flood.cells.map(c=>[c.id,c]));
+   const locations=new Map(boxes.map(b=>[b.name,flood.cellAt({x:b.oX,y:b.oY||0,z:(b.zMin+b.zMax)/2})?.id]));
+@@ -10142,7 +10203,8 @@
+ 
+ const DAMAGE_CONTROL_FEATURES_V1=Object.freeze({manualTeams:true,structure:true});
+ let damageControlV1=null,damageControlAccumulatorV1=0,interiorTopologyAccumulatorV48Wip06=0;
+-function getDamageControlV1(){if(!damageControlV1)damageControlV1=createDamageControlV1(getDamageFloodV1(),buildShipHitBoxes(),{...DAMAGE_CONTROL_FEATURES_V1,crewRouting:true,halfBeam:wip199HullHalfBeamAt});return damageControlV1;}
++const SHIP_DAMAGE_CONTROL_BUILDER_REGISTRY_V48_WIP09=Object.freeze({DAMAGE_CONTROL_V1:createDamageControlV1});
++function getDamageControlV1(){if(!damageControlV1){const build=SHIP_DAMAGE_CONTROL_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.damage.damageControlBuilderId];if(!build)throw Error('Unknown damage-control builder: '+ACTIVE_SHIP_PROFILE.damage.damageControlBuilderId);damageControlV1=build(getDamageFloodV1(),buildShipHitBoxes(),{...DAMAGE_CONTROL_FEATURES_V1,crewRouting:true,halfBeam:wip199HullHalfBeamAt});if(!ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.damage)ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.damage={flood:getDamageFloodV1(),control:null};ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.damage.control=damageControlV1;}return damageControlV1;}
+ // Fictional auxiliary feeds reuse the four existing pump zones. No hidden state.
+ function damageSupportPowerV30(generators){
+   const byCell=new Map();
+@@ -10358,15 +10420,15 @@
+   let spq9bRotorAngle = 0;
+   let spq9bPrevRotorAngle = 0;
+   let spq9bTimeS = 0;
+-  const SPQ9B_RPM = 30;                         // public/training-source value: 2 s per mechanical revolution
+-  const SPQ9B_PANEL_COUNT = 2;                  // public: dual back-to-back planar arrays
++  const SPQ9B_RPM = ACTIVE_SHIP_PROFILE.sensors.spq9b.rpm; // public/training-source value: 2 s per mechanical revolution
++  const SPQ9B_PANEL_COUNT = ACTIVE_SHIP_PROFILE.sensors.spq9b.panelCount;
+   const SPQ9B_PANEL_SEPARATION_RAD = Math.PI;
+   const SPQ9B_BEAM_AZ_FULL_DEG = 1.0;           // narrow-beam public description; modeled full-width
+   const SPQ9B_BEAM_EL_FULL_DEG = 1.0;           // horizon air-channel beam, centered near local horizon
+   const SPQ9B_BEAM_AZ_HALF = deg(SPQ9B_BEAM_AZ_FULL_DEG*0.5);
+   const SPQ9B_BEAM_EL_HALF = deg(SPQ9B_BEAM_EL_FULL_DEG*0.5);
+-  const SPQ9B_SNR_REF_KM = 70;                  // SIM_TUNED: 1m²-class horizon target reference, not a hard cutoff
+-  const SPQ9B_SEARCH_MAX_RANGE_KM_BASE = 100;   // SIM_TUNED instrumented air-search cap; LOS usually dominates low targets
++  const SPQ9B_SNR_REF_KM = ACTIVE_SHIP_PROFILE.sensors.spq9b.snrReferenceRangeKm;
++  const SPQ9B_SEARCH_MAX_RANGE_KM_BASE = ACTIVE_SHIP_PROFILE.sensors.spq9b.searchMaxRangeKm;
+   const SPQ9B_NOMINAL_REVISIT_S = 60/SPQ9B_RPM/SPQ9B_PANEL_COUNT; // dual arrays pass a bearing once per second
+   const SPQ9B_TRACK_FRESH_S = 2.6;
+   const SPQ9B_AIR_CLUTTER_REJECTION_DB = 90;    // public U.S. Navy value
+@@ -10557,39 +10619,27 @@
+   // documentation defines the S-band equipment below, while the exact special naval variant antenna/RF
+   // combination fitted to DDG-119 remains PUBLIC_UNKNOWN. Mount geometry is photo-derived and detection/Pd
+   // tuning remains SIM_TUNED; published RF, antenna, pulse, receiver and track limits stay explicit.
+-  const BRIDGEMASTER_E_PULSE_MODES=Object.freeze({
+-    SHORT:Object.freeze({id:'SHORT',pulseWidthUs:.05,prfHz:1800,ifBandwidthMHz:20}),
+-    MEDIUM:Object.freeze({id:'MEDIUM',pulseWidthUs:.25,prfHz:1800,ifBandwidthMHz:20}),
+-    LONG:Object.freeze({id:'LONG',pulseWidthUs:.75,prfHz:785,ifBandwidthMHz:3})
+-  });
++  const {pulseModes:BRIDGEMASTER_E_PULSE_MODES,...BRIDGEMASTER_E_PROFILE_INSTALLATION}=ACTIVE_SHIP_PROFILE.sensors.bridgeMasterE;
+   const BRIDGEMASTER_E_INSTALLATION=Object.freeze({
+-    schema:'AEGIS_BRIDGEMASTER_E_INSTALLATION_V48_WIP08',contract:'AUTHORITATIVE_SENSOR_WITH_PHYSICAL_HARDPOINT',
+-    family:'Northrop Grumman Sperry Marine BridgeMaster E',channel:'S_BAND_NAV_SURFACE_WORKING_BASELINE',navalVariantExactConfiguration:'PUBLIC_UNKNOWN',
+-    band:'S',frequencyMHz:3050,frequencyToleranceMHz:10,peakPowerKw:30,antennaApertureFt:12,antennaApertureM:3.70,
+-    horizontalBeamwidthDeg:2,verticalBeamwidthDeg:30,antennaGainDb:26,polarization:'HORIZONTAL',
+-    nominalRpm:30,highSpeedRpm:50,maxRelativeWindKt:100,receiverNoiseFigureDb:5,receiverDynamicRangeDb:80,ifMHz:60,
+-    publishedMinimumRangeLessThanM:35,publishedRangeResolutionBetterThanM:35,workingMinimumRangeM:30,workingRangeResolutionM:34,
+-    systemBearingAccuracyDeg:1,maxRadarTracks:60,combinedRadarTracks:40,maxAisTracks:40,
+-    trackMinNmi:.25,trackMaxNmi:40,maxTrackRelativeSpeedKt:150,displayScaleMaxNmi:96,
++    ...BRIDGEMASTER_E_PROFILE_INSTALLATION,contract:'AUTHORITATIVE_SENSOR_WITH_PHYSICAL_HARDPOINT',
+     xM:WIP199_FINAL_LAYOUT.bridgeMasterE.x,yM:WIP199_FINAL_LAYOUT.bridgeMasterE.y,zM:WIP199_FINAL_LAYOUT.bridgeMasterE.z,
+-    antennaLengthM:WIP199_FINAL_LAYOUT.bridgeMasterE.antennaLengthM,mountBasis:WIP199_FINAL_LAYOUT.bridgeMasterE.mountBasis,
+-    performanceBasis:'PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN'
++    antennaLengthM:WIP199_FINAL_LAYOUT.bridgeMasterE.antennaLengthM,mountBasis:WIP199_FINAL_LAYOUT.bridgeMasterE.mountBasis
+   });
+-  const BRIDGEMASTER_E_PEAK_POWER_W = 30000;
++  const BRIDGEMASTER_E_PEAK_POWER_W = BRIDGEMASTER_E_INSTALLATION.peakPowerKw*1000;
+   const BRIDGEMASTER_E_PRF_HZ = BRIDGEMASTER_E_PULSE_MODES.LONG.prfHz;
+   const BRIDGEMASTER_E_PULSE_WIDTH_S = BRIDGEMASTER_E_PULSE_MODES.LONG.pulseWidthUs*1e-6;
+-  const BRIDGEMASTER_E_RPM = 30;
+-  const BRIDGEMASTER_E_HIGH_SPEED_RPM = 50;
+-  const BRIDGEMASTER_E_BEAM_AZ_FULL_DEG = 2;
+-  const BRIDGEMASTER_E_BEAM_EL_FULL_DEG = 30;
++  const BRIDGEMASTER_E_RPM = BRIDGEMASTER_E_INSTALLATION.nominalRpm;
++  const BRIDGEMASTER_E_HIGH_SPEED_RPM = BRIDGEMASTER_E_INSTALLATION.highSpeedRpm;
++  const BRIDGEMASTER_E_BEAM_AZ_FULL_DEG = BRIDGEMASTER_E_INSTALLATION.horizontalBeamwidthDeg;
++  const BRIDGEMASTER_E_BEAM_EL_FULL_DEG = BRIDGEMASTER_E_INSTALLATION.verticalBeamwidthDeg;
+   const BRIDGEMASTER_E_BEAM_AZ_HALF = deg(BRIDGEMASTER_E_BEAM_AZ_FULL_DEG*0.5);
+   // 96 nmi is only the selectable display scale. Maintained radar tracks are limited to 40 nmi.
+-  const BRIDGEMASTER_E_DISPLAY_SCALE_MAX_KM = 96*1.852;
+-  const BRIDGEMASTER_E_TRACK_MIN_KM = .25*1.852;
+-  const BRIDGEMASTER_E_TRACK_MAX_KM = 40*1.852;
+-  const BRIDGEMASTER_E_MIN_RANGE_KM = .030;
+-  const BRIDGEMASTER_E_TRACK_CAPACITY = 60;
+-  const BRIDGEMASTER_E_MAX_RELATIVE_SPEED_KT = 150;
++  const BRIDGEMASTER_E_DISPLAY_SCALE_MAX_KM = BRIDGEMASTER_E_INSTALLATION.displayScaleMaxNmi*1.852;
++  const BRIDGEMASTER_E_TRACK_MIN_KM = BRIDGEMASTER_E_INSTALLATION.trackMinNmi*1.852;
++  const BRIDGEMASTER_E_TRACK_MAX_KM = BRIDGEMASTER_E_INSTALLATION.trackMaxNmi*1.852;
++  const BRIDGEMASTER_E_MIN_RANGE_KM = BRIDGEMASTER_E_INSTALLATION.workingMinimumRangeM/1000;
++  const BRIDGEMASTER_E_TRACK_CAPACITY = BRIDGEMASTER_E_INSTALLATION.maxRadarTracks;
++  const BRIDGEMASTER_E_MAX_RELATIVE_SPEED_KT = BRIDGEMASTER_E_INSTALLATION.maxTrackRelativeSpeedKt;
+   const BRIDGEMASTER_E_HEIGHT_M = BRIDGEMASTER_E_INSTALLATION.zM;
+   const BRIDGEMASTER_E_SWEEP_DEG_PER_S = BRIDGEMASTER_E_RPM*6;
+   const BRIDGEMASTER_E_DWELL_S = BRIDGEMASTER_E_BEAM_AZ_FULL_DEG/BRIDGEMASTER_E_SWEEP_DEG_PER_S;
+@@ -11046,8 +11096,8 @@
+ 
+ 
+   // ===== CLOSE-IN DEFENSE (Physical Simulation) =====
+-  const GUN_CIWS_RANGE_KM = 3.0;
+-  const RAM_CIWS_RANGE_KM = 9.6; // SIM_TUNED engagement envelope; US Navy public RAM range is classified.
++  const GUN_CIWS_RANGE_KM = ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.phalanx.engageRangeKm;
++  const RAM_CIWS_RANGE_KM = ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.engageRangeKm; // SIM_TUNED engagement envelope
+   const CIWS_RANGE_KM = RAM_CIWS_RANGE_KM;
+   // WIP13: SeaRAM retains the Phalanx Block 1B search/track/EO sensor suite.
+   // Public sources do not expose exact detection performance, so these are shared
+@@ -11055,10 +11105,10 @@
+   // 10 km, with measurement quality tapering from 10-15 km.
+   const CIWS_BLOCK1B_SENSOR_MODEL=Object.freeze({
+     schema:'PHALANX_BLOCK_1B_COMMON_SENSOR_WIP13',
+-    searchRangeKm:15.0,
+-    trackRangeKm:10.0,
+-    cueTrackRangeKm:15.0,
+-    searchToTrackTime:0.8,
++    searchRangeKm:ACTIVE_SHIP_PROFILE.weapons.closeIn.sensor.searchRangeKm,
++    trackRangeKm:ACTIVE_SHIP_PROFILE.weapons.closeIn.sensor.trackRangeKm,
++    cueTrackRangeKm:ACTIVE_SHIP_PROFILE.weapons.closeIn.sensor.cueTrackRangeKm,
++    searchToTrackTime:ACTIVE_SHIP_PROFILE.weapons.closeIn.sensor.searchToTrackTimeS,
+   });
+ 
+   // Phalanx: 20mm Vulcan, 4500 RPM, 1550 rounds
+@@ -11077,8 +11127,8 @@
+       trackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.trackRangeKm,
+       cueTrackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.cueTrackRangeKm,
+       engageRangeKm: GUN_CIWS_RANGE_KM,
+-      ammo: 1550, maxAmmo: 1550,
+-      fireRate: 75,               // rounds/s = 4500 RPM
++      ammo: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.phalanx.ammo, maxAmmo: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.phalanx.ammo,
++      fireRate: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.phalanx.fireRateRps,
+       _shotAccumulator: 0,         // fractional rounds; preserves exact cyclic rate at fixed dt
+       burstTimer: 0,
+       // State machine: IDLE→SEARCH→TRACK→ENGAGE→FIRING
+@@ -11118,10 +11168,10 @@
+       trackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.trackRangeKm,
+       cueTrackRangeKm: CIWS_BLOCK1B_SENSOR_MODEL.cueTrackRangeKm,
+       engageRangeKm: RAM_CIWS_RANGE_KM,
+-      minEngageKm: 0.8,           // too close = can't intercept
+-      ammo: 11, maxAmmo: 11,
++      minEngageKm: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.minEngageKm,
++      ammo: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.ammo, maxAmmo: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.ammo,
+       reloadTimer: 0,
+-      reloadInterval: 2.0,        // 2s between launches
++      reloadInterval: ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.reloadIntervalS,
+       state: 'IDLE',
+       stateTimer: 0,
+       trackingTarget: null,
+@@ -11148,6 +11198,8 @@
+       cueAge: 0,
+     }
+   ];
++const SHIP_CLOSE_IN_BUILDER_REGISTRY_V48_WIP09=Object.freeze({CIWS_BLOCK1B_WIP13:()=>ciws});
++ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems.weapons.closeIn=SHIP_CLOSE_IN_BUILDER_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.weapons.closeIn.builderId]();
+ // GAME_MOUNT_CONSTRAINTS_V1: collision rules for the existing game geometry.
+ // Angles are radians in the ship body frame. No real mount envelope is asserted.
+ function createGameMountConstraintsV1(spec){
+@@ -23881,9 +23933,34 @@
+     return {pass:true,iterations:n,hitboxCount:boxes.length,blastSourceCount:sources.length,pointLookup:{totalMs:t1-t0,avgMs:(t1-t0)/n},penetrationPath:{totalMs:t2-t1,avgMs:(t2-t1)/n,eventCount:lastEvents.length},chainBlast:{totalMs:t3-t2,avgMs:(t3-t2)/n,damage:lastBlast?.totalDmg??0},combinedAvgMs:(t3-t0)/n,sink};
+   }
+ 
++  // V48 WIP09 profile audit is read-only. It proves that the authored definition is
++  // deeply immutable, runtime state is separate, model registries resolve, and the
++  // active consumers still reproduce the WIP08 DDG-119 baseline.
++  function shipProfileAuditV48Wip09(options={}){
++    const profile=ACTIVE_SHIP_PROFILE,runtime=ACTIVE_SHIP_RUNTIME_V48_WIP09;
++    const deeplyFrozen=(value,seen=new WeakSet())=>{if(!value||typeof value!=='object'||seen.has(value))return true;seen.add(value);if(!Object.isFrozen(value))return false;return Object.values(value).every(q=>deeplyFrozen(q,seen));};
++    const hp=profile.geometry.hardpoints,topology=getShipInteriorTopologyV48Wip06().snapshot(),crew=getShipCrewV21().snapshot(),mass=getShipMassLedgerV32().snapshot(),dynamics=getShipDynamicsV15(),wave=getWaveFloodEnvironmentV48Wip05();
++    const consumerParity={
++      dimensions:WIP173_SHIP_BOW_X_M===profile.geometry.bowXM&&WIP173_SHIP_STERN_X_M===profile.geometry.sternXM&&WIP173_SHIP_LENGTH_M===profile.geometry.lengthM&&SHIP_DECK_Z_M===profile.geometry.deckZM,
++      hardpoints:WIP199_FINAL_LAYOUT.vls.fwd===hp.vlsForward&&WIP199_FINAL_LAYOUT.vls.aft===hp.vlsAft&&WIP199_FINAL_LAYOUT.bridgeMasterE===hp.bridgeMasterE&&BRIDGEMASTER_E_INSTALLATION.xM===hp.bridgeMasterE.x&&BRIDGEMASTER_E_INSTALLATION.yM===hp.bridgeMasterE.y&&BRIDGEMASTER_E_INSTALLATION.zM===hp.bridgeMasterE.z,
++      sensors:SENSOR_MODEL===SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[profile.sensors.modelId]&&SPY1DV_SNR_REF_RANGE_KM===profile.sensors.spy1dv.snrReferenceRangeKm&&SPY1DV_SEARCH_MAX_RANGE_KM===profile.sensors.spy1dv.searchMaxRangeKm&&SPQ9B_RPM===profile.sensors.spq9b.rpm,
++      weapons:VLS_FWD_CELLS===profile.weapons.vls.sections.fwd.cells&&VLS_AFT_CELLS===profile.weapons.vls.sections.aft.cells&&vlsCells.fwd.length===32&&vlsCells.aft.length===64&&vlsCells.aft.filter(c=>c.type==='SM2').length===40&&vlsCells.aft.filter(c=>c.type==='ESSM4').length===24&&ciws[0].maxAmmo===profile.weapons.closeIn.mounts.phalanx.ammo&&ciws[1].maxAmmo===profile.weapons.closeIn.mounts.seaRam.ammo,
++      mass:SHIP_MASS_BASIS_V32.fullLoadTargetKg===profile.mass.fullLoadTargetKg&&Math.abs(mass.massKg-profile.mass.fullLoadTargetKg)<.001,
++      interior:topology.buildId===profile.interior.builderId&&topology.summary.spaces===profile.interior.expected.spaces&&topology.summary.portals===profile.interior.expected.portals&&topology.summary.equipment===profile.interior.expected.equipment,
++      crew:crew.total===profile.crew.roster&&profile.crew.departments.reduce((n,q)=>n+q[2],0)===profile.crew.roster
++    };
++    const registries={sensor:!!SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[profile.sensors.modelId],vls:!!SHIP_VLS_BUILDER_REGISTRY_V48_WIP09[profile.weapons.vls.builderId],closeIn:!!SHIP_CLOSE_IN_BUILDER_REGISTRY_V48_WIP09[profile.weapons.closeIn.builderId],hitboxes:!!SHIP_HITBOX_BUILDER_REGISTRY_V48_WIP09[profile.damage.hitboxBuilderId],interior:!!SHIP_INTERIOR_BUILDER_REGISTRY_V48_WIP09[profile.interior.builderId],crew:!!SHIP_CREW_BUILDER_REGISTRY_V48_WIP09[profile.crew.builderId],mass:!!SHIP_MASS_MODEL_REGISTRY_V48_WIP09[profile.mass.modelId],dynamics:!!SHIP_DYNAMICS_BUILDER_REGISTRY_V48_WIP09[profile.hydrostatics.modelId],wave:!!SHIP_WAVE_MODEL_REGISTRY_V48_WIP09[profile.environment.waveFlood.modelId],flood:!!SHIP_DAMAGE_FLOOD_BUILDER_REGISTRY_V48_WIP09[profile.damage.floodBuilderId],damageControl:!!SHIP_DAMAGE_CONTROL_BUILDER_REGISTRY_V48_WIP09[profile.damage.damageControlBuilderId],renderer:profile.renderer.builderId==='DDG119_THREE_WIP199'};
++    const checks={schema:profile.schema==='AEGIS_SHIP_PROFILE_V48_WIP09'&&profile.id==='DDG_119_LATE_FLIGHT_IIA',deeplyFrozen:deeplyFrozen(profile),registryIdentity:SHIP_PROFILE_REGISTRY_V48_WIP09[profile.id]===profile,registriesResolve:Object.values(registries).every(Boolean),runtimeSeparated:runtime.profileId===profile.id&&runtime!==profile&&runtime.navigation!==profile.navigation&&!Object.isFrozen(runtime.navigation)&&runtime.subsystems.weapons.vls===vlsCells&&runtime.subsystems.weapons.closeIn===ciws,consumerParity:Object.values(consumerParity).every(Boolean),protectionDeferred:profile.protection.status==='SCHEMA_ONLY_DEFERRED_TO_WIP10'&&profile.protection.physicsCoupled===false&&profile.protection.externalShell===null,rendererReadOnly:profile.renderer.contract==='PRESENTATION_ONLY_PROFILE_CONSUMER'&&profile.renderer.physicsFeedback===false,baselineDeclared:profile.parity.baselineId==='V48_WIP08_BRIDGEMASTER_E'&&profile.parity.expectedBehavior==='NO_GAMEPLAY_CHANGE'};
++    return {schema:'AEGIS_SHIP_PROFILE_AUDIT_V48_WIP09',profileId:profile.id,profileRevision:profile.revision,checks,consumerParity,registries,runtimeBindings:{navigation:runtime.navigation===shipNav,sensors:runtime.subsystems.sensors?.model===SENSOR_MODEL,weapons:runtime.subsystems.weapons?.vls===vlsCells,damage:runtime.subsystems.damage?.flood===damageFloodV1&&runtime.subsystems.damage?.control===damageControlV1,environment:runtime.subsystems.environment?.waveFlood===wave,interior:runtime.subsystems.interior===shipInteriorTopologyV48Wip06,crew:runtime.subsystems.crew===shipCrewV21,mass:runtime.subsystems.mass===shipMassLedgerV32,dynamics:runtime.subsystems.dynamics===dynamics},counts:{profiles:Object.keys(SHIP_PROFILE_REGISTRY_V48_WIP09).length,spaces:topology.summary.spaces,portals:topology.summary.portals,equipment:topology.summary.equipment,crew:crew.total,vlsForward:vlsCells.fwd.length,vlsAft:vlsCells.aft.length},pass:Object.values(checks).every(Boolean)};
++  }
++  function shipProfileSnapshotV48Wip09(){return JSON.parse(JSON.stringify(ACTIVE_SHIP_PROFILE));}
++  window.__AEGIS_ACTIVE_SHIP_PROFILE__=ACTIVE_SHIP_PROFILE;
++
+   function runCoreUnitSelfTests(){
+     const failures = [];
+     const near = (a,b,eps=1e-9) => Math.abs(a-b) <= eps * Math.max(1,Math.abs(a),Math.abs(b));
++    try{const audit=shipProfileAuditV48Wip09();if(!audit.pass)failures.push('V48 WIP09 ship-profile audit '+JSON.stringify(audit.checks));}
++    catch(err){failures.push('V48 WIP09 ship-profile self-test '+String(err?.message??err));}
+     const valsM = [0, 1, 25, 60, 80, 1000, 123456.789];
+     for(const m of valsM){
+       const rt = worldToMeters(metersToWorld(m));
+@@ -25029,7 +25106,7 @@
+     debugLog('WAVE-FLOODING-V48-WIP05 SELFTEST PASS');
+     debugLog('SHIP-INTERIOR-TOPOLOGY-V48-WIP06 SELFTEST PASS');
+     debugLog('SPATIAL-CREW-BLAST-CASUALTY-V48-WIP07 SELFTEST PASS');
+-    debugLog('CORE SELFTEST PASS: units+probability+CPA+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+BRIDGEMASTER-E-WIP08+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP13+CIWS-BLOCK1B-COMMON-SENSOR-WIP13+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+SHIP-COMPARTMENT-MASS-LEDGER-V48-WIP01+SHIP-IMPACT-V48-WIP02+SHIP-LONGITUDINAL-STRENGTH-V48-WIP03+DUAL-HULL-DAMAGE-3D-V48-WIP03+terrain');
++    debugLog('CORE SELFTEST PASS: units+probability+CPA+SHIP-PROFILE-V48-WIP09+TRACK-IDENTITY-WIP27+KAPPA-V2-WIP79+ASM-BODY6L-WIP67+KH32-GUIDANCE-WIP68+ASM-SEEKER-SCAN-WIP69+SPY-scheduler-v2-deadline-WIP46+SPY-ANON-ASSOC-V36+EKF+BRIDGEMASTER-E-WIP08+AUX-RADAR-3D-WIP204+ASM-assoc+SARH-RF+SARH-monopulse+ESSM-ARH-RF+ESSM-C7ECCM+GUIDANCE-SOURCE-ARBITER-WIP43+APN-SOURCE-RESET+PN-CLOSING-FADE+SAM-PROVENANCE-WIP42+SAM-LOFT-REGISTRY-WIP41+SAM-6DOF-LITE-WIP44+SAM-G-DELIVERY-WIP48+SAM-FIN-ACCEL-LOOP-WIP49+CIWS-OBSERVED-TRACK-CLOSURE-B1-AUTHORITY-GATED+CIWS-LOCAL-FC-PHYSICAL-WIP50+CIWS-MANEUVER-PREDICTION-B2-WIP11+CIWS-CONTINUOUS-DAMAGE-B3-WIP13+CIWS-BLOCK1B-COMMON-SENSOR-WIP13+PHALANX-BALLISTICS-WIP203+RAM-MEAS-SEEKER-6DOF-WIP52+SM2-SARH-EARLY-HANDOFF-WIP54+SM2-SARH-INDEPENDENT-RECEIVER-WIP55+SPG62-ENGAGEMENT-SHARING-WIP92+SPG62-PHYSICAL-DAMAGE-WIP94+SHIP-EXTERIOR-GEOMETRY-WIP95+SHIP-EXTERIOR-CLEANUP-WIP96+FUZE-FRAGMENT-LEAD-WIP99-1+FUZE-TDD-RELIABILITY-WIP99-2+HITBOX-STRUCTURE-WIP101-1+UNIFIED-BLAST-WIP101-2+HULL-CHAIN-BLAST-WIP101-3+SM2-VLS-ROLL-AUTHORITY-WIP56+SM2-CLOSE-TERMINAL-WIP57+SAM-STRUCTURAL-OPTIMAL-G-WIP58+SAM-RAM-AOA-ENERGY-VECTORPN-WIP59+SM2-G-COMMAND-ESSM-BOOST-TVC-WIP60+SM2-SARH-LONGRANGE-STABILITY-WIP61+SM2-HIGHALT-VERTICAL-GEOMETRY-WIP63+HIGHALT-ATMOSPHERE-DOMAIN-WIP64+SM2-HIGHDIVER-ENERGY-CORRIDOR-WIP65+ESSM-VLS-TVC-WIP40+ASM-SYSTEM-DAMAGE-FLIGHT-WIP113+ESSM-FRAGMENT-FIELD-WIP144+RAM-WDU17-WARHEAD-WIP147+RAM-WDU17-ROD-BREAKUP-WIP148+RAM-MK20-AOTD-FUZE-WIP149+SM2MR-IIIA-COMPONENT-PROFILE-MK45-GATE-WIP154+SHIP-COMPARTMENT-MASS-LEDGER-V48-WIP01+SHIP-IMPACT-V48-WIP02+SHIP-LONGITUDINAL-STRENGTH-V48-WIP03+DUAL-HULL-DAMAGE-3D-V48-WIP03+terrain');
+     return true;
+   }
+ 
+@@ -25788,6 +25865,9 @@
+   // Test/diagnostic surface. Read-only snapshots except explicit seed setter.
+   // Kept on window so automated regression harnesses can compare runs.
+   window.__NAVAL_SIM_DIAG__ = {
++    shipProfileV48Wip09:()=>shipProfileSnapshotV48Wip09(),
++    shipProfileAuditV48Wip09:(options={})=>shipProfileAuditV48Wip09(options),
++    shipRuntimeBindingsV48Wip09:()=>({schema:ACTIVE_SHIP_RUNTIME_V48_WIP09.schema,profileId:ACTIVE_SHIP_RUNTIME_V48_WIP09.profileId,profileRevision:ACTIVE_SHIP_RUNTIME_V48_WIP09.profileRevision,navigationIsMutable:!Object.isFrozen(shipNav),boundSubsystems:Object.fromEntries(Object.entries(ACTIVE_SHIP_RUNTIME_V48_WIP09.subsystems).map(([k,v])=>[k,!!v]))}),
+     trackContracts:()=>Object.freeze([...tracks.values()].map(trackContractSnapshotV26)),
+     a3TrackStates:()=>[...tracks.entries()].map(([id,tr])=>({id,...trackContractSnapshotV26(tr)})),
+     a3SetOperatorIdentity:(trackId,identity)=>setTrackOperatorIdentityA3(trackId,identity),
+@@ -27063,7 +27143,8 @@
+     // Simulation horizontal x/y are converted later by the renderer; +ship-local X is bow, +Y is starboard.
+     const auxiliaryRadarBeams=wip204AuxRadarBeamRenderStates();
+     return {
+-      contract:'NAVAL_RENDER_STATE_V1', revision:'V48_WIP08_BRIDGEMASTER_E',
++      contract:'NAVAL_RENDER_STATE_V1', revision:'V48_WIP09_SHIP_PROFILE',
++      shipProfile:{schema:ACTIVE_SHIP_PROFILE.schema,id:ACTIVE_SHIP_PROFILE.id,revision:ACTIVE_SHIP_PROFILE.revision,rendererBuilderId:ACTIVE_SHIP_PROFILE.renderer.builderId,presentationOnly:ACTIVE_SHIP_PROFILE.renderer.contract==='PRESENTATION_ONLY_PROFILE_CONSUMER',physicsFeedback:ACTIVE_SHIP_PROFILE.renderer.physicsFeedback},
+       timeS:simStepCounter*SIM_FIXED_DT,
+       ship:{headingRad:shipNav.heading,speedMps:shipNav.speed,targetSpeedKt:shipNav.targetSpeedKt,
+         rudderDeg:shipNav.rudder,targetRudderDeg:shipNav.targetRudder,turnRateRadS:shipNav.turnRate,worldXM:worldToMeters(aircraft.x()),worldYM:worldToMeters(aircraft.y()),travelXM:shipVisualTravelV1.xM,travelYM:shipVisualTravelV1.yM},
+@@ -28160,7 +28241,7 @@
+       });
+     },
+     buildShip(){
+-      const T=this.THREE,root=new T.Group();root.name='WIP202_FLIGHT_IIA_V2';this.spgMounts=new Map();this.vlsLids=new Map();
++      const T=this.THREE,root=new T.Group();root.name=ACTIVE_SHIP_PROFILE.renderer.rootName;root.userData.shipProfileId=ACTIVE_SHIP_PROFILE.id;root.userData.shipProfileRevision=ACTIVE_SHIP_PROFILE.revision;root.userData.rendererBuilderId=ACTIVE_SHIP_PROFILE.renderer.builderId;this.spgMounts=new Map();this.vlsLids=new Map();
+       const mats={
+         door:new T.MeshStandardMaterial({color:0x737e83,roughness:.92}),
+         boat:new T.MeshStandardMaterial({color:0x536164,roughness:.95}),
+@@ -30105,7 +30186,7 @@
+       if(this.readout){const sel=this.currentFollowState(st),followTxt=this.follow.enabled?(this.follow.holdingLost?` · HOLD LAST POS ${this.follow.key??''}`:` · FOLLOW ${sel?.side==='HOSTILE'?'HOSTILE ':''}${sel?.state?.label??sel?.state?.kind??this.follow.key??''} ${sel?.state?.id??''}`):'',interiorTxt=this.interiorTopologyVisible?` · WIP07 내부 ${st.shipInteriorTopology?.summary?.spaces??0}공간/${st.shipInteriorTopology?.summary?.portals??0}연결 · 승조원 ${st.shipCrewSpatial?.fit??0}/${st.shipCrewSpatial?.total??0}`:'';this.readout.textContent=`3D VIEW · HDG ${String(Math.round(((st.ship.headingRad*180/Math.PI)+450)%360)).padStart(3,'0')}° · ${Math.round(st.ship.speedMps/0.514444)} kt${followTxt}${interiorTxt} · 횡경사 ${((st.floodAttitudePreview?.heelRad||0)*180/Math.PI).toFixed(1)}° · GM₀ ${(st.shipDynamicsV15?.gm0M??st.shipDynamicsV15?.gmM??0).toFixed(2)} m · GZ ${(st.shipDynamicsV15?.rightingArmM??0).toFixed(2)} m`;}
+     },
+     bridgeMasterEAuditV48Wip08(){const s=get3DRenderState(),hp=s?.hardpoints?.bridgeMasterE,b=s?.radar?.bridgeMasterEBeams?.[0],mesh=this.mainMastV12?.getObjectByName('BRIDGEMASTER_E_12FT_OPEN_ARRAY')??null,hitbox=buildShipHitBoxes().find(q=>q.name==='BridgeMaster E')??null,outfit=this.mastOutfitV48Wip08??null,renderHp=shipGameRenderPointV1(BRIDGEMASTER_E_INSTALLATION.xM,BRIDGEMASTER_E_INSTALLATION.yM,BRIDGEMASTER_E_INSTALLATION.zM),nearWip08=(a,b,t=1e-9)=>Math.abs(Number(a)-Number(b))<=t,shared=!!hp&&!!b&&nearWip08(hp.xM,BRIDGEMASTER_E_INSTALLATION.xM)&&nearWip08(hp.yM,BRIDGEMASTER_E_INSTALLATION.yM)&&nearWip08(hp.zM,BRIDGEMASTER_E_INSTALLATION.zM)&&b.sourceFrame==='SHIP_BODY_X_BOW_Y_STARBOARD_Z_UP'&&nearWip08(b.sourceXM,BRIDGEMASTER_E_INSTALLATION.xM)&&nearWip08(b.sourceYM,BRIDGEMASTER_E_INSTALLATION.yM)&&nearWip08(b.sourceZM,BRIDGEMASTER_E_INSTALLATION.zM)&&nearWip08(b.xM,renderHp.xM)&&nearWip08(b.yM,renderHp.yM)&&nearWip08(b.zM,renderHp.zM),meshAtHardpoint=!!this.bridgeMasterEMount&&nearWip08(this.bridgeMasterEMount.position.x,BRIDGEMASTER_E_INSTALLATION.xM)&&nearWip08(this.bridgeMasterEMount.position.y,BRIDGEMASTER_E_INSTALLATION.zM)&&nearWip08(this.bridgeMasterEMount.position.z,BRIDGEMASTER_E_INSTALLATION.yM),upperStarboard=BRIDGEMASTER_E_INSTALLATION.yM>0&&nearWip08(BRIDGEMASTER_E_INSTALLATION.xM,15.75)&&BRIDGEMASTER_E_INSTALLATION.zM>31,outfitComplete=!!outfit?.getObjectByName('UPPER_PORT_MUSHROOM_FITTING')&&!!outfit?.getObjectByName('LOWER_YARD_RF_HOUSING_PORT')&&!!outfit?.getObjectByName('LOWER_YARD_RF_HOUSING_STARBOARD')&&!!outfit?.getObjectByName('DDG119_MAST_WHIP_AND_CABLE_BATCH')&&!!outfit?.getObjectByName('BRIDGEMASTER_E_UPPER_STARBOARD_PLATFORM'),publicSband=BRIDGEMASTER_E_INSTALLATION.band==='S'&&BRIDGEMASTER_E_INSTALLATION.frequencyMHz===3050&&BRIDGEMASTER_E_INSTALLATION.peakPowerKw===30&&BRIDGEMASTER_E_INSTALLATION.antennaApertureFt===12&&BRIDGEMASTER_E_INSTALLATION.horizontalBeamwidthDeg===2&&BRIDGEMASTER_E_INSTALLATION.verticalBeamwidthDeg===30,rangeSplit=!!b&&nearWip08(b.trackRangeM,40*1.852*1000)&&nearWip08(b.displayScaleMaxM,96*1.852*1000);let outfitDrawables=0;outfit?.traverse(o=>{if(o.isMesh||o.isLineSegments)outfitDrawables++;});const boundedOutfit=outfitDrawables>0&&outfitDrawables<=20;return {schema:'AEGIS_3D_BRIDGEMASTER_E_AUDIT_V48_WIP08',rendererReady:!!this.ready,meshPresent:!!mesh,mountPresent:!!this.bridgeMasterEMount,meshAtAuthoritativeHardpoint:meshAtHardpoint,upperStarboardYardarm:upperStarboard,rotorMirrorsAuthoritative:!!this.bridgeMasterERotor&&nearWip08(this.bridgeMasterERotor.rotation.y,-s.radar.bridgeMasterEAngleRad,1e-9),physicalHitbox:!!hitbox&&hitbox.system==='BRIDGEMASTER_E'&&hitbox.targetId==='bridgemaster_e.01',sharedHardpoint:shared,mastOutfitPresent:outfitComplete,mastOutfitDrawables:outfitDrawables,mastOutfitBounded:boundedOutfit,duplicateFunctionalRadar:false,publicSbandBaseline:publicSband,trackDisplayRangeSeparated:rangeSplit,beamTrackRangeM:b?.trackRangeM??null,beamDisplayScaleMaxM:b?.displayScaleMaxM??null,installation:{...BRIDGEMASTER_E_INSTALLATION},hardpoint:hp,beamOrigin:b?{xM:b.xM,yM:b.yM,zM:b.zM}:null,presentationOnly:true,physicsFeedback:false,pass:!!this.ready&&!!mesh&&!!this.bridgeMasterEMount&&!!hitbox&&shared&&meshAtHardpoint&&upperStarboard&&outfitComplete&&boundedOutfit&&publicSband&&rangeSplit};},
+-    contractAudit(){const s=get3DRenderState(),f=s.hardpoints.vlsForward,a=s.hardpoints.vlsAft,q=s?.radar?.spq9bBeams??[],p=s?.radar?.bridgeMasterEBeams??[],controls={spy:!!document.getElementById('external3DRadarBtn'),spq9b:!!document.getElementById('external3DSpq9bBtn'),bridgeMasterE:!!document.getElementById('external3DBridgeMasterEBtn'),interior:!!document.getElementById('external3DInteriorBtn')},bme=this.bridgeMasterEAuditV48Wip08();return {pass:s.contract==='NAVAL_RENDER_STATE_V1'&&f?.xM===WIP199_FINAL_LAYOUT.vls.fwd.x&&a?.xM===WIP199_FINAL_LAYOUT.vls.aft.x&&s.vls.forwardCells===32&&s.vls.aftCells===64&&Array.isArray(s.terrainIslands)&&q.length===SPQ9B_PANEL_COUNT&&p.length===1&&s.shipInteriorTopology?.schema===V48_WIP06_INTERIOR_MODEL.schema&&s.shipCrewSpatial?.schema===V48_WIP07_CREW_DAMAGE_MODEL.schema&&Object.values(controls).every(Boolean)&&bme.pass,threeVersion:WIP148_THREE_VERSION,dependencyUrl:String(window.__NAVAL_THREE_URL__||WIP148_THREE_SCRIPT_URL),auxRadarControls:controls,bridgeMasterE:bme,renderState:s};}
++    contractAudit(){const s=get3DRenderState(),f=s.hardpoints.vlsForward,a=s.hardpoints.vlsAft,q=s?.radar?.spq9bBeams??[],p=s?.radar?.bridgeMasterEBeams??[],controls={spy:!!document.getElementById('external3DRadarBtn'),spq9b:!!document.getElementById('external3DSpq9bBtn'),bridgeMasterE:!!document.getElementById('external3DBridgeMasterEBtn'),interior:!!document.getElementById('external3DInteriorBtn')},bme=this.bridgeMasterEAuditV48Wip08(),profileBound=s.shipProfile?.id===ACTIVE_SHIP_PROFILE.id&&s.shipProfile?.presentationOnly===true&&s.shipProfile?.physicsFeedback===false&&this.shipRoot?.userData?.shipProfileId===ACTIVE_SHIP_PROFILE.id;return {pass:s.contract==='NAVAL_RENDER_STATE_V1'&&profileBound&&f?.xM===WIP199_FINAL_LAYOUT.vls.fwd.x&&a?.xM===WIP199_FINAL_LAYOUT.vls.aft.x&&s.vls.forwardCells===32&&s.vls.aftCells===64&&Array.isArray(s.terrainIslands)&&q.length===SPQ9B_PANEL_COUNT&&p.length===1&&s.shipInteriorTopology?.schema===V48_WIP06_INTERIOR_MODEL.schema&&s.shipCrewSpatial?.schema===V48_WIP07_CREW_DAMAGE_MODEL.schema&&Object.values(controls).every(Boolean)&&bme.pass,shipProfileBound:profileBound,threeVersion:WIP148_THREE_VERSION,dependencyUrl:String(window.__NAVAL_THREE_URL__||WIP148_THREE_SCRIPT_URL),auxRadarControls:controls,bridgeMasterE:bme,renderState:s};}
+   };
+ 
+ 
