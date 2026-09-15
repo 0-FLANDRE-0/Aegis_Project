@@ -1,0 +1,56 @@
+name: WIP09 one-time stability-schema hotfix
+
+on:
+  push:
+    branches:
+      - v48-wip09-ship-profile
+    paths:
+      - .github/workflows/wip09-stability-schema-hotfix.yml
+      - .github/wip09-stability-schema-hotfix.patch
+
+permissions:
+  contents: write
+
+jobs:
+  patch-html:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out WIP09 branch
+        uses: actions/checkout@v4
+        with:
+          ref: v48-wip09-ship-profile
+
+      - name: Restore WIP04 schema identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "v48-wip09-ship-profile"
+          before_sha="$(sha256sum Aegis_SIM_v48_WIP09.html | awk '{print $1}')"
+          test "$before_sha" = "d364ea123157de3e7a8a3555b82329f48fab27bd5a2efa038df0ff9b907717ae"
+
+          git apply .github/wip09-stability-schema-hotfix.patch
+
+          after_sha="$(sha256sum Aegis_SIM_v48_WIP09.html | awk '{print $1}')"
+          test "$after_sha" = "9fd254af900baa76bfdbfff3c39d05b575d1d2f600d7a67d4787ae15c54025df"
+          node - <<'NODE'
+          const fs = require('fs');
+          const source = fs.readFileSync('Aegis_SIM_v48_WIP09.html', 'utf8');
+          const scripts = [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)];
+          if (scripts.length !== 1) throw new Error(`expected one inline script, got ${scripts.length}`);
+          for (const match of scripts) new Function(match[1]);
+          if (!source.includes("schema:'AEGIS_INTACT_STABILITY_V48_WIP04',modelId:'SHIP_DYNAMIC_STABILITY_V48_WIP04'")) {
+            throw new Error('stability schema and builder identity are not separated');
+          }
+          NODE
+
+      - name: Commit corrected HTML only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Aegis_SIM_v48_WIP09.html
+          test "$(git diff --cached --name-only)" = "Aegis_SIM_v48_WIP09.html"
+          git commit -m "fix: preserve WIP04 stability schema identity [skip ci]"
+          git push origin HEAD:v48-wip09-ship-profile
