@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP08.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP09.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -18,7 +18,8 @@ const context = vm.createContext({
   getDamageFloodV1: () => ({cellAt: () => ({id:'fixture.cell'})}),
   SHIP_DECK_Z_M: 7,
 });
-vm.runInContext(section('const V48_WIP06_INTERIOR_MODEL=', '// FLOOD_HYDROSTATICS_V2.') +
+vm.runInContext(section('function deepFreezeShipProfileV48Wip09(', 'function shipHdgDeg()') +
+  section('const V48_WIP06_INTERIOR_MODEL=', '// FLOOD_HYDROSTATICS_V2.') +
   '\nglobalThis.model=createShipInteriorTopologyV48Wip06(getDamageFloodV1());globalThis.probe=runV48Wip06InteriorProbe();', context);
 const model=context.model, state=model.snapshot();
 assert(Object.values(context.probe.checks).every(Boolean), JSON.stringify(context.probe.checks));
@@ -41,7 +42,7 @@ const topologySource=section('const V48_WIP06_INTERIOR_MODEL=', '// FLOOD_HYDROS
 const injected=topologySource.replace('  const macroMembers=',
   "  room('fixture.obstruction','invalid deck','H0',-50,-40,2,6,'ROOM',null,8,9);\n  const macroMembers=");
 assert.notEqual(injected,topologySource);
-vm.runInContext(injected+'\nglobalThis.bad=createShipInteriorTopologyV48Wip06(getDamageFloodV1()).audit();',badContext);
+vm.runInContext(section('function deepFreezeShipProfileV48Wip09(', 'function shipHdgDeg()')+injected+'\nglobalThis.bad=createShipInteriorTopologyV48Wip06(getDamageFloodV1()).audit();',badContext);
 assert.equal(badContext.bad.hangarClearance.clear,false,'obstructed hangar must fail');
 
 // Minimal Three.js data sinks: execute the real renderer builder and inspect its output.
