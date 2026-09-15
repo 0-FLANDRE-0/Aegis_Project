@@ -1,0 +1,31 @@
+name: WIP09 exact source export
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  export-main-wip08:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and stage exact WIP08 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s Aegis_SIM_v48_WIP08.html
+          sha256sum Aegis_SIM_v48_WIP08.html | tee WIP08_SHA256SUMS.txt
+          stat --printf='%s bytes\n' Aegis_SIM_v48_WIP08.html
+      - name: Upload exact WIP08 source
+        uses: actions/upload-artifact@v4
+        with:
+          name: wip09-exact-wip08-source
+          path: |
+            Aegis_SIM_v48_WIP08.html
+            WIP08_SHA256SUMS.txt
+          retention-days: 1
