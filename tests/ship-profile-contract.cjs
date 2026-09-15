@@ -47,6 +47,7 @@ const checks = {
   hardpoints: profile.geometry.hardpoints.bridgeMasterE.x === 15.75 && profile.geometry.hardpoints.bridgeMasterE.y === 5.15 && profile.geometry.hardpoints.bridgeMasterE.z === 31.78 && profile.geometry.hardpoints.spg62.length === 3,
   vls: profile.weapons.vls.sections.fwd.cells === 32 && profile.weapons.vls.sections.aft.cells === 64 && profile.weapons.vls.sections.aft.defaultLoadout[1].type === 'ESSM4' && profile.weapons.vls.sections.aft.defaultLoadout[1].cells === 24,
   mass: profile.mass.fullLoadTargetKg === 9652445.6336 && profile.mass.lightshipKg === 7085245.6336 && profile.mass.calibratedReferenceGMM === 1.5,
+  stabilityIdentity: profile.hydrostatics.schema === 'AEGIS_INTACT_STABILITY_V48_WIP04' && profile.hydrostatics.modelId === 'SHIP_DYNAMIC_STABILITY_V48_WIP04',
   crew: profile.crew.roster === 310 && profile.crew.departments.reduce((n, row) => n + row[2], 0) === 310,
   topology: profile.interior.expected.spaces === 138 && profile.interior.expected.portals === 160 && profile.interior.expected.equipment === 70,
   protectionDeferred: profile.protection.status === 'SCHEMA_ONLY_DEFERRED_TO_WIP10' && profile.protection.physicsCoupled === false && profile.protection.externalShell === null,
