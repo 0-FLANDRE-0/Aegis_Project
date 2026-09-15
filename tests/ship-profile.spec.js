@@ -21,9 +21,10 @@ test('v48 WIP09 immutable DDG-119 profile drives isolated runtime and renderer',
     const d = window.__NAVAL_SIM_DIAG__, profileBefore = JSON.stringify(d.shipProfileV48Wip09());
     const exposed = window.__AEGIS_ACTIVE_SHIP_PROFILE__;
     try { exposed.geometry.bowXM = 999; exposed.geometry.hullStations[0][0] = 999; } catch {}
+    const runtimeBeforeAudit = d.shipRuntimeBindingsV48Wip09();
     const auditA = d.shipProfileAuditV48Wip09(), auditB = d.shipProfileAuditV48Wip09();
     const profile = d.shipProfileV48Wip09(), runtime = d.shipRuntimeBindingsV48Wip09(), render = window.get3DRenderState();
-    return { profileBefore, profileAfter: JSON.stringify(profile), auditA, auditB, profile, runtime,
+    return { profileBefore, profileAfter: JSON.stringify(profile), runtimeBeforeAudit, auditA, auditB, profile, runtime,
       render: { revision: render.revision, shipProfile: render.shipProfile, hardpoints: render.hardpoints, vls: { forwardCells: render.vls.forwardCells, aftCells: render.vls.aftCells } },
       selftestFailures: window.__CORE_SELFTEST_FAILURES__.slice(), exposedFrozen: Object.isFrozen(exposed) && Object.isFrozen(exposed.geometry) && Object.isFrozen(exposed.geometry.hullStations[0]) };
   });
@@ -34,6 +35,7 @@ test('v48 WIP09 immutable DDG-119 profile drives isolated runtime and renderer',
     coreSelftests: result.selftestFailures.length === 0,
     auditPass: result.auditA.pass === true && Object.values(result.auditA.checks).every(Boolean),
     deterministicAudit: JSON.stringify(result.auditA) === JSON.stringify(result.auditB),
+    readOnlyAudit: JSON.stringify(result.runtimeBeforeAudit) === JSON.stringify(result.runtime),
     immutable: result.exposedFrozen && result.profileBefore === result.profileAfter && result.profile.geometry.bowXM === 82,
     identity: result.profile.id === 'DDG_119_LATE_FLIGHT_IIA' && result.profile.identity.hullNumber === 'DDG-119',
     isolatedRuntime: result.runtime.profileId === result.profile.id && result.runtime.navigationIsMutable === true && result.auditA.checks.runtimeSeparated === true,
