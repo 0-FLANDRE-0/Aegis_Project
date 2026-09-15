@@ -86,8 +86,9 @@
 ## Artifact
 
 - File: `Aegis_SIM_v48_WIP08.html`
-- Size: `2,607,181 bytes`
-- SHA-256: `a9bf0cbc40c003f51ce271bdd795ee4278cc1b00cbb27d2cc4bd8b063d2d8b2d`
+- Size: `2,608,153 bytes`
+- SHA-256: `fe537db57d08f7c87120ed80a6118acd7c83389e75169e3fde9d404834f67eb8`
+- Git blob: `90c30bb264dc2694aae47cf4f9f837b4ef046b96`
 
 ## GitHub Actions acceptance
 
@@ -111,7 +112,46 @@
   - `beamTrackRangeM=74,080` and `beamDisplayScaleMaxM=177,792`
   - `presentationOnly=true`
   - `physicsFeedback=false`
-- After Actions, append run ID, passed job list, artifact IDs/digests and the captured BridgeMaster E 3D audit before merge.
+- Final evidence is recorded below.
+
+## Final GitHub Actions evidence
+
+- Workflow run: [#74 / 34960534898](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/34960534898)
+- Tested branch head: `d0336a874c9a9e0a1cc7a040c1c4a6a590e727d7`
+- Pull-request merge-test revision: `7469b605ec1fd753b01ef1b1b26def22fd21209c`
+- Result: `14/14 jobs passed`
+- Passed jobs: `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `ship-stability-maneuver`, `ship-wave-flooding`, `ship-interior-topology`, `ship-crew-damage`, `bridgemaster-e`.
+
+### Captured BridgeMaster E 3D audit
+
+- Renderer: `ready=true`, WebGL 2 / Chromium SwiftShader
+- Physical installation: `meshPresent=true`, `mountPresent=true`, `meshAtAuthoritativeHardpoint=true`, `upperStarboardYardarm=true`
+- Coupling: `rotorMirrorsAuthoritative=true`, `physicalHitbox=true`, `sharedHardpoint=true`
+- Mast outfit: `mastOutfitPresent=true`, `mastOutfitDrawables=14`, `mastOutfitBounded=true`
+- Radar contract: `duplicateFunctionalRadar=false`, `publicSbandBaseline=true`, `trackDisplayRangeSeparated=true`
+- Ranges: `beamTrackRangeM=74080`, `beamDisplayScaleMaxM=177792`
+- Renderer authority: `presentationOnly=true`, `physicsFeedback=false`
+- Audit result: `pass=true`
+
+### Workflow artifacts
+
+| Artifact | ID | Digest |
+|---|---:|---|
+| ship-crew-damage | 10393560306 | `sha256:8c89e14e3d45a02b8fca8e42289fb968154780a4b48a201eb2f673b7a88b5e6a` |
+| ship-interior-topology | 10393535331 | `sha256:e7fe55b0c1a15e332cedd5117f9e2b47da9d7f90f44de0b86d2bc02832dc16e6` |
+| ship-stability-maneuver | 10393475634 | `sha256:21a8a350b9fc143f18185af7224b829aadbd255d4cbeba5fe4cbf237a935b272` |
+| ship-impact-penetration | 10393325942 | `sha256:e0911d7f67e0e03e7f3569fb9898e42c6fa5eb9fe80614227ea936f6d2628dd0` |
+| aegis-3d-render | 10393291105 | `sha256:e3dc0cbe2b5e7a55a038a1e0bf3c61c247baea3f083aa79eec0e6b1085f7c00a` |
+| webgl-probe | 10393221162 | `sha256:53a9c23e93a6c6c885096ea782afb028ee197ff01e71538a6fdd4bb7a73ed46f` |
+| bridgemaster-e | 10393111813 | `sha256:555bfef8bffc2fd9ebdf8b8864bee728ff936a9583d8ff54de5dc3b745c750b3` |
+| ship-structural-fatigue | 10393038057 | `sha256:617aeb635cc658661b761934b9ad57166bef413de5140580d6df032d9322d1c7` |
+| ciws-b2-maneuver | 10393018110 | `sha256:12ff063276e6e9c21561f8f77752d62caa9107c5e8c27832cdf4d30466596082` |
+| ciws-b1-closure | 10392968619 | `sha256:5e38a94d24152b47b279f1bf8f1bea8cec0f1bfd45f87709b040e79751abf171` |
+| ship-mass-ledger | 10392624718 | `sha256:d59fd13dff51e1db009116bd10aed01a4d1fdba47974e2ba60bdbb8fc26bc1ad` |
+| ship-wave-flooding | 10392569918 | `sha256:b56e7c90fd9ba2ddc5af527a4b7bb669a093dae1d254d625b8761e2efb78c8b7` |
+| ciws-b3-damage | 10392544982 | `sha256:d96c071768eae1fc2b0d2f6bb4cd7c04b2a6d403f817de708d6199a5656268ae` |
+
+`static-smoke` produces no artifact by design.
 
 ## Planned repository tree operation
 
