@@ -110,7 +110,45 @@ The flight deck is not a ramp. Height transition occurs at the forward step and 
 - Expected jobs: `16`
 - Added job: `aft-geometry-wip10`
 - Required final result: `16/16 jobs passed`
-- Remote run evidence: pending branch publication.
+- Final workflow run: [#85 / 35086383967](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/35086383967)
+- Tested branch head: `9dcf95df299929b3b1f7e60739631dfe451091e3`
+- Pull-request merge-test revision: `cb8ac338539121aea32d5a7c797fee18322e7d49`
+- Result: `16/16 jobs passed`
+- Passed jobs: `static-smoke`, `webgl-render-probe`, `aegis-3d-render`, `aft-geometry-wip10`, `ciws-b1-closure`, `ciws-b2-maneuver`, `ciws-b3-damage`, `ship-mass-ledger`, `ship-impact-penetration`, `ship-structural-fatigue`, `ship-stability-maneuver`, `ship-wave-flooding`, `ship-interior-topology`, `ship-crew-damage`, `bridgemaster-e`, `ship-profile`.
+
+The first PR run reached `15/16`; `ciws-b3-damage` reported no failed checks but hit its 30-second startup readiness limit under runner saturation. Increasing only that readiness allowance to 60 seconds produced the clean final run. No simulator value or HTML changed.
+
+### Captured WIP10 geometry evidence
+
+- Authored flight deck: all 8 stations exactly `z=4.88 m`
+- Rendered flight deck: one unique vertical coordinate
+- Door sill / flight deck continuity: `true`
+- Hangar clear height: `5.20 m`
+- Interior representation and containment: 138 spaces, 160 portals, 70 equipment nodes, all `true`
+- Aft mesh set: twin hangar, SeaRAM support, tapered support house, two SPG pedestals and Mk 45, all present
+- 2D drawing: `AEGIS_SHIP_DRAWINGS_V48_WIP10`, 1,014 top and 1,015 side polygons
+- Aft physical damage probe: starboard entry and port exit holes both mesh-matched and attached
+- Protection physics: still disconnected and deferred to WIP11
+
+### Workflow artifacts
+
+| Artifact | ID | Digest |
+|---|---:|---|
+| aegis-3d-render | 10442311988 | `sha256:9cd8364334e151f4c3e0e9dee5d1ddbf30e2f361b67c1c2e6e24028de4e4c1d2` |
+| aft-geometry-wip10 | 10442900403 | `sha256:6951458c25a0496232607dfdf29d49620f776c1955a406bc40c818d7841ffc3d` |
+| bridgemaster-e | 10442586950 | `sha256:aa4434373f22f4a522dba7bea260af0494daea4b3372cfa5f21e5a6286283198` |
+| ciws-b1-closure | 10442710864 | `sha256:e16a56916bcaf105b6b8b9e7f55a37f89bf1efd6d8e810e43b0caa37d30488c7` |
+| ciws-b2-maneuver | 10441813170 | `sha256:e2172c43d1a6c28cfc719f707ff83fbd8bc31058fc00f83a61342843167747e3` |
+| ciws-b3-damage | 10441999008 | `sha256:bd30d032004cc19c6ea13838f0873dfe5d9ff00ee9430ea0634d948783cd5e55` |
+| ship-crew-damage | 10442288056 | `sha256:854c973cea0d3eaa64ea6ad44ed6671457d53423d3ef6a12d1be931a83eabbb1` |
+| ship-impact-penetration | 10442337978 | `sha256:be6c187309afc65750ebe89c021cb7c0c7cd894d19b7c6d24ce4e673825ff876` |
+| ship-interior-topology | 10441803368 | `sha256:73b3c2318a262aaf231d7ab99f3e8c058407d1843fabace990b5030bcdc4976e` |
+| ship-mass-ledger | 10442278092 | `sha256:9c55a6213983049c266ea743b8f7f2b231a356fef51dbb33ec0a6abe9d33071f` |
+| ship-profile | 10442377799 | `sha256:207d205c5a235adc6a615fe6adbc1e897f2b5b09600027871714e7c63ed0cadf` |
+| ship-stability-maneuver | 10442371932 | `sha256:452ea94439493047eefba8f4ffd50aebfdf4009309cbfdbdb3bcce3464f5b19a` |
+| ship-structural-fatigue | 10441824912 | `sha256:54d65b26acbefb5933d559a7af8ff8dcd877e5040a6a15da364248aa12439c85` |
+| ship-wave-flooding | 10442721458 | `sha256:6e48c83a5761326a97650303ecbc11105990f6544e631457d27af9aff1d9cf1f` |
+| webgl-probe | 10442327831 | `sha256:86b0060e4578d7c54d677e2ce8cfe3bda88fe1f63014ca9cf4e18cc9f144ba3c` |
 
 ## Repository result
 
