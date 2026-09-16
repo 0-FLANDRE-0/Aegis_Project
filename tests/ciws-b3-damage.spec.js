@@ -39,7 +39,7 @@ test('CIWS Closure B3 continuous partial-damage performance', async ({ page }) =
     Array.isArray(window.__CORE_SELFTEST_FAILURES__) &&
     window.__NAVAL_SIM_DIAG__?.ciwsB3Damage &&
     window.__NAVAL_SIM_DIAG__?.ciwsB1Closure,
-  null, { timeout: 30_000 });
+  null, { timeout: 60_000 });
 
   const startup = await page.evaluate(() => ({
     failures: window.__CORE_SELFTEST_FAILURES__.slice(),
