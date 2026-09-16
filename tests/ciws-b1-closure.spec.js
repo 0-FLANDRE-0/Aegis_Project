@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP09.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b1-closure';
 const results = { schema: 'AEGIS_CIWS_B1_CLOSURE_V2', simulator,
   simulatorSha256: crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'),
@@ -113,6 +113,9 @@ test('CIWS and 3D evidence capture', async ({ page }) => {
   resetResults();
   page.on('console', msg => { if (msg.type() === 'error') results.consoleErrors.push(msg.text()); });
   page.on('pageerror', err => results.pageErrors.push(err.stack || String(err)));
+  if (process.env.THREE_JS_LOCAL && fs.existsSync(process.env.THREE_JS_LOCAL)) {
+    await page.route('https://cdn.jsdelivr.net/**/three.min.js', route => route.fulfill({ path: process.env.THREE_JS_LOCAL, contentType: 'text/javascript' }));
+  }
   await page.goto('http://127.0.0.1:4173/', { waitUntil: 'load' });
   await page.waitForFunction(() => window.__NAVAL_SIM_DIAG__?.ciwsB1Closure);
   const api = (method, ...args) => page.evaluate(([method, args]) => window.__NAVAL_SIM_DIAG__.ciwsB1Closure[method](...args), [method, args]);

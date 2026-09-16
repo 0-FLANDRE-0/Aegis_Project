@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP09.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-stability-maneuver';
 
 test.use({ viewport: { width: 1600, height: 900 } });
@@ -81,7 +81,7 @@ test('v48 WIP04 upright GM0 and finite-angle GZ stay separated in manoeuvres', a
     pageLoad: !consoleErrors.length && !pageErrors.length,
     coreSelftests: baseline.selftestFailures.length === 0,
     stabilitySchema: baseline.model.schema === 'AEGIS_INTACT_STABILITY_V48_WIP04' && baseline.state.stabilitySchema === baseline.model.schema,
-    calibratedUprightGM: Math.abs(baseline.state.gm0M - 1.5) < 0.0001 && baseline.state.gmM === baseline.state.gm0M,
+    wip10UprightGM: Math.abs(baseline.state.gm0M - 1.4130272307) < 0.0001 && baseline.state.gmM === baseline.state.gm0M,
     gmIndependentOfTurnHeel: Math.max(...gmValues) - Math.min(...gmValues) < 0.0001,
     gmRespondsToLoading: loadingCase.lowBallast.gm0M < baseline.state.gm0M - 0.08 && Math.abs(loadingCase.restored.gm0M - baseline.state.gm0M) < 0.0001,
     finiteAngleGZSeparated: Math.abs(hard30.steady.heelDeg) > 10 && Math.abs(hard30.steady.gzM) > 0.3 && Math.abs(hard30.steady.gzM / Math.sin(hard30.steady.heelDeg * Math.PI / 180) - hard30.steady.gm0M) > 0.1,

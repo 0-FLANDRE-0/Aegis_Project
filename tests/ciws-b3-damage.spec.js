@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP09.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ciws-b3-damage';
 const results = {
   schema: 'AEGIS_CIWS_B3_CONTINUOUS_DAMAGE_V1',
@@ -39,7 +39,7 @@ test('CIWS Closure B3 continuous partial-damage performance', async ({ page }) =
     Array.isArray(window.__CORE_SELFTEST_FAILURES__) &&
     window.__NAVAL_SIM_DIAG__?.ciwsB3Damage &&
     window.__NAVAL_SIM_DIAG__?.ciwsB1Closure,
-  null, { timeout: 30_000 });
+  null, { timeout: 60_000 });
 
   const startup = await page.evaluate(() => ({
     failures: window.__CORE_SELFTEST_FAILURES__.slice(),

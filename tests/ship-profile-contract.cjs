@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP09.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP10.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -37,30 +37,35 @@ runtime.navigation.trail.push({ x: 1, y: 2 });
 
 const checks = {
   inlineJavaScript: scripts === 1,
-  schema: profile.schema === 'AEGIS_SHIP_PROFILE_V48_WIP09' && profile.schemaVersion === 1,
+  schema: profile.schema === 'AEGIS_SHIP_PROFILE_V48_WIP10' && profile.schemaVersion === 2 && profile.revision === 'V48_WIP10',
   identity: profile.id === 'DDG_119_LATE_FLIGHT_IIA' && profile.identity.hullNumber === 'DDG-119' && profile.identity.flight === 'IIA',
   deeplyFrozen: deeplyFrozen(profile),
   registry: context.registry[profile.id] === profile && Object.keys(context.registry).length === 1,
   runtimeSeparated: runtime.profileId === profile.id && runtime !== profile && runtime.navigation !== profile.navigation && !Object.isFrozen(runtime.navigation),
   noRuntimeBackflow: JSON.stringify(profile) === before && runtime.navigation.heading === 1.234 && runtime.navigation.trail.length === 1,
-  dimensions: profile.geometry.lengthM === 155.3 && profile.geometry.bowXM === 82 && profile.geometry.sternXM === -73.3 && profile.geometry.hullStations.length === 9,
-  hardpoints: profile.geometry.hardpoints.bridgeMasterE.x === 15.75 && profile.geometry.hardpoints.bridgeMasterE.y === 5.15 && profile.geometry.hardpoints.bridgeMasterE.z === 31.78 && profile.geometry.hardpoints.spg62.length === 3,
+  dimensions: profile.geometry.lengthM === 155.3 && profile.geometry.bowXM === 82 && profile.geometry.sternXM === -73.3 && profile.geometry.hullStations.length === 10,
+  hardpoints: profile.geometry.hardpoints.bridgeMasterE.x === 15.75 && profile.geometry.hardpoints.bridgeMasterE.y === 5.15 && profile.geometry.hardpoints.bridgeMasterE.z === 31.78 && profile.geometry.hardpoints.spg62.length === 3 && profile.geometry.hardpoints.mk45.x === 62,
+  flatFlightDeck: profile.geometry.aft.flightDeckStations.length === 8 && profile.geometry.aft.flightDeckStations.every(row => row[2] === profile.geometry.aft.flightDeckPlaneZM) && profile.geometry.aft.flightDeckPlaneZM === 4.88,
+  aftContinuity: Math.abs(profile.geometry.aft.hangar.doorSillZM - profile.geometry.aft.flightDeckPlaneZM) <= .03 && profile.geometry.aft.hangar.interiorCeilingZM - profile.geometry.aft.hangar.interiorFloorZM >= profile.geometry.aft.hangar.minClearHeightM,
+  aftLowered: profile.geometry.aft.hangar.roofZM < profile.geometry.aft.drawingBaseline.hangarRoofZM && profile.geometry.aft.hangar.doorTopZM < profile.geometry.aft.drawingBaseline.doorTopZM,
+  mk45Mod4: profile.geometry.mk45.basis === 'MK45_MOD4_PUBLIC_VISUAL_APPROX' && profile.geometry.mk45.exposedBarrelM === 7.05 && profile.geometry.mk45.baseDeckZM === 8.05,
+  twoDDrawings: html.includes('"schema":"AEGIS_SHIP_DRAWINGS_V48_WIP10"') && html.includes('"revision":"V48_WIP10_AFT_GEOMETRY"') && html.includes("twoDProjection:WIP202_SHIP_DRAWINGS.schema==='AEGIS_SHIP_DRAWINGS_V48_WIP10'"),
   vls: profile.weapons.vls.sections.fwd.cells === 32 && profile.weapons.vls.sections.aft.cells === 64 && profile.weapons.vls.sections.aft.defaultLoadout[1].type === 'ESSM4' && profile.weapons.vls.sections.aft.defaultLoadout[1].cells === 24,
   mass: profile.mass.fullLoadTargetKg === 9652445.6336 && profile.mass.lightshipKg === 7085245.6336 && profile.mass.calibratedReferenceGMM === 1.5,
   stabilityIdentity: profile.hydrostatics.schema === 'AEGIS_INTACT_STABILITY_V48_WIP04' && profile.hydrostatics.modelId === 'SHIP_DYNAMIC_STABILITY_V48_WIP04',
   crew: profile.crew.roster === 310 && profile.crew.departments.reduce((n, row) => n + row[2], 0) === 310,
   topology: profile.interior.expected.spaces === 138 && profile.interior.expected.portals === 160 && profile.interior.expected.equipment === 70,
-  protectionDeferred: profile.protection.status === 'SCHEMA_ONLY_DEFERRED_TO_WIP10' && profile.protection.physicsCoupled === false && profile.protection.externalShell === null,
+  protectionDeferred: profile.protection.status === 'SCHEMA_ONLY_DEFERRED_TO_WIP11' && profile.protection.physicsCoupled === false && profile.protection.externalShell === null,
   rendererReadOnly: profile.renderer.contract === 'PRESENTATION_ONLY_PROFILE_CONSUMER' && profile.renderer.physicsFeedback === false,
-  baseline: profile.parity.baselineId === 'V48_WIP08_BRIDGEMASTER_E' && profile.parity.expectedBehavior === 'NO_GAMEPLAY_CHANGE',
+  baseline: profile.parity.baselineId === 'V48_WIP09_SHIP_PROFILE' && profile.parity.baselineSha256 === '9fd254af900baa76bfdbfff3c39d05b575d1d2f600d7a67d4787ae15c54025df' && profile.parity.expectedBehavior === 'COMBAT_PHYSICS_PRESERVED__AFT_GEOMETRY_CONSUMERS_REALIGNED',
   consumersWired: html.includes('const shipNav = ACTIVE_SHIP_RUNTIME_V48_WIP09.navigation;') &&
     html.includes('const WIP199_HULL_STATIONS=ACTIVE_SHIP_PROFILE.geometry.hullStations;') &&
     html.includes('const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.sensors.modelId];') &&
     html.includes('const cfg=ACTIVE_SHIP_PROFILE.damage.flood;') &&
     html.includes('defs=ACTIVE_SHIP_PROFILE.crew.departments') &&
     html.includes('root.name=ACTIVE_SHIP_PROFILE.renderer.rootName'),
-  diagnosticSurface: html.includes('shipProfileV48Wip09:()=>shipProfileSnapshotV48Wip09()') && html.includes('shipProfileAuditV48Wip09:(options={})=>shipProfileAuditV48Wip09(options)'),
+  diagnosticSurface: html.includes('shipProfileV48Wip10:()=>shipProfileSnapshotV48Wip09()') && html.includes('shipProfileAuditV48Wip10:(options={})=>shipProfileAuditV48Wip09(options)') && html.includes('aftGeometryAuditV48Wip10:()=>aftGeometryAuditV48Wip10()'),
 };
 
 assert.deepEqual(checks, Object.fromEntries(Object.keys(checks).map(key => [key, true])));
-console.log(JSON.stringify({ result: 'PASS', scope: 'SHIP_PROFILE_V48_WIP09_STATIC_CONTRACT', scripts, checks }, null, 2));
+console.log(JSON.stringify({ result: 'PASS', scope: 'SHIP_PROFILE_V48_WIP10_STATIC_CONTRACT', scripts, checks }, null, 2));

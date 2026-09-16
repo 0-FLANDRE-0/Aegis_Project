@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP09.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-mass-ledger';
 
 test.use({ viewport: { width: 1600, height: 900 } });
@@ -47,7 +47,7 @@ test('v48 WIP01 compartment mass ledger, dynamic GM and cache contract', async (
     pageLoad: !consoleErrors.length && !pageErrors.length,
     coreSelftests: result.selftestFailures.length === 0,
     fullLoadClosure: Math.abs(result.full.massKg - 9652445.6336) < 0.001,
-    calibratedStart: Math.abs(result.full.cgM.z - 4.388257) < 0.0001,
+    wip10AlignedStart: Math.abs(result.full.cgM.z - 4.3752754195) < 0.0001,
     ordnanceClosure: Math.abs((result.full.categories.ORDNANCE_FIXED + result.full.categories.ORDNANCE_DYNAMIC) - 116100) < 0.001,
     compartments: result.lightship.count === 24 && new Set(result.lightship.compartmentIds).size === 24 && Math.abs(result.lightship.massKg - 7085245.6336) < 0.001,
     cacheHotPath: result.perf.rebuilds === 0 && result.perf.cacheHits >= 20000 && result.cacheRebuilds[0] === result.cacheRebuilds[1],

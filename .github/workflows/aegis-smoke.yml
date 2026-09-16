@@ -20,6 +20,8 @@ on:
       - 'tests/bridgemaster-e-contract.cjs'
       - 'tests/ship-profile.spec.js'
       - 'tests/ship-profile-contract.cjs'
+      - 'tests/aft-geometry-wip10.spec.js'
+      - 'tests/wip10-visual-probe.cjs'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -28,8 +30,8 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP09.html
-  BASELINE_SIM_FILE: archive/v48/WIP08/Aegis_SIM_v48_WIP08.html
+  SIM_FILE: Aegis_SIM_v48_WIP10.html
+  BASELINE_SIM_FILE: archive/v48/WIP09/Aegis_SIM_v48_WIP09.html
 
 jobs:
   ciws-b1-closure:
@@ -634,10 +636,10 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Run WIP09 profile static contract
+      - name: Run WIP10 profile static contract
         run: npm run test:ship-profile-contract
 
-      - name: Run WIP09 profile browser contract
+      - name: Run WIP10 profile browser contract
         shell: bash
         run: |
           set -euo pipefail
@@ -662,6 +664,51 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-ship-profile-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  aft-geometry-wip10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP10 aft geometry browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/aft-geometry-wip10
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-aft-geometry-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:aft-geometry
+
+      - name: Upload WIP10 aft geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aft-geometry-wip10-${{ github.sha }}
+          path: |
+            artifacts/aft-geometry-wip10/
+            playwright-report/
+            test-results/
+            /tmp/aegis-aft-geometry-http.log
           if-no-files-found: warn
           retention-days: 14
 
