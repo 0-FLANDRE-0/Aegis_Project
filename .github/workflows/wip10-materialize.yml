@@ -1,0 +1,62 @@
+name: Materialize WIP10 simulator
+
+on:
+  push:
+    branches:
+      - v48-wip10-aft-geometry-correction
+    paths:
+      - '.github/workflows/wip10-materialize.yml'
+      - 'tools/wip09-to-wip10.patch.gz'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out WIP10 branch
+        uses: actions/checkout@v4
+        with:
+          ref: v48-wip10-aft-geometry-correction
+          fetch-depth: 0
+
+      - name: Verify and apply exact WIP09 to WIP10 patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '9fd254af900baa76bfdbfff3c39d05b575d1d2f600d7a67d4787ae15c54025df  Aegis_SIM_v48_WIP09.html' | sha256sum -c -
+          echo '05f7637c7ed57e8809cd556600e59f6010cf06963d8f87fce432e4057b05b64a  tools/wip09-to-wip10.patch.gz' | sha256sum -c -
+          gzip -dc tools/wip09-to-wip10.patch.gz > /tmp/wip09-to-wip10.patch
+          echo 'd9c9d60c8dcdf4aecefd1fe2c6b5a8c87492c40f48df843157b7d179426f8ef7  /tmp/wip09-to-wip10.patch' | sha256sum -c -
+          git apply --check /tmp/wip09-to-wip10.patch
+          git apply --index /tmp/wip09-to-wip10.patch
+          echo '2b33fe96d25ee65e4f195e5dd720f6a0d28a6d3ecdd85734976ea90456519cfa  Aegis_SIM_v48_WIP10.html' | sha256sum -c -
+          test ! -e Aegis_SIM_v48_WIP09.html
+          grep -q 'WIP10_FLAT_FLIGHT_DECK' Aegis_SIM_v48_WIP10.html
+          grep -q 'flightDeckPlaneZM:4.88' Aegis_SIM_v48_WIP10.html
+
+      - name: Parse inline JavaScript
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const html = fs.readFileSync('Aegis_SIM_v48_WIP10.html', 'utf8');
+          let scripts = 0;
+          for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+            if (/\bsrc\s*=|application\/json/.test(match[1])) continue;
+            new Function(match[2]);
+            scripts++;
+          }
+          if (scripts !== 1) throw new Error(`unexpected inline script count: ${scripts}`);
+          NODE
+
+      - name: Commit exact simulator artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: materialize WIP10 aft geometry simulator'
+          git push origin HEAD:v48-wip10-aft-geometry-correction
