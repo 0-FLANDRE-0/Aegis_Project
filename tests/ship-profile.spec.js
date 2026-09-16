@@ -2,28 +2,28 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP09.html';
-const baselineSimulator = process.env.BASELINE_SIM_FILE || 'Aegis_SIM_v48_WIP08.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
+const baselineSimulator = process.env.BASELINE_SIM_FILE || 'archive/v48/WIP09/Aegis_SIM_v48_WIP09.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-profile';
 
 test.use({ viewport: { width: 1600, height: 900 } });
 
-test('v48 WIP09 immutable DDG-119 profile drives isolated runtime and renderer', async ({ page }) => {
+test('v48 WIP10 immutable DDG-119 profile drives isolated runtime and flat aft geometry', async ({ page }) => {
   test.setTimeout(180_000);
   const consoleErrors = [], pageErrors = [];
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
   page.on('pageerror', error => pageErrors.push(error.stack || String(error)));
   await page.goto(`http://127.0.0.1:4173/${simulator}`, { waitUntil: 'load' });
   await page.waitForFunction(() => Array.isArray(window.__CORE_SELFTEST_FAILURES__) &&
-    window.__NAVAL_SIM_DIAG__?.shipProfileAuditV48Wip09 && window.get3DRenderState, null, { timeout: 30_000 });
+    window.__NAVAL_SIM_DIAG__?.shipProfileAuditV48Wip10 && window.get3DRenderState, null, { timeout: 30_000 });
 
   const result = await page.evaluate(() => {
-    const d = window.__NAVAL_SIM_DIAG__, profileBefore = JSON.stringify(d.shipProfileV48Wip09());
+    const d = window.__NAVAL_SIM_DIAG__, profileBefore = JSON.stringify(d.shipProfileV48Wip10());
     const exposed = window.__AEGIS_ACTIVE_SHIP_PROFILE__;
     try { exposed.geometry.bowXM = 999; exposed.geometry.hullStations[0][0] = 999; } catch {}
-    const runtimeBeforeAudit = d.shipRuntimeBindingsV48Wip09();
-    const auditA = d.shipProfileAuditV48Wip09(), auditB = d.shipProfileAuditV48Wip09();
-    const profile = d.shipProfileV48Wip09(), runtime = d.shipRuntimeBindingsV48Wip09(), render = window.get3DRenderState();
+    const runtimeBeforeAudit = d.shipRuntimeBindingsV48Wip10();
+    const auditA = d.shipProfileAuditV48Wip10(), auditB = d.shipProfileAuditV48Wip10();
+    const profile = d.shipProfileV48Wip10(), runtime = d.shipRuntimeBindingsV48Wip10(), render = window.get3DRenderState();
     return { profileBefore, profileAfter: JSON.stringify(profile), runtimeBeforeAudit, auditA, auditB, profile, runtime,
       render: { revision: render.revision, shipProfile: render.shipProfile, hardpoints: render.hardpoints, vls: { forwardCells: render.vls.forwardCells, aftCells: render.vls.aftCells } },
       selftestFailures: window.__CORE_SELFTEST_FAILURES__.slice(), exposedFrozen: Object.isFrozen(exposed) && Object.isFrozen(exposed.geometry) && Object.isFrozen(exposed.geometry.hullStations[0]) };
@@ -42,19 +42,22 @@ test('v48 WIP09 immutable DDG-119 profile drives isolated runtime and renderer',
     modelBindings: Object.values(result.auditA.registries).every(Boolean) && Object.values(result.auditA.consumerParity).every(Boolean),
     topologyCrew: result.auditA.counts.spaces === 138 && result.auditA.counts.portals === 160 && result.auditA.counts.equipment === 70 && result.auditA.counts.crew === 310,
     loadout: result.auditA.counts.vlsForward === 32 && result.auditA.counts.vlsAft === 64 && result.render.vls.forwardCells === 32 && result.render.vls.aftCells === 64,
-    protectionDeferred: result.profile.protection.status === 'SCHEMA_ONLY_DEFERRED_TO_WIP10' && result.profile.protection.physicsCoupled === false,
-    rendererProfileBound: result.render.revision === 'V48_WIP09_SHIP_PROFILE' && result.render.shipProfile.id === result.profile.id && result.render.shipProfile.presentationOnly === true && result.render.shipProfile.physicsFeedback === false,
+    protectionDeferred: result.profile.protection.status === 'SCHEMA_ONLY_DEFERRED_TO_WIP11' && result.profile.protection.physicsCoupled === false,
+    flatFlightDeck: result.profile.geometry.aft.flightDeckStations.every(row => row[2] === result.profile.geometry.aft.flightDeckPlaneZM),
+    aftAudit: result.auditA.aftGeometry.pass === true && Object.values(result.auditA.aftGeometry.checks).every(Boolean),
+    doorDeckContinuity: Math.abs(result.profile.geometry.aft.hangar.doorSillZM - result.profile.geometry.aft.flightDeckPlaneZM) <= .03,
+    rendererProfileBound: result.render.revision === 'V48_WIP10_AFT_GEOMETRY' && result.render.shipProfile.id === result.profile.id && result.render.shipProfile.presentationOnly === true && result.render.shipProfile.physicsFeedback === false,
     bridgeMasterParity: result.render.hardpoints.bridgeMasterE.xM === 15.75 && result.render.hardpoints.bridgeMasterE.yM === 5.15 && result.render.hardpoints.bridgeMasterE.zM === 31.78,
-    baselineDeclared: result.profile.parity.baselineSha256 === 'fe537db57d08f7c87120ed80a6118acd7c83389e75169e3fde9d404834f67eb8' && result.profile.parity.expectedBehavior === 'NO_GAMEPLAY_CHANGE',
+    baselineDeclared: result.profile.parity.baselineSha256 === '9fd254af900baa76bfdbfff3c39d05b575d1d2f600d7a67d4787ae15c54025df' && result.profile.parity.expectedBehavior === 'COMBAT_PHYSICS_PRESERVED__AFT_GEOMETRY_CONSUMERS_REALIGNED',
   };
   fs.mkdirSync(artifactDir, { recursive: true });
-  const artifact = { schema: 'AEGIS_SHIP_PROFILE_BROWSER_V48_WIP09', simulator,
+  const artifact = { schema: 'AEGIS_SHIP_PROFILE_BROWSER_V48_WIP10', simulator,
     simulatorSha256: crypto.createHash('sha256').update(source).digest('hex'), checks, consoleErrors, pageErrors, result };
   fs.writeFileSync(`${artifactDir}/ship-profile-results.json`, `${JSON.stringify(artifact, null, 2)}\n`);
   expect(checks).toEqual(Object.fromEntries(Object.keys(checks).map(key => [key, true])));
 });
 
-test('v48 WIP09 preserves deterministic WIP08 ship behavior', async ({ page }) => {
+test('v48 WIP10 preserves non-geometry WIP09 contracts while realigning aft geometry', async ({ page }) => {
   test.setTimeout(300_000);
   const capture = async file => {
     await page.goto(`http://127.0.0.1:4173/${file}`, { waitUntil: 'load' });
@@ -68,8 +71,10 @@ test('v48 WIP09 preserves deterministic WIP08 ship behavior', async ({ page }) =
       const interior = d.runV48Wip06InteriorProbe(), crew = d.runV48Wip07CrewDamageProbe({ readCount: 0 });
       const mass = d.shipMassLedger(), render = window.get3DRenderState(), bridge = d.bridgeMasterEAudit();
       const impact = q => ({ rawKineticEnergyMJ:q.impact.rawKineticEnergyMJ,impactMomentumNs:q.impact.impactMomentumNs,throughHull:q.impact.throughHull,physicalPenetrationM:q.impact.physicalPenetrationM,hullExitDistanceM:q.impact.hullExitDistanceM,exitEnergyMJ:q.impact.exitEnergyMJ,openings:q.impact.openings,rigidBodyDelta:q.rigidBodyDelta });
+      const profile = window.__AEGIS_ACTIVE_SHIP_PROFILE__;
       return {
         selftestFailures:window.__CORE_SELFTEST_FAILURES__.slice(),
+        profile:{schema:profile.schema,revision:profile.revision,aft:profile.geometry.aft??null},
         impact32:impact(impact32),impact35:impact(impact35),
         wave:{input:wave.input,summary:wave.summary,samples:wave.samples},
         interior:{checks:interior.checks,summary:interior.base.summary,audit:interior.base.audit,locatedSpace:interior.locatedSpace},
@@ -81,8 +86,25 @@ test('v48 WIP09 preserves deterministic WIP08 ship behavior', async ({ page }) =
     });
   };
   const baseline = await capture(baselineSimulator), current = await capture(simulator);
-  const checks = { baselineSelftests: baseline.selftestFailures.length === 0, currentSelftests: current.selftestFailures.length === 0, exactBehaviorParity: JSON.stringify(current) === JSON.stringify(baseline) };
+  const near = (a, b, tolerance = 1e-6) => Math.abs(a - b) <= tolerance;
+  const checks = {
+    baselineSelftests: baseline.selftestFailures.length === 0,
+    currentSelftests: current.selftestFailures.length === 0,
+    massContract: current.mass.schema === baseline.mass.schema && current.mass.nodeCount === baseline.mass.nodeCount &&
+      near(current.mass.massKg, baseline.mass.massKg) && near(current.mass.lightshipMassKg, baseline.mass.lightshipMassKg) &&
+      near(current.mass.variableLoadKg, baseline.mass.variableLoadKg) && Object.keys(baseline.mass.categoryMassKg).every(key => near(current.mass.categoryMassKg[key], baseline.mass.categoryMassKg[key])),
+    intendedMassCgDelta: Math.abs(current.mass.cgM.x - baseline.mass.cgM.x) < .001 &&
+      Math.abs(current.mass.cgM.y - baseline.mass.cgM.y) < .00001 &&
+      baseline.mass.cgM.z - current.mass.cgM.z > .005 && baseline.mass.cgM.z - current.mass.cgM.z < .03,
+    bridgeMasterContract: JSON.stringify(current.bridge) === JSON.stringify(baseline.bridge),
+    missileEnergyContract: current.impact32.rawKineticEnergyMJ === baseline.impact32.rawKineticEnergyMJ && current.impact32.impactMomentumNs === baseline.impact32.impactMomentumNs && current.impact35.rawKineticEnergyMJ === baseline.impact35.rawKineticEnergyMJ && current.impact35.impactMomentumNs === baseline.impact35.impactMomentumNs,
+    topologyCounts: current.render.interior.summary.spaces === baseline.render.interior.summary.spaces && current.render.interior.summary.portals === baseline.render.interior.summary.portals && current.render.crew.total === baseline.render.crew.total && current.render.crew.fit === baseline.render.crew.fit,
+    vlsInventory: JSON.stringify(current.render.vls) === JSON.stringify(baseline.render.vls),
+    forwardHardpoint: JSON.stringify(current.render.hardpoints.vlsForward) === JSON.stringify(baseline.render.hardpoints.vlsForward),
+    intendedAftDelta: current.profile.revision === 'V48_WIP10' && current.profile.aft?.flightDeckPlaneZM === 4.88 && current.render.hardpoints.vlsAft.zM < baseline.render.hardpoints.vlsAft.zM,
+    flatDeck: current.profile.aft.flightDeckStations.every(row => row[2] === current.profile.aft.flightDeckPlaneZM),
+  };
   fs.mkdirSync(artifactDir, { recursive: true });
-  fs.writeFileSync(`${artifactDir}/wip08-wip09-parity.json`, `${JSON.stringify({ schema:'AEGIS_SHIP_PROFILE_PARITY_V48_WIP09',baselineSimulator,simulator,checks,baseline,current }, null, 2)}\n`);
-  expect(checks).toEqual({ baselineSelftests:true, currentSelftests:true, exactBehaviorParity:true });
+  fs.writeFileSync(`${artifactDir}/wip09-wip10-contract.json`, `${JSON.stringify({ schema:'AEGIS_SHIP_PROFILE_TRANSITION_V48_WIP10',baselineSimulator,simulator,checks,baseline,current }, null, 2)}\n`);
+  expect(checks).toEqual(Object.fromEntries(Object.keys(checks).map(key => [key, true])));
 });
