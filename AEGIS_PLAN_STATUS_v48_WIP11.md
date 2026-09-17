@@ -155,7 +155,9 @@ Full-load target, calibrated mass moments and the accepted WIP10 GM contract rem
 - Added job: `material-protection-wip11`
 - Renamed geometry job: `aft-geometry-wip11`
 - Required final result: `17/17 jobs passed`
-- Pull-request run: pending
+- Pull-request run: `#88` (`35205577555`) — `17/17 PASS`
+- Pull request: `#22`, merged
+- Main merge commit: `03c058821fdbe1f79520da7c11123b28eadddd63`
 
 ## Deferred work
 
@@ -169,4 +171,3 @@ Full-load target, calibrated mass moments and the accepted WIP10 GM contract rem
 - Root contains the newest WIP11 simulator, status and checksum set.
 - Exact WIP10 HTML, status and checksum files are preserved under `archive/v48/WIP10/`.
 - Tests and workflow target WIP11; the transition test reads the archived WIP10 baseline.
-
