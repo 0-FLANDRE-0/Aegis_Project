@@ -132,7 +132,9 @@ The WIP11 profile revision, WIP11 material/protection schema, calibrated displac
 - Expected jobs: `18`
 - Added job: `runtime-ownership-wip11a`
 - Required final result: `18/18 jobs passed`
-- Remote run: pending user upload and PR
+- Remote run: `AEGIS smoke check #89` (`35219544093`) — `18/18 PASS`
+- Pull request: `#23` merged into `main`
+- Merge commit: `181a42b88b98d80de45ca2d0f62c20dfaf2c7e01`
 
 ## Deferred work
 
