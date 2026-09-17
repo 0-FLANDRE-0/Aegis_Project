@@ -139,7 +139,10 @@ The following remain unchanged:
 - Expected jobs: `18`
 - Replaced job: `runtime-ownership-wip11a` → `runtime-safety-wip11b`
 - Required final result: `18/18 jobs passed`
-- Remote run: pending user upload and pull request
+- Pull request: `#24` — merged
+- Remote run: `AEGIS smoke check #90` (`35229504963`) — `18/18 PASS`
+- Validated head: `415e4076c4fb3efd2465d44ebdc17df7e0048007`
+- Main merge commit: `8cbc8ab1e82d9e80625a33a882fedde1f7a06aba`
 
 ## Future maintenance
 
@@ -151,6 +154,6 @@ The following remain unchanged:
 
 ## Repository result
 
-- Root should contain only the newest WIP11B simulator, status and checksum set.
+- Root contains only the newest WIP11B simulator, status and checksum set.
 - Exact WIP10, WIP11 and WIP11A artifacts are preserved under `archive/v48/`.
 - Tests target WIP11B; transition and behavior-parity tests read their archived baselines.
