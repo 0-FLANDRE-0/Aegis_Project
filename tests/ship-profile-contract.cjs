@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11A.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -59,7 +59,7 @@ const checks = {
   protectionActive: profile.protection.schema === 'AEGIS_MATERIAL_PROTECTION_V48_WIP11' && profile.protection.status === 'ACTIVE_PHYSICS_COUPLED' && profile.protection.physicsCoupled === true && profile.protection.aramidDirectPenetrationContribution === false,
   rendererReadOnly: profile.renderer.contract === 'PRESENTATION_ONLY_PROFILE_CONSUMER' && profile.renderer.physicsFeedback === false,
   baseline: profile.parity.baselineId === 'V48_WIP10_AFT_GEOMETRY' && profile.parity.baselineSha256 === '2b33fe96d25ee65e4f195e5dd720f6a0d28a6d3ecdd85734976ea90456519cfa' && profile.parity.expectedBehavior === 'WIP10_COMBAT_PRESERVED__MATERIAL_PROTECTION_PHYSICS_COUPLED',
-  consumersWired: html.includes('const shipNav = ACTIVE_SHIP_RUNTIME_V48_WIP09.navigation;') &&
+  consumersWired: (html.includes('const shipNav = ACTIVE_SHIP_RUNTIME.navigation;') || html.includes('const shipNav = ACTIVE_SHIP_RUNTIME_V48_WIP09.navigation;')) &&
     html.includes('const WIP199_HULL_STATIONS=ACTIVE_SHIP_PROFILE.geometry.hullStations;') &&
     html.includes('const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.sensors.modelId];') &&
     html.includes('const cfg=ACTIVE_SHIP_PROFILE.damage.flood;') &&

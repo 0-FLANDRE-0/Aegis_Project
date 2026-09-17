@@ -65,6 +65,25 @@
 - 3D 렌더러는 표시 전용이다. 유도, 센서, 충돌, 피해 상태를 3D 프레임에서 적분하지 않는다.
 - 장비 손상은 가능하면 단순 ON/OFF 임계값보다 탐색 거리, 오차, 구동 한계, 발사율 등에 연속적으로 반영한다.
 
+### 3.4 프로필·런타임·월드 소유권
+
+- `ShipProfile`은 함종의 불변 설정이고 `ShipRuntime`은 한 함정 인스턴스의 가변 상태다. profile에 전투 중 상태를 역기록하지 않는다.
+- 현재 자함의 canonical 가변 상태 소유자는 `ACTIVE_SHIP_RUNTIME`이다. 새 함선 종속 상태를 별도 전역 singleton으로 추가하지 않는다.
+- 센서, track manager, 사통, VLS/CIWS, EW, 피해·침수, 질량·동역학, 내부구획, 승조원과 항공 운용 상태는 해당 `ShipRuntime` 아래에서 소유권을 확인할 수 있어야 한다.
+- 적 항공기·미사일, 아군 탄체, 표면 접촉, 대응체계, 지형과 시나리오는 함선이 아니라 `ENGAGEMENT_RUNTIME`의 world가 소유한다.
+- 기존 전역 이름이 필요하면 canonical 객체를 가리키는 `COMPAT_REQUIRED` 별칭으로만 유지한다. 새 코드는 별칭보다 canonical 이름을 우선 사용한다.
+- 동일 개념의 옛/새 경로는 `LIVE_CANONICAL`, `COMPAT_REQUIRED`, `DIAGNOSTIC_ONLY`, `DEAD_LEGACY` 중 하나로 분류한다. 정상 실행에서 어떤 경로가 권위자인지 주석과 진단 계약으로 확인 가능해야 한다.
+- `spawnShipRuntime()`은 미결속 runtime 기반만 만들며 다함전 활성화를 의미하지 않는다. 활성 자함은 기본 정책에서 `destroyShipRuntime()`으로 삭제할 수 없다.
+
+### 3.5 수명주기·작전 snapshot·계측
+
+- reset은 수동 전역변수 나열을 UI 콜백에 다시 만들지 않고 subsystem lifecycle 함수로 구성한다.
+- 작전모드와 교전모드 사이 상태는 버전이 붙은 `exportOperationalState()` / `importOperationalState()` 계약으로 이동한다.
+- snapshot import는 schema, profile ID와 ship ID를 검사하고, 센서 plot·track·비행 중 탄체·교전 예약 같은 전투 transient는 복원하지 않는다.
+- 부분 복원 또는 의도적으로 제외한 상태는 snapshot의 `capabilities.deferred`에 명시한다.
+- 성능 profiler는 기본 비활성이고 켰을 때만 subsystem별 tick 평균·p95·최댓값과 entity 수를 기록한다.
+- profiler 결과 없이 60 Hz fixed tick, 120 Hz 침수/힘 적분, 20 Hz 정수압 quadrature 주기를 낮추지 않는다.
+
 ## 4. 구현 방식
 
 1. 문제를 재현하거나 현재 코드에서 원인 경로를 확인한다.
@@ -137,9 +156,10 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11.html`이다.
-- WIP10의 후방 형상·평탄 비행갑판·Mk 45 계약은 `archive/v48/WIP10/`에 보존한다.
-- WIP11은 후방 VLS 구명뗏목 접지, 공통 재질/두께 장부, 구조 질량, 관통 저항, 중요구역 국부 방호와 아라미드 파편 감쇠를 연결한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11A.html`이다.
+- WIP10과 WIP11은 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`에 보존한다.
+- WIP11A는 WIP11의 물리 결과를 유지하면서 `ACTIVE_SHIP_RUNTIME` 자함 소유권, `ENGAGEMENT_RUNTIME` 월드 소유권, canonical/legacy 분류, registry facade, lifecycle, 작전 snapshot과 기본 비활성 profiler를 연결한다.
+- WIP11A의 `spawnShipRuntime()`은 identity/ownership 기반만 제공한다. 다른 함정을 실제 시뮬레이션 tick에 넣는 다함전 구현은 아니다.
 - WIP11 두께와 구조 계수는 모두 `SIM_TUNED`이며 실제 DDG-119 조선 도면값으로 취급하지 않는다.
 - 아라미드는 대형 관통체 저항에 직접 합산하지 않고 파편·후면 스폴 채널에만 적용한다.
 - 다음 코드 작업은 WIP12 함포탄 피해다. 저구경탄·함포탄 탄도, 신관, 도탄, 관통, 파편, 폭발과 재질별 입·출구 파괴구를 같은 재질 경계 계약에 연결한다.
