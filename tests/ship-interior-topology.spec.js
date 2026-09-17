@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11A.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/ship-interior-topology';
 
 test.use({ viewport: { width: 1600, height: 900 } });
