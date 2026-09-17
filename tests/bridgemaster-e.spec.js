@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/bridgemaster-e';
 
 test.use({ viewport: { width: 1600, height: 900 } });
@@ -59,7 +59,7 @@ test('v48 WIP08 BridgeMaster E authoritative sensor, mount and damage contract',
       same(result.beam.displayScaleMaxM, result.audit.displayScaleMaxKm * 1000),
     publishedNearRange: result.audit.publishedMinimumRangeLessThanM === 35 && result.audit.workingMinimumRangeM < 35 &&
       result.audit.publishedRangeResolutionBetterThanM === 35 && result.audit.workingRangeResolutionM < 35,
-    renderContract: result.renderRevision === 'V48_WIP10_AFT_GEOMETRY' && result.shipProfile?.id === 'DDG_119_LATE_FLIGHT_IIA' && result.shipProfile?.presentationOnly === true && result.shipProfile?.physicsFeedback === false && result.renderReadOnly,
+    renderContract: result.renderRevision === 'V48_WIP11_MATERIAL_PROTECTION' && result.shipProfile?.id === 'DDG_119_LATE_FLIGHT_IIA' && result.shipProfile?.presentationOnly === true && result.shipProfile?.physicsFeedback === false && result.renderReadOnly,
     ui: result.button.exists && result.button.text === 'BridgeMaster E' && !result.button.legacyExists,
     physicalMeshDeclared: source.includes("name='BRIDGEMASTER_E_12FT_OPEN_ARRAY'") && source.includes("name='BRIDGEMASTER_E_AUTHORITATIVE_ROTOR'"),
     photoDerivedMastOutfit: source.includes("mastOutfit.name='DDG119_PHOTO_DERIVED_MAST_OUTFIT'") &&

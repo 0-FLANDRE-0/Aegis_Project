@@ -1,27 +1,33 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 현재 안정판
+## 현재 개발 기준
 
-- 시뮬레이터: [`Aegis_SIM_v37.1.html`](Aegis_SIM_v37.1.html)
-- 상태·검증 기록: [`AEGIS_PLAN_STATUS_v37.1.md`](AEGIS_PLAN_STATUS_v37.1.md)
-- GitHub Release: [`v37.1`](../../releases/tag/v37.1)
-- HTML SHA-256: `b9faba85b522b2696e2adc7e46479dac4dbeb1d0dc1bbd94f0a1b5e4037b28ca`
+- 시뮬레이터: [`Aegis_SIM_v48_WIP11.html`](Aegis_SIM_v48_WIP11.html)
+- 상태·검증 기록: [`AEGIS_PLAN_STATUS_v48_WIP11.md`](AEGIS_PLAN_STATUS_v48_WIP11.md)
+- HTML SHA-256: `38acac296e67541a9fb6c9b6166f638aac407d73fb63221fe7064b8c9dadfb8a`
+- 상태: WIP — 정식 release/tag가 아님
 
-## v37.1 핵심 범위
+## WIP11 핵심 범위
 
-- SPY-1D(V), SPQ-9B, SPS-73 및 시각 센서의 익명 관측·트랙 연관 경계
-- A3 식별·위협·교전권한 상태와 MANUAL / SEMIAUTO / AUTO 발사 게이트
-- CIWS Closure B1: 관측 트랙 기반 위협 선택, 권한 재검증, 로컬 RF 획득
-- CIWS Closure B2: 로컬 속도·가속도·기동 추정과 Phalanx/SeaRAM 예측
-- CIWS Closure B3: 부분손상에 따른 센서·구동·발사 성능의 연속 열화
-- Phalanx Block 1B 공통 센서: 자체 탐색 15 km, 유효 추적 기준 10 km
-- 고정 시간 간격과 고정 seed를 사용한 1× / 8× / 16× 결정성
-- 2D/3D 상태 격리와 표시 전용 Three.js 렌더러
+- 후방 VLS 양옆 구명뗏목 캐니스터 6개를 명시적 크래들 위에 접지
+- HSLA-80, DH36, AH36, Grade A steel, aramid 공통 재질표
+- 외판·갑판·격벽·문·구조재의 `SIM_TUNED` 두께와 구조 계수
+- 동일 재질/두께 장부에서 구조 질량과 관통 저항을 함께 산출
+- 수상/수중 외판 고정 저항 상수를 실제 관통 경로에서 제거
+- CIC, 탄약고/VLS, 조타·케이블 구역 국부 방호
+- 아라미드의 대형 관통 저항 기여는 0으로 유지하고 파편/후면 스폴만 감쇠
+- WIP10 전투·센서·질량·GM·후방 형상 계약 보존
 
 ## 검증
 
-정식 승격 전 GitHub Actions에서 정적 검사, 시작 자기검사, CIWS B1/B2/B3 Chromium 회귀, 실제 3D 렌더, WebGL probe를 모두 통과한다. 세부 실행 결과와 artifact digest는 상태 문서에 기록한다.
+정적 계약, 시작 자기검사, 결정적 Chromium 회귀, 실제 WebGL 형상·구명뗏목 접지 검사와 WIP10 전환 비교를 수행한다. 세부 수치와 GitHub Actions 결과는 WIP11 상태 문서에 기록한다.
 
-## 개발과 아카이브
+## 다음 단계
 
-루트에는 최신 안정판만 둔다. 이전 WIP와 상태 문서는 [`archive/README.md`](archive/README.md)에서 확인할 수 있다. 다음 기능은 별도 WIP 버전에서 시작한다.
+- WIP12: 저구경탄·함포탄, 신관, 도탄, 관통, 파편, 폭발과 입·출구 파괴구
+- WIP13: 해상사격 FCS
+- WIP14: 간단한 표적함과 복수 함선 프로파일
+
+## 안정판과 아카이브
+
+현재 공개 안정판은 [`v37.1`](../../releases/tag/v37.1)이다. 루트에는 최신 작업본만 두며, 직전 WIP는 [`archive/v48/WIP10/`](archive/v48/WIP10/)에 바이트 단위로 보존한다.

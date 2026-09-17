@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP10.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -29,10 +29,12 @@ const flood = {
 const context = vm.createContext({
   getDamageFloodV1: () => flood,
   SHIP_DECK_Z_M: 7,
+  clamp: (value, lo, hi) => Math.max(lo, Math.min(hi, value)),
   performance,
 });
 vm.runInContext(
   section('function deepFreezeShipProfileV48Wip09(', 'function shipHdgDeg()') +
+  section('// V48 WIP11 material contract.', 'function updateShipMovement(dt)') +
   section('const V48_WIP06_INTERIOR_MODEL=', '// FLOOD_HYDROSTATICS_V2.') +
   section('// V48 WIP07: the WIP06 room/portal graph', 'let shipCrewV21=null;') +
   '\nglobalThis.topology=createShipInteriorTopologyV48Wip06(getDamageFloodV1());globalThis.topology.step({});globalThis.crew=createShipCrewV48Wip07(globalThis.topology,crewDutyPostsV48Wip07());globalThis.crew.syncTeams([{id:1,task:"FIRE",cellId:"flood.s01.center"}]);globalThis.crewState=globalThis.crew.snapshot();globalThis.probe=runV48Wip07CrewDamageProbe({readCount:20000});',
