@@ -73,13 +73,17 @@
 - 적 항공기·미사일, 아군 탄체, 표면 접촉, 대응체계, 지형과 시나리오는 함선이 아니라 `ENGAGEMENT_RUNTIME`의 world가 소유한다.
 - 기존 전역 이름이 필요하면 canonical 객체를 가리키는 `COMPAT_REQUIRED` 별칭으로만 유지한다. 새 코드는 별칭보다 canonical 이름을 우선 사용한다.
 - 동일 개념의 옛/새 경로는 `LIVE_CANONICAL`, `COMPAT_REQUIRED`, `DIAGNOSTIC_ONLY`, `DEAD_LEGACY` 중 하나로 분류한다. 정상 실행에서 어떤 경로가 권위자인지 주석과 진단 계약으로 확인 가능해야 한다.
-- `spawnShipRuntime()`은 미결속 runtime 기반만 만들며 다함전 활성화를 의미하지 않는다. 활성 자함은 기본 정책에서 `destroyShipRuntime()`으로 삭제할 수 없다.
+- `spawnShipRuntime()`은 미결속 runtime 기반만 만들며 다함전 활성화를 의미하지 않는다. 활성 자함은 `destroyShipRuntime()`으로 삭제할 수 없고 일반 호출자가 넘기는 override 옵션도 인정하지 않는다.
 
 ### 3.5 수명주기·작전 snapshot·계측
 
 - reset은 수동 전역변수 나열을 UI 콜백에 다시 만들지 않고 subsystem lifecycle 함수로 구성한다.
 - 작전모드와 교전모드 사이 상태는 버전이 붙은 `exportOperationalState()` / `importOperationalState()` 계약으로 이동한다.
-- snapshot import는 schema, profile ID와 ship ID를 검사하고, 센서 plot·track·비행 중 탄체·교전 예약 같은 전투 transient는 복원하지 않는다.
+- snapshot export는 live runtime이나 subsystem snapshot cache를 직접 노출하지 않는 detached JSON 값이어야 한다.
+- snapshot import는 입력을 먼저 복제하고 schema/version, profile ID/revision, ship ID, 단위, 항법, 무장, 유체 재고, 피해·침수, 승조원과 항공 상태 전체를 preflight한다. 모든 codec을 통과하기 전에는 reset이나 authoritative 상태 쓰기를 시작하지 않는다.
+- validation에 거부된 import는 자함, lifecycle, 월드 entity, track/EW/사통 예약을 포함한 authoritative 상태를 하나도 변경하지 않아야 한다.
+- profile revision이 명시 호환 목록에 없으면 추측 복원하지 않고 migration이 필요하다는 오류로 거부한다.
+- 센서 plot·track·비행 중 탄체·교전 예약 같은 전투 transient는 작전 snapshot으로 복원하지 않는다.
 - 부분 복원 또는 의도적으로 제외한 상태는 snapshot의 `capabilities.deferred`에 명시한다.
 - 성능 profiler는 기본 비활성이고 켰을 때만 subsystem별 tick 평균·p95·최댓값과 entity 수를 기록한다.
 - profiler 결과 없이 60 Hz fixed tick, 120 Hz 침수/힘 적분, 20 Hz 정수압 quadrature 주기를 낮추지 않는다.
@@ -156,10 +160,12 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11A.html`이다.
-- WIP10과 WIP11은 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`에 보존한다.
-- WIP11A는 WIP11의 물리 결과를 유지하면서 `ACTIVE_SHIP_RUNTIME` 자함 소유권, `ENGAGEMENT_RUNTIME` 월드 소유권, canonical/legacy 분류, registry facade, lifecycle, 작전 snapshot과 기본 비활성 profiler를 연결한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11B.html`이다.
+- WIP10, WIP11, WIP11A는 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`, `archive/v48/WIP11A/`에 보존한다.
+- WIP11A는 WIP11의 물리 결과를 유지하면서 `ACTIVE_SHIP_RUNTIME` 자함 소유권, `ENGAGEMENT_RUNTIME` 월드 소유권, canonical/legacy 분류, registry facade, lifecycle, 작전 snapshot과 기본 비활성 profiler를 연결했다.
+- WIP11B는 활성 자함 destroy override를 제거하고, detached export, 7-codec preflight, `profileRevision` 호환성 검사와 validation 거부 시 zero-mutation을 작전 snapshot 계약에 추가한다.
 - WIP11A의 `spawnShipRuntime()`은 identity/ownership 기반만 제공한다. 다른 함정을 실제 시뮬레이션 tick에 넣는 다함전 구현은 아니다.
+- 이후 snapshot에 새로운 authoritative 상태를 추가할 때만 대응 codec과 정상/거부/zero-mutation fixture를 함께 갱신한다. snapshot 밖의 일반 전투 기능 추가는 WIP11B 계약 수정 사유가 아니다.
 - WIP11 두께와 구조 계수는 모두 `SIM_TUNED`이며 실제 DDG-119 조선 도면값으로 취급하지 않는다.
 - 아라미드는 대형 관통체 저항에 직접 합산하지 않고 파편·후면 스폴 채널에만 적용한다.
 - 다음 코드 작업은 WIP12 함포탄 피해다. 저구경탄·함포탄 탄도, 신관, 도탄, 관통, 파편, 폭발과 재질별 입·출구 파괴구를 같은 재질 경계 계약에 연결한다.
