@@ -21,6 +21,8 @@ on:
       - 'tests/ship-profile.spec.js'
       - 'tests/ship-profile-contract.cjs'
       - 'tests/aft-geometry-wip10.spec.js'
+      - 'tests/material-protection-wip11-contract.cjs'
+      - 'tests/material-protection-wip11.spec.js'
       - 'tests/wip10-visual-probe.cjs'
       - 'package.json'
       - 'package-lock.json'
@@ -30,8 +32,8 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP10.html
-  BASELINE_SIM_FILE: archive/v48/WIP09/Aegis_SIM_v48_WIP09.html
+  SIM_FILE: Aegis_SIM_v48_WIP11.html
+  BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
 
 jobs:
   ciws-b1-closure:
@@ -636,10 +638,10 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Run WIP10 profile static contract
+      - name: Run WIP11 profile static contract
         run: npm run test:ship-profile-contract
 
-      - name: Run WIP10 profile browser contract
+      - name: Run WIP11 profile browser contract
         shell: bash
         run: |
           set -euo pipefail
@@ -667,7 +669,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-  aft-geometry-wip10:
+  aft-geometry-wip11:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -684,11 +686,11 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Run WIP10 aft geometry browser contract
+      - name: Run WIP11 aft geometry and liferaft browser contract
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p artifacts/aft-geometry-wip10
+          mkdir -p artifacts/aft-geometry-wip11
           cp "$SIM_FILE" index.html
           python3 -m http.server 4173 >/tmp/aegis-aft-geometry-http.log 2>&1 &
           server_pid=$!
@@ -699,16 +701,64 @@ jobs:
           done
           npm run test:aft-geometry
 
-      - name: Upload WIP10 aft geometry evidence
+      - name: Upload WIP11 aft geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: aft-geometry-wip10-${{ github.sha }}
+          name: aft-geometry-wip11-${{ github.sha }}
           path: |
-            artifacts/aft-geometry-wip10/
+            artifacts/aft-geometry-wip11/
             playwright-report/
             test-results/
             /tmp/aegis-aft-geometry-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  material-protection-wip11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11 material static contract
+        run: npm run test:material-protection-contract
+
+      - name: Run WIP11 material and penetration browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/material-protection-wip11
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-material-protection-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:material-protection
+
+      - name: Upload WIP11 material protection evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: material-protection-wip11-${{ github.sha }}
+          path: |
+            artifacts/material-protection-wip11/
+            playwright-report/
+            test-results/
+            /tmp/aegis-material-protection-http.log
           if-no-files-found: warn
           retention-days: 14
 

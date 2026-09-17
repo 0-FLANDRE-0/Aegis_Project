@@ -4,8 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repo = path.resolve(__dirname, '..');
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP10.html';
-const outDir = path.resolve(process.env.ARTIFACT_DIR || path.join(repo, 'artifacts/wip10-visual'));
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11.html';
+const outDir = path.resolve(process.env.ARTIFACT_DIR || path.join(repo, 'artifacts/wip11-visual'));
 const threeLocal = process.env.THREE_JS_LOCAL || '/tmp/three.min.js';
 
 const waitForServer = async url => {
@@ -68,7 +68,9 @@ const waitForServer = async url => {
       const mk45 = root.getObjectByName('MK45_MOD4_5IN_62');
       const contract=v.contractAudit();
       return {
-        contract: {pass:contract.pass,shipProfileBound:contract.shipProfileBound,aftGeometryPass:contract.aftGeometry?.pass,mk45Mod4:contract.mk45Mod4,threeVersion:contract.threeVersion}, aftAudit: window.__NAVAL_SIM_DIAG__.aftGeometryAuditV48Wip10(),
+        contract: {pass:contract.pass,shipProfileBound:contract.shipProfileBound,aftGeometryPass:contract.aftGeometry?.pass,mk45Mod4:contract.mk45Mod4,threeVersion:contract.threeVersion}, aftAudit: window.__NAVAL_SIM_DIAG__.aftGeometryAuditV48Wip11(),
+        liferafts: window.__NAVAL_SIM_DIAG__.aftLiferaft3DAuditV48Wip11(),
+        materialProtection: window.__NAVAL_SIM_DIAG__.materialProtectionAuditV48Wip11(),
         selftestFailures: window.__CORE_SELFTEST_FAILURES__.slice(),
         flatDeck: { present: !!flightDeck, uniqueRenderedYM: deckY, bounds: bounds(flightDeck), userData: { ...flightDeck?.userData } },
         hangar: { bounds: deepBounds(root.getObjectByName('FLIGHT_IIA_TWIN_HANGAR')), doors },
@@ -114,7 +116,7 @@ const waitForServer = async url => {
       });
       rows.top.sort((a,b) => a.depth-b.depth || a.name.localeCompare(b.name));
       rows.side.sort((a,b) => a.depth-b.depth || a.name.localeCompare(b.name));
-      return { schema:'AEGIS_SHIP_DRAWINGS_V48_WIP10', revision:'V48_WIP10_AFT_GEOMETRY', source:'LIVE_THREE_SHIP_ROOT_CONVEX_PROJECTION', meshCount, top:rows.top.map(q=>q.row), side:rows.side.map(q=>q.row) };
+      return { schema:'AEGIS_SHIP_DRAWINGS_V48_WIP11', revision:'V48_WIP11_MATERIAL_PROTECTION', source:'LIVE_THREE_SHIP_ROOT_CONVEX_PROJECTION', meshCount, top:rows.top.map(q=>q.row), side:rows.side.map(q=>q.row) };
     });
 
     const presets = [
@@ -137,7 +139,7 @@ const waitForServer = async url => {
     await page.locator('#shipDetailPanel').screenshot({ path:path.join(outDir,'hit-indicator.png') });
     fs.writeFileSync(path.join(outDir, 'visual-audit.json'), `${JSON.stringify({ simulator, inspection, consoleErrors, pageErrors }, null, 2)}\n`);
     fs.writeFileSync(path.join(outDir, 'ship-drawings.json'), `${JSON.stringify(drawings)}\n`);
-    const ok = inspection.contract.pass && inspection.aftAudit.pass && inspection.selftestFailures.length === 0 && inspection.flatDeck.uniqueRenderedYM.length === 1 && inspection.mk45.namedParts.every(Boolean) && pageErrors.length === 0;
+    const ok = inspection.contract.pass && inspection.aftAudit.pass && inspection.liferafts.pass && inspection.materialProtection.pass && inspection.selftestFailures.length === 0 && inspection.flatDeck.uniqueRenderedYM.length === 1 && inspection.mk45.namedParts.every(Boolean) && pageErrors.length === 0;
     console.log(JSON.stringify({ result: ok ? 'PASS' : 'FAIL', screenshots: [...presets.map(q=>`${q[0]}.png`),'hit-indicator.png'], inspection, drawings: { meshCount:drawings.meshCount, top:drawings.top.length, side:drawings.side.length }, consoleErrors, pageErrors }, null, 2));
     if (!ok) process.exitCode = 1;
   } finally {
