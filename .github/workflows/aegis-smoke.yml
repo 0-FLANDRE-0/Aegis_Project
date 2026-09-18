@@ -27,7 +27,10 @@ on:
       - 'tests/runtime-safety-wip11b.spec.js'
       - 'tests/asm-wreckage-wip11c-contract.cjs'
       - 'tests/asm-wreckage-wip11c.spec.js'
+      - 'tests/terminal-ballistics-wip12a-contract.cjs'
+      - 'tests/terminal-ballistics-wip12a.spec.js'
       - 'tests/wip10-visual-probe.cjs'
+      - 'archive/v48/WIP11C/**'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -36,10 +39,11 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP11C.html
+  SIM_FILE: Aegis_SIM_v48_WIP12A.html
   BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
   SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
   WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
+  TERMINAL_BASELINE_SIM_FILE: archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html
 
 jobs:
   ciws-b1-closure:
@@ -872,6 +876,65 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-asm-wreckage-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  terminal-ballistics-wip12a-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12A terminal-ballistics static contract
+        run: npm run test:terminal-ballistics-contract
+
+  terminal-ballistics-wip12a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12A terminal-ballistics browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/terminal-ballistics-wip12a
+          python3 -m http.server 4173 >/tmp/aegis-terminal-ballistics-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:terminal-ballistics
+
+      - name: Upload WIP12A terminal-ballistics evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminal-ballistics-wip12a-${{ github.sha }}
+          path: |
+            artifacts/terminal-ballistics-wip12a/
+            playwright-report/
+            test-results/
+            /tmp/aegis-terminal-ballistics-http.log
           if-no-files-found: warn
           retention-days: 14
 

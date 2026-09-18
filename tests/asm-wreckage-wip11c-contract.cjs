@@ -3,10 +3,10 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11C.html');
+const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12A.html');
 const archived = path.join(__dirname, '../archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html');
 const rootBaseline = path.join(__dirname, '../Aegis_SIM_v48_WIP11B.html');
-const baselineFile = process.argv[3] || (fs.existsSync(archived) ? archived : rootBaseline);
+const baselineFile = process.argv[3] || process.env.WRECK_BASELINE_SIM_FILE || (fs.existsSync(archived) ? archived : rootBaseline);
 const html = fs.readFileSync(file, 'utf8');
 const baseline = fs.readFileSync(baselineFile, 'utf8');
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(match => match[1]).filter(source => source.trim());
@@ -35,7 +35,7 @@ const bdaDecisionSource=['wip11cUpdateObservedSeaImpactTrack','wip11cTerminalEff
 const core = html.slice(html.indexOf('// ===== V48 WIP11C ASM WRECKAGE'), html.indexOf('function wip173RecordInterceptBurst'));
 const fixedTick = html.slice(html.indexOf('function simulateFixedTick'), html.indexOf('// ===== WIP150 RUNTIME FAULT'));
 const checks = {
-  title: html.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>'),
+  title: html.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>') || html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>'),
   syntax: scripts.length > 0,
   exactWip11bBaselinePresent: baseline.includes('<title>AEGIS v48 WIP11B — Operational Import Safety Hardening</title>'),
   threatAndWreckAuthoritySplit: hasAll("const asmWreckage=[]", 'hostileMissiles:null,asmWreckage:null', 'e.world.entities.asmWreckage=asmWreckage', "threatPolicy:'RETIRED_IMMEDIATELY'"),

@@ -175,10 +175,10 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11C.html`이다.
-- 현재 기준 HTML SHA-256은 `464e1fc4a7e3ef9565bc32ce42e7e5a112041a977ee96fb7bdb5920f7410c01f`이고 크기는 `2,819,872 bytes`다.
-- 최종 로컬 검증은 WIP11C 정적 계약 `32/32`, WIP11C Playwright `11/11`, 전체 Playwright `28/28`을 통과했다.
-- WIP10, WIP11, WIP11A, WIP11B는 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`, `archive/v48/WIP11A/`, `archive/v48/WIP11B/`에 보존한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12A.html`이다.
+- 현재 기준 HTML SHA-256은 `60705246ef0b659dadf67e23ca9b84bf7dc2cb477857d9714223291c564c3729`이고 크기는 `2,880,628 bytes`다.
+- 최종 로컬 검증은 기존 정적 계약 `6/6`, WIP11C 정적 계약 `32/32`, WIP12A 정적 계약 `29/29`, WIP12A Playwright `2/2`, 전체 Playwright `30/30`을 통과했다.
+- WIP10, WIP11, WIP11A, WIP11B, WIP11C는 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`, `archive/v48/WIP11A/`, `archive/v48/WIP11B/`, `archive/v48/WIP11C/`에 보존한다. WIP11C HTML은 SHA-256 `464e1fc4a7e3ef9565bc32ce42e7e5a112041a977ee96fb7bdb5920f7410c01f`로 바이트 단위 보존한다.
 - WIP11B의 활성 자함 삭제 금지, detached export, 7-codec preflight, `profileRevision` 호환성과 validation 거부 시 zero-mutation 계약은 그대로 유지한다.
 - WIP11C는 살아 있는 적 대함미사일과 잔해를 분리한다. 요격된 위협은 즉시 truth association과 hostile collection에서 퇴역하며, 잔해는 `ENGAGEMENT_RUNTIME.world.entities.asmWreckage`에서만 고정 tick 물리를 계속한다. coast 중인 센서 track이 남더라도 truth를 다시 해석해서는 안 된다.
 - WIP11C 교전통제는 요격탄 신관·직접 분해 보고를 받으면 코스팅 트랙을 유지한 채 `KILL_ASSESSMENT / WITHHELD`로 전환한다. 직접 분해는 `0.35초`, 신관 보고만 있는 경우는 `1.5초` 동안 일관 관측이 없을 때 `DESTROYED`로 확인한다. 보고 이후 새 측정이 들어오면 즉시 관측 기반 `THREAT` 또는 `HARMLESS` 판정으로 복귀한다.
@@ -201,9 +201,18 @@
 - WIP11A의 `spawnShipRuntime()`은 identity/ownership 기반만 제공한다. 다른 함정을 실제 시뮬레이션 tick에 넣는 다함전 구현은 아니다.
 - 이후 snapshot에 새로운 authoritative 상태를 추가할 때만 대응 codec과 정상/거부/zero-mutation fixture를 함께 갱신한다. snapshot 밖의 일반 전투 기능 추가는 WIP11B 계약 수정 사유가 아니다.
 - WIP11 두께와 구조 계수는 모두 `SIM_TUNED`이며 실제 DDG-119 조선 도면값으로 취급하지 않는다. 아라미드는 대형 관통체 저항에 직접 합산하지 않고 파편·후면 스폴 채널에만 적용한다.
-- 다음 코드 작업은 WIP12A 종말탄도 기틀이다. 모든 탄체에 하나의 관통식을 강제하지 않고 `TerminalProjectileSpec`·가변 projectile state·impact trace·damage packet 계약을 공유하며, 충돌 regime에 따라 solver를 선택한다.
-- WIP12A의 확정 설계 범위와 완료 기준은 `docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md`를 기준으로 한다.
-- WIP12A traversal은 `BOUNDARY`, `EMPTY`, 실제 `DAMAGE_VOLUME`을 구분한다. 빈 공간은 에너지를 소모하지 않고 비행시간과 신관 시간만 진행하며, 경계와 실제 물질 볼륨만 탄체 상태를 바꾼다.
-- WIP12A에서는 실제 함포 발사·외탄도·FCS, 중장갑 실전 적용, persistent damage patch ledger를 활성화하지 않는다. 기존 ASM 결과는 compatibility adapter로 보존하고 신규 discrete-boundary fixture를 별도로 검증한다.
-- WIP13은 해상사격 FCS, WIP14는 간단한 표적함과 복수 함선 프로파일이다.
+- WIP12A는 모든 탄체에 하나의 관통식을 강제하지 않는다. `TerminalProjectileSpec`, 가변 projectile state, ordered `ImpactTrace`, 독립 result 축과 채널별 `DamagePacket` 계약을 공유하고 충돌 regime에 따라 solver를 선택한다.
+- `massKg`와 `penetratorMassKg`는 분리한다. state의 normalized `direction`과 `bodyAxis`가 권위값이며 운동에너지·운동량과 yaw는 파생값이다. 좌표는 `SHIP_LOCAL_METRES`, obliquity는 `0° = 정면`, `90° = grazing`이다.
+- WIP12A traversal은 `BOUNDARY`, 저항이 없는 `EMPTY`, 실제 물질의 `DAMAGE_VOLUME`, 저항이 없는 `CREW_EXPOSURE`를 구분한다. EMPTY와 승조원 점유 자체는 속도·질량·coherent mass·무결성을 소모하지 않고 비행시간과 신관 시간만 진행한다.
+- 최초 ray 후보 목록을 최종 경로로 사용하지 않는다. 모든 충돌·편향·도탄 뒤 현재 state와 direction으로 geometry를 다시 질의하며, 같은 거리 접촉의 우선순위·epsilon·최대 event/path 한계를 결정적으로 적용한다.
+- 각 구간에서는 next contact, volume exit, projectile stop과 fuze expiry가 경쟁한다. 가장 빠른 사건을 처리하며 동시 사건은 contact/exit/stop 상태를 먼저 확정한 뒤 그 위치에서 기폭한다.
+- `BoundaryImpactResult`의 `RICOCHET/STOPPED/PARTIAL/PERFORATED`와 `INTACT/DEFORMED/FRACTURED/SHATTERED`는 독립 축이다. plate failure mode와 `ImpactBudget`도 별도로 기록해 질량·에너지·운동량 closure를 진단한다.
+- 활성 solver는 `THIN_DUCTILE_PLATE`, `LIGHT_STRUCTURE`, `VOLUME_CRUSH`다. `HOMOGENEOUS_ARMOR`와 `FACE_HARDENED_ARMOR`는 interface만 존재하며 검증되지 않은 상수로 작동하는 척하지 않고 명시적으로 거부한다.
+- 종말탄도 계산은 authoritative damage state를 직접 바꾸지 않는다. `DamagePacket`은 direct, plug/spall, fragments, blast, thermal/incendiary, breach, impulse와 crew exposure를 나누고, `wip12aApplyDamagePacket()`만 기존 침수·구조·승조원·VLS/장비 consumer에 전달한다. `impactEventId` 중복 적용은 거부한다.
+- 아라미드는 직접 관통 저항에 강철처럼 합산하지 않고 rear-spall과 fragment 채널을 감쇠한다. 승조원 점유 공간은 탄체 저항 volume이 아니다.
+- 6종 fixture는 `TEST_12P7_AP`, `TEST_30_AP`, `TEST_30_HEI`, `TEST_76_SAP`, `TEST_127_HE`, `TEST_127_SAP`이며 모두 `DIAGNOSTIC_SIM_TUNED`다. 각 fixture는 정상 traversal뿐 아니라 도탄·정지·부분·완전 관통·shatter 경계를 검사한다.
+- Kh-35U/Kh-32 live impact는 공통 API의 `LEGACY_ASM_PENETRATION_COMPAT`를 통과하지만 내부 권위 계산은 바이트 보존된 기존 경로다. 출력과 전투 RNG 상태의 exact parity를 유지하며 별도 승인 전 신규 solver로 이전하지 않는다.
+- damage patch는 surface/local 좌표, 영향 반경, 잔존두께, hole, crack과 잔존강도 진단 계약만 존재한다. persistent patch ledger, 누적 피격 상태와 snapshot codec/revision migration은 활성화하지 않는다.
+- WIP12A에서는 실제 함포 발사·포탑·탄창, 외탄도·공기저항·바람·분산, 해상사격 FCS, 실전 중장갑 solver와 새 표적함을 활성화하지 않는다.
+- 다음 코드 작업은 WIP13 해상사격 FCS이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 포탄 데이터와 함포 운용 연결이 먼저 필요하다고 판단되면 별도 승인된 단계로 범위를 다시 고정한다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.

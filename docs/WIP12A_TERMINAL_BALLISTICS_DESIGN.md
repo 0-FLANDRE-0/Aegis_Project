@@ -1,8 +1,8 @@
 # WIP12A 공통 종말탄도 기틀 — 설계 기준
 
-상태: 구현 전 설계 기준  
-기준 소스: `Aegis_SIM_v48_WIP11C.html`  
-다음 구현 단계: WIP12A
+상태: 구현 계약 및 검증 기준  
+기준 소스: `Aegis_SIM_v48_WIP12A.html`  
+회귀 기준: `archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html`
 
 ## 1. 목적
 
@@ -68,7 +68,8 @@ flowchart TD
 
 ```js
 TerminalProjectileSpec = {
-  id: '127_SAP',
+  id: 'TEST_127_SAP',
+  sourceClass: 'DIAGNOSTIC_SIM_TUNED',
 
   geometry: {
     caliberM: 0.127,
@@ -122,13 +123,14 @@ TerminalProjectileSpec = {
 TerminalProjectileState = {
   position: { x: 0, y: 0, z: 0 },
   direction: { x: 1, y: 0, z: 0 },
+  bodyAxis: { x: 1, y: 0, z: 0 },
 
   speedMps: 0,
   massKg: 0,
   coherentMassKg: 0,
 
   integrity01: 1,
-  yawRad: 0,
+  spinRadS: 0,
   elapsedS: 0,
 
   fuze: {
@@ -145,6 +147,7 @@ TerminalProjectileState = {
 kineticEnergyJ = 0.5 × massKg × speedMps²
 coherentEnergyJ = 0.5 × coherentMassKg × speedMps²
 momentumNs = massKg × speedMps
+yawRad = acos(dot(direction, bodyAxis))
 ```
 
 경계 통과 뒤에는 다음 판정을 위해 상태를 계속 이어간다.
@@ -156,7 +159,9 @@ momentumNs = massKg × speedMps
 - 진행방향 편향
 - 신관 손상·기폭·불발 상태
 
-`direction`과 `yaw`는 별개다. 탄체가 이동하는 방향과 탄두가 향한 방향이 일치하지 않을 수 있으며, 첫 경계에서 생긴 yaw는 두 번째 경계의 관통성능을 낮춘다.
+`direction`은 속도 방향이고 `bodyAxis`는 탄체 종축이다. 둘은 항상 정규화된 3D 벡터이며 `yawRad`는 두 벡터의 내적으로 계산하는 파생값이다. 스칼라 yaw만 저장하면 편향 방향을 잃으므로 권위 상태로 사용하지 않는다. `spinRadS`는 schema 자리는 갖지만 WIP12A thin-plate 계산에는 사용하지 않는다.
+
+모든 traversal 좌표는 `SHIP_LOCAL_METRES`이며 world-to-ship 변환은 커널 진입 전에 끝낸다. surface normal도 정규화한다. `obliquityDeg`는 `0° = 판재 법선 정면충돌`, `90° = 완전 grazing`으로 정의한다.
 
 ## 6. 표적 공간 계약
 
@@ -177,12 +182,21 @@ momentumNs = massKg × speedMps
 
 ### DamageVolume
 
-엔진, 발전기, VLS, 배관 뭉치, 연료탱크, 전자장비와 승조원 구역처럼 실제 물질 또는 피해 대상이 차지하는 체적을 나타낸다.
+엔진, 발전기, VLS, 배관 뭉치, 연료탱크와 전자장비처럼 실제 물질이 차지하는 체적을 나타낸다.
 
 - 방 크기 AABB의 앞면 전체를 강철판으로 취급하지 않는다.
 - 장비 체적은 자체 재질과 `volumetricResistance`를 가질 수 있다.
 - 빈 방은 `DamageVolume`이 아니며 에너지를 소모하지 않는다.
 - 장비 충돌 결과도 직접 상태를 바꾸지 않고 `DamagePacket`에 기록한다.
+
+### CrewExposureVolume
+
+승조원 점유 공간은 탄체 저항을 갖는 `DamageVolume`과 분리한다.
+
+- 승조원 구역 자체는 projectile resistance가 0이다.
+- 직접 탄도 corridor, plug/spall과 탄두 파편 corridor만 기록한다.
+- 실제 사상 판정은 crew damage consumer가 수행한다.
+- 사람이 있다는 이유만으로 탄체가 감속하거나 관통력이 줄지 않는다.
 
 ## 7. Ordered traversal
 
@@ -211,6 +225,20 @@ BOUNDARY → EMPTY → DAMAGE_VOLUME → EMPTY → BOUNDARY
 - 긴 미사일과 작은 AP탄의 단면·질량·형상 차이를 반영
 
 기존 `continuousWorkMJPerM` 개념은 삭제하지 않고 `volumetricResistanceMJPerM` 계열로 제한한다. 빈 공간에는 적용하지 않는다.
+
+### Event-driven 재질의
+
+최초 ray에서 후보를 한 번 정렬한 목록을 최종 traversal로 사용하지 않는다. BVH/AABB는 다음 접촉 후보를 찾는 가속 구조일 뿐이다.
+
+```text
+현재 state
+→ 현재 direction으로 다음 contact 검색
+→ 가장 이른 event 처리
+→ direction/bodyAxis/speed/fuze 갱신
+→ 갱신된 state로 BVH/AABB 재질의
+```
+
+첫 판에서 편향되거나 도탄하면 최초 직선에 있던 경계 대신 새 경로의 경계가 선택돼야 한다. 같은 거리의 접촉은 `BOUNDARY → VOLUME → stable ID` 순으로 결정하고, 위치 epsilon·시간 epsilon·최대 event 수·최대 경로 길이로 무한 재접촉을 막는다.
 
 ## 8. Solver 선택
 
@@ -245,7 +273,10 @@ Resistance = material work
 
 ```js
 BoundaryImpactResult = {
-  outcome: 'RICOCHET' | 'STOPPED' | 'PARTIAL' | 'PERFORATED' | 'SHATTERED',
+  traversalOutcome: 'RICOCHET' | 'STOPPED' | 'PARTIAL' | 'PERFORATED',
+  projectileFailure: 'INTACT' | 'DEFORMED' | 'FRACTURED' | 'SHATTERED',
+  plateFailureMode: 'NONE' | 'DENTING' | 'DUCTILE_HOLE' | 'PLUGGING' |
+                    'PETALING' | 'CRACKING' | 'SPALL_ONLY',
 
   stateBefore: null,
   stateAfter: null,
@@ -280,15 +311,37 @@ BoundaryImpactResult = {
 };
 ```
 
-결과 의미:
+`traversalOutcome` 의미:
 
 - `RICOCHET`: 탄체가 비교적 coherent한 상태로 방향을 바꿔 계속 비행할 수 있음
 - `STOPPED`: 경계 앞 또는 내부에서 정지
 - `PARTIAL`: 완전 관통과 정지 사이, 탄체 일부가 판 내부나 후면으로 돌출
 - `PERFORATED`: 경계를 완전히 통과하며 잔존 상태로 다음 traversal 진행
-- `SHATTERED`: 탄체 coherent mass가 급감하고 대형 파편·잔해가 생성됨
+
+`projectileFailure`는 독립 축이다. 따라서 `PERFORATED + SHATTERED`와 `RICOCHET + FRACTURED`가 모두 표현 가능하다. `SHATTERED`이면 탄체 coherent mass가 급감하고 대형 파편·잔해가 생성된다.
 
 도탄과 shatter를 합치지 않는다. AP cap, 표적 경도, 고속·고경사 충돌은 특히 shatter 판정에 영향을 준다.
+
+각 경계·volume 결과에는 진단용 `ImpactBudget`을 남긴다.
+
+```js
+ImpactBudget = {
+  kineticBeforeJ: 0,
+  kineticAfterJ: 0,
+  workIntoPlateJ: 0,
+  debrisKineticJ: 0,
+  deformationLossJ: 0,
+  unresolvedDissipationJ: 0,
+  massBeforeKg: 0,
+  massAfterKg: 0,
+  shedMassKg: 0,
+  momentumBeforeNs: { x: 0, y: 0, z: 0 },
+  momentumAfterNs: { x: 0, y: 0, z: 0 },
+  targetImpulseNs: { x: 0, y: 0, z: 0 }
+};
+```
+
+fixture는 `massAfter + shedMass ≈ massBefore`, 모델링된 에너지 총합이 충돌 전 운동에너지를 넘지 않는지, 운동량 closure 오차가 허용치 안인지 검사한다. 이는 정밀 연속체 해석이 아니라 에너지나 질량을 창조하는 튜닝 오류를 잡는 ledger다.
 
 ## 10. 신관과 기폭 위치
 
@@ -301,6 +354,14 @@ BoundaryImpactResult = {
 → 장비 체적 충돌과 추가 감속
 → delayRemainingS가 0이 된 실제 위치에서 기폭
 ```
+
+각 구간에서는 경계 접촉, volume 진입·이탈, projectile stop과 fuze expiry의 시간을 비교해 가장 빠른 사건을 처리한다. 빈 공간 중간에서 신관 시간이 먼저 끝나면 다음 격벽까지 이동하지 않고 그 위치에서 기폭한다. volume 안에서는 감속을 포함한 시간-거리 해를 사용한다.
+
+동시 사건 규칙은 결정적이다.
+
+- 경계 접촉과 신관 만료가 같은 시각이면 경계 충돌 결과를 먼저 계산하고 접촉점에서 기폭한다.
+- volume exit와 신관 만료가 같으면 exit 상태를 확정한 뒤 그 위치에서 기폭한다.
+- projectile stop과 신관 만료가 같으면 정지 상태를 확정한 뒤 기폭한다.
 
 초기 상태:
 
@@ -331,19 +392,26 @@ BoundaryImpactResult = {
 
 ```js
 DamagePacket = {
+  impactEventId: null,
+  sourceProjectileId: null,
+  targetEntityId: null,
   directPenetration: [],
   plugAndSpall: [],
   warheadFragments: [],
   blast: [],
   thermalIncendiary: [],
   breaches: [],
-  structuralImpulse: []
+  structuralImpulse: [],
+  crewExposure: []
 };
 ```
+
+`ImpactTrace`와 `DamagePacket`은 같은 `impactEventId`를 사용한다. 적용 adapter는 이 ID를 idempotence key로 사용해 동일 packet의 중복 적용을 거부한다.
 
 - 아라미드는 직접 관통 저항에 단순 합산하지 않고 plug/spall과 파편 채널을 감쇠한다.
 - 수밀격벽이 탄체를 완전히 막지 못해도 잔존 상태와 파괴구에 따라 침수 전파 능력은 별도로 판정한다.
 - 관통 solver가 `crew.kill()`, `addModuleDmg()` 또는 `flood.addHole()`을 직접 호출하지 않는다.
+- `wip12aApplyDamagePacket()`만 기존 침수·구조·승조원·장비 consumer로 전달하며, 계산-only 실행은 authoritative 상태를 바꾸지 않는다.
 
 ## 12. Damage patch 계약
 
@@ -384,6 +452,7 @@ WIP12A에서 빈 공간 저항 제거 또는 신규 thin plate solver를 기존 
 - 입·출구 파괴구
 - 침수·충격량 전달
 - WIP11B/WIP11C 같은-seed exact regression
+- 전투 RNG 상태와 호출 순서
 
 ## 14. 대표 진단 탄체
 
@@ -391,20 +460,20 @@ WIP12A에서 빈 공간 저항 제거 또는 신규 thin plate solver를 기존 
 
 | 탄체 | 주 검증 목적 |
 |---|---|
-| 12.7 mm AP | 얇은 판·소형 coherent penetrator |
-| 30 mm AP | 반복 가능한 판재 관통과 잔존속도 |
-| 30 mm HEI | 얕은 관통·파편·소이 채널 분리 |
-| 76 mm SAP | 지연신관과 구획 내부 기폭 |
-| 127 mm HE | 외부/얕은 기폭과 큰 파편·폭압 |
-| 127 mm SAP | 복수 경계 traversal과 내부 기폭 |
+| `TEST_12P7_AP` | 얇은 판·소형 coherent penetrator |
+| `TEST_30_AP` | 반복 가능한 판재 관통과 잔존속도 |
+| `TEST_30_HEI` | 얕은 관통·파편·소이 채널 분리 |
+| `TEST_76_SAP` | 지연신관과 구획 내부 기폭 |
+| `TEST_127_HE` | 외부/얕은 기폭과 큰 파편·폭압 |
+| `TEST_127_SAP` | 복수 경계 traversal과 내부 기폭 |
 
-탄체 수를 늘리는 것보다 공통 계약과 경계값을 먼저 검증한다.
+모두 `sourceClass: DIAGNOSTIC_SIM_TUNED`로 표시한다. 실제 특정 제조사 탄약 제원으로 주장하지 않으며, 각 탄체마다 도탄·정지·부분 관통·완전 관통·shatter 경계를 별도 매트릭스로 검사한다.
 
 ## 15. 성능 원칙
 
 - 피격 순간에만 traversal을 수행한다.
 - 모든 구획을 매 fixed tick 전수조사하지 않는다.
-- BVH/AABB로 실제 경로 주변 경계·volume 후보만 축소한다.
+- BVH/AABB로 현재 경로 주변의 다음 경계·volume 후보만 축소하고, 상태 변화 뒤 다시 질의한다.
 - 실제 통과한 경계와 물질 volume만 순서대로 검사한다.
 - 수천 개 파편을 물리 객체로 만들지 않고 파편 원뿔과 확률 밀도로 계산한다.
 - 기관포 근접 탄착의 live patch 병합은 후속 ledger 단계로 미룬다.
@@ -447,4 +516,3 @@ WIP12A 완료는 다음 조건을 모두 만족해야 한다.
 5. 기존 ASM은 compatibility adapter를 통해 기존 결과를 보존한다.
 6. persistent damage patch, 실제 발사, 외탄도와 FCS가 실수로 활성화되지 않는다.
 7. 정적·결정적·브라우저 회귀와 체크섬·상태 문서 갱신이 끝난다.
-
