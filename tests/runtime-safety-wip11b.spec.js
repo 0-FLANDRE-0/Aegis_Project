@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11B.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11C.html';
 const baselineSimulator = process.env.SAFETY_BASELINE_SIM_FILE || 'archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/runtime-safety-wip11b';
 

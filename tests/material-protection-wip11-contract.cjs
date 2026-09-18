@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11B.html');
+const file = process.argv[2] || path.join(__dirname, '../Aegis_SIM_v48_WIP11C.html');
 const html = fs.readFileSync(file, 'utf8');
 const section = (a, b) => {
   const i = html.indexOf(a), j = html.indexOf(b, i);
