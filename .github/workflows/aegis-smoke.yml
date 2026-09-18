@@ -25,6 +25,8 @@ on:
       - 'tests/material-protection-wip11.spec.js'
       - 'tests/runtime-safety-wip11b-contract.cjs'
       - 'tests/runtime-safety-wip11b.spec.js'
+      - 'tests/asm-wreckage-wip11c-contract.cjs'
+      - 'tests/asm-wreckage-wip11c.spec.js'
       - 'tests/wip10-visual-probe.cjs'
       - 'package.json'
       - 'package-lock.json'
@@ -34,9 +36,10 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP11B.html
+  SIM_FILE: Aegis_SIM_v48_WIP11C.html
   BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
   SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
+  WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
 
 jobs:
   ciws-b1-closure:
@@ -809,6 +812,66 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-runtime-safety-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  asm-wreckage-wip11c-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP11C wreckage, water-surface, BDA and smoke static contract
+        run: npm run test:asm-wreckage-contract
+
+  asm-wreckage-wip11c:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11C wreckage, water-surface, BDA, smoke and 3D contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/asm-wreckage-wip11c
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-asm-wreckage-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:asm-wreckage
+
+      - name: Upload WIP11C wreckage, BDA, smoke and water-surface evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: asm-wreckage-wip11c-${{ github.sha }}
+          path: |
+            artifacts/asm-wreckage-wip11c/
+            playwright-report/
+            test-results/
+            /tmp/aegis-asm-wreckage-http.log
           if-no-files-found: warn
           retention-days: 14
 
