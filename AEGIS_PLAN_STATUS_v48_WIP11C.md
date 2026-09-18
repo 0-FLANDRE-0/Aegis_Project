@@ -229,9 +229,12 @@ The deterministic diagnostics verify damage coupling, inherited forward velocity
 - Required final result before merge: `20/20 jobs passed`
 - Branch: `feat/v48-wip11c-asm-wreckage-water-effects`
 - GitHub access check: authenticated as `0-FLANDRE-0` with `admin/maintain/push/pull/triage`; repository default branch is `main`
-- Verified `main` head: `4bbf024530a507d60abb84e1def3d5d9d0d37e5b`
-- Verified branch head before the final HTML handoff: `4d373803358dcfaaae387f40adc27ce7489db4ad` (`3` commits ahead, `0` behind; net branch diff currently retains only the WIP12A design document because the prior HTML attempt was deleted)
-- Pull request and remote run: pending
+- Pre-merge `main` head: `4bbf024530a507d60abb84e1def3d5d9d0d37e5b`
+- User-uploaded final HTML commit: `2a615e08d4a570dfb5cbdc0f3ff046bedafc5326`; remote Git blob `de3e0ea7a2216bd24f10e1a42962db23c9a90031` matched the local file byte-for-byte
+- Accepted functional branch head: `7a9ac8a66eeddc6aea5989e78d318eab6b1dd231`
+- Pull request: `#25` — `Complete v48 WIP11C ASM wreckage and ghost-track retirement`
+- GitHub Actions run `#92` (`35370375704`): `20/20 jobs passed`
+- Merge commit on `main`: `7db6a93431e26ebcfd53a0dec9e57dd7e212d6b5`
 
 ## Artifact
 
