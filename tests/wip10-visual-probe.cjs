@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repo = path.resolve(__dirname, '..');
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11B.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP11C.html';
 const outDir = path.resolve(process.env.ARTIFACT_DIR || path.join(repo, 'artifacts/wip11-visual'));
 const threeLocal = process.env.THREE_JS_LOCAL || '/tmp/three.min.js';
 

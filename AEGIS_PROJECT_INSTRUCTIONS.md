@@ -25,9 +25,9 @@
 
 ### 1.1 작업본 보존 규칙
 
-- 루트에는 최신 시뮬레이터 HTML 하나와 그에 대응하는 상태 문서 하나만 둔다.
+- 루트에는 최신 시뮬레이터 HTML 하나와 그에 대응하는 상태 문서·체크섬 세트만 둔다.
 - 새 WIP 또는 정식 버전이 생성되면 직전 버전을 `archive/버전/WIP번호/`로 이동한다.
-- 시뮬레이터 HTML과 대응 상태 문서는 반드시 같은 폴더에 보존한다.
+- 시뮬레이터 HTML, 대응 상태 문서와 체크섬은 반드시 같은 폴더에 보존한다.
 - 파일 내용을 변경하는 수정과 파일 내용을 유지한 단순 이동을 구분해 기록한다.
 - `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상에서 제외한다.
 
@@ -54,7 +54,13 @@
 - `classification`, `identity`, `threatStatus`, `engagementAuthority`는 서로 다른 의미와 갱신 주체를 유지한다.
 - 분류 신뢰도만으로 적성 식별 또는 자동 교전권한을 부여하지 않는다.
 - `UNKNOWN`, `UNASSESSED`, `WITHHELD`, `FRIEND`, `NEUTRAL` 상태에는 자동발사를 허용하지 않는다.
+- 아군 무장의 근접신관 작동이나 직접 분해 보고 뒤에는 물리 트랙을 즉시 삭제하지 않고 `KILL_ASSESSMENT`로 두되, 자동 교전권한은 즉시 `WITHHELD`로 바꾼다.
+- `DESTROYED`는 truth 생존 플래그가 아니라 아군 무장효과 보고와 후속 센서 무응답으로 확인한다. 효과 보고 뒤 일관된 새 관측이 들어오면 `KILL_ASSESSMENT`나 `DESTROYED`를 해제하고 관측 기반 위협 평가로 복귀한다.
+- `DIRECT_BREAKUP`이 확인된 트랙에는 기존 요격탄의 DL·SPY 무기지원·SPG-62 예약/조명을 즉시 해제한다. BDA 중인 트랙은 적색 live-threat 심벌로 표시하지 않으며, `DESTROYED` 확인 뒤 짧은 kill-mark 보존 시간이 끝나면 유령 MEM 심벌을 PPI에서 숨긴다.
+- 앞선 `FUZE_DETONATION` 기록을 실제 `DIRECT_BREAKUP`으로 승격할 때는 증거 등급만 바꾸지 말고 effect step/time, 종말 위치·속도, 확인 지연과 return-resolution 상태를 실제 분해 사건으로 함께 갱신한다. 같은 틱의 마지막 센서 측정은 격추 후 귀환으로 취급하지 않으며 effect step보다 엄격히 늦은 coherent measurement만 BDA를 해제할 수 있다.
+- 직접 분해 효과와 동일 표적의 중복/coast 파일을 묶을 때는 효과 시각·SI 위치·속도와 관측 track만 사용하는 엄격한 운동학 게이트를 적용한다. 효과보다 늦은 일관 측정은 즉시 BDA를 해제해야 하며, 상관 판단에 truth 생존 상태를 사용하지 않는다.
 - 트랙 coast, 재획득, 새 alias 발생 시 운용자 식별과 교전권한을 무조건 복사하지 않는다.
+- 다만 기존 파일이 LOST가 되는 첫 평가 프레임에 동일 접촉으로 검증된 대체 alias가 나타나면, 표적 ID를 보유한 SAM·RAM·Phalanx·CIWS cue·SPG-62 live ownership/예약·선택 lock을 원자적으로 대체 ID로 옮겨 유령 지원이나 이중 교전을 남기지 않는다.
 - MANUAL, SEMIAUTO, AUTO의 권한 차이는 판단부뿐 아니라 실제 발사 함수에서도 다시 확인한다.
 
 ### 3.3 시간·물리·렌더링
@@ -157,17 +163,47 @@
 5. 대표 회귀 결과와 seed
 6. 남은 위험 요소와 정확한 다음 작업
 7. HTML과 상태 문서의 SHA-256
+8. README의 현재 기준·다음 단계, 이 문서의 현재 인계 기준, 최신 상태 문서와 체크섬을 같은 반영 작업에서 함께 갱신
+
+### 7.1 GitHub 업로드 분담
+
+- 대용량 시뮬레이터 HTML은 ChatGPT가 GitHub API의 Base64/blob 업로드로 직접 전송하지 않는다.
+- ChatGPT는 기준 `main`과 권한을 확인하고 작업 브랜치를 먼저 만든 뒤, 완성된 HTML 파일명·크기·SHA-256과 다운로드 파일을 사용자에게 전달한다.
+- 사용자가 그 HTML을 지정 브랜치에 직접 업로드하면 ChatGPT가 원격 파일의 SHA-256과 브랜치 기준을 확인한다.
+- 확인 후 ChatGPT는 상태 문서, 체크섬, README, 본 지침, 테스트, workflow 등 작은 파일만 해당 브랜치에 반영하고 PR을 만든다.
+- 사용자가 대용량 HTML의 직접 업로드를 명시적으로 다시 요청하지 않는 한 이 분담을 바꾸지 않는다.
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11B.html`이다.
-- WIP10, WIP11, WIP11A는 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`, `archive/v48/WIP11A/`에 보존한다.
-- WIP11A는 WIP11의 물리 결과를 유지하면서 `ACTIVE_SHIP_RUNTIME` 자함 소유권, `ENGAGEMENT_RUNTIME` 월드 소유권, canonical/legacy 분류, registry facade, lifecycle, 작전 snapshot과 기본 비활성 profiler를 연결했다.
-- WIP11B는 활성 자함 destroy override를 제거하고, detached export, 7-codec preflight, `profileRevision` 호환성 검사와 validation 거부 시 zero-mutation을 작전 snapshot 계약에 추가한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP11C.html`이다.
+- 현재 기준 HTML SHA-256은 `464e1fc4a7e3ef9565bc32ce42e7e5a112041a977ee96fb7bdb5920f7410c01f`이고 크기는 `2,819,872 bytes`다.
+- 최종 로컬 검증은 WIP11C 정적 계약 `32/32`, WIP11C Playwright `11/11`, 전체 Playwright `28/28`을 통과했다.
+- WIP10, WIP11, WIP11A, WIP11B는 각각 `archive/v48/WIP10/`, `archive/v48/WIP11/`, `archive/v48/WIP11A/`, `archive/v48/WIP11B/`에 보존한다.
+- WIP11B의 활성 자함 삭제 금지, detached export, 7-codec preflight, `profileRevision` 호환성과 validation 거부 시 zero-mutation 계약은 그대로 유지한다.
+- WIP11C는 살아 있는 적 대함미사일과 잔해를 분리한다. 요격된 위협은 즉시 truth association과 hostile collection에서 퇴역하며, 잔해는 `ENGAGEMENT_RUNTIME.world.entities.asmWreckage`에서만 고정 tick 물리를 계속한다. coast 중인 센서 track이 남더라도 truth를 다시 해석해서는 안 된다.
+- WIP11C 교전통제는 요격탄 신관·직접 분해 보고를 받으면 코스팅 트랙을 유지한 채 `KILL_ASSESSMENT / WITHHELD`로 전환한다. 직접 분해는 `0.35초`, 신관 보고만 있는 경우는 `1.5초` 동안 일관 관측이 없을 때 `DESTROYED`로 확인한다. 보고 이후 새 측정이 들어오면 즉시 관측 기반 `THREAT` 또는 `HARMLESS` 판정으로 복귀한다.
+- WIP11C에서 `DIRECT_BREAKUP`은 해당 표적의 DL·SPY 무기지원·SPG-62 live ownership과 시간 예약을 같은 틱에 해제한다. BDA 트랙은 적색 위협점 대신 `BDA/KILL` 십자표로 표시하고, `DESTROYED` 확인 뒤 `1.25초` kill-mark가 끝나면 원래 미사일의 유령 MEM 표시는 숨긴다. 내부 track record는 익명 search plot 재연관 가능성을 위해 남길 수 있지만 사격통제 품질이나 표시 자격을 갖지 않는다.
+- 우군 종말효과 보고가 없는 고속 강하 ASM coast도 적 truth 생존 상태로 지우지 않는다. EKF 추정 강하율이 `-45 m/s` 이하이고 예상 수면도달이 `0.35초` 이내이며, 무반사가 `0.25초` 이상이고 예상 수면교차점이 함체 envelope보다 `25 m` 이상 바깥인 상태가 `0.30초` 지속된 뒤 추정 고도가 `8 m` 이하일 때만 `OBSERVED_SEA_IMPACT / HARMLESS`로 종결한다. 이때 표시·AUTO 재교전·SPG-62 지원을 막고, 이후 coherent return이 연관되면 즉시 추정을 취소한다. 이 경로도 `enemyMissiles`, `truthEnded`, 실제 생존 플래그를 읽지 않는다.
+- 실전 SPY track은 `truthRef`가 없는 익명 파일이므로 파괴된 ASM의 truth object ID를 track ID로 역조회해 BDA를 만들지 않는다. SM-2/ESSM은 `assignedTargetId`, RAM은 `targetId`, Phalanx 탄은 발사 순간 mount track ID를 종말피해·직접분해 보고까지 운반하며, 지연 구조파괴에는 직전 우군 교전 provenance를 사용한다. 이후 5 Hz cleanup 신관 보고는 같은 사건에 병합하고 `DIRECT_BREAKUP` 증거를 fuze-only로 강등하지 않는다.
+- Kh-32/ESSM 경쟁 조건 회귀는 seed `112000`에서 실제 분해 5 tick 전의 신관 보고(step `840`)를 실제 ESSM `4`의 `PROX_DETONATION_KILL`/분해(step `845`)로 승격한다. 병합 사건의 effect step은 `845`로 재기준화되고 같은-tick SPY 측정은 생존 귀환으로 오인되지 않아야 하며, AUTO 추가발사 `0`, SPG/DL/SARH 해제, 표시 ASM `0`, 독립 잔해 존속을 유지한다.
+- `DIRECT_BREAKUP` 종말효과 보고는 효과 step과 SI 위치·속도를 함께 운반한다. 효과 발생 전부터 존재하며 엄격한 위치·속도 게이트를 통과하고 효과 뒤 새 측정이 없는 sibling/coast 파일만 같은 BDA로 상관해 `MEM-?` 유령을 닫는다. 상관된 파일도 효과 이후 coherent measurement가 들어오면 즉시 `THREAT`/`HARMLESS` 관측 평가로 복귀한다.
+- 기존 track이 LOST로 바뀌는 같은 5 Hz 평가 프레임에 replacement alias가 생기는 경우를 별도 후처리한다. 검증된 alias에는 SM-2/ESSM `assignedTargetId`, RAM `targetId`, Phalanx `engagementTrackId`, CIWS mount tracking/cue, SPG-62 live map·예약행, 선택 lock을 모두 인계하고 이전 ID의 지원 소유권을 남기지 않는다.
+- AUTO·CIWS·soft-kill·반자동 lock은 `KILL_ASSESSMENT`와 `DESTROYED`를 새 표적으로 취급하지 않는다. 이 판단 경로에서 `truthEnded`, `enemyMissiles`나 실제 생존 객체를 읽지 않는다.
+- 잔해 생성은 요격 결과 직후가 아니라 기존 대함미사일 부위·구조·탄두 손상 observer가 끝난 뒤 수행한다. 연료 손상은 연소, 구조·조종 손상은 무결성과 분열, 탄두 기폭은 폭발 분열에 반영한다.
+- 잔해는 전투 난수와 분리된 결정적 스트림을 사용한다. 3D는 잔해 위치·자세와 수면 사건을 표시만 하며 물리를 적분하지 않는다.
+- 수면 진입과 저고도 폭발은 `WATER_ENTRY` / `WATER_SURFACE_BLAST` 사건을 남기지만, WIP11C에서는 수중 폭압이나 함체 수면 충격 피해를 새로 계산하지 않는다.
+- WIP11C의 SM-2·ESSM·RAM 연기는 표시 전용 계약으로 명목 수명을 기존의 8배로 유지한다. 새 궤적 간격은 원래값의 3.5배, 수명 36% 이후 노후 궤적은 3개 중 2개를 남겨 유효 5.25배 간격으로 표시한다. 노후 연기는 최대 1.8배 추가 확산되고 86% 수명까지 약 42% 불투명도를 유지하며, 요격탄/전역 상한은 9,000/12,000이다. 상한 압력에서는 오래된 요격탄 연기를 균등하게 먼저 솎고 물리·센서·교전 결과에는 피드백하지 않는다.
+- WIP11C의 대함미사일 연기는 고도 표시 전용 게이트를 사용한다. Kh-32는 5 km 이하에서 새 연기를 만들지 않고 5–8 km에서 점진적으로 나타나며 8 km 이상에서 정상 표시한다. Kh-35U는 기존 터보제트 무연 cloud 정책을 유지한다.
+- Mk41 셀의 거의 수직인 deck-normal에서 생기는 미세 수평 투영은 유효한 발사 방위가 아니다. SM-2/ESSM 셀 내부의 위치와 속도는 실제 deck-normal 축을 따르되, 탄체 heading은 발사 순간 계산한 표적 방위를 별도 `launchAzimuthRad`로 보존해야 한다. deck-normal azimuth로 heading을 덮어쓰면 표적 정반대 선회가 재발한다.
+- WIP11C는 WIP11B의 요격 운동학·파편 Pk·SM-2/ESSM/RAM 비행 유도·`updateMissile()`·CIWS 요격 해법을 바이트 단위로 보존한다. `applyInterceptResult()`의 난수 호출과 판정 임계값도 동일하다. 단, Mk41 초기 방위 덮어쓰기 결함은 발사/셀 구속 계층에서 의도적으로 수정했으므로 전체 audit JSON의 바이트 exact 일치는 요구하지 않는다. 같은-seed 이산 요격 결과와 난수 상태는 exact, 연속값은 `1e-8 × max(1, |a|, |b|)` 이내 수치 동등성, 독립 Pk 곡선은 exact를 기준으로 한다.
+- 잔해의 함체 재충돌은 WIP11B의 DUD 관통 호환 경로를 운동 피해 전용으로 사용한다. 잔존 탄두의 일반화된 기폭·신관 처리는 WIP12A로 미룬다.
+- 작전 snapshot에는 잔해와 수면 사건을 저장하지 않는다. 둘 다 교전 transient이며 전체/교전 reset과 moving-world 이동에는 포함한다.
 - WIP11A의 `spawnShipRuntime()`은 identity/ownership 기반만 제공한다. 다른 함정을 실제 시뮬레이션 tick에 넣는 다함전 구현은 아니다.
 - 이후 snapshot에 새로운 authoritative 상태를 추가할 때만 대응 codec과 정상/거부/zero-mutation fixture를 함께 갱신한다. snapshot 밖의 일반 전투 기능 추가는 WIP11B 계약 수정 사유가 아니다.
-- WIP11 두께와 구조 계수는 모두 `SIM_TUNED`이며 실제 DDG-119 조선 도면값으로 취급하지 않는다.
-- 아라미드는 대형 관통체 저항에 직접 합산하지 않고 파편·후면 스폴 채널에만 적용한다.
-- 다음 코드 작업은 WIP12 함포탄 피해다. 저구경탄·함포탄 탄도, 신관, 도탄, 관통, 파편, 폭발과 재질별 입·출구 파괴구를 같은 재질 경계 계약에 연결한다.
+- WIP11 두께와 구조 계수는 모두 `SIM_TUNED`이며 실제 DDG-119 조선 도면값으로 취급하지 않는다. 아라미드는 대형 관통체 저항에 직접 합산하지 않고 파편·후면 스폴 채널에만 적용한다.
+- 다음 코드 작업은 WIP12A 종말탄도 기틀이다. 모든 탄체에 하나의 관통식을 강제하지 않고 `TerminalProjectileSpec`·가변 projectile state·impact trace·damage packet 계약을 공유하며, 충돌 regime에 따라 solver를 선택한다.
+- WIP12A의 확정 설계 범위와 완료 기준은 `docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md`를 기준으로 한다.
+- WIP12A traversal은 `BOUNDARY`, `EMPTY`, 실제 `DAMAGE_VOLUME`을 구분한다. 빈 공간은 에너지를 소모하지 않고 비행시간과 신관 시간만 진행하며, 경계와 실제 물질 볼륨만 탄체 상태를 바꾼다.
+- WIP12A에서는 실제 함포 발사·외탄도·FCS, 중장갑 실전 적용, persistent damage patch ledger를 활성화하지 않는다. 기존 ASM 결과는 compatibility adapter로 보존하고 신규 discrete-boundary fixture를 별도로 검증한다.
 - WIP13은 해상사격 FCS, WIP14는 간단한 표적함과 복수 함선 프로파일이다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.
