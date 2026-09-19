@@ -2,58 +2,48 @@
 
 ## 현재 개발 기준
 
-- 시뮬레이터: [`Aegis_SIM_v48_WIP12A.html`](Aegis_SIM_v48_WIP12A.html)
-- 상태·검증 기록: [`AEGIS_PLAN_STATUS_v48_WIP12A.md`](AEGIS_PLAN_STATUS_v48_WIP12A.md)
-- 설계 계약: [`docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md`](docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md)
-- HTML SHA-256: `60705246ef0b659dadf67e23ca9b84bf7dc2cb477857d9714223291c564c3729`
-- 상태: WIP12A 구현·로컬 회귀 완료 — 정식 release/tag가 아님
+- 시뮬레이터: [`Aegis_SIM_v48_WIP12B.html`](Aegis_SIM_v48_WIP12B.html)
+- 상태·검증 기록: [`AEGIS_PLAN_STATUS_v48_WIP12B.md`](AEGIS_PLAN_STATUS_v48_WIP12B.md)
+- WIP12B 설계 계약: [`docs/WIP12B_LIVE_ORDNANCE_TERMINAL_EFFECTS.md`](docs/WIP12B_LIVE_ORDNANCE_TERMINAL_EFFECTS.md)
+- 공통 커널 설계: [`docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md`](docs/WIP12A_TERMINAL_BALLISTICS_DESIGN.md)
+- HTML SHA-256: `61dfcff533f7708df65e1939e3f5cd10448a6492ed0903b4dc2f17af50663f91`
+- 상태: WIP12B 구현·로컬 회귀 완료 — 정식 release/tag가 아님
 
-## WIP12A 핵심 범위
+## WIP12B 핵심 범위
 
-- `TerminalProjectileSpec`, 가변 projectile state, ordered `ImpactTrace`, `BoundaryImpactResult`와 채널별 `DamagePacket` 공통 계약
-- 전체 질량과 실제 coherent penetrator 질량 분리; 운동에너지·운동량·yaw는 상태에서 파생
-- normalized `direction`과 `bodyAxis`를 별도 보존해 속도 방향과 탄체 종축의 3D 불일치 표현
-- `BOUNDARY`, 저항 없는 `EMPTY`, 실제 물질의 `DAMAGE_VOLUME`, 저항 없는 `CREW_EXPOSURE` 분리
-- 방향·속도·무결성 변화 뒤 현재 ray로 BVH/AABB를 다시 질의하는 event-driven traversal
-- 다음 접촉, volume exit, projectile stop, fuze expiry 중 가장 빠른 사건을 결정적으로 처리하는 시간 기반 신관
-- 무기 이름이 아닌 충돌 regime으로 solver 선택; thin ductile plate, light structure, volume crush 경로 활성화
-- homogeneous/face-hardened armor는 검증되지 않은 임시식을 넣지 않고 명시적 `UNSUPPORTED_SOLVER` 결과 반환
-- `RICOCHET/STOPPED/PARTIAL/PERFORATED`와 `INTACT/DEFORMED/FRACTURED/SHATTERED`를 독립 축으로 기록
-- 질량·에너지·운동량 closure를 검사하는 `ImpactBudget`
-- 직접 관통, plug/spall, 탄두 파편, 폭압, 열·소이, 파괴구·침수, 구조 충격, 승조원 노출 채널 분리
-- `impactEventId` 기반 중복 적용 방지와 기존 침수·구조·승조원·VLS/장비 consumer 연결
-- 아라미드는 직접 관통 저항이 아니라 rear-spall/fragment 채널만 감쇠
-- `TEST_12P7_AP`부터 `TEST_127_SAP`까지 `DIAGNOSTIC_SIM_TUNED` 탄체 6종과 각 탄체의 도탄·정지·부분·관통·shatter 경계 fixture
-- Kh-35U/Kh-32 live impact는 공통 API의 `LEGACY_ASM_PENETRATION_COMPAT`를 거치되 기존 WIP11C 계산·결과·전투 RNG를 exact 보존
-- damage patch는 surface/local 좌표·구멍·균열·잔존두께 계약과 진단 fixture만 정의하고 persistent ledger는 비활성
+- Kh-32, Kh-35U, SM-2, ESSM, RAM을 WIP12A `TerminalProjectileSpec`/trace/packet 계약에 등록
+- Kh-32/Kh-35U는 `LEGACY_ASM_PENETRATION_COMPAT` exact parity 유지
+- SM-2/ESSM/RAM은 기존 파편/Pk 권위를 유지하고 공통 terminal event로 결과를 변환
+- 요격탄의 `PROXIMITY`, `CONTACT_DIRECT_ACTION`, `DUD` 경로와 earliest-valid-event 정책 명시
+- 향후 제한적 대함전용 direct surface-impact resolver 제공; 실제 표적 선택·발사·FCS는 비활성
+- `impactEventId` 중복 방지와 최대 32개 transient terminal-event ledger
+- 관통 경로, 경계·파괴구, 기폭, 폭압·파편 방향은 명시적 `내부 구조` 모드에서만 2D/3D로 표시
+- 불투명 coarse flooding-cell proxy 제거
+- 피격 개구부에서는 상세 WIP06 구획을 표시하고, 내부 모드에서는 외부 함체를 투명화
+- 상세 구획과 침수·화재·연기 형상을 실제 선체·상부구조 envelope로 잘라 외형 밖 돌출 제거
+- 전방 연돌은 기존 끝단 기준 후방 `1.75 m`·전방 `0.5 m`, 후방 연돌은 후방 `1.25 m`·전방 `1.0 m` 연장
+- 연돌 권위값을 3D 형상, 외부 피격판정, RCS aim, 내부 배기 트렁크, 2D indicator와 SPG-62 차폐각에 공통 적용
+- 렌더러는 표시 전용이며 전투 물리·피해·난수에 피드백하지 않음
 
 ## 검증
 
-- 기존 정적 계약 6종, WIP11C `32/32`, WIP12A `29/29` 정적 계약 통과
-- WIP12A Playwright `2/2 PASS`
-- Playwright 전체 `30/30 PASS` (로컬 Three.js 경로 사용)
-- 6종 진단탄 정상 traversal과 각 탄의 도탄·정지·부분·완전 관통·shatter 경계 통과
-- EMPTY 상태 불변·신관 시간 진행, 방향 변화 뒤 geometry 재질의, volume 내 감속 기반 신관 만료, DUD와 tie ordering 확인
-- `PERFORATED + SHATTERED` 독립 결과 축과 질량·에너지·운동량 ledger closure 확인
-- 아라미드 적용 전후 직접 관통 work 불변, spall/fragment 감소 확인
-- 동일 packet 1회 적용 시 침수 opening, 구조 충격, 승조원 피해와 VLS/장비 피해가 발생하고 재적용은 `DUPLICATE_IMPACT_EVENT`로 거부됨을 확인
-- 기존 Kh-35U/Kh-32 관통 결과와 전투 RNG exact parity 확인
-- 동일 fixture의 `1×/8×/16×` 결과 exact 일치 및 `64×` 4,096건 과부하 계측 완료
-- 기존 Kh-32/ESSM 유령 트랙, CIWS, 침수, 구조, 승조원, 재질, 운영 snapshot zero-mutation, 3D 회귀 통과
-- Workflow YAML parse 통과, WIP12A 전용 2개 job을 포함한 총 `22`개 job 구성
+- WIP12B 정적 계약 `29/29 PASS`
+- WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, 기존 정적 계약 회귀 통과
+- WIP12B Playwright `2/2 PASS`
+- Playwright 전체 `32/32 PASS` (로컬 Three.js 경로)
+- 정상/DUD ASM 피해 1회 적용, 요격탄 proximity/contact 기록, event ID 중복 방지 확인
+- 외부 모드 terminal effect 숨김, 내부 모드 표시, 상세 구획 `138/138` 수용과 외형 이탈 정점 `0`, 공간별 hazard clipping 확인
+- 두 연돌의 권위 끝단·실제 3D bounds, 피격판정·RCS·내부 트렁크·SPG-62 마스크 연동과 2D 연장부 실제 픽셀 표시 확인
+- 기존 ASM same-seed/RNG, Kh-32/ESSM BDA, CIWS, 침수·구조·승조원·VLS, snapshot zero-mutation 회귀 통과
+- Workflow YAML은 WIP12B 전용 2개 job을 더한 총 `24`개 job으로 구성
 
 ## 다음 단계
 
-- WIP13: 해상사격 FCS
+- WIP13: WIP12B 계약을 소비하는 제한적 표면교전 표적 승인·발사/FCS 경로
 - WIP14: 간단한 표적함과 복수 함선 프로파일
-- 실제 포탄/함포 운용을 연결할 때는 WIP12A 커널에 생산 탄약 데이터를 별도 검증하여 추가한다.
-- homogeneous/KC 장갑 solver와 persistent damage patch ledger는 검증·snapshot migration을 동반하는 별도 단계로 유지한다.
-- 기존 ASM의 신규 solver 이전은 compatibility parity와 별도로 승인하기 전까지 수행하지 않는다.
-
-## 범위 밖
-
-WIP12A는 실제 함포 발사, 포탑·탄창 운용, 외탄도, 공기저항·바람·분산, 해상사격 FCS, 새 표적함, 실전 중장갑 solver 또는 persistent damage patch를 활성화하지 않는다.
+- 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 범위를 별도로 고정한 뒤 연결
+- homogeneous/KC 장갑 solver, persistent damage patch와 ASM 신규 solver 이전은 별도 검증·승인 단계로 유지
 
 ## 안정판과 아카이브
 
-현재 공개 안정판은 [`v37.1`](../../releases/tag/v37.1)이다. 루트에는 최신 작업본만 두며, WIP10·WIP11·WIP11A·WIP11B·WIP11C는 각각의 `archive/v48/` 하위 폴더에 바이트 단위로 보존한다.
+현재 공개 안정판은 [`v37.1`](../../releases/tag/v37.1)이다. 루트에는 최신 작업본만 두며 WIP10, WIP11, WIP11A, WIP11B, WIP11C와 WIP12A는 각각 `archive/v48/` 하위 폴더에 바이트 단위로 보존한다.

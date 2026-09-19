@@ -1,7 +1,7 @@
 # WIP12A 공통 종말탄도 기틀 — 설계 기준
 
 상태: 구현 계약 및 검증 기준  
-기준 소스: `Aegis_SIM_v48_WIP12A.html`  
+기준 소스: `archive/v48/WIP12A/Aegis_SIM_v48_WIP12A.html`
 회귀 기준: `archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html`
 
 ## 1. 목적

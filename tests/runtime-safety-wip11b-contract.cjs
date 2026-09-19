@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12A.html');
+const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12B.html');
 const baselineFile = process.argv[3] || path.join(__dirname, '../archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html');
 const html = fs.readFileSync(file, 'utf8');
 const baseline = fs.readFileSync(baselineFile, 'utf8');
@@ -18,7 +18,7 @@ const importBody = html.match(/function importOperationalState\(state,options=\{
 const checks = {
   title: path.basename(file).includes('WIP11B')
     ? html.includes('<title>AEGIS v48 WIP11B — Operational Import Safety Hardening</title>')
-    : html.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>') || html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>'),
+    : html.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>') || html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>') || html.includes('<title>AEGIS v48 WIP12B — Live Ordnance Terminal Effects and Damage Visualization</title>'),
   syntax: scripts.length > 0,
   wip11aOwnershipPreserved: baselineInvariant("schema:'AEGIS_SHIP_RUNTIME_V48_WIP11A'") && baselineInvariant("schema:'AEGIS_ENGAGEMENT_RUNTIME_V48_WIP11A'") && baselineInvariant("schema:'AEGIS_AUTHORITY_MANIFEST_V48_WIP11A'"),
   activeDestroyOverrideRemoved: html.includes('function destroyShipRuntime(entityId){') && !html.includes('function destroyShipRuntime(entityId,options') && destroyBody.includes("reason:'ACTIVE_PLAYER_SHIP'") && !destroyBody.includes('allowActive'),

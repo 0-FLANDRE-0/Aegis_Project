@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
-const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12A.html');
+const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12B.html');
 const html = fs.readFileSync(file, 'utf8');
 let scripts = 0;
 for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -66,6 +66,8 @@ class Color {constructor(){this.r=this.g=this.b=1;} multiplyScalar(){return this
 context.THREE={Group:Obj,Object3D:Obj,BufferGeometry:Geometry,Float32BufferAttribute:class {constructor(a,n){this.array=a;this.itemSize=n;}},Mesh,LineSegments:Mesh,InstancedMesh:Instances,BoxGeometry:Geometry,Color,MeshBasicMaterial:class {},LineBasicMaterial:class {},DoubleSide:2};
 vm.runInContext(section('  const WIP165_SUPERSTRUCTURE_SCALE=', '  const WIP199_BRIDGE_GEOMETRY=')+
   section('  const WIP199_BRIDGE_GEOMETRY=', '  function wip199V3(')+
+  section('  const WIP173_SHIP_BOW_X_M=', '  const WIP165_SUPERSTRUCTURE_SCALE=')+
+  section('  const WIP199_HULL_STATIONS=', '  const shipHullContainsPoint=')+
   section('  function wip199BridgeSectionAtY(', '  function wip199BridgeContainsPoint(')+
   '\nglobalThis.renderer={THREE,'+section('    upperStructureIntervalsV48Wip06(', '    interiorAuditV48Wip06(){')+'};', context);
 const renderer=context.renderer, frozen=JSON.stringify(state), parent=new Obj();

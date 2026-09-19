@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const defaultCandidate = path.join(__dirname, '../Aegis_SIM_v48_WIP12A.html');
+const defaultCandidate = path.join(__dirname, '../Aegis_SIM_v48_WIP12B.html');
 const archivedBaseline = path.join(__dirname, '../archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html');
 const rootBaseline = path.join(__dirname, '../Aegis_SIM_v48_WIP11C.html');
 const file = process.argv[2] || process.env.SIM_FILE || defaultCandidate;
@@ -57,7 +57,7 @@ const exactLegacyFunctions = [
 ];
 
 const checks = {
-  title: html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>'),
+  title: html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>') || html.includes('<title>AEGIS v48 WIP12B — Live Ordnance Terminal Effects and Damage Visualization</title>'),
   syntax: scripts.length > 0,
   exactWip11cBaselinePresent: baseline.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>'),
   commonContract: hasAll("schema:'AEGIS_TERMINAL_BALLISTICS_V48_WIP12A'", "coordinateSpace:'SHIP_LOCAL_METRES'", "units:'SI'", "authority:'IMPACT_EVENT_ONLY'"),
@@ -77,7 +77,7 @@ const checks = {
   calculationSeparatedFromApplication: !traceSource.includes('damageFloodImpactV1(') && !traceSource.includes('addModuleDmg(') && hasAll('function wip12aApplyDamagePacket(packet,options={})', 'calculationSeparatedFromApplication:true'),
   aramidChannelOnly: hasAll('directPenetration:false,fragmentHalfValueMm:10,rearSpallHalfValueMm:7.5', 'directWorkUnchanged:', 'fragmentReduced:', 'rearSpallReduced:'),
   diagnosticPatchDeferred: hasAll('persistentDamagePatch:false', "diagnosticOnly:true", "'PERSISTENT_PATCH_LEDGER'"),
-  sixDiagnosticFixtures: ['TEST_12P7_AP','TEST_30_AP','TEST_30_HEI','TEST_76_SAP','TEST_127_HE','TEST_127_SAP'].every(id => kernel.includes(`${id}:wip12aProjectileSpec`) && kernel.includes("sourceClass:'DIAGNOSTIC_SIM_TUNED'")),
+  sixDiagnosticFixtures: ['TEST_12P7_AP','TEST_30_AP','TEST_30_HEI','TEST_76_SAP','TEST_127_HE','TEST_127_SAP'].every(id => kernel.includes(`${id}:wip12aProjectileSpec`)) && (kernel.includes("sourceClass:'DIAGNOSTIC_SIM_TUNED'") || kernel.includes("o.sourceClass??'DIAGNOSTIC_SIM_TUNED'")),
   boundaryEnvelopeEachFixture: hasAll('function wip12aBoundaryEnvelopeForSpec(specId)', "STOPPED:wip12aFindBoundaryCase", "PARTIAL:wip12aFindBoundaryCase", "PERFORATED:wip12aFindBoundaryCase", "RICOCHET:wip12aFindBoundaryCase"),
   legacyAdapterIsActive: liveImpact.includes("mode:'LEGACY_ASM_PENETRATION_COMPAT'") && liveImpact.includes('const penSolve=penCompat.penetration;') && !liveImpact.includes('const penSolve=solveResidualPenetration('),
   legacyAdapterPreservesAuthority: compatSource.includes('solveResidualPenetration(') && !compatSource.includes('simRandom(') && !compatSource.includes('rand('),
