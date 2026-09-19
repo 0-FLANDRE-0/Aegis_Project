@@ -82,6 +82,14 @@ test('v48 WIP12C separates exterior breach compartments from explicit detailed i
     if(!v.interiorTopologyVisible)v.toggleInteriorTopology();v.active=true;for(let i=180;i<196;i++)v.render(base+i*16.667);v.active=false;const interior=v.internalEffectsAuditV48Wip12C(),topology=v.interiorAuditV48Wip06();
     return {hazard:{spaceId:hazard.spaceId,row:hazard.state.hazards.find(h=>h.spaceId===hazard.spaceId)},exterior,interior,topology,coarse:{present:!!coarse,visibleOutside:!!exterior.interior.coarseCompartmentProxyVisible,visibleInside:!!interior.interior.coarseCompartmentProxyVisible},renderState:{holes:renderState.shipDamageVisual.scars.filter(s=>s.hole&&s.sealed<=.9).length,events:renderState.terminalImpacts},selftests:window.__CORE_SELFTEST_FAILURES__.slice()};
   });
+  const screenshotDataUrl = await page.evaluate(() => {
+    const view=window.__WIP148_3D_VIEW__;
+    view.active=true;
+    view.render(performance.now());
+    const dataUrl=view.canvas.toDataURL('image/png');
+    view.active=false;
+    return dataUrl;
+  });
 
   const event=result.renderState.events[0],checks = {
     pageLoad: consoleErrors.length === 0 && pageErrors.length === 0,
@@ -102,5 +110,7 @@ test('v48 WIP12C separates exterior breach compartments from explicit detailed i
   fs.mkdirSync(artifactDir, { recursive:true });
   fs.writeFileSync(`${artifactDir}/internal-terminal-effects-3d-results.json`, `${JSON.stringify({ schema:'AEGIS_INTERNAL_TERMINAL_EFFECTS_3D_BROWSER_V48_WIP12C', simulator, simulatorSha256:crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'), checks, consoleErrors, pageErrors, ready, result }, null, 2)}\n`);
   expect(checks).toEqual(Object.fromEntries(Object.keys(checks).map(key => [key, true])));
-  await page.screenshot({ path:`${artifactDir}/internal-terminal-effects-3d.png`, animations:'disabled', timeout:60_000 });
+  const screenshotPrefix='data:image/png;base64,';
+  expect(screenshotDataUrl.startsWith(screenshotPrefix)).toBe(true);
+  fs.writeFileSync(`${artifactDir}/internal-terminal-effects-3d.png`, Buffer.from(screenshotDataUrl.slice(screenshotPrefix.length), 'base64'));
 });
