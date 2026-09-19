@@ -78,6 +78,8 @@ test('v48 WIP12E makes one shared Kh-32 blast trace authoritative while preservi
       const trace = d.wip12eBlastTrace(event?.impactEventId);
       const crew = d.v48Wip07CrewState();
       const flood = d.damageFloodSnapshotV1();
+      const control = d.damageControlSnapshotV1();
+      const damageVisual = d.v48Wip03DamageVisualState();
       const render = window.get3DRenderState?.() ?? null;
       return {
         flight:{ label:flight.label, durationS:flight.durationS, targetAlive:flight.targetAlive, deathReason:flight.deathReason, shipHit:flight.shipHit },
@@ -86,7 +88,9 @@ test('v48 WIP12E makes one shared Kh-32 blast trace authoritative while preservi
         hit,
         trace,
         crew:{ totals:{ fit:crew.fit, injured:crew.injured, dead:crew.dead }, damage:crew.damageEvents.at(-1) ?? null },
+        fire:{ burning:control.summary.burning, cells:control.cells.filter(row => row.fire > .005).map(row => ({ id:row.id, fire:row.fire, temperatureC:row.temperatureC })) },
         flood:{ openings:flood.openings.map(row => ({ id:row.id, kind:row.kind, areaM2:row.areaM2, x:row.x, y:row.y, z:row.z })) },
+        damageVisual:{ scars:damageVisual.scars.map(row => ({ id:row.id, openingId:row.openingId, openingKind:row.openingKind, impactRole:row.impactRole, holeAuthority:row.holeAuthority, sourceAreaM2:row.sourceAreaM2, radius:row.radius, hole:row.hole, p:row.p })) },
         visual:(render?.visualEvents ?? []).filter(row => row.type === 'SHIP_WARHEAD_DETONATION').at(-1) ?? null
       };
     };
@@ -101,8 +105,12 @@ test('v48 WIP12E makes one shared Kh-32 blast trace authoritative while preservi
   const second = result.second;
   const trace = first.trace;
   const residual = first.residual;
-  const ruptureOpenings = first.flood.openings.filter(row => row.kind === 'BLAST_SURFACE_RUPTURE');
+  const blastOpenings = first.flood.openings.filter(row => String(row.kind).startsWith('BLAST_'));
   const traceBreaches = trace?.breaches ?? [];
+  const entryBlowout = traceBreaches.find(row => row.kind === 'BLAST_ENTRY_BLOWOUT');
+  const fragmentBreaches = traceBreaches.filter(row => row.kind === 'BLAST_FRAGMENT_PERFORATION');
+  const entryScars = first.damageVisual.scars.filter(row => row.openingKind === 'BLAST_ENTRY_BLOWOUT');
+  const fragmentScars = first.damageVisual.scars.filter(row => row.openingKind === 'BLAST_FRAGMENT_PERFORATION' || String(row.openingKind).startsWith('RESIDUAL_FRAGMENT'));
   const capKeys = Object.keys(first.trace.caps);
   const stable = value => JSON.stringify(value);
   const checks = {
@@ -116,9 +124,13 @@ test('v48 WIP12E makes one shared Kh-32 blast trace authoritative while preservi
     legacyComparison:first.hit.legacyBlastComparison.totalDamage === 191 && first.hit.legacyBlastComparison.damagedParts === 17 && Math.abs(first.hit.legacyBlastComparison.powerFractionSum - 1) < 1e-12,
     sharedCrewTrace:first.crew.damage?.usedSharedBlastTrace === true && first.crew.damage?.blastTraceHash === trace.physicsHash,
     separatedCrewChannels:first.crew.damage?.affectedSpaces?.every(row => Number.isFinite(row.positiveImpulseKPaMs) && Number.isFinite(row.dynamicPressureKPa) && Number.isFinite(row.fragmentExpected)) === true,
-    energyClosed:Math.abs(trace.ledger.airClosureErrorJ) <= Math.max(1e-5, trace.ledger.airBlastEnergyJ * 1e-9) && Math.abs(trace.ledger.totalPartitionErrorJ) <= Math.max(1e-5, trace.ledger.chemicalEnergyJ * 1e-9),
-    caps:capKeys.every(key => trace.caps[key] <= ({ cells:96, portalEvents:384, surfaceLoads:512, breaches:64, timeSlices:32, ventJets:32, presentationKeyframes:256 })[key]),
-    breachFloodOnce:traceBreaches.length > 0 && ruptureOpenings.length === traceBreaches.filter(row => row.floodEligible).length && new Set(ruptureOpenings.map(row => row.id)).size === ruptureOpenings.length,
+    energyClosed:Math.abs(trace.ledger.airClosureErrorJ) <= Math.max(1e-5, trace.ledger.airBlastEnergyJ * 1e-9) && Math.abs(trace.ledger.fragmentClosureErrorJ) <= Math.max(1e-5, trace.ledger.fragmentKineticJ * 1e-9) && Math.abs(trace.ledger.totalPartitionErrorJ) <= Math.max(1e-5, trace.ledger.chemicalEnergyJ * 1e-9),
+    caps:capKeys.every(key => trace.caps[key] <= ({ cells:96, portalEvents:384, surfaceLoads:512, breaches:64, timeSlices:32, ventJets:32, ignitionCandidates:24, presentationKeyframes:256 })[key]),
+    entryBackblast:entryBlowout?.outwardEjection === true && entryBlowout.replacesOpeningId && entryBlowout.holeAreaM2 > first.hit.entryOpeningAreaM2 && Math.hypot(entryBlowout.position.x-first.hit.impactPoint.x, entryBlowout.position.y-first.hit.impactPoint.y, entryBlowout.position.z-first.hit.impactPoint.z) < 1e-6,
+    entryScarAtHit:entryScars.length === 1 && entryScars[0].hole && entryScars[0].holeAuthority === 'WIP12E_ENTRY_BACKBLAST' && Math.hypot(entryScars[0].p.x-first.hit.impactPoint.x, entryScars[0].p.y-first.hit.impactPoint.y, entryScars[0].p.z-first.hit.impactPoint.z) < 1e-6,
+    fragmentPerforations:fragmentBreaches.length > 0 && fragmentBreaches.every(row => row.exactArea && row.holeAreaM2 > 0) && fragmentScars.some(row => row.hole),
+    distributedHotProductFire:first.hit.ignitionAudit?.hotGas?.appliedCount >= 2 && first.fire.burning >= 2 && trace.damagePacket.ignitionCandidates.filter(row => row.ignite).length >= 2,
+    breachFloodOnce:new Set(blastOpenings.map(row => row.id)).size === blastOpenings.length && blastOpenings.filter(row => row.kind === 'BLAST_ENTRY_BLOWOUT').length <= 1,
     vfxPayload:first.visual?.blastTraceHash === trace.physicsHash && first.visual.visualFireballRadiusM > 0 && first.visual.shockwaveRadiusM > first.visual.visualFireballRadiusM,
     wip12dResidual:residual?.bodies?.length === 4 && residual.farHullExits.length === 2 && residual.residualSupplement.accepted && residual.residualSupplement.legacyBlastReplay === false,
     residualRng:residual?.ledger?.rngUnchanged !== false && trace.rngUnchanged,
