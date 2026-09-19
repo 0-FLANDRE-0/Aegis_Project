@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12C.html');
+const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12D.html');
 const html = fs.readFileSync(file, 'utf8');
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(match => match[1]).filter(Boolean);
 for (const [index, source] of scripts.entries()) new vm.Script(source, { filename:`inline-${index + 1}.js` });
@@ -16,7 +16,7 @@ const hasAll = (...needles) => needles.every(needle => html.includes(needle));
 const sourceHasAll = (...needles) => needles.every(needle => source.includes(needle));
 
 const checks = {
-  title: html.includes('<title>AEGIS v48 WIP12C — Internal Terminal Effects and Residual Bodies</title>'),
+  title: html.includes('<title>AEGIS v48 WIP12C — Internal Terminal Effects and Residual Bodies</title>') || html.includes('<title>AEGIS v48 WIP12D — Kh-32 Residual-Body Overpenetration</title>'),
   syntax: scripts.length > 0,
   contract: sourceHasAll("schema:'AEGIS_INTERNAL_TERMINAL_EFFECTS_V48_WIP12C'", "rootAuthority:'WIP12A_IMPACT_TRACE_AND_DAMAGE_PACKET'", "mode:'BOUNDED_DETERMINISTIC_MACRO_BODIES'"),
   boundedMacroBodies: sourceHasAll('maxBodies:4', 'minBodyMassKg:.12', 'minBodyEnergyJ:1200', "fineFragments:'STATISTICAL_DAMAGE_CHANNEL'"),
@@ -42,7 +42,7 @@ const checks = {
   ignitionCaps: sourceHasAll('FUEL_LUBE:.018', 'AVIATION_FUEL:.014', 'ELECTRICAL:.008', 'ORDNANCE:.006', 'INERT:0'),
   legacyDamageEntryPreserved: hasAll('function damageFloodImpactV1(', 'damageAppliedBy:\'LEGACY_ASM_DAMAGE_PATH\''),
   visualContract: sourceHasAll('function wip12cVisualFromCascade', 'secondaryPaths:', 'macroBodies:', "kind:'MACRO_EXIT'"),
-  visualObjects: hasAll("line.name='TERMINAL_MACRO_PATH'", "mesh.name='TERMINAL_MACRO_BODY'", "mesh.name='TERMINAL_MACRO_EXIT'"),
+  visualObjects: (hasAll("line.name='TERMINAL_MACRO_PATH'", "mesh.name='TERMINAL_MACRO_BODY'", "mesh.name='TERMINAL_MACRO_EXIT'") || hasAll("'TERMINAL_MACRO_PATH'", "mesh.name='TERMINAL_MACRO_BODY'", "mesh.name='TERMINAL_MACRO_EXIT'")),
   terminalInteriorOnly: hasAll('showTerminalEffects=!!this.interiorTopologyVisible', 'this.terminalImpactLayer.visible=showTerminalEffects'),
   exteriorCoarseView: hasAll('showCoarse=throughHole&&!this.interiorTopologyVisible', 'this.compartmentInteriorV8.visible=showCoarse', 'this.buildCompartmentInteriorV8(cells)'),
   explicitDetailedView: hasAll('showDetails=!!this.interiorTopologyVisible', 'this.interiorTopologyLayer.visible=showDetails', 'this.interiorHazardLayer.visible=showDetails', 'this.interiorCrewLayer.visible=showDetails'),
@@ -53,7 +53,7 @@ const checks = {
   fixture: sourceHasAll('function wip12cFixtureGeometry()', "WIP12A_DIAGNOSTIC_PROJECTILES.TEST_127_SAP", 'function wip12cRunFixture'),
   diagnostics: sourceHasAll('function wip12cRunDiagnostics()', "schema:'AEGIS_INTERNAL_TERMINAL_EFFECTS_DIAGNOSTIC_V48_WIP12C'", 'presentationSplit:'),
   diagnosticsExposed: hasAll('wip12cInternalEffectsContract:()', 'wip12cRunFixture:', 'wip12cShipTraversalProbe:', 'wip12cShipTraversalPerformance:', 'wip12cIgnitionPolicyDiagnostics:()', 'wip12cMechanicalIgnitionApplicationProbe:()', 'wip12cInternalEffectsDiagnostics:()', 'wip12cInternalEffects3DAudit:()'),
-  renderRevision: hasAll("terminalEffectsRevision:'V48_WIP12C_INTERNAL_EFFECT_CASCADE'", 'cascadeSummary:e.cascade?'),
+  renderRevision: (hasAll("terminalEffectsRevision:'V48_WIP12C_INTERNAL_EFFECT_CASCADE'", 'cascadeSummary:e.cascade?') || hasAll("terminalEffectsRevision:'V48_WIP12D_RESIDUAL_OVERPENETRATION'", 'cascadeSummary:e.cascade?')),
   scopeHeld: sourceHasAll("'GUN_LAUNCH'", "'EXTERIOR_BALLISTICS'", "'SURFACE_FIRE_CONTROL'", "'PERSISTENT_PATCH_LEDGER'", "'LEGACY_ASM_SOLVER_MIGRATION'"),
   bootSelftest: hasAll('V48 WIP12C internal terminal effects ', 'INTERNAL-TERMINAL-EFFECTS-V48-WIP12C SELFTEST PASS')
 };

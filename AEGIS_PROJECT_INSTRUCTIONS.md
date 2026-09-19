@@ -175,10 +175,10 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12C.html`이다.
-- 현재 기준 HTML SHA-256은 `55c4c71ee05053820743ae3ce6cdf80cd07b34a92643062309700ff61530567d`이고 크기는 `2,989,191 bytes`다.
-- 최종 로컬 검증은 WIP12C 정적 계약 `40/40`, WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, 정적 계약 파일 `10/10`, WIP12C Playwright `2/2`, WIP12A·WIP12B browser regression 각 `2/2`, 전체 Playwright `34/34`를 통과했다.
-- WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A, WIP12B는 각각 `archive/v48/` 아래의 같은 이름 폴더에 보존한다. WIP12B HTML은 SHA-256 `61dfcff533f7708df65e1939e3f5cd10448a6492ed0903b4dc2f17af50663f91`로 바이트 단위 보존한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.
+- 현재 기준 HTML SHA-256은 `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`이고 크기는 `3,058,349 bytes`다.
+- 최종 로컬 검증은 WIP12D 정적 계약 `36/36`, WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, WIP11B runtime-safety 정적 계약 `16/16`, 정적 계약 파일 `11/11`, WIP12D Playwright `2/2`, 전체 Playwright `36/36`을 통과했다. 실제 Kh-32 seed `481232`는 확장된 전방 연돌을 첫 surface로 맞아 primary damage budget `191`, 3-source power 합 `1.0`, damaged parts `17`을 만들며 잔존체 `4`, 내부 정지 `2`, 반대편 이탈·실제 외피 구멍 `2`, 제한된 기계적 보충 피해 `9.34313`을 기록한다. legacy ASM 공식과 전투 RNG 권위는 변하지 않았고 첫 접촉 형상만 의도적으로 달라졌다. 3D draw call은 전체 내부 `2,342`에서 피격 중심 `298`로 감소했다.
+- WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A, WIP12B, WIP12C는 각각 `archive/v48/` 아래의 같은 이름 폴더에 보존한다. WIP12C HTML은 SHA-256 `55c4c71ee05053820743ae3ce6cdf80cd07b34a92643062309700ff61530567d`로 바이트 단위 보존한다.
 - WIP11B의 활성 자함 삭제 금지, detached export, 7-codec preflight, `profileRevision` 호환성과 validation 거부 시 zero-mutation 계약은 그대로 유지한다.
 - WIP11C는 살아 있는 적 대함미사일과 잔해를 분리한다. 요격된 위협은 즉시 truth association과 hostile collection에서 퇴역하며, 잔해는 `ENGAGEMENT_RUNTIME.world.entities.asmWreckage`에서만 고정 tick 물리를 계속한다. coast 중인 센서 track이 남더라도 truth를 다시 해석해서는 안 된다.
 - WIP11C 교전통제는 요격탄 신관·직접 분해 보고를 받으면 코스팅 트랙을 유지한 채 `KILL_ASSESSMENT / WITHHELD`로 전환한다. 직접 분해는 `0.35초`, 신관 보고만 있는 경우는 `1.5초` 동안 일관 관측이 없을 때 `DESTROYED`로 확인한다. 보고 이후 새 측정이 들어오면 즉시 관측 기반 `THREAT` 또는 `HARMLESS` 판정으로 복귀한다.
@@ -219,7 +219,7 @@
 - WIP12B terminal-event ledger는 `impactEventId`로 중복을 막고 최근 32개만 보존하는 engagement transient다. operational snapshot과 persistent patch state에 넣지 않으며 reset lifecycle에 포함한다.
 - 3D는 ship-local terminal event에서 경로, 경계·파괴구, 기폭, blast envelope와 fragment cone을 준비하되 명시적 `내부 구조` 보기에서만 표시한다. 2D 관통선·폭발범위도 같은 모드에만 표시하며, target-local 공중요격 event를 자함에 잘못 붙이지 않고 렌더러가 전투 물리나 난수를 계산하지 않는다.
 - WIP12B 당시에는 피격 뒤의 `COMPARTMENT_INTERIOR_V8` coarse flood-cell proxy를 폐기하고 open damage에서 상세 WIP06 topology를 표시했다. WIP12C는 아래 인계 규칙에서 이 표시 정책만 의도적으로 되돌리며, 상세 구획과 침수·화재·연기 overlay가 실제 hull/upper-structure envelope 밖으로 돌출되지 않아야 한다는 containment 계약은 유지한다.
-- WIP12B 연돌 권위값은 `ACTIVE_SHIP_PROFILE.geometry.funnels`다. 전방 연돌 범위는 `x=5.25…17.10 m`, 후방 연돌 범위는 `x=-17.65…-5.80 m`이며 3D, 외부 피격판정, RCS aim, 내부 배기 트렁크와 2D indicator가 이를 함께 소비한다. SPG-62 blind half-angle은 전방/후방상단/후방하단 순서로 `41°/45°/54°`다.
+- 연돌 권위값은 `ACTIVE_SHIP_PROFILE.geometry.funnels`다. WIP12D 누적 보정 뒤 전방 연돌 범위는 `x=3.50…17.10 m`, 후방 연돌 범위는 `x=-18.15…-4.55 m`이며 3D, 외부 피격판정, RCS aim, 내부 배기 트렁크와 2D indicator가 이를 함께 소비한다. 후방 상단 SPG-62와 받침대는 `x=-20.0 m`로 이동해 보수적 평면 투영 `0.40 m`, 실제 높이의 테이퍼 외피 `1.499 m` 간격을 가진다. 연돌 접선각을 계산한 SPG-62 blind half-angle은 전방/후방상단/후방하단 순서로 `41°/49°/54°`다.
 - WIP12B의 direct surface-impact resolver는 이후 제한적 대함전이 사용할 진입점일 뿐이다. 현재는 표면표적 선택, 발사 승인, 실제 SM-2/ESSM/RAM 대함 발사와 해상사격 FCS를 활성화하지 않는다.
 - WIP12C는 정상 기폭의 pre-detonation state에서 최대 4개의 결정적 `MACRO_FRAGMENT`를 만든다. 각 잔존체는 질량·coherent mass·무결성·direction·bodyAxis를 가진 inert WIP12A 탄체이며 동일한 event-driven traversal로 장비 체적, 격벽과 반대편 외판을 다시 해결한다. 미세 파편은 통계 damage channel에 남긴다.
 - WIP12C 잔존체 생성은 event ID hash만 사용하고 전투 RNG를 소비하지 않는다. parent non-explosive mass를 macro mass와 statistical fragment mass로 닫고, macro kinetic energy는 parent kinetic energy와 제한된 coupled chemical energy 합을 넘지 않도록 diagnostic ledger를 남긴다.
@@ -230,5 +230,16 @@
 - WIP12C impact-time traversal은 body당 최대 80 m/128 events, cascade 최대 4 bodies로 제한하고 render frame에서는 geometry query를 하지 않는다. 최종 512회 로컬 benchmark는 `0.2691 ms/impact`, 후보 감소 `65.9975%`, render query `0`, combat RNG 불변을 기록했다.
 - WIP12C 화재 정책에서 일반 impact damage와 structural impulse는 ignition source가 아니다. 비폭발성 inert 판재·plug·fragment는 자체 발화 확률 0이며, 실제 vulnerable `DAMAGE_VOLUME`을 맞힌 mechanical impact만 event-ID hash와 energy/speed로 희박 발화를 결정한다. hard cap은 fuel/lube `1.8%`, aviation fuel `1.4%`, electrical `0.8%`, ordnance `0.6%`, inert `0%`이고 각 volume은 더 낮은 cap을 선언할 수 있다. explosive blast는 detonation cell, thermal/incendiary는 명시적 direct candidate로만 처리하며 이 정책은 combat RNG를 소비하지 않는다.
 - WIP12C에서도 실제 표면표적 선택·발사, 함포·포탑·탄창, 외탄도·해상사격 해법, persistent patch, heavy-armor solver, operational snapshot cascade 저장은 활성화하지 않는다.
-- 다음 코드 작업은 WIP13의 제한적 표면교전 표적 승인·발사/FCS 경로이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 별도 승인된 범위로 고정한다.
+- WIP12D는 Kh-32의 legacy 관통 상태에서 실제 기폭 거리의 잔존 유효에너지 비율을 읽고, raw entry 운동에너지에 그 비율을 곱해 폭발 직전의 물리 운동에너지와 속도를 복원한다. 이 값 자체는 기존 Kh-32 피해 공식을 바꾸지 않고 대형 잔존체의 병진운동 초기화에만 사용한다. 다만 사용자 지시로 변경된 연돌 hitbox를 실제 피격판정도 함께 소비하므로, 새 envelope와 교차하는 경로의 첫 접촉 surface와 그에 따른 공간 피해 결과는 의도적으로 달라질 수 있다.
+- WIP12D의 macro translation은 부모 속도를 질량에 따라 계승하되 `0.92` retention과 TNT-equivalent의 `2.4%` chemical coupling 안에서 제한한다. 최대 4개 body, body당 최대 6회 shatter continuation과 128개 traversal event를 허용하며 mass/energy ledger와 combat-RNG 불변을 진단한다.
+- `PERFORATED`와 `SHATTERED`는 동시에 성립할 수 있다. opt-in `MACRO_FRAGMENT`가 외판을 완전 관통하고 잔존 질량 `0.12 kg`, coherent mass `0.035 kg`, 속도 `35 m/s`, 에너지 `15 kJ` 이상이면 깨진 상태로도 후속 경계를 계속 처리한다. terminal outer-shell 관통은 shatter 정지보다 먼저 `TARGET_EXIT`로 확정한다. 일반 WIP12A 탄체는 opt-in하지 않으므로 기존 shatter 동작을 유지한다.
+- 반대편 외판 이탈 뒤에는 중력만 적용하는 저항 0의 외부 비행을 진행하고, 현재 state로 실제 물리 선체와 상세 상부구조 공간을 다시 질의한다. body당 최대 재진입 `3`, 외피 교차 `8`, 외부 탐색 `220 m/2.5초/512 sample`로 제한하며 재진입 경계에서도 실제 재질 solver를 다시 실행해 도탄·정지·관통·파쇄를 허용한다. 실제 형상 fixture는 전방 S5 연돌 이탈, `12.35 m` 외부 비행, 후방 S5 연돌 재진입·재이탈의 `EXIT → REENTRY → EXIT`와 세 개의 `FUNNEL_SKIN` 파괴구를 검증한다.
+- 모든 완전 관통 physical-hull 교차는 위치·법선·면적을 가진 `additionalShellOpening`으로 기존 침수 모델에 전달한다. 수중 또는 파랑에 젖은 구멍은 실제 유입과 기존 안정성·구조 후속 피해를 만든다. `${impactEventId}:RESIDUAL_SUPPLEMENT`는 중복을 거부하고 폭발·열·legacy blast를 재적용하지 않으며 직접 기계 피해만 `0.16 units/MJ`, row `8`, target `18`, total `42`로 제한한다.
+- 수면 위 최종 이탈은 최대 `8초/1,800 m/18점`의 사전 계산 표시선을 만들고 수선 아래 이탈은 즉시 `SUBMERGED_WATER_ENTRY`로 기록한다. 해수 진입선은 표시 전용이며 수중 충격 피해나 render-frame 물리를 추가하지 않는다.
+- high-speed projectile이 기폭 뒤 `0.75 m` 이상 coherent path를 가지면 authoritative WIP101 blast source는 최소 head/peak/tail로 분포한다. power fraction 합은 정확히 `1`이고 피해 consumer와 3D connected teardrop이 같은 source를 사용한다. 느리거나 path가 짧은 폭발은 기존처럼 구형에 가깝게 수렴한다.
+- live Kh-32 cascade는 계속 `LEGACY_PREACCOUNTED_OBSERVATION_ONLY`, `mergeDamage:false`여서 primary legacy blast packet을 중복 적용하지 않는다. 다만 위의 제한된 residual supplement는 실제 기계 피해와 구멍을 한 번 적용한다. 새 연돌 hitbox를 소비하는 seed `481232` 회귀는 primary damage budget `191`, damaged parts `17`, macro body `4`, shatter continuation `10`, 내부 정지 `2`, 반대편 외판 이탈·실제 구멍·해수 진입 `2`, 추가 기계 피해 `9.34313`을 만든다. DUD는 body와 exit 모두 `0`이고 전투 RNG는 변하지 않는다.
+- WIP12D의 관통선·잔존체·반대편 출구·재진입·해수 진입과 물방울형 blast envelope는 명시적 `내부 구조` 보기에서만 표시한다. 기본 `피격 중심`은 최신 impact 주위의 여섯 clipping plane과 object-AABB culling을 함께 사용하고 `전체 내부` 버튼으로 완전한 상세 구획을 복원한다. focus 선택은 event/damage revision 때만 다시 만들며 flood/fire/smoke overlay는 최대 3개 batch로 표시한다. 검증 장면의 draw call은 `2,342`에서 `298`로 감소했다.
+- WIP12D에서도 inert fragment와 structural impulse 자체는 화재를 만들지 않는다. WIP12C의 실제 vulnerable material volume 희박 발화, explosive blast와 thermal/incendiary 직접 source만 유지한다.
+- WIP12D는 primary legacy ASM solver의 공통 packet 완전 이전, legacy blast 재적용, 무제한 개별 파편, 수중 충격 피해, persistent patch, snapshot migration, 표면교전 발사/FCS, 함포와 외탄도를 활성화하지 않는다.
+- 다음 코드 작업은 WIP12E다. `docs/WIP12E_COMPARTMENT_BLAST_HANDOFF.md`를 범위 계약으로 사용해 legacy scalar blast 재분배를 bounded compartment/portal pressure·impulse solver로 교체한다. incident/reflected pressure, positive-phase impulse, blast wind, hot gas, dynamic breach와 exterior vent를 분리하고, shadow 진단 뒤 신규 solver 하나만 피해 권위를 가져야 한다. 권위 전환 뒤 기존 Kh-32 `191` scalar budget과 부품별 피해 행은 calibration 비교값이지 exact 요구가 아니며, 관통·기폭 위치·잔존체·외피 구멍·침수·전투 RNG는 회귀 권위로 유지한다. WIP13은 그 다음의 제한적 표면교전 표적 승인·발사/FCS 경로이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 별도 승인된 범위로 고정한다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.
