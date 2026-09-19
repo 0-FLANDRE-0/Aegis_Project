@@ -29,8 +29,11 @@ on:
       - 'tests/asm-wreckage-wip11c.spec.js'
       - 'tests/terminal-ballistics-wip12a-contract.cjs'
       - 'tests/terminal-ballistics-wip12a.spec.js'
+      - 'tests/live-terminal-effects-wip12b-contract.cjs'
+      - 'tests/live-terminal-effects-wip12b.spec.js'
       - 'tests/wip10-visual-probe.cjs'
       - 'archive/v48/WIP11C/**'
+      - 'archive/v48/WIP12A/**'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -39,7 +42,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP12A.html
+  SIM_FILE: Aegis_SIM_v48_WIP12B.html
   BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
   SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
   WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
@@ -935,6 +938,65 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-terminal-ballistics-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  live-terminal-effects-wip12b-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12B live-ordnance terminal-effects static contract
+        run: npm run test:live-terminal-effects-contract
+
+  live-terminal-effects-wip12b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12B live-ordnance terminal-effects browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/live-terminal-effects-wip12b
+          python3 -m http.server 4173 >/tmp/aegis-live-terminal-effects-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:live-terminal-effects
+
+      - name: Upload WIP12B live-ordnance and terminal-visualization evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-terminal-effects-wip12b-${{ github.sha }}
+          path: |
+            artifacts/live-terminal-effects-wip12b/
+            playwright-report/
+            test-results/
+            /tmp/aegis-live-terminal-effects-http.log
           if-no-files-found: warn
           retention-days: 14
 
