@@ -2,9 +2,9 @@
 
 ## 판정
 
-`구현 완료 + 격리 런타임 검사 완료 / 실제 브라우저·전체 회귀·원격 HTML 업로드 잔여`
+`revision 2 구현 완료 + 격리 런타임 검사 완료 / 실제 브라우저·전체 회귀·원격 HTML 업로드 잔여`
 
-WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 구획 폭발 authority와 소비자/VFX 연결을 포함하지만, 실제 브라우저 실행과 GitHub Actions 전체 회귀가 아직 필요하다.
+WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 구획 폭발 authority와 소비자/VFX 연결에 더해 사용자 Kh-32 시험에서 확인된 부족한 화재, 잘못된 파괴구 위치, entry 미확대 및 fragment hole 누락을 교정했지만, 실제 브라우저 자동 회귀와 GitHub Actions 전체 회귀가 아직 필요하다.
 
 ## 기준과 브랜치
 
@@ -16,8 +16,8 @@ WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 �
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - 브랜치 시작 SHA: `97de0e1459e4f111e21b5bed163decc6ce782c32`
 - 구현 후보: `Aegis_SIM_v48_WIP12E.html`
-- 후보 크기: `3,148,363 bytes`
-- 후보 SHA-256: `790a980ff6e4fa6ab045d3d15893ff5d22c23b064ccf4e93006de3ce59eb9bf9`
+- 후보 크기: `3,171,578 bytes`
+- 후보 SHA-256: `dd8ca1bf44f8b80e6b440f36e42c37ca41d747c9ce2ffd663791e6c0ab5f01af`
 
 ## 구현된 범위
 
@@ -28,7 +28,14 @@ WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 �
 - 닫힌 door/bulkhead failure와 남은 pulse의 후속 전파
 - 기존/신규 exterior opening을 통한 venting
 - surface-load 기반 외판 rupture와 침수 opening 단일 적용
+- 원래 projectile entry 좌표의 `BLAST_ENTRY_BLOWOUT` 확대와 동일 면 중복 rupture 억제
+- source/portal 기준 국부 좌표의 반대편·주변 pressure rupture
+- case-fragment plate work와 실제 `BLAST_FRAGMENT_PERFORATION`
+- WIP12D residual crossing 및 WIP12E breach의 flood 독립 persistent 3D hole
+- solved hole area를 cosmetic morphology가 다시 부풀리지 않는 시각 권위
+- 대형 내부 폭발의 고온 생성물·가연물 기반 다구획 점화
 - air-blast/structural/vent/thermal/residual/truncation energy ledger
+- fragment perforation work/residual/closure ledger
 - legacy/shadow/authority 명시 모드와 기본 authority 전환
 - ASM과 WIP12A generic projectile 경로의 동일 solver 연결
 - 구조, 장비, 승조원, VLS, 화재, 침수 소비자의 공유 trace 사용
@@ -50,17 +57,18 @@ WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 �
 
 | 검사 | 결과 |
 |---|---:|
-| WIP12E static checks | 28/28 PASS |
-| isolated VM runtime checks | 10/10 PASS |
-| 합계 | 38/38 PASS |
-| core diagnostic | 14/14 PASS |
-| fixture diagnostic | 10/10 PASS |
+| WIP12E static checks | 31/31 PASS |
+| isolated VM runtime groups | 11/11 PASS |
+| 합계 | 42/42 PASS |
+| core diagnostic | 16/16 PASS |
+| fixture diagnostic | 17/17 PASS |
 | authority probe | 4/4 PASS |
 | idempotence probe | 4/4 PASS |
 | hard-budget probe | 5/5 PASS |
+| solved-damage visual adapter | 5/5 PASS |
 | dynamic breach cap | 64/64 |
 | portal event cap | 384/384 |
-| solver 64회 평균 | 약 2 ms/impact, 실행별 소폭 변동 |
+| solver 64회 평균 | 약 2.2 ms/impact, 실행별 소폭 변동 |
 | combat RNG | unchanged |
 
 실행 명령:
@@ -69,6 +77,8 @@ WIP12E를 정식 완료로 선언하지 않는다. 현재 후보본은 범용 �
 node --check tests/compartment-blast-wip12e.spec.js
 node tests/compartment-blast-wip12e-contract.cjs
 ```
+
+revision 2의 90 kg TNT-equivalent missile fixture에서는 `0.045 m²` 초기 entry가 같은 좌표에서 `8.16 m²` backblast opening으로 확대됐고, outward vent energy를 유지했다. 같은 사건에서 case-fragment hole 2개, 서로 다른 구획의 hot-product ignition 2개 및 air/fragment ledger closure `0`을 확인했다. 이는 공개 Kh-32 실측값이 아니라 회귀용 `SIM_TUNED` 증거다.
 
 ## 준비된 브라우저 회귀
 
@@ -79,7 +89,10 @@ node tests/compartment-blast-wip12e-contract.cjs
 - seed `481232` 100 km Kh-32 live hit
 - WIP12D flight/geometry/residual golden
 - one blast authority와 shared crew trace
-- energy closure, cap, rupture/flood dedupe
+- air/fragment energy closure, cap, rupture/flood dedupe
+- 원래 impact 좌표의 single entry backblast와 확대 면적
+- pressure/fragment/residual physical holes
+- 2개 이상 hot-product fire cell
 - VFX payload, same-seed exact, DUD zero-blast
 
 ## 실행하지 못한 검사
