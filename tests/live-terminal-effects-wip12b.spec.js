@@ -2,8 +2,9 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP12B.html';
+const simulator = process.env.SIM_FILE || 'archive/v48/WIP12B/Aegis_SIM_v48_WIP12B.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/live-terminal-effects-wip12b';
+const isWip12C = /WIP12C/i.test(simulator);
 
 test.use({ viewport:{ width:1600, height:900 } });
 
@@ -57,14 +58,14 @@ test('v48 WIP12B integrates live ordnance and dual fuze paths without changing l
     dualFuzeInterceptors: ['SM2','ESSM','RAM'].every(key => result.ordnance[key].fuze.channels.includes('PROXIMITY') && result.ordnance[key].fuze.channels.includes('CONTACT_DIRECT_ACTION') && result.ordnance[key].fuze.channels.includes('DUD')),
     essmCaveat: result.ordnance.ESSM.fuze.contactSourceClass === 'SIM_WORKING_ASSUMPTION_PUBLIC_IDENTITY_UNRESOLVED',
     deterministicContact: JSON.stringify(result.contactA.trace) === JSON.stringify(result.contactB.trace) && result.contactA.trace.terminationReason === 'FUZE_AT_CONTACT' && result.contactA.trace.boundaryResults.length === 1,
-    proximityWinsBeforeHull: result.proximity.trace.terminationReason === 'PROXIMITY_FUZE' && result.proximity.trace.boundaryResults.length === 0 && result.proximity.damagePacket.breaches.length === 0,
+    proximityWinsBeforeHull: result.proximity.trace.terminationReason === 'PROXIMITY_FUZE' && result.proximity.trace.boundaryResults.length === 0 && (isWip12C ? result.proximity.cascade?.macroBodies?.length >= 1 : result.proximity.damagePacket.breaches.length === 0),
     dudNoWarheadEffect: !result.dud.trace.finalState.fuze.detonated && result.dud.damagePacket.blast.length === 0 && result.dud.damagePacket.warheadFragments.length === 0,
     ledgerIdempotent: result.deduped.length === 1 && result.deduped[0].impactEventId === 'WIP12B_LEDGER_ONCE',
     interceptorProximityAndContact: result.interceptEvents.length === 2 && result.interceptEvents[0].fuzePath === 'PROXIMITY' && result.interceptEvents[1].fuzePath === 'CONTACT_DIRECT_ACTION' && result.interceptEvents.every(e => e.damageAppliedBy === 'EXISTING_INTERCEPT_FRAGMENT_PK' && e.coordinateSpace === 'TARGET_LOCAL_METRES'),
     liveNormalAsmObserved: result.liveNormalProbe.outcome === 'NORMAL_HIT' && result.liveNormalEvents.length === 1 && result.liveNormalEvents[0].weaponKey === 'KH35U' && result.liveNormalEvents[0].fuzePath === 'CONTACT_DIRECT_ACTION' && result.liveNormalEvents[0].damageAppliedBy === 'LEGACY_ASM_DAMAGE_PATH',
     liveDudAsmObserved: result.liveDudProbe.outcome === 'DUD_PENETRATION' && result.liveDudEvents.length === 1 && result.liveDudEvents[0].fuzePath === 'DUD' && result.liveDudEvents[0].damageAppliedBy === 'LEGACY_ASM_DAMAGE_PATH',
     legacyNotDoubleApplied: result.liveNormalEvents[0].applicationAuthority === 'OBSERVED_ALREADY_APPLIED' && result.liveDudEvents[0].applicationAuthority === 'OBSERVED_ALREADY_APPLIED',
-    renderContract: result.renderState.terminalEffectsRevision === 'V48_WIP12B_LIVE_ORDNANCE_VISUALIZATION' && result.renderState.terminalImpacts.length === result.liveDudEvents.length,
+    renderContract: result.renderState.terminalEffectsRevision === (isWip12C ? 'V48_WIP12C_INTERNAL_EFFECT_CASCADE' : 'V48_WIP12B_LIVE_ORDNANCE_VISUALIZATION') && result.renderState.terminalImpacts.length === result.liveDudEvents.length,
     funnel2DIndicatorExtended: funnelIndicatorPixels.length === 4 && funnelIndicatorPixels.every(sample => sample.rgba[0] >= 110 && sample.rgba[3] === 255),
     scopeHeld: result.contract.surfaceFireControl === 'DEFERRED_WIP13' && result.contract.gunLaunch === 'DEFERRED' && result.contract.persistentDamagePatch === false && result.contract.persistentSnapshot === false
   };
@@ -90,21 +91,25 @@ test('v48 WIP12B renders penetration history and detailed interior hazards throu
   await page.locator('#wip125DepartBtn').click();
   await expect(page.locator('#wip125LoadoutOverlay')).toBeHidden();
 
-  const result = await page.evaluate(() => {
+  const result = await page.evaluate(({ isWip12C }) => {
     const d=window.__NAVAL_SIM_DIAG__,v=window.__WIP148_3D_VIEW__;v.active=false;d.runWip113DudImpactProbe({dud:false,rangeKm:2.4,altM:12,speedMps:280});const hazard=d.wip12bInteriorHazardPresentationProbe({flood01:.58,fire01:.42,smoke01:.68});
-    v.active=true;const base=performance.now();v.render(base);v.render(base+16.667);v.active=false;
+    v.active=true;const base=performance.now(),exteriorFrames=isWip12C?180:2;for(let i=0;i<exteriorFrames;i++)v.render(base+i*16.667);v.active=false;
     const before=v.interiorDamagePresentationAuditV48Wip12B(),terminalBefore=v.terminalImpactAuditV48Wip12B(),renderState=window.get3DRenderState(),coarse=!!v.shipRoot?.getObjectByName('COMPARTMENT_INTERIOR_V8');
-    if(!v.interiorTopologyVisible)v.toggleInteriorTopology();v.active=true;v.render(base+33.334);v.active=false;
+    if(!v.interiorTopologyVisible)v.toggleInteriorTopology();v.active=true;for(let i=exteriorFrames;i<exteriorFrames+(isWip12C?16:1);i++)v.render(base+i*16.667);v.active=false;
     const after=v.interiorDamagePresentationAuditV48Wip12B(),terminalAfter=v.terminalImpactAuditV48Wip12B(),interior=v.interiorAuditV48Wip06(),funnelAuthority=d.wip12bFunnelGeometryAudit(),funnel3D=v.funnelGeometry3DAuditV48Wip12B();
     return {hazard:{spaceId:hazard.spaceId,row:hazard.state.hazards.find(h=>h.spaceId===hazard.spaceId)},before,after,terminalBefore,terminalAfter,interior,funnelAuthority,funnel3D,coarse,renderState:{holes:renderState.shipDamageVisual.scars.filter(s=>s.hole&&s.sealed<=.9).length,terminalImpacts:renderState.terminalImpacts.length},selftests:window.__CORE_SELFTEST_FAILURES__.slice()};
-  });
+  }, { isWip12C });
 
   const checks = {
     pageLoad: consoleErrors.length === 0 && pageErrors.length === 0,
     coreSelftests: result.selftests.length === 0,
     openDamageExists: result.renderState.holes >= 1,
-    coarseProxyRetired: !result.coarse && result.before.coarseCompartmentProxyRetired && result.terminalBefore.coarseCompartmentProxyPresent === false,
-    detailedTopologyThroughHole: result.before.visibleThroughOpenDamage && result.before.detailedTopologyVisible,
+    versionedBreachPresentation: isWip12C
+      ? result.coarse && result.before.coarseCompartmentProxyPresent && result.before.coarseCompartmentProxyVisible && result.before.coarseVisibleThroughOpenDamage
+      : !result.coarse && result.before.coarseCompartmentProxyRetired && result.terminalBefore.coarseCompartmentProxyPresent === false,
+    versionedDetailedVisibility: isWip12C
+      ? result.before.detailedHiddenOutsideInterior && !result.before.detailedTopologyVisible && result.after.detailedTopologyVisible && result.after.coarseHiddenInInteriorMode
+      : result.before.visibleThroughOpenDamage && result.before.detailedTopologyVisible,
     detailedHazards: result.hazard.row.flood01 === .58 && result.hazard.row.fire01 === .42 && result.hazard.row.smoke01 === .68 && result.before.activeDetailedHazards >= 1 && result.before.renderedHazardVolumes >= 3 && result.before.hazardEnvelopeClipped && result.before.hazardFragmentCount >= 3 && result.before.hazardSpaces.includes(result.hazard.spaceId),
     terminalTracePrepared: result.renderState.terminalImpacts === 1 && result.terminalBefore.sourceEvents === 1 && result.terminalBefore.renderedEvents === 1 && result.terminalBefore.pathVisuals === 1 && result.terminalBefore.markerVisuals >= 2 && result.terminalBefore.allShipLocalEventsRepresented,
     terminalHiddenOutsideInterior: result.terminalBefore.hiddenOutsideInterior && !result.terminalBefore.visible && result.terminalBefore.visibilityMatchesInterior,

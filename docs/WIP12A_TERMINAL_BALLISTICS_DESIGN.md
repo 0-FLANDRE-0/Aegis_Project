@@ -240,6 +240,12 @@ BOUNDARY → EMPTY → DAMAGE_VOLUME → EMPTY → BOUNDARY
 
 첫 판에서 편향되거나 도탄하면 최초 직선에 있던 경계 대신 새 경로의 경계가 선택돼야 한다. 같은 거리의 접촉은 `BOUNDARY → VOLUME → stable ID` 순으로 결정하고, 위치 epsilon·시간 epsilon·최대 event 수·최대 경로 길이로 무한 재접촉을 막는다.
 
+geometry는 고정 `boundaries`/`damageVolumes` 배열뿐 아니라 impact-time `eventProviders`를 제공할 수 있다. provider도 현재 state에서 가장 가까운 사건 후보만 반환하며 같은 정렬·epsilon·event/path 한계를 적용받는다. 이를 통해 상세 함체 geometry를 매 render frame에 갱신하지 않고도 방향 변화 뒤 새 경계와 국부 외판 출구를 동적으로 구할 수 있다.
+
+- 열린 문·해치·aperture는 `PERFORATED`로 통과하되 plate work, 속도·질량·무결성 손실, spall과 새 hole이 모두 `0`이다.
+- 실제 외판 출구처럼 `terminalExit`로 표시한 경계는 완전 관통한 순간 `TARGET_EXIT`로 traversal을 끝낸다.
+- 질량 탈락 뒤 잔존체 속도를 역산할 때도 `speedAfterMps <= speedBeforeMps`를 강제해 수치상 가속을 만들지 않는다.
+
 ## 8. Solver 선택
 
 solver는 무기 이름이 아니라 탄체 상태와 표적 경계의 충돌 regime으로 선택한다.
@@ -476,6 +482,8 @@ WIP12A에서 빈 공간 저항 제거 또는 신규 thin plate solver를 기존 
 - BVH/AABB로 현재 경로 주변의 다음 경계·volume 후보만 축소하고, 상태 변화 뒤 다시 질의한다.
 - 실제 통과한 경계와 물질 volume만 순서대로 검사한다.
 - 수천 개 파편을 물리 객체로 만들지 않고 파편 원뿔과 확률 밀도로 계산한다.
+- 동적 geometry provider도 피격 사건에서만 호출하고 render frame에서는 호출하지 않는다.
+- body별 최대 path/event와 명시적 terminal-exit를 두어 도탄·경계 재접촉이 무한 루프로 이어지지 않게 한다.
 - 기관포 근접 탄착의 live patch 병합은 후속 ledger 단계로 미룬다.
 
 ## 16. 필수 검증 계약
@@ -495,6 +503,9 @@ WIP12A에서 빈 공간 저항 제거 또는 신규 thin plate solver를 기존 
 - yaw 증가에 따른 후속 관통 저하
 - 빈 공간에서 속도 손실 없이 신관 시간만 진행
 - volume에서만 volumetric work 소비
+- open aperture 통과 시 projectile state와 damage channel 불변
+- 외판 `terminalExit` 뒤 추가 허공 traversal 없음
+- 어떤 boundary/volume 결과에서도 잔존 속도가 충돌 전 속도를 넘지 않음
 - 정상기폭과 DUD
 - 아라미드가 직접 관통보다 spall/fragment를 감쇠
 

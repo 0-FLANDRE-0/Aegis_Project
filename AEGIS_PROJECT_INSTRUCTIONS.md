@@ -175,10 +175,10 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12B.html`이다.
-- 현재 기준 HTML SHA-256은 `61dfcff533f7708df65e1939e3f5cd10448a6492ed0903b4dc2f17af50663f91`이고 크기는 `2,930,747 bytes`다.
-- 최종 로컬 검증은 WIP12B 정적 계약 `29/29`, WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, 정적 계약 파일 `9/9`, WIP12B Playwright `2/2`, 전체 Playwright `32/32`를 통과했다.
-- WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A는 각각 `archive/v48/` 아래의 같은 이름 폴더에 보존한다. WIP12A HTML은 SHA-256 `60705246ef0b659dadf67e23ca9b84bf7dc2cb477857d9714223291c564c3729`로 바이트 단위 보존한다.
+- 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12C.html`이다.
+- 현재 기준 HTML SHA-256은 `55c4c71ee05053820743ae3ce6cdf80cd07b34a92643062309700ff61530567d`이고 크기는 `2,989,191 bytes`다.
+- 최종 로컬 검증은 WIP12C 정적 계약 `40/40`, WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, 정적 계약 파일 `10/10`, WIP12C Playwright `2/2`, WIP12A·WIP12B browser regression 각 `2/2`, 전체 Playwright `34/34`를 통과했다.
+- WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A, WIP12B는 각각 `archive/v48/` 아래의 같은 이름 폴더에 보존한다. WIP12B HTML은 SHA-256 `61dfcff533f7708df65e1939e3f5cd10448a6492ed0903b4dc2f17af50663f91`로 바이트 단위 보존한다.
 - WIP11B의 활성 자함 삭제 금지, detached export, 7-codec preflight, `profileRevision` 호환성과 validation 거부 시 zero-mutation 계약은 그대로 유지한다.
 - WIP11C는 살아 있는 적 대함미사일과 잔해를 분리한다. 요격된 위협은 즉시 truth association과 hostile collection에서 퇴역하며, 잔해는 `ENGAGEMENT_RUNTIME.world.entities.asmWreckage`에서만 고정 tick 물리를 계속한다. coast 중인 센서 track이 남더라도 truth를 다시 해석해서는 안 된다.
 - WIP11C 교전통제는 요격탄 신관·직접 분해 보고를 받으면 코스팅 트랙을 유지한 채 `KILL_ASSESSMENT / WITHHELD`로 전환한다. 직접 분해는 `0.35초`, 신관 보고만 있는 경우는 `1.5초` 동안 일관 관측이 없을 때 `DESTROYED`로 확인한다. 보고 이후 새 측정이 들어오면 즉시 관측 기반 `THREAT` 또는 `HARMLESS` 판정으로 복귀한다.
@@ -218,8 +218,17 @@
 - SM-2, ESSM, RAM은 `PROXIMITY`, `CONTACT_DIRECT_ACTION`, `DUD` 경로를 가진다. earliest-valid-event가 우선하며 proximity는 접촉 전, contact는 실제 경계 해결 뒤 같은 위치, DUD는 탄두효과 없이 처리한다. ESSM direct-action backup의 정확한 공개 hardware identity는 확인하지 못했으므로 `SIM_WORKING_ASSUMPTION_PUBLIC_IDENTITY_UNRESOLVED`로 유지한다.
 - WIP12B terminal-event ledger는 `impactEventId`로 중복을 막고 최근 32개만 보존하는 engagement transient다. operational snapshot과 persistent patch state에 넣지 않으며 reset lifecycle에 포함한다.
 - 3D는 ship-local terminal event에서 경로, 경계·파괴구, 기폭, blast envelope와 fragment cone을 준비하되 명시적 `내부 구조` 보기에서만 표시한다. 2D 관통선·폭발범위도 같은 모드에만 표시하며, target-local 공중요격 event를 자함에 잘못 붙이지 않고 렌더러가 전투 물리나 난수를 계산하지 않는다.
-- 피격 뒤의 `COMPARTMENT_INTERIOR_V8` coarse flood-cell proxy는 폐기한다. open damage가 있으면 상세 WIP06 topology를 표시하고, 명시적 내부 보기에서는 외부 함체 재질을 투명화한다. 상세 구획과 침수·화재·연기 overlay는 실제 hull/upper-structure envelope로 잘라 외형 밖으로 돌출되지 않아야 하며, 승조원 표시는 내부 보기에만 연동한다.
+- WIP12B 당시에는 피격 뒤의 `COMPARTMENT_INTERIOR_V8` coarse flood-cell proxy를 폐기하고 open damage에서 상세 WIP06 topology를 표시했다. WIP12C는 아래 인계 규칙에서 이 표시 정책만 의도적으로 되돌리며, 상세 구획과 침수·화재·연기 overlay가 실제 hull/upper-structure envelope 밖으로 돌출되지 않아야 한다는 containment 계약은 유지한다.
 - WIP12B 연돌 권위값은 `ACTIVE_SHIP_PROFILE.geometry.funnels`다. 전방 연돌 범위는 `x=5.25…17.10 m`, 후방 연돌 범위는 `x=-17.65…-5.80 m`이며 3D, 외부 피격판정, RCS aim, 내부 배기 트렁크와 2D indicator가 이를 함께 소비한다. SPG-62 blind half-angle은 전방/후방상단/후방하단 순서로 `41°/45°/54°`다.
 - WIP12B의 direct surface-impact resolver는 이후 제한적 대함전이 사용할 진입점일 뿐이다. 현재는 표면표적 선택, 발사 승인, 실제 SM-2/ESSM/RAM 대함 발사와 해상사격 FCS를 활성화하지 않는다.
+- WIP12C는 정상 기폭의 pre-detonation state에서 최대 4개의 결정적 `MACRO_FRAGMENT`를 만든다. 각 잔존체는 질량·coherent mass·무결성·direction·bodyAxis를 가진 inert WIP12A 탄체이며 동일한 event-driven traversal로 장비 체적, 격벽과 반대편 외판을 다시 해결한다. 미세 파편은 통계 damage channel에 남긴다.
+- WIP12C 잔존체 생성은 event ID hash만 사용하고 전투 RNG를 소비하지 않는다. parent non-explosive mass를 macro mass와 statistical fragment mass로 닫고, macro kinetic energy는 parent kinetic energy와 제한된 coupled chemical energy 합을 넘지 않도록 diagnostic ledger를 남긴다.
+- 공통 경로에서는 root와 child의 `penetrationCorridors`, 관통·spall·파편·폭압·열·파괴구·충격·승조원 채널을 부모 `DamagePacket`에 평탄화한 뒤 한 번만 적용한다. 동일 `impactEventId` 재적용은 거부하며 다중 관통선과 반대편 파괴구는 침수·승조원 consumer에 한 사건으로 전달한다.
+- Kh-32/Kh-35U는 기존 피해와 RNG exact parity를 유지한다. WIP12C cascade는 `LEGACY_PREACCOUNTED_OBSERVATION_ONLY`로 관찰·표시만 하고 child 피해를 다시 적용하지 않는다. DUD는 functioning detonation이 아니므로 macro body를 만들지 않는다. legacy ASM의 신규 solver 및 잔존체 피해 권위 이전은 별도 승인 대상이다.
+- WIP12C는 외부 파괴구를 통해 보이는 내부를 `COMPARTMENT_INTERIOR_V8` coarse 침수구획으로 되돌린다. 명시적 `내부 구조` 모드에서는 coarse layer를 숨기고 상세 138-space topology·hazard·crew와 관통선·폭발범위·macro body 경로·반대편 출구를 표시하며 외형 재질을 투명화한다. 모든 3D 객체는 presentation-only다.
+- WIP12C 실제 함체 traversal은 상세 138-space topology와 70개 장비·8개 tank material volume을 cache하고 10 m longitudinal bin으로 후보를 줄인다. 최초 직선 후보를 고정하지 않고 매 접촉·편향 뒤 현재 state로 다음 상세 경계, material volume과 tapered outer-shell exit를 재질의하며 국부 hull normal을 사용한다. open portal은 저항·spall·새 hole이 모두 0이고, low-energy body는 내부 경계나 volume에서 막혀 반대편 파괴구를 만들지 않아야 한다.
+- WIP12C impact-time traversal은 body당 최대 80 m/128 events, cascade 최대 4 bodies로 제한하고 render frame에서는 geometry query를 하지 않는다. 최종 512회 로컬 benchmark는 `0.2691 ms/impact`, 후보 감소 `65.9975%`, render query `0`, combat RNG 불변을 기록했다.
+- WIP12C 화재 정책에서 일반 impact damage와 structural impulse는 ignition source가 아니다. 비폭발성 inert 판재·plug·fragment는 자체 발화 확률 0이며, 실제 vulnerable `DAMAGE_VOLUME`을 맞힌 mechanical impact만 event-ID hash와 energy/speed로 희박 발화를 결정한다. hard cap은 fuel/lube `1.8%`, aviation fuel `1.4%`, electrical `0.8%`, ordnance `0.6%`, inert `0%`이고 각 volume은 더 낮은 cap을 선언할 수 있다. explosive blast는 detonation cell, thermal/incendiary는 명시적 direct candidate로만 처리하며 이 정책은 combat RNG를 소비하지 않는다.
+- WIP12C에서도 실제 표면표적 선택·발사, 함포·포탑·탄창, 외탄도·해상사격 해법, persistent patch, heavy-armor solver, operational snapshot cascade 저장은 활성화하지 않는다.
 - 다음 코드 작업은 WIP13의 제한적 표면교전 표적 승인·발사/FCS 경로이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 별도 승인된 범위로 고정한다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.
