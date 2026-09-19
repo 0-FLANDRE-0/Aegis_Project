@@ -24,6 +24,11 @@ const kernel = source.slice(kernelStart, kernelEnd);
 const hasAll = (...needles) => needles.every(needle => html.includes(needle));
 const sourceHasAll = (...needles) => needles.every(needle => source.includes(needle));
 
+const visualStart = html.indexOf('function createShipDamageVisualStateV1');
+const visualEnd = html.indexOf('function shipDamageVisualStateV1', visualStart);
+assert(visualStart >= 0 && visualEnd > visualStart, 'WIP12E damage visual adapter bounds missing');
+const visualSource = html.slice(visualStart, visualEnd);
+
 const staticChecks = {
   title: html.includes('<title>AEGIS v48 WIP12E — Generic Compartment Blast Authority</title>'),
   syntax: scripts.length === 1,
@@ -46,6 +51,7 @@ const staticChecks = {
     'breaches:64',
     'timeSlices:32',
     'ventJets:32',
+    'ignitionCandidates:24',
     'presentationKeyframes:256'
   ),
   physicalChargeContract: sourceHasAll(
@@ -106,7 +112,10 @@ const staticChecks = {
     'ventedEnergyJ:ventedBlastJ',
     'thermalRetainedJ:hotGasEnergyJ',
     'truncationDiscardJ:cutoffBlastJ',
-    'closureErrorJ:airClosureErrorJ+totalPartitionErrorJ'
+    'fragmentPerforationWorkJ',
+    'fragmentResidualEnergyJ',
+    'fragmentClosureErrorJ',
+    'closureErrorJ:airClosureErrorJ+fragmentClosureErrorJ+totalPartitionErrorJ'
   ),
   deterministicKernel: !kernel.includes('Math.random(') && !kernel.includes('simRandom(') && !kernel.includes('rand('),
   weaponAgnosticKernel: !kernel.includes('carrierLabel') && !kernel.includes("label==='Kh-32'") && !kernel.includes("sourceClass==='"),
@@ -133,13 +142,40 @@ const staticChecks = {
     'maxBlastSurfaceDemand'
   ),
   floodOnce: hasAll(
-    "kind:'BLAST_SURFACE_RUPTURE'",
+    'function wip12eBlastOpenings',
+    "kind:q.kind??'BLAST_SURFACE_RUPTURE'",
     'openingMap=new Map()',
-    "holeAuthority=String(o.kind||'').includes('BLAST_SURFACE_RUPTURE')?'WIP12E_SURFACE_LOAD_FAILURE'"
+    "entryOpeningKind:'BLAST_ENTRY_BLOWOUT'",
+    'perforated:event.perforated!==false&&!h.exactArea',
+    "String(kind).includes('BLAST_SURFACE_RUPTURE')?'WIP12E_SURFACE_LOAD_FAILURE'"
+  ),
+  entryBackblast: hasAll(
+    "kind:'BLAST_ENTRY_BLOWOUT'",
+    "failureMode:'ENTRY_BACKBLAST_BLOWOUT'",
+    'replacesOpeningId:opening.id',
+    'outwardEjection:true',
+    "failureMode:'RELIEVED_THROUGH_PROJECTILE_ENTRY_BACKBLAST'",
+    'entryBackblastAtOriginalImpact:'
+  ),
+  fragmentPerforationHoles: hasAll(
+    'function wip12eStatisticalFragmentBreaches',
+    "kind:'BLAST_FRAGMENT_PERFORATION'",
+    "failureMode:'STATISTICAL_FRAGMENT_PERFORATION'",
+    'exactArea:true',
+    "holeAuthority==='WIP12E_FRAGMENT_PERFORATION'"
+  ),
+  persistentSolvedDamageScars: hasAll(
+    'for(const q of h.blastBreaches??[])',
+    "openingKind:kind",
+    "kind=reentry?'RESIDUAL_FRAGMENT_REENTRY':'RESIDUAL_FRAGMENT_PERFORATION'",
+    'morphologyLocked:true',
+    'existing.radius=Math.max(existing.radius,r)'
   ),
   hotGasIgnitionOnly: hasAll(
     'function wip12eApplyHotGasIgnition',
     "source:'BLAST_HOT_GAS'",
+    'if(!cell||!q.ignite)continue',
+    'severeThermalContact',
     'genericBlastIgnition:false',
     'explosiveMassKg:0,tntEquivalentKg:0'
   ),
@@ -261,6 +297,39 @@ const runtime = {
   budget:api.budget(),
   performance:api.performance(64)
 };
+const visualContext = { Math, Number, String, Array, Object, JSON, Map, Set, globalThis:null };
+visualContext.globalThis = visualContext;
+visualContext.__EVENTS__ = [{
+  impactEventId:'VISUAL_EVENT',
+  cascade:{ shellCrossings:[{ crossingRole:'EXIT', perforated:true, holeAreaM2:.02, position:{ x:2, y:5, z:5 }, normal:{ x:0, y:1, z:0 } }] }
+}];
+vm.createContext(visualContext);
+vm.runInContext(`
+const WIP12B_TERMINAL_EVENTS = globalThis.__EVENTS__;
+${visualSource}
+globalThis.__VISUAL_RESULT__ = createShipDamageVisualStateV1(
+  { cells:[{ id:'flood.test', x0:0, x1:10, y0:-10, y1:10, section:0, lane:1 }], openings:[
+    { id:'entry.flood', a:'flood.test', b:null, x:1, y:-5, z:4, areaM2:4, seal01:0, kind:'BLAST_ENTRY_BLOWOUT', impactRole:'ENTRY', normal:[0,-1,0] },
+    { id:'fragment.flood', a:'flood.test', b:null, x:1, y:5, z:4, areaM2:.003, seal01:0, kind:'BLAST_FRAGMENT_PERFORATION', impactRole:'EXIT', normal:[0,1,0] }
+  ] },
+  { cells:[] },
+  [{ blastAuthority:'COMPARTMENT_BLAST_AUTHORITY', impactPoint:{ x:1, y:-5, z:4 }, impactNormal:[0,-1,0], physicalPenetrationM:2, ricochet:false, blastParts:[], blastSources:[{ x:1, y:0, z:4, radiusM:8, powerFraction:1 }], blastBreaches:[
+    { id:'entry.trace', kind:'BLAST_ENTRY_BLOWOUT', impactRole:'ENTRY', position:{ x:1, y:-5, z:4 }, normal:{ x:0, y:-1, z:0 }, holeAreaM2:4, outwardEjection:true },
+    { id:'fragment.trace', kind:'BLAST_FRAGMENT_PERFORATION', impactRole:'EXIT', position:{ x:1, y:5, z:4 }, normal:{ x:0, y:1, z:0 }, holeAreaM2:.003, exactArea:true }
+  ] }],
+  []
+);`, visualContext, { filename:'wip12e-damage-visual.js' });
+const visualResult = visualContext.__VISUAL_RESULT__;
+const visualEntry = visualResult.scars.filter(row => row.openingKind === 'BLAST_ENTRY_BLOWOUT');
+const visualFragment = visualResult.scars.filter(row => row.openingKind === 'BLAST_FRAGMENT_PERFORATION');
+const visualResidual = visualResult.scars.filter(row => String(row.openingKind).startsWith('RESIDUAL_FRAGMENT'));
+const visualChecks = {
+  oneEntryAtSolvedImpact:visualEntry.length === 1 && Math.hypot(visualEntry[0].p.x-1, visualEntry[0].p.y+5, visualEntry[0].p.z-4) < 1e-12,
+  entryAreaRadiusPreserved:Math.abs(visualEntry[0].radius - Math.sqrt(4 / Math.PI)) < 1e-12 && visualEntry[0].morphologyLocked,
+  entryAuthority:visualEntry[0].hole && visualEntry[0].holeAuthority === 'WIP12E_ENTRY_BACKBLAST',
+  fragmentAuthority:visualFragment.length === 1 && visualFragment[0].hole && visualFragment[0].holeAuthority === 'WIP12E_FRAGMENT_PERFORATION',
+  residualCrossingPersists:visualResidual.length === 1 && visualResidual[0].hole && visualResidual[0].holeAuthority === 'WIP12D_RESIDUAL_PHYSICS'
+};
 const runtimeChecks = {
   core:runtime.core.pass && Object.values(runtime.core.checks).every(Boolean),
   fixtures:runtime.fixtures.pass && Object.values(runtime.fixtures.checks).every(Boolean),
@@ -271,7 +340,8 @@ const runtimeChecks = {
   combatRng:runtime.performance.rngUnchanged && runtime.core.checks.combatRngUnchanged && runtime.fixtures.checks.combatRngUnchanged,
   genericCarrierEquivalence:runtime.core.checks.genericWeaponEquivalence && runtime.core.checks.allExplosivesUseOneKernel,
   timeScaleInvariant:runtime.fixtures.checks.timeScaleInvariant,
-  dudZero:runtime.fixtures.checks.dudIsZero
+  dudZero:runtime.fixtures.checks.dudIsZero,
+  damageVisual:Object.values(visualChecks).every(Boolean)
 };
 
 const checks = { ...staticChecks, ...Object.fromEntries(Object.entries(runtimeChecks).map(([key, value]) => [`runtime_${key}`, value])) };
@@ -297,5 +367,6 @@ console.log(JSON.stringify({
     portalEvents:runtime.budget.portalEvents.caps.portalEvents,
     breachTermination:runtime.budget.breach.terminationReason,
     portalTermination:runtime.budget.portalEvents.terminationReason
-  }
+  },
+  visualEvidence:visualChecks
 }, null, 2));
