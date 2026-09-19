@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 
-const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP12C.html';
+const simulator = process.env.SIM_FILE || 'Aegis_SIM_v48_WIP12D.html';
 const artifactDir = process.env.ARTIFACT_DIR || 'artifacts/material-protection-wip11';
 
 test('v48 WIP11 derives mass and penetration from one material/thickness ledger', async ({ page }) => {

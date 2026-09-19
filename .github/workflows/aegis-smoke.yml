@@ -33,10 +33,13 @@ on:
       - 'tests/live-terminal-effects-wip12b.spec.js'
       - 'tests/internal-terminal-effects-wip12c-contract.cjs'
       - 'tests/internal-terminal-effects-wip12c.spec.js'
+      - 'tests/residual-overpenetration-wip12d-contract.cjs'
+      - 'tests/residual-overpenetration-wip12d.spec.js'
       - 'tests/wip10-visual-probe.cjs'
       - 'archive/v48/WIP11C/**'
       - 'archive/v48/WIP12A/**'
       - 'archive/v48/WIP12B/**'
+      - 'archive/v48/WIP12C/**'
       - 'package.json'
       - 'package-lock.json'
   workflow_dispatch:
@@ -45,7 +48,7 @@ permissions:
   contents: read
 
 env:
-  SIM_FILE: Aegis_SIM_v48_WIP12C.html
+  SIM_FILE: Aegis_SIM_v48_WIP12D.html
   BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
   SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
   WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
@@ -1010,6 +1013,8 @@ jobs:
   internal-terminal-effects-wip12c-contract:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      SIM_FILE: archive/v48/WIP12C/Aegis_SIM_v48_WIP12C.html
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -1025,6 +1030,8 @@ jobs:
   internal-terminal-effects-wip12c:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      SIM_FILE: archive/v48/WIP12C/Aegis_SIM_v48_WIP12C.html
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -1063,6 +1070,65 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-internal-terminal-effects-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  residual-overpenetration-wip12d-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12D residual-overpenetration static contract
+        run: npm run test:residual-overpenetration-contract
+
+  residual-overpenetration-wip12d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12D Kh-32 residual-overpenetration browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/residual-overpenetration-wip12d
+          python3 -m http.server 4173 >/tmp/aegis-residual-overpenetration-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:residual-overpenetration
+
+      - name: Upload WIP12D residual-overpenetration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: residual-overpenetration-wip12d-${{ github.sha }}
+          path: |
+            artifacts/residual-overpenetration-wip12d/
+            playwright-report/
+            test-results/
+            /tmp/aegis-residual-overpenetration-http.log
           if-no-files-found: warn
           retention-days: 14
 
