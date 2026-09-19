@@ -9,9 +9,28 @@
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - 구현 후보: `Aegis_SIM_v48_WIP12E.html`
 - 권위 기본값: `COMPARTMENT_BLAST_AUTHORITY`
-- 현재 상태: 코드와 정적/격리 VM 검증 완료, 실제 브라우저·전체 기존 회귀 및 GitHub HTML 업로드 잔여
+- 현재 상태: 사용자 실기 피드백을 반영한 revision 2 코드와 정적/격리 VM 검증 완료, 실제 브라우저·전체 기존 회귀 및 GitHub HTML 업로드 잔여
 
 WIP12E는 특정 미사일의 폭발 반경을 키우는 패치가 아니다. 모든 폭발성 투사체가 같은 물리 입력 계약으로 진입하고, 한 번 계산한 구획별 압력·충격량·폭풍·열·파편 trace를 구조, 장비, 승조원, 화재, 침수 및 시각화가 각각 소비하는 권위 전환이다.
+
+### 1.1 revision 2 실기 피드백과 교정
+
+첫 후보를 Kh-32로 직접 시험한 결과 다음 결함이 확인됐다.
+
+- 대형 내부 폭발인데도 점화 구획이 지나치게 적었다.
+- surface rupture가 실제 피격점 대신 cell face 중심에 생길 수 있었다.
+- 최초 관통 입구가 내부 폭발 뒤에도 작은 관통구로 남았다.
+- 통계적 case fragment 피해가 수치로만 존재하고 실제 외피 천공으로 남지 않았다.
+- 상부구조나 연돌의 hole은 침수 geometry가 받아들이지 않으면 3D 손상에서도 사라졌다.
+
+revision 2는 이를 다음처럼 교정한다.
+
+- 현재 projectile entry를 외부 vent로 추적하고, 내부 pressure/hot-product panel work로 원래 좌표의 `BLAST_ENTRY_BLOWOUT`을 확대한다.
+- entry가 속한 동일 외판 면에는 별도 중심점 rupture를 만들지 않고 entry blowout 하나가 권위를 가진다.
+- 반대편/주변 외판은 source 또는 portal 위치를 해당 면에 투영한 국부 좌표에서 pressure rupture를 만든다.
+- case fragment의 plate work를 별도 원장으로 닫고 `BLAST_FRAGMENT_PERFORATION`을 실제 좌표·면적·법선과 함께 만든다.
+- WIP12D macro residual crossing과 WIP12E breach를 flood acceptance와 무관하게 persistent solved-damage scar로 보존한다.
+- 고온 생성물의 혼합 온도와 구획별 가연물 profile을 사용해 대형 내부 폭발의 직접 및 인접 구획 점화를 늘리되, pressure만으로 발화시키지는 않는다.
 
 ## 2. 기존 경로 재추적
 
@@ -67,9 +86,12 @@ flowchart TD
 - quasi-static hot-gas/thermal state
 - portal propagation 및 문·격벽 failure
 - exterior surface load, 실제 breach 및 vent jet
+- 원래 피격점의 entry backblast blowout과 반대편/주변 국부 rupture
+- 결정적 case-fragment surface perforation
 - fragment/spall 기대량과 structural shock
 - hard-cap 사용량과 종료 사유
 - 입력/흡수/배출/잔류/절단 에너지 원장
+- air-blast 및 fragment perforation 각각의 closure error
 - 결정적 physics/determinism hash
 
 ### 3.3 `BlastDamagePacket`
@@ -82,6 +104,8 @@ flowchart TD
 - `newBreaches`
 - `ventJets`
 - `secondaryIgnitionCandidates`
+
+breach row는 `kind`, `impactRole`, `source`, `replacesOpeningId`, `exactArea`, `outwardEjection`을 보존한다. 따라서 entry blowout, pressure rupture, case-fragment hole이 consumer에서 하나의 `BLAST_SURFACE_RUPTURE`로 뭉개지지 않는다.
 
 모든 채널은 같은 `impactEventId`와 `blastTraceHash`를 공유한다. consumer는 event ID 중복을 거부한다.
 
@@ -113,6 +137,7 @@ flowchart TD
 | dynamic breach | 64 |
 | time slice | 32 |
 | vent jet | 32 |
+| ignition candidate | 24 |
 | presentation keyframe | 256 |
 
 상한에 닿으면 `TRUNCATED_BY_BUDGET`으로 종료하고 `clippedByBudget`, 사용량 및 discarded energy를 남긴다. 한 cell에서 fan-out하는 portal도 남은 전역 budget을 초과하지 않는다.
@@ -129,6 +154,8 @@ flowchart TD
 - truncation discard
 
 각 단계에서 가용 에너지를 초과하는 전달은 clamp한다. WIP12D 잔존체에 이미 배정된 chemical coupling은 blast 원장에 다시 더하지 않는다.
+
+case fragment는 `fragmentKineticJ = fragmentPerforationWorkJ + fragmentResidualEnergyJ`로 별도 폐합한다. entry blowout work는 기존 vent energy와 source-cell absorbed panel energy에서만 재분류하며, air-blast 총량을 새로 만들지 않는다. 확대 뒤 남은 vent energy는 실제 entry normal의 outward jet으로 유지한다.
 
 ## 5. 권위와 소비자 연결
 
@@ -156,9 +183,12 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 ### 5.3 구조·침수
 
 - 종강도 모델은 scalar 폭약량 대신 structural shock와 surface load를 받는다.
-- 외판 surface failure만 `BLAST_SURFACE_RUPTURE` opening이 된다.
+- 외판 surface failure는 `BLAST_SURFACE_RUPTURE`, 원래 입구 확대는 `BLAST_ENTRY_BLOWOUT`, case fragment 천공은 `BLAST_FRAGMENT_PERFORATION`으로 구분한다.
 - 내부 door/bulkhead failure는 침수구가 아니다.
-- 동일 event/surface/breach serial은 한 번만 opening으로 등록한다.
+- entry blowout은 원래 entry opening을 대체하며 같은 위치에 두 opening을 만들지 않는다.
+- 작은 fragment hole은 hydraulic minimum으로 부풀리지 않고 exact area를 유지한다.
+- 상부구조 hole이 flood geometry 밖이어도 solved-damage scar와 외부 3D hole은 보존한다.
+- WIP12D residual shell crossing도 정확한 crossing 위치에서 persistent physical hole이 된다.
 - opening의 종류, 위치, 면적, 법선 및 surface ID를 보존한다.
 
 ### 5.4 장비·VLS
@@ -176,9 +206,10 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 
 ### 5.6 화재
 
-- 일반 pressure나 inert fragment만으로 자동 발화하지 않는다.
-- hot-gas exposure와 실제 취약 장비/연료/전기/탄약 volume이 동시에 성립할 때만 ignition candidate가 된다.
-- 기존 WIP12C의 희박하고 bounded한 발화 정책을 유지한다.
+- 일반 pressure만으로 자동 발화하지 않는다.
+- hot-product temperature, exposure, energy density, fragment assist와 구획 가연물 profile이 동시에 ignition candidate를 결정한다.
+- 대형 charge가 연료·기계·전기·탄약 구획에 임계 온도 이상으로 직접 유입되면 사건 hash와 무관하게 확정 점화한다. 그 외 후보는 event hash 기반 결정적 확률을 사용하며 combat RNG를 소비하지 않는다.
+- 점화 후보는 24개로 제한하고 coarse damage-control cell당 가장 강한 후보 한 건만 적용해 중복 화재를 막는다.
 
 ## 6. 시각효과
 
@@ -187,6 +218,9 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - 시각적 fireball은 TNT 등가의 세제곱근 scale과 presentation multiplier를 사용한다.
 - 별도 shockwave sphere가 시간에 따라 fireball보다 멀리 확장된다.
 - 실제 exterior opening normal을 따라 hot gas, smoke 및 debris vent jet이 나온다.
+- 내부 기폭 시 원래 입구는 solved area만큼 바깥 방향의 큰 파괴구가 되고, 같은 면의 임의 중심점 hole과 중복되지 않는다.
+- pressure rupture, case-fragment perforation 및 WIP12D residual crossing은 flood 모델의 수용 여부와 무관하게 정확한 좌표의 persistent hole로 표시된다.
+- authoritative hole 반경은 cosmetic blast morphology가 다시 부풀리지 않는다.
 - 해수면 근처 기폭은 물기둥, spray 및 확장 ring을 만든다.
 - 내부 보기에서는 cell shell과 portal failure를 instanced batch로 표시한다.
 - 기본 외부 보기에서는 내부 pressure volume이 숨겨진다.
@@ -229,6 +263,9 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - closed door hold
 - closed door failure with remaining-pulse propagation
 - breach vent
+- projectile entry backblast blowout, 동일 면 중복 rupture 억제 및 outward vent 보존
+- case-fragment physical perforation과 fragment-energy closure
+- 대형 내부 폭발의 2개 이상 구획 hot-product ignition
 - multi-cell alternate route
 - DUD zero-state
 - idempotence
@@ -238,16 +275,19 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 
 ### 8.3 현재 통과 결과
 
-- static + isolated VM contract: `38/38 PASS`
-- core diagnostics: `14/14 PASS`
-- fixture diagnostics: `10/10 PASS`
+- static + isolated VM contract: `42/42 PASS`
+- static contract: `31/31 PASS`
+- isolated VM runtime groups: `11/11 PASS`
+- core diagnostics: `16/16 PASS`
+- fixture diagnostics: `17/17 PASS`
 - authority probe: `4/4 PASS`
 - idempotence probe: `4/4 PASS`
 - hard-budget probe: `5/5 PASS`
 - dynamic breach cap: 정확히 `64`
 - portal event cap: 정확히 `384`
 - 두 cap 종료 사유: `TRUNCATED_BY_BUDGET`
-- 64회 solver 평균: 약 `2 ms/impact` (실행별 소폭 변동)
+- solved-damage visual adapter: entry 위치·면적, fragment authority, residual crossing persistence `5/5 PASS`
+- 64회 solver 평균: 약 `2.2 ms/impact` (실행별 소폭 변동)
 - combat RNG: unchanged
 
 수치는 현재 실행 환경의 격리 VM 결과이며 브라우저 프레임 성능 수치로 해석하지 않는다.
@@ -262,8 +302,11 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 4. WIP12E authoritative trace와 crew/structure/flood consumer hash 일치
 5. 같은 seed exact 및 DUD blast trace `0`
 6. 외부 shockwave/fireball/해수면 효과/vent jet 표시
-7. 내부 모드 cell/portal batch visibility와 3D audit
-8. 전체 기존 Playwright 회귀
+7. 원래 Kh-32 피격 좌표의 단일 entry blowout, 확대 면적 및 outward vent
+8. 반대편 pressure rupture, case-fragment hole 및 WIP12D residual crossing의 실제 3D hole
+9. hot-product ignition audit의 2개 이상 실제 화재 구획
+10. 내부 모드 cell/portal batch visibility와 3D audit
+11. 전체 기존 Playwright 회귀
 
 `tests/compartment-blast-wip12e.spec.js`에 위 browser acceptance를 준비했다.
 
@@ -283,4 +326,4 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - 파편을 무제한 개별 rigid body로 만들지 않는다.
 - 공개되지 않은 실제 탄두 내부 구성이나 함체 강도를 정확값으로 주장하지 않는다.
 - pressure/failure 계수는 `SIM_TUNED`이며 향후 공개 자료 기반 fixture로 교정해야 한다.
-- persistent damage patch와 새로운 다단 VLS cook-off 연쇄는 별도 단계다.
+- 새로운 다단 VLS cook-off 연쇄는 별도 단계다.
