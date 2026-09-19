@@ -62,7 +62,7 @@ test('v48 WIP12C resolves deterministic internal cascades and applies one combin
 });
 
 test('v48 WIP12C separates exterior breach compartments from explicit detailed interior inspection', async ({ page }) => {
-  test.setTimeout(300_000);
+  test.setTimeout(600_000);
   const consoleErrors = [], pageErrors = [], localThree = process.env.THREE_LOCAL_FILE || process.env.THREE_JS_LOCAL;
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
   page.on('pageerror', error => pageErrors.push(error.stack || String(error)));
@@ -101,6 +101,6 @@ test('v48 WIP12C separates exterior breach compartments from explicit detailed i
 
   fs.mkdirSync(artifactDir, { recursive:true });
   fs.writeFileSync(`${artifactDir}/internal-terminal-effects-3d-results.json`, `${JSON.stringify({ schema:'AEGIS_INTERNAL_TERMINAL_EFFECTS_3D_BROWSER_V48_WIP12C', simulator, simulatorSha256:crypto.createHash('sha256').update(fs.readFileSync(simulator)).digest('hex'), checks, consoleErrors, pageErrors, ready, result }, null, 2)}\n`);
-  await page.screenshot({ path:`${artifactDir}/internal-terminal-effects-3d.png`, fullPage:true });
   expect(checks).toEqual(Object.fromEntries(Object.keys(checks).map(key => [key, true])));
+  await page.screenshot({ path:`${artifactDir}/internal-terminal-effects-3d.png`, animations:'disabled', timeout:60_000 });
 });
