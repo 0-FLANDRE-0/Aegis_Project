@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../Aegis_SIM_v48_WIP12B.html');
+const file = process.argv[2] || process.env.SIM_FILE || path.join(__dirname, '../archive/v48/WIP12B/Aegis_SIM_v48_WIP12B.html');
 const html = fs.readFileSync(file, 'utf8');
 const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(match => match[1]).filter(Boolean);
 for (const [index, source] of scripts.entries()) new vm.Script(source, { filename:`inline-${index + 1}.js` });

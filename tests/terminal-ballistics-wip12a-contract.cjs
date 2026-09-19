@@ -3,7 +3,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const defaultCandidate = path.join(__dirname, '../Aegis_SIM_v48_WIP12B.html');
+const defaultCandidate = path.join(__dirname, '../Aegis_SIM_v48_WIP12C.html');
 const archivedBaseline = path.join(__dirname, '../archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html');
 const rootBaseline = path.join(__dirname, '../Aegis_SIM_v48_WIP11C.html');
 const file = process.argv[2] || process.env.SIM_FILE || defaultCandidate;
@@ -57,7 +57,7 @@ const exactLegacyFunctions = [
 ];
 
 const checks = {
-  title: html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>') || html.includes('<title>AEGIS v48 WIP12B — Live Ordnance Terminal Effects and Damage Visualization</title>'),
+  title: html.includes('<title>AEGIS v48 WIP12A — Common Terminal Ballistics Foundation</title>') || html.includes('<title>AEGIS v48 WIP12B — Live Ordnance Terminal Effects and Damage Visualization</title>') || html.includes('<title>AEGIS v48 WIP12C — Internal Terminal Effects and Residual Bodies</title>'),
   syntax: scripts.length > 0,
   exactWip11cBaselinePresent: baseline.includes('<title>AEGIS v48 WIP11C — ASM Wreckage and Water-Surface Effects</title>'),
   commonContract: hasAll("schema:'AEGIS_TERMINAL_BALLISTICS_V48_WIP12A'", "coordinateSpace:'SHIP_LOCAL_METRES'", "units:'SI'", "authority:'IMPACT_EVENT_ONLY'"),
