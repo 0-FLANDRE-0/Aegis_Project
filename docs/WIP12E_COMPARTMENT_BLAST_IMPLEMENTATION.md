@@ -2,14 +2,16 @@
 
 ## 1. 현재 판정
 
-- 기준 `main`: `97de0e1459e4f111e21b5bed163decc6ce782c32`
+- 시작 기준 `main`: `97de0e1459e4f111e21b5bed163decc6ce782c32`
+- 병합 결과 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
+- WIP12E PR: `#30`, merged at `2026-09-20T04:50:00Z`
 - WIP12D PR: `#29`, merged at `2026-09-19T16:44:41Z`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 HTML SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - 캐시 우회 구현 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
 - 권위 기본값: `COMPARTMENT_BLAST_AUTHORITY`
-- 현재 상태: revision 5 naval armor·fuze·external blast coupling과 전용 Chromium·2D/3D 회귀 완료, 전체 기존 회귀 및 GitHub 반영 잔여
+- 현재 상태: revision 5 naval armor·fuze·external blast coupling, 전용 Chromium·2D/3D 회귀, 전체 Actions 및 `main` 병합 완료
 
 `REV5`는 캐시 우회용 후보 식별자이며 WIP 번호는 계속 WIP12E다.
 
@@ -394,9 +396,9 @@ Kh-32와 Kh-35U는 모두 `ANTI_SHIP_DELAY_8` profile을 사용한다. 두 무�
 - 함교 generic 1/2/3-hit SPY 누적·정지 회귀: PASS
 - scar `114`, 130 simulation seconds 영속 및 2D 상면/측면 parity: PASS
 
-3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다. REV5 구현은 commit `c07120e3d03276e8bc67fbceb2dbd11632fa3689`로 원격 WIP12E branch에 반영됐다. 원격 HTML blob `beb9b090b23e73444439128d104cc39378d4fc64` 전체를 다시 읽어 `3,260,140 bytes`와 SHA-256 `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`가 일치함을 확인했다. 저장소 전체 기존 suite와 GitHub Actions는 별도로 실행해야 한다.
+3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다. REV5 구현은 commit `c07120e3d03276e8bc67fbceb2dbd11632fa3689`로 원격 WIP12E branch에 반영됐다. 원격 HTML blob `beb9b090b23e73444439128d104cc39378d4fc64` 전체를 다시 읽어 `3,260,140 bytes`와 SHA-256 `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`가 일치함을 확인했다. CI 연결 commit `61c3c4a985e198f90117808ea6ced30a12e06302` 뒤 PR #30 Actions run #99의 전체 `30`개 job이 성공했고, merge commit `c18a51433d767f56ccd1bb4ff30388dfe91505d3`로 `main`에 병합됐다.
 
-## 9. 실제 브라우저 검증 결과와 잔여 범위
+## 9. 실제 브라우저 검증 결과와 병합 상태
 
 Chromium으로 아래 항목을 실제 실행했다.
 
@@ -420,16 +422,17 @@ live Kh-35U 결과는 명중 시각 `345.81666666666666 s`, 첫 접촉 `선체(�
 
 함교 중심의 동일 generic `500 kg TNT + 250 kg casing` packet을 반복 적용한 결과 1발 뒤에는 SPY 네 면이 모두 작동하고, 2발 뒤에는 전방 두 면이 `80%` 손상 임계값을 넘어 정지하며, 3발 뒤에는 네 면 모두 `100%` 손상·정지했다. 세 번째 폭발 뒤 scar 수는 96을 넘고 최초 scar도 130 simulation seconds 뒤 2D·3D에 남았다.
 
-환경의 외부 CDN 요청 제한 때문에 3D 테스트에서는 로컬 Three.js 파일을 요청에 route했다. 앱 코드와 물리 결과는 변경하지 않았고 renderer/mesh path는 실제 코드를 그대로 실행했다. audit 결과는 entry blowout `1`, exterior rupture `28`, fragment perforation `4`, internal tear `2`, 외부 actual cut `29/29`, persistent internal tear `2/2`다. 아직 남은 항목은 저장소 전체 기존 Playwright suite와 GitHub Actions다.
+환경의 외부 CDN 요청 제한 때문에 3D 테스트에서는 로컬 Three.js 파일을 요청에 route했다. 앱 코드와 물리 결과는 변경하지 않았고 renderer/mesh path는 실제 코드를 그대로 실행했다. audit 결과는 entry blowout `1`, exterior rupture `28`, fragment perforation `4`, internal tear `2`, 외부 actual cut `29/29`, persistent internal tear `2/2`다. 이후 PR #30에서 기존 회귀와 WIP12E 신규 회귀를 함께 실행해 Actions `30/30 SUCCESS`를 확인했다.
 
 ## 10. 브랜치 반영·승격 순서
 
 1. 완료: 이 문서, 상태 문서, REV5 계약 테스트 및 Playwright 스펙을 WIP12E branch에 커밋했다.
 2. 완료: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`을 같은 branch에 반영했다.
 3. 완료: 원격 HTML 전체 blob의 SHA-256과 크기가 manifest와 일치함을 확인했다.
-4. 필요하면 검증된 REV5를 canonical `Aegis_SIM_v48_WIP12E.html`로 승격하고, 같은 commit에서 `package.json`, workflow, README 및 프로젝트 지침을 WIP12E로 전환한다.
-5. Actions와 저장소 전체 기존 브라우저 회귀를 실행한다.
-6. 실패가 없을 때만 상태를 `완료`로 바꾸고 PR을 연다.
+4. 완료: `package.json`과 workflow를 REV5 정적 계약·브라우저 회귀에 연결했다.
+5. 완료: Actions와 저장소 전체 기존 브라우저 회귀 `30/30`을 통과했다.
+6. 완료: PR #30을 `main`에 병합했다.
+7. 캐시 혼동 방지를 위해 검증된 REV5 파일명은 유지했다. canonical `Aegis_SIM_v48_WIP12E.html` 별칭 승격은 별도 변경으로만 수행한다.
 
 ## 11. 비범위와 모델 한계
 

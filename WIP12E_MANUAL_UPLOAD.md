@@ -9,6 +9,8 @@
 - SHA-256: `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`
 - 이전 REV4 SHA-256: `856ec05e4acd6c7a04bb9da580a46c550cb33341cb82e6b5cb086237930fa3a3`
 - 구현 commit: `c07120e3d03276e8bc67fbceb2dbd11632fa3689`
+- CI 연결 commit: `61c3c4a985e198f90117808ea6ced30a12e06302`
+- PR `#30` merge commit: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - 원격 Git blob: `beb9b090b23e73444439128d104cc39378d4fc64`
 - 원격 전체 blob 재검증: `3,260,140 bytes`, SHA-256 일치
 
@@ -29,7 +31,9 @@
 3. 완료: static contract와 Chromium 3개 회귀를 실행했다.
 4. 완료: Kh-32와 Kh-35U live case가 모두 명중하고 damage issue가 없음을 확인했다.
 5. 완료: 얇은 외판 fixture는 `EXTERNAL_BLAST_BLOWOUT`, 두꺼운 RHA fixture는 `NON_PERFORATING_EXTERNAL_DETONATION`임을 확인했다.
-6. 전체 저장소 회귀와 GitHub Actions를 통과한 뒤에만 canonical `Aegis_SIM_v48_WIP12E.html` 승격을 검토한다.
+6. 완료: PR #30 Actions run #99의 전체 `30`개 job이 성공했다.
+7. 완료: PR #30을 `main`에 병합했다.
+8. 캐시 혼동 방지를 위해 REV5 파일명을 유지했으며 canonical `Aegis_SIM_v48_WIP12E.html` 별칭은 별도 변경으로만 승격한다.
 
 ## 검증 명령
 
