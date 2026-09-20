@@ -37,6 +37,9 @@ on:
       - 'tests/residual-overpenetration-wip12d.spec.js'
       - 'tests/naval-armor-fuze-wip12e-rev5-contract.cjs'
       - 'tests/naval-armor-fuze-wip12e-rev5.spec.js'
+      - 'tests/terminal-hardening-wip12f-contract.cjs'
+      - 'tests/terminal-hardening-wip12f.spec.js'
+      - 'WIP12F_SHA256SUMS.txt'
       - 'tests/wip10-visual-probe.cjs'
       - 'archive/v48/WIP11C/**'
       - 'archive/v48/WIP12A/**'
@@ -1195,6 +1198,70 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-naval-armor-fuze-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  terminal-hardening-wip12f-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12F.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify WIP12F checksums
+        run: sha256sum -c WIP12F_SHA256SUMS.txt
+
+      - name: Run WIP12F terminal hardening static contract
+        run: npm run test:terminal-hardening-contract
+
+  terminal-hardening-wip12f:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12F.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12F terminal hardening browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/aegis-terminal-hardening-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          SIM_URL="http://127.0.0.1:4173/$SIM_FILE" npm run test:terminal-hardening
+
+      - name: Upload WIP12F terminal hardening evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminal-hardening-wip12f-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+            /tmp/aegis-terminal-hardening-http.log
           if-no-files-found: warn
           retention-days: 14
 
