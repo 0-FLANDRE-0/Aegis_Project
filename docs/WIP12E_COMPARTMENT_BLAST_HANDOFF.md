@@ -10,6 +10,9 @@
 - 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 현재 시험 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
 - 후보 SHA-256: `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`
+- REV5 구현 commit: `c07120e3d03276e8bc67fbceb2dbd11632fa3689`
+- 원격 HTML Git blob: `beb9b090b23e73444439128d104cc39378d4fc64`
+- 원격 전체 blob 검증: `3,260,140 bytes`, 위 SHA-256과 일치
 
 `REV5`는 브라우저 캐시를 우회하고 후보를 구분하기 위한 파일명이다. 작업 번호는 계속 **WIP12E**다.
 
@@ -99,10 +102,10 @@ Kh-32 한 발의 전방 연돌 명중에서는 SPY 네 면에 각각 약 `14–3
 - 외부 고폭 파열은 “탄두가 크면 무조건 구멍”이 아니다. plate response가 실패할 때만 파괴구가 생긴다.
 - 신관 profile의 8/12/20 mm는 최소 자극 분류이며 관통 보장 두께가 아니다.
 
-## 다음 단계
+## 반영 완료와 다음 단계
 
-1. REV5 HTML, 문서, checksum 및 REV5 전용 테스트를 현재 WIP12E branch에 반영한다.
-2. 원격 파일을 다시 읽어 SHA-256과 크기를 검증한다.
+1. 완료: REV5 HTML, 문서, checksum 및 REV5 전용 테스트를 현재 WIP12E branch에 반영했다.
+2. 완료: 원격 HTML 전체 blob을 다시 읽어 SHA-256과 크기가 일치함을 확인했다.
 3. 저장소의 package/workflow를 REV5 전용 계약과 Playwright에 연결한다.
 4. 전체 기존 회귀와 GitHub Actions를 실행한다.
 5. 통과 뒤 검증된 REV5를 canonical `Aegis_SIM_v48_WIP12E.html`로 승격할지 결정한다.

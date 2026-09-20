@@ -394,7 +394,7 @@ Kh-32와 Kh-35U는 모두 `ANTI_SHIP_DELAY_8` profile을 사용한다. 두 무�
 - 함교 generic 1/2/3-hit SPY 누적·정지 회귀: PASS
 - scar `114`, 130 simulation seconds 영속 및 2D 상면/측면 parity: PASS
 
-3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다. 저장소 전체 기존 suite와 GitHub Actions는 REV5 반영 뒤 별도로 실행해야 한다.
+3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다. REV5 구현은 commit `c07120e3d03276e8bc67fbceb2dbd11632fa3689`로 원격 WIP12E branch에 반영됐다. 원격 HTML blob `beb9b090b23e73444439128d104cc39378d4fc64` 전체를 다시 읽어 `3,260,140 bytes`와 SHA-256 `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`가 일치함을 확인했다. 저장소 전체 기존 suite와 GitHub Actions는 별도로 실행해야 한다.
 
 ## 9. 실제 브라우저 검증 결과와 잔여 범위
 
@@ -424,10 +424,10 @@ live Kh-35U 결과는 명중 시각 `345.81666666666666 s`, 첫 접촉 `선체(�
 
 ## 10. 브랜치 반영·승격 순서
 
-1. 이 문서, 상태 문서, REV5 계약 테스트 및 Playwright 스펙을 WIP12E branch에 커밋한다.
-2. `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`을 같은 branch에 반영한다.
-3. 반영 뒤 원격 파일 SHA-256이 manifest와 일치하는지 다시 확인한다.
-4. 캐시가 아닌 실제 REV5가 확인된 뒤 필요하면 canonical `Aegis_SIM_v48_WIP12E.html`로 승격하고, 같은 commit에서 `package.json`, workflow, README 및 프로젝트 지침을 WIP12E로 전환한다.
+1. 완료: 이 문서, 상태 문서, REV5 계약 테스트 및 Playwright 스펙을 WIP12E branch에 커밋했다.
+2. 완료: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`을 같은 branch에 반영했다.
+3. 완료: 원격 HTML 전체 blob의 SHA-256과 크기가 manifest와 일치함을 확인했다.
+4. 필요하면 검증된 REV5를 canonical `Aegis_SIM_v48_WIP12E.html`로 승격하고, 같은 commit에서 `package.json`, workflow, README 및 프로젝트 지침을 WIP12E로 전환한다.
 5. Actions와 저장소 전체 기존 브라우저 회귀를 실행한다.
 6. 실패가 없을 때만 상태를 `완료`로 바꾸고 PR을 연다.
 

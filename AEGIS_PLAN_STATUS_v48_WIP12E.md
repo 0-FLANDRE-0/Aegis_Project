@@ -2,7 +2,7 @@
 
 ## 판정
 
-`revision 5 naval armor·fuze·external blast coupling 구현 및 전용 회귀 완료 / 원격 반영·전체 저장소 회귀·GitHub Actions 잔여`
+`revision 5 naval armor·fuze·external blast coupling 구현·전용 회귀·원격 반영 완료 / 전체 저장소 회귀·GitHub Actions 잔여`
 
 작업 번호는 **WIP12E로 유지**한다. `REV5`는 캐시 우회와 시험 후보 구분을 위한 파일 식별자다.
 
@@ -17,11 +17,14 @@ REV5는 REV4의 구획 폭발·실피해·영구 scar 권위를 유지하면서 
 - 검증한 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - 원격 merge-base: 위 `main` SHA와 동일
-- 원격 branch 상태 확인 시점: `main`보다 `10` commits ahead, `0` behind
+- 원격 branch 상태: `main`보다 `12` commits ahead, `0` behind (REV5 구현 및 문서 마감 포함)
+- REV5 구현 commit: `c07120e3d03276e8bc67fbceb2dbd11632fa3689`
 - REV4 기준 후보 SHA-256: `856ec05e4acd6c7a04bb9da580a46c550cb33341cb82e6b5cb086237930fa3a3`
 - REV5 캐시 우회 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
 - REV5 후보 크기: `3,260,140 bytes`
 - REV5 후보 SHA-256: `b1a95c30dd05d5da61fc89a4a7f6e291f42564079659931d82a929bdfd0d54a4`
+- 원격 HTML Git blob: `beb9b090b23e73444439128d104cc39378d4fc64`
+- 원격 blob 전체 재읽기 검증: `3,260,140 bytes`, SHA-256 일치
 
 ## REV5 장갑·신관 판정
 
@@ -118,10 +121,10 @@ SIM_FILE=Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html npx playwright
 - 일반 pressure만으로 자동 발화하지 않는다. hot gas exposure, 온도, energy density, 가연물 및 fragment assist가 필요하다.
 - full CFD, 수중 bubble pulse, hull whipping, 복합장갑 및 반응장갑은 이번 범위 밖이다.
 
-## 원격 반영 전 잔여 작업
+## 원격 반영 상태와 잔여 작업
 
-- REV5 HTML, 전용 테스트, 문서 및 checksum을 WIP12E branch에 commit
-- 원격 REV5 HTML 재다운로드 후 SHA-256/크기 대조
+- 완료: REV5 HTML, 전용 테스트, 문서 및 checksum을 WIP12E branch에 commit
+- 완료: 원격 REV5 HTML 전체 blob 재읽기 후 SHA-256/크기 대조
 - package scripts와 workflow에 REV5 테스트 연결
 - 저장소 전체 기존 Playwright suite 및 GitHub Actions 실행
 - 통과 뒤 canonical `Aegis_SIM_v48_WIP12E.html` 승격 여부 결정
