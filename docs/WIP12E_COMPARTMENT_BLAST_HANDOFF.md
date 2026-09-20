@@ -6,7 +6,7 @@
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - WIP12D PR `#29`: merged
 - WIP12E PR `#30`: merged at `2026-09-20T04:50:00Z`
-- 병합 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
+- WIP12E 코드 merge commit: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - 병합한 branch head: `61c3c4a985e198f90117808ea6ced30a12e06302`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`

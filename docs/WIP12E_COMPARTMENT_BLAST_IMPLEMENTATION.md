@@ -3,7 +3,7 @@
 ## 1. 현재 판정
 
 - 시작 기준 `main`: `97de0e1459e4f111e21b5bed163decc6ce782c32`
-- 병합 결과 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
+- WIP12E 코드 merge commit: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - WIP12E PR: `#30`, merged at `2026-09-20T04:50:00Z`
 - WIP12D PR: `#29`, merged at `2026-09-19T16:44:41Z`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
