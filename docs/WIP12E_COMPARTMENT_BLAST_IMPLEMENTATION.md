@@ -7,11 +7,11 @@
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 HTML SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
-- 캐시 우회 구현 후보: `Aegis_SIM_v48_WIP12E_REV4_BLAST_DAMAGE_COUPLING_FIX.html`
+- 캐시 우회 구현 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
 - 권위 기본값: `COMPARTMENT_BLAST_AUTHORITY`
-- 현재 상태: revision 4 폭발-피해 결합·영구 scar 교정, 정적·격리 VM·실제 Chromium·2D/3D 전용 회귀 완료, 전체 기존 회귀 및 GitHub HTML 업로드 잔여
+- 현재 상태: revision 5 naval armor·fuze·external blast coupling과 전용 Chromium·2D/3D 회귀 완료, 전체 기존 회귀 및 GitHub 반영 잔여
 
-`REV4`는 캐시 우회용 후보 식별자이며 WIP 번호는 계속 WIP12E다.
+`REV5`는 캐시 우회용 후보 식별자이며 WIP 번호는 계속 WIP12E다.
 
 WIP12E는 특정 미사일의 폭발 반경을 키우는 패치가 아니다. 모든 폭발성 투사체가 같은 물리 입력 계약으로 진입하고, 한 번 계산한 구획별 압력·충격량·폭풍·열·파편 trace를 구조, 장비, 승조원, 화재, 침수 및 시각화가 각각 소비하는 권위 전환이다.
 
@@ -63,6 +63,25 @@ revision 4는 아래처럼 교정한다.
 - hot products는 도달 cell 안에서 coarse damage-control zone을 먼저 다양화하고 최대 16개 후보로 분산한다.
 - `solvedDamageScars.slice(-96)` 제한과 age fade를 제거하고, 2D 상면·측면에도 전체 persistent scar를 그린다.
 - `wip12eRev4DamageCouplingStatus()`와 `wip12eRev4TwoDScarAudit()`으로 실제 장비 피해와 2D source/drawn parity를 감사한다.
+
+### 1.4 revision 5 장갑·신관·외부폭압 결합
+
+revision 4 이후 남은 문제는 “고폭탄이 외판에 닿았을 때”를 관통/비관통으로 구분할 장갑 및 신관 경계가 약하다는 점이었다. 특히 전함·중순양함급 장갑을 고려하면 큰 탄두라고 해서 항상 외피 구멍과 내부 hot-gas path를 만드는 것은 잘못이다. 반대로 구축함급 얇은 외판은 탄체 자체가 관통하지 못했더라도 접촉 고폭의 압력과 충격량으로 파열될 수 있어야 한다.
+
+revision 5는 다음을 추가한다.
+
+- 구조강·균질 장갑·표면경화 장갑을 material profile별 RHA-equivalent 값으로 정규화한다.
+- homogeneous/face-hardened naval armor solver를 활성화한다.
+- 지연신관 최소 판재 자극을 `8 / 12 / 20 mm RHAe` profile로 분리한다.
+- RHAe만 보지 않고 normal velocity, normal impulse, plate work, obliquity 및 projectile survival을 모두 통과해야 delay clock을 시작한다.
+- 비관통 표면 결과를 `SCORCH / DENT / CRATER`, 관통을 `PERFORATED`로 구분한다.
+- 비관통 외부폭발은 hot-gas direct path와 임의 구멍을 금지하고 제한된 shock, rear spall 및 compartment fatigue만 결합한다.
+- 외부폭발의 reflected pressure, positive impulse 및 plate work가 얇은 외판의 두께·강도·유효 면적을 이기면 `EXTERNAL_BLAST_BLOWOUT`을 실제 opening으로 만든다.
+- plate failure work는 기존 vented blast energy에서 structural work로 재분류해 원장을 보존한다.
+- 외부 기폭 후 projectile entry 또는 blast blowout으로 들어온 hot products는 internal hot-gas cap 안에서 실제 도달 구획으로 재분배한다.
+- Kh-32와 Kh-35U 모두 `ANTI_SHIP_DELAY_8`을 사용하되 탄체와 탄두의 고유 물성은 그대로 유지한다.
+
+이 모델은 `SIM_TUNED_RHA_EQUIVALENT_NORMALIZATION_NOT_CERTIFIED_FUZE_DATA`다. 신관 profile의 숫자는 관통 보장 두께가 아니라 작동 자격을 위한 최소 판재 자극이다.
 
 ## 2. 기존 경로 재추적
 
@@ -142,6 +161,18 @@ flowchart TD
 breach row는 `kind`, `impactRole`, `source`, `replacesOpeningId`, `exactArea`, `outwardEjection`, `tearAxis`, `tearLengthM`, `tearWidthM`, `damagedAreaM2`를 보존한다. 따라서 entry blowout, pressure rupture, 내부 격벽 tear, case-fragment hole이 consumer에서 하나의 점형 `BLAST_SURFACE_RUPTURE`로 뭉개지지 않는다.
 
 모든 채널은 같은 `impactEventId`와 `blastTraceHash`를 공유한다. consumer는 event ID 중복을 거부한다.
+
+### 3.4 `NavalArmorFuzeContract`
+
+| 필드군 | 의미 |
+|---|---|
+| material | 실제 두께, 항복강도, RHAe 계수, homogeneous/face-hardened 분류 |
+| fuze qualification | 최소 RHAe, normal velocity, normal impulse, plate work, 최대 obliquity |
+| surface response | `SCORCH`, `DENT`, `CRATER`, `PERFORATED`와 잔존 두께·rear spall |
+| external coupling | 비관통 shock, projectile-entry direct path, external-blast blowout |
+| applicability | missile, rocket, shell 공통이며 carrier-name branching 금지 |
+
+신관 arming과 impact qualification은 분리된다. 비행 중 안전장치가 풀렸더라도 판재 자극이 profile을 만족하지 못하면 delay clock은 시작하지 않는다. `ANTI_SHIP_DELAY_8`은 불충분한 접촉에서 superquick external fallback을 허용하지만, 그 외 지연신관 profile은 설정된 fallback에 따라 DUD가 될 수 있다.
 
 ## 4. 구획·portal solver
 
@@ -224,6 +255,7 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 
 - 종강도 모델은 scalar 폭약량 대신 structural shock와 surface load를 받는다.
 - 외판 surface failure는 `BLAST_SURFACE_RUPTURE`, 원래 입구 확대는 `BLAST_ENTRY_BLOWOUT`, case fragment 천공은 `BLAST_FRAGMENT_PERFORATION`으로 구분한다.
+- 외부 접촉 고폭이 얇은 외판 자체를 파열시키면 `BLAST_EXTERNAL_BLOWOUT`으로 구분한다. 이는 탄체 관통구가 아니라 pressure/impulse plate failure가 만든 entry다.
 - 내부 door/bulkhead failure는 `BLAST_INTERNAL_TEAR`이며 침수구가 아니다.
 - 파열은 원형 점이 아니라 surface tangent span과 rupture demand가 정한 면적 보존 타원 footprint다. 개구보다 넓은 주변 판재 찢김·좌굴 면적을 별도 기록한다.
 - entry blowout은 원래 entry opening을 대체하며 같은 위치에 두 opening을 만들지 않는다.
@@ -231,6 +263,7 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - 상부구조 hole이 flood geometry 밖이어도 solved-damage scar와 외부 3D hole은 보존한다.
 - WIP12D residual shell crossing도 정확한 crossing 위치에서 persistent physical hole이 된다.
 - opening의 종류, 위치, 면적, 법선 및 surface ID를 보존한다.
+- 두꺼운 장갑이 외부폭발을 버티면 surface response와 구조 충격만 남고 flood opening, direct hot-gas path 및 fake scar hole은 만들지 않는다.
 
 ### 5.4 장비·VLS
 
@@ -254,6 +287,7 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - 일반 pressure만으로 자동 발화하지 않는다.
 - hot-product temperature, exposure, energy density, fragment assist와 구획 가연물 profile이 동시에 ignition candidate를 결정한다.
 - 대형 내부 폭발은 source hot-gas budget의 제한된 일부를 반경 안의 인접 가연 구획에 거리·가연물 하중으로 재분배하고 source에서 같은 양을 차감한다.
+- 외부에서 기폭했더라도 projectile entry 또는 `EXTERNAL_BLAST_BLOWOUT`이 만든 direct gas path가 있으면, 내부로 실제 결합된 hot-gas 몫만 도달 구획에 재분배한다. Kh-32 live 회귀는 이 경로에서 5개 구획 점화를 만든다.
 - 대형 charge가 연료·기계·전기·탄약 구획에 임계 온도 이상으로 직접 유입되면 사건 hash와 무관하게 확정 점화한다. 그 외 후보는 event hash 기반 결정적 확률을 사용하며 combat RNG를 소비하지 않는다.
 - 점화 후보는 24개로 제한하고 coarse damage-control cell당 가장 강한 후보 한 건만 적용해 중복 화재를 막는다.
 
@@ -287,8 +321,11 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 4. `detonationClass`
 5. 기폭 위치와 매질
 6. projectile velocity/penetration opening
+7. projectile fuze qualification profile과 armor material profile
 
 미사일, 로켓 및 포탄 fixture가 같은 charge 입력에서 같은 trace hash를 내는 계약 테스트가 포함되어 있다. 무기별 차이는 fuze, 관통, 탄두 구성 및 기폭 위치에서 생기며 label 분기에서 생기지 않는다.
+
+Kh-32와 Kh-35U는 모두 `ANTI_SHIP_DELAY_8` profile을 사용한다. 두 무기의 결과 차이는 각자의 impact mass, speed, warhead explosive/case mass, hardness, 형상 및 실제 접촉 geometry에서 나온다. 포탄이나 로켓도 `LIGHT_DELAY_8`, `NAVAL_SHORT_DELAY_12`, `HARD_TARGET_DELAY_20` 또는 `DIRECT_ACTION` 중 알맞은 profile을 지정해 같은 경로에 들어온다.
 
 ## 8. 진단과 테스트
 
@@ -306,6 +343,10 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - `wip12eRev4DamageCouplingContract()`
 - `wip12eRev4DamageCouplingStatus()`
 - `wip12eRev4TwoDScarAudit()`
+- `wip12eRev5NavalArmorFuzeContract()`
+- `wip12eRev5NavalArmorFuzeDiagnostics()`
+- `wip12eRev5DamageCouplingStatus()`
+- `wip12eRev5TwoDScarAudit()`
 
 ### 8.2 fixture
 
@@ -327,59 +368,66 @@ VLS 소비자가 damage/flood idempotence 수락 전에 상태를 바꾸던 순�
 - 1×/8×/16× exact invariant
 - 30 mm HEI, 76 mm SAP, 127 mm HE/SAP, rocket HE, missile HE generic adapters
 - cell/portal/breach hard-cap stress
+- 8/12/20 mm RHAe 신관 자극 경계와 grazing rejection
+- homogeneous/face-hardened armor 비관통 및 no-fake-hole
+- 외부 500 kg HE의 thin-skin blowout과 thick-RHA hold 대조
+- `EXTERNAL_BLAST_BLOWOUT` opening, plate-work energy closure 및 direct hot-product path
+- Kh-32/Kh-35U 공통 `ANTI_SHIP_DELAY_8` live adapter
 
 ### 8.3 현재 통과 결과
 
-- static + isolated VM contract: `57/57 PASS`
-- static contract: `46/46 PASS`
-- isolated VM runtime groups: `11/11 PASS`
-- core diagnostics: `16/16 PASS`
-- fixture diagnostics: `17/17 PASS`
-- authority probe: `4/4 PASS`
-- idempotence probe: `4/4 PASS`
-- hard-budget probe: `5/5 PASS`
+- inline JavaScript parse: PASS
+- REV5 static contract: `18/18 PASS`
+- REV5 armor/fuze diagnostics: `16/16 PASS`
+- core selftest failures: `0`
+- core blast, generic fixture 및 hard-budget diagnostics: PASS
+- 8/12/20 mm threshold, direct-action, grazing rejection: PASS
+- homogeneous/face-hardened armor stop-without-hole: PASS
+- thin external blowout, thick RHA hold 및 external plate-work energy closure: PASS
+- Kh-32/Kh-35U 공통 신관 profile과 missile/rocket/shell carrier contract: PASS
 - dynamic breach cap: 정확히 `64`
 - portal event cap: 정확히 `384`
 - 두 cap 종료 사유: `TRUNCATED_BY_BUDGET`
-- solved-damage visual adapter: entry 위치·면적, fragment authority, residual crossing persistence `5/5 PASS`
-- 64회 solver 평균: `2.294 ms/impact` (실행별 소폭 변동)
 - combat RNG: unchanged
-- 실제 Chromium Playwright: `4/4 PASS`, console/page error `0`
-- 실제 WebGL 3D: entry 및 remote rupture actual geometry cut, 내부 transient trace 및 영구 internal tear audit PASS
+- REV5 실제 Chromium Playwright: `3/3 PASS`, console/page error `0/0`
+- 실제 WebGL 3D: entry/remote rupture actual cut `29/29`, 내부 transient trace와 persistent tear PASS
 - 함교 generic 1/2/3-hit SPY 누적·정지 회귀: PASS
-- 96개 초과 scar, 130 simulation seconds 영속 및 2D 상면/측면 parity: PASS
+- scar `114`, 130 simulation seconds 영속 및 2D 상면/측면 parity: PASS
 
-solver 수치는 현재 실행 환경의 격리 VM 결과이며 브라우저 프레임 성능 수치로 해석하지 않는다. 3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다.
+3D 회귀는 geometry 작업을 프레임별 제한 시간으로 나눠 완료되는 것까지 기다린 end-to-end 검사다. 저장소 전체 기존 suite와 GitHub Actions는 REV5 반영 뒤 별도로 실행해야 한다.
 
 ## 9. 실제 브라우저 검증 결과와 잔여 범위
 
 Chromium으로 아래 항목을 실제 실행했다.
 
 1. 페이지 로드, core selftest failure `0`, console/page error `0`: PASS
-2. seed `481232`, 100 km KH-32 live impact와 same-seed exact: PASS
-3. WIP12D flight/impact/residual golden 보존: PASS
-4. WIP12E authority와 crew/structure/flood shared trace: PASS
-5. DUD blast source/trace `0`: PASS
-6. 원래 KH-32 피격 좌표의 single entry blowout과 outward vent: PASS
-7. exterior direct pressure footprint, case-fragment perforation 및 실제 3D mesh cut: PASS
-8. hot-product ignition audit와 6개 실제 coarse 화재 구획: PASS
-9. 내부 transient cell/portal batch 및 영구 `BLAST_INTERNAL_TEAR`: PASS
-10. cap, energy closure, RNG isolation: PASS
-11. generic 함교 폭발 1/2/3회에 따른 SPY 누적 피해와 operational cutoff: PASS
-12. 96개 초과 scar의 130초 후 영속 및 2D 상·측면 전수 표시: PASS
+2. 8/12/20 mm RHAe 경계, direct-action 및 grazing rejection: PASS
+3. homogeneous/face-hardened 장갑 비관통과 no-fake-hole: PASS
+4. 500 kg 외부폭발의 thin-skin blowout과 thick-RHA hold 대조: PASS
+5. seed `481232`, 100 km Kh-32 live impact: PASS
+6. seed `481235`, 100 km Kh-35U live impact: PASS
+7. WIP12E authority와 crew/structure/flood shared trace: PASS
+8. 원래 Kh-32 피격 좌표의 entry blowout, exterior pressure rupture와 fragment perforation: PASS
+9. 외부 entry를 통한 hot-product transfer와 5개 planned ignition: PASS
+10. 내부 transient cell/portal batch 및 영구 `BLAST_INTERNAL_TEAR`: PASS
+11. cap, energy closure, determinism 및 RNG isolation: PASS
+12. generic 함교 폭발 1/2/3회에 따른 SPY 누적 피해와 operational cutoff: PASS
+13. scar `114`개의 130초 후 영속 및 2D 상·측면 전수 표시: PASS
 
-live KH-32 결과는 도달 cell `43`, 피해 상세 구획 `35`, 피해 physical module `42`, entry blowout `1`, direct exterior rupture `24`, internal tear `3`, fragment perforation `36`, planned ignition `14`, 실제 coarse fire zone `6`이다. 원래 `1.7833 m²` entry가 정확한 피격 좌표에서 `26.1317 m²` 개구, `38.429 m²` damaged footprint 및 약 `7.97 × 4.18 m` tear로 커졌다. 총 외부 개구는 약 `119.50 m²`, 총 damaged footprint는 약 `222.58 m²`다. air closure error는 약 `0.010 J / 878.64 MJ`다.
+live Kh-32 결과는 명중 시각 `92.78333333333333 s`, 첫 접촉 `전방연돌`, boundary mode `EXTERNAL_DETONATION_THROUGH_ENTRY`, 피해 physical module `41`, 피해 상세 구획 `15`, breach `36`, planned ignition `5`다. air closure error는 약 `0.0043 J`이고 combat RNG는 변하지 않았다.
+
+live Kh-35U 결과는 명중 시각 `345.81666666666666 s`, 첫 접촉 `선체(전방구획)/좌현`, 피해 physical module `25`, 피해 상세 구획 `17`, breach `64`, planned ignition `2`다. 이 무기도 `ANTI_SHIP_DELAY_8` 판정기를 거쳐 같은 generic blast consumer를 사용했다.
 
 함교 중심의 동일 generic `500 kg TNT + 250 kg casing` packet을 반복 적용한 결과 1발 뒤에는 SPY 네 면이 모두 작동하고, 2발 뒤에는 전방 두 면이 `80%` 손상 임계값을 넘어 정지하며, 3발 뒤에는 네 면 모두 `100%` 손상·정지했다. 세 번째 폭발 뒤 scar 수는 96을 넘고 최초 scar도 130 simulation seconds 뒤 2D·3D에 남았다.
 
-환경의 외부 CDN 요청 제한 때문에 3D 테스트에서는 로컬 Three.js 파일을 요청에 route했다. 앱 코드와 물리 결과는 변경하지 않았고 renderer/mesh path는 실제 코드를 그대로 실행했다. 아직 남은 항목은 저장소 전체 기존 Playwright suite와 GitHub Actions다.
+환경의 외부 CDN 요청 제한 때문에 3D 테스트에서는 로컬 Three.js 파일을 요청에 route했다. 앱 코드와 물리 결과는 변경하지 않았고 renderer/mesh path는 실제 코드를 그대로 실행했다. audit 결과는 entry blowout `1`, exterior rupture `28`, fragment perforation `4`, internal tear `2`, 외부 actual cut `29/29`, persistent internal tear `2/2`다. 아직 남은 항목은 저장소 전체 기존 Playwright suite와 GitHub Actions다.
 
 ## 10. 브랜치 반영·승격 순서
 
-1. 이 문서, 상태 문서, REV4 계약 테스트 및 Playwright 스펙을 WIP12E branch에 커밋한다.
-2. `Aegis_SIM_v48_WIP12E_REV4_BLAST_DAMAGE_COUPLING_FIX.html`을 GitHub UI/정상 git 전송으로 수동 업로드한다. 큰 HTML을 contents API나 base64 우회로 전송하지 않는다.
-3. 업로드 뒤 원격 파일 SHA-256이 manifest와 일치하는지 다시 확인한다.
-4. 캐시가 아닌 실제 REV4가 확인된 뒤 필요하면 canonical `Aegis_SIM_v48_WIP12E.html`로 승격하고, 같은 commit에서 `package.json`, workflow, README 및 프로젝트 지침을 WIP12E로 전환한다.
+1. 이 문서, 상태 문서, REV5 계약 테스트 및 Playwright 스펙을 WIP12E branch에 커밋한다.
+2. `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`을 같은 branch에 반영한다.
+3. 반영 뒤 원격 파일 SHA-256이 manifest와 일치하는지 다시 확인한다.
+4. 캐시가 아닌 실제 REV5가 확인된 뒤 필요하면 canonical `Aegis_SIM_v48_WIP12E.html`로 승격하고, 같은 commit에서 `package.json`, workflow, README 및 프로젝트 지침을 WIP12E로 전환한다.
 5. Actions와 저장소 전체 기존 브라우저 회귀를 실행한다.
 6. 실패가 없을 때만 상태를 `완료`로 바꾸고 PR을 연다.
 
@@ -390,4 +438,6 @@ live KH-32 결과는 도달 cell `43`, 피해 상세 구획 `35`, 피해 physica
 - 파편을 무제한 개별 rigid body로 만들지 않는다.
 - 공개되지 않은 실제 탄두 내부 구성이나 함체 강도를 정확값으로 주장하지 않는다.
 - pressure/failure 계수는 `SIM_TUNED`이며 향후 공개 자료 기반 fixture로 교정해야 한다.
+- RHAe material factor와 8/12/20 mm 신관 profile은 비교 가능한 simulation axis이며 실제 탄약·장갑 제조사의 인증값이 아니다.
+- synthetic thin/thick external-blast fixture는 경계 분기와 보존 검증용 stress case이지 전함 장갑 관통표가 아니다.
 - 새로운 다단 VLS cook-off 연쇄는 별도 단계다.
