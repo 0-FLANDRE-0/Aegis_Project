@@ -12,7 +12,7 @@ REV5는 REV4의 구획 폭발·실피해·영구 scar 권위를 유지하면서 
 
 - WIP12D PR [`#29`](https://github.com/0-FLANDRE-0/Aegis_Project/pull/29): `merged`, `2026-09-19T16:44:41Z`
 - WIP12E PR [`#30`](https://github.com/0-FLANDRE-0/Aegis_Project/pull/30): `merged`, `2026-09-20T04:50:00Z`
-- 현재 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
+- WIP12E 코드 merge commit: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 크기: `3,058,349 bytes`
 - 검증한 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
