@@ -35,6 +35,8 @@ on:
       - 'tests/internal-terminal-effects-wip12c.spec.js'
       - 'tests/residual-overpenetration-wip12d-contract.cjs'
       - 'tests/residual-overpenetration-wip12d.spec.js'
+      - 'tests/naval-armor-fuze-wip12e-rev5-contract.cjs'
+      - 'tests/naval-armor-fuze-wip12e-rev5.spec.js'
       - 'tests/wip10-visual-probe.cjs'
       - 'archive/v48/WIP11C/**'
       - 'archive/v48/WIP12A/**'
@@ -1129,6 +1131,70 @@ jobs:
             playwright-report/
             test-results/
             /tmp/aegis-residual-overpenetration-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  naval-armor-fuze-wip12e-rev5-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify WIP12E checksums
+        run: sha256sum -c WIP12E_SHA256SUMS.txt
+
+      - name: Run WIP12E REV5 naval armor and fuze static contract
+        run: npm run test:naval-armor-fuze-contract
+
+  naval-armor-fuze-wip12e-rev5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12E REV5 armor, blast, and persistence browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/aegis-naval-armor-fuze-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:naval-armor-fuze
+
+      - name: Upload WIP12E REV5 regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: naval-armor-fuze-wip12e-rev5-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+            /tmp/aegis-naval-armor-fuze-http.log
           if-no-files-found: warn
           retention-days: 14
 
