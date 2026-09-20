@@ -5,7 +5,9 @@
 - 저장소: `0-FLANDRE-0/Aegis_Project`
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
 - WIP12D PR `#29`: merged
-- 기준 `main`: `97de0e1459e4f111e21b5bed163decc6ce782c32`
+- WIP12E PR `#30`: merged at `2026-09-20T04:50:00Z`
+- 병합 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
+- 병합한 branch head: `61c3c4a985e198f90117808ea6ced30a12e06302`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 현재 시험 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
@@ -106,8 +108,9 @@ Kh-32 한 발의 전방 연돌 명중에서는 SPY 네 면에 각각 약 `14–3
 
 1. 완료: REV5 HTML, 문서, checksum 및 REV5 전용 테스트를 현재 WIP12E branch에 반영했다.
 2. 완료: 원격 HTML 전체 blob을 다시 읽어 SHA-256과 크기가 일치함을 확인했다.
-3. 저장소의 package/workflow를 REV5 전용 계약과 Playwright에 연결한다.
-4. 전체 기존 회귀와 GitHub Actions를 실행한다.
-5. 통과 뒤 검증된 REV5를 canonical `Aegis_SIM_v48_WIP12E.html`로 승격할지 결정한다.
+3. 완료: package/workflow를 REV5 전용 계약과 Playwright에 연결했다.
+4. 완료: PR #30 Actions run #99의 전체 `30`개 job이 성공했다.
+5. 완료: PR #30을 merge commit `c18a51433d767f56ccd1bb4ff30388dfe91505d3`로 `main`에 병합했다.
+6. 캐시 혼동 방지를 위해 REV5 파일명을 유지했다. canonical `Aegis_SIM_v48_WIP12E.html` 별칭은 필요할 때 별도 변경으로 승격한다.
 
 상세 설계는 `docs/WIP12E_COMPARTMENT_BLAST_IMPLEMENTATION.md`, 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP12E.md`를 따른다.

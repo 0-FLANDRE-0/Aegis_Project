@@ -2,7 +2,7 @@
 
 ## 판정
 
-`revision 5 naval armor·fuze·external blast coupling 구현·전용 회귀·원격 반영 완료 / 전체 저장소 회귀·GitHub Actions 잔여`
+`revision 5 naval armor·fuze·external blast coupling 구현·전용 회귀·전체 저장소 회귀·GitHub Actions·main 병합 완료`
 
 작업 번호는 **WIP12E로 유지**한다. `REV5`는 캐시 우회와 시험 후보 구분을 위한 파일 식별자다.
 
@@ -11,13 +11,15 @@ REV5는 REV4의 구획 폭발·실피해·영구 scar 권위를 유지하면서 
 ## 기준과 브랜치
 
 - WIP12D PR [`#29`](https://github.com/0-FLANDRE-0/Aegis_Project/pull/29): `merged`, `2026-09-19T16:44:41Z`
-- 현재 `main`: `97de0e1459e4f111e21b5bed163decc6ce782c32`
+- WIP12E PR [`#30`](https://github.com/0-FLANDRE-0/Aegis_Project/pull/30): `merged`, `2026-09-20T04:50:00Z`
+- 현재 `main`: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - 기준 HTML: `Aegis_SIM_v48_WIP12D.html`
 - 기준 크기: `3,058,349 bytes`
 - 검증한 기준 SHA-256: `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`
 - 작업 브랜치: `feat/v48-wip12e-compartment-blast`
-- 원격 merge-base: 위 `main` SHA와 동일
-- 원격 branch 상태: `main`보다 `12` commits ahead, `0` behind (REV5 구현 및 문서 마감 포함)
+- 병합한 branch head: `61c3c4a985e198f90117808ea6ced30a12e06302`
+- CI 연결 commit: `61c3c4a985e198f90117808ea6ced30a12e06302`
+- merge commit: `c18a51433d767f56ccd1bb4ff30388dfe91505d3`
 - REV5 구현 commit: `c07120e3d03276e8bc67fbceb2dbd11632fa3689`
 - REV4 기준 후보 SHA-256: `856ec05e4acd6c7a04bb9da580a46c550cb33341cb82e6b5cb086237930fa3a3`
 - REV5 캐시 우회 후보: `Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html`
@@ -104,6 +106,7 @@ Kh-32 case는 전방 연돌 외판을 먼저 관통한 뒤 외부에서 기폭�
 | deterministic hashes / combat RNG isolation | PASS |
 | console/page errors | `0/0` |
 | 실제 WebGL exterior/interior audit | PASS |
+| PR #30 Actions run #99 | `30/30 SUCCESS` |
 
 실행 명령:
 
@@ -121,13 +124,14 @@ SIM_FILE=Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html npx playwright
 - 일반 pressure만으로 자동 발화하지 않는다. hot gas exposure, 온도, energy density, 가연물 및 fragment assist가 필요하다.
 - full CFD, 수중 bubble pulse, hull whipping, 복합장갑 및 반응장갑은 이번 범위 밖이다.
 
-## 원격 반영 상태와 잔여 작업
+## 원격 반영·병합 상태
 
 - 완료: REV5 HTML, 전용 테스트, 문서 및 checksum을 WIP12E branch에 commit
 - 완료: 원격 REV5 HTML 전체 blob 재읽기 후 SHA-256/크기 대조
-- package scripts와 workflow에 REV5 테스트 연결
-- 저장소 전체 기존 Playwright suite 및 GitHub Actions 실행
-- 통과 뒤 canonical `Aegis_SIM_v48_WIP12E.html` 승격 여부 결정
+- 완료: package scripts와 workflow에 REV5 정적 계약 및 Playwright 회귀 연결
+- 완료: 저장소 전체 GitHub Actions `30/30 SUCCESS`
+- 완료: PR #30을 merge commit `c18a51433d767f56ccd1bb4ff30388dfe91505d3`로 `main`에 병합
+- 캐시 혼동 방지를 위해 이번 병합에서는 검증된 REV5 파일명을 유지했다. canonical `Aegis_SIM_v48_WIP12E.html` 별칭 승격은 별도 변경으로만 수행한다.
 
 ## 관련 파일
 
