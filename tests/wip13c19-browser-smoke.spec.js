@@ -7,7 +7,7 @@ test.use({
 });
 
 test('C19 starts, runs core checks and opens the 3D ship view', async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(240_000);
   const pageErrors = [], consoleErrors = [];
   page.on('pageerror', error => pageErrors.push(String(error)));
   page.on('console', message => {
@@ -18,6 +18,9 @@ test('C19 starts, runs core checks and opens the 3D ship view', async ({ page })
   await page.goto(`http://127.0.0.1:4173/${file}`, { waitUntil: 'load', timeout: 120_000 });
   await page.waitForFunction(() => Array.isArray(window.__CORE_SELFTEST_FAILURES__), null, { timeout: 60_000 });
   expect(await page.evaluate(() => window.__CORE_SELFTEST_FAILURES__)).toEqual([]);
+  await expect(page.locator('#wip125DepartBtn')).toBeVisible();
+  await page.locator('#wip125DepartBtn').click();
+  await expect(page.locator('#wip125LoadoutOverlay')).toBeHidden();
   await expect(page.locator('#external3dBtn')).toBeVisible();
   await page.locator('#external3dBtn').click();
   await expect(page.locator('#external3DView')).toHaveAttribute('aria-hidden', 'false', { timeout: 45_000 });
