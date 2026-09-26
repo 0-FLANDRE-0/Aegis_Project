@@ -1,0 +1,44 @@
+name: WIP13C22 surface fuze regression
+
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP13C22.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP13C22.md'
+      - 'SHA256SUMS_v48_WIP13C22.txt'
+      - 'AEGIS_WIP13C22_*.py'
+      - 'AEGIS_WIP13C22_*.patch'
+      - 'tests/AEGIS_WIP13C22_*'
+      - '.github/workflows/wip13c22-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  surface-fuze-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify package, fuze, support and servo
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum -c SHA256SUMS_v48_WIP13C22.txt
+          python AEGIS_WIP13C22_PACKAGE_CHECK.py
+          node tests/AEGIS_WIP13C22_TERMINAL_LIVE_TEST.cjs Aegis_SIM_v48_WIP13C22.html
+          node tests/AEGIS_WIP13C22_SEA_HULL_REGRESSION.cjs Aegis_SIM_v48_WIP13C22.html
+          node tests/AEGIS_WIP13C22_SERVO_CADENCE.cjs Aegis_SIM_v48_WIP13C22.html
+          node tests/wip13c17-servo-regression.cjs Aegis_SIM_v48_WIP13C22.html
+          node tests/wip13c17-vm-regression.cjs Aegis_SIM_v48_WIP13C22.html
+      - name: Real fixed-tick surface flights
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tests/AEGIS_WIP13C22_FULL_FLIGHT.cjs Aegis_SIM_v48_WIP13C22.html '{"weapon":"SM2","bearingDeg":90,"ownSpeedKt":25}'
+          node tests/AEGIS_WIP13C22_FULL_FLIGHT.cjs Aegis_SIM_v48_WIP13C22.html '{"weapon":"ESSM","bearingDeg":90,"ownSpeedKt":25,"spgDisabled":true}'
+          node tests/AEGIS_WIP13C22_FULL_FLIGHT.cjs Aegis_SIM_v48_WIP13C22.html '{"weapon":"SM2","bearingDeg":0,"ownSpeedKt":25}'
