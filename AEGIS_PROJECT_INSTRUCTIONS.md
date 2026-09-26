@@ -177,7 +177,7 @@
 
 - 현재 HTML은 `Aegis_SIM_v48_WIP13C19.html`이며 SHA-256은 `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`다.
 - 작업 브랜치는 `feat/v48-wip13c-control-deck-ui-foundation`. 사용자가 대형 HTML을 직접 업로드했고, 작은 문서/테스트와 README·체크섬·본 지침을 같은 브랜치에서 반영한다. C6와 C17 브랜치는 실수 브랜치이며 합치지 않는다.
-- 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP13C19.md`의 **13C 종료 HOLD**다. C19 외형과 SPG/충돌 제한 VM 검사는 통과했지만 장시간 실비행, 전투 브라우저/모바일, SPG 다중 예약/BDA/alias, proximity-first 신관 등은 남았다. 브라우저 스모크가 통과해도 전체 13C 완료 판정을 자동으로 주지 않는다.
+- 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP13C19.md`의 **13C 종료 HOLD**다. C19 외형과 SPG/충돌 제한 VM 검사는 통과했지만 장시간 실비행, 전투 브라우저/모바일, SPG 다중 예약/BDA/alias, proximity-first 신관 등은 남았다. 사용자의 외형 확인만으로 전체 13C 교전 완료 판정을 주지 않는다.
 - 향후 작업은 C19를 기준으로 위 잔여조건을 해결하고 검증을 갱신한다. 메인에 작업본을 병합해도 정식 릴리스/태그로 승격하지 않는다.
 
 ### WIP12D 이전 인계 기록
