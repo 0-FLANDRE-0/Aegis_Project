@@ -1,15 +1,14 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 현재 개발 기준 — v48 WIP13C19
+## 현재 개발 기준 — v48 WIP13C22
 
-- 작업본: [`Aegis_SIM_v48_WIP13C19.html`](Aegis_SIM_v48_WIP13C19.html)
-- 통합 상태와 남은 종료 조건: [`AEGIS_PLAN_STATUS_v48_WIP13C19.md`](AEGIS_PLAN_STATUS_v48_WIP13C19.md)
-- 외형 상세 기록: [`AEGIS_WIP13C19_STATUS.md`](AEGIS_WIP13C19_STATUS.md)
-- SHA-256: `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`
-- 판정: **작업본 통합 / 13C 전체 종료 HOLD**. 정식 v48 릴리스가 아니다.
-- 13C 수상교전 계획: [`WIP13C_SURFACE_MISSILE_ENGAGEMENT_PLAN.md`](WIP13C_SURFACE_MISSILE_ENGAGEMENT_PLAN.md). C5·C6의 기존 상태 기록과 C17·C18 검사·문서를 보존하며, C6·C17 실수 브랜치에서 병합하지 않는다.
-- 검사: 압축 14개 레코드, DOM 초기 로딩, SPG fixed-tick servo, 해면/선체 판정, FCS 카드 회귀 통과. [WIP13C19 regression](.github/workflows/wip13c19-regression.yml)은 고정틱·자산·시작 검사를 실행한다. 외형은 사용자가 업로드 전에 화면에서 확인한다.
-- 후속 작업: 장시간 SM-2/ESSM 실비행 갱신 정체, 실제 피해·모바일·배속/2D·3D 회귀, 수상 proximity-first 신관 검증. 미검증 결과를 `완료`라고 쓰지 않는다.
+- 작업본: [`Aegis_SIM_v48_WIP13C22.html`](Aegis_SIM_v48_WIP13C22.html)
+- 상태와 남은 검증: [`AEGIS_PLAN_STATUS_v48_WIP13C22.md`](AEGIS_PLAN_STATUS_v48_WIP13C22.md)
+- SHA-256: `9b697fcb2edfef69b01d39add5600d1f61638fa42bf6b2d07222d25d491e75fa` (전체 파일: [체크섬](SHA256SUMS_v48_WIP13C22.txt))
+- C22는 C19 외형·SPG 서보와 C18 해면/선체 판정을 보존하며, 기존 SM-2/ESSM 신관 프로파일로 대수상 충격·근접기폭을 판정한다. 충돌 예정이면 충격신관을 우선하고, 예상 선체 미스에 한해 신관 조건을 통과한 근접기폭을 허용한다.
+- 판정: **C22 코드·결정적 런타임 검사 완료 / 13C 전체 종료 HOLD**. 정식 v48 릴리스가 아니다. 실제 브라우저/WebGL 및 전체 방위 실비행 검증은 남아 있다.
+- 검사: [C22 전용 회귀](.github/workflows/wip13c22-regression.yml)에서 패키지·체크섬·고정 틱 신관 fixture·SPG 회귀와 3가지 실비행 시나리오를 실행한다.
+- 이전 기준: [C19 상태](AEGIS_PLAN_STATUS_v48_WIP13C19.md), [C19 외형](AEGIS_WIP13C19_STATUS.md), [13C 수상교전 계획](WIP13C_SURFACE_MISSILE_ENGAGEMENT_PLAN.md). C20/C21은 철회된 중간 산출물이므로 병합하지 않는다. 실수로 생성된 C6/C17 브랜치에서도 병합하지 않는다.
 
 
 ## 과거 통합 기록 — WIP12D

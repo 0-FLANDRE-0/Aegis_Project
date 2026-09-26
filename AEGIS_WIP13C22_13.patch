@@ -1,0 +1,169 @@
+--- Aegis_C19_main.js
++++ Aegis_C22_main.js
+@@ -4665,7 +4665,7 @@
+     const toObs=Math.atan2((m?.y??0)-(target?.y??0),(m?.x??0)-(target?.x??0)),hdg=Number(target?.heading)||0,aspect=Math.abs(Math.sin(angNorm(toObs-hdg)));
+     const headArea=Math.PI*Math.pow(D*.5,2),sideArea=L*D;return lerp(headArea,sideArea,aspect);
+   }
+-  function _wip99FuzeDetectionInfo(m,target,relXm,relYm,relZm,dotPV){
++  function _wip99FuzeDetectionInfo(m,target,relXm,relYm,relZm,dotPV,rcsOverrideM2=null){
+     const p=_wip143FuzeParamsForMissile(m),cfg=p.detectionReliability;
+     if(!cfg.enabled)return {detected:true,pd:1,draw:null,rcsM2:null,opticalAreaM2:null,closingMps:null};
+     const r=Math.max(1,Math.hypot(relXm,relYm,relZm));
+@@ -4675,7 +4675,7 @@
+       const opticalAreaM2=_wip149OpticalTargetProxyAreaM2(target,m),ref=Math.max(.01,Number(cfg.opticalAreaRefM2)||.5);
+       signalQ=clamp(Math.pow(Math.max(.005,opticalAreaM2)/ref,Number(cfg.areaExponent)||.06),.86,1.08);returnMetric={opticalAreaM2,opticalAreaQ:signalQ};
+     }else{
+-      const rcsM2=target?.label!=null?getASMRcs(target,m.x,m.y,m.z):targetRcsM2(target,m.x,m.y),ref=Math.max(.005,Number(cfg.rcsRefM2)||.30);
++      const rcsM2=Number.isFinite(rcsOverrideM2)?Math.max(0,rcsOverrideM2):(target?.label!=null?getASMRcs(target,m.x,m.y,m.z):targetRcsM2(target,m.x,m.y)),ref=Math.max(.005,Number(cfg.rcsRefM2)||.30);
+       signalQ=clamp(Math.pow(Math.max(.005,rcsM2)/ref,Number(cfg.rcsExponent)||.12),.82,1.08);returnMetric={rcsM2,rcsQ:signalQ};
+     }
+     const closureQ=clamp(cfg.closureFloor+(1-cfg.closureFloor)*(closingMps/Math.max(1,cfg.closureRefMps)),cfg.closureFloor,1);
+@@ -4708,11 +4708,11 @@
+     const p=probabilityFromRatePerSec(rate,dt),draw=_wip99FuzeClutterRandom(m);
+     return {trigger:draw<p,ratePerSec:rate,p,draw,seaStateFactor,missileAltM:m.z??0,targetAltM:target?.z??0};
+   }
+-  function _wip99Stage2CandidateDecision(m,target,relXm,relYm,relZm,dotPV){
++  function _wip99Stage2CandidateDecision(m,target,relXm,relYm,relZm,dotPV,rcsOverrideM2=null){
+     if(!_wip99Stage2AnyEnabled(m))return {allow:true,reason:null};
+     const beam=_wip99TddBeamInfo(m,relXm,relYm,relZm);
+     if(_wip143FuzeParamsForMissile(m).tddBeam.enabled&&!beam.covered)return {allow:false,reason:'beam-out',beam,detection:null};
+-    const detection=_wip99FuzeDetectionInfo(m,target,relXm,relYm,relZm,dotPV);
++    const detection=_wip99FuzeDetectionInfo(m,target,relXm,relYm,relZm,dotPV,rcsOverrideM2);
+     if(_wip143FuzeParamsForMissile(m).detectionReliability.enabled&&!detection.detected)return {allow:false,reason:'detection-failed',beam,detection};
+     return {allow:true,reason:null,beam,detection};
+   }
+@@ -15133,6 +15133,84 @@
+ function surfaceSm2RollbackReservationWip13C5(commit){
+   const row=commit?.row;if(!row)return false;const rows=SPG62_RESERVATIONS.get(row.illId)??[],i=rows.indexOf(row);if(i>=0)rows.splice(i,1);if(SPG62_RESERVATION_STATE.get(row.targetId)===row)SPG62_RESERVATION_STATE.delete(row.targetId);return true;
+ }
++// WIP13C22: surface proximity uses the same weapon-specific TDD and missile profiles as air intercepts.
++// This is geometry sampling resolution, not a second fuze radius or real-world specification.
++const SURFACE_MISSILE_PROXIMITY_WIP13C22=Object.freeze({sampleStepFraction:.34});
++function surfaceMissileFuzeEnvelopeWip13C22(m){
++  const key=m?.isESSM?'ESSM':'SM2',ordnance=WIP12B_LIVE_ORDNANCE[key],profile=SAM_MISSILE_PROFILES[m?.isESSM?'ESSM_BLK2_SIM':'SM2MR_BLKIIIA_SIM'];
++  const fuze=m?.isESSM?ESSM_BLOCK2_TDD_SIM:SM2MR_BLOCK_IIIA_MK45_MOD9_TDD_SIM;
++  if(!ordnance?.fuze?.channels?.includes('PROXIMITY')||!profile||!fuze)return null;
++  const detectionRadiusM=Math.max(0,Number(fuze.detectionRadiusM)||0),lethalRadiusM=Math.max(0,Number(profile.lethalRadiusM)||0);
++  return {fuze,detectionRadiusM,actuationRadiusM:Math.min(detectionRadiusM,lethalRadiusM),armingRangeKm:Math.max(0,Number(fuze.armingRangeKm)||0),processingDelayS:fuze.processingDelay?.enabled?Math.max(0,Number(fuze.processingDelay.delayS)||0):0};
++}
++function surfaceMissileClosestExteriorWip13C22(profile,p){
++  const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y,z:a.z-b.z}),dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
++  let closest=null,best=Infinity;
++  const consider=q=>{const d=dot(sub(p,q),sub(p,q));if(d<best){best=d;closest=q;}};
++  // Use the same faceted hull and superstructure boxes as the live contact solver.
++  for(const tri of surfaceTargetHullTrianglesWip13A(profile)){
++    const a=tri.a,b=tri.b,c=tri.c,ab=sub(b,a),ac=sub(c,a),ap=sub(p,a),d1=dot(ab,ap),d2=dot(ac,ap);
++    if(d1<=0&&d2<=0){consider(a);continue;}
++    const bp=sub(p,b),d3=dot(ab,bp),d4=dot(ac,bp);
++    if(d3>=0&&d4<=d3){consider(b);continue;}
++    const vc=d1*d4-d3*d2;
++    if(vc<=0&&d1>=0&&d3<=0){const v=d1/(d1-d3);consider({x:a.x+v*ab.x,y:a.y+v*ab.y,z:a.z+v*ab.z});continue;}
++    const cp=sub(p,c),d5=dot(ab,cp),d6=dot(ac,cp);
++    if(d6>=0&&d5<=d6){consider(c);continue;}
++    const vb=d5*d2-d1*d6;
++    if(vb<=0&&d2>=0&&d6<=0){const w=d2/(d2-d6);consider({x:a.x+w*ac.x,y:a.y+w*ac.y,z:a.z+w*ac.z});continue;}
++    const va=d3*d6-d5*d4;
++    if(va<=0&&d4-d3>=0&&d5-d6>=0){const bc=sub(c,b),w=(d4-d3)/((d4-d3)+(d5-d6));consider({x:b.x+w*bc.x,y:b.y+w*bc.y,z:b.z+w*bc.z});continue;}
++    const denom=va+vb+vc;if(Math.abs(denom)>1e-12){const v=vb/denom,w=vc/denom;consider({x:a.x+v*ab.x+w*ac.x,y:a.y+v*ab.y+w*ac.y,z:a.z+v*ab.z+w*ac.z});}
++  }
++  for(const b of profile.geometry.hitVolumes??[]){
++    const q={x:clamp(p.x,b.x0,b.x1),y:clamp(p.y,b.y0,b.y1),z:clamp(p.z,b.z0,b.z1)};
++    if(q.x===p.x&&q.y===p.y&&q.z===p.z){
++      const sides=[['x',b.x0],['x',b.x1],['y',b.y0],['y',b.y1],['z',b.z0],['z',b.z1]];
++      const [axis,value]=sides.sort((u,v)=>Math.abs(p[u[0]]-u[1])-Math.abs(p[v[0]]-v[1]))[0];q[axis]=value;
++    }
++    consider(q);
++  }
++  return closest?{point:closest,distanceM:Math.sqrt(best)}:null;
++}
++function surfaceMissileFirstProximityWip13C22(m,entity,startWorld,endWorld,radiusM,requireMiss=true){
++  if(m.vlsPhase||m.dead||!entity.targetRuntime||!(radiusM>0))return null;
++  const profile=surfaceTargetProfileWip13A(entity.profileId),trace=traceSurfaceTargetSegmentWip13A(entity,startWorld,endWorld,'WORLD_SIM',{motionSweep:true,projectileRadiusM:radiusM});
++  const p0=trace.startLocal,p1=trace.endLocal;if(!p0||!p1)return null;
++  const broad=surfaceTargetBoundsWip13C9(profile).radiusM+radiusM;
++  if(segmentOriginDistanceSquaredWip13C9(p0,p1)>broad*broad)return null;
++  const delta={x:p1.x-p0.x,y:p1.y-p0.y,z:p1.z-p0.z},length=Math.hypot(delta.x,delta.y,delta.z);if(length<1e-7)return null;const samples=Math.max(1,Math.min(256,Math.ceil(length/(radiusM*SURFACE_MISSILE_PROXIMITY_WIP13C22.sampleStepFraction))));
++  const at=t=>{const local={x:p0.x+delta.x*t,y:p0.y+delta.y*t,z:p0.z+delta.z*t};return {local,nearest:surfaceMissileClosestExteriorWip13C22(profile,local)};};
++  let previousT=0;
++  for(let i=0;i<=samples;i++){
++    const t=i/samples,row=at(t);
++    if(row.nearest&&row.nearest.distanceM<=radiusM){
++      let lo=previousT,hi=t;
++      if(i>0)for(let n=0;n<12;n++){const mid=(lo+hi)*.5;if(at(mid).nearest.distanceM<=radiusM)hi=mid;else lo=mid;}
++      const selected=at(hi),q=selected.nearest.point,p=selected.local,d=Math.hypot(q.x-p.x,q.y-p.y,q.z-p.z);
++      if(d<1e-6)return null;const direction={x:(q.x-p.x)/d,y:(q.y-p.y)/d,z:(q.z-p.z)/d},rayEnd={x:p.x+direction.x*(d+Math.max(.8,radiusM*.3)),y:p.y+direction.y*(d+Math.max(.8,radiusM*.3)),z:p.z+direction.z*(d+Math.max(.8,radiusM*.3))};
++      const exteriorTrace=traceSurfaceTargetSegmentWip13A(entity,p,rayEnd,'TARGET_LOCAL_METRES');
++      if(exteriorTrace.hits.some(hit=>hit.crossingRole==='ENTRY')){
++        // The current fixed-tick velocity relative to the target predicts a miss only if
++        // its forward chord clears the entire physical hull AND superstructure. Never
++        // let entry into the proximity radius preempt a predicted direct-action impact.
++        const dir={x:delta.x/length,y:delta.y/length,z:delta.z/length};
++        const lookaheadM=Math.hypot(p.x,p.y,p.z)+2*(surfaceTargetBoundsWip13C9(profile).radiusM+radiusM);
++        const far={x:p.x+dir.x*lookaheadM,y:p.y+dir.y*lookaheadM,z:p.z+dir.z*lookaheadM};
++        const projected=traceSurfaceTargetSegmentWip13A(entity,p,far,'TARGET_LOCAL_METRES');
++        if(requireMiss&&projected.hits.some(hit=>hit.crossingRole==='ENTRY'))return null;
++        return {entity,t:hi,local:p,nearestLocal:q,distanceM:d,exteriorTrace};
++      }
++    }
++    previousT=t;
++  }
++  return null;
++}
++function resolveSurfaceMissileProximityWip13C22(m,event){
++  const entity=event?.entity,weaponKey=m?.isESSM?'ESSM':'SM2',entry=WIP12B_LIVE_ORDNANCE[weaponKey];if(!entity?.targetRuntime||!entry||m?.dead||m?._surfaceImpact)return null;
++  const frame=surfaceTargetFrameWip13A(entity),velocityWorld={x:worldSpeedToMps(m.vx??0),y:worldSpeedToMps(m.vy??0),z:Number(m.vz)||0},velocityLocal=frame.vectorToBody(velocityWorld),speedMps=Math.max(1,Math.hypot(velocityLocal.x,velocityLocal.y,velocityLocal.z)),direction=wip12aUnit(velocityLocal),eventId=`TARGET_MISSILE:${entity.entityId}:${weaponKey}:${m.id}`,terminal=wip12bProximityTrace(entry,{impactEventId:eventId,targetEntityId:entity.entityId,detonationPoint:event.local,standOffM:0,direction,speedMps,massKg:Math.max(1,Number(m.massKg)||entry.spec.body.massKg)}),geometry={startLocal:event.local,exteriorTrace:event.exteriorTrace,geometry:[],maxPathM:0},ordnance={id:`${weaponKey}-${m.id}`,weaponKey,massKg:Number(m.massKg)||entry.spec.body.massKg,diameterM:entry.spec.geometry.caliberM,velocityMps:velocityWorld},source=m.isESSM?'ESSM_SURFACE_ARH_LIVE':'SM2_SURFACE_SARH_LIVE',label=entry.displayName,applied=applyWip12fPacketToSurfaceTargetWip13C4(entity,ordnance,terminal,geometry,speedMps,{weaponKey,source,weaponLabel:label,projectileDiameterM:entry.spec.geometry.caliberM,impactMassKg:Number(m.massKg)||entry.spec.body.massKg,velocityMps:velocityWorld,fuzePath:'PROXIMITY',integrationMode:'LIVE_SURFACE_PROXIMITY',visualEventType:'SURFACE_TARGET_MISSILE_IMPACT',seed:(Number(m.id)||1)^simStepCounter});
++  m._surfaceImpact={eventId,targetEntityId:entity.entityId,impactSpeedMps:speedMps,terminationReason:terminal.terminationReason,perforated:applied.perforated,throughHull:applied.throughHull,damageRevision:applied.result?.revision??null,standoffM:event.distanceM};m._fuzeTriggerReason='proximity';m._fuzeBurstMissM=event.distanceM;m.proxDetonated=true;m._deathReason='SURFACE_TARGET_PROXIMITY';m.dead=true;notify(`💥 ${label} M${m.id} 표적함 근접폭발 · ${event.distanceM.toFixed(1)}m`);return m._surfaceImpact;
++}
+ function resolveSurfaceMissileContactWip13C5(m,contact){
+   const weaponKey=m?.isESSM?'ESSM':'SM2',weaponLabel=m?.isESSM?'ESSM Block 2':'SM-2MR Block IIIA',source=m?.isESSM?'ESSM_SURFACE_ARH_LIVE':'SM2_SURFACE_SARH_LIVE',entity=contact?.entity,entry=WIP12B_LIVE_ORDNANCE[weaponKey];if(m?.dead||m?._surfaceImpact||!surfaceMissileRuntimeWip13C6(m)||!entity?.targetRuntime||!contact?.hit||!entry)return null;
+   const frame=surfaceTargetFrameWip13A(entity),targetVelocityWorld=surfaceTargetContactVelocityWip13C9(entity,contact.hit.point),missileVelocityWorld={x:worldSpeedToMps(m.vx??0),y:worldSpeedToMps(m.vy??0),z:Number(m.vz)||0},relativeWorld={x:missileVelocityWorld.x-targetVelocityWorld.x,y:missileVelocityWorld.y-targetVelocityWorld.y,z:missileVelocityWorld.z-targetVelocityWorld.z},relativeBody=frame.vectorToBody(relativeWorld),impactSpeedMps=Math.max(.01,Math.hypot(relativeBody.x,relativeBody.y,relativeBody.z)),direction=wip12aUnit(relativeBody),geometry=surfaceTargetTerminalGeometryWip13C4(entity,contact.hit.point,direction,entry.spec.geometry.caliberM),eventId=`TARGET_MISSILE:${entity.entityId}:${weaponKey}:${m.id}`,state=wip12aMakeProjectileState(entry.spec,{position:geometry.startLocal,direction,bodyAxis:direction,speedMps:impactSpeedMps,massKg:Math.max(1,Number(m.massKg)||entry.spec.body.massKg),flightState:{launchCleared:!m.vlsPhase,timeS:Number(m.life)||0,distanceM:Math.max(0,(Number(m.life)||0)*worldSpeedToMps(m.speed??0))},fuze:{safetyArmed:!m.vlsPhase,armed:!m.vlsPhase}}),terminal=wip12aTraceTerminalProjectile(entry.spec,state,geometry.geometry,{impactEventId:eventId,sourceProjectileId:`${weaponKey}-${m.id}`,targetEntityId:entity.entityId,maxPathM:geometry.maxPathM}),ordnance={id:`${weaponKey}-${m.id}`,weaponKey,massKg:Number(m.massKg)||entry.spec.body.massKg,diameterM:entry.spec.geometry.caliberM,velocityMps:missileVelocityWorld},applied=applyWip12fPacketToSurfaceTargetWip13C4(entity,ordnance,terminal,geometry,impactSpeedMps,{weaponKey,source,weaponLabel,projectileDiameterM:entry.spec.geometry.caliberM,impactMassKg:Number(m.massKg)||entry.spec.body.massKg,velocityMps:missileVelocityWorld,visualEventType:'SURFACE_TARGET_MISSILE_IMPACT',seed:(Number(m.id)||1)^simStepCounter});
+@@ -15140,11 +15218,38 @@
+   m._surfaceImpact={eventId,targetEntityId:entity.entityId,impactSpeedMps,terminationReason:terminal.terminationReason,perforated:applied.perforated,throughHull:applied.throughHull,damageRevision:applied.result?.revision??null};m._fuzeTriggerReason='contact';m.contactDetonatedWip13C8=applied.explosiveMassKg>0;m.proxDetonated=false;m._deathReason='SURFACE_TARGET_CONTACT';m.dead=true;notify(`💥 ${weaponLabel} M${m.id} 표적함 명중 · ${Math.round(impactSpeedMps)}m/s`);return m._surfaceImpact;
+ }
+ function surfaceMissileSweptContactWip13C5(m,startWorld){
+-  if(!surfaceMissileRuntimeWip13C6(m)||m.dead||!startWorld)return null;const endWorld={x:m.x,y:m.y,z:m.z??0},contact=surfaceTargetFirstAsmContactWip13A(startWorld,endWorld,null);
++  if(!surfaceMissileRuntimeWip13C6(m)||m.dead||!startWorld)return null;
++  const endWorld={x:m.x,y:m.y,z:m.z??0},contact=surfaceTargetFirstAsmContactWip13A(startWorld,endWorld,null);
++  const fuzePolicy=surfaceMissileFuzeEnvelopeWip13C22(m);let proximity=null;
++  if(!m.vlsPhase&&fuzePolicy?.actuationRadiusM>0)for(const entity of surfaceContacts){
++    if(!entity.alive||!entity.targetRuntime||contact?.entity===entity)continue; // Physical contact this tick has priority.
++    const sensed=surfaceMissileFirstProximityWip13C22(m,entity,startWorld,endWorld,fuzePolicy.detectionRadiusM,false);
++    if(sensed&&sensed.distanceM/1000<fuzePolicy.armingRangeKm){
++      m._surfaceFuzeArmedWip13C22=true;
++      const worldAt={x:lerp(startWorld.x,endWorld.x,sensed.t),y:lerp(startWorld.y,endWorld.y,sensed.t),z:lerp(startWorld.z??0,endWorld.z,sensed.t)};
++      const nearestWorld=surfaceTargetLocalToWorldSimWip13A(entity,sensed.nearestLocal),targetVelocity=surfaceTargetContactVelocityWip13C9(entity,nearestWorld);
++      const rel={x:worldToMeters(worldAt.x-nearestWorld.x),y:worldToMeters(worldAt.y-nearestWorld.y),z:worldAt.z-nearestWorld.z};
++      const relativeVelocity={x:worldSpeedToMps(m.vx??0)-targetVelocity.x,y:worldSpeedToMps(m.vy??0)-targetVelocity.y,z:(Number(m.vz)||0)-targetVelocity.z};
++      const dotPV=rel.x*relativeVelocity.x+rel.y*relativeVelocity.y+rel.z*relativeVelocity.z;
++      const rcsM2=surfaceTargetRcsM2Wip13A(entity,'IJ',worldAt.x,worldAt.y);
++      const detection=_wip99Stage2CandidateDecision(m,entity,rel.x,rel.y,rel.z,dotPV,rcsM2);
++      if(detection.allow&&m._surfaceFuzeSenseWip13C22?.entityId!==entity.entityId){
++        m._surfaceFuzeSenseWip13C22={entityId:entity.entityId,atS:simStepCounter*SIM_FIXED_DT+sensed.t*SIM_FIXED_DT};
++      }
++    }
++    const candidate=surfaceMissileFirstProximityWip13C22(m,entity,startWorld,endWorld,fuzePolicy.actuationRadiusM);
++    const prior=m._surfaceFuzeSenseWip13C22;
++    if(candidate&&prior?.entityId===entity.entityId&&simStepCounter*SIM_FIXED_DT+candidate.t*SIM_FIXED_DT+1e-9>=prior.atS+fuzePolicy.processingDelayS&&(!proximity||candidate.t<proximity.t))proximity=candidate;
++  }
+   // Resolve the first physical crossing on this fixed tick. A later underwater hull intersection
+   // cannot turn an earlier sea impact into a ship hit. Contact/sea ties retain contact authority.
+   const seaT=startWorld.z>=0&&endWorld.z<0?clamp(startWorld.z/(startWorld.z-endWorld.z),0,1):null;
+-  if(seaT!==null&&(!contact||seaT+1e-9<clamp(Number(contact.hit?.t)||0,0,1))){
++  const contactT=contact?clamp(Number(contact.hit?.t)||0,0,1):Infinity;
++  if(proximity&&proximity.t+1e-9<contactT&&(seaT===null||proximity.t+1e-9<seaT)){
++    m.x=lerp(startWorld.x,endWorld.x,proximity.t);m.y=lerp(startWorld.y,endWorld.y,proximity.t);m.z=lerp(startWorld.z,endWorld.z,proximity.t);
++    return resolveSurfaceMissileProximityWip13C22(m,proximity);
++  }
++  if(seaT!==null&&(!contact||seaT+1e-9<contactT)){
+     m.x=lerp(startWorld.x,endWorld.x,seaT);m.y=lerp(startWorld.y,endWorld.y,seaT);m.z=-1e-7;
+     return null; // The existing SEA_IMPACT branch owns the event and terminates the missile.
+   }
+@@ -15238,7 +15343,7 @@
+   const detailApplication=duplicate?{trace:null}:c8TargetApplyTerminalDetails(entity,packet.impactEventId,{packet,position:detonationLocal,direction:terminal.startState?.direction??{x:1,y:0,z:0}});
+   if(!duplicate){if(terminal.terminalEffectCascade){applySurfaceResidualOpeningsWip13C9(entity,packet.impactEventId+':MACRO',terminal.terminalEffectCascade.shellCrossings);entity.targetRuntime.residualWip13C9={cascade:terminal.terminalEffectCascade};}const physics=getSurfaceShipPhysicsWip13C9(entity);for(const [i,row] of (packet.structuralImpulse??[]).entries())physics.impulse({eventId:packet.impactEventId+':IMPULSE:'+i,pointLocal:row.position,impulseLocal:row.impulseNs,source:weaponLabel});}
+   if(!duplicate&&options.emitVisual!==false){const world=surfaceTargetLocalToWorldSimWip13A(entity,detonationLocal);wip173PushVisualEvent(String(options.visualEventType??(weaponKey==='MK45'?'SURFACE_TARGET_SHELL_IMPACT':'SURFACE_TARGET_MISSILE_IMPACT')),{coordSpace:'WORLD',x:world.x,y:world.y,z:world.z,vxMps:Number(velocity.x)||0,vyMps:Number(velocity.y)||0,vzMps:Number(velocity.z)||0,...wip12eVisualPayload(detailApplication.trace),blastMedium:detailApplication.trace?.charge?.medium??null,targetEntityId:entity.entityId,sourceId:ordnance?.id??packet.sourceProjectileId,targetLabel:entity.entityId,weaponType:weaponLabel,result:'HIT',massKg,impactSpeedMps,explosiveMassKg,seed:Number(options.seed??simStepCounter)||1});}
+-  if(!duplicate)wip12bRecordTerminalEvent({impactEventId:packet.impactEventId,weaponKey,sourceProjectileId:ordnance?.id??packet.sourceProjectileId,targetEntityId:entity.entityId,coordinateSpace:'TARGET_LOCAL_METRES',trace:terminal,damagePacket:packet,cascade:terminal.terminalEffectCascade,integrationMode:'LIVE_SURFACE_DIRECT_CONTACT',effectResult:result.missionState??'HIT',fuzePath:explosiveMassKg>0?'CONTACT_DIRECT_ACTION':terminal.startState?.fuze?.dud?'DUD':'KINETIC_CONTACT',applicationAuthority:'COMMON_TARGET_PACKET_SINGLE_APPLICATION',damageAppliedBy:'SURFACE_TARGET_RUNTIME'});
++  if(!duplicate)wip12bRecordTerminalEvent({impactEventId:packet.impactEventId,weaponKey,sourceProjectileId:ordnance?.id??packet.sourceProjectileId,targetEntityId:entity.entityId,coordinateSpace:'TARGET_LOCAL_METRES',trace:terminal,damagePacket:packet,cascade:terminal.terminalEffectCascade,integrationMode:options.integrationMode??'LIVE_SURFACE_DIRECT_CONTACT',effectResult:result.missionState??'HIT',fuzePath:options.fuzePath??(explosiveMassKg>0?'CONTACT_DIRECT_ACTION':terminal.startState?.fuze?.dud?'DUD':'KINETIC_CONTACT'),applicationAuthority:'COMMON_TARGET_PACKET_SINGLE_APPLICATION',damageAppliedBy:'SURFACE_TARGET_RUNTIME'});
+   return {schema:'AEGIS_ORDNANCE_NEUTRAL_SURFACE_DAMAGE_APPLICATION_V48_WIP13C4',weaponKey,result,patchAudit,duplicate,perforated,throughHull,explosiveMassKg,blastTraceSummary:wip12eBlastTraceSummary(detailApplication.trace),impactEventId:packet.impactEventId};
+ }
+ function applyWip12fPacketToSurfaceTargetWip13B3(entity,projectile,terminal,geometry,impactSpeedMps){
