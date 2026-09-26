@@ -175,6 +175,13 @@
 
 ## 8. 현재 인계 기준
 
+- 현재 HTML은 `Aegis_SIM_v48_WIP13C19.html`이며 SHA-256은 `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`다.
+- 작업 브랜치는 `feat/v48-wip13c-control-deck-ui-foundation`. 사용자가 대형 HTML을 직접 업로드했고, 작은 문서/테스트와 README·체크섬·본 지침을 같은 브랜치에서 반영한다. C6와 C17 브랜치는 실수 브랜치이며 합치지 않는다.
+- 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP13C19.md`의 **13C 종료 HOLD**다. C19 외형과 SPG/충돌 제한 VM 검사는 통과했지만 장시간 실비행, 전투 브라우저/모바일, SPG 다중 예약/BDA/alias, proximity-first 신관 등은 남았다. 사용자의 외형 확인만으로 전체 13C 교전 완료 판정을 주지 않는다.
+- 향후 작업은 C19를 기준으로 위 잔여조건을 해결하고 검증을 갱신한다. 메인에 작업본을 병합해도 정식 릴리스/태그로 승격하지 않는다.
+
+### WIP12D 이전 인계 기록
+
 - 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.
 - 현재 기준 HTML SHA-256은 `8ae85b69e28e71e54137ede0fd6110bbfa358fea7b04c2a88446bf3d44f7a90c`이고 크기는 `3,058,349 bytes`다.
 - 최종 로컬 검증은 WIP12D 정적 계약 `36/36`, WIP12A 정적 계약 `30/30`, WIP11C 정적 계약 `32/32`, WIP11B runtime-safety 정적 계약 `16/16`, 정적 계약 파일 `11/11`, WIP12D Playwright `2/2`, 전체 Playwright `36/36`을 통과했다. 실제 Kh-32 seed `481232`는 확장된 전방 연돌을 첫 surface로 맞아 primary damage budget `191`, 3-source power 합 `1.0`, damaged parts `17`을 만들며 잔존체 `4`, 내부 정지 `2`, 반대편 이탈·실제 외피 구멍 `2`, 제한된 기계적 보충 피해 `9.34313`을 기록한다. legacy ASM 공식과 전투 RNG 권위는 변하지 않았고 첫 접촉 형상만 의도적으로 달라졌다. 3D draw call은 전체 내부 `2,342`에서 피격 중심 `298`로 감소했다.

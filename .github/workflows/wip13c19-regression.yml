@@ -1,0 +1,33 @@
+name: WIP13C19 regression
+
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP13C19.html'
+      - 'tests/wip13c*.cjs'
+      - '.github/workflows/wip13c19-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  simulation-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check uploaded HTML digest and fixed-tick regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' '152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77' Aegis_SIM_v48_WIP13C19.html | sha256sum -c
+          node tests/wip13c19-visual-check.cjs Aegis_SIM_v48_WIP13C19.html
+          node tests/wip13c19-boot-check.cjs Aegis_SIM_v48_WIP13C19.html
+          node tests/wip13c17-servo-regression.cjs Aegis_SIM_v48_WIP13C19.html
+          node tests/wip13c17-vm-regression.cjs Aegis_SIM_v48_WIP13C19.html
+          node tests/wip13c18-terminal-regression.cjs Aegis_SIM_v48_WIP13C19.html
+          AEGIS_CARD_ONLY=1 node tests/wip13c18-full-flight.cjs Aegis_SIM_v48_WIP13C19.html

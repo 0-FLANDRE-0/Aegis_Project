@@ -1,6 +1,18 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 현재 개발 기준
+## 현재 개발 기준 — v48 WIP13C19
+
+- 작업본: [`Aegis_SIM_v48_WIP13C19.html`](Aegis_SIM_v48_WIP13C19.html)
+- 통합 상태와 남은 종료 조건: [`AEGIS_PLAN_STATUS_v48_WIP13C19.md`](AEGIS_PLAN_STATUS_v48_WIP13C19.md)
+- 외형 상세 기록: [`AEGIS_WIP13C19_STATUS.md`](AEGIS_WIP13C19_STATUS.md)
+- SHA-256: `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`
+- 판정: **작업본 통합 / 13C 전체 종료 HOLD**. 정식 v48 릴리스가 아니다.
+- 13C 수상교전 계획: [`WIP13C_SURFACE_MISSILE_ENGAGEMENT_PLAN.md`](WIP13C_SURFACE_MISSILE_ENGAGEMENT_PLAN.md). C5·C6의 기존 상태 기록과 C17·C18 검사·문서를 보존하며, C6·C17 실수 브랜치에서 병합하지 않는다.
+- 검사: 압축 14개 레코드, DOM 초기 로딩, SPG fixed-tick servo, 해면/선체 판정, FCS 카드 회귀 통과. [WIP13C19 regression](.github/workflows/wip13c19-regression.yml)은 고정틱·자산·시작 검사를 실행한다. 외형은 사용자가 업로드 전에 화면에서 확인한다.
+- 후속 작업: 장시간 SM-2/ESSM 실비행 갱신 정체, 실제 피해·모바일·배속/2D·3D 회귀, 수상 proximity-first 신관 검증. 미검증 결과를 `완료`라고 쓰지 않는다.
+
+
+## 과거 통합 기록 — WIP12D
 
 - 시뮬레이터: [`Aegis_SIM_v48_WIP12D.html`](Aegis_SIM_v48_WIP12D.html)
 - 상태·검증 기록: [`AEGIS_PLAN_STATUS_v48_WIP12D.md`](AEGIS_PLAN_STATUS_v48_WIP12D.md)
@@ -46,7 +58,7 @@
 - 3D draw call `2342 → 298`(`87.28%` 감소), 피격 중심/전체 내부 복원과 내부 전용 표시 확인
 - Workflow YAML은 WIP12D 전용 2개 job을 더한 총 `28`개 job으로 구성
 
-## 다음 단계
+## WIP12D 당시 다음 단계
 
 - WIP12E: legacy scalar blast 재분배를 bounded compartment/portal pressure·impulse solver로 교체하고, 반사압·폭풍·동적 breach·외부 vent를 구조/장비/승조원 consumer와 내부 전용 시각화에 연결
 - WIP12E 권위 전환 뒤 기존 Kh-32 `191` scalar budget과 부품별 피해 exact parity는 강제하지 않고 calibration 비교값으로 유지하되, 관통·기폭 위치·잔존체·구멍·침수·전투 RNG 회귀는 보존
