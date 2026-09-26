@@ -1,0 +1,195 @@
+{
+  "schema": "AEGIS_WIP13C6_GUIDANCE_REGRESSION_REPORT",
+  "html": "Aegis_SIM_v48_WIP13C6.html",
+  "checks": {
+    "titleRevision": true,
+    "coreSelftest": true,
+    "c6GuidanceFixture": true,
+    "c6EssmLiveSpawn": true,
+    "c6ArbitraryBearing": true,
+    "c6EssmSurfaceMidcourseFloor": true,
+    "c6SurfaceSm2VectorGate": true,
+    "c6EstimatorDamping": true,
+    "c6Sm2SeaGuard": true,
+    "c6EssmPhysicalTerminal": true,
+    "c6TruthRuntime": true,
+    "c4Foundation": true,
+    "c4Terminal": true,
+    "b12ArhSeaClutter": true,
+    "tabInvariant": true,
+    "mobileArmSubtabInvariant": true,
+    "noDecisionTruthLeak": true,
+    "surfaceProximityTruthShortcutDisabled": true,
+    "surfaceSeaGuardAppliedToSm2": true,
+    "legacyAirSm2VectorBehaviorPreserved": true
+  },
+  "pass": true,
+  "failed": [],
+  "coreSelftestFailures": [],
+  "truthLeaks": [],
+  "c6": {
+    "schema": "AEGIS_SURFACE_MISSILE_GUIDANCE_FIXTURE_V48_WIP13C6",
+    "checks": {
+      "essmManualSurfaceRelease": true,
+      "essmAutoSurfaceDenied": true,
+      "essmLiveSpawn": true,
+      "essmRoundConsumed": true,
+      "essmRuntimeTruthClean": true,
+      "sm2SurfaceRejectsBadVelocity": true,
+      "airSm2LegacyGatePreserved": true,
+      "sm2SurfaceAcceptsAlignedVelocity": true,
+      "arbitraryBearingLaunchCommand": true,
+      "essmSurfaceMidcourseFloor": true,
+      "surfaceEstimatorFilterDampsJitter": true,
+      "sm2PredictiveSeaGuard": true,
+      "essmPhysicalHullContact": true,
+      "essmWip12fDamage": true,
+      "truthBoundary": true
+    },
+    "pass": true,
+    "essmRelease": {
+      "status": "RELEASE_AUTHORIZED",
+      "reason": null,
+      "fcs": "SURFACE_MISSILE_FCS_READY",
+      "quality01": 0.9949159164959799,
+      "basketMargin": 9.704230663631431
+    },
+    "essmSpawn": {
+      "spawned": true,
+      "assignedTargetId": 1396001,
+      "spentRounds": 1,
+      "runtime": {
+        "schema": "AEGIS_ESSM_SURFACE_ARH_RUNTIME_V48_WIP13C6",
+        "mode": "SURFACE_ARH",
+        "trackId": 1396001,
+        "aimHeightM": 5.46,
+        "launchFcsQuality01": 0.9949159164959799,
+        "launchBasketMargin": 9.704230663631431,
+        "handoffState": {
+          "xM": 168423.25263157897,
+          "yM": 86737.94210526317,
+          "zM": 5.46,
+          "vxMps": 2.2,
+          "vyMps": 1.1,
+          "vzMps": 0
+        },
+        "optionalSpgAvailable": true,
+        "optionalSpgIlluminatorId": 0,
+        "truthUsed": false
+      }
+    },
+    "launchVector": {
+      "surfaceBad": false,
+      "airLegacy": true,
+      "surfaceGood": true,
+      "bearingSweep": [
+        {"bearing": -3.141592653589793, "commandBearing": -3.141592653589793, "inCellAzimuth": -3.141592653589793, "ok": true},
+        {"bearing": -2.356194490192345, "commandBearing": -2.356194490192345, "inCellAzimuth": -2.356194490192345, "ok": true},
+        {"bearing": -1.5707963267948966, "commandBearing": -1.5707963267948966, "inCellAzimuth": -1.5707963267948966, "ok": true},
+        {"bearing": -0.7853981633974483, "commandBearing": -0.7853981633974483, "inCellAzimuth": -0.7853981633974492, "ok": true},
+        {"bearing": 0, "commandBearing": 0, "inCellAzimuth": 0, "ok": true},
+        {"bearing": 0.7853981633974483, "commandBearing": 0.7853981633974483, "inCellAzimuth": 0.7853981633974492, "ok": true},
+        {"bearing": 1.5707963267948966, "commandBearing": 1.5707963267948966, "inCellAzimuth": 1.5707963267948966, "ok": true},
+        {"bearing": 2.356194490192345, "commandBearing": 2.356194490192345, "inCellAzimuth": 2.356194490192344, "ok": true}
+      ]
+    },
+    "surfaceEssmMidcourseFloor": 80,
+    "filter": {
+      "raw": [100, -100, 100, -100, 100, -100],
+      "filtered": [100, 82.31296058166484, 83.87711739859355, 67.61590828079973, 70.4798018146221, 55.40338694099617],
+      "rawSwing": 200,
+      "filteredSwing": 28.473730457597384
+    },
+    "seaGuard": {
+      "active": true,
+      "projectedAltM": -24.298128000000005,
+      "marginM": 7.433333333333334,
+      "requiredPitch": 0.01794608122450346,
+      "omegaFloor": 0.30934621865106676,
+      "lookaheadS": 0.8,
+      "downNormalMps2": -18
+    },
+    "impact": {
+      "eventId": "TARGET_MISSILE:WIP13C6_ESSM_CONTACT_TARGET:ESSM:913601",
+      "targetEntityId": "WIP13C6_ESSM_CONTACT_TARGET",
+      "weaponKey": "ESSM",
+      "impactSpeedMps": 760,
+      "terminationReason": "FUZE_AT_CONTACT",
+      "perforated": true,
+      "throughHull": false,
+      "damageRevision": 1
+    },
+    "damage": {
+      "impacts": 1,
+      "scars": 1,
+      "breaches": 1,
+      "fires": 1,
+      "source": "ESSM_SURFACE_ARH_LIVE"
+    }
+  },
+  "c4Foundation": {
+    "pass": true,
+    "checks": {
+      "manualHostileSm2Candidate": true,
+      "manualTrainingEssmCandidate": true,
+      "unknownDenied": true,
+      "protectedDenied": true,
+      "automaticDenied": true,
+      "lowQualityDenied": true,
+      "sm2RequiresSpg": true,
+      "sm2EmconDenied": true,
+      "essmSpgOptional": true,
+      "liveLaunchStillClosed": true,
+      "truthBoundary": true
+    }
+  },
+  "c4Terminal": {
+    "pass": true,
+    "checks": {
+      "bothWeapons": true,
+      "physicalWip12fTraversal": true,
+      "weaponSpecificSource": true,
+      "idempotentImpactEvent": true,
+      "coarseDamageRuntime": true,
+      "noAirTargetInstantKill": true,
+      "runtimeStateRestored": true,
+      "noError": true
+    }
+  },
+  "b12": {
+    "pass": true,
+    "checks": {
+      "contract": true,
+      "shipAccepted": true,
+      "lowAsmAccepted": true,
+      "airAccepted": true,
+      "nearSeaRejected": true,
+      "farSeaRejected": true,
+      "terrainRejected": true,
+      "hostileSeaOnlyRejected": true,
+      "hostileChoosesDiscreteTarget": true,
+      "essmSeaOnlyRejected": true,
+      "essmChoosesDiscreteTarget": true,
+      "seaStillPhysicalReflector": true,
+      "authorityIgnoresTruthTags": true
+    }
+  },
+  "tab": {
+    "pass": true,
+    "checks": {
+      "simulationStateUnchanged": true,
+      "singleActivePage": true,
+      "singleSelectedTab": true,
+      "debugPanOnly": true
+    }
+  },
+  "subtab": {
+    "pass": true,
+    "checks": {
+      "simulationStateUnchanged": true,
+      "singleSelectedSubtab": true,
+      "groupSetComplete": true,
+      "noSimulationAuthority": true
+    }
+  }
+}
