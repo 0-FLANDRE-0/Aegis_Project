@@ -175,11 +175,14 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 HTML은 `Aegis_SIM_v48_WIP13C19.html`이며 SHA-256은 `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`다.
-- 작업 브랜치는 `feat/v48-wip13c-control-deck-ui-foundation`. 사용자가 대형 HTML을 직접 업로드했고, 작은 문서/테스트와 README·체크섬·본 지침을 같은 브랜치에서 반영한다. C6와 C17 브랜치는 실수 브랜치이며 합치지 않는다.
-- 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP13C19.md`의 **13C 종료 HOLD**다. C19 외형과 SPG/충돌 제한 VM 검사는 통과했지만 장시간 실비행, 전투 브라우저/모바일, SPG 다중 예약/BDA/alias, proximity-first 신관 등은 남았다. 사용자의 외형 확인만으로 전체 13C 교전 완료 판정을 주지 않는다.
-- 향후 작업은 C19를 기준으로 위 잔여조건을 해결하고 검증을 갱신한다. 메인에 작업본을 병합해도 정식 릴리스/태그로 승격하지 않는다.
-
+- 원격 기준은 `main` commit `a8d14e3484200098be2143e0547c8e922642c042`의 `Aegis_SIM_v48_WIP13C22.html`이다. WIP14 branch 생성만으로 runtime 기준이나 정식 release가 바뀌지 않는다.
+- 작업 branch는 정확히 `WIP14`이며 위 `main` commit에서 분기했다. 현재 branch 변경은 계획·인계·참고자료이고 B2/B3/B4 구현 완료를 뜻하지 않는다.
+- 로컬 B1 후보는 `Aegis_SIM_v48_WIP14B1.html`(7,295,398 bytes, SHA-256 `7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45`)이다. onboard INS/GPS와 DL truth boundary를 구현했으며 정적·결정적 검사를 통과했지만 Chromium 실행 파일 부재로 browser smoke는 미실행이다. 대형 HTML은 원격에 올리지 않고 작은 status/report/evidence/checksum만 `docs/wip14/B1/`에 보존한다.
+- 다음 구현은 기존 B2와 B3를 **B2 하나로 통합**한다. B2a 공통 one-way packet transport, B2b SM-6-only limited return, B2c bounded assistance/통합 회귀를 순서 gate로 유지한다. B3 번호는 B2에 흡수되며 다른 작업에 재사용하지 않는다.
+- B4는 별도 단계다. 공통 state machine을 사용하되 SM-2MR, SM-2ER, SM-6, ESSM의 loft profile·전이·energy corridor를 각각 분리한다. AIM-174B는 참고 HTML donor일 뿐 함정 VLS/교전 무장에 추가하지 않는다.
+- B2와 B4를 한 구현 변경으로 섞지 않는다. 먼저 transport와 정보 권위를 고정한 뒤 180 km/표적고도 2 km를 포함한 미사일별 loft 회귀를 수행한다.
+- 세부 범위와 종료 조건은 `docs/wip14/WIP14_GUIDANCE_DATALINK_LOFT_PLAN.md`, 첨부 원본의 역할과 제한은 `docs/wip14/WIP14_REFERENCE_NOTES.md`, branch 상태는 `AEGIS_WIP14_BRANCH_STATUS.md`를 따른다.
+- 현재 branch에는 PR, merge, release/tag를 만들지 않는다.
 ### WIP12D 이전 인계 기록
 
 - 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.

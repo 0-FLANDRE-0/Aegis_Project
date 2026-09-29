@@ -1,0 +1,661 @@
+{
+  "schema": "AEGIS_WIP14B1_NAV_DL_EVIDENCE_V1",
+  "stage": "B1",
+  "pass": true,
+  "contract": {
+    "schema": "AEGIS_SAM_ONBOARD_NAV_DL_BOUNDARY_V48_WIP14B1",
+    "stage": "B1",
+    "fixedStep": true,
+    "truthUse": [
+      "PHYSICS",
+      "RF_MEASUREMENT_SYNTHESIS",
+      "COLLISION",
+      "FUZE",
+      "DIAGNOSTIC_COMPARISON"
+    ],
+    "guidanceOwnState": "MISSILE_LOCAL_NAV_ESTIMATE_ONLY",
+    "gpsRole": "OWN_NAVIGATION_AID_ONLY_NOT_TARGETING",
+    "datalink": "ONE_WAY_ZERO_LATENCY_GATED_SNAPSHOT_B1",
+    "deferred": {
+      "B2": "PACKET_DELAY_LOSS_SEQUENCE_ONE_WAY",
+      "B3": "SM6_BIDIRECTIONAL_LIMITED_RETURN",
+      "B4": "STATEFUL_LOFT"
+    },
+    "aim174b": "REFERENCE_ONLY_NOT_VLS_REGISTERED"
+  },
+  "profiles": {
+    "SM2MR_INS_B1": {
+      "id": "SM2MR_INS_B1",
+      "mode": "INS",
+      "initialPosErrorM": 7,
+      "initialVelErrorMps": 0.11,
+      "accelBiasMps2": 0.0045,
+      "biasWalkMps3": 1.8e-05,
+      "accelNoiseMps2": 0.0018,
+      "gpsAid": false
+    },
+    "SM2ER_INS_B1": {
+      "id": "SM2ER_INS_B1",
+      "mode": "INS",
+      "initialPosErrorM": 8,
+      "initialVelErrorMps": 0.12,
+      "accelBiasMps2": 0.0048,
+      "biasWalkMps3": 2e-05,
+      "accelNoiseMps2": 0.0019,
+      "gpsAid": false
+    },
+    "SM6_GPS_INU_B1": {
+      "id": "SM6_GPS_INU_B1",
+      "mode": "GPS_INU",
+      "initialPosErrorM": 5,
+      "initialVelErrorMps": 0.08,
+      "accelBiasMps2": 0.0045,
+      "biasWalkMps3": 1.8e-05,
+      "accelNoiseMps2": 0.0018,
+      "gpsAid": true,
+      "gpsIntervalS": 0.5,
+      "gpsPosSigmaM": 5,
+      "gpsVelSigmaMps": 0.18,
+      "gpsPosGain": 0.58,
+      "gpsVelGain": 0.42
+    },
+    "ESSM_INS_B1": {
+      "id": "ESSM_INS_B1",
+      "mode": "INS",
+      "initialPosErrorM": 6,
+      "initialVelErrorMps": 0.1,
+      "accelBiasMps2": 0.0055,
+      "biasWalkMps3": 2.4e-05,
+      "accelNoiseMps2": 0.0022,
+      "gpsAid": false
+    }
+  },
+  "contractAudit": {
+    "schema": "AEGIS_SAM_ONBOARD_NAV_DL_BOUNDARY_V48_WIP14B1",
+    "checks": {
+      "schema": true,
+      "profileBindings": true,
+      "sm6Gps": true,
+      "sm2InsOnly": true,
+      "dlGateInAdapter": true,
+      "guidanceOwnState": true,
+      "frozenPhysicalContract": true,
+      "aim174bReferenceOnly": true,
+      "twoWayDeferred": true
+    },
+    "pass": true,
+    "freeze": {
+      "schema": "AEGIS_STANDARD_AERO_PROPULSION_FREEZE_V1",
+      "pass": true,
+      "message": "FROZEN CONTRACT UNCHANGED",
+      "expected": {
+        "STANDARD_UPPER_343": "d43dd8f7",
+        "SM2MR_AERO_PROFILE": "732a6ca8",
+        "SM2ER_AERO_STAGE_PROFILE": "a6290ee7",
+        "SM6_AERO_STAGE_PROFILE": "5b6f0b64",
+        "SIX_DOF_COEFFICIENTS": "87dd1150",
+        "WIND_BASIS_ALGORITHM": "7e4ef2a3",
+        "MK104_PROPULSION": "a0ab0e08",
+        "MK72_PROPULSION": "9f13c3a9",
+        "ATMOSPHERE_MACH": "9d171f6a",
+        "MASS_CONTRACTS": "7717b0ce",
+        "REFERENCE_AREA_CONTRACTS": "81fbbf66"
+      },
+      "actual": {
+        "STANDARD_UPPER_343": "d43dd8f7",
+        "SM2MR_AERO_PROFILE": "732a6ca8",
+        "SM2ER_AERO_STAGE_PROFILE": "a6290ee7",
+        "SM6_AERO_STAGE_PROFILE": "5b6f0b64",
+        "SIX_DOF_COEFFICIENTS": "87dd1150",
+        "WIND_BASIS_ALGORITHM": "7e4ef2a3",
+        "MK104_PROPULSION": "a0ab0e08",
+        "MK72_PROPULSION": "9f13c3a9",
+        "ATMOSPHERE_MACH": "9d171f6a",
+        "MASS_CONTRACTS": "7717b0ce",
+        "REFERENCE_AREA_CONTRACTS": "81fbbf66"
+      },
+      "changed": []
+    }
+  },
+  "navigationFixture": {
+    "schema": "AEGIS_SAM_NAV_FIXTURE_V48_WIP14B1",
+    "profiles": {
+      "SM2MR": "SM2MR_INS_B1",
+      "SM2ER": "SM2ER_INS_B1",
+      "SM6": "SM6_GPS_INU_B1",
+      "ESSM": "ESSM_INS_B1"
+    },
+    "checks": {
+      "profilesBound": true,
+      "insNotTruth": true,
+      "insDrifts": true,
+      "gpsAidBounded": true,
+      "deterministic": true,
+      "aim174bNotVls": true
+    },
+    "ins": {
+      "profileId": "SM2ER_BLKIV_SIM",
+      "id": 141011,
+      "ticks": 5400,
+      "initialErrorM": 9.917677645350599,
+      "finalErrorM": 26.701190346392956,
+      "finalVelocityErrorMps": 0.47473231231004337,
+      "gpsFixCount": 0,
+      "mode": "INS",
+      "posM": {
+        "x": 56080.00667236439,
+        "y": 3335.1253245420053,
+        "z": 1867.276342663626
+      },
+      "velMps": {
+        "x": 609.64839575051,
+        "y": 44.75297399712449,
+        "z": 15.837608989256397
+      }
+    },
+    "gps": {
+      "profileId": "SM6_BLKIA_SIM",
+      "id": 141012,
+      "ticks": 5400,
+      "initialErrorM": 5.724226207738309,
+      "finalErrorM": 3.8406885986687507,
+      "finalVelocityErrorMps": 0.024163719706782834,
+      "gpsFixCount": 180,
+      "mode": "GPS_INU",
+      "posM": {
+        "x": 56098.74710007833,
+        "y": 3353.3765135476165,
+        "z": 1859.020807127508
+      },
+      "velMps": {
+        "x": 610.0105211578286,
+        "y": 45.01359392539645,
+        "z": 15.618826437722136
+      }
+    },
+    "pass": true
+  },
+  "relativeSensorReanchorFixture": {
+    "schema": "AEGIS_RELATIVE_SENSOR_REANCHOR_FIXTURE_V48_WIP14B1",
+    "checks": {
+      "flag": true,
+      "relativePreserved": true,
+      "relativeVelocityPreserved": true,
+      "absoluteShifted": true
+    },
+    "errorM": 0,
+    "velocityErrorMps": 0,
+    "pass": true
+  },
+  "datalinkHardCutFixture": {
+    "schema": "AEGIS_DL_HARD_CUT_FIXTURE_V48_WIP14B1",
+    "checks": {
+      "liveValid": true,
+      "cutInvalid": true,
+      "noNewSequence": true,
+      "noLiveTrackFollow": true,
+      "anonymousSnapshot": true
+    },
+    "sequence": 1,
+    "rawJumpM": 311276.40450249356,
+    "cueJumpM": 0,
+    "pass": true
+  },
+  "fixedStepTimeScaleFixture": {
+    "schema": "AEGIS_SAM_NAV_TIMESCALE_V48_WIP14B1",
+    "ticks": 1800,
+    "rows": [
+      {
+        "scale": 1,
+        "steps": 1800,
+        "frames": 1800,
+        "posM": {
+          "x": 19498.233828087046,
+          "y": 648.3307393943959,
+          "z": 669.2795837901979
+        },
+        "velMps": {
+          "x": 609.9850101091326,
+          "y": 44.95273385887452,
+          "z": 17.990902487327958
+        },
+        "error": {
+          "positionM": {
+            "x": -1.7661719139541674,
+            "y": -1.6692606056121804,
+            "z": -0.7204162097926883
+          },
+          "velocityMps": {
+            "x": -0.014989890867468603,
+            "y": -0.04726614112548333,
+            "z": -0.009097512672042285
+          },
+          "positionMagnitudeM": 2.5347176794312483,
+          "velocityMagnitudeMps": 0.05041378444364889
+        },
+        "gpsFixCount": 60
+      },
+      {
+        "scale": 8,
+        "steps": 1800,
+        "frames": 225,
+        "posM": {
+          "x": 19498.233828087046,
+          "y": 648.3307393943959,
+          "z": 669.2795837901979
+        },
+        "velMps": {
+          "x": 609.9850101091326,
+          "y": 44.95273385887452,
+          "z": 17.990902487327958
+        },
+        "error": {
+          "positionM": {
+            "x": -1.7661719139541674,
+            "y": -1.6692606056121804,
+            "z": -0.7204162097926883
+          },
+          "velocityMps": {
+            "x": -0.014989890867468603,
+            "y": -0.04726614112548333,
+            "z": -0.009097512672042285
+          },
+          "positionMagnitudeM": 2.5347176794312483,
+          "velocityMagnitudeMps": 0.05041378444364889
+        },
+        "gpsFixCount": 60
+      },
+      {
+        "scale": 16,
+        "steps": 1800,
+        "frames": 113,
+        "posM": {
+          "x": 19498.233828087046,
+          "y": 648.3307393943959,
+          "z": 669.2795837901979
+        },
+        "velMps": {
+          "x": 609.9850101091326,
+          "y": 44.95273385887452,
+          "z": 17.990902487327958
+        },
+        "error": {
+          "positionM": {
+            "x": -1.7661719139541674,
+            "y": -1.6692606056121804,
+            "z": -0.7204162097926883
+          },
+          "velocityMps": {
+            "x": -0.014989890867468603,
+            "y": -0.04726614112548333,
+            "z": -0.009097512672042285
+          },
+          "positionMagnitudeM": 2.5347176794312483,
+          "velocityMagnitudeMps": 0.05041378444364889
+        },
+        "gpsFixCount": 60
+      }
+    ],
+    "pass": true
+  },
+  "longRangeLoftDiagnosis": {
+    "schema": "AEGIS_180KM_2KM_LOFT_DIAGNOSIS_V48_WIP14B1",
+    "classification": "REPRODUCED_CODE_PATH_NOT_FIXED_IN_B1",
+    "observedUserApexM": 2400,
+    "rows": [
+      {
+        "profileId": "SM2ER_BLKIV_SIM",
+        "rangeKm": 180,
+        "targetAltM": 2000,
+        "rawTgoS": 150,
+        "tgoUsedS": 30,
+        "tgoMinS": 13,
+        "tgoFullS": 52,
+        "tgoWeight": 0.404372966503144,
+        "earlyQLow": 0.45,
+        "upperBoundDemand": 0.18196783492641483,
+        "cruiseAltM": 14500,
+        "preGuardGuidanceAltM": 4274.597936580185,
+        "additionalSuppressors": [
+          "URGENCY",
+          "RANGE_WEIGHT",
+          "TERMINAL_FADE",
+          "MOMENTUM_GUARD"
+        ]
+      },
+      {
+        "profileId": "SM6_BLKIA_SIM",
+        "rangeKm": 180,
+        "targetAltM": 2000,
+        "rawTgoS": 150,
+        "tgoUsedS": 30,
+        "tgoMinS": 13,
+        "tgoFullS": 55,
+        "tgoWeight": 0.3588705323399201,
+        "earlyQLow": 0.45,
+        "upperBoundDemand": 0.16149173955296406,
+        "cruiseAltM": 15000,
+        "preGuardGuidanceAltM": 4099.392614188533,
+        "additionalSuppressors": [
+          "URGENCY",
+          "RANGE_WEIGHT",
+          "TERMINAL_FADE",
+          "MOMENTUM_GUARD"
+        ]
+      }
+    ],
+    "checks": {
+      "tgoHardCapped": true,
+      "neverFullTgoWeight": true,
+      "earlyDemandBelowPointTwo": true,
+      "b4Deferred": true
+    },
+    "pass": true,
+    "nextStage": "B4"
+  },
+  "physicalFreeze": {
+    "schema": "AEGIS_STANDARD_AERO_PROPULSION_FREEZE_V1",
+    "pass": true,
+    "message": "FROZEN CONTRACT UNCHANGED",
+    "expected": {
+      "STANDARD_UPPER_343": "d43dd8f7",
+      "SM2MR_AERO_PROFILE": "732a6ca8",
+      "SM2ER_AERO_STAGE_PROFILE": "a6290ee7",
+      "SM6_AERO_STAGE_PROFILE": "5b6f0b64",
+      "SIX_DOF_COEFFICIENTS": "87dd1150",
+      "WIND_BASIS_ALGORITHM": "7e4ef2a3",
+      "MK104_PROPULSION": "a0ab0e08",
+      "MK72_PROPULSION": "9f13c3a9",
+      "ATMOSPHERE_MACH": "9d171f6a",
+      "MASS_CONTRACTS": "7717b0ce",
+      "REFERENCE_AREA_CONTRACTS": "81fbbf66"
+    },
+    "actual": {
+      "STANDARD_UPPER_343": "d43dd8f7",
+      "SM2MR_AERO_PROFILE": "732a6ca8",
+      "SM2ER_AERO_STAGE_PROFILE": "a6290ee7",
+      "SM6_AERO_STAGE_PROFILE": "5b6f0b64",
+      "SIX_DOF_COEFFICIENTS": "87dd1150",
+      "WIND_BASIS_ALGORITHM": "7e4ef2a3",
+      "MK104_PROPULSION": "a0ab0e08",
+      "MK72_PROPULSION": "9f13c3a9",
+      "ATMOSPHERE_MACH": "9d171f6a",
+      "MASS_CONTRACTS": "7717b0ce",
+      "REFERENCE_AREA_CONTRACTS": "81fbbf66"
+    },
+    "changed": []
+  },
+  "physicalTrajectoryEnvelope": [
+    {
+      "weapon": "SM2MR",
+      "peakMach": 4.814529098396648,
+      "baselinePeakMach": 4.814725167658503,
+      "peakMachDelta": -0.00019606926185478102,
+      "VmaxMps": 1420.6135607357865,
+      "burnoutMach": 4.8110315857566475,
+      "traceFingerprint": "1df7fc11",
+      "closure": true,
+      "geometry": true,
+      "stability": true
+    },
+    {
+      "weapon": "SM2ER",
+      "peakMach": 4.734145280402967,
+      "baselinePeakMach": 4.736005381467849,
+      "peakMachDelta": -0.0018601010648815475,
+      "VmaxMps": 1515.5483352872914,
+      "burnoutMach": 4.733894739987994,
+      "traceFingerprint": "4ef22bde",
+      "closure": true,
+      "geometry": true,
+      "stability": true
+    },
+    {
+      "weapon": "SM6",
+      "peakMach": 4.938010278767659,
+      "baselinePeakMach": 4.932613243990822,
+      "peakMachDelta": 0.00539703477683684,
+      "VmaxMps": 1546.3032125392697,
+      "burnoutMach": 4.937269944424678,
+      "traceFingerprint": "dc209c7b",
+      "closure": true,
+      "geometry": true,
+      "stability": true
+    }
+  ],
+  "engagementRegression": {
+    "pass": true,
+    "coreFailures": 0,
+    "registry": {
+      "SM2": {
+        "profileId": "SM2MR_BLKIIIA_SIM",
+        "layerKey": "SM2MR_BLKIIIA_SIM",
+        "requiresIlluminator": true,
+        "reserveRounds": 4
+      },
+      "SM2ER": {
+        "profileId": "SM2ER_BLKIV_SIM",
+        "layerKey": "SM2ER_BLKIV_SIM",
+        "requiresIlluminator": true,
+        "reserveRounds": 4
+      },
+      "SM6": {
+        "profileId": "SM6_BLKIA_SIM",
+        "layerKey": "SM6_BLKIA_SIM",
+        "requiresIlluminator": false,
+        "reserveRounds": 4
+      },
+      "ESSM": {
+        "profileId": "ESSM_BLK2_SIM",
+        "layerKey": "ESSM_BLK2_SIM",
+        "requiresIlluminator": true,
+        "reserveRounds": 8
+      }
+    },
+    "names": {
+      "SM2": "SM-2MR Block IIIA",
+      "SM2ER": "SM-2ER Block IV",
+      "SM6": "SM-6 Block IA",
+      "ESSM": "ESSM Block 2",
+      "RAM": "RIM-116 RAM Block 1A"
+    },
+    "selectedOnlyAvailableWeapon": "SM6",
+    "quick3dControls": {
+      "autoLock": true,
+      "unlock": true,
+      "fire": true,
+      "state": true
+    },
+    "selection": [
+      {
+        "rangeKm": 100,
+        "trackId": 300000006,
+        "weapon": "SM2",
+        "expected": "SM2",
+        "firePlan": {
+          "status": "READY",
+          "fireDelayS": 0,
+          "nezStartDelayS": 0,
+          "nezEndDelayS": 120,
+          "interceptS": 74.6268656716418,
+          "encounterAltM": 3000,
+          "availableG": 28,
+          "targetEvasiveG": 4,
+          "gMargin": 7,
+          "channelId": 0,
+          "reservation": {
+            "targetId": 300000006,
+            "startT": 70.8768656716418,
+            "endT": 75.3768656716418,
+            "terminalStartT": 71.6268656716418,
+            "predictedCpaT": 74.6268656716418,
+            "weapon": "SM2",
+            "illId": 0
+          },
+          "requiresIlluminator": true
+        },
+        "pass": true
+      },
+      {
+        "rangeKm": 170,
+        "trackId": 300000007,
+        "weapon": "SM2ER",
+        "expected": "SM2ER",
+        "firePlan": {
+          "status": "READY",
+          "fireDelayS": 0,
+          "nezStartDelayS": 0,
+          "nezEndDelayS": 120,
+          "interceptS": 118.05555555555556,
+          "encounterAltM": 3000,
+          "availableG": 26.95152019838647,
+          "targetEvasiveG": 4,
+          "gMargin": 6.737880049596617,
+          "channelId": 0,
+          "reservation": {
+            "targetId": 300000007,
+            "startT": 114.30555555555556,
+            "endT": 118.80555555555556,
+            "terminalStartT": 115.05555555555556,
+            "predictedCpaT": 118.05555555555556,
+            "weapon": "SM2ER",
+            "illId": 0
+          },
+          "requiresIlluminator": true
+        },
+        "pass": true
+      },
+      {
+        "rangeKm": 190,
+        "trackId": 300000008,
+        "weapon": "SM6",
+        "expected": "SM6",
+        "firePlan": {
+          "status": "READY",
+          "fireDelayS": 0,
+          "nezStartDelayS": 0,
+          "nezEndDelayS": 120,
+          "interceptS": 131.94444444444446,
+          "encounterAltM": 3000,
+          "availableG": 25.887192649150823,
+          "targetEvasiveG": 4,
+          "gMargin": 6.471798162287706,
+          "channelId": null,
+          "reservation": null,
+          "requiresIlluminator": false
+        },
+        "pass": true
+      }
+    ],
+    "safety": [
+      {
+        "weapon": "SM2ER",
+        "identity": "FRIEND",
+        "launched": false,
+        "reason": "A3_AUTHORITY",
+        "gate": {
+          "ok": false,
+          "reason": "AUTHORITY_WITHHELD"
+        },
+        "pass": true
+      },
+      {
+        "weapon": "SM6",
+        "identity": "NEUTRAL",
+        "launched": false,
+        "reason": "A3_AUTHORITY",
+        "gate": {
+          "ok": false,
+          "reason": "AUTHORITY_WITHHELD"
+        },
+        "pass": true
+      }
+    ],
+    "determinism": [
+      {
+        "weapon": "SM6",
+        "mode": "AUTO",
+        "pass": true
+      },
+      {
+        "weapon": "SM2ER",
+        "mode": "SEMIAUTO",
+        "pass": true
+      }
+    ]
+  },
+  "package": {
+    "schema": "AEGIS_WIP14B1_PACKAGE_CHECK_V1",
+    "pass": true,
+    "checks": {
+      "records_0_to_12_identical": true,
+      "record_13_matches_source": true,
+      "record_13_changed": true,
+      "manifest_raw_bytes": true,
+      "manifest_sha256": true,
+      "title": true,
+      "build": true,
+      "stage": true,
+      "badge": true,
+      "nav_api": true,
+      "fixed_step_contract": true,
+      "dl_hard_gate": true,
+      "truth_boundary": true,
+      "gps_targeting_prohibited": true,
+      "aim174b_not_registered": true,
+      "b4_stateful_loft_deferred": true,
+      "no_external_script_src": true,
+      "manifest_record_0": true,
+      "manifest_record_1": true,
+      "manifest_record_2": true,
+      "manifest_record_3": true,
+      "manifest_record_4": true,
+      "manifest_record_5": true,
+      "manifest_record_6": true,
+      "manifest_record_7": true,
+      "manifest_record_8": true,
+      "manifest_record_9": true,
+      "manifest_record_10": true,
+      "manifest_record_11": true,
+      "manifest_record_12": true,
+      "manifest_record_13": true
+    },
+    "baseSha256": "a3960b6d50096f9d82d34778782cff278cc1641222c9b543de027881aa95aae3",
+    "outputSha256": "7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45",
+    "record13Sha256": "dcec641772f3e9e3324ad1e43403fd1c70b661b692ff2c3edd85dceeee1b03d9",
+    "record13RawBytes": 15769039,
+    "records": 14
+  },
+  "reproducibility": {
+    "schema": "AEGIS_WIP14B1_REPRODUCIBILITY_V1",
+    "pass": true,
+    "beforeSha256": "7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45",
+    "afterSha256": "7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45",
+    "packResult": {
+      "output": "Aegis_SIM_v48_WIP14B1.html",
+      "sha256": "7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45",
+      "record13Sha256": "dcec641772f3e9e3324ad1e43403fd1c70b661b692ff2c3edd85dceeee1b03d9",
+      "rawBytes": 15769039,
+      "gzipBytes": 2294216
+    }
+  },
+  "browser": {
+    "schema": "AEGIS_WIP14B1_BROWSER_SMOKE_V1",
+    "html": "Aegis_SIM_v48_WIP14B1.html",
+    "status": "BLOCKED_ENVIRONMENT",
+    "pass": null,
+    "playwrightModule": true,
+    "executablePath": "/root/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome",
+    "executablePresent": false,
+    "reason": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_MISSING"
+  },
+  "git": {
+    "branchCreated": false,
+    "commitCreated": false,
+    "pushPerformed": false
+  },
+  "hashes": {
+    "Aegis_SIM_v48_WIP14B1.html": "7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45",
+    "source14b1.js": "dcec641772f3e9e3324ad1e43403fd1c70b661b692ff2c3edd85dceeee1b03d9"
+  }
+}

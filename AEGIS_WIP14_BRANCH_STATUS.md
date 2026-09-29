@@ -1,0 +1,50 @@
+# AEGIS v48 WIP14 — Branch / Handoff Status
+
+작성일: 2026-09-29 (KST)
+
+## 원격 기준
+
+- 저장소: `0-FLANDRE-0/Aegis_Project`
+- branch: `WIP14`
+- 분기 기준: `main` commit `a8d14e3484200098be2143e0547c8e922642c042`
+- 기준 tree: `92caa0163006e916d98b422440deb80f5cd0d9eb`
+- branch 생성 당시 `main`의 최신 작업본: `Aegis_SIM_v48_WIP13C22.html`
+
+## 현재 판정
+
+이 branch commit은 **WIP14 계획·인계·참고자료 준비**다. B2/B3 또는 B4 구현 완료를 의미하지 않으며, 시뮬레이터 HTML을 새 기준으로 승격하지 않는다.
+
+## B1 로컬 후보
+
+- 후보 HTML: `Aegis_SIM_v48_WIP14B1.html`
+- 크기: `7,295,398 bytes`
+- SHA-256: `7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45`
+- 지원 ZIP SHA-256: `15a82f1dd712faa46cdea9330761df6e5bf25a6b5e1947e268274f64f941aa5e`
+- 내용: missile onboard INS/GPS own-state, seeker/DL re-anchor, DL hard-cut truth boundary, A14 UI/engagement 회귀 보존
+- 검사: 정적/결정적/fixed-step 검사는 기록된 범위에서 통과. Chromium 실행 파일 부재로 실제 브라우저 smoke는 미실행
+
+대형 B1 HTML과 지원 ZIP은 이번 commit에 업로드하지 않는다. 대신 status/report/evidence/checksum 파일을 `docs/wip14/B1/`에 보존한다.
+
+## 갱신된 다음 작업
+
+1. **B2a:** 공통 packet envelope/queue/scheduler, uplink delay/loss/sequence/age/uncertainty
+2. **B2b:** SM-6에만 onboard nav/uncertainty/phase/health return packet 추가
+3. **B2c:** bounded launcher assistance와 link-cut/deadline/결정성 통합 회귀
+4. **B3:** B2에 흡수됨. 독립 산출물 번호로 사용하지 않음
+5. **B4:** SM-2MR, SM-2ER, SM-6, ESSM별 stateful loft profile 및 180 km/2 km 표적 회귀
+
+B2와 B4는 분리한다. 먼저 link transport를 닫아 장거리 유도의 정보경로를 고정한 다음, 무장별 loft/energy corridor를 조정한다.
+
+## 첨부 자료
+
+- 통합 설계 및 검증 계약: `docs/wip14/WIP14_GUIDANCE_DATALINK_LOFT_PLAN.md`
+- 참고 원본 설명: `docs/wip14/WIP14_REFERENCE_NOTES.md`
+- 사용자가 제공한 공대공 참고 HTML: `references/wip14/Radar_v7_64_ECCM_SUSTAINED_STRESS_ENEMY_DEFENSE_TOGGLES.html`
+- B1 status/report/evidence/summary/checksum: `docs/wip14/B1/`
+
+## 변경하지 않은 것
+
+- `main`, release, tag, 기존 WIP13C22 파일
+- B2/B3/B4 runtime code와 missile tuning
+- VLS inventory와 AIM-174B 운용 등록
+- PR 생성 또는 병합
