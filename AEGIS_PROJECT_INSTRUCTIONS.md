@@ -183,6 +183,7 @@
 - B2와 B4를 한 구현 변경으로 섞지 않는다. 먼저 transport와 정보 권위를 고정한 뒤 180 km/표적고도 2 km를 포함한 미사일별 loft 회귀를 수행한다.
 - 세부 범위와 종료 조건은 `docs/wip14/WIP14_GUIDANCE_DATALINK_LOFT_PLAN.md`, 첨부 원본의 역할과 제한은 `docs/wip14/WIP14_REFERENCE_NOTES.md`, branch 상태는 `AEGIS_WIP14_BRANCH_STATUS.md`를 따른다.
 - 현재 branch에는 PR, merge, release/tag를 만들지 않는다.
+
 ### WIP12D 이전 인계 기록
 
 - 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.
