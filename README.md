@@ -5,8 +5,9 @@
 - branch: [`WIP14`](../../tree/WIP14), 기준 `main` commit `a8d14e3484200098be2143e0547c8e922642c042`
 - 현재 commit은 **계획·인계·참고자료 준비**이며 새 시뮬레이터 기준판이나 정식 release가 아니다. runtime 기준은 아래 WIP13C22를 유지한다.
 - B1 로컬 후보는 missile onboard INS/GPS와 DL truth boundary를 구현했다. 대형 `Aegis_SIM_v48_WIP14B1.html`은 원격에 올리지 않았고 [상태·보고·증거](docs/wip14/B1/)만 첨부했다.
-- 기존 B2와 B3는 [하나의 B2 transport 단계](docs/wip14/WIP14_GUIDANCE_DATALINK_LOFT_PLAN.md)로 통합한다. 내부 gate는 B2a 공통 uplink transport, B2b **범용 return-link capability**(현재 SM-6 first enabled profile), B2c profile-bounded assistance/회귀로 분리한다. 양방향 DL core는 SM-6 전용으로 하드코딩하지 않는다.
-- B3 번호는 B2에 흡수된 것으로 보존하며 재사용하지 않는다. B4는 SM-2MR/SM-2ER/SM-6/ESSM별 stateful loft로 별도 유지한다.
+- 추가 own-nav 감사에서 Kh-35U/Kh-32와 RAM에 raw physical own-state guidance consumer가 확인되어, **B2는 ASM/RAM own-navigation truth boundary + 공통 VLS release scheduler**로 재정의한다. VLS 실제 release 간격은 fixed-step 기준 기본 `0.8 s` SIM_TUNED이며 profile에서 `0.6~1.0 s` 범위로 조정 가능하게 한다.
+- 기존 weapon-link transport 단계는 **B3**으로 이동한다. B3a common uplink transport, B3b 범용 return-link capability(현재 SM-6 first enabled profile), B3c profile-bounded assistance/회귀로 분리한다. 양방향 DL core는 SM-6 전용으로 하드코딩하지 않는다.
+- B4는 번호를 유지하며 SM-2MR/SM-2ER/SM-6/ESSM별 stateful loft로 별도 진행한다. 순서는 `B2 → B3 → B4`다.
 - 사용자가 제공한 공대공 [참고 HTML](references/wip14/Radar_v7_64_ECCM_SUSTAINED_STRESS_ENEMY_DEFENSE_TOGGLES.html)은 INS/GPS, packet DL, limited two-way link, stateful loft 구조 비교용이다. AIM-174B는 참고용이며 함정 VLS에 추가하지 않는다.
 - branch 상태: [AEGIS_WIP14_BRANCH_STATUS.md](AEGIS_WIP14_BRANCH_STATUS.md), 첨부물 checksum: [WIP14_REFERENCE_SHA256SUMS.txt](WIP14_REFERENCE_SHA256SUMS.txt)
 
