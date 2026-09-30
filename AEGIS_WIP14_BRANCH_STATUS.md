@@ -20,10 +20,24 @@
 - 크기: `7,295,398 bytes`
 - SHA-256: `7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45`
 - 지원 ZIP SHA-256: `15a82f1dd712faa46cdea9330761df6e5bf25a6b5e1947e268274f64f941aa5e`
-- 내용: missile onboard INS/GPS own-state, seeker/DL re-anchor, DL hard-cut truth boundary, A14 UI/engagement 회귀 보존
+- 내용: **SM-2MR/SM-2ER/SM-6/ESSM v1 경로의** onboard INS/GPS own-state, seeker/DL re-anchor, DL hard-cut truth boundary, A14 UI/engagement 회귀 보존
 - 검사: 정적/결정적/fixed-step 검사는 기록된 범위에서 통과. Chromium 실행 파일 부재로 실제 브라우저 smoke는 미실행
 
 대형 B1 HTML과 지원 ZIP은 이번 commit에 업로드하지 않는다. 대신 status/report/evidence/checksum 파일을 `docs/wip14/B1/`에 보존한다.
+
+## 2026-09-30 추가 own-state 감사
+
+사용자 제공 B1 HTML의 embedded C55 runtime을 추가 감사한 결과, B1 own-navigation boundary가 모든 미사일 계통에 적용된 것은 아님을 확인했다.
+
+- SM-2MR / SM-2ER / SM-6 / ESSM: B1 error-bearing onboard own-state 경로 확인
+- Kh-35U / Kh-32: guidance·seeker가 physical `em.x/y/z/vx/vy/vz`를 직접 소비하는 exact-own-state leakage 존재
+- RAM Block 1A: B1 nav profile 미적용. vector PN projection과 sea-clearance guidance가 physical own velocity/altitude를 직접 소비
+- C52 `INBOUND INS ASM` fixture는 발사 시점 **표적 좌표 기억**을 고정하는 장치이며 missile own-navigation model이 아님
+- ASM passive RF bearing correction에는 별도의 target-truth dependency도 확인되어 후속 sensor/truth audit 필요
+
+상세 감사 기록: `docs/wip14/B1/AEGIS_WIP14B1_OWN_NAV_COVERAGE_AUDIT.md`
+
+이 발견은 기존 B1의 SAM/ESSM 검증 결과를 무효화하지 않지만, B1을 "모든 미사일 own-navigation 완료"로 확대 해석하지 않는다. 범용 weapon-link/return-link가 다른 미사일 계통으로 확장될 수 있으므로, raw physical own-state를 guidance가 직접 읽지 않는 공통 missile-navigation adapter를 후속 작업에서 닫아야 한다.
 
 ## 갱신된 다음 작업
 
