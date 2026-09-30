@@ -12,7 +12,7 @@
 
 ## 현재 판정
 
-이 branch commit은 **WIP14 계획·인계·참고자료 준비**다. B2/B3 또는 B4 구현 완료를 의미하지 않으며, 시뮬레이터 HTML을 새 기준으로 승격하지 않는다.
+이 branch commit은 **WIP14 계획·인계·참고자료 준비**다. B2/B3/B4 구현 완료를 의미하지 않으며, 시뮬레이터 HTML을 새 기준으로 승격하지 않는다.
 
 ## B1 로컬 후보
 
@@ -41,13 +41,15 @@
 
 ## 갱신된 다음 작업
 
-1. **B2a:** 공통 packet envelope/queue/scheduler, uplink delay/loss/sequence/age/uncertainty
-2. **B2b:** 범용 return-link transport 추가. 특정 미사일에 하드코딩하지 않고 무장별 link profile에서 enable/payload/cadence/delay/loss/TTL 등 세부 스펙을 설정하며, 현재 첫 활성 profile은 SM-6 onboard nav/uncertainty/phase/health return
-3. **B2c:** profile-bounded launcher assistance와 link-cut/deadline/결정성 통합 회귀. 현재 첫 실제 적용은 SM-6이나 공통 transport/assistance 계약은 다른 미사일도 profile 설정만으로 사용 가능
-4. **B3:** B2에 흡수됨. 독립 산출물 번호로 사용하지 않음
-5. **B4:** SM-2MR, SM-2ER, SM-6, ESSM별 stateful loft profile 및 180 km/2 km 표적 회귀
+1. **B2a — Generic Missile Navigation Authority:** 현재 SAM 전용 own-nav 경계를 모든 유도탄 공통 adapter/profile 구조로 승격하고 기존 SM-2MR/ER/SM-6/ESSM 동작을 보존
+2. **B2b — ASM/RAM Migration:** Kh-35U/Kh-32 exact-own-state leakage와 passive RF truth dependency를 measurement boundary로 이동하고, RAM PN/sea-clearance도 onboard own-state를 소비하도록 변경
+3. **B2c — Common VLS Release Scheduler:** MANUAL/3D/SEMIAUTO/AUTO를 하나의 fixed-step release authority로 통합. 기본 inter-launch separation은 `0.8 s` SIM_TUNED, profile에서 `0.6~1.0 s` 조정 가능. 기존 AUTO `0.35 s` salvo spacing은 physical launch authority에서 제거
+4. **B3a — Common weapon-link transport:** packet envelope/queue/scheduler, uplink delay/loss/sequence/age/uncertainty
+5. **B3b — Generic return-link capability:** 특정 미사일에 하드코딩하지 않고 profile enable/payload/cadence/delay/loss/TTL로 설정. 현재 첫 활성 profile은 SM-6
+6. **B3c — Profile-bounded assistance:** return-link state와 launcher track 기반 advisory, deadline/link-cut/결정성 회귀
+7. **B4:** SM-2MR, SM-2ER, SM-6, ESSM별 stateful loft profile 및 180 km/2 km 표적 회귀
 
-B2와 B4는 분리한다. 먼저 link transport를 닫아 장거리 유도의 정보경로를 고정한 다음, 무장별 loft/energy corridor를 조정한다.
+작업 순서는 **B2 → B3 → B4**로 고정한다. 먼저 모든 missile own-state truth boundary와 VLS 실제 release 시간축을 닫고, 그 다음 B3 network transport를 올린 뒤 B4 loft/energy corridor를 조정한다.
 
 ## 첨부 자료
 
