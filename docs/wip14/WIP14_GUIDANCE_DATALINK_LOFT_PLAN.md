@@ -38,6 +38,8 @@ B1 후보가 확립한 경계는 B2에서 보존한다.
 - DL hard-cut 뒤에는 global track 또는 target truth를 직접 읽어 갱신하지 않는다.
 - 물리 truth는 비행물리, RF echo 합성, 충돌·신관·피해, 진단 비교에만 남는다.
 
+2026-09-30 추가 감사에서 이 B1 own-state 경계가 현재 SM-2MR/SM-2ER/SM-6/ESSM v1 경로에만 적용되고, Kh-35U/Kh-32와 RAM에는 raw physical own-state guidance consumer가 남아 있음이 확인됐다. 상세 내용은 `docs/wip14/B1/AEGIS_WIP14B1_OWN_NAV_COVERAGE_AUDIT.md`를 따른다. 따라서 범용 return-link transport는 **어떤 미사일의 physical `x/y/z/vx/vy/vz`도 return payload의 onboard state로 직접 포장하지 않는다.** ASM/RAM 등 다른 계통에서 return-link를 활성화하려면 먼저 해당 계통의 error-bearing onboard navigation adapter를 연결해야 한다.
+
 ## 4. B2 통합 아키텍처
 
 ### 4.1 공통 transport 소유권
