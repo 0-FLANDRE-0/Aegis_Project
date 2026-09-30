@@ -28,8 +28,8 @@
 ## 갱신된 다음 작업
 
 1. **B2a:** 공통 packet envelope/queue/scheduler, uplink delay/loss/sequence/age/uncertainty
-2. **B2b:** SM-6에만 onboard nav/uncertainty/phase/health return packet 추가
-3. **B2c:** bounded launcher assistance와 link-cut/deadline/결정성 통합 회귀
+2. **B2b:** 범용 return-link transport 추가. 특정 미사일에 하드코딩하지 않고 무장별 link profile에서 enable/payload/cadence/delay/loss/TTL 등 세부 스펙을 설정하며, 현재 첫 활성 profile은 SM-6 onboard nav/uncertainty/phase/health return
+3. **B2c:** profile-bounded launcher assistance와 link-cut/deadline/결정성 통합 회귀. 현재 첫 실제 적용은 SM-6이나 공통 transport/assistance 계약은 다른 미사일도 profile 설정만으로 사용 가능
 4. **B3:** B2에 흡수됨. 독립 산출물 번호로 사용하지 않음
 5. **B4:** SM-2MR, SM-2ER, SM-6, ESSM별 stateful loft profile 및 180 km/2 km 표적 회귀
 
