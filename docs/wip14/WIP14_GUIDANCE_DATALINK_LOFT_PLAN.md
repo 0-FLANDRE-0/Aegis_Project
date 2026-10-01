@@ -10,10 +10,12 @@ WIP14의 다음 단계는 아래와 같이 고정한다.
 
 | 단계 | 범위 | 상태 |
 | --- | --- | --- |
-| B1 | SM-2MR / SM-2ER / SM-6 / ESSM onboard own-navigation 및 DL truth boundary | 로컬 후보 완료 |
-| **B2** | **ASM/RAM own-navigation truth boundary 완성 + 공통 VLS launch interval/scheduler** | 다음 구현 |
-| **B3** | **범용 weapon-link transport + 범용 return-link capability + bounded assistance** | B2 완료 후 |
-| **B4** | **SM-2MR / SM-2ER / SM-6 / ESSM별 stateful loft profile** | 번호 유지, B3 완료 후 |
+| B1 | SM-2MR / SM-2ER / SM-6 / ESSM onboard own-navigation 및 DL truth boundary | **완료** |
+| **B2** | **ASM/RAM own-navigation truth boundary 완성 + 공통 VLS launch interval/scheduler** | **완료** |
+| **B3** | **범용 weapon-link transport + 범용 return-link capability + bounded assistance** | **완료** |
+| **B4** | **SM-2MR / SM-2ER / SM-6 / ESSM별 stateful loft profile** | **완료** |
+
+> **2026-10-01 CLOSEOUT:** B1~B4 feature scope 완료. 최종 원격 HTML은 `Aegis_SIM_v48_WIP14B4.html`이며 SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`. 기존 침수 self-test 1건, WebGL 실렌더링 환경 제한, 추가 포락선 검증은 known deferred로 분리하고 WIP15로 새 기능을 이어간다.
 
 기존 B2 weapon-link 단계는 **B3으로 한 칸 이동**한다. 기존 B4 번호와 목적은 변경하지 않는다.
 
