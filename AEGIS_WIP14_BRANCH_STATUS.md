@@ -4,7 +4,7 @@
 
 ## 판정
 
-**WIP14 FEATURE SCOPE CLOSED / READY TO MERGE.**
+**WIP14 FEATURE SCOPE CLOSED / MERGED TO `main` VIA PR #38.**
 
 최종 runtime 후보는 `Aegis_SIM_v48_WIP14B4.html`이다. 사용자가 WIP14 branch에 업로드한 원격 HTML은 로컬 최종 B4와 Git blob SHA 기준 exact 일치한다.
 
@@ -17,7 +17,7 @@
 - root checksum: `SHA256SUMS_v48_WIP14B4.txt`
 - B4 report/evidence/status/checksum: `docs/wip14/B4/`
 
-분기 이후 `main`은 움직이지 않았고 WIP14는 main보다 앞선 상태에서 종료 정리를 수행했다. PR/merge 시 별도 기능 변경이나 튜닝을 추가하지 않는다.
+분기 이후 `main`은 움직이지 않은 상태에서 WIP14 종료 정리를 완료했고, PR #38로 `main`에 병합했다. merge commit은 `c0364caa1b742a097aa336274afe5c3c2611551a`이며 병합 과정에서 별도 기능 변경이나 튜닝을 추가하지 않았다.
 
 ## 완료 범위
 
@@ -45,7 +45,7 @@
 WIP14 기능 범위 종료 뒤 별도로 추적한다.
 
 1. `V48 WIP13A surface target submergedBreachFloods` 기존 core self-test 실패 1건. B3/B4 공통이며 WIP14 유도/DL/loft에서 새로 발생한 실패가 아니다.
-2. 검사 환경에서 native file URL이 차단되고 빈 페이지에서도 WebGL/WebGL2 생성 실패. 2D/3D FIRE handler는 통과했지만 실제 3D 렌더링과 모바일 GPU/FPS는 별도 검증.
+2. 로컬 검사 환경에서는 native file URL/WebGL이 제한됐다. PR #38 GitHub Actions의 generic `webgl-render-probe`는 SwiftShader WebGL2로 통과했지만, 기존 `aegis-3d-render` job은 `SIM_FILE=Aegis_SIM_v48_WIP12D.html`로 고정된 legacy audit를 실행해 WIP03 damage attachment / BridgeMaster E mesh audit에서 실패했다. 이는 B4 HTML을 렌더해 발견한 신규 실패가 아니며 workflow 기준 갱신은 별도 유지보수 항목으로 둔다. 실제 모바일 GPU/FPS는 미검증.
 3. SM-6 장거리 고정표적 seed별 미스, ESSM 중장거리 에너지 부족, 저고도 장거리 센서/조명 제한은 포락선 연구 항목. 종료를 위해 센서/신관을 완화하지 않음.
 
 ## 산출물
