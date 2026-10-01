@@ -175,10 +175,14 @@
 
 ## 8. 현재 인계 기준
 
-- 현재 HTML은 `Aegis_SIM_v48_WIP13C19.html`이며 SHA-256은 `152237dbb4517d7b6af5dc7ac0e5dc77c70bc00c6ec02aa17b2e1af57778bd77`다.
-- 작업 브랜치는 `feat/v48-wip13c-control-deck-ui-foundation`. 사용자가 대형 HTML을 직접 업로드했고, 작은 문서/테스트와 README·체크섬·본 지침을 같은 브랜치에서 반영한다. C6와 C17 브랜치는 실수 브랜치이며 합치지 않는다.
-- 현재 판정은 `AEGIS_PLAN_STATUS_v48_WIP13C19.md`의 **13C 종료 HOLD**다. C19 외형과 SPG/충돌 제한 VM 검사는 통과했지만 장시간 실비행, 전투 브라우저/모바일, SPG 다중 예약/BDA/alias, proximity-first 신관 등은 남았다. 사용자의 외형 확인만으로 전체 13C 교전 완료 판정을 주지 않는다.
-- 향후 작업은 C19를 기준으로 위 잔여조건을 해결하고 검증을 갱신한다. 메인에 작업본을 병합해도 정식 릴리스/태그로 승격하지 않는다.
+- 현재 개발 기준은 `Aegis_SIM_v48_WIP14B4.html`이다. 크기 `7,319,028 bytes`, SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`, Git blob SHA `5e454823e4fd8c608d05ecd5e880a13cf5e5b2ce`다.
+- WIP14는 **FEATURE SCOPE CLOSED**다. B1~B4의 onboard navigation/truth boundary, ASM/RAM own-nav, VLS release scheduler, generic weapon-link/return-link, SM-6 GPS/양방향 DL, 미사일별 stateful loft가 구현·범위별 회귀를 통과했다.
+- B3의 양방향 기능은 SM-6 전용 core가 아니다. 공통 transport/profile capability이며 현재 SM-6가 첫 활성 return-link profile이다.
+- B4 stateful loft는 SM-2MR/ER, SM-6, ESSM의 별도 profile을 사용하고 DIVE 이후 re-loft를 금지한다. MR160/ER260/SM-6 260 km는 게임 검토 범위이며 실제 무장 최대사거리 인증값이 아니다.
+- Known deferred는 `V48 WIP13A surface target submergedBreachFloods` 기존 실패 1건, 현재 환경의 WebGL 실렌더링 미검증, 장거리/저고도 포락선 추가 검증이다. WIP14 feature scope 종료를 위해 센서·신관·침수 물리를 임의 변경하지 않는다.
+- 최종 상태는 `AEGIS_PLAN_STATUS_v48_WIP14B4.md`, `AEGIS_WIP14_BRANCH_STATUS.md`, `SHA256SUMS_v48_WIP14B4.txt`를 우선한다. 상세 B4 report/evidence는 `docs/wip14/B4/`, 과거 B1~B3 기록은 `docs/wip14/`에 보존한다.
+- 다음 기능 작업은 WIP15다. 현재 3D 모델의 SRBOC는 양현 3기씩 보이지만 runtime은 4기/24발이므로, **6기 × 6튜브 = 36발** canonical layout, 실제 launcher/tube muzzle 발사 원점, inventory/mass/snapshot/soft-kill selector 정합을 먼저 수행한다. Nulka active decoy는 그 뒤 별도 하위 단계에서 연결한다.
+- 새 WIP15 작업은 WIP14B4를 기준으로 분기하고 WIP14 역사 기록을 다시 수정해 새 기능을 끼워 넣지 않는다.
 
 ### WIP12D 이전 인계 기록
 

@@ -1,6 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 현재 개발 기준 — v48 WIP13C22
+## 현재 개발 기준 — v48 WIP14B4
+
+- **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](Aegis_SIM_v48_WIP14B4.html)이다.
+- 크기 `7,319,028 bytes`, SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`. 사용자 업로드 원격 파일은 로컬 최종본과 Git blob exact 일치 확인.
+- B1~B4에서 onboard navigation/truth boundary, ASM/RAM own-nav, VLS release scheduler, generic one/two-way weapon-link, SM-6 GPS/양방향 DL, 미사일별 stateful loft를 구현했다.
+- B4 게임 검토 범위는 SM-2MR 160 km, SM-2ER/SM-6 260 km이며 실제 무장 최대사거리 인증이나 전 조건 명중 보장값이 아니다.
+- 최종 상태: [`AEGIS_PLAN_STATUS_v48_WIP14B4.md`](AEGIS_PLAN_STATUS_v48_WIP14B4.md), [branch closeout](AEGIS_WIP14_BRANCH_STATUS.md), [checksums](SHA256SUMS_v48_WIP14B4.txt).
+- 상세 B4 report/validation evidence는 [`docs/wip14/B4/`](docs/wip14/B4/)에 보존한다.
+- Known deferred: 기존 침수 core self-test 1건, 환경상 WebGL 실렌더링 미검증, 장거리/저고도 포락선 추가 검증. WIP14 유도·DL·loft feature scope 종료를 막는 항목으로 두지 않는다.
+- 다음 기능 단계 WIP15는 **3D에 이미 존재하는 양현 3기씩 SRBOC와 runtime 4기/24발을 6기/36발 canonical layout으로 정합하고 실제 launcher/tube 위치에서 발사되게 하는 작업**부터 시작한다. Nulka는 그 뒤 연결한다.
+
+## 이전 개발 기준 — v48 WIP13C22
 
 - 작업본: [`Aegis_SIM_v48_WIP13C22.html`](Aegis_SIM_v48_WIP13C22.html)
 - 상태와 남은 검증: [`AEGIS_PLAN_STATUS_v48_WIP13C22.md`](AEGIS_PLAN_STATUS_v48_WIP13C22.md)
