@@ -1,73 +1,62 @@
-# AEGIS v48 WIP14 — Branch / Handoff Status
+# AEGIS v48 WIP14 — Branch / Closeout Status
 
 갱신: 2026-10-01 (KST)
 
-## 현재 판정
+## 판정
 
-**B4 로컬 구현·범위별 회귀 통과 / 전체 CLOSED 보류.** 기존 침수 core 실패1건, WebGL 시각 검증 및 일부 장거리 미스가 남아 있다. 최대사거리/전 조건 명중을 인증한 빌드가 아니다.
+**WIP14 FEATURE SCOPE CLOSED / READY TO MERGE.**
 
-- 로컬 결과: `Aegis_SIM_v48_WIP14B4.html`
+최종 runtime 후보는 `Aegis_SIM_v48_WIP14B4.html`이다. 사용자가 WIP14 branch에 업로드한 원격 HTML은 로컬 최종 B4와 Git blob SHA 기준 exact 일치한다.
+
+- HTML: `Aegis_SIM_v48_WIP14B4.html`
 - 크기: `7,319,028 bytes`
 - SHA-256: `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`
-- decoded main SHA-256: `62aa1f6e8a4ff9445f3fde2f4d86e581e6457616daada424bf3c8a4164ba186b`
-- 상세 상태: `docs/wip14/B4/AEGIS_PLAN_STATUS_v48_WIP14B4.md`
-- 대화 지원 ZIP: `AEGIS_v48_WIP14B4_SUPPORT.zip`
-- 지원 ZIP SHA-256: `d264627913a7eba1f7ebfe94dbdf4f3328099cf4d7a44594fd7c3710b979ab20`
+- Git blob SHA: `5e454823e4fd8c608d05ecd5e880a13cf5e5b2ce`
+- decoded C55 main SHA-256: `62aa1f6e8a4ff9445f3fde2f4d86e581e6457616daada424bf3c8a4164ba186b`
+- root status: `AEGIS_PLAN_STATUS_v48_WIP14B4.md`
+- root checksum: `SHA256SUMS_v48_WIP14B4.txt`
+- B4 report/evidence/status/checksum: `docs/wip14/B4/`
 
-대형 HTML/지원 ZIP은 이번에 원격 업로드하지 않았다. 사용자 업로드 후 실제 파일 해시를 확인해야 한다. 문서 갱신만으로 main/runtime 기준/release를 승격하지 않는다.
+분기 이후 `main`은 움직이지 않았고 WIP14는 main보다 앞선 상태에서 종료 정리를 수행했다. PR/merge 시 별도 기능 변경이나 튜닝을 추가하지 않는다.
 
-## 원격 기준 기록
+## 완료 범위
 
-- 저장소: `0-FLANDRE-0/Aegis_Project`
-- 작업 branch: `WIP14`
-- 분기 기준 main commit: `a8d14e3484200098be2143e0547c8e922642c042`
-- 분기 기준 tree: `92caa0163006e916d98b422440deb80f5cd0d9eb`
-- 기존 원격 기준 기록: `Aegis_SIM_v48_WIP13C22.html`
+- **B1:** SM-2MR/ER, SM-6, ESSM onboard own-navigation 및 seeker/DL truth boundary.
+- **B2:** Kh-35U/Kh-32/RAM generic own-navigation, ASM passive RF truth boundary, 공통 VLS fixed-step release scheduler(기본 0.8 s, 0.6~1.0 s 설정).
+- **B3:** generic packet transport와 profile 기반 return-link capability. SM-6는 첫 양방향 DL profile이며 GPS/INU 보정과 bounded assistance를 사용. return-link는 support deadline을 연장하지 않음.
+- **B4:** SM-2MR/ER, SM-6, ESSM별 stateful loft와 단방향 CLIMB→CRUISE/ENERGY-SHELF→DIVE 전이. 게임 검토 범위 MR160 / ER260 / SM-6 260 km.
 
-## B4 구현
+## 최종 검증
 
-사용자의 MR160km대/ER·SM-6 240km 이상 요청을 게임 설계·검증 목표로 반영했다. 실제 무장 성능값이 아니다.
+- B4 stage `33/33`, runtime `8/8`
+- B3 transport `49/49`, runtime `25/25`
+- package/static `52/52`
+- B2 nav `38/38`
+- VLS timing `12/12`, release policy `22/22`
+- desktop/mobile-size handler `2/2`
+- MR160 / ER260 / SM-6 초기260 접근 표적의 전체 단계 비행 1×/8×/16×/64× fixed-step 이력 일치
+- B3 GPS/양방향 DL, B2 ASM/RAM, VLS scheduler, frozen propulsion/aero/mass, cell-exit/fuze/damage authority 보존
+- C55 assets 0–12 B3 byte-identical, B3→B4 재생성 exact
 
-- MR/ER/SM-6/ESSM별 SIM_TUNED 단계 프로필과 미사일 소유 `_loftB4` 상태.
-- CLIMB → CRUISE → DIVE, 필요 시 중간 단계 생략, DIVE 이후 재로프트 금지.
-- 기존 실제 유도 경로에 연결하고 국부 경로 control horizon과 실제 표적 PIP/TGO를 구분.
-- B2 자체 항법 추정치를 사용. 물리좌표·추력·피해 강제 변경 없음.
-- 단거리와 프로필 회랑보다 높은 표적은 기존 DIRECT 경로 보존. ESSM은 mild-loft, RAM은 B2 직접 유도/해면 회피 보존.
-- 관제 게임 검토 범위 MR160/ER260/SM-6 260km. 기존 FCQ/권한/시선/SPG/NEZ/재고 게이트 보존.
-- DEBUG의 읽기 전용 B4 단계/회랑/고도/잔여거리 표시.
+하위 fixture 일부가 중복되므로 PASS 수를 합산한 고유 시험 총수는 주장하지 않는다.
 
-## 확인된 거리 결과
+## Known Deferred
 
-명시적 합성 관측 트랙 fixture이며 초기 자연 탐색/ECM/회피 캠페인이 아니다. 초기 수평 분리거리와 실제 요격 위치의 함정 거리를 구분한다.
+WIP14 기능 범위 종료 뒤 별도로 추적한다.
 
-- MR160km: 고도2km/10km 고정 표적 요격.
-- ER240/260km: 고도10km 고정 표적 요격. 260km 사례 실제 요격 위치는 함에서259.987km.
-- SM-6 240km/고도10km 고정 표적: seed142000 미스,142001/142002 요격. 2/3은 통계적 Pk 또는 안정적 최대사거리 증명이 아니다.
-- SM-6 초기260km/고도10km/접근250m/s 표적: 함에서215.230km 지점 요격. 260km 고정 표적 seed142000은 약259m 미스.
-- ER240km/고도2km는 `NO_CHANNEL` 발사 거부; SM-6 같은 저고도/거리는 비행 후 미도달.
-- ESSM25km/고도2km 고정 표적은 요격. 여러 중장거리 조건은 에너지 부족으로 실패.
+1. `V48 WIP13A surface target submergedBreachFloods` 기존 core self-test 실패 1건. B3/B4 공통이며 WIP14 유도/DL/loft에서 새로 발생한 실패가 아니다.
+2. 검사 환경에서 native file URL이 차단되고 빈 페이지에서도 WebGL/WebGL2 생성 실패. 2D/3D FIRE handler는 통과했지만 실제 3D 렌더링과 모바일 GPU/FPS는 별도 검증.
+3. SM-6 장거리 고정표적 seed별 미스, ESSM 중장거리 에너지 부족, 저고도 장거리 센서/조명 제한은 포락선 연구 항목. 종료를 위해 센서/신관을 완화하지 않음.
 
-36개 주 조건과2개 추가 조건의 성공/미스/거부를 모두 지원 evidence에 기록했다.
+## 산출물
 
-## 검증
+- root: `Aegis_SIM_v48_WIP14B4.html`, `AEGIS_PLAN_STATUS_v48_WIP14B4.md`, `SHA256SUMS_v48_WIP14B4.txt`
+- B4: `docs/wip14/B4/AEGIS_PLAN_STATUS_v48_WIP14B4.md`, `AEGIS_WIP14B4_REPORT.md`, `AEGIS_WIP14B4_VALIDATION_SUMMARY.json`, `SHA256SUMS_v48_WIP14B4.txt`
+- B1/B2/B3 상태와 설계/참고 기록은 `docs/wip14/`에 보존
+- 대화의 `AEGIS_v48_WIP14B4_SUPPORT.zip`은 대용량 evidence/스크린샷/재생성 도구 묶음이며 저장소 병합 필수 산출물은 아님
 
-단계33/33, B4런타임8/8, B3transport49/49, B3런타임25/25, 패키지52/52, B2nav38/38, VLS시간12/12, 발사정책22/22, 데스크톱/모바일 크기 조작2/2 PASS. 일부 하위 검사는 중복된다.
+## 다음 단계
 
-MR160 고정/ER260 고정/SM-6 초기260 접근 표적의 전체 단계 비행을1×/8×/16×/64× fixed-step 배치로 반복해 상태 이력 일치. B3 DL/GPS/지원 종료 불변, B2 VLS/ASM/RAM, 공력·추진·질량 동결 hash와 기존 셀 이탈·신관·피해 권위 보존. 압축 자산0~12 B3 byte-identical, B3→B4 재생성 exact.
+WIP15에서 soft-kill 물리 배치를 시작한다. 현재 **3D 모델은 양현 3기씩 SRBOC가 보이지만 runtime은 4기/24발**이므로, 먼저 6기×6튜브=36발 canonical layout과 실제 launcher/tube 발사 원점을 정합한다. Nulka active decoy는 그 정합 뒤 별도 하위 단계에서 구현한다.
 
-## 잔여와 다음 확인
-
-1. 기존 `V48 WIP13A surface target submergedBreachFloods` core 실패1건: B3/B4 모두 동일. 검사를 삭제하거나 침수 물리를 변경하지 않음.
-2. Native file URL 관리자 정책 차단으로 전체 HTML set_content 실행. 빈 페이지에서도 WebGL context 실패. 실제 함체/연기/카메라 및 모바일 GPU/FPS 미검증. 3D FIRE handler 통과와 구분.
-3. SM-6 고정 장거리 미스, ESSM 에너지 부족, 저고도 원거리 지원 한계와 미시험 회피/횡단/도주 조건.
-4. 사용자 B4 HTML 원격 업로드 후 해시 대조 및 README/고정 지침/테스트·체크섬의 원격 산출물 정리.
-
-## 보존한 이전 기록
-
-- B3: `docs/wip14/B3/AEGIS_PLAN_STATUS_v48_WIP14B3.md`; HTML `c6a75f9f2c03e925ec298d0cb5885fa9b043c066aeb62117cf4674ec0c313123`,7,317,076 bytes. 범용 one-way/two-way DL, SM-6 첫 return/assistance profile, 독립 GPS 보정, deadline 불변.
-- B2: `docs/wip14/B2/AEGIS_PLAN_STATUS_v48_WIP14B2.md`; HTML `0aefeadc27f5fc4cd34e076f31bd570eadb5f6fdc950bcf37dc07b5f6cb103da`. Generic own-nav/ASM/RAM, VLS기본0.8초 및0.6~1.0초 설정. 당시 core0 기록은 후속 seed142000 재검사에서 기존 실패1건이 확인된 한정사항과 함께 읽는다.
-- B1: `docs/wip14/B1/`; HTML `7c26f0e86b9ae5e7f6ce17506dbfc891b656aedcf413d30ecdf5fb3337964d45`. 원래 report/evidence/checksum과 own-nav coverage audit 보존.
-
-단계 순서는 `docs/wip14/WIP14_GUIDANCE_DATALINK_LOFT_PLAN.md`의 B2→B3→B4를 따른다. 최신 B4 거리 시험 목표와 결과는 B4 상태 문서를 함께 읽는다. 예전 B3 흡수/SM-6-only 문구를 최신 계획으로 사용하지 않는다.
-
-main/PR/merge/release/tag, 원격 runtime HTML, VLS loadout, AIM-174B 운용 등록은 변경하지 않았다.
+main/PR/merge/release/tag 자체는 이 상태 문서를 작성하는 시점까지 변경하지 않았다.
