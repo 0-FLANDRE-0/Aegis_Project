@@ -1,0 +1,29 @@
+name: WIP16B renderer regression
+on:
+  pull_request:
+    paths:
+      - 'docs/wip16/B/**'
+      - '.github/workflows/wip16b-regression.yml'
+      - 'Aegis_SIM_v48_WIP16B.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  renderer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install playwright==1.55.0
+      - run: python -m playwright install --with-deps chromium
+      - name: Reproduce WIP16A renderer failure
+        run: python docs/wip16/B/tests/render16b.py Aegis_SIM_v48_WIP16A.html artifacts/wip16b/baseline
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wip16b-renderer
+          path: artifacts/wip16b
+          if-no-files-found: error
