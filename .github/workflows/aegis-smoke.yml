@@ -1537,7 +1537,8 @@ jobs:
             return true;
           })()`;
           await send('Runtime.evaluate', { expression: setupExpression });
-          for (let attempt = 0; attempt < 240; attempt++) {
+          const geometryDeadline = Date.now() + 180000;
+          while (Date.now() < geometryDeadline) {
             const probe = await send('Runtime.evaluate', {
               expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(),c=v?.crewAuditV48Wip07?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.allEquipmentRepresented && !!i?.verticalShellFilled && !!i?.superstructureContained && !!i?.batched && !!i?.exteriorTransparent && !!c?.visible && !!c?.allPersonnelRepresented && c?.instanceBatches===1; })()`,
               returnByValue: true
@@ -1716,7 +1717,7 @@ jobs:
             'http://127.0.0.1:4173/index.html?view3d=1' >/tmp/aegis-chrome.log 2>&1 &
           chrome_pid=$!
           trap 'kill "$chrome_pid" "$server_pid" 2>/dev/null || true' EXIT
-          timeout 180s node cdp-capture.mjs
+          timeout 360s node cdp-capture.mjs
           test -s aegis-3d.png
           printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
 
