@@ -17,6 +17,7 @@
 - 사용자 업로드 파일: [`Aegis_SIM_v48_WIP16B.html`](Aegis_SIM_v48_WIP16B.html), **7,357,036 bytes**. `7562bb0925e2b85521d37fefd2c81898ed6de18a`에서 원격 크기·Git blob이 로컬 검증본과 exact 일치한다.
 - SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
 - 상태: [WIP16B 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16B.md), [체크섬](SHA256SUMS_v48_WIP16B.txt), [수정 계약](docs/wip16/B/README.md).
+- Codex에서 이어갈 문서: [WIP16B 개발 인계서](docs/wip16/B/AEGIS_CODEX_HANDOFF_WIP16B.md). 최신 판정·검증 명령·미병합 상태·벙커힐 참고 파일과 다음 작업 경계를 포함한다.
 - 필수 피격 구멍 생성 중에는 직전 canvas를 유지하고 geometry commit 뒤 GPU 제출을 재개한다. C5의 실제 센서·함포·VLS 부품과 profile binding을 검사한다.
 - C55 records 0–12와 3D 렌더러 앞의 전투·피해·nav/DL/loft source는 동일하다.
 - WIP16A 사용자 업로드와 [당시 마감 기록](docs/wip16/A/CLOSEOUT.md)은 보존한다.

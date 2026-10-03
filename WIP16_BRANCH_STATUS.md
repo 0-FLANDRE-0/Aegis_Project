@@ -13,6 +13,7 @@
 - 사용자 업로드 commit `7562bb0925e2b85521d37fefd2c81898ed6de18a`의 원격 WIP16B 크기·Git blob이 검증본과 exact 일치한다. 업로드 commit은 B HTML만 추가하며 stable v48와 WIP16A 원본 blob은 동일하다.
 - 상태/체크섬: `AEGIS_PLAN_STATUS_v48_WIP16B.md`, `SHA256SUMS_v48_WIP16B.txt`.
 - 구현·소형 빌더·검사·증거: [docs/wip16/B/](docs/wip16/B/README.md).
+- Codex 새 환경용 [개발 인계서](docs/wip16/B/AEGIS_CODEX_HANDOFF_WIP16B.md). 이 인계 추가는 문서 변경이며 HTML·검증 코드·main 상태는 동일하다.
 - 로컬 package **34/34**, B Chromium renderer/recovery/negative **13/13**, 기존 runtime **13/13 PASS**.
 - B workflow [37094473097](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473097) **1/1 job PASS**.
 - 원본 보존 workflow [37094473090](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473090) **4/4 job PASS**.
