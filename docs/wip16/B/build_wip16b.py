@@ -3,7 +3,7 @@ from pathlib import Path
 import sys,re,base64,gzip,json,hashlib,io
 HERE=Path(__file__).resolve().parent
 BASE_SHA='6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24'
-FINAL_SHA=None
+FINAL_SHA='7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d'
 TITLE='AEGIS v48 WIP16B — Imported Model Rendering Integration'
 def sha(b): return hashlib.sha256(b).hexdigest()
 def build(src,out):

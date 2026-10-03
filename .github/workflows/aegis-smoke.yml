@@ -1449,7 +1449,17 @@ jobs:
           set -euo pipefail
           sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
           test -n "$sim_file"
-          cp "$sim_file" index.html
+          # Reconstruct the candidate from the frozen user upload until its HTML is uploaded.
+          if test -f docs/wip16/B/build_wip16b.py && test -f Aegis_SIM_v48_WIP16A.html; then
+            python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
+            if test -f Aegis_SIM_v48_WIP16B.html; then
+              cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
+            fi
+            cp /tmp/Aegis_SIM_v48_WIP16B.html index.html
+            sim_file=Aegis_SIM_v48_WIP16B.html
+          else
+            cp "$sim_file" index.html
+          fi
           printf '%s\n' "$sim_file" > rendered-source.txt
           npm install --no-save --no-package-lock ws@8
 
@@ -1614,12 +1624,12 @@ jobs:
                 meshPresent: bridgeMasterEAudit?.meshPresent === true,
                 mountPresent: bridgeMasterEAudit?.mountPresent === true,
                 meshAtAuthoritativeHardpoint: bridgeMasterEAudit?.meshAtAuthoritativeHardpoint === true,
-                upperStarboardYardarm: bridgeMasterEAudit?.upperStarboardYardarm === true,
+                registeredMountPlacement: bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? bridgeMasterEAudit?.registeredMastPlacement === true : bridgeMasterEAudit?.upperStarboardYardarm === true,
                 rotorMirrorsAuthoritative: bridgeMasterEAudit?.rotorMirrorsAuthoritative === true,
                 physicalHitbox: bridgeMasterEAudit?.physicalHitbox === true,
                 sharedHardpoint: bridgeMasterEAudit?.sharedHardpoint === true,
                 mastOutfitPresent: bridgeMasterEAudit?.mastOutfitPresent === true,
-                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === 14,
+                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === (bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? 17 : 14),
                 singleFunctionalRadar: bridgeMasterEAudit?.duplicateFunctionalRadar === false,
                 publicSbandBaseline: bridgeMasterEAudit?.publicSbandBaseline === true,
                 trackDisplayRangeSeparated: bridgeMasterEAudit?.trackDisplayRangeSeparated === true,

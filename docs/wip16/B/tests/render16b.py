@@ -35,8 +35,16 @@ with sync_playwright() as pw:
       return {core:window.__CORE_SELFTEST_FAILURES__,interior:v.interiorAuditV48Wip06(),crew:v.crewAuditV48Wip07(),openings:rows,
         renderReadOnly:window.__B16_STATE__===JSON.stringify({flood:d.damageFloodSnapshotV1(),structure:d.v48Wip03StructuralState(),visual:d.v48Wip03DamageVisualState(),interior:d.v48Wip06InteriorState(),crew:d.v48Wip07CrewState()})};
     }''')
-    result={'source':src.name,'errors':errors,'samples':samples,'extra':extra}
+    negative=page.evaluate('''() => {
+      const v=window.__WIP148_3D_VIEW__,rotor=v.bridgeMasterERotor,root=v.shipRoot,pos=rotor.position.clone(),rp=root.position.clone(),rq=root.quaternion.clone();
+      rotor.position.x+=.25;const rejectsDisplacedMount=!v.bridgeMasterEAuditWip16B().meshAtAuthoritativeHardpoint;rotor.position.copy(pos);
+      root.position.add(new v.THREE.Vector3(30,2,-12));root.rotateY(.4);const shipLocalInvariant=v.bridgeMasterEAuditWip16B().pass;root.position.copy(rp);root.quaternion.copy(rq);root.updateMatrixWorld(true);
+      const entries=[...v.vlsLids],key=entries[0][0],saved=v.vlsLids.get(key);v.vlsLids.set(key,entries[1][1]);const rejectsWrongCell=!v.contractAuditWip16B().checks.vlsRegistration;v.vlsLids.set(key,saved);
+      return {rejectsDisplacedMount,shipLocalInvariant,rejectsWrongCell};
+    }''')
+    result={'source':src.name,'errors':errors,'samples':samples,'extra':extra,'negative':negative}
     (out/'state.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+    print(json.dumps({'phase':'geometry','elapsedS':r.get('elapsedS'),'pending':r['damage']['pending'],'contract':r['contract']['checks'],'negative':negative}),flush=True)
     # CDP capture does not wait for two new animation frames on a software GPU.
     import base64
     cdp=page.context.new_cdp_session(page)
@@ -44,14 +52,14 @@ with sync_playwright() as pw:
       page.evaluate('yaw=>{const v=window.__WIP148_3D_VIEW__;v.orbit.yaw=yaw;v.c12ApplyPreset("LOW");v.syncCamera();v.renderer.render(v.scene,v.camera);}',yaw)
       capture=cdp.send('Page.captureScreenshot',{'format':'png','fromSurface':True})
       (out/f'{name}.png').write_bytes(base64.b64decode(capture['data']))
-    restore=page.evaluate('''() => {const v=window.__WIP148_3D_VIEW__,sources=[...v.damageOriginalMeshesV2??[]];v.syncDamageScarsV1({shipDamageVisual:{scars:[]}});return {hadCuts:sources.some(([m,s])=>m.geometry===s.geometry),allGeometryRestored:sources.length>0&&sources.every(([m,s])=>m.geometry===s.geometry),visualsCleared:v.damageScarVisuals.size===0};}''')
+    restore=page.evaluate('''() => {const v=window.__WIP148_3D_VIEW__,sources=[...v.damageOriginalMeshesV2??[]],hadCuts=sources.some(([m,s])=>m.geometry!==s.geometry);v.syncDamageScarsV1({shipDamageVisual:{scars:[]}});return {hadCuts,allGeometryRestored:sources.length>0&&sources.every(([m,s])=>m.geometry===s.geometry),visualsCleared:v.damageScarVisuals.size===0};}''')
     result['restore']=restore
     checks={'coreZero':extra['core']==[],'pageErrorsZero':errors==[],'contract':r['contract']['pass'],
       'dualHullOpenings':r['damage']['dualHullOpenings'],'settled':not r['damage']['pending'] and r['damage']['unmatched']==0,
       'actualMeshCuts':len(extra['openings'])==2 and all(q['cut'] and q['apertureClear'] for q in extra['openings']),
       'renderReadOnly':extra['renderReadOnly'],'geometryRestore':restore['allGeometryRestored'] and restore['visualsCleared'],
       'interior':extra['interior']['allSpacesRepresented'] and extra['interior']['allPortalsRepresented'] and extra['interior']['allEquipmentRepresented'] and extra['interior']['superstructureContained'],
-      'crew':extra['crew']['allPersonnelRepresented'] and extra['crew']['instanceBatches']==1}
+      'crew':extra['crew']['allPersonnelRepresented'] and extra['crew']['instanceBatches']==1,**negative}
     result['checks']=checks;result['pass']=all(checks.values());(out/'state.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({'source':src.name,'checks':checks,'trace':r['trace'],'drawDeferrals':r['drawDeferrals'],'pass':result['pass']}))
     browser.close()
