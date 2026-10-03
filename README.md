@@ -18,12 +18,13 @@
 - 선택 전에 runtime 생성을 대기하고 불변 profile을 확정한 뒤 공통 세션 생성 → 기존 subsystem 결속 → 장비 편성 → 출항을 수행한다. 현재 등록된 운용 함선은 DDG-119다.
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md), [체크섬](SHA256SUMS_v48_WIP_STARTUP_A.txt), [구현·검사·인계](docs/ship-startup/A/README.md).
 - 로컬: package 34/34, startup 15/15, DDG runtime 14/14, 실제 3D 복구 13/13 PASS. 기존 B와 전투 aggregate·발사·명중·교전 결과가 같다. 상세 float의 최대 차이 약 `3.9e-13`을 기록했다.
-- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했으며 검증본과 exact 일치한다. 전용 CI와 일반 smoke의 실제 3D 입력은 이 업로드를 검사한다. 원격 CI/PR 결과는 후속 마감 기록에 추가한다. 기존 PR #41/main/안정 v48은 변경하지 않았다. 다음 구현은 벙커힐 profile·model·builder 연결이다.
+- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했으며 검증본과 exact 일치한다. tested head `61a8931f0cc5e933fb901e270e0f5f28e046519b`에서 [출항 준비 CI](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412380) **1/1**, [원본 B 회귀](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412362) **1/1**, [일반 smoke](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412322) **32/32 job PASS**. 일반 3D의 실제 입력은 이번 HTML이며 다른 일반 job에는 역사 payload가 포함된다.
+- [PR #42](https://github.com/0-FLANDRE-0/Aegis_Project/pull/42)는 `WIP16` 위의 후속 draft PR이다. 단계 구현·업로드·원격 회귀는 완료했다. 마감 문서·증거·체크섬 반영은 tested source를 변경하지 않는다. 기존 PR #41/main/안정 v48은 변경하지 않았다. 다음 구현은 벙커힐 profile·model·builder 연결이다.
 
 ## 직전 검토 후보 — v48 WIP16B
 
 - 작업 branch: [`WIP16`](../../tree/WIP16), PR [#41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41).
-- 이전 사용자 업로드 파일: [`Aegis_SIM_v48_WIP16B.html`](archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html), **7,357,036 bytes**. `7562bb0925e2b85521d37fefd2c81898ed6de18a`에서 원격 크기·Git blob이 로컬 검증본과 exact 일치한다. 새 후보 반영 시 B 세트는 내용 변경 없이 archive로 이동한다.
+- 이전 사용자 업로드 파일: [`Aegis_SIM_v48_WIP16B.html`](archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html), **7,357,036 bytes**. `7562bb0925e2b85521d37fefd2c81898ed6de18a`에서 원격 크기·Git blob이 로컬 검증본과 exact 일치한다. B HTML/상태/체크섬은 동일 Git blob으로 archive에 보존했다.
 - SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
 - 상태: [WIP16B 계획/검증](archive/v48/WIP16B/AEGIS_PLAN_STATUS_v48_WIP16B.md), [당시 체크섬](archive/v48/WIP16B/SHA256SUMS_v48_WIP16B.txt), [수정 계약](docs/wip16/B/README.md).
 - Codex에서 이어갈 문서: [WIP16B 개발 인계서](docs/wip16/B/AEGIS_CODEX_HANDOFF_WIP16B.md). 최신 판정·검증 명령·미병합 상태·벙커힐 참고 파일과 다음 작업 경계를 포함한다.

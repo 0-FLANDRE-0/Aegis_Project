@@ -192,8 +192,9 @@
 - WIP 번호 미확정 상태를 유지하며 기능명 작업 토큰 `WIP_STARTUP_A`를 사용한다. 준비 branch `ship-startup-ddg-regression`는 `WIP16@145532316e1f87435f50a8de4a271497f0d2f1ab`에서 생성했다.
 - 요청된 출항 전 선택·공통 최초 생성·기존 subsystem 결속과 DDG-119 회귀는 로컬 완료했다. package 34/34, startup 15/15, 기존 runtime 14/14, 3D geometry/recovery 13/13 PASS. 초기 선택에서 runtime이 없고, 선택 후 하나만 생성하며 출항 후 재선택을 거부한다.
 - 상태 `AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md`, 체크섬 `SHA256SUMS_v48_WIP_STARTUP_A.txt`, 빌더/검사/증거 `docs/ship-startup/A/`.
-- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했고 로컬 검증본과 exact 일치한다. 7.1 순서대로 작은 지원 파일을 반영하고 신규 CI/PR을 진행한다. 원격 CI 성공은 실제 run 결과를 확인한 후 기록한다.
-- 이전 B HTML/상태/체크섬은 지원 반영에서 `archive/v48/WIP16B/`로 동일 Git blob을 이동한다. 기존 원본과 증거를 덮어쓰지 않는다. archive의 옛 체크섬은 당시 경로/문서의 역사 증거이며 최신 검사에는 새 체크섬을 사용한다.
+- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했고 로컬 검증본과 exact 일치한다. 7.1 순서대로 작은 지원 파일 23개를 반영·원격 hash 대조했고 후속 draft PR #42를 `WIP16` 대상으로 만들었다.
+- tested head `61a8931f0cc5e933fb901e270e0f5f28e046519b`에서 출항 준비 전용 [37102412380](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412380) 1/1, 기존 B 회귀 [37102412362](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412362) 1/1, 일반 smoke [37102412322](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412322) 32/32 job PASS. 일반 3D 입력은 이번 사용자 HTML이며 다른 job에는 역사 payload가 포함된다. 이후 마감 반영은 문서·증거·체크섬만 변경한다.
+- 이전 B HTML/상태/체크섬 3개는 `archive/v48/WIP16B/`로 동일 Git blob을 이동·대조해 보존했다. 기존 원본과 증거를 덮어쓰지 않는다. archive의 옛 체크섬은 당시 경로/문서의 역사 증거이며 최신 검사에는 새 체크섬을 사용한다.
 - 현재 운용 registry는 DDG-119 한 척이다. 다음 구현은 벙커힐 profile/model/builder를 이 초기화 경계에 연결하는 것이다. 다함 동시 운용·하푼·토마호크는 후속 범위다. main 병합·승격·release/tag는 별도 명시 지시를 따른다.
 
 ### 직전 개발 후보 — WIP16B
