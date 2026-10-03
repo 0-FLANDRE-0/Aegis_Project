@@ -186,7 +186,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 현재 개발 후보 — WIP16B
+### 최신 업로드 후보 — 출항 전 함선 선택·초기화
+
+- 기준은 아래 WIP16B 사용자 파일이다. 새 파일은 `Aegis_SIM_v48_WIP_STARTUP_A.html`, `7,361,673 bytes`, SHA-256 `94f5e9321fe1f04c5b43c4d8dca5b0762014c1cffe358ad92a81b8ffe70e7c92`.
+- WIP 번호 미확정 상태를 유지하며 기능명 작업 토큰 `WIP_STARTUP_A`를 사용한다. 준비 branch `ship-startup-ddg-regression`는 `WIP16@145532316e1f87435f50a8de4a271497f0d2f1ab`에서 생성했다.
+- 요청된 출항 전 선택·공통 최초 생성·기존 subsystem 결속과 DDG-119 회귀는 로컬 완료했다. package 34/34, startup 15/15, 기존 runtime 14/14, 3D geometry/recovery 13/13 PASS. 초기 선택에서 runtime이 없고, 선택 후 하나만 생성하며 출항 후 재선택을 거부한다.
+- 상태 `AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md`, 체크섬 `SHA256SUMS_v48_WIP_STARTUP_A.txt`, 빌더/검사/증거 `docs/ship-startup/A/`.
+- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했고 로컬 검증본과 exact 일치한다. 7.1 순서대로 작은 지원 파일을 반영하고 신규 CI/PR을 진행한다. 원격 CI 성공은 실제 run 결과를 확인한 후 기록한다.
+- 이전 B HTML/상태/체크섬은 지원 반영에서 `archive/v48/WIP16B/`로 동일 Git blob을 이동한다. 기존 원본과 증거를 덮어쓰지 않는다. archive의 옛 체크섬은 당시 경로/문서의 역사 증거이며 최신 검사에는 새 체크섬을 사용한다.
+- 현재 운용 registry는 DDG-119 한 척이다. 다음 구현은 벙커힐 profile/model/builder를 이 초기화 경계에 연결하는 것이다. 다함 동시 운용·하푼·토마호크는 후속 범위다. main 병합·승격·release/tag는 별도 명시 지시를 따른다.
+
+### 직전 개발 후보 — WIP16B
 
 - branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`, PR #41.
 - WIP16A 사용자 업로드는 원본 그대로 보존한다. 현재 사용자 업로드 후보는 `Aegis_SIM_v48_WIP16B.html`: `7,357,036 bytes`, SHA-256 `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.

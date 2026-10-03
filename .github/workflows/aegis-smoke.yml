@@ -1449,8 +1449,15 @@ jobs:
           set -euo pipefail
           sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
           test -n "$sim_file"
-          # Reconstruct the candidate from the frozen user upload until its HTML is uploaded.
-          if test -f docs/wip16/B/build_wip16b.py && test -f Aegis_SIM_v48_WIP16A.html; then
+          # Verify the actual startup upload before running the integrated 3D job.
+          if test -f Aegis_SIM_v48_WIP_STARTUP_A.html && test -f docs/ship-startup/A/build_startup.py; then
+            base=archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html
+            if ! test -f "$base"; then base=Aegis_SIM_v48_WIP16B.html; fi
+            python docs/ship-startup/A/build_startup.py "$base" /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cmp Aegis_SIM_v48_WIP_STARTUP_A.html /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cp Aegis_SIM_v48_WIP_STARTUP_A.html index.html
+            sim_file=Aegis_SIM_v48_WIP_STARTUP_A.html
+          elif test -f docs/wip16/B/build_wip16b.py && test -f Aegis_SIM_v48_WIP16A.html; then
             python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
             if test -f Aegis_SIM_v48_WIP16B.html; then
               cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
@@ -1508,7 +1515,7 @@ jobs:
           let runtimeReady = false;
           for (let attempt = 0; attempt < 240; attempt++) {
             const probe = await send('Runtime.evaluate', {
-              expression: `!!window.__WIP148_3D_VIEW__?.ready && !!window.__NAVAL_SIM_DIAG__?.runV48Wip03StructuralProbe`,
+              expression: `(() => { if (window.__AEGIS_SHIP_STARTUP__?.snapshot().phase === 'SELECTING') document.getElementById('aegisShipConfirmBtn')?.click(); return !!window.__WIP148_3D_VIEW__?.ready && !!window.__NAVAL_SIM_DIAG__?.runV48Wip03StructuralProbe; })()`,
               returnByValue: true
             });
             if (probe.result?.value) {
