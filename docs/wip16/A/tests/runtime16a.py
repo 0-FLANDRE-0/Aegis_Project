@@ -4,17 +4,24 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 if len(sys.argv)!=2: raise SystemExit("usage: runtime16a.py RESULT.html")
 HTML=Path(sys.argv[1]).read_text(encoding='utf-8')
+BOOT_SEED=0x6d2b79f5  # Existing simulator fallback seed; fixed before its loader runs.
 async def main():
   async with async_playwright() as p:
     launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--disable-gpu']}
     if os.environ.get('AEGIS_CHROMIUM_EXECUTABLE'):
       launch['executable_path']=os.environ['AEGIS_CHROMIUM_EXECUTABLE']
     b=await p.chromium.launch(**launch)
-    errors=[]
+    errors=[]; active_context=None
     async def fresh(phase):
+      nonlocal active_context
+      if active_context is not None:
+        await active_context.close()
       context=await b.new_context()
+      active_context=context
       page=await context.new_page()
       page.on('pageerror',lambda e:errors.append({'phase':phase,'error':str(e)}))
+      # Case resets seed combat streams, but initial terrain is built earlier.
+      await page.evaluate('seed=>{window.__NAVAL_SIM_SEED__=seed;}',BOOT_SEED)
       await page.set_content(HTML,wait_until='domcontentloaded',timeout=90000)
       await page.wait_for_function('window.C55Packaging?.ready&&window.__NAVAL_SIM_DIAG__',timeout=90000)
       return page
@@ -32,6 +39,9 @@ async def main():
     row("WIP16 profile exposed",prof and prof.get("schema")=="PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",prof)
     opts={"bearingsDeg":[-20,0,20],"seeds":[23001,23002],"rangeKm":4,"altM":12,"speedMps":280,"maxTimeS":20}
     ph=await page.evaluate('o=>window.__NAVAL_SIM_DIAG__.runWip103PhalanxMeasurement(o)',opts)
+    page=await fresh('benchmark-repeat')
+    repeated=await page.evaluate('o=>window.__NAVAL_SIM_DIAG__.runWip103PhalanxMeasurement(o)',opts)
+    row("same boot/case seeds repeat exactly",ph==repeated)
     a=ph["aggregate"]; ship=sum(1 for c in ph["cases"] if c["summary"]["shipHit"])
     regions={}
     for c in ph["cases"]:
@@ -57,7 +67,7 @@ async def main():
     row("WIP13A time-scale preserved",ts.get("pass") is True,ts)
     row("page errors zero",len(errors)==0,errors)
     out={"schema":"AEGIS_WIP16A_RUNTIME_CHECK","passed":sum(x["pass"] for x in rows),"total":len(rows),"pass":all(x["pass"] for x in rows),"rows":rows,
-         "phaseIsolation":"FRESH_BROWSER_CONTEXT_PER_PHASE","phalanxSixCase":ph,"spotting":spot}
+         "phaseIsolation":"FRESH_BROWSER_CONTEXT_PER_PHASE","bootSeed":BOOT_SEED,"benchmarkRepeatedExactly":ph==repeated,"phalanxSixCase":ph,"spotting":spot}
     print(json.dumps(out,ensure_ascii=False,indent=2))
     await b.close()
     if not out["pass"]: raise SystemExit(1)

@@ -24,7 +24,9 @@ with sync_playwright() as pw:
       v.resetCamera();if(!v.interiorTopologyVisible)v.toggleInteriorTopology();
     }''')
     started=time.monotonic();samples=[]
-    while time.monotonic()-started<65:
+    # SwiftShader jobs are cooperative and runner speed varies. Require the
+    # same geometry commit and ray checks, with a bounded 180 s completion wait.
+    while time.monotonic()-started<180:
       page.wait_for_timeout(1000)
       r=page.evaluate('''() => {const v=window.__WIP148_3D_VIEW__,contract=v.contractAudit();delete contract.renderState;return {damage:v.damageAuditV48Wip03(),stats:v.damageBuildStatsV3,trace:window.__B16_TRACE__,maxStepMs:v._c13MaxDamageStepMs,contract,drawDeferrals:v._wip16bOpeningDrawDeferrals||0};}''')
       samples.append({'elapsedS':round(time.monotonic()-started,2),**r})
@@ -44,7 +46,7 @@ with sync_playwright() as pw:
     }''')
     result={'source':src.name,'errors':errors,'samples':samples,'extra':extra,'negative':negative}
     (out/'state.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
-    print(json.dumps({'phase':'geometry','elapsedS':r.get('elapsedS'),'pending':r['damage']['pending'],'contract':r['contract']['checks'],'negative':negative}),flush=True)
+    print(json.dumps({'phase':'geometry','elapsedS':samples[-1]['elapsedS'],'pending':r['damage']['pending'],'contract':r['contract']['checks'],'negative':negative}),flush=True)
     # CDP capture does not wait for two new animation frames on a software GPU.
     import base64
     cdp=page.context.new_cdp_session(page)
