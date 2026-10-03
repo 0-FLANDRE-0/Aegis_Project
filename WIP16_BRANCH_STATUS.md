@@ -4,7 +4,7 @@
 
 ## 판정
 
-**사용자 WIP16A 업로드 exact 확인 / 패키지·재빌드 직접 검증 통과 / 원격 Chromium·PR 검증 준비 / 목표 안정판 v48.1은 승인 전 보류.**
+**WIP16A 명시 범위 package/Chromium PASS / 전체 PR은 3D 통합 검사 실패로 HOLD / main·v48.1 보류.**
 
 - branch: `WIP16`
 - base: `main@d2b840bae95267ffc53bfda847442b2211c1ab03`
@@ -53,4 +53,4 @@
 상세 계획: `docs/wip16/WIP16_PHALANX_FIRE_CONTROL.md`
 
 
-직접 재검사 결과는 package `64/64`, 추가 무결성·전체 JS·exact rebuild `21/21 PASS`다. 현재 Chromium 결과는 마감 기록을 따른다. 위 원본 runtime aggregate는 이전 audit 순서에서 나온 역사 기록이며 새 fresh-context 회귀값과 혼합하지 않는다.
+직접 재검사 결과는 package `64/64`, 추가 무결성·전체 JS·exact rebuild `21/21 PASS`다. 현재 Chromium은 `13/13 PASS`, 전용 workflow `4/4 job PASS`다. 일반 smoke는 `29/30 PASS`, 후보를 연 `aegis-3d-render`가 실패했다. 정확한 증거는 마감 기록을 따른다. 위 원본 runtime aggregate는 이전 audit 순서에서 나온 역사 기록이며 새 fresh-context 회귀값과 혼합하지 않는다.

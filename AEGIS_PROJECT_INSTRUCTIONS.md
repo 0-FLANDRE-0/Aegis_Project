@@ -192,9 +192,9 @@
 - 사용자 업로드 `Aegis_SIM_v48_WIP16A.html`: `7,354,882 bytes`, SHA-256 `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`, Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb` exact 확인.
 - 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16A.md`, 체크섬 `SHA256SUMS_v48_WIP16A.txt`, 마감/검증 기록 `docs/wip16/A/CLOSEOUT.md`.
 - 지원 빌더는 deterministic gzip OS header를 사용한다. runtime benchmark/spotting/regression은 각각 새 browser context에서 검사하며 기존 13개 acceptance 기준을 낮추지 않는다.
-- 원본 지원 ZIP의 기록과 현재 재실행 증거를 구분한다. 기존 일반 smoke workflow는 WIP12D payload를 검사하므로 WIP16 후보 검증으로 주장하지 않는다. WIP16 후보는 `wip16a-regression.yml`의 Chromium job으로 확인한다.
+- 원본 지원 ZIP의 기록과 현재 재실행 증거를 구분한다. 일반 smoke에는 역사 payload 검사와 자동 선택 검사가 섞여 있다. WIP16 명시 범위는 `wip16a-regression.yml`에서 `4/4 job`, Chromium `13/13 PASS`다. 일반 smoke `29/30 PASS`, 후보를 연 3D job 실패로 PR #41의 전체 통합은 HOLD다. C5 피격 구멍/구형 model audit 실패와 unchanged renderer source 증거는 마감 기록을 따른다. 새 v48 WebGL 재현을 수행했다고 주장하지 않는다.
 - WIP16A 업로드와 마감 요청은 확인했다. main 병합 및 v48.1/release/tag의 승인 상태는 마감 기록을 따른다.
-- 다음 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크와 다함 동시 운용은 별도 후속 범위다. 번호는 아직 확정하지 않았다.
+- 전체 통합 전 C5 renderer 피격 구멍 연결/진단 계약 정리를 별도 범위로 처리한다. 이후 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크와 다함 동시 운용은 별도 후속 범위다. 번호는 아직 확정하지 않았다.
 
 ### WIP12D 이전 인계 기록
 

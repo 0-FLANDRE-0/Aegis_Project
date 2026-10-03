@@ -19,10 +19,11 @@
 - Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb`: 로컬 검토본과 exact 일치.
 - 상태: [WIP16A 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16A.md), [체크섬](SHA256SUMS_v48_WIP16A.txt), [마감 기록](docs/wip16/A/CLOSEOUT.md).
 - 지원 스크립트의 gzip 헤더 이식성과 runtime 검사 격리를 수정했다. 업로드 HTML은 재작성하지 않았다.
-- 로컬 package `64/64`, 추가 무결성/전체 JS/재빌드 `21/21 PASS`. 원격 Chromium/PR 결과는 마감 기록을 따른다.
+- 로컬 package `64/64`, 추가 무결성/전체 JS/재빌드 `21/21 PASS`. 전용 Actions `4/4 job PASS`, Chromium `13/13 PASS`.
+- [PR #41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41)은 일반 smoke의 후보 3D 검사 실패로 **통합 HOLD**다(`29/30 job PASS`). 피격 구멍 연결/구형 모델 audit 문제와 source 보존 증거는 마감 기록에 보존한다.
 - 정식 `v48.1` 승격, main 병합과 release/tag는 별도 승인 전까지 보류한다. 현재 안정 기준은 v48이다.
 
-다음 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 제공된 벙커힐 뷰어는 외형/가동 자산이며 함선 runtime을 대신하지 않는다. 하푼과 토마호크는 후속 범위로 둔다. 새 단계 번호는 아직 배정하지 않았다.
+통합 전 C5 renderer의 피격 구멍 연결/진단 계약 정리를 먼저 분리한다. 이후 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 제공된 벙커힐 뷰어는 외형/가동 자산이며 함선 runtime을 대신하지 않는다. 하푼과 토마호크는 후속 범위로 둔다. 새 단계 번호는 아직 배정하지 않았다.
 
 ## 이전 통합 기준 — v48 WIP14B4
 
