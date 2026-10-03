@@ -2,26 +2,28 @@
 
 갱신: 2026-10-03 (KST)
 
-**WIP16B 수정·검증 완료 / 큰 HTML 사용자 업로드 대기 / main·v48.1 승격 보류.**
+**WIP16B 업로드·최종 CI 검증 완료 / 기술적 통합 PASS / main 명시 승인 대기·v48.1 승격 보류.**
 
 - branch: `WIP16`; 안정 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`.
 - tested code head: `75a29792f9d83c8e348c7ce4d89c1dbb54d75150`.
+- 최종 tested support head: `05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4`. 업로드 guard·검사 초기 seed·geometry 대기를 보완했으며 HTML은 동일하다.
 - 전달 후보: `Aegis_SIM_v48_WIP16B.html`, `7,357,036 bytes`.
 - SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`.
 - Git blob: `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
-- 현재 원격 HTML은 사용자 업로드 WIP16A다. 소형 B 빌더를 사용한 CI 재구성과 로컬 결과가 exact 일치한다.
+- 사용자 업로드 commit `7562bb0925e2b85521d37fefd2c81898ed6de18a`의 원격 WIP16B 크기·Git blob이 검증본과 exact 일치한다. 업로드 commit은 B HTML만 추가하며 stable v48와 WIP16A 원본 blob은 동일하다.
 - 상태/체크섬: `AEGIS_PLAN_STATUS_v48_WIP16B.md`, `SHA256SUMS_v48_WIP16B.txt`.
 - 구현·소형 빌더·검사·증거: [docs/wip16/B/](docs/wip16/B/README.md).
 - 로컬 package **34/34**, B Chromium renderer/recovery/negative **13/13**, 기존 runtime **13/13 PASS**.
 - B workflow [37094473097](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473097) **1/1 job PASS**.
 - 원본 보존 workflow [37094473090](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473090) **4/4 job PASS**.
-- 일반 smoke [37094473114](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473114) **30/30 job PASS**. 3D job의 실제 입력은 재구성 B이며, 다른 일반 job에는 역사 payload가 섞여 있다.
+- 일반 smoke [37094473114](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473114) **32/32 job PASS**. 3D job의 실제 입력은 재구성 B이며, 다른 일반 job에는 역사 payload가 섞여 있다.
+- 최종 [B workflow](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37096259094) **1/1 PASS**: package 34/34, renderer 13/13, 기존 13조건+전체 결과 seed 반복 검사 14/14. [원본 A 보존](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37096259099) **4/4 PASS**, A runtime 14/14. A/B 전체 same-seed benchmark·spotting exact 일치. [최종 일반 smoke](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37096259111)는 3D 통합 포함 **32/32 PASS**다. 전체 목록을 조회해 첫 페이지 집계 오류를 바로잡았다.
 
 원래 두 구멍은 선체 표면 검색에 성공했지만 GPU 렌더 제출 때문에 geometry queue가 지연됐다. B는 필수 aperture commit까지 직전 canvas를 유지한다. C5 root/schema, 실제 중첩 센서 mount와 마스트 17 draws, source envelope, 함포 joint, 96 셀/hinge/panel binding을 검증한다. 전투 source와 geometry asset은 보존한다.
 
-[PR #41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41)은 B HTML 업로드·원격 exact 확인까지 HOLD다. HTML 전달만으로 원격 업로드 완료를 주장하지 않는다. 신규 branch·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
+[PR #41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41)의 B HTML 업로드·원격 exact 확인은 끝났다. 업로드 후 CI와 파일 대조 guard의 결과는 [마감 증거](docs/wip16/B/evidence/upload_closeout.json)를 따른다. 신규 branch·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
 
-다음 진입점: B HTML 업로드 확인 → PR 통합 판정 갱신. 이후 출항 전 함선 선택/초기화 공통화 → 벙커힐 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위다.
+최종 CI가 모두 통과해 기술적 통합 판정은 PASS다. 다음 진입점은 명시 승인 시 PR 통합이며, 병합 승인과 v48.1 승격/release 지시는 별개다. 이후 출항 전 함선 선택/초기화 공통화 → 벙커힐 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위다.
 
 ## WIP16A 마감 당시 기록
 

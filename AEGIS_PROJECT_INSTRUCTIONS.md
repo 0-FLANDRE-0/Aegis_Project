@@ -189,12 +189,12 @@
 ### 현재 개발 후보 — WIP16B
 
 - branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`, PR #41.
-- WIP16A 사용자 업로드는 원본 그대로 보존한다. 새 전달 후보는 `Aegis_SIM_v48_WIP16B.html`: `7,357,036 bytes`, SHA-256 `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- WIP16A 사용자 업로드는 원본 그대로 보존한다. 현재 사용자 업로드 후보는 `Aegis_SIM_v48_WIP16B.html`: `7,357,036 bytes`, SHA-256 `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
 - 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16B.md`, 체크섬 `SHA256SUMS_v48_WIP16B.txt`, 소형 재현 빌더·검사·증거는 `docs/wip16/B/`를 따른다.
 - 피격 구멍은 기존에도 올바른 선체 표면을 찾았으나 내부 GPU 렌더 제출 때문에 geometry commit이 지연됐다. B는 필수 구멍 commit 전 GPU 재제출만 미룬다. 기존 cut/fold·면적·물리/난수·고정 틱과 작업 예산은 유지한다.
 - C5 센서 rotor의 중첩 ship-local 좌표, 등록점·parent·실제 scanner 2 meshes·mast 17 draws·single functional rotor를 검사한다. root 보호 스키마, 현재 source envelope·함포 joint·96 VLS 셀/hinge/panel binding을 검증한다. 옛 6개 구명뗏목 검사를 PASS로 간주하지 않으며 현재 C5에는 적용 불가로 표시한다.
 - WIP16A의 package/Chromium 기준은 보존하고 B에서도 기존 13개 runtime acceptance를 같은 threshold로 재사용한다. 최종 결과와 tested head는 B 상태 문서 및 evidence를 따른다.
-- 큰 HTML은 사용자 업로드 대기다. 업로드 뒤 크기·Git blob·SHA-256을 로컬/CI 검증본과 대조한다. 작은 소형 support 빌더로 3D CI가 B를 재구성할 수 있지만 원격 HTML 업로드 자체를 대신하지 않는다.
+- 사용자 업로드 commit `7562bb0925e2b85521d37fefd2c81898ed6de18a`의 원격 크기·Git blob이 로컬/CI 검증본과 exact 일치한다. B 전용 CI와 일반 3D CI는 재구성본을 별도 임시 경로에 만들고 업로드 HTML과 `cmp`한 뒤 검사한다. 업로드 HTML이 있으면 덮어쓰지 않는다. 검증과 최종 통합 판정은 B 상태 문서 및 `evidence/upload_closeout.json`을 따른다.
 - 새 브랜치·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
 - 다음 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크·다함 동시 운용은 후속 범위며 번호는 미확정이다.
 
@@ -268,4 +268,3 @@
 - WIP12D는 primary legacy ASM solver의 공통 packet 완전 이전, legacy blast 재적용, 무제한 개별 파편, 수중 충격 피해, persistent patch, snapshot migration, 표면교전 발사/FCS, 함포와 외탄도를 활성화하지 않는다.
 - 다음 코드 작업은 WIP12E다. `docs/WIP12E_COMPARTMENT_BLAST_HANDOFF.md`를 범위 계약으로 사용해 legacy scalar blast 재분배를 bounded compartment/portal pressure·impulse solver로 교체한다. incident/reflected pressure, positive-phase impulse, blast wind, hot gas, dynamic breach와 exterior vent를 분리하고, shadow 진단 뒤 신규 solver 하나만 피해 권위를 가져야 한다. 권위 전환 뒤 기존 Kh-32 `191` scalar budget과 부품별 피해 행은 calibration 비교값이지 exact 요구가 아니며, 관통·기폭 위치·잔존체·외피 구멍·침수·전투 RNG는 회귀 권위로 유지한다. WIP13은 그 다음의 제한적 표면교전 표적 승인·발사/FCS 경로이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 별도 승인된 범위로 고정한다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.
-

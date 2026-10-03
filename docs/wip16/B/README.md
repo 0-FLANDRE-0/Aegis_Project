@@ -21,16 +21,19 @@ No sensor performance, weapon guidance, firing, navigation, damage solver, inter
 ## Rebuild and checks
 
 ```sh
-python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html Aegis_SIM_v48_WIP16B.html
+python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
+cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
 python docs/wip16/B/tests/package16b.py Aegis_SIM_v48_WIP16B.html Aegis_SIM_v48_WIP16A.html
 python docs/wip16/B/tests/render16b.py Aegis_SIM_v48_WIP16B.html artifacts/wip16b/renderer
 python docs/wip16/A/tests/runtime16a.py Aegis_SIM_v48_WIP16B.html
 ```
 
-Package checks cover record hashes, all executable JavaScript, source/asset preservation and exact reconstruction. Chromium checks require actual geometry replacement, clear aperture center rays on both hull sides, unchanged authoritative state, interior/crew representation and complete geometry restoration. Captures use the LOW presentation preset after the initial HIGH-preset aperture test. Runtime acceptance uses the unchanged WIP16A 13-condition script in fresh contexts.
+Package checks cover record hashes, all executable JavaScript, source/asset preservation and exact reconstruction. Chromium checks require actual geometry replacement, clear aperture center rays on both hull sides, unchanged authoritative state, interior/crew representation and complete geometry restoration. Captures use the LOW presentation preset after the initial HIGH-preset aperture test. Runtime acceptance retains all original 13 conditions and thresholds, fixes the existing fallback boot seed before initialization, closes old phase contexts and adds a full same-seed benchmark repeat check (14 conditions total). The same-seed A and B full benchmark and spotting output match exactly.
 
-The `aegis-3d-render` job can reconstruct WIP16B from small support files before the user uploads the large HTML. A later user upload must exactly match that reconstruction. Other historical smoke jobs still retain their own payload selection rules.
+Post-upload repetition exposed a 65 s software-GPU deadline failure while geometry was still progressing and a runtime failure with a randomly seeded initial environment. Both failures remain in the evidence. The two geometry harnesses now allow a bounded 180 s completion wait; their commit, mesh/ray and read-only assertions are unchanged. The simulator HTML and algorithms remain frozen.
+
+Both the B workflow and `aegis-3d-render` reconstruct WIP16B to a separate temporary path and compare any uploaded HTML before testing it. The B workflow uses the uploaded file without overwriting it; before upload only, it copies the reconstruction into the candidate path. A mismatch fails the job. Other historical smoke jobs still retain their own payload selection rules.
 
 ## Delivery boundary
 
-WIP16B HTML is delivered as a download for user upload to `WIP16`. No large HTML upload through the connector, new branch, main merge, stable-version promotion or release/tag is performed. Final evidence and SHA-256 are recorded in `AEGIS_PLAN_STATUS_v48_WIP16B.md`. All 13 browser checks, all 13 unchanged runtime checks and the full 30-job general smoke pass.
+The user uploaded WIP16B to `WIP16` at `7562bb0925e2b85521d37fefd2c81898ed6de18a`. Remote size and Git blob exactly match the frozen local candidate. No large HTML upload through the connector, new branch, main merge, stable-version promotion or release/tag is performed. Final evidence and SHA-256 are recorded in `AEGIS_PLAN_STATUS_v48_WIP16B.md` and `evidence/upload_closeout.json`. The earlier implementation evidence remains unchanged; post-upload and upload-guard CI are recorded separately.

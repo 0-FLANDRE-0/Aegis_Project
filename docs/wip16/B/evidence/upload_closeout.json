@@ -1,0 +1,1375 @@
+{
+  "schema": "AEGIS_WIP16B_UPLOAD_CLOSEOUT",
+  "upload": {
+    "head": "7562bb0925e2b85521d37fefd2c81898ed6de18a",
+    "tree": "c18a746e8bda1058bfe08d5ed56d840071a5b669",
+    "path": "Aegis_SIM_v48_WIP16B.html",
+    "bytes": 7357036,
+    "sha256": "7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d",
+    "gitBlob": "d47126f8296f3bde6b81af0ce1a2668a3c79f9cf",
+    "localGitBlobMatch": true,
+    "onlyUploadedHtmlAdded": true,
+    "baselineMain": "d2b840bae95267ffc53bfda847442b2211c1ab03",
+    "stableBlob": "f540b68f138e3ed85614c41f6794be78602229d8",
+    "originalABlob": "d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb"
+  },
+  "uploadChromium": {
+    "runId": 37095403846,
+    "jobId": 111124178956,
+    "artifactId": 11264481019,
+    "artifactZipSha256": "b5fa54342ba1c1bbefab35510edbc0b1a8f76502a558149eb9f93b8932e68b93",
+    "package": {
+      "schema": "AEGIS_WIP16B_PACKAGE",
+      "bytes": 7357036,
+      "sha256": "7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d",
+      "checks": {
+        "baselineHash": true,
+        "allRecords": true,
+        "embeddedAssetsUnchanged": true,
+        "simulationPrefixUnchanged": true,
+        "recordHash0": true,
+        "recordHash1": true,
+        "recordHash2": true,
+        "recordHash3": true,
+        "recordHash4": true,
+        "recordHash5": true,
+        "recordHash6": true,
+        "recordHash7": true,
+        "recordHash8": true,
+        "recordHash9": true,
+        "recordHash10": true,
+        "recordHash11": true,
+        "recordHash12": true,
+        "recordHash13": true,
+        "syntax0": true,
+        "syntax1": true,
+        "syntax2": true,
+        "syntax3": true,
+        "syntax4": true,
+        "syntax5": true,
+        "syntax6": true,
+        "syntax7": true,
+        "syntax8": true,
+        "syntax9": true,
+        "syntax10": true,
+        "syntax11": true,
+        "syntax12": true,
+        "syntax13": true,
+        "syntax14": true,
+        "exactRebuild": true
+      },
+      "pass": true
+    },
+    "renderer": {
+      "checks": {
+        "coreZero": true,
+        "pageErrorsZero": true,
+        "contract": true,
+        "dualHullOpenings": true,
+        "settled": true,
+        "actualMeshCuts": true,
+        "renderReadOnly": true,
+        "geometryRestore": true,
+        "interior": true,
+        "crew": true,
+        "rejectsDisplacedMount": true,
+        "shipLocalInvariant": true,
+        "rejectsWrongCell": true
+      },
+      "errors": [],
+      "lastSampleElapsedS": 52.16,
+      "trace": {
+        "jobs": 1,
+        "steps": 8487,
+        "commits": 1,
+        "anchors": [
+          {
+            "id": "hit.0",
+            "mesh": "HULL_3:SIM_antifoul",
+            "candidates": 357
+          },
+          {
+            "id": "opening.shell.flood.s05.port:6:-5:-2",
+            "mesh": "HULL_3:SIM_antifoul",
+            "candidates": 357
+          }
+        ]
+      },
+      "drawDeferrals": 70,
+      "negative": {
+        "rejectsDisplacedMount": true,
+        "shipLocalInvariant": true,
+        "rejectsWrongCell": true
+      },
+      "restore": {
+        "hadCuts": true,
+        "allGeometryRestored": true,
+        "visualsCleared": true
+      },
+      "stateSha256": "68ff08fdc8379b75b79f5c5fc570ff4dff1cfd39f8249f8b7fd4c353352621b8",
+      "pass": true
+    },
+    "unchangedRuntime": {
+      "passed": 13,
+      "total": 13,
+      "pass": true,
+      "rows": [
+        {
+          "name": "core selftest zero",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "WIP16 profile exposed",
+          "pass": true,
+          "detail": {
+            "schema": "PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",
+            "groupRadiusFractionForCenterGate": 0.32,
+            "baseCenterGateM": 0.42,
+            "minCenterGateM": 0.55,
+            "maxCenterGateM": 2.1,
+            "predictedMissBaseM": 0.5,
+            "predictedMissGroupFraction": 0.18,
+            "engageHysteresis": 1.35
+          }
+        },
+        {
+          "name": "Phalanx 6-case hit rate >= 1%",
+          "pass": true,
+          "detail": {
+            "cases": 6,
+            "totalBulletsFired": 1059,
+            "totalBulletsHit": 20,
+            "hitRate": 0.018885741265344664,
+            "bulletsPerCase": {
+              "median": 190,
+              "mean": 176.5,
+              "max": 255
+            },
+            "hitsPerCase": {
+              "median": 2,
+              "mean": 3.3333333333333335,
+              "max": 10
+            },
+            "turretErrDeg": {
+              "median": 0.03309555507207484,
+              "p90": 0.05716441414466095,
+              "max": 0.09741012607970405
+            },
+            "stQuality": {
+              "median": 0.9988333333333334,
+              "min": 0.9918333333333335
+            },
+            "outcomes": {
+              "INTERCEPT_FAIL_NO_HULL_HIT": 4,
+              "KILL": 1,
+              "STRUCT_FAIL": 1
+            }
+          }
+        },
+        {
+          "name": "Phalanx 6-case no ship hit",
+          "pass": true,
+          "detail": {
+            "shipHits": 0,
+            "outcomes": {
+              "INTERCEPT_FAIL_NO_HULL_HIT": 4,
+              "KILL": 1,
+              "STRUCT_FAIL": 1
+            }
+          }
+        },
+        {
+          "name": "body/control surfaces both physical",
+          "pass": true,
+          "detail": {
+            "BODY": 6,
+            "CONTROL_SURFACE": 14
+          }
+        },
+        {
+          "name": "firing center tightened",
+          "pass": true,
+          "detail": {
+            "median": 0.03309555507207484,
+            "p90": 0.05716441414466095,
+            "max": 0.09741012607970405
+          }
+        },
+        {
+          "name": "closed-loop spotting remains active",
+          "pass": true,
+          "detail": {
+            "median": 1.9083333333333328,
+            "min": 1.8499999999999996
+          }
+        },
+        {
+          "name": "Mk244 3.0mil unchanged",
+          "pass": true,
+          "detail": {
+            "diameter80Mil": 3,
+            "sigmaMrad": 0.8360632759424154,
+            "dependsOnTrackQuality": false
+          }
+        },
+        {
+          "name": "CIWS maneuver estimator preserved",
+          "pass": true,
+          "detail": {
+            "schema": "CIWS_B3_MANEUVER_WIP11",
+            "straight": {
+              "accelMps2": 0.01697392088741729,
+              "jerkMps3": 0.006124674228464171,
+              "maneuvering": false
+            },
+            "maneuver": {
+              "estimatedAyMps2": 17.586053107734884,
+              "accelMps2": 17.58605839770496,
+              "jerkMps3": 6.026062928611333,
+              "maneuverScore": 18.155757626371592,
+              "maneuvering": true
+            },
+            "prediction": {
+              "enabled": true,
+              "horizonS": 0.9329944888789521,
+              "rangeLimitM": 4500,
+              "interceptShiftM": 7.279378755062518,
+              "acceleratedTofS": 0.9329944888789521,
+              "constantVelocityTofS": 0.9313171206792407
+            },
+            "coast": {
+              "beforeAccelMps2": 17.58605839770496,
+              "afterAccelMps2": 10.09006116297147,
+              "bounded": true
+            },
+            "rangeGate": {
+              "rangeM": 5003.679639162231,
+              "limitM": 4500,
+              "enabled": false,
+              "horizonS": 0
+            }
+          }
+        },
+        {
+          "name": "CIWS damage ordering preserved",
+          "pass": true,
+          "detail": [
+            75,
+            63,
+            48,
+            0
+          ]
+        },
+        {
+          "name": "WIP13A surface/flood checks preserved",
+          "pass": true,
+          "detail": {
+            "profileFrozen": true,
+            "unmannedEmptyGasFree": true,
+            "sharedHullMesh": true,
+            "roundTripCoordinateFrame": true,
+            "beamCrossesTwoHullSkins": true,
+            "highSegmentMisses": true,
+            "coarseWatertightZones": true,
+            "commercialMaterialScantlings": true,
+            "damagePacketCreatesPhysicalBreach": true,
+            "idempotentImpactPacket": true,
+            "structuralDamageCoupled": true,
+            "outfittingFireCoupled": true,
+            "keelDamageCanStructurallyKill": true,
+            "submergedFixtureActuallyWet": true,
+            "submergedBreachFloods": true,
+            "asymmetricFloodingHeelsStarboard": true,
+            "deterministicFloodIntegration": true,
+            "bandedAspectRcs": true
+          }
+        },
+        {
+          "name": "WIP13A time-scale preserved",
+          "pass": true,
+          "detail": {
+            "schema": "AEGIS_SURFACE_TARGET_TIME_SCALE_REGRESSION_V48_WIP15C",
+            "targetTicks": 960,
+            "dt": 0.016666666666666666,
+            "rows": [
+              {
+                "timeScale": 1,
+                "frames": 960,
+                "steps": 960,
+                "initialSubmergenceM": 0.8672465426575896,
+                "waterM3": 51.61541511889854,
+                "draftM": -1.787156318411455,
+                "heelRad": 0.005679300298070558,
+                "trimRad": 0.0000690867076891721,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 8,
+                "frames": 120,
+                "steps": 960,
+                "initialSubmergenceM": 0.8672465426575896,
+                "waterM3": 51.61541511889854,
+                "draftM": -1.787156318411455,
+                "heelRad": 0.005679300298070558,
+                "trimRad": 0.0000690867076891721,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 16,
+                "frames": 60,
+                "steps": 960,
+                "initialSubmergenceM": 0.8672465426575896,
+                "waterM3": 51.61541511889854,
+                "draftM": -1.787156318411455,
+                "heelRad": 0.005679300298070558,
+                "trimRad": 0.0000690867076891721,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 64,
+                "frames": 15,
+                "steps": 960,
+                "initialSubmergenceM": 0.8672465426575896,
+                "waterM3": 51.61541511889854,
+                "draftM": -1.787156318411455,
+                "heelRad": 0.005679300298070558,
+                "trimRad": 0.0000690867076891721,
+                "state": "FLOODING"
+              }
+            ],
+            "maxDelta": {
+              "waterM3": 0,
+              "draftM": 0,
+              "heelRad": 0,
+              "trimRad": 0
+            },
+            "pass": true
+          }
+        },
+        {
+          "name": "page errors zero",
+          "pass": true,
+          "detail": []
+        }
+      ],
+      "rawSha256": "795f48b5f6f7924037ad987fa86bccc4c9887d21cf83792f8543f84d079da1b8"
+    }
+  },
+  "uploadGeneral3D": {
+    "runId": 37095403831,
+    "jobId": 111124179185,
+    "artifactId": 11263079572,
+    "artifactZipSha256": "261df0921bb32c3a1f15d86460ef5ebb2ccd4c853d6209a6232ff86b9c556e10",
+    "renderedSource": "Aegis_SIM_v48_WIP16B.html",
+    "uploadedVsRebuildCmp": true,
+    "three": "160",
+    "auditPass": true,
+    "damageChecks": {
+      "dualHullOpenings": true,
+      "entryExitPresent": true,
+      "oppositeSides": true,
+      "meshMatched": true,
+      "actualHoles": true,
+      "attached": true,
+      "settled": true,
+      "areaPreserved": true,
+      "renderReadOnly": true
+    },
+    "interiorChecks": {
+      "buttonPresent": true,
+      "buttonPressed": true,
+      "visible": true,
+      "allSpacesRepresented": true,
+      "allPortalsRepresented": true,
+      "allEquipmentRepresented": true,
+      "verticalShellFilled": true,
+      "superstructureContained": true,
+      "batchedDrawables": true,
+      "exteriorTransparent": true,
+      "presentationOnly": true,
+      "snapshotContract": true
+    },
+    "crewChecks": {
+      "schema": true,
+      "visible": true,
+      "oneInstanceBatch": true,
+      "exactRoster": true,
+      "allPersonnelRepresented": true,
+      "presentationOnly": true,
+      "snapshotContract": true,
+      "deterministicProbe": true
+    },
+    "bridgeMasterEChecks": {
+      "rendererReady": true,
+      "meshPresent": true,
+      "mountPresent": true,
+      "meshAtAuthoritativeHardpoint": true,
+      "registeredMountPlacement": true,
+      "rotorMirrorsAuthoritative": true,
+      "physicalHitbox": true,
+      "sharedHardpoint": true,
+      "mastOutfitPresent": true,
+      "mastOutfitBounded": true,
+      "singleFunctionalRadar": true,
+      "publicSbandBaseline": true,
+      "trackDisplayRangeSeparated": true,
+      "presentationOnly": true
+    },
+    "stateSha256": "074ae51e6b22a7aba971b0c09d0d409213a90663e5471bffbc1542c9548ad492"
+  },
+  "uploadGuard": {
+    "testedHead": "34d62c4bfe927b1c3c4d131a84f440330eca1c82",
+    "localExactUploadAccepted": true,
+    "localMismatchRejected": true,
+    "localUploadedHtmlUnchanged": true
+  },
+  "delivery": {
+    "htmlUploadPending": false,
+    "mainMerged": false,
+    "tagReleaseCreated": false
+  },
+  "uploadGeneralSmoke": {
+    "runId": 37095403831,
+    "head": "7562bb0925e2b85521d37fefd2c81898ed6de18a",
+    "conclusion": "success",
+    "passed": 32,
+    "total": 32,
+    "paginationVerified": true
+  },
+  "uploadAPreservation": {
+    "runId": 37095403900,
+    "head": "7562bb0925e2b85521d37fefd2c81898ed6de18a",
+    "conclusion": "success",
+    "passed": 4,
+    "total": 4
+  },
+  "intermediateFailures": [
+    {
+      "head": "34d62c4bfe927b1c3c4d131a84f440330eca1c82",
+      "runId": 37095725181,
+      "jobId": 111125126460,
+      "failure": "65 s geometry wait ended before commit while cooperative generator continued progressing",
+      "elapsedS": 65.96,
+      "generatorSteps": 7164,
+      "commits": 0,
+      "pageErrors": [],
+      "artifactId": 11264007174,
+      "artifactZipSha256": "f8d0c48c76df618bd7c1a65d61de2c40f9e803fc51503333d5778b422c0fe2ff"
+    },
+    {
+      "head": "34d62c4bfe927b1c3c4d131a84f440330eca1c82",
+      "runId": 37095725288,
+      "jobId": 111125185125,
+      "failure": "Original A runtime 12/13; one no-ship-hit assertion failed with randomly seeded initial environment",
+      "artifactId": 11264216897,
+      "artifactZipSha256": "beaffeb5210fc00049572a2187b2708034e9437dd123d8cdd72b36ac3bc7c4ec"
+    },
+    {
+      "head": "34d62c4bfe927b1c3c4d131a84f440330eca1c82",
+      "runId": 37095725312,
+      "failure": "General 3D completion wait ended with geometry pending"
+    },
+    {
+      "head": "dfdc0b7cf9d9b0621df71aa07bd83d17197805a0",
+      "runId": 37096134616,
+      "failure": "Runtime test checksum not yet updated; fixed at 05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4"
+    }
+  ],
+  "harnessRepair": {
+    "head": "05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4",
+    "bootSeed": 1831565813,
+    "bootSeedBasis": "Existing simulator fallback, fixed before loader; no seed search",
+    "freshPhaseContextsClosed": true,
+    "fullBenchmarkExactRepeatCheckAdded": true,
+    "allOriginalRuntimeThresholdsPreserved": true,
+    "geometryCompletionLimitS": 180,
+    "geometryAndReadOnlyAssertionsPreserved": true,
+    "htmlChanged": false
+  },
+  "seededAPreservation": {
+    "runId": 37096259099,
+    "testedHead": "05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4",
+    "jobsPassed": 4,
+    "jobsTotal": 4,
+    "artifactId": 11265035465,
+    "artifactZipSha256": "f7a724202a04954f54867cb70686f3a3776e5c1ad5adbfd9ced27877ec4b0f8d",
+    "runtimePassed": 14,
+    "runtimeTotal": 14,
+    "bootSeed": 1831565813,
+    "benchmarkRepeatedExactly": true,
+    "runtimeRows": [
+      {
+        "name": "core selftest zero",
+        "pass": true,
+        "detail": []
+      },
+      {
+        "name": "WIP16 profile exposed",
+        "pass": true,
+        "detail": {
+          "schema": "PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",
+          "groupRadiusFractionForCenterGate": 0.32,
+          "baseCenterGateM": 0.42,
+          "minCenterGateM": 0.55,
+          "maxCenterGateM": 2.1,
+          "predictedMissBaseM": 0.5,
+          "predictedMissGroupFraction": 0.18,
+          "engageHysteresis": 1.35
+        }
+      },
+      {
+        "name": "same boot/case seeds repeat exactly",
+        "pass": true,
+        "detail": null
+      },
+      {
+        "name": "Phalanx 6-case hit rate >= 1%",
+        "pass": true,
+        "detail": {
+          "cases": 6,
+          "totalBulletsFired": 1132,
+          "totalBulletsHit": 16,
+          "hitRate": 0.014134275618374558,
+          "bulletsPerCase": {
+            "median": 199,
+            "mean": 188.66666666666666,
+            "max": 252
+          },
+          "hitsPerCase": {
+            "median": 2.5,
+            "mean": 2.6666666666666665,
+            "max": 5
+          },
+          "turretErrDeg": {
+            "median": 0.03398095164300888,
+            "p90": 0.06100721951727807,
+            "max": 0.14009492342571409
+          },
+          "stQuality": {
+            "median": 0.9988333333333334,
+            "min": 0.9918333333333335
+          },
+          "outcomes": {
+            "STRUCT_FAIL": 2,
+            "INTERCEPT_FAIL_NO_HULL_HIT": 1,
+            "KILL": 3
+          }
+        }
+      },
+      {
+        "name": "Phalanx 6-case no ship hit",
+        "pass": true,
+        "detail": {
+          "shipHits": 0,
+          "outcomes": {
+            "STRUCT_FAIL": 2,
+            "INTERCEPT_FAIL_NO_HULL_HIT": 1,
+            "KILL": 3
+          }
+        }
+      },
+      {
+        "name": "body/control surfaces both physical",
+        "pass": true,
+        "detail": {
+          "CONTROL_SURFACE": 7,
+          "BODY": 9
+        }
+      },
+      {
+        "name": "firing center tightened",
+        "pass": true,
+        "detail": {
+          "median": 0.03398095164300888,
+          "p90": 0.06100721951727807,
+          "max": 0.14009492342571409
+        }
+      },
+      {
+        "name": "closed-loop spotting remains active",
+        "pass": true,
+        "detail": {
+          "median": 1.9083333333333328,
+          "min": 1.8499999999999996
+        }
+      },
+      {
+        "name": "Mk244 3.0mil unchanged",
+        "pass": true,
+        "detail": {
+          "diameter80Mil": 3,
+          "sigmaMrad": 0.8360632759424154,
+          "dependsOnTrackQuality": false
+        }
+      },
+      {
+        "name": "CIWS maneuver estimator preserved",
+        "pass": true,
+        "detail": {
+          "schema": "CIWS_B3_MANEUVER_WIP11",
+          "straight": {
+            "accelMps2": 0.01697392088741729,
+            "jerkMps3": 0.006124674228464171,
+            "maneuvering": false
+          },
+          "maneuver": {
+            "estimatedAyMps2": 17.586053107734884,
+            "accelMps2": 17.58605839770496,
+            "jerkMps3": 6.026062928611333,
+            "maneuverScore": 18.155757626371592,
+            "maneuvering": true
+          },
+          "prediction": {
+            "enabled": true,
+            "horizonS": 0.9329944888789521,
+            "rangeLimitM": 4500,
+            "interceptShiftM": 7.279378755062518,
+            "acceleratedTofS": 0.9329944888789521,
+            "constantVelocityTofS": 0.9313171206792407
+          },
+          "coast": {
+            "beforeAccelMps2": 17.58605839770496,
+            "afterAccelMps2": 10.09006116297147,
+            "bounded": true
+          },
+          "rangeGate": {
+            "rangeM": 5003.679639162231,
+            "limitM": 4500,
+            "enabled": false,
+            "horizonS": 0
+          }
+        }
+      },
+      {
+        "name": "CIWS damage ordering preserved",
+        "pass": true,
+        "detail": [
+          75,
+          63,
+          48,
+          0
+        ]
+      },
+      {
+        "name": "WIP13A surface/flood checks preserved",
+        "pass": true,
+        "detail": {
+          "profileFrozen": true,
+          "unmannedEmptyGasFree": true,
+          "sharedHullMesh": true,
+          "roundTripCoordinateFrame": true,
+          "beamCrossesTwoHullSkins": true,
+          "highSegmentMisses": true,
+          "coarseWatertightZones": true,
+          "commercialMaterialScantlings": true,
+          "damagePacketCreatesPhysicalBreach": true,
+          "idempotentImpactPacket": true,
+          "structuralDamageCoupled": true,
+          "outfittingFireCoupled": true,
+          "keelDamageCanStructurallyKill": true,
+          "submergedFixtureActuallyWet": true,
+          "submergedBreachFloods": true,
+          "asymmetricFloodingHeelsStarboard": true,
+          "deterministicFloodIntegration": true,
+          "bandedAspectRcs": true
+        }
+      },
+      {
+        "name": "WIP13A time-scale preserved",
+        "pass": true,
+        "detail": {
+          "schema": "AEGIS_SURFACE_TARGET_TIME_SCALE_REGRESSION_V48_WIP15C",
+          "targetTicks": 960,
+          "dt": 0.016666666666666666,
+          "rows": [
+            {
+              "timeScale": 1,
+              "frames": 960,
+              "steps": 960,
+              "initialSubmergenceM": 1.5696455693076927,
+              "waterM3": 69.64601625091564,
+              "draftM": -1.784263142231859,
+              "heelRad": 0.007857041223305052,
+              "trimRad": 0.00009353148325880801,
+              "state": "FLOODING"
+            },
+            {
+              "timeScale": 8,
+              "frames": 120,
+              "steps": 960,
+              "initialSubmergenceM": 1.5696455693076927,
+              "waterM3": 69.64601625091564,
+              "draftM": -1.784263142231859,
+              "heelRad": 0.007857041223305052,
+              "trimRad": 0.00009353148325880801,
+              "state": "FLOODING"
+            },
+            {
+              "timeScale": 16,
+              "frames": 60,
+              "steps": 960,
+              "initialSubmergenceM": 1.5696455693076927,
+              "waterM3": 69.64601625091564,
+              "draftM": -1.784263142231859,
+              "heelRad": 0.007857041223305052,
+              "trimRad": 0.00009353148325880801,
+              "state": "FLOODING"
+            },
+            {
+              "timeScale": 64,
+              "frames": 15,
+              "steps": 960,
+              "initialSubmergenceM": 1.5696455693076927,
+              "waterM3": 69.64601625091564,
+              "draftM": -1.784263142231859,
+              "heelRad": 0.007857041223305052,
+              "trimRad": 0.00009353148325880801,
+              "state": "FLOODING"
+            }
+          ],
+          "maxDelta": {
+            "waterM3": 0,
+            "draftM": 0,
+            "heelRad": 0,
+            "trimRad": 0
+          },
+          "pass": true
+        }
+      },
+      {
+        "name": "page errors zero",
+        "pass": true,
+        "detail": []
+      }
+    ],
+    "runtimeSha256": "423fc056ffa92b31311b79a75530c90a1efd7b9a00d526f301b3473df4503efd"
+  },
+  "finalGuardedB": {
+    "runId": 37096259094,
+    "testedHead": "05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4",
+    "jobId": 111126703398,
+    "artifactId": 11264402786,
+    "artifactZipSha256": "a3341ab6b347889844bca50466379ab3261064a2b71f804d39f9c5e7a29a8ed2",
+    "uploadedVsRebuildCmp": true,
+    "package": {
+      "schema": "AEGIS_WIP16B_PACKAGE",
+      "bytes": 7357036,
+      "sha256": "7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d",
+      "checks": {
+        "baselineHash": true,
+        "allRecords": true,
+        "embeddedAssetsUnchanged": true,
+        "simulationPrefixUnchanged": true,
+        "recordHash0": true,
+        "recordHash1": true,
+        "recordHash2": true,
+        "recordHash3": true,
+        "recordHash4": true,
+        "recordHash5": true,
+        "recordHash6": true,
+        "recordHash7": true,
+        "recordHash8": true,
+        "recordHash9": true,
+        "recordHash10": true,
+        "recordHash11": true,
+        "recordHash12": true,
+        "recordHash13": true,
+        "syntax0": true,
+        "syntax1": true,
+        "syntax2": true,
+        "syntax3": true,
+        "syntax4": true,
+        "syntax5": true,
+        "syntax6": true,
+        "syntax7": true,
+        "syntax8": true,
+        "syntax9": true,
+        "syntax10": true,
+        "syntax11": true,
+        "syntax12": true,
+        "syntax13": true,
+        "syntax14": true,
+        "exactRebuild": true
+      },
+      "pass": true
+    },
+    "renderer": {
+      "checks": {
+        "coreZero": true,
+        "pageErrorsZero": true,
+        "contract": true,
+        "dualHullOpenings": true,
+        "settled": true,
+        "actualMeshCuts": true,
+        "renderReadOnly": true,
+        "geometryRestore": true,
+        "interior": true,
+        "crew": true,
+        "rejectsDisplacedMount": true,
+        "shipLocalInvariant": true,
+        "rejectsWrongCell": true
+      },
+      "errors": [],
+      "lastSampleElapsedS": 63.35,
+      "trace": {
+        "jobs": 1,
+        "steps": 8487,
+        "commits": 1,
+        "anchors": [
+          {
+            "id": "hit.0",
+            "mesh": "HULL_3:SIM_antifoul",
+            "candidates": 357
+          },
+          {
+            "id": "opening.shell.flood.s05.port:6:-5:-2",
+            "mesh": "HULL_3:SIM_antifoul",
+            "candidates": 357
+          }
+        ]
+      },
+      "drawDeferrals": 84,
+      "negative": {
+        "rejectsDisplacedMount": true,
+        "shipLocalInvariant": true,
+        "rejectsWrongCell": true
+      },
+      "restore": {
+        "hadCuts": true,
+        "allGeometryRestored": true,
+        "visualsCleared": true
+      },
+      "stateSha256": "00f9911ad81e7eb78ec9266be59bf20b9a5d854cc555f6b201e3cb419cdc8bc2",
+      "pass": true
+    },
+    "runtime": {
+      "passed": 14,
+      "total": 14,
+      "bootSeed": 1831565813,
+      "benchmarkRepeatedExactly": true,
+      "sameSeedAAndBFullBenchmarkEqual": true,
+      "sameSeedAAndBSpottingEqual": true,
+      "rows": [
+        {
+          "name": "core selftest zero",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "WIP16 profile exposed",
+          "pass": true,
+          "detail": {
+            "schema": "PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",
+            "groupRadiusFractionForCenterGate": 0.32,
+            "baseCenterGateM": 0.42,
+            "minCenterGateM": 0.55,
+            "maxCenterGateM": 2.1,
+            "predictedMissBaseM": 0.5,
+            "predictedMissGroupFraction": 0.18,
+            "engageHysteresis": 1.35
+          }
+        },
+        {
+          "name": "same boot/case seeds repeat exactly",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "Phalanx 6-case hit rate >= 1%",
+          "pass": true,
+          "detail": {
+            "cases": 6,
+            "totalBulletsFired": 1132,
+            "totalBulletsHit": 16,
+            "hitRate": 0.014134275618374558,
+            "bulletsPerCase": {
+              "median": 199,
+              "mean": 188.66666666666666,
+              "max": 252
+            },
+            "hitsPerCase": {
+              "median": 2.5,
+              "mean": 2.6666666666666665,
+              "max": 5
+            },
+            "turretErrDeg": {
+              "median": 0.03398095164300888,
+              "p90": 0.06100721951727807,
+              "max": 0.14009492342571409
+            },
+            "stQuality": {
+              "median": 0.9988333333333334,
+              "min": 0.9918333333333335
+            },
+            "outcomes": {
+              "STRUCT_FAIL": 2,
+              "INTERCEPT_FAIL_NO_HULL_HIT": 1,
+              "KILL": 3
+            }
+          }
+        },
+        {
+          "name": "Phalanx 6-case no ship hit",
+          "pass": true,
+          "detail": {
+            "shipHits": 0,
+            "outcomes": {
+              "STRUCT_FAIL": 2,
+              "INTERCEPT_FAIL_NO_HULL_HIT": 1,
+              "KILL": 3
+            }
+          }
+        },
+        {
+          "name": "body/control surfaces both physical",
+          "pass": true,
+          "detail": {
+            "CONTROL_SURFACE": 7,
+            "BODY": 9
+          }
+        },
+        {
+          "name": "firing center tightened",
+          "pass": true,
+          "detail": {
+            "median": 0.03398095164300888,
+            "p90": 0.06100721951727807,
+            "max": 0.14009492342571409
+          }
+        },
+        {
+          "name": "closed-loop spotting remains active",
+          "pass": true,
+          "detail": {
+            "median": 1.9083333333333328,
+            "min": 1.8499999999999996
+          }
+        },
+        {
+          "name": "Mk244 3.0mil unchanged",
+          "pass": true,
+          "detail": {
+            "diameter80Mil": 3,
+            "sigmaMrad": 0.8360632759424154,
+            "dependsOnTrackQuality": false
+          }
+        },
+        {
+          "name": "CIWS maneuver estimator preserved",
+          "pass": true,
+          "detail": {
+            "schema": "CIWS_B3_MANEUVER_WIP11",
+            "straight": {
+              "accelMps2": 0.01697392088741729,
+              "jerkMps3": 0.006124674228464171,
+              "maneuvering": false
+            },
+            "maneuver": {
+              "estimatedAyMps2": 17.586053107734884,
+              "accelMps2": 17.58605839770496,
+              "jerkMps3": 6.026062928611333,
+              "maneuverScore": 18.155757626371592,
+              "maneuvering": true
+            },
+            "prediction": {
+              "enabled": true,
+              "horizonS": 0.9329944888789521,
+              "rangeLimitM": 4500,
+              "interceptShiftM": 7.279378755062518,
+              "acceleratedTofS": 0.9329944888789521,
+              "constantVelocityTofS": 0.9313171206792407
+            },
+            "coast": {
+              "beforeAccelMps2": 17.58605839770496,
+              "afterAccelMps2": 10.09006116297147,
+              "bounded": true
+            },
+            "rangeGate": {
+              "rangeM": 5003.679639162231,
+              "limitM": 4500,
+              "enabled": false,
+              "horizonS": 0
+            }
+          }
+        },
+        {
+          "name": "CIWS damage ordering preserved",
+          "pass": true,
+          "detail": [
+            75,
+            63,
+            48,
+            0
+          ]
+        },
+        {
+          "name": "WIP13A surface/flood checks preserved",
+          "pass": true,
+          "detail": {
+            "profileFrozen": true,
+            "unmannedEmptyGasFree": true,
+            "sharedHullMesh": true,
+            "roundTripCoordinateFrame": true,
+            "beamCrossesTwoHullSkins": true,
+            "highSegmentMisses": true,
+            "coarseWatertightZones": true,
+            "commercialMaterialScantlings": true,
+            "damagePacketCreatesPhysicalBreach": true,
+            "idempotentImpactPacket": true,
+            "structuralDamageCoupled": true,
+            "outfittingFireCoupled": true,
+            "keelDamageCanStructurallyKill": true,
+            "submergedFixtureActuallyWet": true,
+            "submergedBreachFloods": true,
+            "asymmetricFloodingHeelsStarboard": true,
+            "deterministicFloodIntegration": true,
+            "bandedAspectRcs": true
+          }
+        },
+        {
+          "name": "WIP13A time-scale preserved",
+          "pass": true,
+          "detail": {
+            "schema": "AEGIS_SURFACE_TARGET_TIME_SCALE_REGRESSION_V48_WIP15C",
+            "targetTicks": 960,
+            "dt": 0.016666666666666666,
+            "rows": [
+              {
+                "timeScale": 1,
+                "frames": 960,
+                "steps": 960,
+                "initialSubmergenceM": 1.5696455693076927,
+                "waterM3": 69.64601625091564,
+                "draftM": -1.784263142231859,
+                "heelRad": 0.007857041223305052,
+                "trimRad": 0.00009353148325880801,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 8,
+                "frames": 120,
+                "steps": 960,
+                "initialSubmergenceM": 1.5696455693076927,
+                "waterM3": 69.64601625091564,
+                "draftM": -1.784263142231859,
+                "heelRad": 0.007857041223305052,
+                "trimRad": 0.00009353148325880801,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 16,
+                "frames": 60,
+                "steps": 960,
+                "initialSubmergenceM": 1.5696455693076927,
+                "waterM3": 69.64601625091564,
+                "draftM": -1.784263142231859,
+                "heelRad": 0.007857041223305052,
+                "trimRad": 0.00009353148325880801,
+                "state": "FLOODING"
+              },
+              {
+                "timeScale": 64,
+                "frames": 15,
+                "steps": 960,
+                "initialSubmergenceM": 1.5696455693076927,
+                "waterM3": 69.64601625091564,
+                "draftM": -1.784263142231859,
+                "heelRad": 0.007857041223305052,
+                "trimRad": 0.00009353148325880801,
+                "state": "FLOODING"
+              }
+            ],
+            "maxDelta": {
+              "waterM3": 0,
+              "draftM": 0,
+              "heelRad": 0,
+              "trimRad": 0
+            },
+            "pass": true
+          }
+        },
+        {
+          "name": "page errors zero",
+          "pass": true,
+          "detail": []
+        }
+      ],
+      "rawSha256": "423fc056ffa92b31311b79a75530c90a1efd7b9a00d526f301b3473df4503efd",
+      "pass": true
+    }
+  },
+  "finalGeneral3D": {
+    "runId": 37096259111,
+    "testedHead": "05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4",
+    "jobId": 111126703972,
+    "artifactId": 11264257849,
+    "artifactZipSha256": "6dc3c52f17fb0380c561cef817dd6287e7b83272f94c07a22e50012b411e4f1a",
+    "renderedSource": "Aegis_SIM_v48_WIP16B.html",
+    "uploadedVsRebuildCmp": true,
+    "three": "160",
+    "auditPass": true,
+    "damageChecks": {
+      "dualHullOpenings": true,
+      "entryExitPresent": true,
+      "oppositeSides": true,
+      "meshMatched": true,
+      "actualHoles": true,
+      "attached": true,
+      "settled": true,
+      "areaPreserved": true,
+      "renderReadOnly": true
+    },
+    "interiorChecks": {
+      "buttonPresent": true,
+      "buttonPressed": true,
+      "visible": true,
+      "allSpacesRepresented": true,
+      "allPortalsRepresented": true,
+      "allEquipmentRepresented": true,
+      "verticalShellFilled": true,
+      "superstructureContained": true,
+      "batchedDrawables": true,
+      "exteriorTransparent": true,
+      "presentationOnly": true,
+      "snapshotContract": true
+    },
+    "crewChecks": {
+      "schema": true,
+      "visible": true,
+      "oneInstanceBatch": true,
+      "exactRoster": true,
+      "allPersonnelRepresented": true,
+      "presentationOnly": true,
+      "snapshotContract": true,
+      "deterministicProbe": true
+    },
+    "bridgeMasterEChecks": {
+      "rendererReady": true,
+      "meshPresent": true,
+      "mountPresent": true,
+      "meshAtAuthoritativeHardpoint": true,
+      "registeredMountPlacement": true,
+      "rotorMirrorsAuthoritative": true,
+      "physicalHitbox": true,
+      "sharedHardpoint": true,
+      "mastOutfitPresent": true,
+      "mastOutfitBounded": true,
+      "singleFunctionalRadar": true,
+      "publicSbandBaseline": true,
+      "trackDisplayRangeSeparated": true,
+      "presentationOnly": true
+    },
+    "stateSha256": "074ae51e6b22a7aba971b0c09d0d409213a90663e5471bffbc1542c9548ad492"
+  },
+  "finalGeneralSmoke": {
+    "runId": 37096259111,
+    "testedHead": "05cd0ebcb7c0fb8a7bfcd2f65aa46184545585d4",
+    "conclusion": "success",
+    "paginationVerified": true,
+    "passed": 32,
+    "total": 32,
+    "jobs": [
+      {
+        "id": 111126703633,
+        "name": "ship-interior-topology",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703758,
+        "name": "ciws-b1-closure",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703762,
+        "name": "terminal-hardening-wip12f-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703768,
+        "name": "internal-terminal-effects-wip12c",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703783,
+        "name": "terminal-hardening-wip12f",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703788,
+        "name": "runtime-safety-wip11b",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703793,
+        "name": "ciws-b3-damage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703796,
+        "name": "static-smoke",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703797,
+        "name": "ship-structural-fatigue",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703808,
+        "name": "ciws-b2-maneuver",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703815,
+        "name": "ship-stability-maneuver",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703819,
+        "name": "terminal-ballistics-wip12a",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703822,
+        "name": "terminal-ballistics-wip12a-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703831,
+        "name": "residual-overpenetration-wip12d-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703836,
+        "name": "naval-armor-fuze-wip12e-rev5-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703837,
+        "name": "ship-crew-damage",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703845,
+        "name": "ship-mass-ledger",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703847,
+        "name": "internal-terminal-effects-wip12c-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703851,
+        "name": "ship-impact-penetration",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703877,
+        "name": "bridgemaster-e",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703885,
+        "name": "live-terminal-effects-wip12b-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703899,
+        "name": "ship-profile",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703901,
+        "name": "asm-wreckage-wip11c",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703909,
+        "name": "asm-wreckage-wip11c-contract",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703925,
+        "name": "material-protection-wip11",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703926,
+        "name": "ship-wave-flooding",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703927,
+        "name": "naval-armor-fuze-wip12e-rev5",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703931,
+        "name": "webgl-render-probe",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703937,
+        "name": "live-terminal-effects-wip12b",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703945,
+        "name": "aft-geometry-wip11",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703972,
+        "name": "aegis-3d-render",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 111126703977,
+        "name": "residual-overpenetration-wip12d",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "closeout": {
+    "technicalDecision": "PASS_READY_FOR_EXPLICIT_MERGE_APPROVAL",
+    "pr": 41,
+    "branch": "WIP16",
+    "mainMerged": false,
+    "stablePromotion": false,
+    "tagReleaseCreated": false
+  }
+}

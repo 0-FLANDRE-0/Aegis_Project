@@ -14,16 +14,16 @@
 ## 현재 검토 후보 — v48 WIP16B
 
 - 작업 branch: [`WIP16`](../../tree/WIP16), PR [#41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41).
-- 전달 파일: `Aegis_SIM_v48_WIP16B.html`, **7,357,036 bytes**. 큰 HTML의 사용자 업로드와 원격 exact 확인은 아직 남아 있다.
+- 사용자 업로드 파일: [`Aegis_SIM_v48_WIP16B.html`](Aegis_SIM_v48_WIP16B.html), **7,357,036 bytes**. `7562bb0925e2b85521d37fefd2c81898ed6de18a`에서 원격 크기·Git blob이 로컬 검증본과 exact 일치한다.
 - SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
 - 상태: [WIP16B 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16B.md), [체크섬](SHA256SUMS_v48_WIP16B.txt), [수정 계약](docs/wip16/B/README.md).
 - 필수 피격 구멍 생성 중에는 직전 canvas를 유지하고 geometry commit 뒤 GPU 제출을 재개한다. C5의 실제 센서·함포·VLS 부품과 profile binding을 검사한다.
 - C55 records 0–12와 3D 렌더러 앞의 전투·피해·nav/DL/loft source는 동일하다.
 - WIP16A 사용자 업로드와 [당시 마감 기록](docs/wip16/A/CLOSEOUT.md)은 보존한다.
-- 검증: 로컬 package **34/34**, B Chromium renderer/recovery **13/13**, 기존 runtime **13/13**, 일반 smoke **30/30 PASS**. WIP16A 원본 보존 workflow도 **4/4 job PASS**.
+- 검증: 로컬 package **34/34**, B Chromium renderer/recovery **13/13**, 기존 13조건과 seed 반복 검사 **14/14**, 최종 일반 smoke **32/32 PASS**. 최종 support의 WIP16A 원본 보존 workflow도 **4/4 job PASS**. 기술적 통합 판정은 PASS이며 main 병합은 명시 승인 대기다.
 - main/v48.1 승격·release/tag는 아직 실행하지 않았다.
 
-HTML 업로드·원격 exact 확인을 마친 뒤 PR 통합 판정을 갱신한다. 다음 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위로 둔다.
+HTML 사용자 업로드·원격 exact 확인을 마쳤다. 업로드 후 CI와 파일 대조 guard의 최종 결과는 [마감 증거](docs/wip16/B/evidence/upload_closeout.json)를 따른다. 다음 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위로 둔다.
 
 ## 이전 통합 기준 — v48 WIP14B4
 
@@ -79,7 +79,7 @@ HTML 업로드·원격 exact 확인을 마친 뒤 PR 통합 판정을 갱신한�
 
 ## 검증
 
-- WIP12D 정적 계약 `36/36 PASS`; WIP12A `30/30`, WIP11C `32/32`, WIP11B runtime safety `16/16` 하위 호환 정적 계약 통과
+- WIP12D 정적 계약 `36/36 PASS`; WIP12A `32/32`, WIP11C `32/32`, WIP11B runtime safety `16/16` 하위 호환 정적 계약 통과
 - 정적 계약 파일 `11/11 PASS`, 전체 Playwright `36/36 PASS` (최신 WIP12D `32/32` + 보존 WIP12B·WIP12C `4/4`)
 - WIP12D Playwright `2/2 PASS`; core selftest failure `0`, 콘솔/page error `0`
 - 실제 Kh-32 seed `481232`: 확장된 전방 연돌을 먼저 맞아 primary damage budget `191`, 물방울형 3-source power 합 `1.0`, damaged parts `17`, 상위 피해 `제1보일러실 47 / 제1발전실 43`
@@ -106,4 +106,3 @@ HTML 업로드·원격 exact 확인을 마친 뒤 PR 통합 판정을 갱신한�
 ## 안정판과 아카이브
 
 현재 안정판은 [`v48`](../../releases/tag/v48)이다. 이전 WIP 아카이브는 `archive/v48/`에 보존한다. 루트의 과거 작업본 일괄 정리는 WIP16 코드 검토와 별도 범위다.
-
