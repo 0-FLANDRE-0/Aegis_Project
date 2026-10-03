@@ -1,0 +1,54 @@
+name: Publish AEGIS v48
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Aegis_SIM_v48.html'
+      - 'AEGIS_PLAN_STATUS_v48.md'
+      - 'SHA256SUMS_v48.txt'
+      - '.github/workflows/publish-v48.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out release commit
+        uses: actions/checkout@v4
+
+      - name: Verify stable payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s Aegis_SIM_v48.html
+          test -s AEGIS_PLAN_STATUS_v48.md
+          test -s SHA256SUMS_v48.txt
+          actual="$(sha256sum Aegis_SIM_v48.html | cut -d' ' -f1)"
+          test "$actual" = "9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83"
+          status_actual="$(sha256sum AEGIS_PLAN_STATUS_v48.md | cut -d' ' -f1)"
+          test "$status_actual" = "5dbd8297e0a3ca889af0f7dbce1d4fdea586874ae22e81fcad105671dbd2faf3"
+          sha256sum -c SHA256SUMS_v48.txt
+
+      - name: Create tag and GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v48 >/dev/null 2>&1; then
+            echo "v48 release already exists"
+            exit 0
+          fi
+          gh release create v48 \
+            "Aegis_SIM_v48.html#AEGIS Simulator v48" \
+            "AEGIS_PLAN_STATUS_v48.md#Verification and release status" \
+            "SHA256SUMS_v48.txt#SHA-256 checksums" \
+            --target "$GITHUB_SHA" \
+            --title "AEGIS Simulator v48" \
+            --latest \
+            --notes "Stable v48 release promoted byte-identically from the validated WIP15C build. Includes WIP14 missile navigation/datalink/loft integration and WIP15 SRBOC/Nulka soft-kill, ASM seeker acquisition stabilization, SM-2ER/SM-6 manual surface engagement, and the WIP13A submerged flooding fixture repair. See AEGIS_PLAN_STATUS_v48.md for validation scope and stated limits."
