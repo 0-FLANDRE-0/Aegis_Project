@@ -19,11 +19,22 @@ jobs:
           python-version: '3.12'
       - run: pip install playwright==1.55.0
       - run: python -m playwright install --with-deps chromium
-      - name: Reproduce WIP16A renderer failure
-        run: python docs/wip16/B/tests/render16b.py Aegis_SIM_v48_WIP16A.html artifacts/wip16b/baseline
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and verify candidate
+        run: |
+          python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html Aegis_SIM_v48_WIP16B.html
+          python docs/wip16/B/tests/package16b.py Aegis_SIM_v48_WIP16B.html Aegis_SIM_v48_WIP16A.html > package16b.json
+      - name: Verify renderer and recovery in Chromium
+        run: python docs/wip16/B/tests/render16b.py Aegis_SIM_v48_WIP16B.html artifacts/wip16b/renderer
+      - name: Verify unchanged Phalanx regression
+        run: python docs/wip16/A/tests/runtime16a.py Aegis_SIM_v48_WIP16B.html > artifacts/wip16b/runtime.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: wip16b-renderer
-          path: artifacts/wip16b
+          path: |
+            artifacts/wip16b
+            package16b.json
           if-no-files-found: error
