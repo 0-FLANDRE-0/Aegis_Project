@@ -24,7 +24,12 @@ jobs:
           node-version: '22'
       - name: Build and verify candidate
         run: |
-          python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html Aegis_SIM_v48_WIP16B.html
+          python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
+          if test -f Aegis_SIM_v48_WIP16B.html; then
+            cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
+          else
+            cp /tmp/Aegis_SIM_v48_WIP16B.html Aegis_SIM_v48_WIP16B.html
+          fi
           python docs/wip16/B/tests/package16b.py Aegis_SIM_v48_WIP16B.html Aegis_SIM_v48_WIP16A.html > package16b.json
       - name: Verify renderer and recovery in Chromium
         run: python docs/wip16/B/tests/render16b.py Aegis_SIM_v48_WIP16B.html artifacts/wip16b/renderer
