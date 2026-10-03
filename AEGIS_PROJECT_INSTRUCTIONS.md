@@ -186,15 +186,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 현재 개발 후보 — WIP16A
+### 현재 개발 후보 — WIP16B
 
-- branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`.
-- 사용자 업로드 `Aegis_SIM_v48_WIP16A.html`: `7,354,882 bytes`, SHA-256 `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`, Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb` exact 확인.
-- 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16A.md`, 체크섬 `SHA256SUMS_v48_WIP16A.txt`, 마감/검증 기록 `docs/wip16/A/CLOSEOUT.md`.
-- 지원 빌더는 deterministic gzip OS header를 사용한다. runtime benchmark/spotting/regression은 각각 새 browser context에서 검사하며 기존 13개 acceptance 기준을 낮추지 않는다.
-- 원본 지원 ZIP의 기록과 현재 재실행 증거를 구분한다. 일반 smoke에는 역사 payload 검사와 자동 선택 검사가 섞여 있다. WIP16 명시 범위는 `wip16a-regression.yml`에서 `4/4 job`, Chromium `13/13 PASS`다. 일반 smoke `29/30 PASS`, 후보를 연 3D job 실패로 PR #41의 전체 통합은 HOLD다. C5 피격 구멍/구형 model audit 실패와 unchanged renderer source 증거는 마감 기록을 따른다. 새 v48 WebGL 재현을 수행했다고 주장하지 않는다.
-- WIP16A 업로드와 마감 요청은 확인했다. main 병합 및 v48.1/release/tag의 승인 상태는 마감 기록을 따른다.
-- 전체 통합 전 C5 renderer 피격 구멍 연결/진단 계약 정리를 별도 범위로 처리한다. 이후 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크와 다함 동시 운용은 별도 후속 범위다. 번호는 아직 확정하지 않았다.
+- branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`, PR #41.
+- WIP16A 사용자 업로드는 원본 그대로 보존한다. 새 전달 후보는 `Aegis_SIM_v48_WIP16B.html`: `7,357,036 bytes`, SHA-256 `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16B.md`, 체크섬 `SHA256SUMS_v48_WIP16B.txt`, 소형 재현 빌더·검사·증거는 `docs/wip16/B/`를 따른다.
+- 피격 구멍은 기존에도 올바른 선체 표면을 찾았으나 내부 GPU 렌더 제출 때문에 geometry commit이 지연됐다. B는 필수 구멍 commit 전 GPU 재제출만 미룬다. 기존 cut/fold·면적·물리/난수·고정 틱과 작업 예산은 유지한다.
+- C5 센서 rotor의 중첩 ship-local 좌표, 등록점·parent·실제 scanner 2 meshes·mast 17 draws·single functional rotor를 검사한다. root 보호 스키마, 현재 source envelope·함포 joint·96 VLS 셀/hinge/panel binding을 검증한다. 옛 6개 구명뗏목 검사를 PASS로 간주하지 않으며 현재 C5에는 적용 불가로 표시한다.
+- WIP16A의 package/Chromium 기준은 보존하고 B에서도 기존 13개 runtime acceptance를 같은 threshold로 재사용한다. 최종 결과와 tested head는 B 상태 문서 및 evidence를 따른다.
+- 큰 HTML은 사용자 업로드 대기다. 업로드 뒤 크기·Git blob·SHA-256을 로컬/CI 검증본과 대조한다. 작은 소형 support 빌더로 3D CI가 B를 재구성할 수 있지만 원격 HTML 업로드 자체를 대신하지 않는다.
+- 새 브랜치·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
+- 다음 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크·다함 동시 운용은 후속 범위며 번호는 미확정이다.
 
 ### WIP12D 이전 인계 기록
 

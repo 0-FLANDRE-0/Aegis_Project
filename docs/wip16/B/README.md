@@ -33,4 +33,4 @@ The `aegis-3d-render` job can reconstruct WIP16B from small support files before
 
 ## Delivery boundary
 
-WIP16B HTML is delivered as a download for user upload to `WIP16`. No large HTML upload through the connector, new branch, main merge, stable-version promotion or release/tag is performed. Final evidence and SHA-256 are recorded in `AEGIS_PLAN_STATUS_v48_WIP16B.md` after browser verification.
+WIP16B HTML is delivered as a download for user upload to `WIP16`. No large HTML upload through the connector, new branch, main merge, stable-version promotion or release/tag is performed. Final evidence and SHA-256 are recorded in `AEGIS_PLAN_STATUS_v48_WIP16B.md`. All 13 browser checks, all 13 unchanged runtime checks and the full 30-job general smoke pass.

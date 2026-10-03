@@ -2,6 +2,33 @@
 
 갱신: 2026-10-03 (KST)
 
+**WIP16B 수정·검증 완료 / 큰 HTML 사용자 업로드 대기 / main·v48.1 승격 보류.**
+
+- branch: `WIP16`; 안정 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`.
+- tested code head: `75a29792f9d83c8e348c7ce4d89c1dbb54d75150`.
+- 전달 후보: `Aegis_SIM_v48_WIP16B.html`, `7,357,036 bytes`.
+- SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`.
+- Git blob: `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- 현재 원격 HTML은 사용자 업로드 WIP16A다. 소형 B 빌더를 사용한 CI 재구성과 로컬 결과가 exact 일치한다.
+- 상태/체크섬: `AEGIS_PLAN_STATUS_v48_WIP16B.md`, `SHA256SUMS_v48_WIP16B.txt`.
+- 구현·소형 빌더·검사·증거: [docs/wip16/B/](docs/wip16/B/README.md).
+- 로컬 package **34/34**, B Chromium renderer/recovery/negative **13/13**, 기존 runtime **13/13 PASS**.
+- B workflow [37094473097](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473097) **1/1 job PASS**.
+- 원본 보존 workflow [37094473090](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473090) **4/4 job PASS**.
+- 일반 smoke [37094473114](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37094473114) **30/30 job PASS**. 3D job의 실제 입력은 재구성 B이며, 다른 일반 job에는 역사 payload가 섞여 있다.
+
+원래 두 구멍은 선체 표면 검색에 성공했지만 GPU 렌더 제출 때문에 geometry queue가 지연됐다. B는 필수 aperture commit까지 직전 canvas를 유지한다. C5 root/schema, 실제 중첩 센서 mount와 마스트 17 draws, source envelope, 함포 joint, 96 셀/hinge/panel binding을 검증한다. 전투 source와 geometry asset은 보존한다.
+
+[PR #41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41)은 B HTML 업로드·원격 exact 확인까지 HOLD다. HTML 전달만으로 원격 업로드 완료를 주장하지 않는다. 신규 branch·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
+
+다음 진입점: B HTML 업로드 확인 → PR 통합 판정 갱신. 이후 출항 전 함선 선택/초기화 공통화 → 벙커힐 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위다.
+
+## WIP16A 마감 당시 기록
+
+아래는 B 수리 전의 역사 기록이다. 현재 판정은 위 B 상태를 따른다.
+
+갱신: 2026-10-03 (KST)
+
 ## 판정
 
 **WIP16A 명시 범위 package/Chromium PASS / 전체 PR은 3D 통합 검사 실패로 HOLD / main·v48.1 보류.**

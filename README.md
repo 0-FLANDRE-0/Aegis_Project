@@ -11,19 +11,19 @@
 - WIP15C 최종 검사에서 core self-test failure `0`, final runtime page error `0`.
 - 상세 WIP15C 감사·검증 기록은 [`docs/wip15/C/`](docs/wip15/C/)에 보존한다.
 
-## 현재 검토 후보 — v48 WIP16A
+## 현재 검토 후보 — v48 WIP16B
 
-- 작업 branch: [`WIP16`](../../tree/WIP16)
-- 사용자 업로드: [`Aegis_SIM_v48_WIP16A.html`](Aegis_SIM_v48_WIP16A.html), `7,354,882 bytes`
-- SHA-256: `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`
-- Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb`: 로컬 검토본과 exact 일치.
-- 상태: [WIP16A 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16A.md), [체크섬](SHA256SUMS_v48_WIP16A.txt), [마감 기록](docs/wip16/A/CLOSEOUT.md).
-- 지원 스크립트의 gzip 헤더 이식성과 runtime 검사 격리를 수정했다. 업로드 HTML은 재작성하지 않았다.
-- 로컬 package `64/64`, 추가 무결성/전체 JS/재빌드 `21/21 PASS`. 전용 Actions `4/4 job PASS`, Chromium `13/13 PASS`.
-- [PR #41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41)은 일반 smoke의 후보 3D 검사 실패로 **통합 HOLD**다(`29/30 job PASS`). 피격 구멍 연결/구형 모델 audit 문제와 source 보존 증거는 마감 기록에 보존한다.
-- 정식 `v48.1` 승격, main 병합과 release/tag는 별도 승인 전까지 보류한다. 현재 안정 기준은 v48이다.
+- 작업 branch: [`WIP16`](../../tree/WIP16), PR [#41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41).
+- 전달 파일: `Aegis_SIM_v48_WIP16B.html`, **7,357,036 bytes**. 큰 HTML의 사용자 업로드와 원격 exact 확인은 아직 남아 있다.
+- SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- 상태: [WIP16B 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16B.md), [체크섬](SHA256SUMS_v48_WIP16B.txt), [수정 계약](docs/wip16/B/README.md).
+- 필수 피격 구멍 생성 중에는 직전 canvas를 유지하고 geometry commit 뒤 GPU 제출을 재개한다. C5의 실제 센서·함포·VLS 부품과 profile binding을 검사한다.
+- C55 records 0–12와 3D 렌더러 앞의 전투·피해·nav/DL/loft source는 동일하다.
+- WIP16A 사용자 업로드와 [당시 마감 기록](docs/wip16/A/CLOSEOUT.md)은 보존한다.
+- 검증: 로컬 package **34/34**, B Chromium renderer/recovery **13/13**, 기존 runtime **13/13**, 일반 smoke **30/30 PASS**. WIP16A 원본 보존 workflow도 **4/4 job PASS**.
+- main/v48.1 승격·release/tag는 아직 실행하지 않았다.
 
-통합 전 C5 renderer의 피격 구멍 연결/진단 계약 정리를 먼저 분리한다. 이후 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 제공된 벙커힐 뷰어는 외형/가동 자산이며 함선 runtime을 대신하지 않는다. 하푼과 토마호크는 후속 범위로 둔다. 새 단계 번호는 아직 배정하지 않았다.
+HTML 업로드·원격 exact 확인을 마친 뒤 PR 통합 판정을 갱신한다. 다음 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 하푼·토마호크와 다함 동시 운용은 후속 범위로 둔다.
 
 ## 이전 통합 기준 — v48 WIP14B4
 
