@@ -186,6 +186,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
+### 현재 개발 후보 — WIP16A
+
+- branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`.
+- 사용자 업로드 `Aegis_SIM_v48_WIP16A.html`: `7,354,882 bytes`, SHA-256 `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`, Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb` exact 확인.
+- 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16A.md`, 체크섬 `SHA256SUMS_v48_WIP16A.txt`, 마감/검증 기록 `docs/wip16/A/CLOSEOUT.md`.
+- 지원 빌더는 deterministic gzip OS header를 사용한다. runtime benchmark/spotting/regression은 각각 새 browser context에서 검사하며 기존 13개 acceptance 기준을 낮추지 않는다.
+- 원본 지원 ZIP의 기록과 현재 재실행 증거를 구분한다. 기존 일반 smoke workflow는 WIP12D payload를 검사하므로 WIP16 후보 검증으로 주장하지 않는다. WIP16 후보는 `wip16a-regression.yml`의 Chromium job으로 확인한다.
+- WIP16A 업로드와 마감 요청은 확인했다. main 병합 및 v48.1/release/tag의 승인 상태는 마감 기록을 따른다.
+- 다음 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크와 다함 동시 운용은 별도 후속 범위다. 번호는 아직 확정하지 않았다.
+
 ### WIP12D 이전 인계 기록
 
 - 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.
@@ -256,3 +266,4 @@
 - WIP12D는 primary legacy ASM solver의 공통 packet 완전 이전, legacy blast 재적용, 무제한 개별 파편, 수중 충격 피해, persistent patch, snapshot migration, 표면교전 발사/FCS, 함포와 외탄도를 활성화하지 않는다.
 - 다음 코드 작업은 WIP12E다. `docs/WIP12E_COMPARTMENT_BLAST_HANDOFF.md`를 범위 계약으로 사용해 legacy scalar blast 재분배를 bounded compartment/portal pressure·impulse solver로 교체한다. incident/reflected pressure, positive-phase impulse, blast wind, hot gas, dynamic breach와 exterior vent를 분리하고, shadow 진단 뒤 신규 solver 하나만 피해 권위를 가져야 한다. 권위 전환 뒤 기존 Kh-32 `191` scalar budget과 부품별 피해 행은 calibration 비교값이지 exact 요구가 아니며, 관통·기폭 위치·잔존체·외피 구멍·침수·전투 RNG는 회귀 권위로 유지한다. WIP13은 그 다음의 제한적 표면교전 표적 승인·발사/FCS 경로이고, WIP14는 간단한 표적함과 복수 함선 프로파일이다. 실제 함포 발사·포탑·탄창·외탄도·해상사격 해법은 별도 승인된 범위로 고정한다.
 - WIP 번호는 이 인계 순서를 사용하며 과거 대화의 다른 WIP 번호표를 재사용하지 않는다.
+

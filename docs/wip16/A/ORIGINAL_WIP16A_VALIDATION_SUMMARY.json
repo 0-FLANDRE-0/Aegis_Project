@@ -1,0 +1,117 @@
+{
+  "schema": "AEGIS_WIP16A_VALIDATION_SUMMARY",
+  "dateKst": "2026-10-03",
+  "targetRelease": "v48.1",
+  "baseline": {
+    "file": "Aegis_SIM_v48.html / local byte-identical WIP15C baseline",
+    "sha256": "9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83",
+    "bytes": 7354511
+  },
+  "result": {
+    "file": "Aegis_SIM_v48_WIP16A.html",
+    "sha256": "6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24",
+    "bytes": 7354882,
+    "decodedMainSha256": "8e5fb5f435c6f164879d4246feb5f548ceabef087701ac760c0132cb1dac0669"
+  },
+  "scope": {
+    "fixedDispersionMil80Diameter": 3.0,
+    "fireControl": "range-scaled burst-centre meter gate + ballistic predicted-miss gate",
+    "physicalHitGeometry": "legacy body capsule plus existing WIP112 exposed fins/control-surface AABB",
+    "controlSurfaceLethality": "no immediate critical kill; lower direct structure damage; existing WIP112/WIP113 fins damage/control-authority path remains authoritative",
+    "spotting": "WIP104 constants unchanged",
+    "diagnosticOnly": "WIP103 CIWS fixture now clears trackingTrackId/local gun RNG/aim-error state before a case"
+  },
+  "acceptance": {
+    "package": {
+      "passed": 64,
+      "total": 64,
+      "pass": true
+    },
+    "runtime": {
+      "passed": 13,
+      "total": 13,
+      "pass": true
+    },
+    "exactRebuild": true,
+    "coreSelfTestFailures": [],
+    "pageErrors": []
+  },
+  "phalanxFourKm280": {
+    "setup": {
+      "rangeKm": 4,
+      "altM": 12,
+      "speedMps": 280,
+      "bearingsDeg": [
+        -20,
+        0,
+        20
+      ],
+      "seeds": [
+        23001,
+        23002
+      ]
+    },
+    "baselineWithDiagnosticResetOnly": {
+      "rounds": 3472,
+      "hits": 10,
+      "hitRate": 0.002880184331797235,
+      "turretErrMedianDeg": 0.0846852842357261,
+      "outcomes": {
+        "KILL": 4,
+        "STRUCT_FAIL": 2
+      },
+      "shipHits": 0
+    },
+    "candidateAcceptanceRun": {
+      "rounds": 1098,
+      "hits": 15,
+      "hitRate": 0.01366120218579235,
+      "turretErrMedianDeg": 0.033763436895316176,
+      "outcomes": {
+        "STRUCT_FAIL": 3,
+        "KILL": 2,
+        "INTERCEPT_FAIL_NO_HULL_HIT": 1
+      },
+      "shipHits": 0,
+      "hitRegions": {
+        "BODY": 7,
+        "CONTROL_SURFACE": 8
+      }
+    },
+    "hitRateFactor": 4.743169398907104,
+    "roundReductionFraction": 0.6837557603686636,
+    "turretCenterErrorMedianReductionFraction": 0.6013069189053696,
+    "interpretation": "This is a fire-efficiency/physical-hit benchmark, not a statistical Pk claim. The stable baseline also stopped all six cases in this diagnostic-reset comparison."
+  },
+  "shortNotice": {
+    "setup": {
+      "rangeKm": 1.5,
+      "altM": 12,
+      "speedMps": 350,
+      "bearingDeg": 0,
+      "seeds": [
+        24101,
+        24102,
+        24103,
+        24104
+      ]
+    },
+    "rounds": 149,
+    "hits": 3,
+    "hitRate": 0.020134228187919462,
+    "outcomes": {
+      "PENETRATION_SUCCESS": 1,
+      "KILL": 2,
+      "INTERCEPT_FAIL_NO_HULL_HIT": 1
+    },
+    "shipHits": 1,
+    "interpretation": "Candidate is not guaranteed to stop a very-late fast threat; one of four cases penetrated."
+  },
+  "spotting": {
+    "constantsChanged": false,
+    "acceptanceMedianFirstCorrectionDelayS": 1.9,
+    "acceptanceMinFirstCorrectionDelayS": 1.8499999999999996
+  },
+  "verdict": "WIP16A_IMPLEMENTED_AND_SCOPED_VALIDATION_PASSED__USER_GAMEPLAY_REVIEW_PENDING",
+  "pass": true
+}

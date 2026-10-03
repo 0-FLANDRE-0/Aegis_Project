@@ -11,13 +11,26 @@
 - WIP15C 최종 검사에서 core self-test failure `0`, final runtime page error `0`.
 - 상세 WIP15C 감사·검증 기록은 [`docs/wip15/C/`](docs/wip15/C/)에 보존한다.
 
+## 현재 검토 후보 — v48 WIP16A
+
+- 작업 branch: [`WIP16`](../../tree/WIP16)
+- 사용자 업로드: [`Aegis_SIM_v48_WIP16A.html`](Aegis_SIM_v48_WIP16A.html), `7,354,882 bytes`
+- SHA-256: `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`
+- Git blob `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb`: 로컬 검토본과 exact 일치.
+- 상태: [WIP16A 계획/검증](AEGIS_PLAN_STATUS_v48_WIP16A.md), [체크섬](SHA256SUMS_v48_WIP16A.txt), [마감 기록](docs/wip16/A/CLOSEOUT.md).
+- 지원 스크립트의 gzip 헤더 이식성과 runtime 검사 격리를 수정했다. 업로드 HTML은 재작성하지 않았다.
+- 로컬 package `64/64`, 추가 무결성/전체 JS/재빌드 `21/21 PASS`. 원격 Chromium/PR 결과는 마감 기록을 따른다.
+- 정식 `v48.1` 승격, main 병합과 release/tag는 별도 승인 전까지 보류한다. 현재 안정 기준은 v48이다.
+
+다음 기능 범위는 출항 전 함선 선택·생성·초기화 공통화 → 벙커힐 운용 연결이다. 제공된 벙커힐 뷰어는 외형/가동 자산이며 함선 runtime을 대신하지 않는다. 하푼과 토마호크는 후속 범위로 둔다. 새 단계 번호는 아직 배정하지 않았다.
+
 ## 이전 통합 기준 — v48 WIP14B4
 
-- **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](Aegis_SIM_v48_WIP14B4.html)이다.
+- **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](archive/v48/WIP14B4/Aegis_SIM_v48_WIP14B4.html)이다.
 - 크기 `7,319,028 bytes`, SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`. 사용자 업로드 원격 파일은 로컬 최종본과 Git blob exact 일치 확인.
 - B1~B4에서 onboard navigation/truth boundary, ASM/RAM own-nav, VLS release scheduler, generic one/two-way weapon-link, SM-6 GPS/양방향 DL, 미사일별 stateful loft를 구현했다.
 - B4 게임 검토 범위는 SM-2MR 160 km, SM-2ER/SM-6 260 km이며 실제 무장 최대사거리 인증이나 전 조건 명중 보장값이 아니다.
-- 최종 상태: [`AEGIS_PLAN_STATUS_v48_WIP14B4.md`](AEGIS_PLAN_STATUS_v48_WIP14B4.md), [branch closeout](AEGIS_WIP14_BRANCH_STATUS.md), [checksums](SHA256SUMS_v48_WIP14B4.txt).
+- 최종 상태: [`AEGIS_PLAN_STATUS_v48_WIP14B4.md`](archive/v48/WIP14B4/AEGIS_PLAN_STATUS_v48_WIP14B4.md), [branch closeout](AEGIS_WIP14_BRANCH_STATUS.md), [checksums](archive/v48/WIP14B4/SHA256SUMS_v48_WIP14B4.txt).
 - 상세 B4 report/validation evidence는 [`docs/wip14/B4/`](docs/wip14/B4/)에 보존한다.
 - Known deferred: 기존 침수 core self-test 1건, 환경상 WebGL 실렌더링 미검증, 장거리/저고도 포락선 추가 검증. WIP14 유도·DL·loft feature scope 종료를 막는 항목으로 두지 않는다.
 - 다음 기능 단계 WIP15는 **3D에 이미 존재하는 양현 3기씩 SRBOC와 runtime 4기/24발을 6기/36발 canonical layout으로 정합하고 실제 launcher/tube 위치에서 발사되게 하는 작업**부터 시작한다. Nulka는 그 뒤 연결한다.
@@ -91,4 +104,5 @@
 
 ## 안정판과 아카이브
 
-현재 공개 안정판은 [`v37.1`](../../releases/tag/v37.1)이다. 루트에는 최신 작업본만 두며 WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A, WIP12B와 WIP12C는 각각 `archive/v48/` 하위 폴더에 바이트 단위로 보존한다.
+현재 안정판은 [`v48`](../../releases/tag/v48)이다. 이전 WIP 아카이브는 `archive/v48/`에 보존한다. 루트의 과거 작업본 일괄 정리는 WIP16 코드 검토와 별도 범위다.
+

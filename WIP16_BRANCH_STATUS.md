@@ -4,19 +4,19 @@
 
 ## 판정
 
-**WIP16A Phalanx fire-control stabilization 구현 및 명시 범위 검증 통과 / 사용자 gameplay 확인 대기 / 목표 안정판 v48.1.**
+**사용자 WIP16A 업로드 exact 확인 / 패키지·재빌드 직접 검증 통과 / 원격 Chromium·PR 검증 준비 / 목표 안정판 v48.1은 승인 전 보류.**
 
 - branch: `WIP16`
 - base: `main@d2b840bae95267ffc53bfda847442b2211c1ab03`
+- user upload commit: `3be1ba489a0f8b934b8d2000aec408b56ea863af`
 - stable baseline: `Aegis_SIM_v48.html`
-- baseline SHA-256: `9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83`
-- local candidate: `Aegis_SIM_v48_WIP16A.html`
-- candidate bytes: `7,354,882`
-- candidate SHA-256: `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`
-- decoded main SHA-256: `8e5fb5f435c6f164879d4246feb5f548ceabef087701ac760c0132cb1dac0669`
-- target after approval: **v48.1**
+- candidate: `Aegis_SIM_v48_WIP16A.html`, `7,354,882 bytes`
+- SHA-256: `6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24`
+- remote/local Git blob exact: `d0d8b3de795716cb21ba2f7ba9673b8024dc2ceb`
+- status/checksums: `AEGIS_PLAN_STATUS_v48_WIP16A.md`, `SHA256SUMS_v48_WIP16A.txt`
+- current PR / Actions / remaining approval: `docs/wip16/A/CLOSEOUT.md`
 
-대형 HTML은 이 커밋에서 원격 업로드하지 않는다. 사용자 확인·업로드 전에는 main / PR / tag / release를 변경하지 않는다.
+사용자 HTML은 재작성하지 않았다. 지원 빌더의 gzip 헤더와 runtime 검사 격리를 수정하고 후보 전용 CI를 추가한다. main / tag / release / v48.1 승격은 아직 실행하지 않는다.
 
 ## 변경
 
@@ -28,7 +28,7 @@
 - WIP104 closed-loop spotting 상수는 수정하지 않음.
 - WIP103 diagnostic fixture는 case reset 때 tracking ID / gun-local RNG / correlated aim-error를 비워 회귀 격리를 보강. production gameplay 변경 아님.
 
-## 대표 검증
+## 원본 지원 자료의 대표 검증
 
 4 km / 280 m/s / 12 m / -20·0·+20° / seeds 23001·23002:
 
@@ -42,7 +42,7 @@
 
 1.5 km / 350 m/s late-entry 4 seeds에서는 1건 ship penetration이 남아 보장요격으로 만들지 않았다.
 
-## 최종 검사
+## 원본 지원 자료의 검사
 
 - package / C55 / source preservation / syntax: `64/64 PASS`
 - runtime acceptance: `13/13 PASS`
@@ -51,3 +51,6 @@
 - page errors: `0`
 
 상세 계획: `docs/wip16/WIP16_PHALANX_FIRE_CONTROL.md`
+
+
+직접 재검사 결과는 package `64/64`, 추가 무결성·전체 JS·exact rebuild `21/21 PASS`다. 현재 Chromium 결과는 마감 기록을 따른다. 위 원본 runtime aggregate는 이전 audit 순서에서 나온 역사 기록이며 새 fresh-context 회귀값과 혼합하지 않는다.
