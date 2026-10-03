@@ -1,6 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 현재 개발 기준 — v48 WIP14B4
+## 현재 안정 기준 — v48
+
+- 정식 파일: [`Aegis_SIM_v48.html`](Aegis_SIM_v48.html)
+- 크기: `7,354,511 bytes`
+- SHA-256: `9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83`
+- **WIP15C를 코드 변경 없이 byte-identical로 승격한 안정판**이다.
+- 상태: [`AEGIS_PLAN_STATUS_v48.md`](AEGIS_PLAN_STATUS_v48.md), [체크섬](SHA256SUMS_v48.txt)
+- WIP15에서 SRBOC 6기/36튜브 실제 발사 원점, 예비탄·빈 발사기 단위 재장전, Nulka active decoy, ASM seeker acquisition 안정화, SM-2ER/SM-6 수동 대수상 교전, WIP13A 침수 self-test fixture 수리를 마쳤다.
+- WIP15C 최종 검사에서 core self-test failure `0`, final runtime page error `0`.
+- 상세 WIP15C 감사·검증 기록은 [`docs/wip15/C/`](docs/wip15/C/)에 보존한다.
+
+## 이전 통합 기준 — v48 WIP14B4
 
 - **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](Aegis_SIM_v48_WIP14B4.html)이다.
 - 크기 `7,319,028 bytes`, SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`. 사용자 업로드 원격 파일은 로컬 최종본과 Git blob exact 일치 확인.
