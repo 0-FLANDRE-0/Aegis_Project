@@ -1,0 +1,218 @@
+{
+  "schema": "AEGIS_WIP15C_VALIDATION_SUMMARY",
+  "dateKst": "2026-10-03",
+  "baseline": {
+    "file": "Aegis_SIM_v48_WIP15B1.html",
+    "sha256": "0f04b666af1e71f182fc2232b8c29da07dbc692347212726cea40913240b694e"
+  },
+  "result": {
+    "file": "Aegis_SIM_v48_WIP15C.html",
+    "bytes": 7354511,
+    "sha256": "9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83",
+    "decodedMainSha256": "39895ed13f81f0dae1cf1879c1bb47e2ad365fd4d85535ad74f6fe0ecaae09ca"
+  },
+  "suites": [
+    {
+      "suite": "WIP15C package / syntax / exact rebuild",
+      "passed": 53,
+      "total": 53,
+      "pass": true
+    },
+    {
+      "suite": "WIP15C built-in runtime / flooding / policy / old SM2 / freeze / WebGL context",
+      "passed": 8,
+      "total": 8,
+      "pass": true
+    },
+    {
+      "suite": "WIP15B logistics + Nulka regression",
+      "passed": 25,
+      "total": 25,
+      "pass": true
+    },
+    {
+      "suite": "WIP14B3 nav / DL / GPS / VLS / freeze regression",
+      "passed": 25,
+      "total": 25,
+      "pass": true
+    },
+    {
+      "suite": "WIP15B1 ASM acquire contracts",
+      "passed": 32,
+      "total": 32,
+      "pass": true
+    },
+    {
+      "suite": "WIP15B1 pure-sea negative scenes",
+      "passed": 48,
+      "total": 48,
+      "pass": true
+    },
+    {
+      "suite": "WIP15C live SM2ER/SM6 surface evidence checks",
+      "passed": 7,
+      "total": 7,
+      "pass": true
+    }
+  ],
+  "wip13aFloodRepair": {
+    "rootCause": "OLD_FIXTURE_Z_MINUS_2P2_COULD_BE_ABOVE_INSTANTANEOUS_WAVE_SURFACE",
+    "coreSelfTestFailures": [],
+    "allDiagnosticChecks": true,
+    "metrics": {
+      "triangleCount": 690,
+      "roundTripErrorM": 1.0641845307724054e-13,
+      "beamHits": 2,
+      "floodLocalZM": -3.800000000000001,
+      "initialSubmergenceM": 0.7850367431543872,
+      "initialSeaM": -1.2196006425591817,
+      "initialBreachWorldZM": -2.004637385713569,
+      "waterAfter20sM3": 61.71737345814458,
+      "inflowAfter20sM3s": 3.2060108304425183,
+      "draftInitialM": -1.7953626142864323,
+      "draftTargetM": -1.7853440290022156,
+      "heelTargetDeg": 0.38212364034996205,
+      "effectiveGMM": 2.179823577566993,
+      "keelProbe": {
+        "missionState": "STRUCTURAL_KILL",
+        "longitudinalStrength01": 0.3262296949506591,
+        "keelIntegrity01": 0.02,
+        "keelCracks": 1
+      }
+    },
+    "timeScalePass": true,
+    "timeScaleMaxDelta": {
+      "waterM3": 0,
+      "draftM": 0,
+      "heelRad": 0,
+      "trimRad": 0
+    }
+  },
+  "surfaceStandard": {
+    "authority": "MANUAL_ONLY; FRIEND/NEUTRAL/UNKNOWN protection retained",
+    "sm2er": {
+      "mode": "LIMITED_SURFACE_SARH",
+      "requiresSpg62": true,
+      "gamePolicyMaxRangeKm": 120,
+      "note": "release still constrained by real simulated SPG geometry/reservation/EMCON; 20 km fixed and 20 kt moving live hits verified"
+    },
+    "sm6": {
+      "mode": "SURFACE_ARH",
+      "requiresSpg62": false,
+      "optionalSpgContributor": true,
+      "gamePolicyMaxRangeKm": 160,
+      "terminalGlide": "SIM_TUNED 12deg max +12km, fades inside 3km; uses observed target state + onboard own-nav only",
+      "note": "20/80/140 km and 160 km across three seeds live physical contacts verified; 80 km 25 kt moving target also verified"
+    },
+    "liveChecks": {
+      "sm2er20FixedHit": true,
+      "sm2er20MovingHit": true,
+      "sm6_80FixedHit": true,
+      "sm6_80MovingHit": true,
+      "sm6_140Hit": true,
+      "sm6_160ThreeSeedsHit": true,
+      "damageSourcesCorrect": true
+    },
+    "liveRows": [
+      {
+        "weapon": "SM2ER",
+        "rangeKm": 20,
+        "seed": 1503001,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 1326.7664794553566,
+        "maxAltM": 612.1007380307586,
+        "source": "SM2ER_SURFACE_SARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 20,
+        "seed": 1503001,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 1322.1835157751975,
+        "maxAltM": 881.6825385672008,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 80,
+        "seed": 1503001,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 352.48369718334527,
+        "maxAltM": 6940.046196873887,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 160,
+        "seed": 1503002,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 236.75639118515676,
+        "maxAltM": 12471.220720094341,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 140,
+        "seed": 1503001,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 241.1635612138384,
+        "maxAltM": 11012.184715558697,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 160,
+        "seed": 1503001,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 238.68787542342827,
+        "maxAltM": 12471.428675464666,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 80,
+        "seed": 1503010,
+        "speedKt": 25,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 351.9736635705321,
+        "maxAltM": 6932.197096543302,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      },
+      {
+        "weapon": "SM2ER",
+        "rangeKm": 20,
+        "seed": 1503011,
+        "speedKt": 20,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 1326.728131430042,
+        "maxAltM": 621.7602491803494,
+        "source": "SM2ER_SURFACE_SARH_LIVE"
+      },
+      {
+        "weapon": "SM6",
+        "rangeKm": 160,
+        "seed": 1503003,
+        "speedKt": 0,
+        "deathReason": "SURFACE_TARGET_CONTACT",
+        "impactSpeedMps": 236.20163182445717,
+        "maxAltM": 12471.235318157,
+        "source": "SM6_SURFACE_ARH_LIVE"
+      }
+    ]
+  },
+  "knownLimits": [
+    "SM2ER long-range surface release is intentionally limited by SPG-62 line-of-sight/geometry/reservation; policy maxRangeKm is not a guaranteed engagement range.",
+    "SM6 160 km live hits are deterministic simulator fixtures, not a real-world range or Pk claim.",
+    "Surface terminal glide constants are SIM_TUNED game guidance, not claimed production missile logic.",
+    "No AUTO/SEMIAUTO surface release was enabled.",
+    "No GitHub branch/PR/main/release changes were made by this local build."
+  ],
+  "verdict": "WIP15C IMPLEMENTED_AND_VALIDATED_WITH_STATED_LIMITS",
+  "pass": true
+}
