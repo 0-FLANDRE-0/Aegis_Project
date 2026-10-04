@@ -1,0 +1,85 @@
+{
+  "baseline_main_sha256": "824dffddd510ddd9d0a18b64b00b7e4e1941a7d6df972b17e1d78438e1d110a2",
+  "final_main_sha256": "ef1ec105f775917bfdfa59b5075306e3f67eca3ad62edc71501b4af7593805da",
+  "ops": [
+    {
+      "i1": 1,
+      "i2": 2,
+      "before_sha256": "5876eb89b284c2c7c98c5fa841915071fe71c7780f2228a92eeb64b6d513830f",
+      "replacement": "window.__AEGIS_STARTUP_PROMISE__=(async () => {\n"
+    },
+    {
+      "i1": 950,
+      "i2": 952,
+      "before_sha256": "4ed3729f16f92c0905e86dfcb77bec048aa06dc0a2e17440296445abd1330364",
+      "replacement": "// One player ship is selected before any runtime-dependent subsystem is created.\n// Existing compatibility references bind once to that selected runtime.\nconst SHIP_STARTUP_SCHEMA='AEGIS_PREDEPARTURE_SHIP_STARTUP_V1';\nconst SHIP_STARTUP_STATE={phase:'SELECTING',profileId:null,profileRevision:null,entityId:null,initializationCount:0};\nconst SHIP_STARTUP_CATALOG=Object.freeze(Object.values(SHIP_PROFILE_REGISTRY).map(p=>Object.freeze({\n  id:p.id,name:p.identity.shipName,hullNumber:p.identity.hullNumber,revision:p.revision,\n  vlsCells:Object.values(p.weapons.vls.sections).reduce((n,s)=>n+s.cells,0),crew:p.crew.roster\n})));\nlet resolveShipStartupSelection=null;\nfunction shipStartupSnapshot(){return {schema:SHIP_STARTUP_SCHEMA,...SHIP_STARTUP_STATE};}\nfunction selectStartupShip(profileId){\n  if(SHIP_STARTUP_STATE.phase!=='SELECTING'||typeof profileId!=='string'||!Object.hasOwn(SHIP_PROFILE_REGISTRY,profileId))return false;\n  const p=SHIP_PROFILE_REGISTRY[profileId];\n  if(!Object.isFrozen(p)||!Object.isFrozen(p.geometry)||!Object.isFrozen(p.weapons))return false;\n  SHIP_STARTUP_STATE.phase='INITIALIZING';SHIP_STARTUP_STATE.profileId=p.id;SHIP_STARTUP_STATE.profileRevision=p.revision;\n  const button=document.getElementById('aegisShipConfirmBtn');if(button){button.disabled=true;button.textContent='장비 준비 중…';}\n  const picker=document.getElementById('aegisShipSelect');if(picker)picker.disabled=true;\n  resolveShipStartupSelection(p);resolveShipStartupSelection=null;return true;\n}\nfunction chooseShipBeforeInitialization(){\n  return new Promise(resolve=>{\n    resolveShipStartupSelection=resolve;\n    const root=document.createElement('div');root.id='aegisShipSelectionOverlay';\n    root.style.cssText='position:fixed;inset:0;z-index:1001;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;background:#020d16;color:#e0eef4;font:14px sans-serif';\n    root.innerHTML='<section aria-labelledby=\"aegisShipSelectionTitle\" style=\"width:min(560px,96vw);padding:24px;border:1px solid #376277;border-radius:8px;background:#071c29\"><p style=\"margin:0 0 8px;color:#7ba5b8;font-size:11px;letter-spacing:2px\">AEGIS · 출항 준비</p><h1 id=\"aegisShipSelectionTitle\" style=\"margin:0 0 24px;font-size:24px\">운용 함선 선택</h1><label for=\"aegisShipSelect\" style=\"display:block;margin-bottom:8px\">함선</label><select id=\"aegisShipSelect\" style=\"width:100%;padding:12px;border:1px solid #527787;border-radius:4px;background:#102c3b;color:#e0eef4;font-size:15px\"></select><p id=\"aegisShipSelectionDetail\" style=\"line-height:1.8;color:#a8c5d3;margin:18px 0 24px\"></p><button id=\"aegisShipConfirmBtn\" type=\"button\" style=\"width:100%;padding:12px;border:1px solid #70b9a2;border-radius:4px;background:#134f43;color:#ddfff3;font-size:15px;cursor:pointer\">장비 편성으로</button></section>';\n    const picker=root.querySelector('#aegisShipSelect'),detail=root.querySelector('#aegisShipSelectionDetail');\n    for(const p of SHIP_STARTUP_CATALOG){const option=document.createElement('option');option.value=p.id;option.textContent=[p.hullNumber,p.name].filter(Boolean).join(' · ');picker.appendChild(option);}\n    const update=()=>{const p=SHIP_STARTUP_CATALOG.find(q=>q.id===picker.value);detail.textContent=p?`VLS ${p.vlsCells}셀 · 승조원 ${p.crew}명 · 함선을 선택한 뒤 무장 편성을 확정합니다.`:'';};\n    picker.addEventListener('change',update);root.querySelector('#aegisShipConfirmBtn').addEventListener('click',()=>selectStartupShip(picker.value));\n    document.body.appendChild(root);update();\n  });\n}\nwindow.__AEGIS_SHIP_STARTUP__=Object.freeze({catalog:()=>SHIP_STARTUP_CATALOG.map(q=>({...q})),snapshot:shipStartupSnapshot,select:selectStartupShip});\nconst ACTIVE_SHIP_PROFILE=await chooseShipBeforeInitialization();\nconst ACTIVE_SHIP_PROFILE_ID_V48_WIP09=ACTIVE_SHIP_PROFILE.id; // COMPAT_REQUIRED\n\nfunction completeShipStartup(){\n  if(SHIP_STARTUP_STATE.phase!=='INITIALIZING'||SHIP_STARTUP_STATE.initializationCount!==0)throw Error('SHIP_STARTUP_LIFECYCLE');\n  // Resolve the existing profile-selected builders once before departure, including\n  // dynamics which was previously lazy until the first physical tick.\n  getDamageFloodV1();getDamageControlV1();getWaveFloodEnvironmentV48Wip05();\n  getShipInteriorTopologyV48Wip06();getShipCrewV21();getShipMassLedgerV32();getShipDynamicsV15();\n  const r=ACTIVE_SHIP_RUNTIME,checks=runtimeOwnershipAuditV48Wip11A();\n  if(r.profileId!==SHIP_STARTUP_STATE.profileId||r.profileRevision!==SHIP_STARTUP_STATE.profileRevision||!checks.pass)throw Error('SHIP_STARTUP_BINDING_FAILED');\n  for(const key of ['mass','dynamics','interior','crew','environment','damage'])if(!r[key])throw Error('SHIP_STARTUP_SUBSYSTEM_MISSING:'+key);\n  if(!r.weapons.mainGun||!r.weapons.vls||!r.weapons.closeIn)throw Error('SHIP_STARTUP_WEAPONS_MISSING');\n  SHIP_STARTUP_STATE.entityId=r.entityId;SHIP_STARTUP_STATE.initializationCount=1;SHIP_STARTUP_STATE.phase='PREPARING';\n  document.getElementById('aegisShipSelectionOverlay')?.remove();return shipStartupSnapshot();\n}\nfunction shipStartupCanDepart(){return SHIP_STARTUP_STATE.phase==='PREPARING'&&SHIP_STARTUP_STATE.initializationCount===1&&SHIP_STARTUP_STATE.entityId===ACTIVE_SHIP_RUNTIME.entityId;}\nfunction recordShipDeparture(){SHIP_STARTUP_STATE.phase='DEPARTED';}\n"
+    },
+    {
+      "i1": 1043,
+      "i2": 1044,
+      "before_sha256": "a0e568b2a84ea7944edc8d5eeb2b2663bfe7b733d380bddd57fc798a70098648",
+      "replacement": "  const entityId=String(options.entityId??playerShipEntityId(profile));\n"
+    },
+    {
+      "i1": 1054,
+      "i2": 1055,
+      "before_sha256": "9ff33b9ed943bf414f1ae4b18311f275c1e4b7fdd17cb732cd0065b1cdb84ce5",
+      "replacement": "function playerShipEntityId(profile){\n  const hull=String(profile.identity.hullNumber??profile.id).replace(/[^A-Za-z0-9_]/g,'');\n  if(!hull)throw Error('SHIP_IDENTITY_REQUIRED');return 'SHIP_'+hull+'_OWN';\n}\n// Creation is detached and has no writes to the active world. Subsystems are bound\n// in their existing order only after the selected profile has been fixed.\nfunction createPlayerShipSession(profile,options={}){\n  if(!profile||!Object.isFrozen(profile))throw Error('IMMUTABLE_SHIP_PROFILE_REQUIRED');\n  const runtime=createShipRuntime(profile,{...options,entityId:options.entityId??playerShipEntityId(profile)});\n  const engagement={schema:'AEGIS_ENGAGEMENT_RUNTIME_V48_WIP11A',schemaVersion:1,activePlayerShipId:runtime.entityId,ships:new Map([[runtime.entityId,runtime]]),world:{frame:WIP14A_WORLD_FRAME,entities:{aircraft:null,surfaceContacts:null,hostileMissiles:null,asmWreckage:null,ordnance:null,ramOrdnance:null,ciwsProjectiles:null,mainGunProjectiles:null,countermeasures:null,activeDecoys:[]},events:{waterSurface:null,visual:null},presentationEpoch:0},terrain:{islands:null},scenario:null,lifecycle:{revision:0,lastEvent:'CREATED'}};\n  return Object.freeze({profile,runtime,engagement});\n}\nconst ACTIVE_SHIP_SESSION=createPlayerShipSession(ACTIVE_SHIP_PROFILE);\nconst ACTIVE_SHIP_RUNTIME=ACTIVE_SHIP_SESSION.runtime;\n"
+    },
+    {
+      "i1": 1056,
+      "i2": 1057,
+      "before_sha256": "8667f4020757f930cbcf83bc32e99ccbaeb7d494f359a8e74412cfd442b22cd1",
+      "replacement": "const ENGAGEMENT_RUNTIME=ACTIVE_SHIP_SESSION.engagement;\n\nfunction createProfileVlsInventory(profile){\n  const inventory={};\n  for(const [section,cfg]of Object.entries(profile.weapons.vls.sections)){\n    if(!Number.isInteger(cfg.cells)||cfg.cells<0||!Number.isInteger(cfg.cols)||cfg.cols<1||!Number.isInteger(cfg.rows)||cfg.rows<1||cfg.cells>cfg.rows*cfg.cols)throw Error('VLS_SECTION_INVALID:'+section);\n    const types=[];\n    for(const row of cfg.defaultLoadout){\n      if(!['SM2','SM2ER','SM6','ESSM4','EMPTY'].includes(row.type)||!Number.isInteger(row.cells)||row.cells<0)throw Error('VLS_LOADOUT_INVALID:'+section);\n      for(let i=0;i<row.cells;i++)types.push(row.type);\n    }\n    if(types.length!==cfg.cells)throw Error('VLS_LOADOUT_CAPACITY:'+section);\n    inventory[section]=types.map((type,i)=>wip125MakeVlsCell(type,Math.floor(i/cfg.cols),i%cfg.cols));\n  }\n  return inventory;\n}\nfunction runShipStartupIsolationAudit(){\n  const rng=SIM_RNG_STATE>>>0,count=ENGAGEMENT_RUNTIME.ships.size,profileBefore=JSON.stringify(ACTIVE_SHIP_PROFILE);\n  const a=createPlayerShipSession(ACTIVE_SHIP_PROFILE,{entityId:'DIAG_STARTUP_A'}),b=createPlayerShipSession(ACTIVE_SHIP_PROFILE,{entityId:'DIAG_STARTUP_B'});\n  const av=createProfileVlsInventory(a.profile),bv=createProfileVlsInventory(b.profile);\n  a.runtime.navigation.heading=1;a.runtime.navigation.trail.push({x:1,y:2});a.runtime.weapons.srboc.launchers[0].tubes[0].loaded=false;\n  a.runtime.weapons.nulka.logistics.reserveRounds=0;a.runtime.combatSystem.fireControl.spg62Servo.mounts[0].azRad=1;\n  a.engagement.world.entities.activeDecoys.push({id:'DIAG_ONLY'});av.fwd[0].destroyed=true;\n  // Diagnostic authoring fixture only: proves creation has no DDG identity,\n  // heading or 32/64-cell assumption. It is never added to the live catalog.\n  const fixture=JSON.parse(profileBefore);fixture.id='DIAG_STARTUP_PROFILE';fixture.identity.hullNumber='TEST-02';fixture.navigation.initialHeadingRad=.25;\n  const generic=createPlayerShipSession(deepFreezeShipProfileV48Wip09(fixture));\n  const layout={weapons:{vls:{sections:{fwd:{rows:2,cols:3,cells:4,defaultLoadout:[{type:'SM6',cells:1},{type:'ESSM4',cells:2},{type:'EMPTY',cells:1}]},aft:{rows:1,cols:2,cells:2,defaultLoadout:[{type:'SM2ER',cells:2}]}}}}};\n  const genericVls=createProfileVlsInventory(layout);let badCapacityRejected=false;\n  try{createProfileVlsInventory({weapons:{vls:{sections:{fwd:{...layout.weapons.vls.sections.fwd,cells:5}}}}});}catch(e){badCapacityRejected=String(e.message)==='VLS_LOADOUT_CAPACITY:fwd';}\n  const checks={navigationIndependent:b.runtime.navigation.heading===b.profile.navigation.initialHeadingRad&&b.runtime.navigation.trail.length===0,\n    srbocIndependent:b.runtime.weapons.srboc.launchers[0].tubes[0].loaded===true,nulkaIndependent:b.runtime.weapons.nulka.logistics.reserveRounds===b.profile.weapons.softKill15B.nulka.reserveRounds,\n    servoIndependent:b.runtime.combatSystem.fireControl.spg62Servo.mounts[0].azRad===0,vlsIndependent:bv.fwd[0].destroyed===false&&av.fwd!==bv.fwd&&av.fwd[0]!==bv.fwd[0],\n    worldIndependent:b.engagement.world.entities.activeDecoys.length===0&&a.engagement.ships!==b.engagement.ships&&a.engagement.ships.get(a.runtime.entityId)===a.runtime,\n    genericIdentity:generic.runtime.entityId==='SHIP_TEST02_OWN'&&generic.runtime.profileId==='DIAG_STARTUP_PROFILE'&&generic.runtime.navigation.heading===.25,\n    genericInventory:genericVls.fwd.length===4&&genericVls.aft.length===2&&genericVls.fwd[0].type==='SM6'&&genericVls.fwd[1].essmCount===4&&genericVls.fwd[3].row===1&&genericVls.fwd[3].col===0&&genericVls.aft.every(c=>c.type==='SM2ER'),badCapacityRejected,\n    profileUnchanged:JSON.stringify(ACTIVE_SHIP_PROFILE)===profileBefore,activeWorldUnchanged:ENGAGEMENT_RUNTIME.ships.size===count,combatRngUnchanged:(SIM_RNG_STATE>>>0)===rng};\n  return {schema:'AEGIS_SHIP_STARTUP_ISOLATION_V1',checks,pass:Object.values(checks).every(Boolean)};\n}\n"
+    },
+    {
+      "i1": 9628,
+      "i2": 9635,
+      "before_sha256": "59f7b2d75c9ddf88f56f4decab9ebf486e81cb1be4ad872032dc5b5c67041f2d",
+      "replacement": "    const inventory=createProfileVlsInventory(ACTIVE_SHIP_PROFILE);\n    vlsCells.fwd=inventory.fwd;vlsCells.aft=inventory.aft;\n"
+    },
+    {
+      "i1": 9741,
+      "i2": 9742,
+      "before_sha256": "557f3cef0f71b14ff6e965b2467115f5e25523475c9cd35697afebda8066ed12",
+      "replacement": "    if(wip125Departed||!shipStartupCanDepart())return false;wip125CommittedLoadout=wip125LoadoutSnapshot();recordShipDeparture();wip125Departed=true;wip125PreSailOpen=false;const el=document.getElementById('wip125LoadoutOverlay');if(el)el.style.display='none';simAccumulator=0;last=performance.now();\n"
+    },
+    {
+      "i1": 9753,
+      "i2": 9754,
+      "before_sha256": "fb86e086a5724b23bb60b6b48fab47e89923c500aa7a15f419460d7cdbbc3e44",
+      "replacement": "    document.body.appendChild(root);const selectedShip=document.createElement('p');selectedShip.id='aegisSelectedShipLabel';selectedShip.textContent=[ACTIVE_SHIP_PROFILE.identity.hullNumber,ACTIVE_SHIP_PROFILE.identity.shipName].filter(Boolean).join(' · ');selectedShip.style.cssText='color:#9fd1e5;margin:0 0 12px;font:12px sans-serif';root.firstElementChild.insertBefore(selectedShip,root.firstElementChild.children[2]);root.querySelectorAll('button').forEach(b=>{if(!b.style.font)b.style.font='10px monospace';if(!b.style.color)b.style.color='rgba(225,240,250,.9)';if(!b.style.background)b.style.background='rgba(20,28,34,.8)';if(!b.style.border)b.style.border='1px solid rgba(160,190,210,.3)';if(!b.style.padding)b.style.padding='5px 8px';if(!b.style.borderRadius)b.style.borderRadius='3px';if(!b.style.cursor)b.style.cursor='pointer';});\n"
+    },
+    {
+      "i1": 29654,
+      "i2": 29656,
+      "before_sha256": "70c8d03d8e1da6d5bae72bbf23bffcdacacccba058d9d40c2798c87365c84418",
+      "replacement": "    ciws[0].ammo = ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.phalanx.ammo; ciws[0].burstTimer = 0; ciws[0]._shotAccumulator = 0; ciws[0].tracking = false; ciws[0].state = 'IDLE'; ciws[0].trackQuality = 0; ciws[0].stateTimer = 0; ciws[0]._localTrack = null; ciws[0].trackingTarget = null;\n    ciws[1].ammo = ACTIVE_SHIP_PROFILE.weapons.closeIn.mounts.seaRam.ammo; ciws[1].reloadTimer = 0; ciws[1].state = 'IDLE'; ciws[1].trackQuality = 0; ciws[1].stateTimer = 0; ciws[1]._localTrack = null; ciws[1].trackingTarget = null;\n"
+    },
+    {
+      "i1": 29663,
+      "i2": 29664,
+      "before_sha256": "48a27b4d944ff0301dbc0693b9d33c291202ef1c0856d38d029ab99a41b430b1",
+      "replacement": "    shipNav.heading = ACTIVE_SHIP_PROFILE.navigation.initialHeadingRad; shipNav.speed = 0; shipNav.targetSpeedKt = 0;\n"
+    },
+    {
+      "i1": 33509,
+      "i2": 33509,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "replacement": "    shipStartupState:shipStartupSnapshot,\n    runShipStartupIsolationAudit,\n"
+    },
+    {
+      "i1": 40271,
+      "i2": 40272,
+      "before_sha256": "90eb1e2daca37bcb76bf921baf9dcec3f8a14a02df326863d7cb69d2882afaf1",
+      "replacement": "    forcePreSail:()=>{SHIP_STARTUP_STATE.phase='PREPARING';wip125Departed=false;wip125PreSailOpen=true;wip125CommittedLoadout=null;initVlsCells();const el=document.getElementById('wip125LoadoutOverlay');if(el)el.style.display='flex';wip125RenderLoadoutUi();return getVlsCounts();},\n"
+    },
+    {
+      "i1": 41420,
+      "i2": 41420,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "replacement": "  completeShipStartup();\n"
+    }
+  ]
+}
+

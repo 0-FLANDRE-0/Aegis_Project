@@ -1,5 +1,18 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
+## 최신 개발 기준 — 벙커힐 WIP K
+
+- 파일: [Aegis_SIM_v48_WIP_BUNKERHILL_K.html](Aegis_SIM_v48_WIP_BUNKERHILL_K.html), **14,458,866 bytes**, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`.
+- 사용자 업로드 commit `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 HTML을 검증본과 byte 단위로 대조했다. [원격 업로드 근거](docs/bunkerhill/K/evidence/remote-upload-check.json).
+- 출항 전에 DDG-119 또는 퇴역 전 구성의 CG-52 USS Bunker Hill을 선택한다. 벙커힐은 원본 모델, 고정 61+61 VLS, 전후 함포, 양현 20mm Phalanx, 독립 장착 좌표·사각·탄약을 사용한다. SPG-62 접시 전체 회전, 레이더 회전 부품, 거친 해면 클러터와 피격 후 3D 지속을 검사했다.
+- CIC에는 벙커힐의 전·후·양현 SPY 배열 방향을 표시하고 DDG의 기존 대각선 도식은 유지한다. 선택 함선의 피격 인디케이터와 선수 좌측 측면도를 사용한다. CG 내부는 SIM-TUNE 12갑판·277구획·330명 배치다.
+- **SHIP → 보수반 → 승조원·함 포기**에서 실제 경로로 도착한 생존자부터 25인승 구명뗏목에 순차 탑승한다. CIC·3D 바다에서 표류하며 저장·복원된다. 정상 전원 퇴함에서 CG 330명/14척/마지막 5명과 DDG 310명/13척/마지막 10명을 확인했다.
+- 구명뗏목 정원은 USN Mark 7 공개 자료를 따른다. 실제 CG 비치 수량·진수 위치는 미확정이며 충분한 provision·진수점·형상·표류·접촉은 SIM-TUNE이다. 레이더의 공개 확인 범위와 SPQ-9 두 면의 SIM-TUNE도 명시했다. [구명뗏목 근거](docs/bunkerhill/K/RESCUE_SOURCES.md), [레이더 근거](docs/bunkerhill/K/RADAR_SOURCES.md).
+- 로컬 K **284/284** 검사 통과. [상태](AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md), [체크섬](SHA256SUMS_v48_WIP_BUNKERHILL_K.txt), [suite와 한계](docs/bunkerhill/K/evidence/verification-summary.json), [GitHub 반영·검증 안내](docs/bunkerhill/K/GITHUB_VALIDATION.md).
+- [Bunker Hill workflow](.github/workflows/bunkerhill-late-profile.yml)가 업로드된 동일 HTML로 exact 재빌드, CIC, 퇴함·저장·배속·native 3D, CG/DDG, 셀·구획·클러터·SPG·실제 다수 Kh-32 AUTO를 검사한다. 원격 결과는 PR의 Actions checks와 artifact를 따른다. 일반 smoke에는 역사 payload 검사도 포함된다.
+- 대형 비교 HTML을 추가 업로드하지 않고, 최신 K 내장 asset과 작은 기준 모듈로 D/F/H/I/J를 고정 SHA에 맞춰 재구성한다. 이전 Bunker Hill HTML archive는 전달한 로컬 ZIP에 보존되어 있다. GitHub의 선행 STARTUP_A는 당시 HTML·상태·전체 체크섬 대상 32개 파일을 `archive/v48/WIP_STARTUP_A/`에 exact 보존했고, 기존 root baseline은 역사 검사 호환을 위해 유지한다.
+- 정식 v48은 별도 안정 기준으로 유지한다. 다음 기능 후보는 하푼 대함미사일과 헬리콥터이며 아직 구현에 착수하지 않았다.
+
 ## 현재 안정 기준 — v48
 
 - 정식 파일: [`Aegis_SIM_v48.html`](Aegis_SIM_v48.html)
@@ -11,11 +24,11 @@
 - WIP15C 최종 검사에서 core self-test failure `0`, final runtime page error `0`.
 - 상세 WIP15C 감사·검증 기록은 [`docs/wip15/C/`](docs/wip15/C/)에 보존한다.
 
-## 현재 업로드 후보 — 출항 전 함선 선택·초기화
+## 선행 검증 — 출항 전 함선 선택·초기화
 
 - 파일: [`Aegis_SIM_v48_WIP_STARTUP_A.html`](Aegis_SIM_v48_WIP_STARTUP_A.html), `7,361,673 bytes`, SHA-256 `94f5e9321fe1f04c5b43c4d8dca5b0762014c1cffe358ad92a81b8ffe70e7c92`.
 - 준비 branch: [`ship-startup-ddg-regression`](../../tree/ship-startup-ddg-regression), parent `WIP16@145532316e1f87435f50a8de4a271497f0d2f1ab`. WIP 번호 미확정이며 `WIP_STARTUP_A`는 기능명 토큰이다.
-- 선택 전에 runtime 생성을 대기하고 불변 profile을 확정한 뒤 공통 세션 생성 → 기존 subsystem 결속 → 장비 편성 → 출항을 수행한다. 현재 등록된 운용 함선은 DDG-119다.
+- 선택 전에 runtime 생성을 대기하고 불변 profile을 확정한 뒤 공통 세션 생성 → 기존 subsystem 결속 → 장비 편성 → 출항을 수행한다. 이 단계에 등록된 운용 함선은 DDG-119였다.
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md), [체크섬](SHA256SUMS_v48_WIP_STARTUP_A.txt), [구현·검사·인계](docs/ship-startup/A/README.md).
 - 로컬: package 34/34, startup 15/15, DDG runtime 14/14, 실제 3D 복구 13/13 PASS. 기존 B와 전투 aggregate·발사·명중·교전 결과가 같다. 상세 float의 최대 차이 약 `3.9e-13`을 기록했다.
 - 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했으며 검증본과 exact 일치한다. tested head `61a8931f0cc5e933fb901e270e0f5f28e046519b`에서 [출항 준비 CI](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412380) **1/1**, [원본 B 회귀](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412362) **1/1**, [일반 smoke](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412322) **32/32 job PASS**. 일반 3D의 실제 입력은 이번 HTML이며 다른 일반 job에는 역사 payload가 포함된다.

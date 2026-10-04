@@ -1,0 +1,635 @@
+{
+  "schema": "AEGIS_SHIP_STARTUP_LIFECYCLE_CHECK_V1",
+  "bootSeed": 1831565813,
+  "rows": [
+    {
+      "name": "selection precedes runtime and simulation",
+      "pass": true,
+      "detail": {
+        "state": {
+          "schema": "AEGIS_PREDEPARTURE_SHIP_STARTUP_V1",
+          "phase": "SELECTING",
+          "profileId": null,
+          "profileRevision": null,
+          "entityId": null,
+          "initializationCount": 0
+        },
+        "catalog": [
+          {
+            "id": "DDG_119_LATE_FLIGHT_IIA",
+            "name": "USS Delbert D. Black",
+            "hullNumber": "DDG-119",
+            "revision": "V48_WIP15B_NULKA_RELOAD",
+            "vlsCells": 96,
+            "crew": 310
+          },
+          {
+            "id": "CG_52_LATE_TICONDEROGA",
+            "name": "USS Bunker Hill",
+            "hullNumber": "CG-52",
+            "revision": "BUNKERHILL_LATE_G_1",
+            "vlsCells": 122,
+            "crew": 330
+          }
+        ],
+        "noRuntime": true,
+        "noDiag": true,
+        "ready": false
+      }
+    },
+    {
+      "name": "catalog exposes DDG-119 and CG-52",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "unknown and prototype selections rejected without mutation",
+      "pass": true,
+      "detail": {
+        "results": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "unchanged": true,
+        "detached": true
+      }
+    },
+    {
+      "name": "exactly one canonical ship initialized before departure",
+      "pass": true,
+      "detail": {
+        "schema": "AEGIS_PREDEPARTURE_SHIP_STARTUP_V1",
+        "phase": "PREPARING",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "profileRevision": "V48_WIP15B_NULKA_RELOAD",
+        "entityId": "SHIP_DDG119_OWN",
+        "initializationCount": 1
+      }
+    },
+    {
+      "name": "core and subsystem ownership preserved",
+      "pass": true,
+      "detail": {
+        "core": [],
+        "owner": {
+          "schema": "AEGIS_RUNTIME_OWNERSHIP_AUDIT_V48_WIP11A",
+          "checks": {
+            "runtimeSchema": true,
+            "engagementSchema": true,
+            "shipRegistered": true,
+            "profileImmutable": true,
+            "navigationOwned": true,
+            "ownshipReference": true,
+            "trackManagerOwned": true,
+            "sensorsOwned": true,
+            "fireControlOwned": true,
+            "weaponsOwned": true,
+            "ewOwned": true,
+            "worldAircraft": true,
+            "worldOrdnance": true,
+            "worldWreckage": true,
+            "worldTerrain": true,
+            "truthSeparated": true,
+            "canonicalGeometry": true,
+            "compatibilityMirror": true,
+            "registryFacade": true
+          },
+          "entityCounts": {
+            "activeDecoys": 0,
+            "ships": 1,
+            "aircraft": 5,
+            "surfaceContacts": 1,
+            "hostileMissiles": 0,
+            "asmWreckage": 0,
+            "waterSurfaceEvents": 0,
+            "ordnance": 0,
+            "ramOrdnance": 0,
+            "ciwsProjectiles": 0,
+            "mainGunProjectiles": 0,
+            "tracks": 0,
+            "esmContacts": 0,
+            "terrain": 16
+          },
+          "authority": {
+            "schema": "AEGIS_AUTHORITY_MANIFEST_V48_WIP11A",
+            "classes": {
+              "LIVE_CANONICAL": "LIVE_CANONICAL",
+              "COMPAT_REQUIRED": "COMPAT_REQUIRED",
+              "DIAGNOSTIC_ONLY": "DIAGNOSTIC_ONLY",
+              "DEAD_LEGACY": "DEAD_LEGACY"
+            },
+            "runtime": {
+              "ACTIVE_SHIP_RUNTIME": "LIVE_CANONICAL",
+              "ENGAGEMENT_RUNTIME": "LIVE_CANONICAL",
+              "ACTIVE_SHIP_RUNTIME_V48_WIP09": "COMPAT_REQUIRED"
+            },
+            "geometry": {
+              "CANONICAL_SHIP_EXTERNAL_GEOMETRY": "LIVE_CANONICAL",
+              "SHIP_EXTERNAL_GEOMETRY_WIP164_BASE": "DIAGNOSTIC_ONLY",
+              "wip165CompactExteriorGeometry": "DIAGNOSTIC_ONLY"
+            },
+            "material": {
+              "boundaryMaterialMetrics": "LIVE_CANONICAL",
+              "wip11BoundaryMetrics": "COMPAT_REQUIRED"
+            },
+            "sarh": {
+              "computeSarhIllumOpportunityV1": "LIVE_CANONICAL_GEOMETRY_OPPORTUNITY",
+              "computeSarhIllumQ": "COMPAT_REQUIRED_LIVE_LEGACY_AND_TELEMETRY"
+            },
+            "coordinates": {
+              "ownshipReference": "LIVE_CANONICAL",
+              "aircraft": "COMPAT_REQUIRED"
+            },
+            "lifecycle": {
+              "resetEngagementTransientV48Wip11A": "LIVE_CANONICAL",
+              "spawnShipRuntime": "FOUNDATION_ONLY_UNBOUND",
+              "destroyShipRuntime": "FOUNDATION_ONLY_SAFE_GUARD",
+              "exportOperationalState": "LIVE_CANONICAL",
+              "importOperationalState": "LIVE_CANONICAL"
+            },
+            "diagnostics": {
+              "windowNavalSimDiag": "DIAGNOSTIC_ONLY"
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "DDG-119 default VLS identical to WIP16B",
+      "pass": true,
+      "detail": {
+        "sm2Fwd": 32,
+        "sm2Aft": 40,
+        "sm2Total": 72,
+        "sm2erFwd": 0,
+        "sm2erAft": 0,
+        "sm2erTotal": 0,
+        "sm6Fwd": 0,
+        "sm6Aft": 0,
+        "sm6Total": 0,
+        "essmFwd": 0,
+        "essmAft": 96,
+        "essmTotal": 96,
+        "essmCellsFwd": 0,
+        "essmCellsAft": 24,
+        "emptyCells": 0,
+        "destroyedCells": 0,
+        "fwdUsed": 0,
+        "aftUsed": 0,
+        "sm2Ready": 72,
+        "sm2erReady": 0,
+        "sm6Ready": 0,
+        "essmReady": 96
+      }
+    },
+    {
+      "name": "equipment preparation holds simulation clock",
+      "pass": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "independent creation and generic identity/inventory",
+      "pass": true,
+      "detail": {
+        "schema": "AEGIS_SHIP_STARTUP_ISOLATION_V1",
+        "checks": {
+          "navigationIndependent": true,
+          "srbocIndependent": true,
+          "nulkaIndependent": true,
+          "servoIndependent": true,
+          "vlsIndependent": true,
+          "worldIndependent": true,
+          "genericIdentity": true,
+          "genericInventory": true,
+          "badCapacityRejected": true,
+          "profileUnchanged": true,
+          "activeWorldUnchanged": true,
+          "combatRngUnchanged": true
+        },
+        "pass": true
+      }
+    },
+    {
+      "name": "pre-departure equipment edit allowed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "departure locks profile, loadout and duplicate departure",
+      "pass": true,
+      "detail": {
+        "results": [
+          false,
+          false
+        ],
+        "unchanged": true,
+        "phase": "DEPARTED",
+        "departureAgain": false,
+        "editAfterDeparture": false
+      }
+    },
+    {
+      "name": "restart retains selected ship and canonical references",
+      "pass": true,
+      "detail": {
+        "schema": "AEGIS_PREDEPARTURE_SHIP_STARTUP_V1",
+        "phase": "DEPARTED",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "profileRevision": "V48_WIP15B_NULKA_RELOAD",
+        "entityId": "SHIP_DDG119_OWN",
+        "initializationCount": 1
+      }
+    },
+    {
+      "name": "restart restores profile defaults and committed loadout",
+      "pass": true,
+      "detail": {
+        "heading": -1.5707963267948966,
+        "ammo": [
+          1550,
+          11
+        ]
+      }
+    },
+    {
+      "name": "WIP16B operational save imports with identity and inventory intact",
+      "pass": true,
+      "detail": {
+        "validation": {
+          "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+          "ok": true,
+          "errors": [],
+          "codecs": [
+            {
+              "id": "envelope",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "navigation",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "weapons",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "loads",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "damageFlooding",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "crew",
+              "ok": true,
+              "errorCount": 0
+            },
+            {
+              "id": "aviation",
+              "ok": true,
+              "errorCount": 0
+            }
+          ]
+        },
+        "schema": "AEGIS_OPERATIONAL_STATE_V48_WIP11A",
+        "version": 2,
+        "identity": true,
+        "vls": true,
+        "nav": true,
+        "navigationBefore": {
+          "positionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousPositionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousHeadingWorld": -1.5707963267948966,
+          "worldPoseDtS": 0,
+          "heading": -1.5707963267948966,
+          "speed": 0,
+          "targetSpeedKt": 0,
+          "rudder": 0,
+          "targetRudder": 0,
+          "turnRate": 0,
+          "vx": 0,
+          "vy": 0,
+          "trail": [],
+          "maxTrail": 800,
+          "manualSpeedV15": false,
+          "manualRudderV15": false,
+          "c17Ownship": true,
+          "swayMps": 0,
+          "thrustN": 0,
+          "accelerationMps2": 0
+        },
+        "navigationAfter": {
+          "positionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousPositionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousHeadingWorld": -1.5707963267948966,
+          "worldPoseDtS": 0,
+          "heading": -1.5707963267948966,
+          "speed": 0,
+          "targetSpeedKt": 0,
+          "rudder": 0,
+          "targetRudder": 0,
+          "turnRate": 0,
+          "vx": 0,
+          "vy": 0,
+          "trail": [],
+          "maxTrail": 800,
+          "manualSpeedV15": false,
+          "manualRudderV15": false,
+          "c17Ownship": true,
+          "swayMps": 0,
+          "thrustN": 0,
+          "accelerationMps2": 0
+        },
+        "closeIn": true,
+        "owner": {
+          "schema": "AEGIS_RUNTIME_OWNERSHIP_AUDIT_V48_WIP11A",
+          "checks": {
+            "runtimeSchema": true,
+            "engagementSchema": true,
+            "shipRegistered": true,
+            "profileImmutable": true,
+            "navigationOwned": true,
+            "ownshipReference": true,
+            "trackManagerOwned": true,
+            "sensorsOwned": true,
+            "fireControlOwned": true,
+            "weaponsOwned": true,
+            "ewOwned": true,
+            "worldAircraft": true,
+            "worldOrdnance": true,
+            "worldWreckage": true,
+            "worldTerrain": true,
+            "truthSeparated": true,
+            "canonicalGeometry": true,
+            "compatibilityMirror": true,
+            "registryFacade": true
+          },
+          "entityCounts": {
+            "activeDecoys": 0,
+            "ships": 1,
+            "aircraft": 0,
+            "surfaceContacts": 0,
+            "hostileMissiles": 0,
+            "asmWreckage": 0,
+            "waterSurfaceEvents": 0,
+            "ordnance": 0,
+            "ramOrdnance": 0,
+            "ciwsProjectiles": 0,
+            "mainGunProjectiles": 0,
+            "tracks": 0,
+            "esmContacts": 0,
+            "terrain": 11
+          },
+          "authority": {
+            "schema": "AEGIS_AUTHORITY_MANIFEST_V48_WIP11A",
+            "classes": {
+              "LIVE_CANONICAL": "LIVE_CANONICAL",
+              "COMPAT_REQUIRED": "COMPAT_REQUIRED",
+              "DIAGNOSTIC_ONLY": "DIAGNOSTIC_ONLY",
+              "DEAD_LEGACY": "DEAD_LEGACY"
+            },
+            "runtime": {
+              "ACTIVE_SHIP_RUNTIME": "LIVE_CANONICAL",
+              "ENGAGEMENT_RUNTIME": "LIVE_CANONICAL",
+              "ACTIVE_SHIP_RUNTIME_V48_WIP09": "COMPAT_REQUIRED"
+            },
+            "geometry": {
+              "CANONICAL_SHIP_EXTERNAL_GEOMETRY": "LIVE_CANONICAL",
+              "SHIP_EXTERNAL_GEOMETRY_WIP164_BASE": "DIAGNOSTIC_ONLY",
+              "wip165CompactExteriorGeometry": "DIAGNOSTIC_ONLY"
+            },
+            "material": {
+              "boundaryMaterialMetrics": "LIVE_CANONICAL",
+              "wip11BoundaryMetrics": "COMPAT_REQUIRED"
+            },
+            "sarh": {
+              "computeSarhIllumOpportunityV1": "LIVE_CANONICAL_GEOMETRY_OPPORTUNITY",
+              "computeSarhIllumQ": "COMPAT_REQUIRED_LIVE_LEGACY_AND_TELEMETRY"
+            },
+            "coordinates": {
+              "ownshipReference": "LIVE_CANONICAL",
+              "aircraft": "COMPAT_REQUIRED"
+            },
+            "lifecycle": {
+              "resetEngagementTransientV48Wip11A": "LIVE_CANONICAL",
+              "spawnShipRuntime": "FOUNDATION_ONLY_UNBOUND",
+              "destroyShipRuntime": "FOUNDATION_ONLY_SAFE_GUARD",
+              "exportOperationalState": "LIVE_CANONICAL",
+              "importOperationalState": "LIVE_CANONICAL"
+            },
+            "diagnostics": {
+              "windowNavalSimDiag": "DIAGNOSTIC_ONLY"
+            }
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "nonzero navigation telemetry round-trip",
+      "pass": true,
+      "detail": {
+        "expected": {
+          "swayMps": 2.3,
+          "thrustN": 100000,
+          "accelerationMps2": 0.8
+        },
+        "actual": {
+          "positionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousPositionWorld": {
+            "x": 0,
+            "y": 0
+          },
+          "previousHeadingWorld": -1.5707963267948966,
+          "worldPoseDtS": 0,
+          "heading": -1.5707963267948966,
+          "speed": 0,
+          "targetSpeedKt": 0,
+          "rudder": 0,
+          "targetRudder": 0,
+          "turnRate": 0,
+          "vx": 0,
+          "vy": 0,
+          "trail": [],
+          "maxTrail": 800,
+          "manualSpeedV15": false,
+          "manualRudderV15": false,
+          "c17Ownship": true,
+          "swayMps": 2.3,
+          "thrustN": 100000,
+          "accelerationMps2": 0.8
+        },
+        "restored": true
+      }
+    },
+    {
+      "name": "invalid navigation telemetry rejected without mutation",
+      "pass": true,
+      "detail": [
+        {
+          "key": "swayMps",
+          "rejected": true,
+          "unchanged": true
+        },
+        {
+          "key": "thrustN",
+          "rejected": true,
+          "unchanged": true
+        },
+        {
+          "key": "accelerationMps2",
+          "rejected": true,
+          "unchanged": true
+        }
+      ]
+    },
+    {
+      "name": "incompatible save rejected without authoritative mutation",
+      "pass": true,
+      "detail": {
+        "rejected": true,
+        "unchanged": true,
+        "audit": {
+          "schema": "AEGIS_OPERATIONAL_IMPORT_SAFETY_AUDIT_V48_WIP11B",
+          "checks": {
+            "exportPassesPreflight": true,
+            "exportDetached": true,
+            "profileRevisionRejected": true,
+            "revisionPolicyExplicit": true,
+            "activeDestroyUnconditional": true,
+            "codecOrderExact": true,
+            "zeroMutationDeclared": true
+          },
+          "valid": {
+            "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+            "ok": true,
+            "errors": [],
+            "codecs": [
+              {
+                "id": "envelope",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "navigation",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "weapons",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "loads",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "damageFlooding",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "crew",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "aviation",
+                "ok": true,
+                "errorCount": 0
+              }
+            ]
+          },
+          "incompatible": {
+            "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+            "ok": false,
+            "errors": [
+              "PROFILE_REVISION"
+            ],
+            "codecs": [
+              {
+                "id": "envelope",
+                "ok": false,
+                "errorCount": 1
+              },
+              {
+                "id": "navigation",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "weapons",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "loads",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "damageFlooding",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "crew",
+                "ok": true,
+                "errorCount": 0
+              },
+              {
+                "id": "aviation",
+                "ok": true,
+                "errorCount": 0
+              }
+            ]
+          },
+          "destroyResult": {
+            "ok": false,
+            "reason": "ACTIVE_PLAYER_SHIP",
+            "entityId": "SHIP_DDG119_OWN"
+          },
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "page errors zero",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "passed": 17,
+  "total": 17,
+  "pass": true
+}

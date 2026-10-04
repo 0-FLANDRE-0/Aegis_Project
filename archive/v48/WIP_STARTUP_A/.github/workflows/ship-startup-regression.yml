@@ -1,0 +1,55 @@
+name: Ship startup and DDG-119 regression
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_STARTUP_A.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md'
+      - 'SHA256SUMS_v48_WIP_STARTUP_A.txt'
+      - 'docs/ship-startup/**'
+      - '.github/workflows/ship-startup-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  startup-and-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install playwright==1.55.0
+      - run: python -m playwright install --with-deps chromium
+      - name: Verify uploaded file and reproducible package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-startup
+          base=Aegis_SIM_v48_WIP16B.html
+          if test -f archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html; then
+            base=archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html
+          fi
+          echo "AEGIS_STARTUP_BASELINE=$base" >> "$GITHUB_ENV"
+          python docs/ship-startup/A/build_startup.py "$base" /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+          cmp Aegis_SIM_v48_WIP_STARTUP_A.html /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+          sha256sum -c SHA256SUMS_v48_WIP_STARTUP_A.txt
+          python docs/ship-startup/A/tests/package.py Aegis_SIM_v48_WIP_STARTUP_A.html "$base" > artifacts/ship-startup/package.json
+      - name: Verify selection, departure, reset and previous save
+        run: python docs/ship-startup/A/tests/startup.py Aegis_SIM_v48_WIP_STARTUP_A.html "$AEGIS_STARTUP_BASELINE" artifacts/ship-startup/lifecycle
+      - name: Compare original DDG-119 runtime with selected ship
+        run: |
+          python docs/wip16/A/tests/runtime16a.py "$AEGIS_STARTUP_BASELINE" > artifacts/ship-startup/baseline-runtime.json
+          python docs/ship-startup/A/tests/runtime.py Aegis_SIM_v48_WIP_STARTUP_A.html > artifacts/ship-startup/runtime.json
+          python docs/ship-startup/A/tests/compare_runtime.py artifacts/ship-startup/baseline-runtime.json artifacts/ship-startup/runtime.json artifacts/ship-startup/comparison.json
+      - name: Verify actual 3D geometry and recovery
+        run: python docs/ship-startup/A/tests/render.py Aegis_SIM_v48_WIP_STARTUP_A.html artifacts/ship-startup/renderer
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ship-startup-${{ github.sha }}
+          path: artifacts/ship-startup
+          if-no-files-found: error

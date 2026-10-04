@@ -36,7 +36,7 @@ jobs:
           echo "AEGIS_STARTUP_BASELINE=$base" >> "$GITHUB_ENV"
           python docs/ship-startup/A/build_startup.py "$base" /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
           cmp Aegis_SIM_v48_WIP_STARTUP_A.html /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
-          sha256sum -c SHA256SUMS_v48_WIP_STARTUP_A.txt
+          (cd archive/v48/WIP_STARTUP_A && sha256sum -c SHA256SUMS_v48_WIP_STARTUP_A.txt)
           python docs/ship-startup/A/tests/package.py Aegis_SIM_v48_WIP_STARTUP_A.html "$base" > artifacts/ship-startup/package.json
       - name: Verify selection, departure, reset and previous save
         run: python docs/ship-startup/A/tests/startup.py Aegis_SIM_v48_WIP_STARTUP_A.html "$AEGIS_STARTUP_BASELINE" artifacts/ship-startup/lifecycle
