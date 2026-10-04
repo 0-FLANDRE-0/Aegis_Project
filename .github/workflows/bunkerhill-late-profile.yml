@@ -5,15 +5,19 @@ on:
       - 'Aegis_SIM_v48_WIP_BUNKERHILL_K.html'
       - 'AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md'
       - 'SHA256SUMS_v48_WIP_BUNKERHILL_K.txt'
+      - 'docs/bunkerhill/H/**'
+      - 'docs/bunkerhill/J/**'
       - 'docs/bunkerhill/K/**'
       - '.github/workflows/bunkerhill-late-profile.yml'
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_BUNKERHILL_K.html
 jobs:
-  cg52-and-ddg:
+  baselines-and-source:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 15
     env:
       AEGIS_EVIDENCE_DIR: artifacts/bunkerhill
     steps:
@@ -24,103 +28,112 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: pip install -r docs/bunkerhill/K/requirements.txt
-      - run: python -m playwright install --with-deps chromium
-      - name: Locate exact baselines and verify uploaded package
+      - name: Verify exact upload, fixtures and all support checksums
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p artifacts/bunkerhill
-          python - <<'PY'
-          from pathlib import Path
-          import hashlib, json, os
-          from playwright.sync_api import sync_playwright
-          needed = [
-              ('AEGIS_BUILD_BASELINE', 'Aegis_SIM_v48_WIP_STARTUP_A.html', 'WIP_STARTUP_A', '94f5e9321fe1f04c5b43c4d8dca5b0762014c1cffe358ad92a81b8ffe70e7c92'),
-              ('AEGIS_SAVE_BASELINE', 'Aegis_SIM_v48_WIP16B.html', 'WIP16B', '7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d'),
-          ]
-          with open(os.environ['GITHUB_ENV'], 'a') as target:
-              for key, name, folder, expected in needed:
-                  choices = [Path(name), Path('archive/v48') / folder / name]
-                  match = next((p for p in choices if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == expected), None)
-                  if match is None:
-                      raise SystemExit('EXACT_BASELINE_MISSING:' + name)
-                  target.write(key + '=' + str(match) + '\n')
-              with sync_playwright() as pw:
-                  browser_path = pw.chromium.executable_path
-                  if not Path(browser_path).is_file():
-                      raise SystemExit('PINNED_CHROMIUM_MISSING')
-                  target.write('AEGIS_CHROMIUM_EXECUTABLE=' + browser_path + '\n')
-                  browser = pw.chromium.launch(executable_path=browser_path, headless=True, args=['--no-sandbox'])
-                  Path('artifacts/bunkerhill/browser-environment.json').write_text(json.dumps({'browserVersion': browser.version, 'executablePath': browser_path, 'baselineAndCandidateUseSameBrowser': True}, indent=2) + '\n')
-                  browser.close()
-          PY
-          python docs/bunkerhill/K/extract_embedded_assets.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html
+          python docs/bunkerhill/K/ci_environment.py
+          python docs/bunkerhill/K/extract_embedded_assets.py "$AEGIS_CANDIDATE"
           sha256sum -c SHA256SUMS_v48_WIP_BUNKERHILL_K.txt
           sha256sum -c docs/bunkerhill/K/REPOSITORY_SUPPORT.sha256
-      - name: Reconstruct exact D and F comparison HTML from small reference modules
+      - name: Reconstruct exact D, F, H, I and J comparison HTML
+        shell: bash
         run: |
-          python docs/bunkerhill/K/rebuild_d_baseline.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" artifacts/bunkerhill/baseline-D.html
-          python docs/bunkerhill/K/rebuild_f_baseline.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" artifacts/bunkerhill/baseline-F.html
-      - name: Recover exact H and I without requiring archived large HTML uploads
+          set -euo pipefail
+          python docs/bunkerhill/K/rebuild_d_baseline.py "$AEGIS_CANDIDATE" "$AEGIS_BUILD_BASELINE" artifacts/bunkerhill/baseline-D.html
+          python docs/bunkerhill/K/rebuild_f_baseline.py "$AEGIS_CANDIDATE" "$AEGIS_BUILD_BASELINE" artifacts/bunkerhill/baseline-F.html
+          for version in H I J; do
+            python docs/bunkerhill/K/rebuild_comparison_baseline.py "$AEGIS_CANDIDATE" "$AEGIS_BUILD_BASELINE" "$version" "artifacts/bunkerhill/baseline-$version.html"
+          done
+      - name: Audit immutable source transitions and preserved DDG profile
+        shell: bash
         run: |
-          python docs/bunkerhill/K/rebuild_comparison_baseline.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" H artifacts/bunkerhill/baseline-H.html
-          python docs/bunkerhill/K/rebuild_comparison_baseline.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" I artifacts/bunkerhill/baseline-I.html
-      - name: Recover exact J and audit both immutable source transitions
-        run: |
-          python docs/bunkerhill/K/rebuild_comparison_baseline.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" J artifacts/bunkerhill/baseline-J.html
+          set -euo pipefail
           python docs/bunkerhill/K/verify_i_to_j_source.py artifacts/bunkerhill/baseline-I.html artifacts/bunkerhill/baseline-J.html artifacts/bunkerhill/source-I-J.json
-          python docs/bunkerhill/K/verify_j_to_k_source.py artifacts/bunkerhill/baseline-J.html Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/source-J-K.json
-      - name: Verify exact build and preserved DDG profile
-        run: python docs/bunkerhill/K/verify_package.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_BUILD_BASELINE" > artifacts/bunkerhill/package.json
-      - name: Verify original DDG runtime against original B in the same browser
-        run: |
-          python docs/wip16/A/tests/runtime16a.py "$AEGIS_SAVE_BASELINE" > artifacts/bunkerhill/ddg-baseline-runtime.json
-          python docs/bunkerhill/K/verify_ddg_runtime.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html > artifacts/bunkerhill/ddg-runtime.json
-          python docs/bunkerhill/K/compare_runtime.py artifacts/bunkerhill/ddg-baseline-runtime.json artifacts/bunkerhill/ddg-runtime.json artifacts/bunkerhill/ddg-comparison.json
-      - name: Verify selection and operational save restoration
-        run: python docs/bunkerhill/K/verify_startup.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html "$AEGIS_SAVE_BASELINE" artifacts/bunkerhill/startup
-      - name: Verify actual CIC face labels, arcs and selected-array damage
-        run: python docs/bunkerhill/K/verify_spy_cic_k.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/baseline-J.html artifacts/bunkerhill/spy-cic
-      - name: Verify actual abandonment UI, manifests and atomic save migration
-        run: python docs/bunkerhill/K/verify_rescue_k.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/baseline-J.html artifacts/bunkerhill/rescue
-      - name: Verify rescue state at 1, 8, 16 and 64x fixed ticks
-        run: python docs/bunkerhill/K/verify_rescue_time_k.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/rescue-time
-      - name: Verify native raft rendering, read-only projection and GPU lifetime
-        run: python docs/bunkerhill/K/verify_rescue_3d_k.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/rescue-3d
-      - name: Verify CG mounts, actual rotors and runtime
-        run: |
-          python docs/bunkerhill/K/verify_cg52.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html
-          python docs/bunkerhill/K/verify_cg_runtime.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html
-      - name: Verify actual VLS edits, upper rooms and legacy save migration
-        run: python docs/bunkerhill/K/verify_g_controls.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/baseline-F.html artifacts/bunkerhill/controls
-      - name: Verify CG upper decks, isolation and crew routes
-        run: python docs/bunkerhill/K/verify_interior_render.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/upper-interior
-      - name: Verify rough-sea clutter and actual selected 2D indicator
-        run: python docs/bunkerhill/K/verify_clutter_indicator.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/baseline-D.html artifacts/bunkerhill/clutter-indicator
-      - name: Verify full fixed-tick rough-sea behavior at 1, 8, 16 and 64x
-        run: python docs/bunkerhill/K/verify_clutter_timescale.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/clutter-timescale
-      - name: Verify DDG native WebGL damage and restoration (no forced queue progress)
-        run: python docs/bunkerhill/K/verify_ddg_render.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/ddg-render
-      - name: Verify CG native WebGL damage and restoration (no forced queue progress)
-        run: python docs/bunkerhill/K/verify_cg_render.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/cg52-render
-      - name: Verify all source VLS addresses, real launches and sparse exhaust
-        run: python docs/bunkerhill/K/verify_vls_origins_j.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/vls-origins --baseline-i artifacts/bunkerhill/baseline-I.html
-      - name: Verify actual installed close-in release and genuine DDG RAM
-        run: |
-          python docs/bunkerhill/K/verify_close_in_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/close-in --baseline artifacts/bunkerhill/baseline-H.html
-          python docs/bunkerhill/K/verify_ddg_ram_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/ddg-ram
-      - name: Verify source-rigid SPG poses and native GPU retirement
-        run: python docs/bunkerhill/K/verify_spg_resources_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/spg-resources --baseline artifacts/bunkerhill/baseline-H.html
-      - name: Verify dual SPQ dwell, masks, beams and 2D processor
-        run: python docs/bunkerhill/K/verify_dual_spq_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/dual-spq
-      - name: Verify native render fault containment and reset recovery
-        run: python docs/bunkerhill/K/verify_presentation_fault_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/presentation-fault --baseline artifacts/bunkerhill/baseline-H.html
-      - name: Verify real multi-Kh32 AUTO near impact under native 3D RAF
-        run: python docs/bunkerhill/K/verify_native_raid_i.py Aegis_SIM_v48_WIP_BUNKERHILL_K.html artifacts/bunkerhill/native-raid --count 6 --deadline 240
+          python docs/bunkerhill/K/verify_j_to_k_source.py artifacts/bunkerhill/baseline-J.html "$AEGIS_CANDIDATE" artifacts/bunkerhill/source-J-K.json
+          python docs/bunkerhill/K/verify_package.py "$AEGIS_CANDIDATE" "$AEGIS_BUILD_BASELINE" > artifacts/bunkerhill/package.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: bunkerhill-${{ github.sha }}
+          name: bunkerhill-baselines-${{ github.sha }}
           path: artifacts/bunkerhill
+          if-no-files-found: error
+  regression:
+    name: Bunker Hill ${{ matrix.suite }}
+    needs: baselines-and-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [ddg, controls, rescue, sensors, render, weapons, raid]
+    env:
+      AEGIS_EVIDENCE_DIR: artifacts/bunkerhill/${{ matrix.suite }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Pin the same browser and verify exact HTML inputs
+        run: |
+          python docs/bunkerhill/K/ci_environment.py --browser
+          python docs/bunkerhill/K/extract_embedded_assets.py "$AEGIS_CANDIDATE"
+      - uses: actions/download-artifact@v4
+        with:
+          name: bunkerhill-baselines-${{ github.sha }}
+          path: artifacts/bunkerhill
+      - name: Run unchanged functional checks for ${{ matrix.suite }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case '${{ matrix.suite }}' in
+            ddg)
+              python docs/wip16/A/tests/runtime16a.py "$AEGIS_SAVE_BASELINE" > "$AEGIS_EVIDENCE_DIR/baseline-runtime.json"
+              python docs/bunkerhill/K/verify_ddg_runtime.py "$AEGIS_CANDIDATE" > "$AEGIS_EVIDENCE_DIR/runtime.json"
+              python docs/bunkerhill/K/compare_runtime.py "$AEGIS_EVIDENCE_DIR/baseline-runtime.json" "$AEGIS_EVIDENCE_DIR/runtime.json" "$AEGIS_EVIDENCE_DIR/comparison.json"
+              python docs/bunkerhill/K/verify_ddg_render.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/native-damage" --deadline 900
+              ;;
+            controls)
+              python docs/bunkerhill/K/verify_startup.py "$AEGIS_CANDIDATE" "$AEGIS_SAVE_BASELINE" "$AEGIS_EVIDENCE_DIR/startup"
+              python docs/bunkerhill/K/verify_g_controls.py "$AEGIS_CANDIDATE" artifacts/bunkerhill/baseline-F.html "$AEGIS_EVIDENCE_DIR/controls"
+              python docs/bunkerhill/K/verify_interior_render.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/upper-interior"
+              ;;
+            rescue)
+              python docs/bunkerhill/K/verify_spy_cic_k.py "$AEGIS_CANDIDATE" artifacts/bunkerhill/baseline-J.html "$AEGIS_EVIDENCE_DIR/spy-cic"
+              python docs/bunkerhill/K/verify_rescue_k.py "$AEGIS_CANDIDATE" artifacts/bunkerhill/baseline-J.html "$AEGIS_EVIDENCE_DIR/rescue"
+              python docs/bunkerhill/K/verify_rescue_time_k.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/rescue-time"
+              python docs/bunkerhill/K/verify_rescue_3d_k.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/rescue-3d"
+              ;;
+            sensors)
+              python docs/bunkerhill/K/verify_cg52.py "$AEGIS_CANDIDATE"
+              python docs/bunkerhill/K/verify_cg_runtime.py "$AEGIS_CANDIDATE"
+              python docs/bunkerhill/K/verify_clutter_indicator.py "$AEGIS_CANDIDATE" artifacts/bunkerhill/baseline-D.html "$AEGIS_EVIDENCE_DIR/clutter-indicator"
+              python docs/bunkerhill/K/verify_clutter_timescale.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/clutter-timescale"
+              python docs/bunkerhill/K/verify_dual_spq_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/dual-spq"
+              ;;
+            render)
+              python docs/bunkerhill/K/verify_cg_render.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/native-damage" --deadline 900
+              python docs/bunkerhill/K/verify_presentation_fault_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/presentation-fault" --baseline artifacts/bunkerhill/baseline-H.html
+              ;;
+            weapons)
+              python docs/bunkerhill/K/verify_vls_origins_j.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/vls-origins" --baseline-i artifacts/bunkerhill/baseline-I.html
+              python docs/bunkerhill/K/verify_close_in_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/close-in" --baseline artifacts/bunkerhill/baseline-H.html
+              python docs/bunkerhill/K/verify_ddg_ram_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/ddg-ram"
+              python docs/bunkerhill/K/verify_spg_resources_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/spg-resources" --baseline artifacts/bunkerhill/baseline-H.html
+              ;;
+            raid)
+              python docs/bunkerhill/K/verify_native_raid_i.py "$AEGIS_CANDIDATE" "$AEGIS_EVIDENCE_DIR/native-raid" --count 6 --deadline 600
+              ;;
+            *) exit 1 ;;
+          esac
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bunkerhill-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/bunkerhill/${{ matrix.suite }}
           if-no-files-found: error

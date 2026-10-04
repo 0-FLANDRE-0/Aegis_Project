@@ -13,6 +13,8 @@
 
 DDG 동작 비교는 고정 SHA의 원본 WIP16B와 K를 같은 runner의 같은 Playwright Chromium 실행 파일로 다시 실행한다. 서로 다른 브라우저 엔진에서 저장한 과거 JSON은 출처 증거로 보존하며, 현재 회귀 판정은 같은 환경의 두 실행을 대조한다. 기존 comparator의 aggregate 완전 일치, case/event 비교, float 허용 오차를 그대로 유지하고 browser version·두 실행의 raw 결과를 artifact에 기록한다.
 
+원격 검사는 exact baseline/source job 뒤에 DDG, 출항·구획, 퇴함·CIC, 센서, CG 렌더링, 무장과 실제 Kh-32 raid의 7개 독립 그룹을 병렬 실행한다. 각 그룹은 같은 업로드 SHA와 고정 baseline을 사용하며, 이전 모든 기능 판정을 유지한다. SwiftShader의 native frame 처리 속도를 고려해 피격 구멍 완료의 wall-clock 제한을 900초, 실제 raid를 600초로 둔다. 실제 geometry 교체·ray aperture·카메라·고정 tick·그리기·복구·오류 판정은 동일하고 queue를 수동 진행시키지 않는다. 이 소프트웨어 렌더링 검사는 실기기의 FPS 기준이 아니다.
+
 ## GitHub에 보존한 지원 자료
 
 K의 작은 모듈·빌더·검사·출처·로컬 evidence와 J의 선행 evidence를 반영했다. H의 작은 기준 모듈은 exact 비교본 재빌드에 사용한다. authored main, 거대한 diff, cache와 추출된 모델의 중복 사본은 commit하지 않는다.
