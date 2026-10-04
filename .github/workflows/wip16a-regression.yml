@@ -1,0 +1,75 @@
+name: WIP16A package and browser regression
+
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP16A.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP16A.md'
+      - 'SHA256SUMS_v48_WIP16A.txt'
+      - 'WIP16_BRANCH_STATUS.md'
+      - 'docs/wip16/**'
+      - '.github/workflows/wip16a-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: WIP16A exact package (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Check hashes, all scripts and byte-identical reconstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/wip16a
+          sha256sum -c SHA256SUMS_v48_WIP16A.txt
+          python docs/wip16/A/tests/verify_package.py Aegis_SIM_v48_WIP16A.html Aegis_SIM_v48.html > artifacts/wip16a/package.json
+          python -c "import json; p=json.load(open('artifacts/wip16a/package.json')); print(p['originalPackage']); print(p['additionalChecks']['passed'], '/', p['additionalChecks']['total']); assert p['pass']"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wip16a-package-py${{ matrix.python }}-${{ github.sha }}
+          path: artifacts/wip16a/
+          retention-days: 14
+
+  browser:
+    name: WIP16A uploaded HTML in Chromium
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Playwright and Chromium
+        run: |
+          python -m pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Run supplied acceptance with isolated browser contexts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/wip16a
+          python docs/wip16/A/tests/runtime16a.py Aegis_SIM_v48_WIP16A.html > artifacts/wip16a/runtime.json
+          python -c "import json; p=json.load(open('artifacts/wip16a/runtime.json')); print(p['passed'], '/', p['total']); assert p['pass']"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wip16a-browser-${{ github.sha }}
+          path: artifacts/wip16a/
+          retention-days: 14

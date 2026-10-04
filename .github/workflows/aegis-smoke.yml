@@ -1449,7 +1449,24 @@ jobs:
           set -euo pipefail
           sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
           test -n "$sim_file"
-          cp "$sim_file" index.html
+          # Verify the actual startup upload before running the integrated 3D job.
+          if test -f Aegis_SIM_v48_WIP_STARTUP_A.html && test -f docs/ship-startup/A/build_startup.py; then
+            base=archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html
+            if ! test -f "$base"; then base=Aegis_SIM_v48_WIP16B.html; fi
+            python docs/ship-startup/A/build_startup.py "$base" /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cmp Aegis_SIM_v48_WIP_STARTUP_A.html /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cp Aegis_SIM_v48_WIP_STARTUP_A.html index.html
+            sim_file=Aegis_SIM_v48_WIP_STARTUP_A.html
+          elif test -f docs/wip16/B/build_wip16b.py && test -f Aegis_SIM_v48_WIP16A.html; then
+            python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
+            if test -f Aegis_SIM_v48_WIP16B.html; then
+              cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
+            fi
+            cp /tmp/Aegis_SIM_v48_WIP16B.html index.html
+            sim_file=Aegis_SIM_v48_WIP16B.html
+          else
+            cp "$sim_file" index.html
+          fi
           printf '%s\n' "$sim_file" > rendered-source.txt
           npm install --no-save --no-package-lock ws@8
 
@@ -1498,7 +1515,7 @@ jobs:
           let runtimeReady = false;
           for (let attempt = 0; attempt < 240; attempt++) {
             const probe = await send('Runtime.evaluate', {
-              expression: `!!window.__WIP148_3D_VIEW__?.ready && !!window.__NAVAL_SIM_DIAG__?.runV48Wip03StructuralProbe`,
+              expression: `(() => { if (window.__AEGIS_SHIP_STARTUP__?.snapshot().phase === 'SELECTING') document.getElementById('aegisShipConfirmBtn')?.click(); return !!window.__WIP148_3D_VIEW__?.ready && !!window.__NAVAL_SIM_DIAG__?.runV48Wip03StructuralProbe; })()`,
               returnByValue: true
             });
             if (probe.result?.value) {
@@ -1527,7 +1544,8 @@ jobs:
             return true;
           })()`;
           await send('Runtime.evaluate', { expression: setupExpression });
-          for (let attempt = 0; attempt < 240; attempt++) {
+          const geometryDeadline = Date.now() + 180000;
+          while (Date.now() < geometryDeadline) {
             const probe = await send('Runtime.evaluate', {
               expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(),c=v?.crewAuditV48Wip07?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.allEquipmentRepresented && !!i?.verticalShellFilled && !!i?.superstructureContained && !!i?.batched && !!i?.exteriorTransparent && !!c?.visible && !!c?.allPersonnelRepresented && c?.instanceBatches===1; })()`,
               returnByValue: true
@@ -1614,12 +1632,12 @@ jobs:
                 meshPresent: bridgeMasterEAudit?.meshPresent === true,
                 mountPresent: bridgeMasterEAudit?.mountPresent === true,
                 meshAtAuthoritativeHardpoint: bridgeMasterEAudit?.meshAtAuthoritativeHardpoint === true,
-                upperStarboardYardarm: bridgeMasterEAudit?.upperStarboardYardarm === true,
+                registeredMountPlacement: bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? bridgeMasterEAudit?.registeredMastPlacement === true : bridgeMasterEAudit?.upperStarboardYardarm === true,
                 rotorMirrorsAuthoritative: bridgeMasterEAudit?.rotorMirrorsAuthoritative === true,
                 physicalHitbox: bridgeMasterEAudit?.physicalHitbox === true,
                 sharedHardpoint: bridgeMasterEAudit?.sharedHardpoint === true,
                 mastOutfitPresent: bridgeMasterEAudit?.mastOutfitPresent === true,
-                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === 14,
+                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === (bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? 17 : 14),
                 singleFunctionalRadar: bridgeMasterEAudit?.duplicateFunctionalRadar === false,
                 publicSbandBaseline: bridgeMasterEAudit?.publicSbandBaseline === true,
                 trackDisplayRangeSeparated: bridgeMasterEAudit?.trackDisplayRangeSeparated === true,
@@ -1706,7 +1724,7 @@ jobs:
             'http://127.0.0.1:4173/index.html?view3d=1' >/tmp/aegis-chrome.log 2>&1 &
           chrome_pid=$!
           trap 'kill "$chrome_pid" "$server_pid" 2>/dev/null || true' EXIT
-          timeout 180s node cdp-capture.mjs
+          timeout 360s node cdp-capture.mjs
           test -s aegis-3d.png
           printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
 

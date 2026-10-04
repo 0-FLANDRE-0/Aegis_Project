@@ -1,0 +1,82 @@
+{
+  "schema": "AEGIS_PRESENTATION_FAULT_CONTAINMENT_I",
+  "html": "Aegis_SIM_v48_WIP_BUNKERHILL_J.html",
+  "sha256": "05306084448d4b68e25f696276346d3b9b2d4899d01a6b6d5b7ae2be9e2323b6",
+  "diagnosticOnlyMemoryOverride": false,
+  "faultInjection": "PRESENTATION_ONLY_ONCE_NO_PHYSICS_EXCEPTION",
+  "checks": {
+    "BaselineRAFStopped": true,
+    "NativeSimulationContinues": true,
+    "CICFallback": true,
+    "SimFaultAbsent": true,
+    "StructuredErrorPreserved": true,
+    "Native3DReopens": true,
+    "ResetClearsPresentationFault": true,
+    "CoreZero": true,
+    "OnlyBaselineControlledException": true,
+    "UnexpectedErrorsZero": true
+  },
+  "details": {
+    "baseline": {
+      "first": {
+        "step": 3,
+        "active": true,
+        "draws": 0,
+        "thrown": {
+          "step": 3
+        },
+        "simFault": null,
+        "presentationFault": null
+      },
+      "last": {
+        "step": 3,
+        "active": true,
+        "draws": 0,
+        "thrown": {
+          "step": 3
+        },
+        "simFault": null,
+        "presentationFault": null
+      }
+    },
+    "candidate": {
+      "first": {
+        "step": 3,
+        "active": false,
+        "draws": 0,
+        "thrown": {
+          "step": 3
+        },
+        "simFault": null,
+        "presentationFault": {
+          "stage": "EXTERNAL_3D",
+          "step": 3,
+          "message": "Error: I_CONTROLLED_RENDER_EXCEPTION\n    at v.render (eval at evaluate (:311:30), <anonymous>:1:265)\n    at step (<anonymous>:40187:50)",
+          "time": 17703.70000000298,
+          "action": "RETURN_TO_CIC"
+        }
+      },
+      "last": {
+        "step": 15,
+        "active": false,
+        "draws": 0,
+        "thrown": {
+          "step": 3
+        },
+        "simFault": null,
+        "presentationFault": {
+          "stage": "EXTERNAL_3D",
+          "step": 3,
+          "message": "Error: I_CONTROLLED_RENDER_EXCEPTION\n    at v.render (eval at evaluate (:311:30), <anonymous>:1:265)\n    at step (<anonymous>:40187:50)",
+          "time": 17703.70000000298,
+          "action": "RETURN_TO_CIC"
+        }
+      }
+    }
+  },
+  "expectedBaselineErrors": [
+    "I_CONTROLLED_RENDER_EXCEPTION"
+  ],
+  "errors": [],
+  "pass": true
+}

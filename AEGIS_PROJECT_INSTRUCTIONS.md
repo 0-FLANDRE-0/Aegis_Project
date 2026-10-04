@@ -186,6 +186,77 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
+### 최신 로컬 후보 K — 함선별 SPY CIC·퇴함 구명뗏목
+
+- 최신 파일 `Aegis_SIM_v48_WIP_BUNKERHILL_K.html`, 14,458,866 bytes, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`. main SHA-256 `dbf339daa731b3b86408a1c5bb3c52e718975f5ad82b78d0ae76484b6db69897`.
+- CG CIC는 등록된 전·후·양현 SPY 중심각으로 경계·부하 호·F1–F4를 그린다. DDG의 기존 대각선 도식은 pixel exact로 유지한다. 작동 상태 검사도 선택 함선 배열의 장비명을 사용하므로 CG의 손상 OFF가 실제 센서와 CIC에 함께 반영된다.
+- USN Mark 7 공개 정원 25명을 공유 모듈로 적용했다. 실제 경로를 따라 도착한 생존자부터 순차 탑승하며 사망자·중복·막힌 탈출은 자동 탑승하지 않는다. 정상 전원 퇴함 fixture에서 CG 330명/14척/마지막 5명, DDG 310명/13척/마지막 10명을 확인했다.
+- 함선별 정원으로 충분한 뗏목을 제공하는 상한, 양현 후방 진수 지점, 형상·크기·4초 간격·바람 표류·접촉은 SIM-TUNE이다. 정확한 CG-52 비치 수량·진수 위치는 미확정이다. 출처와 범위는 `docs/bunkerhill/K/RESCUE_SOURCES.md`를 따른다.
+- 탑승 중에는 진수점에 붙어 있고 충원·퇴함 완료·상실 시 떠난다. 이미 떠난 뗏목은 canonical world 엔티티로 남는다. 기존 60 Hz tick에서 움직이며 renderer는 기존 해면 투영을 읽기 전용으로 사용한다. 뗏목 인원 instance buffer를 한 번만 해제하고 작은 공유 자원 한 벌을 재사용한다.
+- 작전 envelope v2·CG revision `BUNKERHILL_LATE_G_1`을 유지하며 rescue codec과 capability를 추가했다. 전체 preflight 이후에만 저장 명단·위치·속도를 복원한다. 옛 J 저장의 퇴함자는 당시 뗏목 위치가 없으므로 detached migration으로 함선 바깥에 근사 재구성한다. 잘못된 저장은 mutation 0으로 거부한다.
+- K 직접 검사 284/284. 입력 `preview-05.html`과 배포 K는 byte-identical이며 raw evidence의 파일명을 바꾸지 않았다. CIC·UI·저장·1/8/16/64×·native 뗏목·DDG·CG·클러터·실제 6발 Kh-32 AUTO를 직접 검사했다. native raid는 피격 scar 40개 이후 draw 36회와 tick 지속, fault/context loss/page error/crash 0, queue 수동 진행 0이다. 사용자 장치 FPS로 표시하지 않는다.
+- J의 VLS·SPG·close-in·SPQ·3D 오류 복구와 고정 셀·277구획을 보존했다. 해당 전용 suite의 일부는 J/H/I 선행 근거이며 전부 K에서 재실행한 것으로 쓰지 않는다. K source 감사와 직접 회귀 범위는 `docs/bunkerhill/K/evidence/verification-summary.json`을 따른다.
+- 상태 `AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md`, SHA `SHA256SUMS_v48_WIP_BUNKERHILL_K.txt`, 지원 `docs/bunkerhill/K/`. 로컬 전체 ZIP의 J HTML/상태/SHA와 `MANIFEST.sha256`은 그대로 보존한다. GitHub는 업로드 K와 작은 지원 자료를 반영하며 대형 역사 Bunker Hill HTML을 추가 업로드하지 않는다. D/F/H/I/J는 작은 모듈·내장 asset에서 원래 hash로 재빌드한다. GitHub 지원 manifest와 원격 검사 범위는 `docs/bunkerhill/K/GITHUB_VALIDATION.md`를 따른다. legacy root baseline은 역사 검사 호환을 위해 유지하고 최신 K를 명시적으로 선택한다.
+- 사용자 업로드 `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 K 크기·SHA·Git blob이 검증본과 exact 일치했다. 사용자가 main 병합을 명시적으로 요청했으며, PR의 현재 head와 성공한 Actions를 확인한 뒤 merge commit으로 반영한다. 원격 진행·결과는 PR 기록을 따른다. 기존 7.1 HTML 업로드 분담을 유지한다. 다음 기능 후보는 하푼 대함미사일과 헬리콥터이며 아직 새 구현은 시작하지 않았다.
+
+### 직전 검증 로컬 후보 J — VLS 정지·SPG-62·양현 팰렁스·SPQ 두 면
+
+- 당시 파일 `Aegis_SIM_v48_WIP_BUNKERHILL_J.html`, 14,446,182 bytes, SHA-256 `05306084448d4b68e25f696276346d3b9b2d4899d01a6b6d5b7ae2be9e2323b6`.
+- 실제 Kh-32 6발 AUTO native 3D에서 C17 배기의 미장착 VLS 칸 참조 예외를 재현하고 실장 셀만 사용하도록 수정했다. 전방 4–7행을 DDG 4행으로 잘라 옮기는 발사 원점도 고쳤다. 122개 원점/488 ESSM/122 연출/12개 실제 발사를 원본 registration과 대조했다.
+- 같은 native raid가 피격 scar 40개 이후까지 draw 36회와 fixed tick을 계속했다. RAM/physics fault/presentation fault/context loss/page error/crash 0. geometry pending 중에도 그리며 queue를 물리 tick에서 강제로 진행하지 않는다. 60/120/20 Hz와 frame 예산을 유지한다.
+- 표시 예외는 오류 기록/CIC 복귀로 RAF 정지를 막고 RESET/3D 재개를 지원한다. 물리 오류 처리는 그대로다. 퇴장 SAM/ASM/wreck의 owned GPU 자원은 한 번만 해제한다.
+- SPG-62 원본 연결 성분 전체를 pitch/yaw에 배정해 접시를 분리하지 않는다. 4대×12자세와 원본 indexed source 740,819 triangles를 확인했다. 벙커힐 양현 GUN은 20mm만 발사하며 탄체/보정/탄약/FX가 독립이다. DDG 실제 RAM은 유지한다.
+- SPQ-9는 non-B/2D 수상 처리 유지. 공개 양면 배열 근거는 **SPQ-9B**이며 구형 A형 양면은 미확정이다. 요청한 두 면은 **SIM-TUNE**으로 명시해 180° 차이/30 RPM/명목 1초 재방문과 각 사각/3D 빔을 일치시킨다. B형 ASMD/공중 처리/측정 고도를 CG에 추가하지 않는다.
+- J 직접 검사 249/249. suite/조건/hash는 `docs/bunkerhill/J/evidence/verification-summary.json`, 원인은 `ROOT_CAUSE.md`, 공개 근거는 `RADAR_SOURCES.md`다. DDG 집계 exact, 상세 float 기존 한도 안. I/H 선행 검사를 J 직접 실행으로 표기하지 않는다.
+- CG 저장 revision `BUNKERHILL_LATE_G_1`, 고정61+61 VLS/277구획/상부71공간/330명과 D/E/F detached migration을 유지한다. 설치 ID·저장 schema를 바꾸지 않는다.
+- J HTML·상태 `AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_J.md`·SHA `SHA256SUMS_v48_WIP_BUNKERHILL_J.txt`는 `archive/v48/WIP_BUNKERHILL_J/`, 당시 지원은 `docs/bunkerhill/J/`에 보존한다. H 및 조사용 I도 각 archive를 유지한다. I는 최신 실행 대상이 아니다.
+- branch `bunkerhill-late-profile` 및 7.1 사용자 HTML 업로드 분담 유지. J 원격 업로드/CI/PR은 이번 작업에서 미실행. H/I 비교본도 동일 내장 asset과 작은 모듈로 exact 재빌드했다.
+
+### 직전 검증 로컬 후보 H — 피격 후 3D 지속·고정 VLS·상부 내부 구획
+
+- 당시 파일 `Aegis_SIM_v48_WIP_BUNKERHILL_H.html`, 14,444,174 bytes, SHA-256 `5aaffab97043a08b43459a374247f559c05e2c104fd8af581d094934078a5dd6`.
+- F의 필수 관통구 대기 중 draw 보류를 실제 native RAF로 재현하고 마지막 완성 geometry를 계속 표시하도록 수정했다. 큰 CG static mesh는 원본 속성 그대로 compact chunk로 보존하며 물리 tick에서 queue를 강제 진행하지 않는다. 기존 60/120/20 Hz와 frame 시간 예산을 유지한다.
+- 전후 각 61 VLS 설치 좌표를 고정하고 8×8의 미장착 3칸씩을 설치된 EMPTY와 구분한다. 모든 122셀×5종 편성·6프리셋·실제 클릭/드래그·출항 잠금·복원을 검사했다.
+- CG 내부는 12 갑판·277 공간·392 연결·179 장비, 상부 71 공간. 함교 창문 높이에 맞춘 B1과 전후 갑판실 내부를 공유 피해/화재/문/crew 경로에 연결한다. 실함 도면이 아닌 source-contained SIM-TUNE 구획이며 물리 침수 24 column과 두 격납고 5.2 m 높이는 유지한다.
+- CG revision `BUNKERHILL_LATE_G_1`; D/E/F `BUNKERHILL_LATE_D_1` 저장은 모든 codec 통과 후 detached clone으로 명시 migration한다. 잘못된 revision/구획/셀은 권위 상태 변경 없이 거부한다. H는 G의 renderer 분류와 표시 검사만 보완하므로 revision을 다시 바꾸지 않았다.
+- H 직접 package 45/45, startup 17/17, 고정 셀/구획/저장 21/21, 레이더 통합 26/26, 클러터·2D 45/45, CG native 피격 18/18, DDG native 피격 16/16, 상부 구획/문/crew 10/10, G→H source 동일 범위 5/5. native 검사는 geometry generator 강제 진행 0회다.
+- G CG runtime 30/30·DDG runtime 14/14·fixed-tick 1/8/16/64× 20/20을 H 직접 실행으로 표기하지 않는다. H의 CG renderer 외 main bytes/13 records/6 asset이 G와 같음을 검증해 물리 회귀가 변경 없음을 보증한다. 범위와 hash는 H evidence summary를 따른다.
+- 상세 상태 `AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_H.md`, 체크섬 `SHA256SUMS_v48_WIP_BUNKERHILL_H.txt`, 전체 `MANIFEST.sha256`, 소형 코드·근거·검사 `docs/bunkerhill/H/`. 당시 H 인계는 루트 H 하나와 F/G archive 세트였다. 현재 H 세트도 archive에 bytes 동일 보존한다.
+- 준비 branch `bunkerhill-late-profile` 및 7.1 사용자 HTML 업로드 분담을 유지한다. H 원격 업로드·CI·후속 PR은 미실행이다. D/F 비교 HTML은 H의 동일 내장 asset과 소형 기준 모듈로 exact 재생성할 수 있다.
+
+### 직전 로컬 후보 — 벙커힐 후기 구성·마스트 레이더
+
+- 최신 파일 `Aegis_SIM_v48_WIP_BUNKERHILL_D.html`, 14,351,727 bytes, SHA-256 `c71c0ec6117c1d80d593bc741a1515536ec04e34e79ca81c15ad28d1afd29e2c`.
+- STARTUP_A 정확한 bytes에서 빌드했다. DDG-119 기본 선택과 CG-52의 독립 canonical runtime·프로필을 제공한다. 빨간 원 SPQ-9 non-B / 파란 원 SPS-73 실제 안테나만 회전하며 마스트 가로대·발판·난간·지지대는 고정한다.
+- package 42/42, startup 17/17, CG 통합 26/26, CG runtime 30/30, DDG runtime 14/14, DDG 3D 13/13, CG 3D 14/14, 원본 등록 재생성 5/5 PASS. DDG 집계는 exact 일치하고 상세 float 최대 차이 3.87e-13은 기존 허용 오차 안이다. CG 3D는 native RAF 15초 후 동일 표시 작업 큐의 추가 진행을 포함하며 native FPS 검사로 취급하지 않는다.
+- 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_D.md`, 루트 체크섬 `SHA256SUMS_v48_WIP_BUNKERHILL_D.txt`, 전체 로컬 인계 `MANIFEST.sha256`, 코드·근거·evidence `docs/bunkerhill/D/`.
+- 준비 branch `bunkerhill-late-profile`는 출항 공통화 PR #42 head `d73e87f03c64d4a0429b0c6092215b44eb1688e0`에서 생성했다. PR #42는 확인 시 draft/open/unmerged다. 현재 D는 로컬 검증본으로 원격 D 업로드·CI·후속 PR을 완료했다고 간주하지 않는다.
+- 7.1에 따라 사용자가 완성 HTML을 이 브랜치에 업로드한 뒤 원격 크기·SHA-256·기준을 확인하고 작은 문서·검사·workflow를 반영한다. STARTUP_A 이전 세트를 동일 bytes로 archive에 보존한다. 큰 모델 지원 자료는 새 HTML의 hash-pinned 내장 자료에서 추출하며 별도 GitHub binary 업로드를 요구하지 않는다.
+- 실제 후기 레이더 세부형과 내부 도면 등 미확정 사항, SPQ-9 저고도 공중 트랙의 미구현 범위는 상태 문서와 RADAR_SOURCES를 따른다. main 병합·정식 승격·release/tag는 별도 명시 지시를 따른다.
+
+### 직전 업로드 후보 — 출항 전 함선 선택·초기화
+
+- 기준은 아래 WIP16B 사용자 파일이다. 새 파일은 `Aegis_SIM_v48_WIP_STARTUP_A.html`, `7,361,673 bytes`, SHA-256 `94f5e9321fe1f04c5b43c4d8dca5b0762014c1cffe358ad92a81b8ffe70e7c92`.
+- WIP 번호 미확정 상태를 유지하며 기능명 작업 토큰 `WIP_STARTUP_A`를 사용한다. 준비 branch `ship-startup-ddg-regression`는 `WIP16@145532316e1f87435f50a8de4a271497f0d2f1ab`에서 생성했다.
+- 요청된 출항 전 선택·공통 최초 생성·기존 subsystem 결속과 DDG-119 회귀는 로컬 완료했다. package 34/34, startup 15/15, 기존 runtime 14/14, 3D geometry/recovery 13/13 PASS. 초기 선택에서 runtime이 없고, 선택 후 하나만 생성하며 출항 후 재선택을 거부한다.
+- 상태 `AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md`, 체크섬 `SHA256SUMS_v48_WIP_STARTUP_A.txt`, 빌더/검사/증거 `docs/ship-startup/A/`.
+- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했고 로컬 검증본과 exact 일치한다. 7.1 순서대로 작은 지원 파일 23개를 반영·원격 hash 대조했고 후속 draft PR #42를 `WIP16` 대상으로 만들었다.
+- tested head `61a8931f0cc5e933fb901e270e0f5f28e046519b`에서 출항 준비 전용 [37102412380](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412380) 1/1, 기존 B 회귀 [37102412362](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412362) 1/1, 일반 smoke [37102412322](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412322) 32/32 job PASS. 일반 3D 입력은 이번 사용자 HTML이며 다른 job에는 역사 payload가 포함된다. 이후 마감 반영은 문서·증거·체크섬만 변경한다.
+- 이전 B HTML/상태/체크섬 3개는 `archive/v48/WIP16B/`로 동일 Git blob을 이동·대조해 보존했다. 기존 원본과 증거를 덮어쓰지 않는다. archive의 옛 체크섬은 당시 경로/문서의 역사 증거이며 최신 검사에는 새 체크섬을 사용한다.
+- STARTUP_A 당시 운용 registry는 DDG-119 한 척이다. 다음 구현은 벙커힐 profile/model/builder를 이 초기화 경계에 연결하는 것이다. 다함 동시 운용·하푼·토마호크는 후속 범위다. main 병합·승격·release/tag는 별도 명시 지시를 따른다.
+
+### 직전 개발 후보 — WIP16B
+
+- branch `WIP16`, 기준 `main@d2b840bae95267ffc53bfda847442b2211c1ab03`, PR #41.
+- WIP16A 사용자 업로드는 원본 그대로 보존한다. 현재 사용자 업로드 후보는 `Aegis_SIM_v48_WIP16B.html`: `7,357,036 bytes`, SHA-256 `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- 대응 상태 `AEGIS_PLAN_STATUS_v48_WIP16B.md`, 체크섬 `SHA256SUMS_v48_WIP16B.txt`, 소형 재현 빌더·검사·증거는 `docs/wip16/B/`를 따른다.
+- 피격 구멍은 기존에도 올바른 선체 표면을 찾았으나 내부 GPU 렌더 제출 때문에 geometry commit이 지연됐다. B는 필수 구멍 commit 전 GPU 재제출만 미룬다. 기존 cut/fold·면적·물리/난수·고정 틱과 작업 예산은 유지한다.
+- C5 센서 rotor의 중첩 ship-local 좌표, 등록점·parent·실제 scanner 2 meshes·mast 17 draws·single functional rotor를 검사한다. root 보호 스키마, 현재 source envelope·함포 joint·96 VLS 셀/hinge/panel binding을 검증한다. 옛 6개 구명뗏목 검사를 PASS로 간주하지 않으며 현재 C5에는 적용 불가로 표시한다.
+- WIP16A의 package/Chromium 기준은 보존하고 B에서도 기존 13개 runtime acceptance를 같은 threshold로 재사용한다. 최종 결과와 tested head는 B 상태 문서 및 evidence를 따른다.
+- 사용자 업로드 commit `7562bb0925e2b85521d37fefd2c81898ed6de18a`의 원격 크기·Git blob이 로컬/CI 검증본과 exact 일치한다. B 전용 CI와 일반 3D CI는 재구성본을 별도 임시 경로에 만들고 업로드 HTML과 `cmp`한 뒤 검사한다. 업로드 HTML이 있으면 덮어쓰지 않는다. 검증과 최종 통합 판정은 B 상태 문서 및 `evidence/upload_closeout.json`을 따른다.
+- 새 브랜치·main 병합·v48.1 승격·release/tag는 실행하지 않았다.
+- 다음 기능은 출항 전 함선 선택·초기화 공통화, 기존 DDG-119 회귀, 벙커힐 프로필/모델 연결 순서다. 하푼/토마호크·다함 동시 운용은 후속 범위며 번호는 미확정이다.
+
 ### WIP12D 이전 인계 기록
 
 - 현재 이어서 작업할 기준은 `Aegis_SIM_v48_WIP12D.html`이다.

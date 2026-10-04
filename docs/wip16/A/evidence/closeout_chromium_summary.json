@@ -1,0 +1,316 @@
+{
+  "schema": "AEGIS_WIP16A_CHROMIUM_CLOSEOUT_SUMMARY",
+  "runId": 37090059200,
+  "jobId": 111108349027,
+  "headSha": "4edae6dd627f57e9b67e7485ca386a70b67a368a",
+  "prMergeSha": "b37f17a622cfa05fe9cd9024388e3765ce52bb9b",
+  "artifactId": 11261528254,
+  "artifactZipSha256": "a24ec19d7641ad0a258c61c8fd2ab1bd399f4b1d38cc51442cecf38fe744fa7d",
+  "candidateSha256": "6fba8ad6225e83fc86c7f07d275ab58feb4b8027d83a29aabeba3f6fa2382f24",
+  "passed": 13,
+  "total": 13,
+  "pass": true,
+  "phaseIsolation": "FRESH_BROWSER_CONTEXT_PER_PHASE",
+  "rows": [
+    {
+      "name": "core selftest zero",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "WIP16 profile exposed",
+      "pass": true,
+      "detail": {
+        "schema": "PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",
+        "groupRadiusFractionForCenterGate": 0.32,
+        "baseCenterGateM": 0.42,
+        "minCenterGateM": 0.55,
+        "maxCenterGateM": 2.1,
+        "predictedMissBaseM": 0.5,
+        "predictedMissGroupFraction": 0.18,
+        "engageHysteresis": 1.35
+      }
+    },
+    {
+      "name": "Phalanx 6-case hit rate >= 1%",
+      "pass": true,
+      "detail": {
+        "cases": 6,
+        "totalBulletsFired": 1073,
+        "totalBulletsHit": 19,
+        "hitRate": 0.017707362534948742,
+        "bulletsPerCase": {
+          "median": 163,
+          "mean": 178.83333333333334,
+          "max": 253
+        },
+        "hitsPerCase": {
+          "median": 2.5,
+          "mean": 3.1666666666666665,
+          "max": 8
+        },
+        "turretErrDeg": {
+          "median": 0.03355034464533602,
+          "p90": 0.05866601130556285,
+          "max": 0.1746748059331336
+        },
+        "stQuality": {
+          "median": 0.9988333333333334,
+          "min": 0.9918333333333335
+        },
+        "outcomes": {
+          "INTERCEPT_FAIL_NO_HULL_HIT": 3,
+          "KILL": 2,
+          "STRUCT_FAIL": 1
+        }
+      }
+    },
+    {
+      "name": "Phalanx 6-case no ship hit",
+      "pass": true,
+      "detail": {
+        "shipHits": 0,
+        "outcomes": {
+          "INTERCEPT_FAIL_NO_HULL_HIT": 3,
+          "KILL": 2,
+          "STRUCT_FAIL": 1
+        }
+      }
+    },
+    {
+      "name": "body/control surfaces both physical",
+      "pass": true,
+      "detail": {
+        "CONTROL_SURFACE": 13,
+        "BODY": 6
+      }
+    },
+    {
+      "name": "firing center tightened",
+      "pass": true,
+      "detail": {
+        "median": 0.03355034464533602,
+        "p90": 0.05866601130556285,
+        "max": 0.1746748059331336
+      }
+    },
+    {
+      "name": "closed-loop spotting remains active",
+      "pass": true,
+      "detail": {
+        "median": 1.9083333333333328,
+        "min": 1.8499999999999996
+      }
+    },
+    {
+      "name": "Mk244 3.0mil unchanged",
+      "pass": true,
+      "detail": {
+        "diameter80Mil": 3,
+        "sigmaMrad": 0.8360632759424154,
+        "dependsOnTrackQuality": false
+      }
+    },
+    {
+      "name": "CIWS maneuver estimator preserved",
+      "pass": true,
+      "detail": {
+        "schema": "CIWS_B3_MANEUVER_WIP11",
+        "straight": {
+          "accelMps2": 0.01697392088741729,
+          "jerkMps3": 0.006124674228464171,
+          "maneuvering": false
+        },
+        "maneuver": {
+          "estimatedAyMps2": 17.586053107734884,
+          "accelMps2": 17.58605839770496,
+          "jerkMps3": 6.026062928611333,
+          "maneuverScore": 18.155757626371592,
+          "maneuvering": true
+        },
+        "prediction": {
+          "enabled": true,
+          "horizonS": 0.9329944888789521,
+          "rangeLimitM": 4500,
+          "interceptShiftM": 7.279378755062518,
+          "acceleratedTofS": 0.9329944888789521,
+          "constantVelocityTofS": 0.9313171206792407
+        },
+        "coast": {
+          "beforeAccelMps2": 17.58605839770496,
+          "afterAccelMps2": 10.09006116297147,
+          "bounded": true
+        },
+        "rangeGate": {
+          "rangeM": 5003.679639162231,
+          "limitM": 4500,
+          "enabled": false,
+          "horizonS": 0
+        }
+      }
+    },
+    {
+      "name": "CIWS damage ordering preserved",
+      "pass": true,
+      "detail": [
+        75,
+        63,
+        48,
+        0
+      ]
+    },
+    {
+      "name": "WIP13A surface/flood checks preserved",
+      "pass": true,
+      "detail": {
+        "profileFrozen": true,
+        "unmannedEmptyGasFree": true,
+        "sharedHullMesh": true,
+        "roundTripCoordinateFrame": true,
+        "beamCrossesTwoHullSkins": true,
+        "highSegmentMisses": true,
+        "coarseWatertightZones": true,
+        "commercialMaterialScantlings": true,
+        "damagePacketCreatesPhysicalBreach": true,
+        "idempotentImpactPacket": true,
+        "structuralDamageCoupled": true,
+        "outfittingFireCoupled": true,
+        "keelDamageCanStructurallyKill": true,
+        "submergedFixtureActuallyWet": true,
+        "submergedBreachFloods": true,
+        "asymmetricFloodingHeelsStarboard": true,
+        "deterministicFloodIntegration": true,
+        "bandedAspectRcs": true
+      }
+    },
+    {
+      "name": "WIP13A time-scale preserved",
+      "pass": true,
+      "detail": {
+        "schema": "AEGIS_SURFACE_TARGET_TIME_SCALE_REGRESSION_V48_WIP15C",
+        "targetTicks": 960,
+        "dt": 0.016666666666666666,
+        "rows": [
+          {
+            "timeScale": 1,
+            "frames": 960,
+            "steps": 960,
+            "initialSubmergenceM": 0.7610229494223317,
+            "waterM3": 48.19773163122285,
+            "draftM": -1.7877051890083737,
+            "heelRad": 0.0052762008125543545,
+            "trimRad": 6.44541335701269e-05,
+            "state": "FLOODING"
+          },
+          {
+            "timeScale": 8,
+            "frames": 120,
+            "steps": 960,
+            "initialSubmergenceM": 0.7610229494223317,
+            "waterM3": 48.19773163122285,
+            "draftM": -1.7877051890083737,
+            "heelRad": 0.0052762008125543545,
+            "trimRad": 6.44541335701269e-05,
+            "state": "FLOODING"
+          },
+          {
+            "timeScale": 16,
+            "frames": 60,
+            "steps": 960,
+            "initialSubmergenceM": 0.7610229494223317,
+            "waterM3": 48.19773163122285,
+            "draftM": -1.7877051890083737,
+            "heelRad": 0.0052762008125543545,
+            "trimRad": 6.44541335701269e-05,
+            "state": "FLOODING"
+          },
+          {
+            "timeScale": 64,
+            "frames": 15,
+            "steps": 960,
+            "initialSubmergenceM": 0.7610229494223317,
+            "waterM3": 48.19773163122285,
+            "draftM": -1.7877051890083737,
+            "heelRad": 0.0052762008125543545,
+            "trimRad": 6.44541335701269e-05,
+            "state": "FLOODING"
+          }
+        ],
+        "maxDelta": {
+          "waterM3": 0,
+          "draftM": 0,
+          "heelRad": 0,
+          "trimRad": 0
+        },
+        "pass": true
+      }
+    },
+    {
+      "name": "page errors zero",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "phalanxSixCaseAggregate": {
+    "cases": 6,
+    "totalBulletsFired": 1073,
+    "totalBulletsHit": 19,
+    "hitRate": 0.017707362534948742,
+    "bulletsPerCase": {
+      "median": 163,
+      "mean": 178.83333333333334,
+      "max": 253
+    },
+    "hitsPerCase": {
+      "median": 2.5,
+      "mean": 3.1666666666666665,
+      "max": 8
+    },
+    "turretErrDeg": {
+      "median": 0.03355034464533602,
+      "p90": 0.05866601130556285,
+      "max": 0.1746748059331336
+    },
+    "stQuality": {
+      "median": 0.9988333333333334,
+      "min": 0.9918333333333335
+    },
+    "outcomes": {
+      "INTERCEPT_FAIL_NO_HULL_HIT": 3,
+      "KILL": 2,
+      "STRUCT_FAIL": 1
+    }
+  },
+  "spottingAggregate": {
+    "cases": 2,
+    "totalBulletsFired": 245,
+    "totalBulletsHit": 2,
+    "hitRate": 0.00816326530612245,
+    "bulletsPerCase": {
+      "median": 122.5,
+      "mean": 122.5,
+      "max": 162
+    },
+    "hitsPerCase": {
+      "median": 1,
+      "mean": 1,
+      "max": 1
+    },
+    "turretErrDeg": {
+      "median": 0.03038410806118778,
+      "p90": 0.05319803568457163,
+      "max": 0.062118967604163654
+    },
+    "stQuality": {
+      "median": 0.9988333333333334,
+      "min": 0.9941666666666668
+    },
+    "outcomes": {
+      "INTERCEPT_FAIL_NO_HULL_HIT": 2
+    },
+    "firstCorrectionDelayFromFireS": {
+      "median": 1.9083333333333328,
+      "min": 1.8499999999999996
+    }
+  }
+}

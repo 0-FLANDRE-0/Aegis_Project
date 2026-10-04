@@ -1,0 +1,36 @@
+{
+  "schema": "AEGIS_RESCUE_PUBLIC_EVIDENCE_K_1",
+  "checkedAt": "2026-10-04",
+  "confirmedCapacityPersons": 25,
+  "shipSpecificCountConfirmed": false,
+  "shipSpecificLaunchPositionsConfirmed": false,
+  "sources": [
+    {
+      "id": "US_NAVY_DVIDS_5627398",
+      "url": "https://www.dvidshub.net/image/5627398/uss-makin-island-installs-life-rafts-onboard",
+      "publisher": "U.S. Navy via DVIDS",
+      "taken": "2019-07-22",
+      "posted": "2019-07-30",
+      "quote": "Commonly known as a ‘Mark 7,’ each life raft can hold up to 25 people.",
+      "retrievedHtmlSha256": "427fc0e00100e18c616d2806635688b6c2cfd22b40bbb3a30690518109de3195",
+      "scope": "Mark 7 capacity only; Makin Island inventory is not CG-52 inventory"
+    },
+    {
+      "id": "NAVY_MIL_DTL_32532A_PUBLIC_SCOPE",
+      "url": "https://standards.globalspec.com/std/14468739/mil-dtl-32532a",
+      "publisher": "GlobalSpec public NAVY standard abstract",
+      "published": "2021-08-04",
+      "quote": "This specification covers the 25-person (Mark-7) Mod 2 and 50-Person (Mark-8) Mod 2 inflatable life rafts, including inflation system and survival gear, packed within a rigid stowage container, ready for use as abandon ship survival equipment.",
+      "retrievedHtmlSha256": "c0d9e4707a14d6254e2e159ddb2f91e66f20cc366b051abf252100f43d1892af",
+      "scope": "public scope only; full specification not retrieved"
+    }
+  ],
+  "simTuned": [
+    "ceil(profile roster / 25) provision",
+    "launch stations derived from aft flight deck and source hull",
+    "4 second minimum launch interval",
+    "raft shape and size",
+    "wind leeway, separation and hull avoidance",
+    "legacy-save survivor positions reconstructed outside ship"
+  ]
+}

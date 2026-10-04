@@ -1,0 +1,1742 @@
+name: AEGIS smoke check
+
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v*.html'
+      - '.github/workflows/aegis-smoke.yml'
+      - 'tests/ciws-b1-closure.spec.js'
+      - 'tests/ciws-b2-maneuver.spec.js'
+      - 'tests/ciws-b3-damage.spec.js'
+      - 'tests/ship-mass-ledger.spec.js'
+      - 'tests/ship-impact-penetration.spec.js'
+      - 'tests/ship-structural-fatigue.spec.js'
+      - 'tests/ship-stability-maneuver.spec.js'
+      - 'tests/ship-wave-flooding.spec.js'
+      - 'tests/ship-interior-topology.spec.js'
+      - 'tests/ship-crew-damage.spec.js'
+      - 'tests/crew-wip07-contract.cjs'
+      - 'tests/bridgemaster-e.spec.js'
+      - 'tests/bridgemaster-e-contract.cjs'
+      - 'tests/ship-profile.spec.js'
+      - 'tests/ship-profile-contract.cjs'
+      - 'tests/aft-geometry-wip10.spec.js'
+      - 'tests/material-protection-wip11-contract.cjs'
+      - 'tests/material-protection-wip11.spec.js'
+      - 'tests/runtime-safety-wip11b-contract.cjs'
+      - 'tests/runtime-safety-wip11b.spec.js'
+      - 'tests/asm-wreckage-wip11c-contract.cjs'
+      - 'tests/asm-wreckage-wip11c.spec.js'
+      - 'tests/terminal-ballistics-wip12a-contract.cjs'
+      - 'tests/terminal-ballistics-wip12a.spec.js'
+      - 'tests/live-terminal-effects-wip12b-contract.cjs'
+      - 'tests/live-terminal-effects-wip12b.spec.js'
+      - 'tests/internal-terminal-effects-wip12c-contract.cjs'
+      - 'tests/internal-terminal-effects-wip12c.spec.js'
+      - 'tests/residual-overpenetration-wip12d-contract.cjs'
+      - 'tests/residual-overpenetration-wip12d.spec.js'
+      - 'tests/naval-armor-fuze-wip12e-rev5-contract.cjs'
+      - 'tests/naval-armor-fuze-wip12e-rev5.spec.js'
+      - 'tests/terminal-hardening-wip12f-contract.cjs'
+      - 'tests/terminal-hardening-wip12f.spec.js'
+      - 'WIP12F_SHA256SUMS.txt'
+      - 'tests/wip10-visual-probe.cjs'
+      - 'archive/v48/WIP11C/**'
+      - 'archive/v48/WIP12A/**'
+      - 'archive/v48/WIP12B/**'
+      - 'archive/v48/WIP12C/**'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SIM_FILE: Aegis_SIM_v48_WIP12D.html
+  BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
+  SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
+  WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
+  TERMINAL_BASELINE_SIM_FILE: archive/v48/WIP11C/Aegis_SIM_v48_WIP11C.html
+
+jobs:
+  ciws-b1-closure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CIWS B1 closure in Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ciws-b1-closure
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ciws-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ciws-b1
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ciws-b1-closure -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ciws-b1-closure/SHA256SUMS
+
+      - name: Upload CIWS closure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ciws-b1-closure-${{ github.sha }}
+          path: |
+            artifacts/ciws-b1-closure/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ciws-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ciws-b2-maneuver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CIWS B2 maneuver prediction in Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ciws-b2-maneuver
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ciws-b2-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ciws-b2
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ciws-b2-maneuver -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ciws-b2-maneuver/SHA256SUMS
+
+      - name: Upload CIWS B2 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ciws-b2-maneuver-${{ github.sha }}
+          path: |
+            artifacts/ciws-b2-maneuver/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ciws-b2-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ciws-b3-damage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run CIWS B3 continuous-damage regression in Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ciws-b3-damage
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ciws-b3-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ciws-b3
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ciws-b3-damage -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ciws-b3-damage/SHA256SUMS
+
+      - name: Upload CIWS B3 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ciws-b3-damage-${{ github.sha }}
+          path: |
+            artifacts/ciws-b3-damage/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ciws-b3-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-mass-ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP01 ship mass ledger regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-mass-ledger
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-mass-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-mass
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-mass-ledger -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-mass-ledger/SHA256SUMS
+
+      - name: Upload ship mass evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-mass-ledger-${{ github.sha }}
+          path: |
+            artifacts/ship-mass-ledger/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-mass-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-impact-penetration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP02 impact and through-hull regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-impact-penetration
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-impact-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-impact
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-impact-penetration -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-impact-penetration/SHA256SUMS
+
+      - name: Upload ship impact evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-impact-penetration-${{ github.sha }}
+          path: |
+            artifacts/ship-impact-penetration/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-impact-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-structural-fatigue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP03 structural fatigue and secondary flooding regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-structural-fatigue
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-structure-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-structure
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-structural-fatigue -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-structural-fatigue/SHA256SUMS
+
+      - name: Upload structural fatigue evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-structural-fatigue-${{ github.sha }}
+          path: |
+            artifacts/ship-structural-fatigue/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-structure-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-stability-maneuver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP04 stability and manoeuvring regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-stability-maneuver
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-stability-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-stability
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-stability-maneuver -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-stability-maneuver/SHA256SUMS
+
+      - name: Upload stability evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-stability-maneuver-${{ github.sha }}
+          path: |
+            artifacts/ship-stability-maneuver/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-stability-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-wave-flooding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP05 wave-phase flooding regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-wave-flooding
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-wave-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-wave
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-wave-flooding -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-wave-flooding/SHA256SUMS
+
+      - name: Upload wave flooding evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-wave-flooding-${{ github.sha }}
+          path: |
+            artifacts/ship-wave-flooding/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-wave-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-interior-topology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP06 interior-topology regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-interior-topology
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-interior-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-interior
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-interior-topology -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-interior-topology/SHA256SUMS
+
+      - name: Upload ship interior evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-interior-topology-${{ github.sha }}
+          path: |
+            artifacts/ship-interior-topology/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-interior-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-crew-damage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP07 spatial crew and casualty regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-crew-damage
+          node tests/crew-wip07-contract.cjs "$SIM_FILE" | tee artifacts/ship-crew-damage/crew-wip07-node-contract.json
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-crew-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-crew
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/ship-crew-damage -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/ship-crew-damage/SHA256SUMS
+
+      - name: Upload crew damage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-crew-damage-${{ github.sha }}
+          path: |
+            artifacts/ship-crew-damage/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-crew-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  bridgemaster-e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run v48 WIP08 BridgeMaster E contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/bridgemaster-e
+          node tests/bridgemaster-e-contract.cjs "$SIM_FILE" | tee artifacts/bridgemaster-e/bridgemaster-e-node-contract.json
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-bridgemaster-e-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:bridgemaster-e
+
+      - name: Record artifact SHA-256
+        if: always()
+        shell: bash
+        run: |
+          find artifacts/bridgemaster-e -maxdepth 1 -type f -print0 \
+            | sort -z | xargs -0 -r sha256sum \
+            | tee artifacts/bridgemaster-e/SHA256SUMS
+
+      - name: Upload BridgeMaster E evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bridgemaster-e-${{ github.sha }}
+          path: |
+            artifacts/bridgemaster-e/
+            playwright-report/
+            test-results/
+            /tmp/aegis-bridgemaster-e-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ship-profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11 profile static contract
+        run: npm run test:ship-profile-contract
+
+      - name: Run WIP11 profile browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ship-profile
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-ship-profile-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:ship-profile
+
+      - name: Upload ship-profile evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ship-profile-${{ github.sha }}
+          path: |
+            artifacts/ship-profile/
+            playwright-report/
+            test-results/
+            /tmp/aegis-ship-profile-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  aft-geometry-wip11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11 aft geometry and liferaft browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/aft-geometry-wip11
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-aft-geometry-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:aft-geometry
+
+      - name: Upload WIP11 aft geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aft-geometry-wip11-${{ github.sha }}
+          path: |
+            artifacts/aft-geometry-wip11/
+            playwright-report/
+            test-results/
+            /tmp/aegis-aft-geometry-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  material-protection-wip11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11 material static contract
+        run: npm run test:material-protection-contract
+
+      - name: Run WIP11 material and penetration browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/material-protection-wip11
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-material-protection-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:material-protection
+
+      - name: Upload WIP11 material protection evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: material-protection-wip11-${{ github.sha }}
+          path: |
+            artifacts/material-protection-wip11/
+            playwright-report/
+            test-results/
+            /tmp/aegis-material-protection-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  runtime-safety-wip11b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11B operational import safety static contract
+        run: npm run test:runtime-safety-contract
+
+      - name: Run WIP11B destroy, preflight, zero-mutation and behavior-parity browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/runtime-safety-wip11b
+          python3 -m http.server 4173 >/tmp/aegis-runtime-safety-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:runtime-safety
+
+      - name: Upload WIP11B operational import safety evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-safety-wip11b-${{ github.sha }}
+          path: |
+            artifacts/runtime-safety-wip11b/
+            playwright-report/
+            test-results/
+            /tmp/aegis-runtime-safety-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  asm-wreckage-wip11c-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP11C wreckage, water-surface, BDA and smoke static contract
+        run: npm run test:asm-wreckage-contract
+
+  asm-wreckage-wip11c:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP11C wreckage, water-surface, BDA, smoke and 3D contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/asm-wreckage-wip11c
+          cp "$SIM_FILE" index.html
+          python3 -m http.server 4173 >/tmp/aegis-asm-wreckage-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:asm-wreckage
+
+      - name: Upload WIP11C wreckage, BDA, smoke and water-surface evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: asm-wreckage-wip11c-${{ github.sha }}
+          path: |
+            artifacts/asm-wreckage-wip11c/
+            playwright-report/
+            test-results/
+            /tmp/aegis-asm-wreckage-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  terminal-ballistics-wip12a-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12A terminal-ballistics static contract
+        run: npm run test:terminal-ballistics-contract
+
+  terminal-ballistics-wip12a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12A terminal-ballistics browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/terminal-ballistics-wip12a
+          python3 -m http.server 4173 >/tmp/aegis-terminal-ballistics-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:terminal-ballistics
+
+      - name: Upload WIP12A terminal-ballistics evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminal-ballistics-wip12a-${{ github.sha }}
+          path: |
+            artifacts/terminal-ballistics-wip12a/
+            playwright-report/
+            test-results/
+            /tmp/aegis-terminal-ballistics-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  live-terminal-effects-wip12b-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: archive/v48/WIP12B/Aegis_SIM_v48_WIP12B.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12B live-ordnance terminal-effects static contract
+        run: npm run test:live-terminal-effects-contract
+
+  live-terminal-effects-wip12b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SIM_FILE: archive/v48/WIP12B/Aegis_SIM_v48_WIP12B.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12B live-ordnance terminal-effects browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/live-terminal-effects-wip12b
+          python3 -m http.server 4173 >/tmp/aegis-live-terminal-effects-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:live-terminal-effects
+
+      - name: Upload WIP12B live-ordnance and terminal-visualization evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-terminal-effects-wip12b-${{ github.sha }}
+          path: |
+            artifacts/live-terminal-effects-wip12b/
+            playwright-report/
+            test-results/
+            /tmp/aegis-live-terminal-effects-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  internal-terminal-effects-wip12c-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: archive/v48/WIP12C/Aegis_SIM_v48_WIP12C.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12C internal terminal-effects static contract
+        run: npm run test:internal-terminal-effects-contract
+
+  internal-terminal-effects-wip12c:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SIM_FILE: archive/v48/WIP12C/Aegis_SIM_v48_WIP12C.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12C internal terminal-effects browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/internal-terminal-effects-wip12c
+          python3 -m http.server 4173 >/tmp/aegis-internal-terminal-effects-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:internal-terminal-effects
+
+      - name: Upload WIP12C internal terminal-effects evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: internal-terminal-effects-wip12c-${{ github.sha }}
+          path: |
+            artifacts/internal-terminal-effects-wip12c/
+            playwright-report/
+            test-results/
+            /tmp/aegis-internal-terminal-effects-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  residual-overpenetration-wip12d-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run WIP12D residual-overpenetration static contract
+        run: npm run test:residual-overpenetration-contract
+
+  residual-overpenetration-wip12d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12D Kh-32 residual-overpenetration browser contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/residual-overpenetration-wip12d
+          python3 -m http.server 4173 >/tmp/aegis-residual-overpenetration-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:residual-overpenetration
+
+      - name: Upload WIP12D residual-overpenetration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: residual-overpenetration-wip12d-${{ github.sha }}
+          path: |
+            artifacts/residual-overpenetration-wip12d/
+            playwright-report/
+            test-results/
+            /tmp/aegis-residual-overpenetration-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  naval-armor-fuze-wip12e-rev5-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify WIP12E checksums
+        run: sha256sum -c WIP12E_SHA256SUMS.txt
+
+      - name: Run WIP12E REV5 naval armor and fuze static contract
+        run: npm run test:naval-armor-fuze-contract
+
+  naval-armor-fuze-wip12e-rev5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12E REV5 armor, blast, and persistence browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/aegis-naval-armor-fuze-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          npm run test:naval-armor-fuze
+
+      - name: Upload WIP12E REV5 regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: naval-armor-fuze-wip12e-rev5-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+            /tmp/aegis-naval-armor-fuze-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  terminal-hardening-wip12f-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12F.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify WIP12F checksums
+        run: sha256sum -c WIP12F_SHA256SUMS.txt
+
+      - name: Run WIP12F terminal hardening static contract
+        run: npm run test:terminal-hardening-contract
+
+  terminal-hardening-wip12f:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SIM_FILE: Aegis_SIM_v48_WIP12F.html
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run WIP12F terminal hardening browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/aegis-terminal-hardening-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..40}; do
+            curl --fail --silent http://127.0.0.1:4173/ -o /dev/null && break
+            sleep 0.25
+          done
+          SIM_URL="http://127.0.0.1:4173/$SIM_FILE" npm run test:terminal-hardening
+
+      - name: Upload WIP12F terminal hardening evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminal-hardening-wip12f-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+            /tmp/aegis-terminal-hardening-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  static-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate latest simulator source
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          test -n "$sim_file"
+          SIM_FILE="$sim_file" python3 - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path(os.environ["SIM_FILE"])
+          text = path.read_text(encoding="utf-8")
+          required = (
+              "<!doctype html>",
+              "</html>",
+              'id="external3DRadarBtn"',
+              'id="external3DSpq9bBtn"',
+              'id="external3DBridgeMasterEBtn"',
+              'id="external3DInteriorBtn"',
+          )
+          missing = [marker for marker in required if marker.lower() not in text.lower()]
+          if missing:
+              raise SystemExit(f"{path}: missing markers: {missing}")
+          if re.search(r"(?m)^(?:<<<<<<< .+|=======\\s*|>>>>>>> .+)$", text):
+              raise SystemExit(f"{path}: unresolved merge conflict marker")
+          print(f"validated {path} ({path.stat().st_size:,} bytes)")
+          PY
+
+      - name: Verify static HTTP serving
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          cp "$sim_file" index.html
+          python3 -m http.server 4173 >/tmp/aegis-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..20}; do
+            if curl --fail --silent --show-error http://127.0.0.1:4173/ -o /tmp/aegis-index.html; then
+              break
+            fi
+            sleep 0.25
+          done
+          test -s /tmp/aegis-index.html
+          grep -qi '</html>' /tmp/aegis-index.html
+
+  webgl-render-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create Three.js WebGL probe
+        shell: bash
+        run: |
+          cat > webgl-probe.html <<'HTML'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>AEGIS Actions WebGL probe</title>
+            <style>
+              html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07141c;color:#d7f4ef;font:16px monospace}
+              #status{position:fixed;left:12px;top:12px;z-index:2;padding:8px;background:#001018cc;border:1px solid #49c5a5}
+              canvas{display:block;width:100%;height:100%}
+            </style>
+          </head>
+          <body>
+            <div id="status">BOOT</div>
+            <canvas id="c"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+            <script>
+              (function(){
+                const status=document.getElementById('status');
+                try{
+                  if(!window.THREE) throw new Error('THREE_LOAD_FAILED');
+                  const canvas=document.getElementById('c');
+                  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
+                  renderer.setSize(800,600,false);
+                  renderer.setClearColor(0x07141c,1);
+                  const scene=new THREE.Scene();
+                  const camera=new THREE.PerspectiveCamera(55,800/600,0.1,100);
+                  camera.position.set(2.8,2.1,4.0);
+                  camera.lookAt(0,0,0);
+                  scene.add(new THREE.HemisphereLight(0xbfffea,0x142030,2.2));
+                  const key=new THREE.DirectionalLight(0xffffff,2.4);
+                  key.position.set(3,4,5);
+                  scene.add(key);
+                  const cube=new THREE.Mesh(
+                    new THREE.BoxGeometry(1.6,1.6,1.6),
+                    new THREE.MeshStandardMaterial({color:0x38b48c,roughness:0.48,metalness:0.22})
+                  );
+                  cube.rotation.set(0.42,0.68,0.12);
+                  scene.add(cube);
+                  renderer.render(scene,camera);
+                  const gl=renderer.getContext();
+                  const pixel=new Uint8Array(4);
+                  gl.readPixels(400,300,1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);
+                  const dbg=gl.getExtension('WEBGL_debug_renderer_info');
+                  const info={
+                    three:THREE.REVISION,
+                    webgl2:renderer.capabilities.isWebGL2,
+                    version:gl.getParameter(gl.VERSION),
+                    renderer:dbg?gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),
+                    pixel:Array.from(pixel)
+                  };
+                  document.documentElement.dataset.webgl='PASS';
+                  status.textContent='WEBGL_PASS '+JSON.stringify(info);
+                }catch(err){
+                  document.documentElement.dataset.webgl='FAIL';
+                  status.textContent='WEBGL_FAIL '+(err&&err.stack||err);
+                }
+              })();
+            </script>
+          </body>
+          </html>
+          HTML
+
+      - name: Render WebGL through Chromium SwiftShader
+        shell: bash
+        run: |
+          set -euo pipefail
+          chrome_bin="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome_bin"
+          "$chrome_bin" --version
+          python3 -m http.server 4173 >/tmp/aegis-webgl-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in {1..20}; do
+            curl --fail --silent http://127.0.0.1:4173/webgl-probe.html -o /dev/null && break
+            sleep 0.25
+          done
+          flags=(
+            --headless=new
+            --no-sandbox
+            --disable-dev-shm-usage
+            --enable-webgl
+            --ignore-gpu-blocklist
+            --use-gl=angle
+            --use-angle=swiftshader
+            --enable-unsafe-swiftshader
+            --window-size=800,600
+            --virtual-time-budget=10000
+          )
+          dom="$("$chrome_bin" "${flags[@]}" --dump-dom http://127.0.0.1:4173/webgl-probe.html)"
+          if ! grep -q 'data-webgl="PASS"' <<<"$dom"; then
+            printf '%s\n' "$dom"
+            exit 1
+          fi
+          grep -o 'WEBGL_PASS[^<]*' <<<"$dom"
+          "$chrome_bin" "${flags[@]}" --screenshot=webgl-probe.png http://127.0.0.1:4173/webgl-probe.html
+          test -s webgl-probe.png
+
+      - name: Upload WebGL proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-probe
+          path: webgl-probe.png
+          if-no-files-found: warn
+          retention-days: 7
+
+  aegis-3d-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare latest simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          test -n "$sim_file"
+          # Verify the actual startup upload before running the integrated 3D job.
+          if test -f Aegis_SIM_v48_WIP_STARTUP_A.html && test -f docs/ship-startup/A/build_startup.py; then
+            base=archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html
+            if ! test -f "$base"; then base=Aegis_SIM_v48_WIP16B.html; fi
+            python docs/ship-startup/A/build_startup.py "$base" /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cmp Aegis_SIM_v48_WIP_STARTUP_A.html /tmp/Aegis_SIM_v48_WIP_STARTUP_A.html
+            cp Aegis_SIM_v48_WIP_STARTUP_A.html index.html
+            sim_file=Aegis_SIM_v48_WIP_STARTUP_A.html
+          elif test -f docs/wip16/B/build_wip16b.py && test -f Aegis_SIM_v48_WIP16A.html; then
+            python docs/wip16/B/build_wip16b.py Aegis_SIM_v48_WIP16A.html /tmp/Aegis_SIM_v48_WIP16B.html
+            if test -f Aegis_SIM_v48_WIP16B.html; then
+              cmp Aegis_SIM_v48_WIP16B.html /tmp/Aegis_SIM_v48_WIP16B.html
+            fi
+            cp /tmp/Aegis_SIM_v48_WIP16B.html index.html
+            sim_file=Aegis_SIM_v48_WIP16B.html
+          else
+            cp "$sim_file" index.html
+          fi
+          printf '%s\n' "$sim_file" > rendered-source.txt
+          npm install --no-save --no-package-lock ws@8
+
+      - name: Create bounded CDP capture script
+        shell: bash
+        run: |
+          cat > cdp-capture.mjs <<'JS'
+          import fs from 'node:fs';
+          import WebSocket from 'ws';
+
+          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+          let targets = [];
+          for (let attempt = 0; attempt < 160; attempt++) {
+            try {
+              targets = await (await fetch('http://127.0.0.1:9222/json')).json();
+              if (targets.some(t => t.type === 'page' && t.url.includes('view3d=1'))) break;
+            } catch {}
+            await sleep(250);
+          }
+          const page = targets.find(t => t.type === 'page' && t.url.includes('view3d=1'));
+          if (!page) throw new Error('CDP_PAGE_NOT_FOUND');
+
+          const ws = new WebSocket(page.webSocketDebuggerUrl);
+          await new Promise((resolve, reject) => {
+            ws.once('open', resolve);
+            ws.once('error', reject);
+          });
+          let seq = 0;
+          const pending = new Map();
+          ws.on('message', raw => {
+            const msg = JSON.parse(String(raw));
+            if (!msg.id || !pending.has(msg.id)) return;
+            const { resolve, reject } = pending.get(msg.id);
+            pending.delete(msg.id);
+            if (msg.error) reject(new Error(JSON.stringify(msg.error)));
+            else resolve(msg.result);
+          });
+          const send = (method, params = {}) => new Promise((resolve, reject) => {
+            const id = ++seq;
+            pending.set(id, { resolve, reject });
+            ws.send(JSON.stringify({ id, method, params }));
+          });
+
+          await send('Page.enable');
+          await send('Runtime.enable');
+          let runtimeReady = false;
+          for (let attempt = 0; attempt < 240; attempt++) {
+            const probe = await send('Runtime.evaluate', {
+              expression: `(() => { if (window.__AEGIS_SHIP_STARTUP__?.snapshot().phase === 'SELECTING') document.getElementById('aegisShipConfirmBtn')?.click(); return !!window.__WIP148_3D_VIEW__?.ready && !!window.__NAVAL_SIM_DIAG__?.runV48Wip03StructuralProbe; })()`,
+              returnByValue: true
+            });
+            if (probe.result?.value) {
+              runtimeReady = true;
+              break;
+            }
+            await sleep(250);
+          }
+          if (!runtimeReady) throw new Error('AEGIS_3D_RUNTIME_NOT_READY');
+          const setupExpression = `(() => {
+            document.getElementById('wip125DepartBtn')?.click();
+            const d = window.__NAVAL_SIM_DIAG__;
+            d.ciwsB1Closure?.setPaused?.(true);
+            const probe = d.runV48Wip03StructuralProbe({ hits: 2, label: 'Kh-32', xM: 12, zM: -3.5, side: 'STARBOARD' });
+            const crewProbe = d.runV48Wip07CrewDamageProbe({ readCount: 0 });
+            const authoritativeBefore = JSON.stringify({
+              flood: d.damageFloodSnapshotV1(),
+              structure: d.v48Wip03StructuralState(),
+              visual: d.v48Wip03DamageVisualState(),
+              interior: d.v48Wip06InteriorState(),
+              crew: d.v48Wip07CrewState()
+            });
+            window.__V48_WIP03_3D_PROBE__ = { probe, crewProbe, authoritativeBefore };
+            window.__WIP148_3D_VIEW__?.resetCamera?.();
+            if (!window.__WIP148_3D_VIEW__?.interiorTopologyVisible) window.__WIP148_3D_VIEW__?.toggleInteriorTopology?.();
+            return true;
+          })()`;
+          await send('Runtime.evaluate', { expression: setupExpression });
+          const geometryDeadline = Date.now() + 180000;
+          while (Date.now() < geometryDeadline) {
+            const probe = await send('Runtime.evaluate', {
+              expression: `(() => { const v=window.__WIP148_3D_VIEW__,a=v?.damageAuditV48Wip03?.(),i=v?.interiorAuditV48Wip06?.(),c=v?.crewAuditV48Wip07?.(); return !!v?.ready && !!a && !a.pending && a.entry.length>0 && a.exit.length>0 && !!i?.visible && !!i?.allSpacesRepresented && !!i?.allPortalsRepresented && !!i?.allEquipmentRepresented && !!i?.verticalShellFilled && !!i?.superstructureContained && !!i?.batched && !!i?.exteriorTransparent && !!c?.visible && !!c?.allPersonnelRepresented && c?.instanceBatches===1; })()`,
+              returnByValue: true
+            });
+            if (probe.result?.value) break;
+            await sleep(250);
+          }
+
+          const expression = `(() => {
+            const view = document.getElementById('external3DView');
+            const readout = document.getElementById('external3DReadout');
+            const loading = document.getElementById('external3DLoading');
+            let rendererInfo = null;
+            let ready = false;
+            let auditPass = false;
+            let damageAudit = null;
+            let damageChecks = null;
+            let interiorAudit = null;
+            let interiorChecks = null;
+            let crewAudit = null;
+            let crewChecks = null;
+            let bridgeMasterEAudit = null;
+            let bridgeMasterEChecks = null;
+            try {
+              const view3d = window.__WIP148_3D_VIEW__;
+              ready = !!view3d?.ready;
+              auditPass = !!view3d?.contractAudit?.().pass;
+              damageAudit = view3d?.damageAuditV48Wip03?.() || null;
+              interiorAudit = view3d?.interiorAuditV48Wip06?.() || null;
+              crewAudit = view3d?.crewAuditV48Wip07?.() || null;
+              bridgeMasterEAudit = view3d?.bridgeMasterEAuditV48Wip08?.() || null;
+              const setup = window.__V48_WIP03_3D_PROBE__;
+              const d = window.__NAVAL_SIM_DIAG__;
+              const authoritativeAfter = JSON.stringify({
+                flood: d.damageFloodSnapshotV1(),
+                structure: d.v48Wip03StructuralState(),
+                visual: d.v48Wip03DamageVisualState(),
+                interior: d.v48Wip06InteriorState(),
+                crew: d.v48Wip07CrewState()
+              });
+              const openingById = new Map((setup?.probe?.flood?.openings || []).map(o => [o.id, o]));
+              const entry = damageAudit?.entry || [], exit = damageAudit?.exit || [];
+              const rows = [...entry, ...exit];
+              damageChecks = {
+                dualHullOpenings: damageAudit?.dualHullOpenings === true,
+                entryExitPresent: entry.length > 0 && exit.length > 0,
+                oppositeSides: entry.some(a => exit.some(b => a.point.y * b.point.y < 0)),
+                meshMatched: rows.length > 0 && rows.every(r => r.meshMatched),
+                actualHoles: rows.length > 0 && rows.every(r => r.actualHole),
+                attached: rows.length > 0 && rows.every(r => r.attached),
+                settled: damageAudit?.pending === false && damageAudit?.unmatched === 0,
+                areaPreserved: rows.length > 0 && rows.every(r => {
+                  const o = openingById.get(r.openingId);
+                  return !!o && Math.abs(o.areaM2 - r.sourceAreaM2) < 1e-9;
+                }),
+                renderReadOnly: setup?.authoritativeBefore === authoritativeAfter
+              };
+              interiorChecks = {
+                buttonPresent: interiorAudit?.buttonPresent === true,
+                buttonPressed: interiorAudit?.buttonPressed === true,
+                visible: interiorAudit?.visible === true,
+                allSpacesRepresented: interiorAudit?.allSpacesRepresented === true && interiorAudit?.spaceMeshes === interiorAudit?.expectedSpaces,
+                allPortalsRepresented: interiorAudit?.allPortalsRepresented === true && interiorAudit?.portalMeshes === interiorAudit?.expectedPortals,
+                allEquipmentRepresented: interiorAudit?.allEquipmentRepresented === true && interiorAudit?.equipmentMeshes === interiorAudit?.expectedEquipment,
+                verticalShellFilled: interiorAudit?.verticalShellFilled === true && interiorAudit?.representedBridgeDecks >= 5 && interiorAudit?.representedHangarDecks >= 2 && interiorAudit?.representedExhaustTrunks >= 12 && interiorAudit?.representedMastTrunks >= 3,
+                superstructureContained: interiorAudit?.superstructureContained === true && interiorAudit?.superstructureOutsideVertices === 0,
+                batchedDrawables: interiorAudit?.batched === true && interiorAudit?.interiorDrawables > 0 && interiorAudit?.interiorDrawables < interiorAudit?.legacyEstimatedDrawables,
+                exteriorTransparent: interiorAudit?.exteriorTransparent === true && interiorAudit?.exteriorTransparentMaterials > 0,
+                presentationOnly: interiorAudit?.presentationOnly === true && interiorAudit?.physicsFeedback === false,
+                snapshotContract: interiorAudit?.renderContract === 'PRESENTATION_ONLY_TOPOLOGY_SNAPSHOT'
+              };
+              crewChecks = {
+                schema: crewAudit?.schema === 'AEGIS_3D_CREW_AUDIT_V48_WIP07',
+                visible: crewAudit?.visible === true,
+                oneInstanceBatch: crewAudit?.instanceBatches === 1,
+                exactRoster: crewAudit?.renderedPersonnel === 310 && crewAudit?.expectedPersonnel === 310,
+                allPersonnelRepresented: crewAudit?.allPersonnelRepresented === true,
+                presentationOnly: crewAudit?.presentationOnly === true && crewAudit?.physicsFeedback === false,
+                snapshotContract: crewAudit?.renderContract === 'PRESENTATION_ONLY_CREW_SNAPSHOT',
+                deterministicProbe: !!setup?.crewProbe?.checks && Object.values(setup.crewProbe.checks).every(Boolean)
+              };
+              bridgeMasterEChecks = {
+                rendererReady: bridgeMasterEAudit?.rendererReady === true,
+                meshPresent: bridgeMasterEAudit?.meshPresent === true,
+                mountPresent: bridgeMasterEAudit?.mountPresent === true,
+                meshAtAuthoritativeHardpoint: bridgeMasterEAudit?.meshAtAuthoritativeHardpoint === true,
+                registeredMountPlacement: bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? bridgeMasterEAudit?.registeredMastPlacement === true : bridgeMasterEAudit?.upperStarboardYardarm === true,
+                rotorMirrorsAuthoritative: bridgeMasterEAudit?.rotorMirrorsAuthoritative === true,
+                physicalHitbox: bridgeMasterEAudit?.physicalHitbox === true,
+                sharedHardpoint: bridgeMasterEAudit?.sharedHardpoint === true,
+                mastOutfitPresent: bridgeMasterEAudit?.mastOutfitPresent === true,
+                mastOutfitBounded: bridgeMasterEAudit?.mastOutfitBounded === true && bridgeMasterEAudit?.mastOutfitDrawables === (bridgeMasterEAudit?.model === 'BURKE_SIMSTYLE_C5_1' ? 17 : 14),
+                singleFunctionalRadar: bridgeMasterEAudit?.duplicateFunctionalRadar === false,
+                publicSbandBaseline: bridgeMasterEAudit?.publicSbandBaseline === true,
+                trackDisplayRangeSeparated: bridgeMasterEAudit?.trackDisplayRangeSeparated === true,
+                presentationOnly: bridgeMasterEAudit?.presentationOnly === true && bridgeMasterEAudit?.physicsFeedback === false
+              };
+              const gl = view3d?.renderer?.getContext?.();
+              if (gl) {
+                const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+                rendererInfo = {
+                  webgl2: !!view3d.renderer.capabilities.isWebGL2,
+                  version: gl.getParameter(gl.VERSION),
+                  renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)
+                };
+              }
+            } catch (error) {
+              rendererInfo = { error: String(error?.stack || error) };
+            }
+            return {
+              active: !!view?.classList.contains('active'),
+              three: window.THREE?.REVISION || null,
+              ready,
+              auditPass,
+              damageAudit,
+              damageChecks,
+              interiorAudit,
+              interiorChecks,
+              crewAudit,
+              crewChecks,
+              bridgeMasterEAudit,
+              bridgeMasterEChecks,
+              rendererInfo,
+              readout: readout?.textContent || null,
+              loadingVisible: !!loading?.classList.contains('show'),
+              canvas: {
+                width: document.getElementById('external3DCanvas')?.width || 0,
+                height: document.getElementById('external3DCanvas')?.height || 0
+              }
+            };
+          })()`;
+          const evaluated = await send('Runtime.evaluate', { expression, returnByValue: true });
+          const state = evaluated.result?.value || { evaluationError: evaluated.exceptionDetails || null };
+          fs.writeFileSync('aegis-3d-state.json', JSON.stringify(state, null, 2));
+
+          const shot = await send('Page.captureScreenshot', {
+            format: 'png',
+            fromSurface: true,
+            captureBeyondViewport: false
+          });
+          fs.writeFileSync('aegis-3d.png', Buffer.from(shot.data, 'base64'));
+          console.log('AEGIS_3D_STATE '+JSON.stringify(state));
+          ws.close();
+
+          const damagePass = state.damageChecks && Object.values(state.damageChecks).every(Boolean);
+          const interiorPass = state.interiorChecks && Object.values(state.interiorChecks).every(Boolean);
+          const crewPass = state.crewChecks && Object.values(state.crewChecks).every(Boolean);
+          const bridgeMasterEPass = state.bridgeMasterEChecks && Object.values(state.bridgeMasterEChecks).every(Boolean);
+          if (!state.active || !state.three || !state.ready || !state.auditPass || !damagePass || !interiorPass || !crewPass || !bridgeMasterEPass || !state.rendererInfo?.version) {
+            process.exitCode = 1;
+          }
+          JS
+
+      - name: Render actual AEGIS 3D view
+        shell: bash
+        run: |
+          set -euo pipefail
+          chrome_bin="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$chrome_bin"
+          python3 -m http.server 4173 >/tmp/aegis-3d-http.log 2>&1 &
+          server_pid=$!
+          "$chrome_bin" \
+            --headless=new \
+            --no-sandbox \
+            --disable-dev-shm-usage \
+            --enable-webgl \
+            --ignore-gpu-blocklist \
+            --use-gl=angle \
+            --use-angle=swiftshader \
+            --enable-unsafe-swiftshader \
+            --window-size=1600,900 \
+            --hide-scrollbars \
+            --remote-debugging-address=127.0.0.1 \
+            --remote-debugging-port=9222 \
+            --user-data-dir=/tmp/aegis-chrome-profile \
+            'http://127.0.0.1:4173/index.html?view3d=1' >/tmp/aegis-chrome.log 2>&1 &
+          chrome_pid=$!
+          trap 'kill "$chrome_pid" "$server_pid" 2>/dev/null || true' EXIT
+          timeout 360s node cdp-capture.mjs
+          test -s aegis-3d.png
+          printf 'AEGIS_3D_CAPTURE_PASS %s\n' "$(cat rendered-source.txt)"
+
+      - name: Upload AEGIS 3D proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-3d-render
+          path: |
+            aegis-3d.png
+            aegis-3d-state.json
+            rendered-source.txt
+            /tmp/aegis-chrome.log
+          if-no-files-found: warn
+          retention-days: 7

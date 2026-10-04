@@ -1,5 +1,18 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
+## 최신 개발 기준 — 벙커힐 WIP K
+
+- 파일: [Aegis_SIM_v48_WIP_BUNKERHILL_K.html](Aegis_SIM_v48_WIP_BUNKERHILL_K.html), **14,458,866 bytes**, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`.
+- 사용자 업로드 commit `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 HTML을 검증본과 byte 단위로 대조했다. [원격 업로드 근거](docs/bunkerhill/K/evidence/remote-upload-check.json).
+- 출항 전에 DDG-119 또는 퇴역 전 구성의 CG-52 USS Bunker Hill을 선택한다. 벙커힐은 원본 모델, 고정 61+61 VLS, 전후 함포, 양현 20mm Phalanx, 독립 장착 좌표·사각·탄약을 사용한다. SPG-62 접시 전체 회전, 레이더 회전 부품, 거친 해면 클러터와 피격 후 3D 지속을 검사했다.
+- CIC에는 벙커힐의 전·후·양현 SPY 배열 방향을 표시하고 DDG의 기존 대각선 도식은 유지한다. 선택 함선의 피격 인디케이터와 선수 좌측 측면도를 사용한다. CG 내부는 SIM-TUNE 12갑판·277구획·330명 배치다.
+- **SHIP → 보수반 → 승조원·함 포기**에서 실제 경로로 도착한 생존자부터 25인승 구명뗏목에 순차 탑승한다. CIC·3D 바다에서 표류하며 저장·복원된다. 정상 전원 퇴함에서 CG 330명/14척/마지막 5명과 DDG 310명/13척/마지막 10명을 확인했다.
+- 구명뗏목 정원은 USN Mark 7 공개 자료를 따른다. 실제 CG 비치 수량·진수 위치는 미확정이며 충분한 provision·진수점·형상·표류·접촉은 SIM-TUNE이다. 레이더의 공개 확인 범위와 SPQ-9 두 면의 SIM-TUNE도 명시했다. [구명뗏목 근거](docs/bunkerhill/K/RESCUE_SOURCES.md), [레이더 근거](docs/bunkerhill/K/RADAR_SOURCES.md).
+- 로컬 K **284/284** 검사 통과. [상태](AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md), [체크섬](SHA256SUMS_v48_WIP_BUNKERHILL_K.txt), [suite와 한계](docs/bunkerhill/K/evidence/verification-summary.json), [GitHub 반영·검증 안내](docs/bunkerhill/K/GITHUB_VALIDATION.md).
+- [Bunker Hill workflow](.github/workflows/bunkerhill-late-profile.yml)가 업로드된 동일 HTML로 exact 재빌드, CIC, 퇴함·저장·배속·native 3D, CG/DDG, 셀·구획·클러터·SPG·실제 다수 Kh-32 AUTO를 검사한다. 원격 결과는 PR의 Actions checks와 artifact를 따른다. 일반 smoke에는 역사 payload 검사도 포함된다.
+- 대형 비교 HTML을 추가 업로드하지 않고, 최신 K 내장 asset과 작은 기준 모듈로 D/F/H/I/J를 고정 SHA에 맞춰 재구성한다. 이전 Bunker Hill HTML archive는 전달한 로컬 ZIP에 보존되어 있다. GitHub의 선행 STARTUP_A는 당시 HTML·상태·전체 체크섬 대상 32개 파일을 `archive/v48/WIP_STARTUP_A/`에 exact 보존했고, 기존 root baseline은 역사 검사 호환을 위해 유지한다.
+- 정식 v48은 별도 안정 기준으로 유지한다. 다음 기능 후보는 하푼 대함미사일과 헬리콥터이며 아직 구현에 착수하지 않았다.
+
 ## 현재 안정 기준 — v48
 
 - 정식 파일: [`Aegis_SIM_v48.html`](Aegis_SIM_v48.html)
@@ -11,13 +24,38 @@
 - WIP15C 최종 검사에서 core self-test failure `0`, final runtime page error `0`.
 - 상세 WIP15C 감사·검증 기록은 [`docs/wip15/C/`](docs/wip15/C/)에 보존한다.
 
+## 선행 검증 — 출항 전 함선 선택·초기화
+
+- 파일: [`Aegis_SIM_v48_WIP_STARTUP_A.html`](Aegis_SIM_v48_WIP_STARTUP_A.html), `7,361,673 bytes`, SHA-256 `94f5e9321fe1f04c5b43c4d8dca5b0762014c1cffe358ad92a81b8ffe70e7c92`.
+- 준비 branch: [`ship-startup-ddg-regression`](../../tree/ship-startup-ddg-regression), parent `WIP16@145532316e1f87435f50a8de4a271497f0d2f1ab`. WIP 번호 미확정이며 `WIP_STARTUP_A`는 기능명 토큰이다.
+- 선택 전에 runtime 생성을 대기하고 불변 profile을 확정한 뒤 공통 세션 생성 → 기존 subsystem 결속 → 장비 편성 → 출항을 수행한다. 이 단계에 등록된 운용 함선은 DDG-119였다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_STARTUP_A.md), [체크섬](SHA256SUMS_v48_WIP_STARTUP_A.txt), [구현·검사·인계](docs/ship-startup/A/README.md).
+- 로컬: package 34/34, startup 15/15, DDG runtime 14/14, 실제 3D 복구 13/13 PASS. 기존 B와 전투 aggregate·발사·명중·교전 결과가 같다. 상세 float의 최대 차이 약 `3.9e-13`을 기록했다.
+- 사용자 업로드 commit `6e05d8c21ba83aca4f29a37cbaa6ce151b6be9db`의 크기·Git blob·parent를 확인했으며 검증본과 exact 일치한다. tested head `61a8931f0cc5e933fb901e270e0f5f28e046519b`에서 [출항 준비 CI](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412380) **1/1**, [원본 B 회귀](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412362) **1/1**, [일반 smoke](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/37102412322) **32/32 job PASS**. 일반 3D의 실제 입력은 이번 HTML이며 다른 일반 job에는 역사 payload가 포함된다.
+- [PR #42](https://github.com/0-FLANDRE-0/Aegis_Project/pull/42)는 `WIP16` 위의 후속 draft PR이다. 단계 구현·업로드·원격 회귀는 완료했다. 마감 문서·증거·체크섬 반영은 tested source를 변경하지 않는다. 기존 PR #41/main/안정 v48은 변경하지 않았다. 다음 구현은 벙커힐 profile·model·builder 연결이다.
+
+## 직전 검토 후보 — v48 WIP16B
+
+- 작업 branch: [`WIP16`](../../tree/WIP16), PR [#41](https://github.com/0-FLANDRE-0/Aegis_Project/pull/41).
+- 이전 사용자 업로드 파일: [`Aegis_SIM_v48_WIP16B.html`](archive/v48/WIP16B/Aegis_SIM_v48_WIP16B.html), **7,357,036 bytes**. `7562bb0925e2b85521d37fefd2c81898ed6de18a`에서 원격 크기·Git blob이 로컬 검증본과 exact 일치한다. B HTML/상태/체크섬은 동일 Git blob으로 archive에 보존했다.
+- SHA-256: `7b63a62bb1cad123b7d7eb17c1fbe26452194c3ff2c637c09b4c48a2a6c8d76d`, Git blob `d47126f8296f3bde6b81af0ce1a2668a3c79f9cf`.
+- 상태: [WIP16B 계획/검증](archive/v48/WIP16B/AEGIS_PLAN_STATUS_v48_WIP16B.md), [당시 체크섬](archive/v48/WIP16B/SHA256SUMS_v48_WIP16B.txt), [수정 계약](docs/wip16/B/README.md).
+- Codex에서 이어갈 문서: [WIP16B 개발 인계서](docs/wip16/B/AEGIS_CODEX_HANDOFF_WIP16B.md). 최신 판정·검증 명령·미병합 상태·벙커힐 참고 파일과 다음 작업 경계를 포함한다.
+- 필수 피격 구멍 생성 중에는 직전 canvas를 유지하고 geometry commit 뒤 GPU 제출을 재개한다. C5의 실제 센서·함포·VLS 부품과 profile binding을 검사한다.
+- C55 records 0–12와 3D 렌더러 앞의 전투·피해·nav/DL/loft source는 동일하다.
+- WIP16A 사용자 업로드와 [당시 마감 기록](docs/wip16/A/CLOSEOUT.md)은 보존한다.
+- 검증: 로컬 package **34/34**, B Chromium renderer/recovery **13/13**, 기존 13조건과 seed 반복 검사 **14/14**, 최종 일반 smoke **32/32 PASS**. 최종 support의 WIP16A 원본 보존 workflow도 **4/4 job PASS**. 기술적 통합 판정은 PASS이며 main 병합은 명시 승인 대기다.
+- main/v48.1 승격·release/tag는 아직 실행하지 않았다.
+
+WIP16B HTML 사용자 업로드·원격 exact 확인을 마쳤다. 당시 CI와 파일 대조 guard의 최종 결과는 [마감 증거](docs/wip16/B/evidence/upload_closeout.json)를 따른다. 이후 함선 선택·초기화 결과와 잔여 반영은 위 최신 항목을 따른다. 하푼·토마호크와 다함 동시 운용은 후속 범위로 둔다.
+
 ## 이전 통합 기준 — v48 WIP14B4
 
-- **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](Aegis_SIM_v48_WIP14B4.html)이다.
+- **WIP14 FEATURE SCOPE CLOSED.** 최종 작업본은 [`Aegis_SIM_v48_WIP14B4.html`](archive/v48/WIP14B4/Aegis_SIM_v48_WIP14B4.html)이다.
 - 크기 `7,319,028 bytes`, SHA-256 `03de975ddac38c192eae1572b2588bba49defcb148a2fd9ae7b6921f4e7355e2`. 사용자 업로드 원격 파일은 로컬 최종본과 Git blob exact 일치 확인.
 - B1~B4에서 onboard navigation/truth boundary, ASM/RAM own-nav, VLS release scheduler, generic one/two-way weapon-link, SM-6 GPS/양방향 DL, 미사일별 stateful loft를 구현했다.
 - B4 게임 검토 범위는 SM-2MR 160 km, SM-2ER/SM-6 260 km이며 실제 무장 최대사거리 인증이나 전 조건 명중 보장값이 아니다.
-- 최종 상태: [`AEGIS_PLAN_STATUS_v48_WIP14B4.md`](AEGIS_PLAN_STATUS_v48_WIP14B4.md), [branch closeout](AEGIS_WIP14_BRANCH_STATUS.md), [checksums](SHA256SUMS_v48_WIP14B4.txt).
+- 최종 상태: [`AEGIS_PLAN_STATUS_v48_WIP14B4.md`](archive/v48/WIP14B4/AEGIS_PLAN_STATUS_v48_WIP14B4.md), [branch closeout](AEGIS_WIP14_BRANCH_STATUS.md), [checksums](archive/v48/WIP14B4/SHA256SUMS_v48_WIP14B4.txt).
 - 상세 B4 report/validation evidence는 [`docs/wip14/B4/`](docs/wip14/B4/)에 보존한다.
 - Known deferred: 기존 침수 core self-test 1건, 환경상 WebGL 실렌더링 미검증, 장거리/저고도 포락선 추가 검증. WIP14 유도·DL·loft feature scope 종료를 막는 항목으로 두지 않는다.
 - 다음 기능 단계 WIP15는 **3D에 이미 존재하는 양현 3기씩 SRBOC와 runtime 4기/24발을 6기/36발 canonical layout으로 정합하고 실제 launcher/tube 위치에서 발사되게 하는 작업**부터 시작한다. Nulka는 그 뒤 연결한다.
@@ -65,7 +103,7 @@
 
 ## 검증
 
-- WIP12D 정적 계약 `36/36 PASS`; WIP12A `30/30`, WIP11C `32/32`, WIP11B runtime safety `16/16` 하위 호환 정적 계약 통과
+- WIP12D 정적 계약 `36/36 PASS`; WIP12A `32/32`, WIP11C `32/32`, WIP11B runtime safety `16/16` 하위 호환 정적 계약 통과
 - 정적 계약 파일 `11/11 PASS`, 전체 Playwright `36/36 PASS` (최신 WIP12D `32/32` + 보존 WIP12B·WIP12C `4/4`)
 - WIP12D Playwright `2/2 PASS`; core selftest failure `0`, 콘솔/page error `0`
 - 실제 Kh-32 seed `481232`: 확장된 전방 연돌을 먼저 맞아 primary damage budget `191`, 물방울형 3-source power 합 `1.0`, damaged parts `17`, 상위 피해 `제1보일러실 47 / 제1발전실 43`
@@ -91,4 +129,4 @@
 
 ## 안정판과 아카이브
 
-현재 공개 안정판은 [`v37.1`](../../releases/tag/v37.1)이다. 루트에는 최신 작업본만 두며 WIP10, WIP11, WIP11A, WIP11B, WIP11C, WIP12A, WIP12B와 WIP12C는 각각 `archive/v48/` 하위 폴더에 바이트 단위로 보존한다.
+현재 안정판은 [`v48`](../../releases/tag/v48)이다. 이전 WIP 아카이브는 `archive/v48/`에 보존한다. 루트의 과거 작업본 일괄 정리는 WIP16 코드 검토와 별도 범위다.
