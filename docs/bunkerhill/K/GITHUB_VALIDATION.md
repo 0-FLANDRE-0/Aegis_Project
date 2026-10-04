@@ -11,6 +11,8 @@
 - [Bunker Hill workflow](../../../.github/workflows/bunkerhill-late-profile.yml)는 현재 업로드를 다시 빌드하고 실제 브라우저·WebGL로 검사한다. 최종 원격 결과는 해당 PR의 Actions checks에서 확인한다. artifact에는 입력 hash, 시나리오 조건, page error/fault와 실제 검사 결과를 보관한다.
 - 기존 일반 smoke에는 여러 역사 HTML 입력이 포함되어 있다. smoke 전체 통과 수를 K 직접 검사의 수로 합산하지 않는다.
 
+DDG 동작 비교는 고정 SHA의 원본 WIP16B와 K를 같은 runner의 같은 Playwright Chromium 실행 파일로 다시 실행한다. 서로 다른 브라우저 엔진에서 저장한 과거 JSON은 출처 증거로 보존하며, 현재 회귀 판정은 같은 환경의 두 실행을 대조한다. 기존 comparator의 aggregate 완전 일치, case/event 비교, float 허용 오차를 그대로 유지하고 browser version·두 실행의 raw 결과를 artifact에 기록한다.
+
 ## GitHub에 보존한 지원 자료
 
 K의 작은 모듈·빌더·검사·출처·로컬 evidence와 J의 선행 evidence를 반영했다. H의 작은 기준 모듈은 exact 비교본 재빌드에 사용한다. authored main, 거대한 diff, cache와 추출된 모델의 중복 사본은 commit하지 않는다.
