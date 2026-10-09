@@ -1,0 +1,86 @@
+name: Harpoon A and ship regression
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_HARPOON_A.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP_HARPOON_A.md'
+      - 'SHA256SUMS_v48_WIP_HARPOON_A.txt'
+      - 'docs/harpoon/A/**'
+      - '.github/workflows/harpoon-a.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_HARPOON_A.html
+  AEGIS_BASELINE: archive/v48/WIP_BUNKERHILL_K/Aegis_SIM_v48_WIP_BUNKERHILL_K.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install numpy==2.3.5
+      - name: Verify exact HTML and support artifacts
+        run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HARPOON_A.txt
+          sha256sum -c docs/harpoon/A/REPOSITORY_SUPPORT.sha256
+          python docs/harpoon/A/verify_static.py "$AEGIS_CANDIDATE" "$AEGIS_BASELINE" artifacts/harpoon/static
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-static-${{ github.sha }}
+          path: artifacts/harpoon
+          if-no-files-found: error
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [runtime, native, salvo, cg, ddg]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Select the installed Chromium
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Execute ${{ matrix.suite }} on the uploaded candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/harpoon/${{ matrix.suite }}
+          case '${{ matrix.suite }}' in
+            runtime|native|salvo)
+              python docs/harpoon/A/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/harpoon/${{ matrix.suite }}
+              ;;
+            cg)
+              python docs/bunkerhill/K/verify_cg_runtime.py "$AEGIS_CANDIDATE" artifacts/harpoon/cg
+              ;;
+            ddg)
+              python docs/bunkerhill/K/verify_ddg_runtime.py "$AEGIS_CANDIDATE" > artifacts/harpoon/ddg/ddg-runtime.json
+              ;;
+          esac
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/harpoon/${{ matrix.suite }}
+          if-no-files-found: error

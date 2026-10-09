@@ -1,0 +1,2274 @@
+{
+  "schema": "HARPOON_B_BOOSTER_STAGE_VERIFICATION",
+  "source": "candidate-epoch.html",
+  "sha256": "b3b4f637fdfe0973e3aec566f1577401055c44235d8ccef22084aeb6e04175e7",
+  "checks": {
+    "coreSelfTestsZero": true,
+    "observedManualReleaseAccepted": true,
+    "publicReferenceKeptSeparate": true,
+    "fullThrustContinuesThroughLastTickBefore3p2": true,
+    "physicalSeparationOnceAt3p2": true,
+    "jetThrustReplacesBoosterAfter3p2": true,
+    "propellantMassDecreasesBeforeDryStageRemoved": true,
+    "nominalTotalImpulsePreservedWithin1Percent": true,
+    "noInstantSpeedJumpAtSeparation": true,
+    "oldAInventorySaveExplicitlyAccepted": true,
+    "pageErrorsZero": true
+  },
+  "details": {
+    "profile": {
+      "id": "RGM84D_BLOCK1C_C1",
+      "revision": "HARPOON_C1",
+      "family": "RGM-84D Harpoon Block 1C",
+      "architecture": "PRELAUNCH_TRACK_MEMORY_INS_RADAR_ALTIMETER_THEN_INDEPENDENT_ACTIVE_RF",
+      "dataLink": false,
+      "illuminatorRequired": false,
+      "automaticRelease": false,
+      "public": {
+        "lengthM": 4.63,
+        "bodyLengthM": 3.84,
+        "diameterM": 0.343,
+        "wingSpanM": 0.914,
+        "launchMassKg": 690,
+        "bodyMassKg": 540,
+        "nominalMach": 0.85,
+        "rangeKm": 124,
+        "rangeSecondaryKm": 140,
+        "warheadAssemblyKg": 221,
+        "explosiveMassKg": 97.5,
+        "jetMaxThrustN": 3000,
+        "boosterThrustN": 53000,
+        "boosterBurnS": 2.9
+      },
+      "sim": {
+        "minLaunchRangeKm": 4,
+        "maxLaunchRangeKm": 124,
+        "maxTrackAgeS": 10,
+        "acquisitionBasketM": 4000,
+        "cruiseSpeedMps": 289,
+        "cruiseHeightM": 15,
+        "terminalHeightM": 5,
+        "boostPropellantKg": 90,
+        "boosterDryKg": 60,
+        "boosterBurnS": 3.2,
+        "boosterAverageThrustN": 48000,
+        "fuelKg": 110,
+        "fuelFlowKgS": 0.245,
+        "wingDeployS": 0.42,
+        "tailDeployS": 0.35,
+        "releaseDoorDelayS": 0.18,
+        "releaseIntervalS": 1.5,
+        "referenceCd": 0.48,
+        "wingAreaM2": 0.32,
+        "maxCl": 1.6,
+        "maxNormalG": 4,
+        "dragAreaM2": 0.0924,
+        "maxLifeS": 600,
+        "navDriftMps": 0.08,
+        "navAccelBiasMps2": 0.0004,
+        "navGyroBiasRadS": 4e-06,
+        "altimeterErrorM": 0.12,
+        "seekerActivationRangeM": 14000,
+        "seekerPeriodS": 0.1,
+        "seekerGimbalRad": 0.7853981633974483,
+        "seekerElGimbalRad": 0.5235987755982988,
+        "seekerBeamHalfElRad": 0.17453292519943295,
+        "seekerSlewRadS": 1.5707963267948966,
+        "seekerScanRadS": 0.5235987755982988,
+        "seekerMinSweepRad": 0.20943951023931953,
+        "seekerAcquireHits": 3,
+        "seekerAcquireGapS": 0.35,
+        "seekerBeamHalfRad": 0.13962634015954636,
+        "seekerRangeM": 18000,
+        "seekerReferenceRangeM": 12000,
+        "seekerReferenceRcsM2": 100,
+        "seekerReferenceSnr": 12,
+        "seekerMinSnr": 3,
+        "seekerRangeSigmaM": 8,
+        "seekerAzSigmaRad": 0.0006108652381980154,
+        "seekerCoastS": 4,
+        "seekerSearchBasketM": 4000,
+        "seekerTrackGateM": 350,
+        "fuzeArmS": 5,
+        "fuzeArmDistanceM": 800,
+        "fuzeDelayS": 0.015,
+        "explosiveTntFactor": 1.1
+      },
+      "evidence": {
+        "public": "PUBLIC_SECONDARY_DIMENSIONS_ARCHITECTURE_AND_COMPONENT_DATA",
+        "range": "CSIS_BLOCK_IC_124KM__DESIGNATION_SYSTEMS_RGM_D_APPROX_140KM_DIFFERENT_ESTIMATES",
+        "unknown": "RETIREMENT_DATE_CG52_LOADED_BLOCK_NOT_VERIFIED__USER_SELECTED_RGM84D",
+        "booster": "PUBLIC_REFERENCE_53KN_2P9S__USER_TUNED_3P2S_AT_48KN_MEAN_PRESERVES_TOTAL_IMPULSE",
+        "smoke": "USER_ASSUMED_HIGH_SMOKE_SOLID_PROPELLANT__VISUAL_ONLY",
+        "sim": "ALL_SEEKER_NUMBERS_AERO_AUTOPILOT_FUEL_ALLOCATION_NAV_ERRORS_ALTITUDES_AND_FUZE_NUMBERS_SIM_TUNED",
+        "sources": [
+          "https://www.designation-systems.net/dusrm/m-84.html",
+          "https://missilethreat.csis.org/missile/harpoon/",
+          "https://man.fas.org/dod-101/sys/smart/agm-84.htm",
+          "https://www.seaforces.org/usnships/cg/CG-52-USS-Bunker-Hill.htm"
+        ]
+      }
+    },
+    "request": {
+      "ok": true,
+      "pending": true,
+      "tubeId": "MK141-A1"
+    },
+    "trace": [
+      {
+        "ageS": 0.016666666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 689.53125,
+        "speedMps": 5.0700036506682284,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.03333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 689.0625,
+        "speedMps": 6.140790179378417,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.05,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 688.59375,
+        "speedMps": 7.21235914123828,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.06666666666666667,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 688.125,
+        "speedMps": 8.284710087193421,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.08333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 687.65625,
+        "speedMps": 9.35784256402535,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.09999999999999999,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 687.1875,
+        "speedMps": 10.4317561143496,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.11666666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 686.71875,
+        "speedMps": 11.506450276613888,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.13333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 686.25,
+        "speedMps": 12.581924585096369,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.15,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 685.78125,
+        "speedMps": 13.658178569903946,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.16666666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 685.3125,
+        "speedMps": 14.735211756970669,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.18333333333333332,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 684.84375,
+        "speedMps": 15.813023668056191,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.19999999999999998,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 684.375,
+        "speedMps": 16.891613820744308,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.21666666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 683.90625,
+        "speedMps": 17.970981728441554,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.2333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 683.4375,
+        "speedMps": 19.051126900375923,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.24999999999999997,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 682.96875,
+        "speedMps": 20.13204884159557,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.26666666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 682.5,
+        "speedMps": 21.2137470529677,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.2833333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 682.03125,
+        "speedMps": 22.296221031177424,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.3,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 681.5625,
+        "speedMps": 23.379470268726788,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.31666666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 681.09375,
+        "speedMps": 24.46349425393379,
+        "phase": "CANISTER"
+      },
+      {
+        "ageS": 0.3333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 680.625,
+        "speedMps": 25.548292470931532,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.35,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 680.15625,
+        "speedMps": 26.634625252943668,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.36666666666666664,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 679.6875,
+        "speedMps": 27.72246396584992,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.3833333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 679.21875,
+        "speedMps": 28.81178180297271,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.39999999999999997,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 678.75,
+        "speedMps": 29.902553577559484,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.41666666666666663,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 678.28125,
+        "speedMps": 30.994755544112802,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.4333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 677.8125,
+        "speedMps": 32.088365243671,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.44999999999999996,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 677.34375,
+        "speedMps": 33.183361369112134,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.4666666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 676.875,
+        "speedMps": 34.2797236473062,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.4833333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 676.40625,
+        "speedMps": 35.377432735529005,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.49999999999999994,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 675.9375,
+        "speedMps": 36.4764701300155,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.5166666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 675.46875,
+        "speedMps": 37.576818084899834,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.5333333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 675,
+        "speedMps": 38.67845954008554,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.55,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 674.53125,
+        "speedMps": 39.781378056828125,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.5666666666666668,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 674.0625,
+        "speedMps": 40.885557760006606,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.5833333333333335,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 673.59375,
+        "speedMps": 41.99098328621913,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6000000000000002,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 673.125,
+        "speedMps": 43.097639736968254,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6166666666666669,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 672.65625,
+        "speedMps": 44.20551263630932,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6333333333333336,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 672.1875,
+        "speedMps": 45.31458789242485,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6500000000000004,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 671.71875,
+        "speedMps": 46.42485176266271,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6666666666666671,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 671.25,
+        "speedMps": 47.536290821638474,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.6833333333333338,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 670.78125,
+        "speedMps": 48.64889193205511,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.7000000000000005,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 670.3125,
+        "speedMps": 49.76264221793789,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.7166666666666672,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 669.84375,
+        "speedMps": 50.87752904002012,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.733333333333334,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 669.375,
+        "speedMps": 51.99353997304772,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.7500000000000007,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 668.90625,
+        "speedMps": 53.11066278479799,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.7666666666666674,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 668.4375,
+        "speedMps": 54.228885486280646,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.7833333333333341,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 667.96875,
+        "speedMps": 55.34819811684403,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.8000000000000008,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 667.5,
+        "speedMps": 56.46859142285427,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.8166666666666675,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 667.03125,
+        "speedMps": 57.590056394876804,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.8333333333333343,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 666.5625,
+        "speedMps": 58.7125842539185,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.850000000000001,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 666.09375,
+        "speedMps": 59.83616643864443,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.8666666666666677,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 665.625,
+        "speedMps": 60.960794593482554,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.8833333333333344,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 665.15625,
+        "speedMps": 62.08646055753824,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.9000000000000011,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 664.6875,
+        "speedMps": 63.21315635424892,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.9166666666666679,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 664.21875,
+        "speedMps": 64.34087418171602,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.9333333333333346,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 663.75,
+        "speedMps": 65.46960640365755,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.9500000000000013,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 663.28125,
+        "speedMps": 66.59934554093054,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.966666666666668,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 662.8125,
+        "speedMps": 67.73008426357696,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 0.9833333333333347,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 662.34375,
+        "speedMps": 68.8618153833514,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.0000000000000013,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 661.875,
+        "speedMps": 69.99453184669275,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.016666666666668,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 661.40625,
+        "speedMps": 71.12822672810526,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.0333333333333345,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 660.9375,
+        "speedMps": 72.26289322391767,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.0500000000000012,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 660.46875,
+        "speedMps": 73.39852464639195,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.0666666666666678,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 660,
+        "speedMps": 74.53511441815539,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.0833333333333344,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 659.53125,
+        "speedMps": 75.6726560669323,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.100000000000001,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 659.0625,
+        "speedMps": 76.81114322055346,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.1166666666666676,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 658.59375,
+        "speedMps": 77.95056960222311,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.1333333333333342,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 658.125,
+        "speedMps": 79.09092902602542,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.1500000000000008,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 657.65625,
+        "speedMps": 80.23221539265316,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.1666666666666674,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 657.1875,
+        "speedMps": 81.37442268534326,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.183333333333334,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 656.71875,
+        "speedMps": 82.51754496600473,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.2000000000000006,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 656.25,
+        "speedMps": 83.66157637152581,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.2166666666666672,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 655.78125,
+        "speedMps": 84.80651111024794,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.2333333333333338,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 655.3125,
+        "speedMps": 85.9523434585954,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.2500000000000004,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 654.84375,
+        "speedMps": 87.09906775784994,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.266666666666667,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 654.375,
+        "speedMps": 88.24667841106078,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.2833333333333337,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 653.90625,
+        "speedMps": 89.39516988008086,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.3000000000000003,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 653.4375,
+        "speedMps": 90.54453668272086,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.3166666666666669,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 652.96875,
+        "speedMps": 91.6947733900134,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.3333333333333335,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 652.5,
+        "speedMps": 92.84587462357983,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.35,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 652.03125,
+        "speedMps": 93.997835053093,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.3666666666666667,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 651.5625,
+        "speedMps": 95.1506493938295,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.3833333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 651.09375,
+        "speedMps": 96.30431240430559,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 650.625,
+        "speedMps": 97.45881888399114,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4166666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 650.15625,
+        "speedMps": 98.61416367109638,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4333333333333331,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 649.6875,
+        "speedMps": 99.77034164042657,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4499999999999997,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 649.21875,
+        "speedMps": 100.92734770130009,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4666666666666663,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 648.75,
+        "speedMps": 102.08517679552551,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.483333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 648.28125,
+        "speedMps": 103.24382389543365,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.4999999999999996,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 647.8125,
+        "speedMps": 104.40328400196076,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.5166666666666662,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 647.34375,
+        "speedMps": 105.56355214277927,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.5333333333333328,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 646.875,
+        "speedMps": 106.72462337047276,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.5499999999999994,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 646.40625,
+        "speedMps": 107.88649276075166,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.566666666666666,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 645.9375,
+        "speedMps": 109.04915541070714,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.5833333333333326,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 645.46875,
+        "speedMps": 110.21260643709972,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.5999999999999992,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 645,
+        "speedMps": 111.3768409746804,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.6166666666666658,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 644.53125,
+        "speedMps": 112.5418541745414,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.6333333333333324,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 644.0625,
+        "speedMps": 113.70764120249413,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.649999999999999,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 643.59375,
+        "speedMps": 114.87419723747219,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.6666666666666656,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 643.125,
+        "speedMps": 116.04151746995699,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.6833333333333322,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 642.65625,
+        "speedMps": 117.209597100424,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.6999999999999988,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 642.1875,
+        "speedMps": 118.3784313378076,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.7166666666666655,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 641.71875,
+        "speedMps": 119.54801539798251,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.733333333333332,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 641.25,
+        "speedMps": 120.7183445022602,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.7499999999999987,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 640.78125,
+        "speedMps": 121.88941387589817,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.7666666666666653,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 640.3125,
+        "speedMps": 123.06121874662088,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.7833333333333319,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 639.84375,
+        "speedMps": 124.23375434315021,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.7999999999999985,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 639.375,
+        "speedMps": 125.40701589374436,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.816666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 638.90625,
+        "speedMps": 126.58099862474343,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.8333333333333317,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 638.4375,
+        "speedMps": 127.7556977591204,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.8499999999999983,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 637.96875,
+        "speedMps": 128.93110851503604,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.866666666666665,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 637.5,
+        "speedMps": 130.10722610439666,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.8833333333333315,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 637.03125,
+        "speedMps": 131.28404573141296,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.8999999999999981,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 636.5625,
+        "speedMps": 132.4615625911594,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.9166666666666647,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 636.09375,
+        "speedMps": 133.6397718681325,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.9333333333333313,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 635.6250000000001,
+        "speedMps": 134.81866873480683,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.949999999999998,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 635.15625,
+        "speedMps": 135.9982483501881,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.9666666666666646,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 634.6875000000001,
+        "speedMps": 137.1785150089963,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.9833333333333312,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 634.2187500000001,
+        "speedMps": 138.3594700528758,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 1.9999999999999978,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 633.7500000000001,
+        "speedMps": 139.54111238926043,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.0166666666666644,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 633.2812500000001,
+        "speedMps": 140.7234409210307,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.033333333333331,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 632.8125000000001,
+        "speedMps": 141.90645454651857,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.0499999999999976,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 632.3437500000001,
+        "speedMps": 143.09015215951266,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.066666666666664,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 631.8750000000001,
+        "speedMps": 144.27453264926322,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.083333333333331,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 631.4062500000001,
+        "speedMps": 145.45959490048747,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.0999999999999974,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 630.9375000000001,
+        "speedMps": 146.64533779337486,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.116666666666664,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 630.4687500000001,
+        "speedMps": 147.8317602035925,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.1333333333333306,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 630.0000000000001,
+        "speedMps": 149.01886100229063,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.1499999999999972,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 629.5312500000001,
+        "speedMps": 150.2066390561083,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.166666666666664,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 629.0625000000001,
+        "speedMps": 151.3950932271789,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.1833333333333305,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 628.5937500000001,
+        "speedMps": 152.58422237313616,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.199999999999997,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 628.1250000000001,
+        "speedMps": 153.77402534711982,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.2166666666666637,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 627.6562500000001,
+        "speedMps": 154.96450099778178,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.2333333333333303,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 627.1875000000001,
+        "speedMps": 156.15564816929208,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.249999999999997,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 626.7187500000001,
+        "speedMps": 157.34746570134504,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.2666666666666635,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 626.2500000000001,
+        "speedMps": 158.53995242916562,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.28333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 625.7812500000001,
+        "speedMps": 159.73310718351567,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.2999999999999967,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 625.3125000000001,
+        "speedMps": 160.9269287907005,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.3166666666666633,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 624.8437500000001,
+        "speedMps": 162.12141607257527,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.33333333333333,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 624.3750000000001,
+        "speedMps": 163.31656784655186,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.3499999999999965,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 623.9062500000001,
+        "speedMps": 164.51238292560538,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.366666666666663,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 623.4375000000001,
+        "speedMps": 165.70886011828114,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.3833333333333298,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 622.9687500000001,
+        "speedMps": 166.90599822870155,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.3999999999999964,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 622.5000000000001,
+        "speedMps": 168.10379605657317,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.416666666666663,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 622.0312500000001,
+        "speedMps": 169.30225239719383,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.4333333333333296,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 621.5625000000001,
+        "speedMps": 170.50136604145982,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.449999999999996,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 621.0937500000001,
+        "speedMps": 171.7011357758733,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.466666666666663,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 620.6250000000001,
+        "speedMps": 172.90156038254958,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.4833333333333294,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 620.1562500000001,
+        "speedMps": 174.1026386392248,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.499999999999996,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 619.6875000000001,
+        "speedMps": 175.30436931926346,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.5166666666666626,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 619.2187500000001,
+        "speedMps": 176.50675119166607,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.533333333333329,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 618.7500000000001,
+        "speedMps": 177.70978302107713,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.549999999999996,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 618.2812500000001,
+        "speedMps": 178.9134635677929,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.5666666666666624,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 617.8125000000001,
+        "speedMps": 180.1177915877694,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.583333333333329,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 617.3437500000001,
+        "speedMps": 181.3227658326307,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.5999999999999956,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 616.8750000000001,
+        "speedMps": 182.52838504967684,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.6166666666666623,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 616.4062500000001,
+        "speedMps": 183.7346479818924,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.633333333333329,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 615.9375000000001,
+        "speedMps": 184.94155336795475,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.6499999999999955,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 615.4687500000001,
+        "speedMps": 186.14909994224257,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.666666666666662,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 615.0000000000001,
+        "speedMps": 187.3572864348445,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.6833333333333287,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 614.5312500000001,
+        "speedMps": 188.56611157156777,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.6999999999999953,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 614.0625000000001,
+        "speedMps": 189.7755740739471,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.716666666666662,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 613.5937500000001,
+        "speedMps": 190.98567265925348,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.7333333333333285,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 613.1250000000001,
+        "speedMps": 192.19640604050326,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.749999999999995,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 612.6562500000001,
+        "speedMps": 193.4077729264672,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.7666666666666617,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 612.1875000000001,
+        "speedMps": 194.61977202167967,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.7833333333333283,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 611.7187500000001,
+        "speedMps": 195.83240202644797,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.799999999999995,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 611.2500000000001,
+        "speedMps": 197.0456616368617,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.8166666666666615,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 610.7812500000001,
+        "speedMps": 198.25954954480224,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.833333333333328,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 610.3125000000001,
+        "speedMps": 199.47406443795245,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.8499999999999948,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 609.8437500000001,
+        "speedMps": 200.68920499980624,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.8666666666666614,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 609.3750000000001,
+        "speedMps": 201.90496990967839,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.883333333333328,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 608.9062500000001,
+        "speedMps": 203.12135784271456,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.8999999999999946,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 608.4375000000001,
+        "speedMps": 204.33836746990113,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.916666666666661,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 607.9687500000001,
+        "speedMps": 205.5559974580754,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.933333333333328,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 607.5000000000001,
+        "speedMps": 206.7742464699358,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.9499999999999944,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 607.0312500000001,
+        "speedMps": 207.9931131640521,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.966666666666661,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 606.5625000000002,
+        "speedMps": 209.21259619487583,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.9833333333333276,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 606.0937500000001,
+        "speedMps": 210.43269421275093,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 2.9999999999999942,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 605.6250000000002,
+        "speedMps": 211.65340586392415,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.016666666666661,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 605.1562500000002,
+        "speedMps": 212.87472979055588,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.0333333333333274,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 604.6875000000002,
+        "speedMps": 214.09666463073088,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.049999999999994,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 604.2187500000002,
+        "speedMps": 215.31920901846928,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.0666666666666607,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 603.7500000000002,
+        "speedMps": 216.5423615837375,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.0833333333333273,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 603.2812500000002,
+        "speedMps": 217.76612095245932,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.099999999999994,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 602.8125000000002,
+        "speedMps": 218.99048574652727,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.1166666666666605,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 602.3437500000002,
+        "speedMps": 220.21545458381377,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.133333333333327,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 601.8750000000002,
+        "speedMps": 221.4410260781826,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.1499999999999937,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 601.4062500000002,
+        "speedMps": 222.66719883950046,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.1666666666666603,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 600.9375000000002,
+        "speedMps": 223.89397147364846,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.183333333333327,
+        "boost": true,
+        "thrustN": 48000,
+        "massKg": 600.4687500000002,
+        "speedMps": 225.121342582534,
+        "phase": "BOOST"
+      },
+      {
+        "ageS": 3.1999999999999935,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9959166666666,
+        "speedMps": 225.09956458950623,
+        "phase": "INS_CRUISE"
+      },
+      {
+        "ageS": 3.21666666666666,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9918333333334,
+        "speedMps": 225.07814343538047,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.2333333333333267,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.98775,
+        "speedMps": 225.0570787828961,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.2499999999999933,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9836666666667,
+        "speedMps": 225.0363703020929,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.26666666666666,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9795833333334,
+        "speedMps": 225.01601767010177,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.2833333333333266,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9755,
+        "speedMps": 224.996020570941,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.299999999999993,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9714166666668,
+        "speedMps": 224.97637869531786,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.3166666666666598,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9673333333334,
+        "speedMps": 224.95709174043552,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.3333333333333264,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.96325,
+        "speedMps": 224.93815940980505,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.349999999999993,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9591666666668,
+        "speedMps": 224.9195814130624,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.3666666666666596,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9550833333334,
+        "speedMps": 224.90135746579006,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.383333333333326,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.951,
+        "speedMps": 224.8834872893437,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.399999999999993,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9469166666668,
+        "speedMps": 224.86597061068318,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.4166666666666594,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9428333333334,
+        "speedMps": 224.84880716220806,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.433333333333326,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9387500000001,
+        "speedMps": 224.8319966815975,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.4499999999999926,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9346666666668,
+        "speedMps": 224.81553891165433,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.4666666666666592,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9305833333334,
+        "speedMps": 224.79943360015326,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.483333333333326,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9265000000001,
+        "speedMps": 224.78368049969305,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.4999999999999925,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9224166666668,
+        "speedMps": 224.76827936755262,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.516666666666659,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9183333333335,
+        "speedMps": 224.75322996555096,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.5333333333333257,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9142500000002,
+        "speedMps": 224.73853205991054,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.5499999999999923,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9101666666668,
+        "speedMps": 224.72418542112467,
+        "phase": "INS_SEARCH"
+      },
+      {
+        "ageS": 3.566666666666659,
+        "boost": false,
+        "thrustN": 3000,
+        "massKg": 539.9060833333335,
+        "speedMps": 224.71018982382796,
+        "phase": "INS_SEARCH"
+      }
+    ],
+    "state": {
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-A1",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": true
+          }
+        ]
+      },
+      "pending": null,
+      "missiles": [
+        {
+          "id": 1,
+          "entityClass": "WORLD_ORDNANCE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "weaponKey": "HARPOON",
+          "label": "RGM-84D",
+          "alive": true,
+          "ageS": 3.566666666666659,
+          "phase": "INS_SEARCH",
+          "positionM": {
+            "x": 400.7823978499879,
+            "y": 78.85513114415575,
+            "z": 190.1765311292691
+          },
+          "velocityMps": {
+            "x": 209.37963652040213,
+            "y": -0.942693095981132,
+            "z": 81.57173867812232
+          },
+          "navPositionM": {
+            "x": 400.52197296914426,
+            "y": 78.97723371127584,
+            "z": 190.1765311292691
+          },
+          "ins": {
+            "velocityMps": {
+              "x": 209.30592899839462,
+              "y": -0.9082827127638705,
+              "z": 81.57173867812232
+            },
+            "yawRad": -0.004496187376961558,
+            "pitchRad": 0.3714947591831508,
+            "accelBiasMps2": {
+              "x": -0.0003867192770317844,
+              "y": -0.00010221644081073267,
+              "z": 0
+            },
+            "gyroBiasRadS": 1.709519520935319e-06,
+            "samples": 214,
+            "source": "INTEGRATED_IMU_NO_DL"
+          },
+          "radarAltitudeM": 190.73479779697757,
+          "speedMps": 224.71018982382796,
+          "yawRad": -0.0045022846633866465,
+          "pitchRad": 0.3714947591831506,
+          "launchAxis": {
+            "x": 0.8338852015779543,
+            "y": -0.010622328799112823,
+            "z": 0.5518356972144676
+          },
+          "launchPositionM": {
+            "x": -4.058148423707175,
+            "y": 83.65102335431176,
+            "z": 6.817808531671761
+          },
+          "launchMuzzleM": {
+            "x": -2.127704182054211,
+            "y": 83.62643266314181,
+            "z": 8.095308170723253
+          },
+          "launchRearM": {
+            "x": -6.364021801370139,
+            "y": 83.68039639647668,
+            "z": 5.291863184946518
+          },
+          "tubeId": "MK141-A1",
+          "carrierVelocityMps": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "canisterSpeedMps": 24.463494253933796,
+          "memory": {
+            "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+            "trackId": 300000001,
+            "positionM": {
+              "x": 7997.43268346686,
+              "y": 78.8843651265159,
+              "z": 8
+            },
+            "velocityMps": {
+              "x": 0.10511697089429638,
+              "y": 3.9341047995002194,
+              "z": 0
+            },
+            "covariance": [
+              12.87636014188288,
+              0.10268911685988487,
+              0,
+              0.9537064634211821,
+              0.007162560596741979,
+              0,
+              0.10268911685988487,
+              4.711032708259732,
+              0,
+              0.006570297146653546,
+              0.4045113935361417,
+              0,
+              0,
+              0,
+              324.0354605366857,
+              0,
+              0,
+              0.23599291810638154,
+              0.9537064634211821,
+              0.006570297146653546,
+              0,
+              0.13194368216497118,
+              0.0005274335506388211,
+              0,
+              0.007162560596741979,
+              0.4045113935361417,
+              0,
+              0.0005274335506388211,
+              0.08289861787042649,
+              0,
+              0,
+              0,
+              0.23599291810638154,
+              0,
+              0,
+              1.4404921874999992
+            ],
+            "stateEpoch": "RELEASE_CURRENT_EKF",
+            "stateAgeS": 0,
+            "observationAgeS": 0.11666666666666665,
+            "launchStep": 1210,
+            "identity": "TRAINING_TARGET",
+            "truthUsed": false,
+            "updatesAfterRelease": false
+          },
+          "massKg": 539.9060833333335,
+          "fuelKg": 109.90608333333348,
+          "boosterAttached": false,
+          "wingDeploy01": 1,
+          "tailDeploy01": 1,
+          "tailCommandRad": 0.03643973901735222,
+          "thrustN": 3000,
+          "pathM": 444.6733781785782,
+          "tubeCleared": true,
+          "fuzeArmed": false,
+          "rng": 2794511455,
+          "seeker": {
+            "active": true,
+            "mode": "ACQUIRE",
+            "timerS": 0.06666666666666662,
+            "azRelRad": 0.00694425292891232,
+            "elRelRad": -0.39852150562682537,
+            "scanDirection": 1,
+            "scanReversals": 0,
+            "scanBoundsRad": [
+              -0.2024952573104072,
+              0.21638376316823185
+            ],
+            "candidate": {
+              "x": 7997.655110008354,
+              "y": 95.03978060864985,
+              "vx": 2.0012641374302533,
+              "vy": 5.027901938634094
+            },
+            "lock": null,
+            "lockCount": 2,
+            "missedS": 0.06666666666666667,
+            "lastObservations": [
+              {
+                "rangeM": 7619.14832904885,
+                "bearingRad": 0.0083653700379962,
+                "elevationRad": -0.4040895605270983,
+                "radialMps": -206.54044743708707,
+                "verticalExtentM": 17.33432484715385,
+                "rangeExtentM": 68.44164871264569,
+                "dopplerSpreadMps": 0.8,
+                "snr": 811.1450611178905,
+                "noiseScale": 0.12163018265157516
+              },
+              {
+                "rangeM": 5043.407915298979,
+                "bearingRad": 0.008014493694981084,
+                "elevationRad": -0.41853483869362584,
+                "radialMps": -205.29050835324946,
+                "verticalExtentM": 1.227321576454115,
+                "rangeExtentM": 32.002052871090044,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 338.20969081398016,
+                "noiseScale": 0.1883638677161514
+              },
+              {
+                "rangeM": 6857.646728685321,
+                "bearingRad": 0.00824909233802451,
+                "elevationRad": -0.4100660753684321,
+                "radialMps": -206.4303898248662,
+                "verticalExtentM": 0.7210938909758633,
+                "rangeExtentM": 31.709745334419125,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 193.20514014779525,
+                "noiseScale": 0.24921907788502404
+              },
+              {
+                "rangeM": 7624.141778078406,
+                "bearingRad": 0.0076952266247154455,
+                "elevationRad": -0.40665455269983136,
+                "radialMps": -206.41116736649812,
+                "verticalExtentM": 1.5745238307954672,
+                "rangeExtentM": 36.02190648385034,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 57.96007899503152,
+                "noiseScale": 0.45501544511783126
+              },
+              {
+                "rangeM": 5042.7050728416525,
+                "bearingRad": 0.13118177120270325,
+                "elevationRad": -0.4199525899195766,
+                "radialMps": -203.87345065466891,
+                "verticalExtentM": 0.8769869073218488,
+                "rangeExtentM": 32.49941693735993,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 39.30714789356379,
+                "noiseScale": 0.5525287192511068
+              },
+              {
+                "rangeM": 5043.499345857482,
+                "bearingRad": -0.11481694231479267,
+                "elevationRad": -0.41698423827760445,
+                "radialMps": -204.68284115223733,
+                "verticalExtentM": 1.2850386150987305,
+                "rangeExtentM": 37.26672711984816,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 35.1871954980324,
+                "noiseScale": 0.583980433387492
+              },
+              {
+                "rangeM": 8381.478378265836,
+                "bearingRad": 0.007403121450302308,
+                "elevationRad": -0.4046907908492128,
+                "radialMps": -206.79792708016646,
+                "verticalExtentM": 0.9464350644271472,
+                "rangeExtentM": 34.012625763553636,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 28.84889065256187,
+                "noiseScale": 0.6449500254645841
+              },
+              {
+                "rangeM": 5337.9668156460875,
+                "bearingRad": 0.007915041115486687,
+                "elevationRad": -0.4171660066975137,
+                "radialMps": -205.62171158864047,
+                "verticalExtentM": 0.7971213415235618,
+                "rangeExtentM": 34.39422802828212,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 20.610973624600728,
+                "noiseScale": 0.7630295710190906
+              },
+              {
+                "rangeM": 10214.294975622794,
+                "bearingRad": 0.0077937934629055405,
+                "elevationRad": -0.3988364052797757,
+                "radialMps": -207.95400130876718,
+                "verticalExtentM": 1.6167662532835043,
+                "rangeExtentM": 35.74333745780331,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 17.02070065411423,
+                "noiseScale": 0.8396569868640393
+              },
+              {
+                "rangeM": 8376.978798721335,
+                "bearingRad": -0.11467335969786241,
+                "elevationRad": -0.40478927656128294,
+                "radialMps": -205.2002587109616,
+                "verticalExtentM": 1.2632582883753032,
+                "rangeExtentM": 36.351039144804425,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 13.841944986846094,
+                "noiseScale": 0.9310908603281833
+              },
+              {
+                "rangeM": 6858.0326624192985,
+                "bearingRad": 0.13057422827715826,
+                "elevationRad": -0.4086589155707758,
+                "radialMps": -204.1839645989841,
+                "verticalExtentM": 1.1149339701097993,
+                "rangeExtentM": 33.35730612638754,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 11.031230242023227,
+                "noiseScale": 1.0429864070399153
+              },
+              {
+                "rangeM": 7619.440401352479,
+                "bearingRad": -0.11455902201480583,
+                "elevationRad": -0.40667127609056314,
+                "radialMps": -206.05404073582469,
+                "verticalExtentM": 0.7891001234758863,
+                "rangeExtentM": 33.308217598641136,
+                "dopplerSpreadMps": 3.167868091976146,
+                "snr": 10.542929286889724,
+                "noiseScale": 1.0668662490989191
+              }
+            ],
+            "observations": 23
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "outcome": null,
+          "rcsM2": 0.06,
+          "x": 1.5229731118299539,
+          "y": 0.29964949834779186,
+          "z": 190.1765311292691,
+          "vx": 0.7956426187775281,
+          "vy": -0.0035822337647283017,
+          "vz": 81.57173867812232,
+          "normalAccelerationMps2": 20.010265594209574,
+          "clearAgeS": 0.3333333333333333
+        }
+      ],
+      "boosters": [
+        {
+          "id": "HB-1",
+          "alive": true,
+          "ageS": 0.3833333333333333,
+          "massKg": 60,
+          "positionM": {
+            "x": 396.3187820869504,
+            "y": 78.55087840460448,
+            "z": 189.86113713775035
+          },
+          "velocityMps": {
+            "x": 197.62293673206472,
+            "y": -2.5173918523098395,
+            "z": 84.71808880175715
+          },
+          "yawRad": -0.012737669751320624,
+          "pitchRad": 0.7465250348219991,
+          "rollRad": 0.19550000000000012,
+          "spinRadS": 0.85
+        }
+      ],
+      "rng": 260457076
+    },
+    "aSave": {
+      "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+      "ok": true,
+      "errors": [],
+      "codecs": [
+        {
+          "id": "envelope",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "navigation",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "weapons",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "loads",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "damageFlooding",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "crew",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "rescue",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "aviation",
+          "ok": true,
+          "errorCount": 0
+        }
+      ]
+    },
+    "coreFailures": []
+  },
+  "errors": [],
+  "pass": true
+}

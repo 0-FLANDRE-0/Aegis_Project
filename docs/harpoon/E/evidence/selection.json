@@ -1,0 +1,1709 @@
+{
+  "schema": "HARPOON_D_SELECTION_VERIFICATION",
+  "source": "candidate.html",
+  "sha256": "ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842",
+  "seed": "0x6d2b79f5",
+  "clock": "FULL_FIXED_TICK_EIGHT_BUTTON_RELEASES_PLUS_FOCUSED_GATE_FIXTURES",
+  "checks": {
+    "startupAndSelectionSelfTestsPass": true,
+    "autoLabelReplacesIndividualDropdown": true,
+    "selectionAndTimeNeverFireByThemselves": true,
+    "selectionDoesNotConsumeCombatRng": true,
+    "protectedIdentitiesStillCannotRelease": true,
+    "automaticFireAuthorityStillDenied": true,
+    "eightRealButtonPressesReleaseEightDifferentTubes": true,
+    "displayedAndPinnedTubeMatchesActualRelease": true,
+    "preferredBankAutomaticallyFallsBackWhenEmpty": true,
+    "tubeInventoryNeverCompactsOrDuplicates": true,
+    "eachRoundRemovesExactly690kg": true,
+    "cooldownIsStillEnforced": true,
+    "emptyLauncherClearlyDisablesFire": true,
+    "fullResetRestoresEightFixedLoadedSlots": true,
+    "oldInventorySchemaRoundTripsEmptyState": true,
+    "oppositeObservedBearingSelectsOppositeBank": true,
+    "damagedPreferredBankFallsBackToOtherLoadedBank": true,
+    "damageAfterDoorOpeningCancelsPinnedTubeWithoutAmmoLoss": true,
+    "allBanksDamagedBlocksAndRepairRestoresSelection": true,
+    "selectionChangesDoNotRetargetPendingDoorOrRelease": true,
+    "staleSavedEmptySelectionCannotForceEmptyTube": true,
+    "ddg119RetainsNoHarpoonInstallation": true,
+    "pageErrorsZero": true,
+    "consoleErrorsZero": true
+  },
+  "details": {
+    "initial": {
+      "trackId": 300000001,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": 300000001,
+        "tubeId": "MK141-A1",
+        "predictionSigmaM": 160.12215087263382,
+        "rangeKm": 8.001551121242484,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 300000001,
+          "positionM": {
+            "x": 8001.5509664563315,
+            "y": -1.573867398229637,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": 0.4448453539202956,
+            "y": -0.07128775757479923,
+            "z": 0
+          },
+          "covariance": [
+            9.775800019627361,
+            0.01952630955850823,
+            0,
+            0.7362210784393238,
+            0.0013183222822724014,
+            0,
+            0.01952630955850823,
+            4.2566005636463435,
+            0,
+            0.0013076482516935486,
+            0.3750498071362487,
+            0,
+            0,
+            0,
+            324.03486879810646,
+            0,
+            0,
+            0.2334568956240466,
+            0.7362210784393238,
+            0.0013076482516935486,
+            0,
+            0.11523306630021371,
+            0.00012783860913227835,
+            0,
+            0.0013183222822724014,
+            0.3750498071362487,
+            0,
+            0.00012783860913227835,
+            0.0808945414657454,
+            0,
+            0,
+            0,
+            0.2334568956240466,
+            0,
+            0,
+            1.4404921874999992
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0.11666666666666665,
+          "launchStep": 1200,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "muzzleM": {
+          "x": -2.127704182054211,
+          "y": 83.62643266314181,
+          "z": 8.095308170723253
+        },
+        "axis": {
+          "x": 0.8338852015779543,
+          "y": -0.010622328799112823,
+          "z": 0.5518356972144676
+        },
+        "authority": {
+          "ok": true,
+          "reason": null,
+          "identity": "TRAINING_TARGET",
+          "mode": "MANUAL"
+        },
+        "truthUsed": false,
+        "turnRad": 0.001862657528498346,
+        "selectionMode": "AUTO"
+      },
+      "audit": {
+        "schema": "HARPOON_D_SELECTION_AUDIT",
+        "checks": {
+          "leastObservedTurn": true,
+          "stableTubeTieBreak": true,
+          "blockedTubeSkipped": true,
+          "noEligibleTube": true,
+          "emptyInstallation": true,
+          "detachedInputUnchanged": true
+        },
+        "pass": true
+      }
+    },
+    "authority": {
+      "rows": {
+        "UNKNOWN": {
+          "ok": false,
+          "reason": "SURFACE_IDENTITY_NOT_AUTHORIZED",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "FRIEND": {
+          "ok": false,
+          "reason": "PROTECTED_IDENTITY",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "NEUTRAL": {
+          "ok": false,
+          "reason": "PROTECTED_IDENTITY",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "AUTO": {
+          "ok": false,
+          "reason": "MANUAL_SURFACE_AUTHORITY_REQUIRED",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "SEMIAUTO": {
+          "ok": false,
+          "reason": "MANUAL_SURFACE_AUTHORITY_REQUIRED",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        }
+      },
+      "state": {
+        "inventory": {
+          "schema": "MK141_INVENTORY_A1",
+          "selectedTubeId": "MK141-A1",
+          "tubes": [
+            {
+              "id": "MK141-A1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A2",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A4",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B2",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B4",
+              "loaded": true
+            }
+          ]
+        },
+        "pending": null,
+        "missiles": [],
+        "boosters": [],
+        "rng": 260457076
+      }
+    },
+    "eightAutomaticSelections": {
+      "requests": [
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-A1",
+            "predictionSigmaM": 160.12215087263382,
+            "rangeKm": 8.001551121242484,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8001.5509664563315,
+                "y": -1.573867398229637,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.4448453539202956,
+                "y": -0.07128775757479923,
+                "z": 0
+              },
+              "covariance": [
+                9.775800019627361,
+                0.01952630955850823,
+                0,
+                0.7362210784393238,
+                0.0013183222822724014,
+                0,
+                0.01952630955850823,
+                4.2566005636463435,
+                0,
+                0.0013076482516935486,
+                0.3750498071362487,
+                0,
+                0,
+                0,
+                324.03486879810646,
+                0,
+                0,
+                0.2334568956240466,
+                0.7362210784393238,
+                0.0013076482516935486,
+                0,
+                0.11523306630021371,
+                0.00012783860913227835,
+                0,
+                0.0013183222822724014,
+                0.3750498071362487,
+                0,
+                0.00012783860913227835,
+                0.0808945414657454,
+                0,
+                0,
+                0,
+                0.2334568956240466,
+                0,
+                0,
+                1.4404921874999992
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.11666666666666665,
+              "launchStep": 1300,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -2.127704182054211,
+              "y": 83.62643266314181,
+              "z": 8.095308170723253
+            },
+            "axis": {
+              "x": 0.8338852015779543,
+              "y": -0.010622328799112823,
+              "z": 0.5518356972144676
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 0.001862657528498346,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · A1",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-A1",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-A2",
+            "predictionSigmaM": 160.10160820640226,
+            "rangeKm": 8.001107333503642,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8001.107195244911,
+                "y": -1.487430647938789,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.35553205659458376,
+                "y": -0.06336442836283455,
+                "z": 0
+              },
+              "covariance": [
+                8.131237569083138,
+                0.019523864046099865,
+                0,
+                0.591889817707116,
+                0.0012174948499777969,
+                0,
+                0.019523864046099865,
+                2.444358269442078,
+                0,
+                0.0012072044869898659,
+                0.24516561571213244,
+                0,
+                0,
+                0,
+                324.05917103848634,
+                0,
+                0,
+                0.29198389504442585,
+                0.591889817707116,
+                0.0012072044869898659,
+                0,
+                0.10062629160009577,
+                0.00010021282863951178,
+                0,
+                0.0012174948499777969,
+                0.24516561571213244,
+                0,
+                0.00010021282863951178,
+                0.07306074783560348,
+                0,
+                0,
+                0,
+                0.29198389504442585,
+                0,
+                0,
+                1.4408437499999986
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.19999999999999998,
+              "launchStep": 1403,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -2.527634039175518,
+              "y": 83.57409630275951,
+              "z": 8.706847399254771
+            },
+            "axis": {
+              "x": 0.8325792191263155,
+              "y": -0.013220891167815487,
+              "z": 0.5537481845710589
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 0.005044474967414558,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · A2",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-A2",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-A4",
+            "predictionSigmaM": 160.09783417970073,
+            "rangeKm": 8.001479506223655,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8001.479265556016,
+                "y": -1.9625778488219403,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.3475312631663699,
+                "y": -0.08805762212317908,
+                "z": 0
+              },
+              "covariance": [
+                7.829127257736836,
+                0.01959949006545335,
+                0,
+                0.5702925106439002,
+                0.0011371245258405655,
+                0,
+                0.01959949006545335,
+                1.9808712479611603,
+                0,
+                0.0011396432121142954,
+                0.23384917743608663,
+                0,
+                0,
+                0,
+                324.07162372641665,
+                0,
+                0,
+                0.3273847501356634,
+                0.5702925106439002,
+                0.0011396432121142954,
+                0,
+                0.09835336549747993,
+                8.490193052816965e-05,
+                0,
+                0.0011371245258405655,
+                0.23384917743608663,
+                0,
+                8.490193052816965e-05,
+                0.07427541414314287,
+                0,
+                0,
+                0,
+                0.3273847501356634,
+                0,
+                0,
+                1.4407734374999988
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.18333333333333332,
+              "launchStep": 1506,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -2.5625194161438576,
+              "y": 82.66974696077118,
+              "z": 8.762888980596314
+            },
+            "axis": {
+              "x": 0.830483482461289,
+              "y": -0.014153658486619487,
+              "z": 0.5568634117181825
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 0.006175752695556369,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · A4",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-A4",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-A3",
+            "predictionSigmaM": 160.08767489502324,
+            "rangeKm": 8.003176442863959,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8003.17641102184,
+                "y": -0.7147909718803982,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.4503703102725389,
+                "y": 0.07647920718716295,
+                "z": 0
+              },
+              "covariance": [
+                7.015913323663519,
+                0.017430897358087793,
+                0,
+                0.5129773020712947,
+                0.000929470444759142,
+                0,
+                0.017430897358087793,
+                1.7963429600080494,
+                0,
+                0.0009286574691593844,
+                0.2394320698635562,
+                0,
+                0,
+                0,
+                324.13384946744094,
+                0,
+                0,
+                0.44306780028025805,
+                0.5129773020712947,
+                0.0009286574691593844,
+                0,
+                0.09325778615642737,
+                6.524032843624388e-05,
+                0,
+                0.000929470444759142,
+                0.2394320698635562,
+                0,
+                6.524032843624388e-05,
+                0.0751881343570439,
+                0,
+                0,
+                0,
+                0.44306780028025805,
+                0,
+                0,
+                1.4411249999999982
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.26666666666666666,
+              "launchStep": 1609,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -2.193105467838647,
+              "y": 82.68384959026704,
+              "z": 8.16398182173698
+            },
+            "axis": {
+              "x": 0.8296607145695363,
+              "y": -0.014148964799148128,
+              "z": 0.5580886179587238
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 0.006915656521396585,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · A3",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-A3",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-B1",
+            "predictionSigmaM": 160.078941272111,
+            "rangeKm": 8.002783859455711,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8002.783856243699,
+                "y": -0.23134642223338622,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.32119635429349824,
+                "y": 0.1293445750688137,
+                "z": 0
+              },
+              "covariance": [
+                6.316859699988997,
+                0.01587943747091504,
+                0,
+                0.464470307952253,
+                0.0008222396471465894,
+                0,
+                0.01587943747091504,
+                1.6278404602346586,
+                0,
+                0.000806550420486126,
+                0.23137196980907973,
+                0,
+                0,
+                0,
+                324.00532882215646,
+                0,
+                0,
+                0.10393394367504798,
+                0.464470307952253,
+                0.000806550420486126,
+                0,
+                0.08870081716754953,
+                5.978690097054466e-05,
+                0,
+                0.0008222396471465894,
+                0.23137196980907973,
+                0,
+                5.978690097054466e-05,
+                0.07258941536376849,
+                0,
+                0,
+                0,
+                0.10393394367504798,
+                0,
+                0,
+                1.4401406249999997
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.03333333333333333,
+              "launchStep": 1712,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -6.775990491511716,
+              "y": 81.26922308094612,
+              "z": 8.100898694843739
+            },
+            "axis": {
+              "x": -0.8373854446553166,
+              "y": -0.01419437667190715,
+              "z": 0.546428528492349
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 3.1149272325280144,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · B1",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-B1",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-B2",
+            "predictionSigmaM": 160.07468144727494,
+            "rangeKm": 8.00080130421466,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8000.801202904885,
+                "y": 1.255734046793751,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.10697505964756028,
+                "y": 0.30561052608603173,
+                "z": 0
+              },
+              "covariance": [
+                5.975910111636911,
+                0.01489241907931801,
+                0,
+                0.4457277813895895,
+                0.0007537478531956573,
+                0,
+                0.01489241907931801,
+                1.6644169998799603,
+                0,
+                0.0007230922453747374,
+                0.24184310423991767,
+                0,
+                0,
+                0,
+                324.0064525104035,
+                0,
+                0,
+                0.09640012685466713,
+                0.4457277813895895,
+                0.0007230922453747374,
+                0,
+                0.08701288422357017,
+                5.6953013171610485e-05,
+                0,
+                0.0007537478531956573,
+                0.24184310423991767,
+                0,
+                5.6953013171610485e-05,
+                0.07203228968034617,
+                0,
+                0,
+                0,
+                0.09640012685466713,
+                0,
+                0,
+                1.4402812499999995
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.06666666666666667,
+              "launchStep": 1815,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -6.382718859107821,
+              "y": 81.24167889154494,
+              "z": 8.690552918094527
+            },
+            "axis": {
+              "x": -0.8362771974937151,
+              "y": -0.014202973282558762,
+              "z": 0.5481229100320408
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 3.1156828952042304,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · B2",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-B2",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-B4",
+            "predictionSigmaM": 160.0799274908302,
+            "rangeKm": 8.001378236895489,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8001.378037280955,
+                "y": 1.7362336111482908,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.2177993842325065,
+                "y": 0.28892736512831363,
+                "z": 0
+              },
+              "covariance": [
+                6.395796367362875,
+                0.01641027628129063,
+                0,
+                0.4909496950861481,
+                0.0008994262589417577,
+                0,
+                0.01641027628129063,
+                1.8272521477859816,
+                0,
+                0.000836287620679268,
+                0.26406193199439665,
+                0,
+                0,
+                0,
+                324.0785411714348,
+                0,
+                0,
+                0.33731492161092597,
+                0.4909496950861481,
+                0.000836287620679268,
+                0,
+                0.09149608922142007,
+                7.087834301984898e-05,
+                0,
+                0.0008994262589417577,
+                0.26406193199439665,
+                0,
+                7.087834301984898e-05,
+                0.07324984671973632,
+                0,
+                0,
+                0,
+                0.33731492161092597,
+                0,
+                0,
+                1.4409140624999985
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.21666666666666665,
+              "launchStep": 1918,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -6.373353959209634,
+              "y": 80.32096185323263,
+              "z": 8.675161263971168
+            },
+            "axis": {
+              "x": -0.8357176580483575,
+              "y": -0.014206397893786367,
+              "z": 0.548975568021977
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 3.1157890794687155,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · B4",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-B4",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        },
+        {
+          "gate": {
+            "ok": true,
+            "reason": null,
+            "trackId": 300000001,
+            "tubeId": "MK141-B3",
+            "predictionSigmaM": 160.0766848968083,
+            "rangeKm": 8.00068195048004,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": 8000.681947385609,
+                "y": -0.19660494377144447,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": 0.14459094297091904,
+                "y": -0.016960501264390047,
+                "z": 0
+              },
+              "covariance": [
+                6.136261888013025,
+                0.015740005529872113,
+                0,
+                0.47543354347270256,
+                0.0008598864127192245,
+                0,
+                0.015740005529872113,
+                1.808289726779473,
+                0,
+                0.0008038482382542552,
+                0.2582300308684859,
+                0,
+                0,
+                0,
+                324.16536529839783,
+                0,
+                0,
+                0.489244167186937,
+                0.47543354347270256,
+                0.0008038482382542552,
+                0,
+                0.08983501640591109,
+                7.162078606440128e-05,
+                0,
+                0.0008598864127192245,
+                0.2582300308684859,
+                0,
+                7.162078606440128e-05,
+                0.07102161552704334,
+                0,
+                0,
+                0,
+                0.489244167186937,
+                0,
+                0,
+                1.4413359374999979
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.31666666666666665,
+              "launchStep": 2021,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "muzzleM": {
+              "x": -6.752154099752499,
+              "y": 80.26911273999319,
+              "z": 8.101429259087366
+            },
+            "axis": {
+              "x": -0.8358626464244354,
+              "y": -0.014207166624258638,
+              "z": 0.5487547655636803
+            },
+            "authority": {
+              "ok": true,
+              "reason": null,
+              "identity": "TRAINING_TARGET",
+              "mode": "MANUAL"
+            },
+            "truthUsed": false,
+            "turnRad": 3.1144950840890964,
+            "selectionMode": "AUTO"
+          },
+          "label": "AUTO · B3",
+          "pending": {
+            "trackId": 300000001,
+            "tubeId": "MK141-B3",
+            "routeProgram": null,
+            "remainingS": 0.18
+          }
+        }
+      ],
+      "releaseTubes": [
+        "MK141-A1",
+        "MK141-A2",
+        "MK141-A4",
+        "MK141-A3",
+        "MK141-B1",
+        "MK141-B2",
+        "MK141-B4",
+        "MK141-B3"
+      ],
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-B3",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": false
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": false
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": false
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": false
+          }
+        ]
+      },
+      "massRemovedKg": 5520.0
+    },
+    "oppositeBearing": {
+      "trackId": 300000001,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": 300000001,
+        "tubeId": "MK141-B2",
+        "predictionSigmaM": 160.08614320713787,
+        "rangeKm": 8.004339830157983,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 300000001,
+          "positionM": {
+            "x": -8004.339824272699,
+            "y": -0.30694562706164175,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": -0.42335555013441506,
+            "y": -0.08976988883860981,
+            "z": 0
+          },
+          "covariance": [
+            6.893311734062812,
+            0.015793340695835698,
+            0,
+            0.5560651718599701,
+            0.001050635728800773,
+            0,
+            0.015793340695835698,
+            2.0276898606255913,
+            0,
+            0.0010224255890217662,
+            0.269172714055228,
+            0,
+            0,
+            0,
+            324.05433373429787,
+            0,
+            0,
+            0.28304031422261183,
+            0.5560651718599701,
+            0.0010224255890217662,
+            0,
+            0.09918373128721701,
+            0.00011515533805017374,
+            0,
+            0.001050635728800773,
+            0.269172714055228,
+            0,
+            0.00011515533805017374,
+            0.07086636098700415,
+            0,
+            0,
+            0,
+            0.28304031422261183,
+            0,
+            0,
+            1.4407031249999989
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0.16666666666666666,
+          "launchStep": 1200,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "muzzleM": {
+          "x": -6.3430045437261215,
+          "y": 81.31563032901246,
+          "z": 8.622619685431665
+        },
+        "axis": {
+          "x": -0.8338845246082887,
+          "y": -0.010678251096399473,
+          "z": 0.5518356409043645
+        },
+        "authority": {
+          "ok": true,
+          "reason": null,
+          "identity": "TRAINING_TARGET",
+          "mode": "MANUAL"
+        },
+        "truthUsed": false,
+        "turnRad": 0.0023040512077017183,
+        "selectionMode": "AUTO"
+      },
+      "audit": {
+        "schema": "HARPOON_D_SELECTION_AUDIT",
+        "checks": {
+          "leastObservedTurn": true,
+          "stableTubeTieBreak": true,
+          "blockedTubeSkipped": true,
+          "noEligibleTube": true,
+          "emptyInstallation": true,
+          "detachedInputUnchanged": true
+        },
+        "pass": true
+      }
+    },
+    "damage": {
+      "initial": {
+        "ok": true,
+        "reason": null,
+        "trackId": 300000001,
+        "tubeId": "MK141-B2",
+        "predictionSigmaM": 160.08614320713787,
+        "rangeKm": 8.004339830157983,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 300000001,
+          "positionM": {
+            "x": -8004.339824272699,
+            "y": -0.30694562706164175,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": -0.42335555013441506,
+            "y": -0.08976988883860981,
+            "z": 0
+          },
+          "covariance": [
+            6.893311734062812,
+            0.015793340695835698,
+            0,
+            0.5560651718599701,
+            0.001050635728800773,
+            0,
+            0.015793340695835698,
+            2.0276898606255913,
+            0,
+            0.0010224255890217662,
+            0.269172714055228,
+            0,
+            0,
+            0,
+            324.05433373429787,
+            0,
+            0,
+            0.28304031422261183,
+            0.5560651718599701,
+            0.0010224255890217662,
+            0,
+            0.09918373128721701,
+            0.00011515533805017374,
+            0,
+            0.001050635728800773,
+            0.269172714055228,
+            0,
+            0.00011515533805017374,
+            0.07086636098700415,
+            0,
+            0,
+            0,
+            0.28304031422261183,
+            0,
+            0,
+            1.4407031249999989
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0.16666666666666666,
+          "launchStep": 1200,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "muzzleM": {
+          "x": -6.3430045437261215,
+          "y": 81.31563032901246,
+          "z": 8.622619685431665
+        },
+        "axis": {
+          "x": -0.8338845246082887,
+          "y": -0.010678251096399473,
+          "z": 0.5518356409043645
+        },
+        "authority": {
+          "ok": true,
+          "reason": null,
+          "identity": "TRAINING_TARGET",
+          "mode": "MANUAL"
+        },
+        "truthUsed": false,
+        "turnRad": 0.0023040512077017183,
+        "selectionMode": "AUTO"
+      },
+      "fallback": {
+        "ok": true,
+        "reason": null,
+        "trackId": 300000001,
+        "tubeId": "MK141-A2",
+        "predictionSigmaM": 160.08614320713787,
+        "rangeKm": 8.004339830157983,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 300000001,
+          "positionM": {
+            "x": -8004.339824272699,
+            "y": -0.30694562706164175,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": -0.42335555013441506,
+            "y": -0.08976988883860981,
+            "z": 0
+          },
+          "covariance": [
+            6.893311734062812,
+            0.015793340695835698,
+            0,
+            0.5560651718599701,
+            0.001050635728800773,
+            0,
+            0.015793340695835698,
+            2.0276898606255913,
+            0,
+            0.0010224255890217662,
+            0.269172714055228,
+            0,
+            0,
+            0,
+            324.05433373429787,
+            0,
+            0,
+            0.28304031422261183,
+            0.5560651718599701,
+            0.0010224255890217662,
+            0,
+            0.09918373128721701,
+            0.00011515533805017374,
+            0,
+            0.001050635728800773,
+            0.269172714055228,
+            0,
+            0.00011515533805017374,
+            0.07086636098700415,
+            0,
+            0,
+            0,
+            0.28304031422261183,
+            0,
+            0,
+            1.4407031249999989
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0.16666666666666666,
+          "launchStep": 1200,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "muzzleM": {
+          "x": -2.5062228739816192,
+          "y": 83.6152985328709,
+          "z": 8.667085267050386
+        },
+        "axis": {
+          "x": 0.8338865851288796,
+          "y": -0.010655291641803361,
+          "z": 0.5518329710176112
+        },
+        "authority": {
+          "ok": true,
+          "reason": null,
+          "identity": "TRAINING_TARGET",
+          "mode": "MANUAL"
+        },
+        "truthUsed": false,
+        "turnRad": 3.118032747503962,
+        "selectionMode": "AUTO"
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A2"
+      },
+      "cancelled": {
+        "inventory": {
+          "schema": "MK141_INVENTORY_A1",
+          "selectedTubeId": "MK141-A2",
+          "tubes": [
+            {
+              "id": "MK141-A1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A2",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A4",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B2",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B4",
+              "loaded": true
+            }
+          ]
+        },
+        "pending": null,
+        "missiles": [],
+        "boosters": [],
+        "rng": 260457076
+      },
+      "blocked": {
+        "ok": false,
+        "reason": "MK141_LAUNCHER_DAMAGED",
+        "tubeId": null,
+        "truthUsed": false,
+        "selectionMode": "AUTO"
+      },
+      "recovered": {
+        "ok": true,
+        "reason": null,
+        "trackId": 300000001,
+        "tubeId": "MK141-B2",
+        "predictionSigmaM": 160.08614320713787,
+        "rangeKm": 8.004339830157983,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 300000001,
+          "positionM": {
+            "x": -8004.339824272699,
+            "y": -0.30694562706164175,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": -0.42335555013441506,
+            "y": -0.08976988883860981,
+            "z": 0
+          },
+          "covariance": [
+            6.893311734062812,
+            0.015793340695835698,
+            0,
+            0.5560651718599701,
+            0.001050635728800773,
+            0,
+            0.015793340695835698,
+            2.0276898606255913,
+            0,
+            0.0010224255890217662,
+            0.269172714055228,
+            0,
+            0,
+            0,
+            324.05433373429787,
+            0,
+            0,
+            0.28304031422261183,
+            0.5560651718599701,
+            0.0010224255890217662,
+            0,
+            0.09918373128721701,
+            0.00011515533805017374,
+            0,
+            0.001050635728800773,
+            0.269172714055228,
+            0,
+            0.00011515533805017374,
+            0.07086636098700415,
+            0,
+            0,
+            0,
+            0.28304031422261183,
+            0,
+            0,
+            1.4407031249999989
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0.16666666666666666,
+          "launchStep": 1212,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "muzzleM": {
+          "x": -6.3430045437261215,
+          "y": 81.31563032901246,
+          "z": 8.622619685431665
+        },
+        "axis": {
+          "x": -0.8338845246082887,
+          "y": -0.010678251096399473,
+          "z": 0.5518356409043645
+        },
+        "authority": {
+          "ok": true,
+          "reason": null,
+          "identity": "TRAINING_TARGET",
+          "mode": "MANUAL"
+        },
+        "truthUsed": false,
+        "turnRad": 0.0023040512077017183,
+        "selectionMode": "AUTO"
+      }
+    },
+    "pinnedRequest": {
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-B2"
+      },
+      "during": {
+        "gate": {
+          "ok": false,
+          "reason": "RELEASE_PENDING",
+          "tubeId": "MK141-B2",
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "pending": {
+          "trackId": 300000001,
+          "tubeId": "MK141-B2",
+          "routeProgram": null,
+          "remainingS": 0.18
+        },
+        "label": "AUTO · B2"
+      },
+      "released": {
+        "inventory": {
+          "schema": "MK141_INVENTORY_A1",
+          "selectedTubeId": "MK141-B2",
+          "tubes": [
+            {
+              "id": "MK141-A1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A2",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-A4",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B1",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B2",
+              "loaded": false
+            },
+            {
+              "id": "MK141-B3",
+              "loaded": true
+            },
+            {
+              "id": "MK141-B4",
+              "loaded": true
+            }
+          ]
+        },
+        "pending": null,
+        "missiles": [
+          {
+            "id": 1,
+            "entityClass": "WORLD_ORDNANCE",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "weaponKey": "HARPOON",
+            "label": "RGM-84D",
+            "alive": true,
+            "ageS": 0.03333333333333333,
+            "phase": "CANISTER",
+            "positionM": {
+              "x": -4.568370327727449,
+              "y": 81.33835528577023,
+              "z": 7.448228770314895
+            },
+            "velocityMps": {
+              "x": -5.120709916026131,
+              "y": -0.06557289967796841,
+              "z": 3.3887068952658757
+            },
+            "navPositionM": {
+              "x": -4.570781509033464,
+              "y": 81.33949487984648,
+              "z": 7.448228770314895
+            },
+            "ins": {
+              "velocityMps": {
+                "x": -5.193048577704283,
+                "y": -0.03138594191480559,
+                "z": 3.3887068952658757
+              },
+              "yawRad": -3.128787865052691,
+              "pitchRad": 0.5845637715908139,
+              "accelBiasMps2": {
+                "x": -0.0003867192770317844,
+                "y": -0.00010221644081073267,
+                "z": 0
+              },
+              "gyroBiasRadS": 1.709519520935319e-06,
+              "samples": 2,
+              "source": "INTEGRATED_IMU_NO_DL"
+            },
+            "radarAltitudeM": 7.708925448578205,
+            "speedMps": 6.140790199256364,
+            "yawRad": -3.128787922036674,
+            "pitchRad": 0.5845637715908139,
+            "launchAxis": {
+              "x": -0.8338845246082887,
+              "y": -0.010678251096399473,
+              "z": 0.5518356409043645
+            },
+            "launchPositionM": {
+              "x": -4.412561869257933,
+              "y": 81.34035048030063,
+              "z": 7.345120176738062
+            },
+            "launchMuzzleM": {
+              "x": -6.3430045437261215,
+              "y": 81.31563032901246,
+              "z": 8.622619685431665
+            },
+            "launchRearM": {
+              "x": -2.1066745127224906,
+              "y": 81.36987836271896,
+              "z": 5.819164496190157
+            },
+            "tubeId": "MK141-B2",
+            "carrierVelocityMps": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "canisterSpeedMps": 6.140790199256363,
+            "route": null,
+            "memory": {
+              "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+              "trackId": 300000001,
+              "positionM": {
+                "x": -8004.339824272699,
+                "y": -0.30694562706164175,
+                "z": 8
+              },
+              "velocityMps": {
+                "x": -0.42335555013441506,
+                "y": -0.08976988883860981,
+                "z": 0
+              },
+              "covariance": [
+                6.893311734062812,
+                0.015793340695835698,
+                0,
+                0.5560651718599701,
+                0.001050635728800773,
+                0,
+                0.015793340695835698,
+                2.0276898606255913,
+                0,
+                0.0010224255890217662,
+                0.269172714055228,
+                0,
+                0,
+                0,
+                324.05433373429787,
+                0,
+                0,
+                0.28304031422261183,
+                0.5560651718599701,
+                0.0010224255890217662,
+                0,
+                0.09918373128721701,
+                0.00011515533805017374,
+                0,
+                0.001050635728800773,
+                0.269172714055228,
+                0,
+                0.00011515533805017374,
+                0.07086636098700415,
+                0,
+                0,
+                0,
+                0.28304031422261183,
+                0,
+                0,
+                1.4407031249999989
+              ],
+              "stateEpoch": "RELEASE_CURRENT_EKF",
+              "stateAgeS": 0,
+              "observationAgeS": 0.16666666666666666,
+              "launchStep": 1222,
+              "identity": "TRAINING_TARGET",
+              "truthUsed": false,
+              "updatesAfterRelease": false
+            },
+            "massKg": 689.0625,
+            "fuelKg": 110,
+            "boosterAttached": true,
+            "wingDeploy01": 0,
+            "tailDeploy01": 0,
+            "tailCommandRad": 0,
+            "thrustN": 48000,
+            "pathM": 0.18684656432820373,
+            "tubeCleared": false,
+            "fuzeArmed": false,
+            "rng": 1995124684,
+            "seeker": {
+              "active": false,
+              "mode": "OFF",
+              "timerS": 0,
+              "azRelRad": 0,
+              "elRelRad": 0,
+              "scanDirection": 1,
+              "scanReversals": 0,
+              "scanBoundsRad": [
+                0,
+                0
+              ],
+              "candidate": null,
+              "lock": null,
+              "lockCount": 0,
+              "missedS": 0,
+              "lastObservations": [],
+              "observations": 0
+            },
+            "history": [],
+            "outcome": null,
+            "rcsM2": 0.06,
+            "x": -0.017359807245364307,
+            "y": 0.30908575008592687,
+            "z": 7.448228770314895,
+            "vx": -0.019458697680899296,
+            "vy": -0.00024917701877627996,
+            "vz": 3.3887068952658757,
+            "normalAccelerationMps2": 0
+          }
+        ],
+        "boosters": [],
+        "rng": 260457076
+      }
+    },
+    "ddg": {
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": null,
+        "tubes": []
+      },
+      "gate": {
+        "ok": false,
+        "reason": "MK141_NOT_INSTALLED",
+        "tubeId": null,
+        "truthUsed": false,
+        "selectionMode": "AUTO"
+      },
+      "hidden": true,
+      "core": []
+    }
+  },
+  "errors": [],
+  "console": [],
+  "pass": true
+}

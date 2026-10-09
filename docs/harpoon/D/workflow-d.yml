@@ -1,0 +1,72 @@
+name: Harpoon D automatic launch tube selection
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_HARPOON_D.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP_HARPOON_D.md'
+      - 'SHA256SUMS_v48_WIP_HARPOON_D.txt'
+      - 'docs/harpoon/**'
+      - '.github/workflows/harpoon-d.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_HARPOON_D.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install numpy==2.3.5
+      - name: Verify D and reconstruct unuploaded comparison C from K
+        run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HARPOON_D.txt
+          sha256sum -c docs/harpoon/D/REPOSITORY_SUPPORT.sha256
+          python docs/harpoon/A/build.py --out artifacts/harpoon/baseline-A.html
+          python docs/harpoon/B/build.py --baseline artifacts/harpoon/baseline-A.html --out artifacts/harpoon/baseline-B.html
+          python docs/harpoon/C/build.py --baseline artifacts/harpoon/baseline-B.html --out artifacts/harpoon/baseline-C.html
+          python docs/harpoon/D/verify_static.py "$AEGIS_CANDIDATE" artifacts/harpoon/static --baseline artifacts/harpoon/baseline-C.html
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-d-static-${{ github.sha }}
+          path: artifacts/harpoon
+          if-no-files-found: error
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [selection, clock, native]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Select installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: python docs/harpoon/D/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/harpoon/${{ matrix.suite }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-d-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/harpoon/${{ matrix.suite }}
+          if-no-files-found: error

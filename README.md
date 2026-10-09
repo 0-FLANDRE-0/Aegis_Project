@@ -1,17 +1,44 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 벙커힐 WIP K
+## 최신 개발 기준 — Harpoon WIP E
 
-- 파일: [Aegis_SIM_v48_WIP_BUNKERHILL_K.html](Aegis_SIM_v48_WIP_BUNKERHILL_K.html), **14,458,866 bytes**, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`.
+- [HTML](Aegis_SIM_v48_WIP_HARPOON_E.html), **15,285,590 bytes**, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`.
+- ARM → VLS 하푼 아래 웨이포인트 지정/해제. 최대8점 CIC 탭·초안 점선, 해제 시 AIM 커서 복귀. 발사 시 관/경로 pin, 성공 뒤 초안 삭제/다음 탄의 독립 경로. 마지막 점 전 ARH OFF, INS 평면 통과 뒤 전방 SEARCH. 마지막 점은 탐색 시작점이다.
+- 고정 좌표 검색 계획 +8km search/+2km turn reserve ≤140km SIM-TUNE, fuel0.225kg/s. 익명 height/Doppler filter 조정·DL0·보호 수상 track/수동 발사·자동 관/고정재고·DDG 미설치를 유지한다. CG E_1/C·B·A·G·D 명시 legacy; route/flight는 transient다.
+- 동일 bytes **178/178 PASS**, 120/124/130km×정지/15kt6건 물리 접촉·empty-sea 강제명중0, 1/8/16/64×3072 full ticks exact, native640×480 실제 경로2/발사2·덮개/부스터/RAF/reset·오류0. 단일 seed·terrain bypass/focused60Hz range와 SwiftShader 범위를 명시하고 실제140km 전조건 인증/일반 명중률을 주장하지 않는다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_HARPOON_E.md), [SHA](SHA256SUMS_v48_WIP_HARPOON_E.txt), [E 상세](docs/harpoon/E/README.md), [집계](docs/harpoon/E/evidence/verification-summary.json), [인계](docs/harpoon/E/GITHUB_HANDOFF.md).
+- 사용자 업로드 `a96053ba1dc56389822c17c92a632f21fcc446b2`의 E HTML을 전달본과 byte 단위로 대조했고 원격 무결성 검사도 통과했다. 이 revision은 작은 지원 파일·상태/SHA·E 전체 workflow와 K 기존 blob의 archive 이동을 포함한다. 전체 Actions와 병합 결과는 [PR #44](https://github.com/0-FLANDRE-0/Aegis_Project/pull/44)를 따른다. [업로드 검증 기록](docs/harpoon/E/evidence/remote-publication.json).
+
+## 직전 로컬 비교 — Harpoon WIP D
+
+D HTML/status/SHA는 `archive/v48/WIP_HARPOON_D/`에 같은 bytes 보존했다. 당시 SHA `e92aff9c19a074aa98c3ceca236abaa14b2a674f8417419df7a08dbc248700a1`, 15,283,086 bytes. 자동 관 선택 직접67/67과 이후 별도 장거리 보고(60km gate 통과/100·120·124km prediction basket 거부, gate-only 우회124km15kt miss)는 [D 당시 상태](archive/v48/WIP_HARPOON_D/AEGIS_PLAN_STATUS_v48_WIP_HARPOON_D.md)와 [D 장거리 보고](docs/harpoon/long-range/D/REPORT.md)를 따른다. E는 좌표 route mode로 장거리를 별도 검사하며 track-only prediction basket은 유지한다. K+작은 A/B/C/D 모듈로 D exact 재생성 가능하고 큰 D archive는 신규 remote 업로드 대상이 아니다.
+
+## 직전 로컬 비교 — Harpoon WIP C
+
+C HTML/status/SHA는 `archive/v48/WIP_HARPOON_C/`에 같은 bytes 보존했다. 당시 HTML SHA `b3b4f637fdfe0973e3aec566f1577401055c44235d8ccef22084aeb6e04175e7`, 15,281,856 bytes, 직접155/155 기록은 [당시 상태](archive/v48/WIP_HARPOON_C/AEGIS_PLAN_STATUS_v48_WIP_HARPOON_C.md)와 [C 근거](docs/harpoon/C/README.md)를 따른다. A/B/C 큰 archive HTML은 remote 업로드 대상이 아니며 K+작은 모듈로 exact 재생성한다. C workflow/manifest는 역사 보존하고 현재 검사는 E manifest/workflow다.
+
+## 직전 로컬 비교 — Harpoon WIP B
+
+B HTML/status/SHA는 `archive/v48/WIP_HARPOON_B/`에 같은 bytes 보존했다. 당시 HTML SHA `a44a346abce0bb0e10b4cff231116171d0c13de1b8962d45820c6c6d10de98fc`, 15,274,780 bytes, 직접133/133 기록은 [당시 상태](archive/v48/WIP_HARPOON_B/AEGIS_PLAN_STATUS_v48_WIP_HARPOON_B.md)와 [B 근거](docs/harpoon/B/README.md)를 따른다. A/B 대형 archive HTML은 remote에 없고 upload 대상이 아니다. K+작은 A/B 모듈로 비교본을 exact 재생성하며 역사 manifest/workflow는 현재 검사로 사용하지 않는다.
+
+## 직전 로컬 비교 — Harpoon WIP A
+
+- A HTML/상태/SHA는 로컬 `archive/v48/WIP_HARPOON_A/`에 같은 bytes로 보존했다. HTML은 14,962,500 bytes, SHA `ffd976a211c530bc4d193597751e49febbd755646b865e6ad2685cd9e06aab77`이다. [당시 상태](archive/v48/WIP_HARPOON_A/AEGIS_PLAN_STATUS_v48_WIP_HARPOON_A.md), [A 소형 모듈·검사](docs/harpoon/A/README.md), [공개 자료](docs/harpoon/A/SOURCES.md), [당시 155/155 집계](docs/harpoon/A/evidence/verification-summary.json).
+- A는 remote에 업로드되지 않았다. 원격 비교는 이미 존재하는 K blob과 작은 A 모듈에서 exact 재생성한다. 로컬 A archive HTML을 새 remote binary로 전송하지 않는다. A 당시 업로드 인계/workflow/support manifest는 역사 근거이며 현재 E의 분담과 manifest가 우선한다.
+- A의 K 284건·기존 CG30/DDG14 이력은 B 검사에 재실행 수로 합산하지 않는다. 정식 v48은 별도 안정 기준이다.
+
+## 직전 병합 기준 — 벙커힐 WIP K
+
+- 파일: [Aegis_SIM_v48_WIP_BUNKERHILL_K.html](archive/v48/WIP_BUNKERHILL_K/Aegis_SIM_v48_WIP_BUNKERHILL_K.html), **14,458,866 bytes**, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`.
 - 사용자 업로드 commit `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 HTML을 검증본과 byte 단위로 대조했다. [원격 업로드 근거](docs/bunkerhill/K/evidence/remote-upload-check.json).
 - 출항 전에 DDG-119 또는 퇴역 전 구성의 CG-52 USS Bunker Hill을 선택한다. 벙커힐은 원본 모델, 고정 61+61 VLS, 전후 함포, 양현 20mm Phalanx, 독립 장착 좌표·사각·탄약을 사용한다. SPG-62 접시 전체 회전, 레이더 회전 부품, 거친 해면 클러터와 피격 후 3D 지속을 검사했다.
 - CIC에는 벙커힐의 전·후·양현 SPY 배열 방향을 표시하고 DDG의 기존 대각선 도식은 유지한다. 선택 함선의 피격 인디케이터와 선수 좌측 측면도를 사용한다. CG 내부는 SIM-TUNE 12갑판·277구획·330명 배치다.
 - **SHIP → 보수반 → 승조원·함 포기**에서 실제 경로로 도착한 생존자부터 25인승 구명뗏목에 순차 탑승한다. CIC·3D 바다에서 표류하며 저장·복원된다. 정상 전원 퇴함에서 CG 330명/14척/마지막 5명과 DDG 310명/13척/마지막 10명을 확인했다.
 - 구명뗏목 정원은 USN Mark 7 공개 자료를 따른다. 실제 CG 비치 수량·진수 위치는 미확정이며 충분한 provision·진수점·형상·표류·접촉은 SIM-TUNE이다. 레이더의 공개 확인 범위와 SPQ-9 두 면의 SIM-TUNE도 명시했다. [구명뗏목 근거](docs/bunkerhill/K/RESCUE_SOURCES.md), [레이더 근거](docs/bunkerhill/K/RADAR_SOURCES.md).
-- 로컬 K **284/284** 검사 통과. [상태](AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md), [체크섬](SHA256SUMS_v48_WIP_BUNKERHILL_K.txt), [suite와 한계](docs/bunkerhill/K/evidence/verification-summary.json), [GitHub 반영·검증 안내](docs/bunkerhill/K/GITHUB_VALIDATION.md).
+- 로컬 K **284/284** 검사 통과. [상태](archive/v48/WIP_BUNKERHILL_K/AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md), [체크섬](archive/v48/WIP_BUNKERHILL_K/SHA256SUMS_v48_WIP_BUNKERHILL_K.txt), [suite와 한계](docs/bunkerhill/K/evidence/verification-summary.json), [GitHub 반영·검증 안내](docs/bunkerhill/K/GITHUB_VALIDATION.md).
 - [Bunker Hill workflow](.github/workflows/bunkerhill-late-profile.yml)가 업로드된 동일 HTML로 exact 재빌드, CIC, 퇴함·저장·배속·native 3D, CG/DDG, 셀·구획·클러터·SPG·실제 다수 Kh-32 AUTO를 검사한다. 원격 결과는 PR의 Actions checks와 artifact를 따른다. 일반 smoke에는 역사 payload 검사도 포함된다.
 - 대형 비교 HTML을 추가 업로드하지 않고, 최신 K 내장 asset과 작은 기준 모듈로 D/F/H/I/J를 고정 SHA에 맞춰 재구성한다. 이전 Bunker Hill HTML archive는 전달한 로컬 ZIP에 보존되어 있다. GitHub의 선행 STARTUP_A는 당시 HTML·상태·전체 체크섬 대상 32개 파일을 `archive/v48/WIP_STARTUP_A/`에 exact 보존했고, 기존 root baseline은 역사 검사 호환을 위해 유지한다.
-- 정식 v48은 별도 안정 기준으로 유지한다. 다음 기능 후보는 하푼 대함미사일과 헬리콥터이며 아직 구현에 착수하지 않았다.
+- K는 [PR #43](https://github.com/0-FLANDRE-0/Aegis_Project/pull/43)으로 main에 병합했다. K 뒤의 최신 하푼 구현·검사는 위 E를 따른다. 정식 v48은 별도 안정 기준으로 유지한다.
 
 ## 현재 안정 기준 — v48
 
