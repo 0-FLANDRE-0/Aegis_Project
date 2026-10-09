@@ -1,0 +1,82 @@
+name: Harpoon E uploaded artifact integrity
+on:
+  push:
+    branches: [harpoon-block1c-a]
+    paths:
+      - 'Aegis_SIM_v48_WIP_HARPOON_E.html'
+      - '.github/workflows/harpoon-upload-check.yml'
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_HARPOON_E.html'
+      - '.github/workflows/harpoon-upload-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify exact E bytes, stable v48, packed records and JavaScript
+        run: |
+          python - <<'PY'
+          import base64, gzip, hashlib, json, os, re, subprocess
+          from pathlib import Path
+          path = Path('Aegis_SIM_v48_WIP_HARPOON_E.html')
+          data = path.read_bytes()
+          sha = hashlib.sha256(data).hexdigest()
+          assert len(data) == 15285590, ('HTML_SIZE_MISMATCH', len(data))
+          assert sha == 'ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842', ('HTML_SHA_MISMATCH', sha)
+          blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + bytes([0]) + data).hexdigest()
+          assert blob == '78c46f86cc4a03593774e1dab6936c74526aba86', ('HTML_GIT_BLOB_MISMATCH', blob)
+          stable = hashlib.sha256(Path('Aegis_SIM_v48.html').read_bytes()).hexdigest()
+          assert stable == '9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83'
+          html = data.decode('utf-8')
+          records = json.loads(re.search(r'const records=(\[.*?\]);', html, re.S)[1])
+          assert len(records) == 14
+          decoded = []
+          for i, row in enumerate(records):
+              payload = re.search(r'data-c55-index="' + str(i) + r'">(.*?)</script>', html, re.S)[1]
+              packed = base64.b64decode(payload)
+              raw = gzip.decompress(packed)
+              assert len(raw) == row['rawBytes'], ('RECORD_RAW_SIZE', i)
+              assert len(packed) == row['gzipBytes'], ('RECORD_GZIP_SIZE', i)
+              assert hashlib.sha256(raw).hexdigest() == row['sha256'], ('RECORD_SHA', i)
+              decoded.append(raw)
+          main_sha = hashlib.sha256(decoded[13]).hexdigest()
+          assert main_sha == '11cf8d757821b8601da5a3a50153666e48524ea31a33de1a88d7a11a72794067'
+          out = Path('artifacts/harpoon-upload')
+          out.mkdir(parents=True, exist_ok=True)
+          main = out / 'main.mjs'
+          main.write_bytes(decoded[13])
+          subprocess.run(['node', '--check', str(main)], check=True)
+          for i, match in enumerate(re.finditer(r'<script\b([^>]*)>(.*?)</script>', html, re.S)):
+              if 'application/octet-stream' in match[1] or not match[2].strip():
+                  continue
+              script = out / ('outer-' + str(i) + '.mjs')
+              script.write_text(match[2])
+              subprocess.run(['node', '--check', str(script)], check=True)
+          result = {
+              'scope': 'UPLOAD_INTEGRITY_AND_SYNTAX_ONLY_NOT_FULL_FEATURE_CI',
+              'head': os.environ['GITHUB_SHA'],
+              'userUploadCommit': 'a96053ba1dc56389822c17c92a632f21fcc446b2',
+              'filename': path.name, 'bytes': len(data), 'sha256': sha,
+              'gitBlob': blob, 'mainSha256': main_sha, 'recordsVerified': len(records),
+              'stableSha256': stable, 'pass': True
+          }
+          (out / 'upload-verification.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-e-upload-integrity
+          path: artifacts/harpoon-upload
+          if-no-files-found: error

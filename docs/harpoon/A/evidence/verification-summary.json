@@ -1,0 +1,123 @@
+{
+  "schema": "HARPOON_A_FINAL_VERIFICATION",
+  "candidate": "Aegis_SIM_v48_WIP_HARPOON_A.html",
+  "bytes": 14962500,
+  "sha256": "ffd976a211c530bc4d193597751e49febbd755646b865e6ad2685cd9e06aab77",
+  "mainSha256": "73891bfbf0030d92323a640eee39a236610ed8d7d7f2f1586463dc3cf1a29bac",
+  "baseline": {
+    "file": "archive/v48/WIP_BUNKERHILL_K/Aegis_SIM_v48_WIP_BUNKERHILL_K.html",
+    "sha256": "efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df",
+    "mainCommit": "f51247496725aa8aadad69d5c8d3449c5bbc3a81"
+  },
+  "rawEvidenceInput": "experimental.html",
+  "finalPromotion": "BYTE_IDENTICAL_NO_SOURCE_CHANGES",
+  "bootSeed": 1831565813,
+  "suites": [
+    {
+      "file": "static.json",
+      "passed": 58,
+      "total": 58,
+      "pass": true
+    },
+    {
+      "file": "runtime.json",
+      "passed": 29,
+      "total": 29,
+      "pass": true
+    },
+    {
+      "file": "native.json",
+      "passed": 15,
+      "total": 15,
+      "pass": true
+    },
+    {
+      "file": "salvo.json",
+      "passed": 9,
+      "total": 9,
+      "pass": true
+    },
+    {
+      "file": "cg52-runtime.json",
+      "passed": 30,
+      "total": 30,
+      "pass": true
+    },
+    {
+      "file": "ddg-runtime.json",
+      "passed": 14,
+      "total": 14,
+      "pass": true
+    }
+  ],
+  "passed": 155,
+  "total": 155,
+  "pass": true,
+  "nativeBackend": "Chromium 151.0.7922.173 SwiftShader",
+  "hardwareFpsClaim": false,
+  "nativeGeometryQueueManuallyAdvanced": false,
+  "flight": {
+    "selectedTube": "MK141-A4",
+    "movingHulkRangeKm": 8,
+    "targetHeadingDeg": 90,
+    "targetSpeedKt": 8,
+    "ageAtContactS": 32.549999999999436,
+    "impact": {
+      "eventId": "TARGET_HARPOON:SURFACE_TARGET_HULK_DIAG_001:1",
+      "targetEntityId": "SURFACE_TARGET_HULK_DIAG_001",
+      "speedMps": 286.8558333481059,
+      "armed": true,
+      "terminationReason": "FUZE_EXPIRY_EMPTY",
+      "explosiveMassKg": 97.5,
+      "perforated": true,
+      "throughHull": false,
+      "revision": 1
+    },
+    "combatTrackDeletedAfterLaunch": true,
+    "timeScalesExactlyEqual": [
+      1,
+      8,
+      16,
+      64
+    ]
+  },
+  "workload64x": {
+    "maximumConcurrent": 8,
+    "observationsRetainedPerMissileCap": 96,
+    "harpoonTickProfiler": {
+      "calls": 512,
+      "avgMs": 0.11523437473806553,
+      "p95Ms": 0.29999999701976776,
+      "maxMs": 0.699999988079071
+    },
+    "fullTickProfiler": {
+      "calls": 512,
+      "avgMs": 4.1287109375116415,
+      "p95Ms": 5.9000000059604645,
+      "maxMs": 7.700000002980232
+    },
+    "notAllMissilesRequiredToHit": true
+  },
+  "pageErrors": 0,
+  "consoleErrorsNative": 0,
+  "coreSelfTestFailures": 0,
+  "newCoreAuditChecks": 14,
+  "remote": {
+    "branch": "harpoon-block1c-a",
+    "createdAtBase": "f51247496725aa8aadad69d5c8d3449c5bbc3a81",
+    "htmlUploaded": false,
+    "supportUploaded": false,
+    "ciRun": false,
+    "prCreated": false,
+    "merged": false
+  },
+  "notRun": [
+    "max-range qualification",
+    "all-weather/sea-state matrix",
+    "physical enemy warship AI",
+    "helicopters",
+    "pop-up selection",
+    "offboard targeting link",
+    "user device hardware FPS"
+  ]
+}

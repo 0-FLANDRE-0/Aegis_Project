@@ -1,0 +1,721 @@
+{
+  "schema": "HARPOON_C_SHIP_KNOWLEDGE_VERIFICATION",
+  "source": "candidate-epoch.html",
+  "sha256": "b3b4f637fdfe0973e3aec566f1577401055c44235d8ccef22084aeb6e04175e7",
+  "checks": {
+    "noLaunchOnlyPositionOrTelemetry": true,
+    "realRfEchoCreatesCorrelatedOwnRadarFile": true,
+    "realOwnFileNeverHostile": true,
+    "correlatedObservedFileIsFriend": true,
+    "displayPositionIsMeasuredNotTruthExact": true,
+    "profileHasNoDatalink": true,
+    "operatorStatusNoPrivateSeekerPhaseSpeed": true,
+    "actualCicOwnLabelPaintsFriendlyCyan": true,
+    "radarOffUsesExplicitEstimate": true,
+    "coastUncertaintyDoesNotShrink": true,
+    "expiredObservationsProvideNoFlightPosition": true,
+    "blindMissileKeepsIndependentInsArh": true,
+    "unobservedImpactNotReportedAsTelemetry": true,
+    "oldBInventorySaveExplicitlyAccepted": true,
+    "operationalImportClearsCombatLaunchKnowledge": true,
+    "noRadarProducesNoManufacturedOwnTrack": true,
+    "noBlanketRfInvisibility": true,
+    "seekerStillOperatesWhenShipRadarOff": true,
+    "coreSelfTestsZero": true,
+    "pageErrorsZero": true
+  },
+  "details": {
+    "unobservedRelease": {
+      "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+      "dataLink": false,
+      "telemetryAvailable": false,
+      "launches": [
+        {
+          "id": 1,
+          "tubeId": "MK141-A4",
+          "elapsedS": 0.8333333333333334,
+          "trackId": null,
+          "source": "NOT_OBSERVED",
+          "measurementAgeS": null,
+          "positionM": null,
+          "positionSigmaM": null
+        }
+      ]
+    },
+    "sensorTrace": [
+      {
+        "ageS": 1.8333333333333317,
+        "truthPositionForDiagnosticOnly": {
+          "x": 102.94709647516237,
+          "y": 81.30288179977015,
+          "z": 60.366615164518265
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 1.8333333333333333,
+              "trackId": null,
+              "source": "NOT_OBSERVED",
+              "measurementAgeS": null,
+              "positionM": null,
+              "positionSigmaM": null
+            }
+          ]
+        },
+        "tracks": []
+      },
+      {
+        "ageS": 2.833333333333328,
+        "truthPositionForDiagnosticOnly": {
+          "x": 252.3081829134055,
+          "y": 79.29217441832819,
+          "z": 128.05017788189204
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 2.8333333333333335,
+              "trackId": null,
+              "source": "NOT_OBSERVED",
+              "measurementAgeS": null,
+              "positionM": null,
+              "positionSigmaM": null
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "ASM",
+              "identity": "UNKNOWN",
+              "threatStatus": "THREAT",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "POSSIBLE_OWN_LAUNCH",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 2
+            },
+            "id": 300000013,
+            "label": "ASM T13",
+            "worldXM": 256.37223018468677,
+            "worldYM": 112.05889830609736,
+            "altM": 117.39548012949521,
+            "identity": "UNKNOWN",
+            "ownLaunchId": null,
+            "classification": "ASM",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9846380026742805
+          }
+        ]
+      },
+      {
+        "ageS": 3.8333333333333246,
+        "truthPositionForDiagnosticOnly": {
+          "x": 455.6049861446136,
+          "y": 77.62970490250497,
+          "z": 213.32114746860788
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 3.8333333333333335,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.06666666666666667,
+              "positionM": {
+                "x": 454.77091171150903,
+                "y": 106.99349290488252,
+                "z": 201.63013520438048
+              },
+              "positionSigmaM": 3.2155561212994437
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 454.77091171150903,
+            "worldYM": 106.99349290488252,
+            "altM": 201.63013520438048,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9878252257386909
+          }
+        ]
+      },
+      {
+        "ageS": 4.8333333333333215,
+        "truthPositionForDiagnosticOnly": {
+          "x": 671.2428497628855,
+          "y": 80.15424575153332,
+          "z": 274.74712791308343
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 4.833333333333333,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.16666666666666666,
+              "positionM": {
+                "x": 669.3749575108347,
+                "y": 108.73108193858161,
+                "z": 263.1099010055022
+              },
+              "positionSigmaM": 3.2747919861977217
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 669.3749575108347,
+            "worldYM": 108.73108193858161,
+            "altM": 263.1099010055022,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9802488002188245
+          }
+        ]
+      },
+      {
+        "ageS": 5.833333333333318,
+        "truthPositionForDiagnosticOnly": {
+          "x": 893.5969304416678,
+          "y": 84.57886221794553,
+          "z": 308.4626985563955
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 5.833333333333333,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.03333333333333333,
+              "positionM": {
+                "x": 889.8159681080259,
+                "y": 112.75034937578572,
+                "z": 296.2822834846923
+              },
+              "positionSigmaM": 3.241781714121899
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 889.8159681080259,
+            "worldYM": 112.75034937578572,
+            "altM": 296.2822834846923,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.990009148621137
+          }
+        ]
+      },
+      {
+        "ageS": 6.833333333333314,
+        "truthPositionForDiagnosticOnly": {
+          "x": 1120.3381763463756,
+          "y": 89.38622669112834,
+          "z": 313.69480845763684
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 6.833333333333333,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.13333333333333333,
+              "positionM": {
+                "x": 1112.7627386323347,
+                "y": 117.90901945905411,
+                "z": 302.15749972826535
+              },
+              "positionSigmaM": 3.332947232439749
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 1112.7627386323347,
+            "worldYM": 117.90901945905411,
+            "altM": 302.15749972826535,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9824514975891792
+          }
+        ]
+      },
+      {
+        "ageS": 7.833333333333311,
+        "truthPositionForDiagnosticOnly": {
+          "x": 1349.293745403408,
+          "y": 94.26713948937108,
+          "z": 291.8004364528877
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 7.833333333333333,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.016666666666666666,
+              "positionM": {
+                "x": 1341.5343584715217,
+                "y": 122.52650310163334,
+                "z": 277.07275362243035
+              },
+              "positionSigmaM": 3.3033012582223935
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 1341.5343584715217,
+            "worldYM": 122.52650310163334,
+            "altM": 277.07275362243035,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9905915763122725
+          }
+        ]
+      },
+      {
+        "ageS": 8.833333333333352,
+        "truthPositionForDiagnosticOnly": {
+          "x": 1580.8850658423587,
+          "y": 99.16845955156924,
+          "z": 256.84875896212446
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 8.833333333333334,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.11666666666666667,
+              "positionM": {
+                "x": 1577.119400802327,
+                "y": 127.31388234343818,
+                "z": 243.14318348696563
+              },
+              "positionSigmaM": 3.3744075624140786
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 1577.119400802327,
+            "worldYM": 127.31388234343818,
+            "altM": 243.14318348696563,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9841602126088147
+          }
+        ]
+      },
+      {
+        "ageS": 9.833333333333401,
+        "truthPositionForDiagnosticOnly": {
+          "x": 1816.24147195087,
+          "y": 104.05714963355597,
+          "z": 217.9370670667909
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 9.833333333333334,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.21666666666666667,
+              "positionM": {
+                "x": 1811.2913376381132,
+                "y": 133.23147621848588,
+                "z": 204.21437853250345
+              },
+              "positionSigmaM": 3.4419051715202422
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 1811.2913376381132,
+            "worldYM": 133.23147621848588,
+            "altM": 204.21437853250345,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9783700357515879
+          }
+        ]
+      },
+      {
+        "ageS": 10.833333333333451,
+        "truthPositionForDiagnosticOnly": {
+          "x": 2055.706140857742,
+          "y": 109.06715520168032,
+          "z": 177.84361179584383
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A4",
+              "elapsedS": 10.833333333333334,
+              "trackId": 300000013,
+              "source": "RADAR",
+              "measurementAgeS": 0.03333333333333333,
+              "positionM": {
+                "x": 2050.2840833750247,
+                "y": 137.6217397680326,
+                "z": 163.51220609991788
+              },
+              "positionSigmaM": 3.3599007968628247
+            }
+          ]
+        },
+        "tracks": [
+          {
+            "trackContract": {
+              "schema": "TRACK_RECORD_V37_A3",
+              "metadataOnly": false,
+              "trackId": 300000013,
+              "trackUid": "TRK-13",
+              "trackNumber": 13,
+              "associationDomain": null,
+              "classification": "UNKNOWN",
+              "identity": "FRIEND",
+              "threatStatus": "LOST",
+              "engagementAuthority": "WITHHELD",
+              "operatorIdentity": null,
+              "authorityReason": "OWN_LAUNCH_RADAR_CORRELATION",
+              "observedSurfaceExtent": null,
+              "surfaceSensorContributors": null,
+              "stateRevision": 4
+            },
+            "id": 300000013,
+            "label": "UNK T13",
+            "worldXM": 2050.2840833750247,
+            "worldYM": 137.6217397680326,
+            "altM": 163.51220609991788,
+            "identity": "FRIEND",
+            "ownLaunchId": 1,
+            "classification": "UNKNOWN",
+            "confirmed": true,
+            "memActive": false,
+            "sensorSource": "SPY1DV_TRACK_REVISIT",
+            "trackQuality": 0.9907986221924533
+          }
+        ]
+      }
+    ],
+    "measuredErrorsM": [
+      29.375631499740226,
+      28.63781744349006,
+      28.42408072133158,
+      29.51164115804729,
+      29.30528480204174,
+      28.39621554585704,
+      29.591302124078286,
+      29.064807019879797
+    ],
+    "statusWithRadar": "H1 · NO DL · RADAR T300000013 (0.0s)",
+    "actualCicPaint": [
+      {
+        "text": "H1 RADAR",
+        "color": "rgba(90, 220, 245, 0.94)"
+      }
+    ],
+    "radarOffCoast": {
+      "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+      "dataLink": false,
+      "telemetryAvailable": false,
+      "launches": [
+        {
+          "id": 1,
+          "tubeId": "MK141-A4",
+          "elapsedS": 11.833333333333334,
+          "trackId": 300000013,
+          "source": "ESTIMATE",
+          "measurementAgeS": 1.0333333333333332,
+          "positionM": {
+            "x": 2289.9190729330417,
+            "y": 142.36897283021128,
+            "z": 124.41938737620754
+          },
+          "positionSigmaM": 4.336709052279399
+        }
+      ]
+    },
+    "radarOffBlind": {
+      "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+      "dataLink": false,
+      "telemetryAvailable": false,
+      "launches": [
+        {
+          "id": 1,
+          "tubeId": "MK141-A4",
+          "elapsedS": 16.833333333333332,
+          "trackId": null,
+          "source": "NOT_OBSERVED",
+          "measurementAgeS": null,
+          "positionM": null,
+          "positionSigmaM": null
+        }
+      ]
+    },
+    "outcomeDiagnosticOnly": "SURFACE_CONTACT",
+    "statusAfterUnknownOutcome": "H1 · NO DL · 미관측",
+    "noRadarFlight": {
+      "picture": {
+        "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+        "dataLink": false,
+        "telemetryAvailable": false,
+        "launches": [
+          {
+            "id": 1,
+            "tubeId": "MK141-A4",
+            "elapsedS": 14.833333333333334,
+            "trackId": null,
+            "source": "NOT_OBSERVED",
+            "measurementAgeS": null,
+            "positionM": null,
+            "positionSigmaM": null
+          }
+        ]
+      },
+      "ageS": 14.83333333333365,
+      "seeker": "TRACK",
+      "reflectors": [
+        {
+          "id": "HARPOON:1",
+          "kind": "RF_OBJECT",
+          "x": 11.610435589318406,
+          "y": 0.48952796817142363,
+          "z": 39.205750969766356,
+          "rcsM2": 0.06,
+          "extentRangeM": 1.9,
+          "extentCrossM": 0.45,
+          "extentVerticalM": 0.18
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "pass": true
+}

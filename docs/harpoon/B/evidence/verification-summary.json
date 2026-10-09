@@ -1,0 +1,91 @@
+{
+  "schema": "HARPOON_B_FINAL_VERIFICATION_SUMMARY",
+  "verifiedAtUtc": "2026-10-04T08:39:45.042959+00:00",
+  "deliveryFile": "Aegis_SIM_v48_WIP_HARPOON_B.html",
+  "testedInputName": "experimental.html",
+  "deliveryByteIdenticalToTestedInput": true,
+  "bytes": 15274780,
+  "sha256": "a44a346abce0bb0e10b4cff231116171d0c13de1b8962d45820c6c6d10de98fc",
+  "mainSha256": "3e5db4f820844d3301617f5c3e21e69f03619e05dba056532483954a6c88ecbf",
+  "baselineASha256": "ffd976a211c530bc4d193597751e49febbd755646b865e6ad2685cd9e06aab77",
+  "baselineKSha256": "efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df",
+  "sourceMainHead": "f51247496725aa8aadad69d5c8d3449c5bbc3a81",
+  "counts": {
+    "static": 48,
+    "runtime": 29,
+    "salvo": 9,
+    "stage": 11,
+    "native": 36
+  },
+  "passed": 133,
+  "total": 133,
+  "pass": true,
+  "seed": 1831565813,
+  "nativeBackend": "Chromium 151.0.7922.173 / SwiftShader",
+  "frameAuthority": "NATIVE_RAF",
+  "hardwareFpsClaim": false,
+  "geometryQueueManuallyAdvanced": false,
+  "nativeSecondLaunchManuallyStepped": false,
+  "emptyTubeImageCamera": "READ_ONLY_GEOMETRY_INSPECTION_CAMERA",
+  "coreFailures": 0,
+  "pageErrors": 0,
+  "nativeConsoleErrors": 0,
+  "nativeRuntimeFaults": {
+    "simulation": null,
+    "presentation": null
+  },
+  "boosterSeparation": {
+    "ageS": 3.1999999999999935,
+    "event": "BOOSTER_SEPARATED",
+    "positionM": {
+      "x": 321.2236642800733,
+      "y": 79.50746695065766,
+      "z": 157.00537298028888
+    },
+    "speedMps": 225.121342582534
+  },
+  "heavySmokeOpticalWeightPerMetre": 23.30758110543673,
+  "referenceSmokeOpticalWeightPerMetre": [
+    {
+      "kind": "RAM",
+      "spacingM": 2.625,
+      "opticalWeightPerMetre": 0.4625928515479678
+    },
+    {
+      "kind": "ESSM",
+      "spacingM": 2.975,
+      "opticalWeightPerMetre": 4.913842978597689
+    },
+    {
+      "kind": "SM2",
+      "spacingM": 4.375,
+      "opticalWeightPerMetre": 14.182096644810267
+    }
+  ],
+  "sameHashTimeScales": [
+    1,
+    8,
+    16,
+    64
+  ],
+  "aPrior155AndKPrior284NotCountedHere": true,
+  "remoteCiExecuted": false,
+  "rawReports": [
+    "static.json",
+    "runtime.json",
+    "salvo.json",
+    "stage.json",
+    "native.json"
+  ],
+  "reproduction": {
+    "ARebuiltFromSmallModulesAndExistingK": true,
+    "BFromRebuiltAExact": true,
+    "mouthAndSupportCutsReauthoredExact": true
+  },
+  "limits": [
+    "SwiftShader native run is not user hardware FPS certification",
+    "Final native physical-stage waits allow 120s under the software renderer; a preliminary 60s wait timed out, and its cause was not proven to be a game fault",
+    "Former whole CG30/DDG14 suites were not repeated in B; B runtime checks DDG core/operational state and source parity preserves unrelated code",
+    "No new enemy surface-ship AI, helicopter, waypoint/pop-up or maximum-range certification"
+  ]
+}

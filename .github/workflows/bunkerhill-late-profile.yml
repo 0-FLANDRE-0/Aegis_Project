@@ -15,7 +15,24 @@ permissions:
 env:
   AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_BUNKERHILL_K.html
 jobs:
+  candidate-presence:
+    runs-on: ubuntu-latest
+    outputs:
+      live: ${{ steps.check.outputs.live }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        shell: bash
+        run: |
+          if test -f Aegis_SIM_v48_WIP_BUNKERHILL_K.html; then
+            echo 'live=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'live=false' >> "$GITHUB_OUTPUT"
+          fi
   baselines-and-source:
+    # K is historical after Harpoon A. Do not auto-select an archived candidate.
+    needs: candidate-presence
+    if: needs.candidate-presence.outputs.live == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:

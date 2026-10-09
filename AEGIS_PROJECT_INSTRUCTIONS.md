@@ -186,7 +186,68 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 로컬 후보 K — 함선별 SPY CIC·퇴함 구명뗏목
+### 최신 개발 기준 HARPOON E — 경유점/최종 통과 ARH
+
+- 최신 E HTML 15,285,590 bytes, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`, main SHA `11cf8d757821b8601da5a3a50153666e48524ea31a33de1a88d7a11a72794067`. status/SHA/README/지원 E가 같은 인계다.
+- HARPOON FIRE 아래 지정/해제 native click, 최대8 CIC 점·NAV/락온 분리·drag/pinch 점 추가0. 해제는 초안 clear/cursor 복귀. 마지막 점은 탐색 시작이며 final leg 전방8km/반경4km fixed search area다. route shot은 MANUAL 좌표 계획, 보호 수상 file/자동교전 금지. 경유점 없는 관측 track memory shot을 보존한다.
+- pending에 자동 관/전체 immutable program pin. 실제 release safety/reinventory/권한/손상/경로 예산 재검사; 실패는 draft 보존·ammo/mass0, 성공은 clear/edit off. 탄 간 route 독립, flight index/passes는 world missile-owned INS only. 최종은 500m corridor 평면 통과, 중간200m flyby. 마지막 전 seeker OFF, 통과 후 SEARCH/ACQUIRE/TRACK/COAST.
+- SIM-TUNE 총 경로+8km search+2km turn reserve ≤140km/fuel110kg·0.225kg/s/최소leg2km. public124/secondary약140 분리. measured vertical extent≥3.5m/Doppler spread≤2.5m/s로 anonymous echo filtering; 작은 선박/거친 해면 감도 제한 명시. physical RF/LOS/gimbals/alpha-beta/fuze/contact/피해·3.2초부스터/model/nozzle/smoke·asset/renderer와 stable v48 byte 보존이다.
+- DL0·초안만 CIC draw/release즉시삭제·world flight 진행/시커/생존/명중 ship UI 접근0. launch-time 알려진 route first point는 초기 익명 radar 상관에만 쓰고 이후측정continuity로 FRIEND/관측만료 위치없음 유지.
+- CG E_1/module RGM84D_BLOCK1C_E1(weapon revision HARPOON_E1), inventory A1/C·B·A·G·D legacy명시. routes/flight transient는 save capability deferred, 정상reset/import clear/preflightfail mutation0.
+- 동일 최종 SHA 직접 178/178, 역사합산0. 120/124/130km×0/15kt6/6 physicalcontact/empty-sea noforcedTRACK/hit, 단일seed·hulk210m·terrainbypass·focused60Hz actualenv/target/ordnance. 일반hitprobability/140km전체조건인증0. track-onlypredictionbasket제한은 그대로다. 필터 전2contact4miss는 예비 evidence 별도.
+- full accumulator1/8/16/64×각3072ticks exact, realmap/button/touch/reset/import/DDG·8관재고/손상/권한·realRF radar/CIC 무DL, native640×4802routes2fires/fullRAF/clock/caps/booster/draw/reset/UIfit faults0; manualphysics/geometryqueue0·SwiftShader/FPSclaim0.
+- D HTML/status/SHA·workflow는 당시 bytes로 로컬 archive/역사 지원에 보존한다. 큰 A/B/C/D HTML은 원격 신규 업로드하지 않으며 K+작은 A/B/C/D/E 모듈로 E까지 exact 재구성한다. 현재 workflow/manifest는 E다. 7.1에 따른 사용자 E 업로드 `a96053ba1dc56389822c17c92a632f21fcc446b2`의 parent/bytes/SHA/Git blob을 대조했고 원격 무결성 검사도 통과했다. 이 revision은 작은 지원·상태/SHA·E workflow와 K 기존 blob의 archive 이동을 포함한다. PR #44의 해당 head 전체 Actions 성공을 확인한 뒤 요청된 merge commit 병합을 진행한다. 실제 CI/병합 결과는 PR 기록을 따른다. 과거 인계·evidence·전달 ZIP은 당시 기록으로 보존한다.
+- 자세한 scope는 docs/harpoon/E/README.md와 evidence/status를 따른다. 다음 기능은 이 인계 뒤 진행한다.
+
+### 직전 로컬 비교 HARPOON D — 발사관 자동 선택
+
+- 최신 파일 `Aegis_SIM_v48_WIP_HARPOON_D.html`, 15,283,086 bytes, SHA `e92aff9c19a074aa98c3ceca236abaa14b2a674f8417419df7a08dbc248700a1`, main SHA `aeaf6981dc163f3ae3ed67884830bfffb4df50eab83adb381edceda73039e683`. root status/SHA/README/지침/D지원이 같은 인계다.
+- 장전된 관 중 기존 권한·관측·INS basket·함정·손상·발사 geometry gates를 통과한 후보를 관측 표적 예상 방향의 최소 초기 선회각으로 고른다. 동률은 profile 순서이고 truth/RNG는 쓰지 않는다. UI는 AUTO label, 발사는 수동 버튼이다. 요청 후 관을 pin하고 실제 release gate를 재확인하며 실패 시 취소한다.
+- 선호 bank 소진/손상 fallback·고정 관 ID/재고·cooldown/권한/무DL을 유지한다. selectedTubeId는 저장 호환 field이며 옛 빈 관 선택을 다음 요청에 강제하지 않는다. C profile revision/module/inventory schema 그대로, 비행/INS/ARH/RF/피해/renderer/모델/boost·assets와 stable v48 byte 보존이다.
+- 직접 67/67 PASS: static31/selection24/clock3/native9. 같은 최종 SHA, 실제8회 버튼/손상·취소·pending pin·저장/reset·DDG, 1·8·16·64× 각128틱 full accumulator exact, 모바일 native RAF 실제 두 관 덮개·오류0. 수동physics/geometryqueue0, SwiftShader. C 전체155·B133·A155·K284를 D에서 재실행/합산한 것으로 쓰지 않는다.
+- C HTML/status/SHA를 archive/v48/WIP_HARPOON_C/로 same bytes 이동하고 C workflow/manifest를 역사 보존한다. 현재 workflow/manifest는 D다. 원자료 candidate.html과 전달 HTML은 same bytes다.
+- 준비 harpoon-block1c-a/main K f51247496725aa8aadad69d5c8d3449c5bbc3a81와 권한 재확인. 7.1에 따라 최신 **D HTML 하나만** 사용자 업로드 → exact확인 → small support·K blob archive·Dworkflow → PR/CI. 새 remote upload/PR/CI/병합 미실행. A/B/C archive 큰 HTML은 remote 신규 업로드하지 않고 K+작은 모듈로 exact 기준을 재구성한다.
+- 자세한 scope/한계는 docs/harpoon/D/README.md·최신 status·evidence다. 후속 docs/harpoon/long-range/D/REPORT.md에 같은 HTML의60~124km 별도 시험을 기록했다. 정상100·120·124km가4km prediction gate로 차단되며 독립 비행124km/15kn은 최근접190.775m·연료 소진·508초 SEA_IMPACT, exact 위치/시간 재현이다. 자동 선택67/67에 장거리 전체 PASS를 합산하지 않는다. 합성 외부 cue/한 seed/hulk/개방수역/focused60Hz 범위이며 실제 offboard/UI/함상 장거리 radar/native 임무 성공은 검증하지 않았다. HTML·튜닝은 unchanged, 알려진 장거리 제한은 미수정이다. 다음은 forecast uncertainty/search basket/발사 조건과 moving TRACK/COAST 종말 안정성 수정이 적 수상함 기능 확대보다 우선이다.
+
+### 직전 로컬 비교 HARPOON C — INS·ARH 상태·무DL CIC
+
+- 최신 파일 `Aegis_SIM_v48_WIP_HARPOON_C.html`, 15,281,856 bytes, SHA `b3b4f637fdfe0973e3aec566f1577401055c44235d8ccef22084aeb6e04175e7`, main SHA `6bf7962f50dba000c58f8abc937f302b357511bdb5258113c98472e399ce72a2`. 최신 status/SHA/README/C지원은 같은 인계다.
+- ship 표시/연관은 발사 기록·익명 관측 file만 사용한다. 물리 Harpoon owner-ID/현재 위치·INS·시커·생존·명중을 CIC/발사 패널에 전달하지 않는다. RF reflector는 보존한다. 12초 초기 corridor·3개 측정·0.15초 연속성·one-to-one/모호 UNKNOWN은 SIM-TUNE이며 IFF가 아니다. FRIEND/청록·보류; 관측 상실은 EST/공분산, ship knowledge 위치는 4초 뒤 만료한다. DL을 새로 만들지 않는다.
+- INS IMU delta-v/gyro·bias 적분/명시 release epoch·measurement age 중복 방지·측정 radar AGL, ARH OFF/SEARCH/ACQUIRE/TRACK/COAST와 좌우 sweep·양 축 gimbal/beam/range/SNR/Doppler/extent/basket gate를 사용한다. 시커 gimbal±45°/±30°·beam16°/20°·scan30°/s·slew90°/s·3hit/0.35초gap/4초coast는 공개 확인되지 않은 SIM-TUNE이다. 3D는 observer이고 Harpoon AUX CIC는 자함 중심/관측만 표시한다.
+- B의 3.2초48kN·질량·분리·모델/후미/nozzle·heavy smoke·관 cut/법선 및 원본 asset은 exact 보존한다. CG revision C_1/module HARPOON_C1, inventory schema A1·명시 A/B/G/D 저장 호환. launch knowledge/비행은 transient로 저장하지 않는다.
+- 직접 155/155 PASS, static32, guidance33, knowledge20, runtime29, stage11, salvo9, native16, salvo_identity5. 같은 최종 SHA/1·8·16·64× exact/오류0. B133/A155/K284와 합산하지 않는다. native 전체clock/RAF·실제UI·수동physics/geometryqueue0, SwiftShader 한계를 명시한다. B의 전체native36·CG30/DDG14를 전부 C에서 재실행한 것으로 쓰지 않는다.
+- 준비 harpoon-block1c-a/main K f51247496725aa8aadad69d5c8d3449c5bbc3a81·권한 재확인. 7.1에 따라 **최신 C HTML 하나만** 사용자 업로드 → exact확인 → small support·K blob archive·Cworkflow → PR/CI. 새 remote upload/PR/CI/병합은 미실행이다. A/B archive HTML은 remote에 없으므로 새 큰 업로드하지 않고 K+작은 모듈로 exact 비교본을 만든다.
+- B HTML/status/SHA를 로컬 archive/v48/WIP_HARPOON_B/에 same bytes 이동하고 Bworkflow/Bmanifest는 역사 보존한다. 현재 검사는 C manifest다. 자세한 범위·한계는 docs/harpoon/C/README.md·최신 status·evidence를 따른다.
+
+### 직전 로컬 비교 HARPOON B — nozzle·빈 관·짙은 후연·3.2초 부스터
+
+- 최신 개발 파일 `Aegis_SIM_v48_WIP_HARPOON_B.html`, 15,274,780 bytes, SHA `a44a346abce0bb0e10b4cff231116171d0c13de1b8962d45820c6c6d10de98fc`, main SHA `3e5db4f820844d3301617f5c3e21e69f03619e05dba056532483954a6c88ecbf`. 상태·SHA·README와 B 지원을 같은 인계로 갱신한다.
+- 사용자 요청을 따라 부스터 burn 3.2초·평균 48kN을 SIM-TUNE으로 분리한다. public 참고 53kN/2.9초와 nominal impulse를 보존하며 질량 감소 시간도 3.2초를 따른다. CG revision `BUNKERHILL_HARPOON_B_1`, 모듈 `HARPOON_B1`, 관 schema `MK141_INVENTORY_A1` 및 명시적 A 저장 호환이다.
+- 부스터 분리 뒤 본체 aft fairing/open nozzle·부스터 nozzle, stage/thrust 연동 core/outer plume를 사용한다. 후연이 많은 고체 추진제는 사용자 가정의 VISUAL-TUNE이며 공개 propulsion chemistry로 주장하지 않는다. 새 heavy trail은 boost에서만 만들고 분리 후 기존 구름만 남긴다. 표시 RNG/pool과 fixed-step 권위를 분리한다.
+- 원본 8관의 front116/rear58 covers, 실제 bore와 rack 지지판의 국부 원형 절단을 적용한다. 정수 normalized 법선은 Float32로 복호화·보간하며 geometry source collision/장비 피해는 원본 자료를 유지한다. unrelated combat/ship/renderer source와 기존 asset은 허용 diff 외에 A와 byte 동일이다.
+- 직접 B 133/133 PASS: static48/runtime29/stage11/native36/salvo9. core/page/native console 및 simulation/presentation fault 0. native 두 번째 firing은 전체 frame clock이고 수동 physics/geometry queue 진행이 없다. 빈 관 사진만 읽기 전용 geometry 검사 카메라로 촬영했다. SwiftShader 검사와 120초 native stage wait 한계를 명시하고 사용자 FPS를 주장하지 않는다.
+- main/기존 `harpoon-block1c-a`는 재확인 시 K commit `f51247496725aa8aadad69d5c8d3449c5bbc3a81`이며 권한 확인. **7.1에 따라 최신 B HTML 하나만** 사용자 업로드한 뒤 exact 대조 → 작은 support/문서/체크섬/기존 K blob archive/B workflow → PR/동일 bytes CI를 진행한다. 새 remote HTML/support/PR/CI/병합은 미실행이다.
+- A HTML/status/SHA는 로컬 archive에 same bytes 보존한다. **A HTML은 remote에 없으므로 archive의 A HTML을 API/Git로 새 업로드하지 않는다.** A 비교는 기존 remote K blob+작은 A 모듈에서 exact 재생성한다. A workflow와 옛 manifest는 역사 근거이고 현재 검사는 B manifest다. K blob은 동일 object 이동이며 선행 역사 root fixture 예외를 유지한다.
+- 최신 지원 `docs/harpoon/B/`, 상태 `AEGIS_PLAN_STATUS_v48_WIP_HARPOON_B.md`, SHA `SHA256SUMS_v48_WIP_HARPOON_B.txt`. 다음은 업로드 인계 완료 뒤 적 수상함 runtime/시나리오 확대다. 헬리콥터·offboard targeting·경유점/pop-up·다함전·최대 사거리 인증은 이번 범위에 넣지 않는다.
+
+### 직전 로컬 비교 HARPOON A — CG-52 수동 RGM-84D
+
+이하 A 항목은 당시 기록이다. 파일 세트는 로컬 archive에 보존했고 업로드 대상/현재 작업 계약은 위 B가 우선한다.
+
+
+- 최신 개발 파일 `Aegis_SIM_v48_WIP_HARPOON_A.html`, 14,962,500 bytes, SHA-256 `ffd976a211c530bc4d193597751e49febbd755646b865e6ad2685cd9e06aab77`; main SHA `73891bfbf0030d92323a640eee39a236610ed8d7d7f2f1586463dc3cf1a29bac`.
+- K PR #43은 `main@f51247496725aa8aadad69d5c8d3449c5bbc3a81`으로 병합 완료했다. 그 기준에서 `harpoon-block1c-a` remote branch를 생성했다. 7.1 사용자 HTML 업로드 분담을 유지하며 새 HTML/support/PR/CI/병합은 아직 원격 미완료다.
+- 원본 CG Mk 141 8관의 입구·후방·축·전방 덮개를 등록했다. ARM → VLS 전용 수동 발사, 고정 관별 재고, 실제 release 권한 재확인, 발사 질량 690kg 제거, CG revision `BUNKERHILL_HARPOON_A_1`과 explicit legacy inventory migration을 연결한다. DDG에는 설치하지 않는다.
+- 발사 시점 관측 KF 위치·속도·공분산을 동결한 INS → 공통 물리 RF 풀에서 얻은 익명 관측의 독립 ARH. data link/illuminator/자동발사는 없다. 유도에 표적 truth ID를 전달하지 않으며 실제 hull swept contact 이후에만 공통 관통·지연신관·피해·침수를 적용한다.
+- 기존 Kh-35U/Kh-32 프로필·핵심 비행 함수의 bytes를 유지한다. 공유 대기·해면·RF·종말 기반을 재사용하지만 Harpoon 비행은 함상 booster/관 구속을 포함한 별도 점질량 프로필이다. 60/120/20 Hz와 격리된 결정적 RNG를 유지한다.
+- 실제 native RAF에서 덮개·날개 전개·분리 booster·피격 후 draw/camera·RESET/cache를 검사했다. 모델 24,133 triangles와 Civorsky/CC BY 4.0 attribution을 보존하고 균일색 텍스처를 재질 색으로 변환했다. renderer는 물리 권위가 없다.
+- A 직접 155/155 PASS(정적 58/runtime 29/native 15/64× 8발 workload 9/CG 기존 30/DDG 기존 14), core/page/native console errors 0. 실제 1/8/16/64× scheduler 결과 exact. native backend SwiftShader이며 사용자 하드웨어 FPS로 해석하지 않는다. K의 과거 284건과 합산하거나 모두 A에서 재실행했다고 쓰지 않는다.
+- RGM-84D 공개 치수·중량·명목 속도·architecture를 적용하고 124/140km 자료 차이를 기록한다. CG 퇴역 직전 적재 block은 미확정이다. 시커 숫자·공력·연료·오차·고도·신관·전개 관절은 SIM-TUNE이다. source/범위는 `docs/harpoon/A/SOURCES.md`를 따른다.
+- 피해 대상은 기존 물리 표적함 경로다. 다음은 사용자 업로드 exact 확인 → small support/새 workflow/PR/CI, 그 뒤 적 수상함 runtime·시나리오 확대다. 다함전·헬리콥터·경유점/pop-up·offboard targeting·최대 사거리 인증은 미구현/미검증 범위로 명시한다.
+- K HTML·상태·SHA 세트를 `archive/v48/WIP_BUNKERHILL_K/`로 bytes 동일 이동했다. 역사 checksum의 당시 경로는 유지하고 새 root checksum/support manifest를 현재 검사에 사용한다. K workflow는 root K가 있을 때만 실행하며 archive를 자동 실행 후보로 고르지 않는다. 선행 legacy root baseline의 역사 검사 호환 예외는 유지한다.
+- 상태 `AEGIS_PLAN_STATUS_v48_WIP_HARPOON_A.md`, SHA `SHA256SUMS_v48_WIP_HARPOON_A.txt`, 지원 `docs/harpoon/A/`. 원자료 `experimental.html`과 최종 명명본의 bytes가 같으므로 입력명을 바꿔 과거 evidence를 재작성하지 않는다.
+
+### 직전 병합 후보 K — 함선별 SPY CIC·퇴함 구명뗏목
 
 - 최신 파일 `Aegis_SIM_v48_WIP_BUNKERHILL_K.html`, 14,458,866 bytes, SHA-256 `efe1a0994f172da878733023826e9383ed0aed3c8c9601d10177a5d9faf287df`. main SHA-256 `dbf339daa731b3b86408a1c5bb3c52e718975f5ad82b78d0ae76484b6db69897`.
 - CG CIC는 등록된 전·후·양현 SPY 중심각으로 경계·부하 호·F1–F4를 그린다. DDG의 기존 대각선 도식은 pixel exact로 유지한다. 작동 상태 검사도 선택 함선 배열의 장비명을 사용하므로 CG의 손상 OFF가 실제 센서와 CIC에 함께 반영된다.
@@ -197,7 +258,7 @@
 - K 직접 검사 284/284. 입력 `preview-05.html`과 배포 K는 byte-identical이며 raw evidence의 파일명을 바꾸지 않았다. CIC·UI·저장·1/8/16/64×·native 뗏목·DDG·CG·클러터·실제 6발 Kh-32 AUTO를 직접 검사했다. native raid는 피격 scar 40개 이후 draw 36회와 tick 지속, fault/context loss/page error/crash 0, queue 수동 진행 0이다. 사용자 장치 FPS로 표시하지 않는다.
 - J의 VLS·SPG·close-in·SPQ·3D 오류 복구와 고정 셀·277구획을 보존했다. 해당 전용 suite의 일부는 J/H/I 선행 근거이며 전부 K에서 재실행한 것으로 쓰지 않는다. K source 감사와 직접 회귀 범위는 `docs/bunkerhill/K/evidence/verification-summary.json`을 따른다.
 - 상태 `AEGIS_PLAN_STATUS_v48_WIP_BUNKERHILL_K.md`, SHA `SHA256SUMS_v48_WIP_BUNKERHILL_K.txt`, 지원 `docs/bunkerhill/K/`. 로컬 전체 ZIP의 J HTML/상태/SHA와 `MANIFEST.sha256`은 그대로 보존한다. GitHub는 업로드 K와 작은 지원 자료를 반영하며 대형 역사 Bunker Hill HTML을 추가 업로드하지 않는다. D/F/H/I/J는 작은 모듈·내장 asset에서 원래 hash로 재빌드한다. GitHub 지원 manifest와 원격 검사 범위는 `docs/bunkerhill/K/GITHUB_VALIDATION.md`를 따른다. legacy root baseline은 역사 검사 호환을 위해 유지하고 최신 K를 명시적으로 선택한다.
-- 사용자 업로드 `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 K 크기·SHA·Git blob이 검증본과 exact 일치했다. 사용자가 main 병합을 명시적으로 요청했으며, PR의 현재 head와 성공한 Actions를 확인한 뒤 merge commit으로 반영한다. 원격 진행·결과는 PR 기록을 따른다. 기존 7.1 HTML 업로드 분담을 유지한다. 다음 기능 후보는 하푼 대함미사일과 헬리콥터이며 아직 새 구현은 시작하지 않았다.
+- 사용자 업로드 `5c883a5aeb80e0878f0f256f2a7a64d90224920e`의 K 크기·SHA·Git blob이 검증본과 exact 일치했다. 사용자가 main 병합을 명시적으로 요청했으며, PR의 현재 head와 성공한 Actions를 확인한 뒤 merge commit으로 반영한다. 원격 진행·결과는 PR 기록을 따른다. 기존 7.1 HTML 업로드 분담을 유지한다. K 단계는 PR #43으로 main 병합을 마쳤다. 이후 하푼 첫 구현과 인계는 위 HARPOON A 항목을 따른다.
 
 ### 직전 검증 로컬 후보 J — VLS 정지·SPG-62·양현 팰렁스·SPQ 두 면
 

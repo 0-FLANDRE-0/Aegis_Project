@@ -1,0 +1,82 @@
+name: Harpoon B nozzle smoke and 3.2s booster
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_HARPOON_B.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP_HARPOON_B.md'
+      - 'SHA256SUMS_v48_WIP_HARPOON_B.txt'
+      - 'docs/harpoon/**'
+      - '.github/workflows/harpoon-b.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_HARPOON_B.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install numpy==2.3.5
+      - name: Verify B and reconstruct the unuploaded A comparison
+        run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HARPOON_B.txt
+          sha256sum -c docs/harpoon/B/REPOSITORY_SUPPORT.sha256
+          python docs/harpoon/A/build.py --out artifacts/harpoon/baseline-A.html
+          python docs/harpoon/B/author_mouths.py "$AEGIS_CANDIDATE" --out artifacts/harpoon/reconstructed-mouths.json
+          python docs/harpoon/B/verify_static.py "$AEGIS_CANDIDATE" artifacts/harpoon/baseline-A.html artifacts/harpoon/static
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-b-static-${{ github.sha }}
+          path: artifacts/harpoon
+          if-no-files-found: error
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [runtime, native, salvo, stage]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Select installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Exercise B with native WebGL or the fixed-tick scheduler
+        shell: bash
+        run: |
+          set -euo pipefail
+          case '${{ matrix.suite }}' in
+            native|stage)
+              python docs/harpoon/B/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/harpoon/${{ matrix.suite }}
+              ;;
+            runtime|salvo)
+              python docs/harpoon/A/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/harpoon/${{ matrix.suite }}
+              ;;
+          esac
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harpoon-b-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/harpoon/${{ matrix.suite }}
+          if-no-files-found: error

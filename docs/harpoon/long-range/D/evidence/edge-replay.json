@@ -1,0 +1,6110 @@
+{
+  "schema": "HARPOON_D_OFFLINE_LONG_RANGE",
+  "source": "Aegis_SIM_v48_WIP_HARPOON_D.html",
+  "originalHtmlSha256": "e92aff9c19a074aa98c3ceca236abaa14b2a674f8417419df7a08dbc248700a1",
+  "originalMainSha256": "aeaf6981dc163f3ae3ed67884830bfffb4df50eab83adb381edceda73039e683",
+  "servedDiagnosticHtmlSha256": "da5f092da0fbe174c9f761ec06fd88ebb50b3122f1476cda00e5b9647ac492dd",
+  "fixtureBridgeOnlyChange": true,
+  "flightSeekerRfContactSourceUnchanged": true,
+  "externalCueFixtureNotProductionCapability": true,
+  "terrainBypass": true,
+  "clock": "FOCUSED_FULL_60HZ_HARPOON_AND_PHYSICAL_TARGET_NOT_ALL_SHIP_SUBSYSTEMS",
+  "flightOnlyBypassRequested": true,
+  "seed": "0x6d2b79f5",
+  "cases": [
+    {
+      "input": {
+        "rangeKm": 124.0,
+        "speedKt": 15.0,
+        "bearingDeg": 0,
+        "headingDeg": 90,
+        "positionSigmaM": 50,
+        "velocitySigmaMps": 0.5
+      },
+      "setup": {
+        "truthFixture": {
+          "entityId": "SURFACE_TARGET_HULK_DIAG_001",
+          "truthObjectId": 1,
+          "profileId": "EMPTY_CONTAINER_TEST_HULK_V1",
+          "rangeKm": 124,
+          "bearingDeg": 0,
+          "headingDeg": 90,
+          "speedKt": 15,
+          "trackId": null,
+          "note": "truth fixture only; any surface track is created later from anonymous radar plots"
+        },
+        "gate": {
+          "ok": false,
+          "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "singleTubeGate": {
+          "ok": false,
+          "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+          "truthUsed": false,
+          "predictionSigmaM": 11597.682752853805
+        },
+        "trackEstimate": {
+          "x": [
+            124000,
+            0,
+            8,
+            4.725091484554207e-16,
+            7.71666,
+            0
+          ],
+          "P": [
+            2500,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1681,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.25,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.2025,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.0324
+          ]
+        },
+        "core": []
+      },
+      "start": {
+        "request": {
+          "ok": true,
+          "tubeId": "MK141-A1"
+        },
+        "gate": {
+          "ok": false,
+          "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+          "tubeId": null,
+          "truthUsed": false,
+          "selectionMode": "AUTO"
+        },
+        "diagnosticGateBypass": true
+      },
+      "samples": [
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 4.999999999999988,
+          "positionM": {
+            "x": 709.7129318958104,
+            "y": 82.41666115881495,
+            "z": 278.70074499220203
+          },
+          "navPositionM": {
+            "x": 709.346425647532,
+            "y": 82.58803946714242,
+            "z": 278.70074499220203
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 224.79041055161477,
+          "fuelKg": 109.55491666666738,
+          "massKg": 539.5549166666674,
+          "pathM": 766.5054606082567,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 0.4045952972938186,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 10.000000000000076,
+          "positionM": {
+            "x": 1858.6795747775388,
+            "y": 110.87821291946226,
+            "z": 204.42425315958215
+          },
+          "navPositionM": {
+            "x": 1857.9366557243093,
+            "y": 111.22053444290061,
+            "z": 204.42425315958215
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 241.65690010184204,
+          "fuelKg": 108.32991666666935,
+          "massKg": 538.3299166666693,
+          "pathM": 1925.4392951718014,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 0.8179931204238088,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 15.000000000000325,
+          "positionM": {
+            "x": 3102.4970216893794,
+            "y": 143.72655414575624,
+            "z": 39.32106722677392
+          },
+          "navPositionM": {
+            "x": 3101.3679547459383,
+            "y": 144.23892543081408,
+            "z": 39.32106722677392
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 258.9604719642197,
+          "fuelKg": 107.10491666667131,
+          "massKg": 537.1049166666713,
+          "pathM": 3181.450789509271,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 1.2398856788120651,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 20.000000000000146,
+          "positionM": {
+            "x": 4423.457106925145,
+            "y": 178.67324160516793,
+            "z": 15.405440520892359
+          },
+          "navPositionM": {
+            "x": 4421.9321723806725,
+            "y": 179.3550108582288,
+            "z": 15.405440520892359
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 269.23272388637963,
+          "fuelKg": 105.87991666667328,
+          "massKg": 535.8799166666732,
+          "pathM": 4503.2455040141,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 1.6703995567962957,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 24.99999999999986,
+          "positionM": {
+            "x": 5790.906501963898,
+            "y": 214.87063933374995,
+            "z": 15.048873337462252
+          },
+          "navPositionM": {
+            "x": 5788.975989450534,
+            "y": 215.72082614041096,
+            "z": 15.048873337462252
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 277.7040417153732,
+          "fuelKg": 104.65491666667525,
+          "massKg": 534.6549166666753,
+          "pathM": 5871.174338860601,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 2.109430295239969,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 29.999999999999577,
+          "positionM": {
+            "x": 7197.540794207003,
+            "y": 252.11279216727755,
+            "z": 14.930128466039239
+          },
+          "navPositionM": {
+            "x": 7195.194991329853,
+            "y": 253.1305061160692,
+            "z": 14.930128466039239
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 284.6474549802505,
+          "fuelKg": 103.42991666667722,
+          "massKg": 533.4299166666772,
+          "pathM": 7278.301655150173,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 2.5570554980311004,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 34.9999999999993,
+          "positionM": {
+            "x": 8628.865427503073,
+            "y": 290.00500686196307,
+            "z": 15.053893641549694
+          },
+          "navPositionM": {
+            "x": 8626.094633724673,
+            "y": 291.1889285366368,
+            "z": 15.053893641549694
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 287.55190165219733,
+          "fuelKg": 102.20491666667918,
+          "massKg": 532.2049166666792,
+          "pathM": 8710.127863812098,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 3.0131327043761993,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 260457076
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 39.99999999999901,
+          "positionM": {
+            "x": 10068.98886659866,
+            "y": 328.12028118557544,
+            "z": 14.881286529242871
+          },
+          "navPositionM": {
+            "x": 10065.783400938484,
+            "y": 329.4683681273525,
+            "z": 14.881286529242871
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.5232864881107,
+          "fuelKg": 100.97991666668115,
+          "massKg": 530.9799166666811,
+          "pathM": 10150.755695431319,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 3.477405426630081,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 44.99999999999873,
+          "positionM": {
+            "x": 11512.025701818864,
+            "y": 366.3006129940461,
+            "z": 15.092570906804237
+          },
+          "navPositionM": {
+            "x": 11508.375891962254,
+            "y": 367.8105044459092,
+            "z": 15.092570906804237
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.83803692179646,
+          "fuelKg": 99.75491666668312,
+          "massKg": 529.7549166666831,
+          "pathM": 11594.29759819468,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 3.949795461263249,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 49.999999999998444,
+          "positionM": {
+            "x": 12956.047122188756,
+            "y": 404.4943318876012,
+            "z": 14.989704372516147
+          },
+          "navPositionM": {
+            "x": 12951.94329915902,
+            "y": 406.1635467630198,
+            "z": 14.989704372516147
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.94614594408614,
+          "fuelKg": 98.52991666668508,
+          "massKg": 528.529916666685,
+          "pathM": 13038.82412273867,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 4.4303094428846235,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 54.99999999999816,
+          "positionM": {
+            "x": 14400.370431552303,
+            "y": 442.6832877649375,
+            "z": 14.884683275505935
+          },
+          "navPositionM": {
+            "x": 14395.802927786734,
+            "y": 444.50929595731617,
+            "z": 14.884683275505935
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.98752938571477,
+          "fuelKg": 97.30491666668705,
+          "massKg": 527.3049166666871,
+          "pathM": 14483.652362964762,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 4.918983285916182,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 59.999999999997875,
+          "positionM": {
+            "x": 15844.823911523026,
+            "y": 480.8630377902808,
+            "z": 15.053412092372954
+          },
+          "navPositionM": {
+            "x": 15839.783059910817,
+            "y": 482.84329588916006,
+            "z": 15.053412092372954
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99125270412554,
+          "fuelKg": 96.07991666668902,
+          "massKg": 526.079916666689,
+          "pathM": 15928.61038760891,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 5.415866238608029,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 64.9999999999976,
+          "positionM": {
+            "x": 17289.293244553275,
+            "y": 519.0307244011966,
+            "z": 14.906196185589573
+          },
+          "navPositionM": {
+            "x": 17283.769378347257,
+            "y": 521.1626787071402,
+            "z": 14.906196185589573
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0019536006573,
+          "fuelKg": 94.85491666669098,
+          "massKg": 524.854916666691,
+          "pathM": 17373.584055918465,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 5.921007264361561,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 69.99999999999731,
+          "positionM": {
+            "x": 18733.789670691556,
+            "y": 557.1868319247021,
+            "z": 15.108306891362492
+          },
+          "navPositionM": {
+            "x": 18727.77312320104,
+            "y": 559.4679298471331,
+            "z": 15.108306891362492
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9950111041129,
+          "fuelKg": 93.62991666669295,
+          "massKg": 523.6299166666929,
+          "pathM": 18818.584433865675,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 6.434458130825298,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 74.99999999999703,
+          "positionM": {
+            "x": 20178.2740719459,
+            "y": 595.3305320818646,
+            "z": 14.91451839903286
+          },
+          "navPositionM": {
+            "x": 20171.755176669983,
+            "y": 597.7582169028333,
+            "z": 14.91451839903286
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00414048570383,
+          "fuelKg": 92.40491666669492,
+          "massKg": 522.4049166666949,
+          "pathM": 20263.572442789817,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 6.956266901745904,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 79.99999999999675,
+          "positionM": {
+            "x": 21622.784500641457,
+            "y": 633.4630375157742,
+            "z": 14.891267656462256
+          },
+          "navPositionM": {
+            "x": 21615.753591035216,
+            "y": 636.0347570800936,
+            "z": 14.891267656462256
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0020370333805,
+          "fuelKg": 91.17991666669688,
+          "massKg": 521.1799166666968,
+          "pathM": 21708.586173259708,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 7.486483247068405,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 84.99999999999646,
+          "positionM": {
+            "x": 23067.27704441341,
+            "y": 671.5834036990337,
+            "z": 15.123965255519659
+          },
+          "navPositionM": {
+            "x": 23059.7244541543,
+            "y": 674.2966001730998,
+            "z": 15.123965255519659
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99511854050934,
+          "fuelKg": 89.95491666669885,
+          "massKg": 519.9549166666989,
+          "pathM": 23153.581785738417,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 8.025151383550275,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 89.99999999999618,
+          "positionM": {
+            "x": 24511.756258396603,
+            "y": 709.6919803817585,
+            "z": 15.119466691531837
+          },
+          "navPositionM": {
+            "x": 24503.67232121473,
+            "y": 712.5440964540251,
+            "z": 15.119466691531837
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9991467168118,
+          "fuelKg": 88.72991666670082,
+          "massKg": 518.7299166667008,
+          "pathM": 24598.563683398294,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 8.572316282671109,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 94.9999999999959,
+          "positionM": {
+            "x": 25956.273991349917,
+            "y": 747.7903631147276,
+            "z": 14.938490280776895
+          },
+          "navPositionM": {
+            "x": 25947.64904083136,
+            "y": 750.7788492852105,
+            "z": 14.938490280776895
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00096032103903,
+          "fuelKg": 87.50491666670278,
+          "massKg": 517.5049166667028,
+          "pathM": 26043.583822912184,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 9.128023939427129,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 99.99999999999561,
+          "positionM": {
+            "x": 27400.77887453991,
+            "y": 785.8774251668785,
+            "z": 14.873916428399154
+          },
+          "navPositionM": {
+            "x": 27391.603244542184,
+            "y": 788.9997238968018,
+            "z": 14.873916428399154
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0015382079419,
+          "fuelKg": 86.27991666670475,
+          "massKg": 516.2799166667047,
+          "pathM": 27488.590800697508,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 9.69231320243089,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 104.99999999999532,
+          "positionM": {
+            "x": 28845.27768366405,
+            "y": 823.9535923522341,
+            "z": 14.931816530369446
+          },
+          "navPositionM": {
+            "x": 28835.541708068544,
+            "y": 827.2071471506758,
+            "z": 14.931816530369446
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9994642623637,
+          "fuelKg": 85.05491666670672,
+          "massKg": 515.0549166667067,
+          "pathM": 28933.59147564852,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 10.265224772151045,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 109.99999999999504,
+          "positionM": {
+            "x": 30289.762217466967,
+            "y": 862.018905882264,
+            "z": 14.971257546918391
+          },
+          "navPositionM": {
+            "x": 30279.456230237538,
+            "y": 865.4011588625729,
+            "z": 14.971257546918391
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0011970925728,
+          "fuelKg": 83.82991666670868,
+          "massKg": 513.8299166667086,
+          "pathM": 30378.57756757097,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 10.846797130764411,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 114.99999999999476,
+          "positionM": {
+            "x": 31734.248998576037,
+            "y": 900.0740615905942,
+            "z": 15.169521635588243
+          },
+          "navPositionM": {
+            "x": 31723.363333641853,
+            "y": 903.582457713116,
+            "z": 15.169521635588243
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9970045830732,
+          "fuelKg": 82.60491666671065,
+          "massKg": 512.6049166667107,
+          "pathM": 31823.56559814271,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 11.437068873266183,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 119.99999999999447,
+          "positionM": {
+            "x": 33178.7445358012,
+            "y": 938.1194981435053,
+            "z": 14.97542587211127
+          },
+          "navPositionM": {
+            "x": 33167.26952708845,
+            "y": 941.7514837969428,
+            "z": 14.97542587211127
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0044928356048,
+          "fuelKg": 81.37991666671262,
+          "massKg": 511.37991666671263,
+          "pathM": 33268.562181978756,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 12.036076800369392,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 124.99999999999419,
+          "positionM": {
+            "x": 34623.24088977395,
+            "y": 976.1552778118803,
+            "z": 15.1525643637778
+          },
+          "navPositionM": {
+            "x": 34611.16687128242,
+            "y": 979.9082977124422,
+            "z": 15.1525643637778
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99917364704316,
+          "fuelKg": 80.15491666671458,
+          "massKg": 510.1549166667146,
+          "pathM": 34713.55939259393,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 12.64385546057518,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 129.9999999999956,
+          "positionM": {
+            "x": 36067.74589221999,
+            "y": 1014.1818910104131,
+            "z": 15.045120133097402
+          },
+          "navPositionM": {
+            "x": 36055.06319792454,
+            "y": 1018.0533916490133,
+            "z": 15.045120133097402
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0015164345368,
+          "fuelKg": 78.92991666671655,
+          "massKg": 508.92991666671657,
+          "pathM": 36158.564951978035,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 13.26043935118782,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 134.99999999999957,
+          "positionM": {
+            "x": 37512.2497689968,
+            "y": 1052.199369852663,
+            "z": 14.954670069432806
+          },
+          "navPositionM": {
+            "x": 37498.94873294616,
+            "y": 1056.1867955289315,
+            "z": 14.954670069432806
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00360106363183,
+          "fuelKg": 77.70491666671852,
+          "massKg": 507.70491666671853,
+          "pathM": 37603.56907646256,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 13.88586056188563,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 140.00000000000355,
+          "positionM": {
+            "x": 38956.77148145374,
+            "y": 1090.2085154588665,
+            "z": 14.830480695490937
+          },
+          "navPositionM": {
+            "x": 38942.842437587904,
+            "y": 1094.3093148917872,
+            "z": 14.830480695490937
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0031804092186,
+          "fuelKg": 76.47991666672048,
+          "massKg": 506.4799166667205,
+          "pathM": 39048.59087122197,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 14.520152168810407,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 145.00000000000753,
+          "positionM": {
+            "x": 40401.27782329083,
+            "y": 1128.2087649923876,
+            "z": 14.822642401979468
+          },
+          "navPositionM": {
+            "x": 40386.71110575663,
+            "y": 1132.4203791040632,
+            "z": 14.822642401979468
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0020333023957,
+          "fuelKg": 75.25491666672245,
+          "massKg": 505.25491666672247,
+          "pathM": 40493.59708115087,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 15.16334241342924,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 150.0000000000115,
+          "positionM": {
+            "x": 41845.77577455397,
+            "y": 1166.2006304545116,
+            "z": 15.053366467446766
+          },
+          "navPositionM": {
+            "x": 41830.561717449156,
+            "y": 1170.520501690237,
+            "z": 15.053366467446766
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9946988715069,
+          "fuelKg": 74.02991666672442,
+          "massKg": 504.02991666672443,
+          "pathM": 41938.594655740344,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 15.815461456493004,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 155.0000000000155,
+          "positionM": {
+            "x": 43290.25477650178,
+            "y": 1204.1841785783556,
+            "z": 15.10052198376617
+          },
+          "navPositionM": {
+            "x": 43274.38371397536,
+            "y": 1208.6097467451727,
+            "z": 15.10052198376617
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99786923197115,
+          "fuelKg": 72.80491666672638,
+          "massKg": 502.8049166667264,
+          "pathM": 43383.57304108301,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 16.476537236832108,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 160.00000000001947,
+          "positionM": {
+            "x": 44734.75103772962,
+            "y": 1242.1607113856364,
+            "z": 15.012670948144056
+          },
+          "navPositionM": {
+            "x": 44718.213303658,
+            "y": 1246.6894256262506,
+            "z": 15.012670948144056
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00186216336,
+          "fuelKg": 71.57991666672835,
+          "massKg": 501.57991666672837,
+          "pathM": 44828.56847821396,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 17.146600272264962,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 165.00000000002345,
+          "positionM": {
+            "x": 46179.27102434717,
+            "y": 1280.1307515923138,
+            "z": 14.755435944806338
+          },
+          "navPositionM": {
+            "x": 46162.05695252204,
+            "y": 1284.760063016092,
+            "z": 14.755435944806338
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00637526774796,
+          "fuelKg": 70.35491666673032,
+          "massKg": 500.35491666673033,
+          "pathM": 46273.58749782402,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 17.82567791302427,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 170.00000000002743,
+          "positionM": {
+            "x": 47623.76783888148,
+            "y": 1318.0934327079292,
+            "z": 15.083247408937202
+          },
+          "navPositionM": {
+            "x": 47605.86776340054,
+            "y": 1322.8207792356566,
+            "z": 15.083247408937202
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.996179778263,
+          "fuelKg": 69.12991666673229,
+          "massKg": 499.1299166667323,
+          "pathM": 47718.58314615446,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 18.51379235641669,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 175.0000000000314,
+          "positionM": {
+            "x": 49068.256669699666,
+            "y": 1356.0495551401818,
+            "z": 14.94113220600419
+          },
+          "navPositionM": {
+            "x": 49049.660924484364,
+            "y": 1360.8723791366838,
+            "z": 14.94113220600419
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00367247901204,
+          "fuelKg": 67.90491666673425,
+          "massKg": 497.90491666673427,
+          "pathM": 49163.57063795998,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 19.210970079973745,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 180.00000000003539,
+          "positionM": {
+            "x": 50512.76471569149,
+            "y": 1394.0002342558346,
+            "z": 14.775898644923807
+          },
+          "navPositionM": {
+            "x": 50493.463634387896,
+            "y": 1398.9159860228617,
+            "z": 14.775898644923807
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0077731416287,
+          "fuelKg": 66.67991666673622,
+          "massKg": 496.67991666673623,
+          "pathM": 50608.577312762514,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 19.917237632839345,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 185.00000000003936,
+          "positionM": {
+            "x": 51957.27177895197,
+            "y": 1431.9453506590398,
+            "z": 15.001707782645552
+          },
+          "navPositionM": {
+            "x": 51937.25569529171,
+            "y": 1436.9514743945824,
+            "z": 15.001707782645552
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9990298959398,
+          "fuelKg": 65.45491666673819,
+          "massKg": 495.4549166667382,
+          "pathM": 52053.58281656721,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 20.632616895344402,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 190.00000000004334,
+          "positionM": {
+            "x": 53401.757948773324,
+            "y": 1469.8848252744458,
+            "z": 15.002635076707298
+          },
+          "navPositionM": {
+            "x": 53381.017196556226,
+            "y": 1474.9787590676249,
+            "z": 15.002635076707298
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00230057924495,
+          "fuelKg": 64.22991666674015,
+          "massKg": 494.22991666674017,
+          "pathM": 53498.567229371845,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 21.357129114662005,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 195.00000000004732,
+          "positionM": {
+            "x": 54846.27533275474,
+            "y": 1507.8204770795576,
+            "z": 15.103444536787775
+          },
+          "navPositionM": {
+            "x": 54824.80024524134,
+            "y": 1512.9996755437012,
+            "z": 15.103444536787775
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9955184518732,
+          "fuelKg": 63.004916666740385,
+          "massKg": 493.00491666674037,
+          "pathM": 54943.582873109044,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 22.090800810271208,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 200.0000000000513,
+          "positionM": {
+            "x": 56290.76423819969,
+            "y": 1545.7512085810324,
+            "z": 15.115571220693026
+          },
+          "navPositionM": {
+            "x": 56268.54514904776,
+            "y": 1551.0131068627588,
+            "z": 15.115571220693026
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9978727756472,
+          "fuelKg": 61.77991666674022,
+          "massKg": 491.77991666674023,
+          "pathM": 56388.5698871788,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 22.833648334615,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 205.00000000005528,
+          "positionM": {
+            "x": 57735.27732517941,
+            "y": 1583.6789006423633,
+            "z": 15.048087359858574
+          },
+          "navPositionM": {
+            "x": 57712.30456744349,
+            "y": 1589.0209516235561,
+            "z": 15.048087359858574
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99785200284816,
+          "fuelKg": 60.554916666740056,
+          "massKg": 490.55491666674004,
+          "pathM": 57833.58092588819,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 23.58569707850623,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 210.00000000005926,
+          "positionM": {
+            "x": 59179.78077623246,
+            "y": 1621.6031729095462,
+            "z": 15.09474617314302
+          },
+          "navPositionM": {
+            "x": 59156.044683128166,
+            "y": 1627.022817832858,
+            "z": 15.09474617314302
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99607546205414,
+          "fuelKg": 59.32991666673989,
+          "massKg": 489.3299166667399,
+          "pathM": 59278.58221956302,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 24.34696422452808,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 215.00000000006324,
+          "positionM": {
+            "x": 60624.280120857955,
+            "y": 1659.5247128624,
+            "z": 14.979078129665577
+          },
+          "navPositionM": {
+            "x": 60599.77102538143,
+            "y": 1665.0193949279108,
+            "z": 14.979078129665577
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0005554304669,
+          "fuelKg": 58.104916666739726,
+          "massKg": 488.1049166667397,
+          "pathM": 60723.57940746545,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 25.117469858218,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 220.00000000006722,
+          "positionM": {
+            "x": 62068.789788496804,
+            "y": 1697.4444564500866,
+            "z": 14.975232158332824
+          },
+          "navPositionM": {
+            "x": 62043.498023326465,
+            "y": 1703.0116239819567,
+            "z": 14.975232158332824
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9991991181978,
+          "fuelKg": 56.87991666673956,
+          "massKg": 486.8799166667396,
+          "pathM": 62168.586799371384,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 25.89723421061586,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 225.0000000000712,
+          "positionM": {
+            "x": 63513.27875112625,
+            "y": 1735.3621793936989,
+            "z": 14.821918881950735
+          },
+          "navPositionM": {
+            "x": 63487.194649039295,
+            "y": 1740.9992692468065,
+            "z": 14.821918881950735
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.007105253822,
+          "fuelKg": 55.654916666739396,
+          "massKg": 485.6549166667394,
+          "pathM": 63613.57357212907,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 26.68627294499431,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 230.00000000007518,
+          "positionM": {
+            "x": 64957.79050359527,
+            "y": 1773.2796370168282,
+            "z": 14.97525512838841
+          },
+          "navPositionM": {
+            "x": 64930.90439671314,
+            "y": 1778.9841023984138,
+            "z": 14.97525512838841
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99991082225887,
+          "fuelKg": 54.42991666673923,
+          "massKg": 484.42991666673925,
+          "pathM": 65058.582933104175,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 27.484607848163066,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 235.00000000007915,
+          "positionM": {
+            "x": 66402.27870284331,
+            "y": 1811.1962598553139,
+            "z": 14.872298271236767
+          },
+          "navPositionM": {
+            "x": 66374.5809235113,
+            "y": 1816.9655361600674,
+            "z": 14.872298271236767
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0063584676726,
+          "fuelKg": 53.20491666673907,
+          "massKg": 483.20491666673905,
+          "pathM": 66503.56893338027,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 28.292252102039747,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 240.00000000008313,
+          "positionM": {
+            "x": 67846.7941761505,
+            "y": 1849.1140590316022,
+            "z": 15.10639365095934
+          },
+          "navPositionM": {
+            "x": 67818.27505591416,
+            "y": 1854.9456016853278,
+            "z": 15.10639365095934
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99561740067196,
+          "fuelKg": 51.9799166667389,
+          "massKg": 481.9799166667389,
+          "pathM": 67948.58209573427,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 29.109227210243404,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 245.0000000000871,
+          "positionM": {
+            "x": 69291.2874561594,
+            "y": 1887.0324496808128,
+            "z": 15.046916884428226
+          },
+          "navPositionM": {
+            "x": 69261.93732679136,
+            "y": 1892.9236943066462,
+            "z": 15.046916884428226
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99967634093065,
+          "fuelKg": 50.75491666673874,
+          "massKg": 480.7549166667387,
+          "pathM": 69393.57300773151,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 29.9355450453541,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 250.0000000000911,
+          "positionM": {
+            "x": 70735.80015500345,
+            "y": 1924.953273815516,
+            "z": 15.164066689342567
+          },
+          "navPositionM": {
+            "x": 70705.60934750168,
+            "y": 1930.9016730651908,
+            "z": 15.164066689342567
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99332861869965,
+          "fuelKg": 49.52991666673857,
+          "massKg": 479.5299166667386,
+          "pathM": 70838.58362232648,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 30.77122537765629,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 255.00000000009507,
+          "positionM": {
+            "x": 72180.29465820287,
+            "y": 1962.8763348712628,
+            "z": 15.049200652472862
+          },
+          "navPositionM": {
+            "x": 72149.25350362733,
+            "y": 1968.8793256509668,
+            "z": 15.049200652472862
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99893748501586,
+          "fuelKg": 48.30491666673841,
+          "massKg": 478.3049166667384,
+          "pathM": 72283.57590696786,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 31.616280231605643,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 260.0000000000922,
+          "positionM": {
+            "x": 73624.80443639962,
+            "y": 2000.803348084806,
+            "z": 14.897354752961006
+          },
+          "navPositionM": {
+            "x": 73592.90326504325,
+            "y": 2006.8583816210432,
+            "z": 14.897354752961006
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0024296151795,
+          "fuelKg": 47.07991666673824,
+          "massKg": 477.07991666673826,
+          "pathM": 73728.58353821377,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 32.47072781804001,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 265.00000000008765,
+          "positionM": {
+            "x": 75069.30268807619,
+            "y": 2038.7344886428102,
+            "z": 14.990480779167688
+          },
+          "navPositionM": {
+            "x": 75036.53183012259,
+            "y": 2044.8390043996042,
+            "z": 14.990480779167688
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00014581177163,
+          "fuelKg": 45.85491666673808,
+          "massKg": 475.85491666673806,
+          "pathM": 75173.57984455196,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 33.334580297939944,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 270.0000000000831,
+          "positionM": {
+            "x": 76513.80445967025,
+            "y": 2076.6710931078705,
+            "z": 14.820572001236608
+          },
+          "navPositionM": {
+            "x": 76480.15424465909,
+            "y": 2082.8225373250543,
+            "z": 14.820572001236608
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00587558890044,
+          "fuelKg": 44.62991666673791,
+          "massKg": 474.6299166667379,
+          "pathM": 76618.57984437549,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 34.20785342950665,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 275.00000000007856,
+          "positionM": {
+            "x": 77958.3072361613,
+            "y": 2114.6140778871672,
+            "z": 15.078320748066725
+          },
+          "navPositionM": {
+            "x": 77923.76799316783,
+            "y": 2120.8098954741376,
+            "z": 15.078320748066725
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9968392747315,
+          "fuelKg": 43.40491666673775,
+          "massKg": 473.40491666673773,
+          "pathM": 78063.58091096496,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 35.09056086945842,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 280.000000000074,
+          "positionM": {
+            "x": 79402.79776611268,
+            "y": 2152.5641593874266,
+            "z": 14.869756852494776
+          },
+          "navPositionM": {
+            "x": 79367.35982381558,
+            "y": 2158.801789279575,
+            "z": 14.869756852494776
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0062342549642,
+          "fuelKg": 42.17991666673758,
+          "massKg": 472.1799166667376,
+          "pathM": 79508.57000953016,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 35.982715029910295,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 285.00000000006946,
+          "positionM": {
+            "x": 80847.31278951975,
+            "y": 2190.5234162831957,
+            "z": 14.994347732368016
+          },
+          "navPositionM": {
+            "x": 80810.96647554466,
+            "y": 2196.8003146437295,
+            "z": 14.994347732368016
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9989650779142,
+          "fuelKg": 40.95491666673742,
+          "massKg": 470.9549166667374,
+          "pathM": 80953.58382428049,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 36.88433261704448,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 290.0000000000649,
+          "positionM": {
+            "x": 82291.79911418233,
+            "y": 2228.4916497692043,
+            "z": 15.068640824604353
+          },
+          "navPositionM": {
+            "x": 82254.53475617357,
+            "y": 2234.8052472749646,
+            "z": 15.068640824604353
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99966319178145,
+          "fuelKg": 39.72991666673725,
+          "massKg": 469.72991666673727,
+          "pathM": 82398.56917687465,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 37.79542156491741,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 295.00000000006037,
+          "positionM": {
+            "x": 83736.30596841694,
+            "y": 2266.471441663821,
+            "z": 14.962003515721003
+          },
+          "navPositionM": {
+            "x": 83698.11389265816,
+            "y": 2272.819193078728,
+            "z": 14.962003515721003
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0019296892938,
+          "fuelKg": 38.50491666673709,
+          "massKg": 468.5049166667371,
+          "pathM": 83843.57533498635,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 38.715999261155666,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 300.0000000000558,
+          "positionM": {
+            "x": 85180.8174875153,
+            "y": 2304.4637320322113,
+            "z": 15.047625194590214
+          },
+          "navPositionM": {
+            "x": 85141.68801971953,
+            "y": 2310.843084271847,
+            "z": 15.047625194590214
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99659848071076,
+          "fuelKg": 37.27991666673692,
+          "massKg": 467.27991666673694,
+          "pathM": 85288.58648025087,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 39.646076539528394,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 305.0000000000513,
+          "positionM": {
+            "x": 86625.29614337039,
+            "y": 2342.4690131520906,
+            "z": 15.281222671139528
+          },
+          "navPositionM": {
+            "x": 86585.21960889593,
+            "y": 2348.8773939333523,
+            "z": 15.281222671139528
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99333144315085,
+          "fuelKg": 36.05491666673676,
+          "massKg": 466.05491666673674,
+          "pathM": 86733.56516398609,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 40.58566199681907,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 310.0000000000467,
+          "positionM": {
+            "x": 88069.80339783437,
+            "y": 2380.4905059470448,
+            "z": 14.917023916303664
+          },
+          "navPositionM": {
+            "x": 88028.77012023806,
+            "y": 2386.9253748562346,
+            "z": 14.917023916303664
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0039806808872,
+          "fuelKg": 34.829916666736594,
+          "massKg": 464.8299166667366,
+          "pathM": 88178.57295353369,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 41.53477348168575,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 315.0000000000422,
+          "positionM": {
+            "x": 89514.31658120896,
+            "y": 2418.529302422943,
+            "z": 14.881880459867974
+          },
+          "navPositionM": {
+            "x": 89472.31688333645,
+            "y": 2424.988107140588,
+            "z": 14.881880459867974
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.00213879090006,
+          "fuelKg": 33.60491666673643,
+          "massKg": 463.6049166667364,
+          "pathM": 89623.5869445493,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 42.49342042908311,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 320.00000000003763,
+          "positionM": {
+            "x": 90958.81821910123,
+            "y": 2456.5867988407444,
+            "z": 15.144066106123038
+          },
+          "navPositionM": {
+            "x": 90915.84242290033,
+            "y": 2463.066977711262,
+            "z": 15.144066106123038
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9927077707822,
+          "fuelKg": 32.379916666736264,
+          "massKg": 462.3799166667363,
+          "pathM": 91068.58994237409,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 43.4616126863168,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 325.0000000000331,
+          "positionM": {
+            "x": 92403.29316330783,
+            "y": 2494.664638022098,
+            "z": 15.202031287813176
+          },
+          "navPositionM": {
+            "x": 92359.33158966704,
+            "y": 2501.1636211013233,
+            "z": 15.202031287813176
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9957024191367,
+          "fuelKg": 31.1549166667361,
+          "massKg": 461.1549166667361,
+          "pathM": 92513.56676493495,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 44.439360234350545,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 330.00000000002854,
+          "positionM": {
+            "x": 93847.78351050534,
+            "y": 2532.7661429777336,
+            "z": 15.22595362554099
+          },
+          "navPositionM": {
+            "x": 93802.8264782897,
+            "y": 2539.281383367271,
+            "z": 15.22595362554099
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9964446691026,
+          "fuelKg": 29.929916666735934,
+          "massKg": 459.92991666673595,
+          "pathM": 93958.55962280314,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 45.42667831760528,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 335.000000000024,
+          "positionM": {
+            "x": 95292.28561904184,
+            "y": 2570.8936231409793,
+            "z": 15.042379611732876
+          },
+          "navPositionM": {
+            "x": 95246.32344560874,
+            "y": 2577.4225721219527,
+            "z": 15.042379611732876
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0015686150087,
+          "fuelKg": 28.70491666673577,
+          "massKg": 458.70491666673576,
+          "pathM": 95403.56486830823,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 46.4235776463925,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 340.00000000001944,
+          "positionM": {
+            "x": 96736.79068819345,
+            "y": 2609.0494835728514,
+            "z": 15.057673837370448
+          },
+          "navPositionM": {
+            "x": 96689.81368930553,
+            "y": 2615.589587339838,
+            "z": 15.057673837370448
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9990552736257,
+          "fuelKg": 27.479916666735605,
+          "massKg": 457.4799166667356,
+          "pathM": 96848.57387637475,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 47.43006833009926,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 345.0000000000149,
+          "positionM": {
+            "x": 98181.29818203278,
+            "y": 2647.2366507259103,
+            "z": 14.84454154624701
+          },
+          "navPositionM": {
+            "x": 98133.29667150568,
+            "y": 2653.785355317716,
+            "z": 14.84454154624701
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0035792784809,
+          "fuelKg": 26.25491666673544,
+          "massKg": 456.2549166667354,
+          "pathM": 98293.58615782681,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 48.44616130008815,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 350.00000000001035,
+          "positionM": {
+            "x": 99625.79325554168,
+            "y": 2685.457996168523,
+            "z": 14.931389576453467
+          },
+          "navPositionM": {
+            "x": 99576.75754523407,
+            "y": 2692.012738795313,
+            "z": 14.931389576453467
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0004076862294,
+          "fuelKg": 25.029916666735275,
+          "massKg": 455.0299166667353,
+          "pathM": 99738.58688083227,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 49.471866108680885,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 355.0000000000058,
+          "positionM": {
+            "x": 101070.28991079722,
+            "y": 2723.7175591189207,
+            "z": 14.958818945270096
+          },
+          "navPositionM": {
+            "x": 101020.21030985385,
+            "y": 2730.2757853377693,
+            "z": 14.958818945270096
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9987865563071,
+          "fuelKg": 23.80491666673511,
+          "massKg": 453.8049166667351,
+          "pathM": 101183.59017481965,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 50.50719514865842,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 360.00000000000125,
+          "positionM": {
+            "x": 102514.7689478844,
+            "y": 2762.018950089251,
+            "z": 14.974616539379689
+          },
+          "navPositionM": {
+            "x": 102463.63576293542,
+            "y": 2768.5780937977343,
+            "z": 14.974616539379689
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0011838550907,
+          "fuelKg": 22.579916666734945,
+          "massKg": 452.57991666673496,
+          "pathM": 102628.57704676328,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 51.55215775518135,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 364.9999999999967,
+          "positionM": {
+            "x": 103959.25228491976,
+            "y": 2800.367432739014,
+            "z": 15.155149182617963
+          },
+          "navPositionM": {
+            "x": 103907.05581899395,
+            "y": 2806.9249411677297,
+            "z": 15.155149182617963
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99684112316794,
+          "fuelKg": 21.35491666673478,
+          "massKg": 451.35491666673477,
+          "pathM": 104073.56941397117,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 52.60676735874144,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 369.99999999999216,
+          "positionM": {
+            "x": 105403.73227404243,
+            "y": 2838.768146314172,
+            "z": 15.039974790506786
+          },
+          "navPositionM": {
+            "x": 105350.46282655728,
+            "y": 2845.3214620370627,
+            "z": 15.039974790506786
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0027985031091,
+          "fuelKg": 20.129916666734616,
+          "massKg": 450.12991666673463,
+          "pathM": 105518.55981421088,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 53.671034854346836,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 374.9999999999876,
+          "positionM": {
+            "x": 106848.23692601976,
+            "y": 2877.227975266399,
+            "z": 14.949972073171375
+          },
+          "navPositionM": {
+            "x": 106793.88479158893,
+            "y": 2883.774558397132,
+            "z": 14.949972073171375
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 289.0021812739865,
+          "fuelKg": 18.90491666673445,
+          "massKg": 448.90491666673444,
+          "pathM": 106963.5764235065,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 54.74497481846194,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 379.99999999998306,
+          "positionM": {
+            "x": 108292.73556919231,
+            "y": 2915.753276053216,
+            "z": 14.937620154143904
+          },
+          "navPositionM": {
+            "x": 108237.2910378525,
+            "y": 2922.2905672951324,
+            "z": 14.937620154143904
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.99982453191177,
+          "fuelKg": 17.679916666734286,
+          "massKg": 447.6799166667343,
+          "pathM": 108408.58879696918,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 55.82859690403857,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 384.9999999999785,
+          "positionM": {
+            "x": 109737.20196428135,
+            "y": 2954.351895891978,
+            "z": 15.143787669629075
+          },
+          "navPositionM": {
+            "x": 109680.65532041642,
+            "y": 2960.8773188085834,
+            "z": 15.143787669629075
+          },
+          "phase": "INS_CRUISE",
+          "speedMps": 288.9967177505386,
+          "fuelKg": 16.45491666673412,
+          "massKg": 446.4549166667341,
+          "pathM": 109853.57093605047,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 56.921912095676234,
+          "seeker": {
+            "active": false,
+            "mode": "OFF",
+            "observations": 0,
+            "scanReversals": 0,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 389.99999999997397,
+          "positionM": {
+            "x": 111181.64276442167,
+            "y": 3003.7424569400055,
+            "z": 7.748559833542594
+          },
+          "navPositionM": {
+            "x": 111123.9772145798,
+            "y": 3010.2534377686934,
+            "z": 7.748559833542594
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.1734878716555,
+          "fuelKg": 15.229916666733956,
+          "massKg": 445.22991666673397,
+          "pathM": 111298.90723090699,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 58.03196110693381,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 265,
+            "scanReversals": 0,
+            "lockCount": 38,
+            "lock": {
+              "x": 123942.4154805963,
+              "y": 3019.8733199052963,
+              "vx": -0.500900211039699,
+              "vy": 7.434465443923134
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 394.9999999999694,
+          "positionM": {
+            "x": 112626.81199664828,
+            "y": 3043.757653621787,
+            "z": 5.260244845892919
+          },
+          "navPositionM": {
+            "x": 112568.02415825023,
+            "y": 3050.2521236985804,
+            "z": 5.260244845892919
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.09795350802347,
+          "fuelKg": 14.004916666733791,
+          "massKg": 444.0049166667338,
+          "pathM": 112744.63631863322,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 59.145482372643706,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 566,
+            "scanReversals": 0,
+            "lockCount": 88,
+            "lock": {
+              "x": 123939.46017013317,
+              "y": 3058.6991243032635,
+              "vx": -1.5950643259391653,
+              "vy": 8.291957202309046
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 399.99999999996487,
+          "positionM": {
+            "x": 114071.63390965843,
+            "y": 3082.0076743312684,
+            "z": 4.931981497939453
+          },
+          "navPositionM": {
+            "x": 114011.71529783138,
+            "y": 3088.482844011151,
+            "z": 4.931981497939453
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.03653689147814,
+          "fuelKg": 12.779916666733627,
+          "massKg": 442.77991666673364,
+          "pathM": 114189.96524451554,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 60.26746938161009,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 927,
+            "scanReversals": 0,
+            "lockCount": 138,
+            "lock": {
+              "x": 123938.53685609205,
+              "y": 3094.634984430876,
+              "vx": -2.083650814235442,
+              "vy": 6.386093642063085
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 404.9999999999603,
+          "positionM": {
+            "x": 115516.23716270963,
+            "y": 3119.712315020327,
+            "z": 4.984051048300629
+          },
+          "navPositionM": {
+            "x": 115455.1784769438,
+            "y": 3126.1654795849367,
+            "z": 4.984051048300629
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.01361365744236,
+          "fuelKg": 11.554916666733462,
+          "massKg": 441.55491666673345,
+          "pathM": 115635.06074788507,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 61.398749501507424,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 1345,
+            "scanReversals": 0,
+            "lockCount": 188,
+            "lock": {
+              "x": 123938.88272157269,
+              "y": 3133.163732484787,
+              "vx": 0.010084111697508114,
+              "vy": 7.280946878271194
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 409.9999999999558,
+          "positionM": {
+            "x": 116960.81354048543,
+            "y": 3156.58152143569,
+            "z": 5.046088648214101
+          },
+          "navPositionM": {
+            "x": 116898.60569717662,
+            "y": 3163.0101073334895,
+            "z": 5.046088648214101
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.0012239895877,
+          "fuelKg": 10.329916666733297,
+          "massKg": 440.3299166667333,
+          "pathM": 117080.10809440208,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 62.539127638446764,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 1873,
+            "scanReversals": 0,
+            "lockCount": 220,
+            "lock": {
+              "x": 123966.53071598701,
+              "y": 3156.905760507189,
+              "vx": 26.641996029386064,
+              "vy": 7.328820473255423
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 414.9999999999512,
+          "positionM": {
+            "x": 118405.33529885343,
+            "y": 3192.240598237663,
+            "z": 5.495480362597186
+          },
+          "navPositionM": {
+            "x": 118341.96946687328,
+            "y": 3198.6420117447733,
+            "z": 5.495480362597186
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 288.9937403410556,
+          "fuelKg": 9.104916666733132,
+          "massKg": 439.1049166667331,
+          "pathM": 118525.07156182514,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 63.68835652947279,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 2593,
+            "scanReversals": 0,
+            "lockCount": 28,
+            "lock": {
+              "x": 123936.57731813505,
+              "y": 3208.3248154068333,
+              "vx": -0.31035955851548325,
+              "vy": 7.418074329258294
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 419.9999999999467,
+          "positionM": {
+            "x": 119849.81657570864,
+            "y": 3231.39245775749,
+            "z": 5.030923983501685
+          },
+          "navPositionM": {
+            "x": 119785.28061554613,
+            "y": 3237.764114196897,
+            "z": 5.030923983501685
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.00708308076656,
+          "fuelKg": 7.879916666732994,
+          "massKg": 437.879916666733,
+          "pathM": 119970.08352007745,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 64.8497352336836,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 3426,
+            "scanReversals": 0,
+            "lockCount": 77,
+            "lock": {
+              "x": 123935.16092512407,
+              "y": 3245.8840352902594,
+              "vx": -0.5484850355249362,
+              "vy": 7.474590023912652
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 424.99999999994213,
+          "positionM": {
+            "x": 121294.29448494315,
+            "y": 3271.1220666545273,
+            "z": 5.000108985575287
+          },
+          "navPositionM": {
+            "x": 121228.57831445253,
+            "y": 3277.461407996219,
+            "z": 5.000108985575287
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 289.0028073335705,
+          "fuelKg": 6.6549166667330955,
+          "massKg": 436.6549166667331,
+          "pathM": 121415.10772709543,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 66.02122622761856,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 4334,
+            "scanReversals": 0,
+            "lockCount": 127,
+            "lock": {
+              "x": 123934.33069903115,
+              "y": 3283.4708408903402,
+              "vx": -0.25808261927450044,
+              "vy": 7.512555730871328
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 429.9999999999376,
+          "positionM": {
+            "x": 122738.73808278337,
+            "y": 3311.397729567104,
+            "z": 5.097727775746701
+          },
+          "navPositionM": {
+            "x": 122671.83163680046,
+            "y": 3317.702175265768,
+            "z": 5.097727775746701
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 288.99828104261485,
+          "fuelKg": 5.429916666733197,
+          "massKg": 435.4299166667332,
+          "pathM": 122860.11282014158,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 67.20281653049528,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 5267,
+            "scanReversals": 0,
+            "lockCount": 177,
+            "lock": {
+              "x": 123933.09698525362,
+              "y": 3320.9680170763054,
+              "vx": -0.2442543467681387,
+              "vy": 7.5007761315506745
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 434.99999999993304,
+          "positionM": {
+            "x": 124135.49952597493,
+            "y": 3618.4338323138672,
+            "z": 4.744513652932136
+          },
+          "navPositionM": {
+            "x": 124067.19615071014,
+            "y": 3624.665486843408,
+            "z": 4.744513652932136
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 287.4542957838754,
+          "fuelKg": 4.204916666733299,
+          "massKg": 434.2049166667333,
+          "pathM": 124302.85329328872,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 68.58705847853692,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 5898,
+            "scanReversals": 0,
+            "lockCount": 186,
+            "lock": {
+              "x": 124015.21741672112,
+              "y": 3629.6590471978334,
+              "vx": 29.30231530311182,
+              "vy": 35
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 439.9999999999285,
+          "positionM": {
+            "x": 125099.61738473743,
+            "y": 4635.7391247098885,
+            "z": 6.2326256074975666
+          },
+          "navPositionM": {
+            "x": 125029.37935487168,
+            "y": 4641.572735112812,
+            "z": 6.2326256074975666
+          },
+          "phase": "INS_SEARCH",
+          "speedMps": 283.70703981658,
+          "fuelKg": 2.9799166667332893,
+          "massKg": 432.9799166667333,
+          "pathM": 125730.45287374128,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 70.47986840052502,
+          "seeker": {
+            "active": true,
+            "mode": "ACQUIRE",
+            "observations": 6328,
+            "scanReversals": 11,
+            "lockCount": 2,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 444.99999999992394,
+          "positionM": {
+            "x": 125223.21567095762,
+            "y": 6014.348590551696,
+            "z": 6.063429047338526
+          },
+          "navPositionM": {
+            "x": 125150.76258519004,
+            "y": 6019.148916242443,
+            "z": 6.063429047338526
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 280.9102332168179,
+          "fuelKg": 1.7549166667332576,
+          "massKg": 431.75491666673327,
+          "pathM": 127141.36080236165,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 72.61193265560651,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 6877,
+            "scanReversals": 17,
+            "lockCount": 3,
+            "lock": {
+              "x": 124560.05387084186,
+              "y": 6259.688580405636,
+              "vx": 35,
+              "vy": -35
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 449.9999999999194,
+          "positionM": {
+            "x": 124463.89755876822,
+            "y": 7157.342092263659,
+            "z": 5.076785787897577
+          },
+          "navPositionM": {
+            "x": 124389.40009950685,
+            "y": 7160.43521551859,
+            "z": 5.076785787897577
+          },
+          "phase": "INS_SEARCH",
+          "speedMps": 278.76441779684245,
+          "fuelKg": 0.5299166667332389,
+          "massKg": 430.52991666673324,
+          "pathM": 128540.28706530781,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": null,
+          "insErrorM": 74.5616446161836,
+          "seeker": {
+            "active": true,
+            "mode": "SEARCH",
+            "observations": 7691,
+            "scanReversals": 61,
+            "lockCount": 0,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 454.99999999991485,
+          "positionM": {
+            "x": 123191.21995829753,
+            "y": 7559.394947576647,
+            "z": 7.5490817206299425
+          },
+          "navPositionM": {
+            "x": 123115.23916513237,
+            "y": 7560.384469076419,
+            "z": 7.5490817206299425
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 258.629206265623,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 129902.3363211304,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 75.98723631508943,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 8336,
+            "scanReversals": 183,
+            "lockCount": 5,
+            "lock": {
+              "x": 121010.90563998267,
+              "y": 6394.075853544152,
+              "vx": -35,
+              "vy": 12.995988296448978
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 459.9999999999103,
+          "positionM": {
+            "x": 122063.86759452954,
+            "y": 7128.14375211705,
+            "z": 5.727992066589562
+          },
+          "navPositionM": {
+            "x": 121987.04149460293,
+            "y": 7127.141192361995,
+            "z": 5.727992066589562
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 232.28913592543498,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 131127.25199289972,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 76.83264121449474,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 9177,
+            "scanReversals": 188,
+            "lockCount": 4,
+            "lock": {
+              "x": 120283.57712801076,
+              "y": 4249.5647223537235,
+              "vx": -19.051270331192065,
+              "vy": -23.755271721716824
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 464.99999999990575,
+          "positionM": {
+            "x": 121455.28314580124,
+            "y": 6211.77465355073,
+            "z": 5.5606684496303895
+          },
+          "navPositionM": {
+            "x": 121377.98280082419,
+            "y": 6209.185668098032,
+            "z": 5.5606684496303895
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 213.31310902450733,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 132236.7764729061,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 77.34368868398286,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 10017,
+            "scanReversals": 188,
+            "lockCount": 7,
+            "lock": {
+              "x": 120788.4275142558,
+              "y": 4004.4552326968633,
+              "vx": -35,
+              "vy": -21.57218235271507
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 469.9999999999012,
+          "positionM": {
+            "x": 121145.0690527322,
+            "y": 5238.452760111221,
+            "z": 6.044664767511755
+          },
+          "navPositionM": {
+            "x": 121067.32972275173,
+            "y": 5234.511904916326,
+            "z": 6.044664767511755
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 197.78712737657406,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 133265.49561525523,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 77.83915316522419,
+          "seeker": {
+            "active": true,
+            "mode": "TRACK",
+            "observations": 10888,
+            "scanReversals": 188,
+            "lockCount": 12,
+            "lock": {
+              "x": 121983.07607633657,
+              "y": 3189.981216842765,
+              "vx": -18.11614826700535,
+              "vy": -33.524097946209
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 474.99999999989666,
+          "positionM": {
+            "x": 121380.94682398932,
+            "y": 4325.076291275562,
+            "z": 4.585429919776866
+          },
+          "navPositionM": {
+            "x": 121302.7102195087,
+            "y": 4320.219828959745,
+            "z": 4.585429919776866
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 184.4172290727131,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 134218.9645666049,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 78.38718968607401,
+          "seeker": {
+            "active": true,
+            "mode": "ACQUIRE",
+            "observations": 11757,
+            "scanReversals": 188,
+            "lockCount": 1,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 479.9999999998921,
+          "positionM": {
+            "x": 121857.03660743637,
+            "y": 3571.5040162321466,
+            "z": 4.925889555673361
+          },
+          "navPositionM": {
+            "x": 121778.16326572224,
+            "y": 3565.923938282199,
+            "z": 4.925889555673361
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 173.38556985675464,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 135111.90153040877,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 79.07048313423931,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 12646,
+            "scanReversals": 188,
+            "lockCount": 14,
+            "lock": {
+              "x": 122395.30154628411,
+              "y": 2557.3313299592924,
+              "vx": 22.670364402809646,
+              "vy": -14.562224959099515
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 484.99999999988756,
+          "positionM": {
+            "x": 122426.83007488199,
+            "y": 2955.622965118286,
+            "z": 4.9206767524915715
+          },
+          "navPositionM": {
+            "x": 122347.19722133935,
+            "y": 2949.393598863778,
+            "z": 4.9206767524915715
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 163.75157487042105,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 135953.97922411104,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 79.87613139904153,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 13532,
+            "scanReversals": 188,
+            "lockCount": 9,
+            "lock": {
+              "x": 123438.0688348648,
+              "y": 2065.956563478044,
+              "vx": 35,
+              "vy": -32.93499571734529
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 489.999999999883,
+          "positionM": {
+            "x": 123050.03242449087,
+            "y": 2458.9231269626152,
+            "z": 4.113755677356402
+          },
+          "navPositionM": {
+            "x": 122969.53173986485,
+            "y": 2452.085955831259,
+            "z": 4.113755677356402
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 155.37289832627192,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 136751.11219166894,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 80.79051388831317,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 14427,
+            "scanReversals": 188,
+            "lockCount": 9,
+            "lock": {
+              "x": 123475.16191479127,
+              "y": 1984.1851863385007,
+              "vx": 25.94866725750616,
+              "vy": -7.373547392564893
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 494.99999999987847,
+          "positionM": {
+            "x": 123629.50773536794,
+            "y": 1972.7993615574774,
+            "z": 4.672895515829081
+          },
+          "navPositionM": {
+            "x": 123548.12090836382,
+            "y": 1965.3150397213474,
+            "z": 4.672895515829081
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 147.71868092973082,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 137508.40254793764,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 81.73023114578956,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 15310,
+            "scanReversals": 193,
+            "lockCount": 6,
+            "lock": {
+              "x": 124111.76343048067,
+              "y": 1641.6784783986814,
+              "vx": 8.07584470705479,
+              "vy": -35
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 499.9999999998739,
+          "positionM": {
+            "x": 124208.73649516552,
+            "y": 1546.4827059406932,
+            "z": 5.046591937726244
+          },
+          "navPositionM": {
+            "x": 124126.40293708394,
+            "y": 1538.3487011492316,
+            "z": 5.046591937726244
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 140.7993762475776,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 138229.29609225137,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 82.73437508266953,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 16189,
+            "scanReversals": 198,
+            "lockCount": 4,
+            "lock": {
+              "x": 125591.43489751648,
+              "y": 812.0580569208493,
+              "vx": 22.641476811730534,
+              "vy": -26.135856463068002
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": true,
+          "ageS": 504.9999999998694,
+          "positionM": {
+            "x": 124778.40910696304,
+            "y": 1161.059894390806,
+            "z": 4.679152165030943
+          },
+          "navPositionM": {
+            "x": 124695.08446245088,
+            "y": 1152.2652813625127,
+            "z": 4.679152165030943
+          },
+          "phase": "ENGINE_OUT_GLIDE",
+          "speedMps": 134.58452837611102,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 138917.41751060763,
+          "outcome": null,
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 83.78747878648471,
+          "seeker": {
+            "active": true,
+            "mode": "ACQUIRE",
+            "observations": 17054,
+            "scanReversals": 220,
+            "lockCount": 1,
+            "lock": null
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        {
+          "id": 1,
+          "alive": false,
+          "ageS": 507.99999999986665,
+          "positionM": {
+            "x": 125129.64492755878,
+            "y": 973.9159714411156,
+            "z": 0.30091503241314244
+          },
+          "navPositionM": {
+            "x": 125045.68280998916,
+            "y": 964.7319712056742,
+            "z": 0.30091503241314244
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 131.37712341426132,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 139316.14835728265,
+          "outcome": "SEA_IMPACT",
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 84.46290929810418,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 17564,
+            "scanReversals": 220,
+            "lockCount": 4,
+            "lock": {
+              "x": 126740.87905287143,
+              "y": 881.8231089249597,
+              "vx": 32.90546958451159,
+              "vy": -35
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            },
+            {
+              "ageS": 507.99999999986665,
+              "event": "SEA_IMPACT",
+              "positionM": {
+                "x": 125129.64492755878,
+                "y": 973.9159714411156,
+                "z": 0.30091503241314244
+              }
+            }
+          ],
+          "worldRngAtSample": 163423342
+        }
+      ],
+      "seekerTransitions": [
+        {
+          "ageS": 4.999999999999988,
+          "mode": "OFF",
+          "rangeToTargetM": 123290.29498816982
+        },
+        {
+          "ageS": 389.99999999997397,
+          "mode": "TRACK",
+          "rangeToTargetM": 12818.357365235448
+        },
+        {
+          "ageS": 409.9999999999558,
+          "mode": "COAST",
+          "rangeToTargetM": 7039.187241179954
+        },
+        {
+          "ageS": 414.9999999999512,
+          "mode": "TRACK",
+          "rangeToTargetM": 5594.6681827479015
+        },
+        {
+          "ageS": 434.99999999993304,
+          "mode": "COAST",
+          "rangeToTargetM": 298.1833446235771
+        },
+        {
+          "ageS": 439.9999999999285,
+          "mode": "ACQUIRE",
+          "rangeToTargetM": 1660.5847295853957
+        },
+        {
+          "ageS": 444.99999999992394,
+          "mode": "COAST",
+          "rangeToTargetM": 2859.2319915914086
+        },
+        {
+          "ageS": 449.9999999999194,
+          "mode": "SEARCH",
+          "rangeToTargetM": 3717.83211546382
+        },
+        {
+          "ageS": 454.99999999991485,
+          "mode": "COAST",
+          "rangeToTargetM": 4132.169664265331
+        },
+        {
+          "ageS": 469.9999999999012,
+          "mode": "TRACK",
+          "rangeToTargetM": 3280.3424344322893
+        },
+        {
+          "ageS": 474.99999999989666,
+          "mode": "ACQUIRE",
+          "rangeToTargetM": 2701.8137005133713
+        },
+        {
+          "ageS": 479.9999999998921,
+          "mode": "COAST",
+          "rangeToTargetM": 2146.8162561630797
+        },
+        {
+          "ageS": 504.9999999998694,
+          "mode": "ACQUIRE",
+          "rangeToTargetM": 2840.654254719087
+        },
+        {
+          "ageS": 507.99999999986665,
+          "mode": "COAST",
+          "rangeToTargetM": 3151.623387121365
+        }
+      ],
+      "frozenMemory": {
+        "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+        "trackId": 8490001,
+        "positionM": {
+          "x": 124000,
+          "y": 0,
+          "z": 8
+        },
+        "velocityMps": {
+          "x": 4.725091484554207e-16,
+          "y": 7.71666,
+          "z": 0
+        },
+        "covariance": [
+          2500,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1681,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.25,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.2025,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.0324
+        ],
+        "stateEpoch": "RELEASE_CURRENT_EKF",
+        "stateAgeS": 0,
+        "observationAgeS": 0,
+        "launchStep": 0,
+        "identity": "TRAINING_TARGET",
+        "truthUsed": false,
+        "updatesAfterRelease": false
+      },
+      "initialRng": 260457076,
+      "final": {
+        "count": 180,
+        "missile": {
+          "id": 1,
+          "alive": false,
+          "ageS": 507.99999999986665,
+          "positionM": {
+            "x": 125129.64492755878,
+            "y": 973.9159714411156,
+            "z": 0.30091503241314244
+          },
+          "navPositionM": {
+            "x": 125045.68280998916,
+            "y": 964.7319712056742,
+            "z": 0.30091503241314244
+          },
+          "phase": "TERMINAL_ARH",
+          "speedMps": 131.37712341426132,
+          "fuelKg": 0,
+          "massKg": 430,
+          "pathM": 139316.14835728265,
+          "outcome": "SEA_IMPACT",
+          "impact": null,
+          "fuelOutAgeS": 452.1666666665841,
+          "insErrorM": 84.46290929810418,
+          "seeker": {
+            "active": true,
+            "mode": "COAST",
+            "observations": 17564,
+            "scanReversals": 220,
+            "lockCount": 4,
+            "lock": {
+              "x": 126740.87905287143,
+              "y": 881.8231089249597,
+              "vx": 32.90546958451159,
+              "vy": -35
+            }
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 321.2236642800733,
+                "y": 79.50746695065766,
+                "z": 157.00537298028888
+              },
+              "speedMps": 225.121342582534
+            },
+            {
+              "ageS": 452.1666666665841,
+              "event": "JET_FUEL_EXHAUSTED"
+            },
+            {
+              "ageS": 507.99999999986665,
+              "event": "SEA_IMPACT",
+              "positionM": {
+                "x": 125129.64492755878,
+                "y": 973.9159714411156,
+                "z": 0.30091503241314244
+              }
+            }
+          ],
+          "worldRngAtSample": 163423342
+        },
+        "target": {
+          "positionM": {
+            "x": 124000,
+            "y": 3916.131516211937,
+            "z": 37.795362614287896
+          },
+          "velocityMps": {
+            "x": 4.72509148455386e-16,
+            "y": 7.716659999999433
+          },
+          "damage": {
+            "revision": 0,
+            "impacts": [],
+            "scars": [],
+            "breaches": [],
+            "fires": []
+          },
+          "afloatState": "AFLOAT"
+        },
+        "worldRng": 163423342,
+        "shipTrackCount": 0,
+        "memory": {
+          "schema": "HARPOON_FROZEN_LAUNCH_TRACK_A1",
+          "trackId": 8490001,
+          "positionM": {
+            "x": 124000,
+            "y": 0,
+            "z": 8
+          },
+          "velocityMps": {
+            "x": 4.725091484554207e-16,
+            "y": 7.71666,
+            "z": 0
+          },
+          "covariance": [
+            2500,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1681,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.25,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.2025,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.0324
+          ],
+          "stateEpoch": "RELEASE_CURRENT_EKF",
+          "stateAgeS": 0,
+          "observationAgeS": 0,
+          "launchStep": 0,
+          "identity": "TRAINING_TARGET",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "picture": {
+          "schema": "HARPOON_SHIP_KNOWLEDGE_C1",
+          "dataLink": false,
+          "telemetryAvailable": false,
+          "launches": [
+            {
+              "id": 1,
+              "tubeId": "MK141-A1",
+              "elapsedS": 508,
+              "trackId": null,
+              "source": "NOT_OBSERVED",
+              "measurementAgeS": null,
+              "positionM": null,
+              "positionSigmaM": null
+            }
+          ]
+        },
+        "probe": {
+          "closest": {
+            "ageS": 434.23333333326707,
+            "rangeM": 190.77474796254828,
+            "positionM": {
+              "x": 123935.13300483441,
+              "y": 3526.307361015271,
+              "z": 4.863023284968291
+            },
+            "seekerMode": "COAST",
+            "targetPositionM": {
+              "x": 124000,
+              "y": 3346.8992302118954
+            },
+            "navPositionM": {
+              "x": 123867.07781385291,
+              "y": 3532.5605889034423,
+              "z": 4.863023284968291
+            },
+            "lock": {
+              "x": 123896.49400840933,
+              "y": 3379.34473753639,
+              "vx": -33.016426869214044,
+              "vy": 35
+            }
+          },
+          "rngChangingTicks": {
+            "environment": 0,
+            "target": 0,
+            "harpoon": 0
+          },
+          "modeEvents": [
+            {
+              "ageS": 0.016666666666666666,
+              "mode": "OFF",
+              "rangeM": 124004.01581257416
+            },
+            {
+              "ageS": 386.14999999997747,
+              "mode": "SEARCH",
+              "rangeM": 13930.574196081932
+            },
+            {
+              "ageS": 386.2333333333107,
+              "mode": "ACQUIRE",
+              "rangeM": 13906.49950337052
+            },
+            {
+              "ageS": 386.43333333331054,
+              "mode": "TRACK",
+              "rangeM": 13848.720288053059
+            },
+            {
+              "ageS": 408.2333333332907,
+              "mode": "COAST",
+              "rangeM": 7549.608811385385
+            },
+            {
+              "ageS": 412.1499999999538,
+              "mode": "SEARCH",
+              "rangeM": 6418.01542557874
+            },
+            {
+              "ageS": 412.2333333332871,
+              "mode": "ACQUIRE",
+              "rangeM": 6393.938887171963
+            },
+            {
+              "ageS": 412.4333333332869,
+              "mode": "TRACK",
+              "rangeM": 6336.156204643465
+            },
+            {
+              "ageS": 417.33333333328244,
+              "mode": "COAST",
+              "rangeM": 4920.577883111967
+            },
+            {
+              "ageS": 417.43333333328235,
+              "mode": "TRACK",
+              "rangeM": 4891.688225304171
+            },
+            {
+              "ageS": 430.73333333327025,
+              "mode": "COAST",
+              "rangeM": 1049.4325240880721
+            },
+            {
+              "ageS": 434.5333333332668,
+              "mode": "TRACK",
+              "rangeM": 211.25870584394355
+            },
+            {
+              "ageS": 434.6333333332667,
+              "mode": "COAST",
+              "rangeM": 225.62118229452307
+            },
+            {
+              "ageS": 434.7333333332666,
+              "mode": "TRACK",
+              "rangeM": 242.7697893139516
+            },
+            {
+              "ageS": 434.8333333332665,
+              "mode": "COAST",
+              "rangeM": 262.14941888327047
+            },
+            {
+              "ageS": 438.7499999999296,
+              "mode": "SEARCH",
+              "rangeM": 1322.9491361968287
+            },
+            {
+              "ageS": 438.8333333332629,
+              "mode": "ACQUIRE",
+              "rangeM": 1345.7833525059773
+            },
+            {
+              "ageS": 439.2833333332625,
+              "mode": "SEARCH",
+              "rangeM": 1468.3414537359681
+            },
+            {
+              "ageS": 439.33333333326243,
+              "mode": "ACQUIRE",
+              "rangeM": 1481.87608003161
+            },
+            {
+              "ageS": 439.783333333262,
+              "mode": "SEARCH",
+              "rangeM": 1602.8765070098955
+            },
+            {
+              "ageS": 439.833333333262,
+              "mode": "ACQUIRE",
+              "rangeM": 1616.2267087559037
+            },
+            {
+              "ageS": 440.28333333326157,
+              "mode": "SEARCH",
+              "rangeM": 1735.4725544220262
+            },
+            {
+              "ageS": 440.3333333332615,
+              "mode": "ACQUIRE",
+              "rangeM": 1748.6176372133905
+            },
+            {
+              "ageS": 440.7833333332611,
+              "mode": "SEARCH",
+              "rangeM": 1865.933592737332
+            },
+            {
+              "ageS": 440.83333333326107,
+              "mode": "ACQUIRE",
+              "rangeM": 1878.8554241670627
+            },
+            {
+              "ageS": 441.0333333332609,
+              "mode": "TRACK",
+              "rangeM": 1930.3076307442313
+            },
+            {
+              "ageS": 441.1333333332608,
+              "mode": "COAST",
+              "rangeM": 1955.8885417243248
+            },
+            {
+              "ageS": 445.0499999999239,
+              "mode": "SEARCH",
+              "rangeM": 2869.69044780001
+            },
+            {
+              "ageS": 445.333333333257,
+              "mode": "ACQUIRE",
+              "rangeM": 2928.3318337761234
+            },
+            {
+              "ageS": 445.5333333332568,
+              "mode": "TRACK",
+              "rangeM": 2969.077730340629
+            },
+            {
+              "ageS": 445.6333333332567,
+              "mode": "COAST",
+              "rangeM": 2989.239072459748
+            },
+            {
+              "ageS": 449.5499999999198,
+              "mode": "SEARCH",
+              "rangeM": 3657.197468325903
+            },
+            {
+              "ageS": 452.0333333332509,
+              "mode": "ACQUIRE",
+              "rangeM": 3947.573779667826
+            },
+            {
+              "ageS": 452.4333333332505,
+              "mode": "TRACK",
+              "rangeM": 3983.7625942902064
+            },
+            {
+              "ageS": 452.5333333332504,
+              "mode": "COAST",
+              "rangeM": 3992.27535044935
+            },
+            {
+              "ageS": 453.6333333332494,
+              "mode": "TRACK",
+              "rangeM": 4071.3158091295045
+            },
+            {
+              "ageS": 453.73333333324933,
+              "mode": "COAST",
+              "rangeM": 4077.173714219622
+            },
+            {
+              "ageS": 454.13333333324897,
+              "mode": "TRACK",
+              "rangeM": 4098.391494128621
+            },
+            {
+              "ageS": 454.2333333332489,
+              "mode": "COAST",
+              "rangeM": 4103.141550394336
+            },
+            {
+              "ageS": 458.149999999912,
+              "mode": "SEARCH",
+              "rangeM": 4132.892961827364
+            },
+            {
+              "ageS": 458.33333333324515,
+              "mode": "ACQUIRE",
+              "rangeM": 4130.415236390239
+            },
+            {
+              "ageS": 458.6333333332449,
+              "mode": "TRACK",
+              "rangeM": 4124.725954138713
+            },
+            {
+              "ageS": 458.8333333332447,
+              "mode": "COAST",
+              "rangeM": 4119.774978506166
+            },
+            {
+              "ageS": 462.7499999999078,
+              "mode": "SEARCH",
+              "rangeM": 3860.5472639691525
+            },
+            {
+              "ageS": 462.83333333324106,
+              "mode": "ACQUIRE",
+              "rangeM": 3853.49582059085
+            },
+            {
+              "ageS": 463.0333333332409,
+              "mode": "TRACK",
+              "rangeM": 3836.0688150693336
+            },
+            {
+              "ageS": 463.5333333332404,
+              "mode": "COAST",
+              "rangeM": 3790.314508335226
+            },
+            {
+              "ageS": 467.4499999999035,
+              "mode": "SEARCH",
+              "rangeM": 3478.1754541092937
+            },
+            {
+              "ageS": 467.5333333332368,
+              "mode": "ACQUIRE",
+              "rangeM": 3473.159724712756
+            },
+            {
+              "ageS": 467.9833333332364,
+              "mode": "SEARCH",
+              "rangeM": 3444.3804350132414
+            },
+            {
+              "ageS": 468.0333333332363,
+              "mode": "ACQUIRE",
+              "rangeM": 3441.0059983762158
+            },
+            {
+              "ageS": 468.23333333323615,
+              "mode": "TRACK",
+              "rangeM": 3427.154493292477
+            },
+            {
+              "ageS": 468.5333333332359,
+              "mode": "COAST",
+              "rangeM": 3405.2808988664115
+            },
+            {
+              "ageS": 468.6333333332358,
+              "mode": "TRACK",
+              "rangeM": 3397.698180610069
+            },
+            {
+              "ageS": 469.0333333332354,
+              "mode": "COAST",
+              "rangeM": 3365.949460102516
+            },
+            {
+              "ageS": 469.1333333332353,
+              "mode": "TRACK",
+              "rangeM": 3357.6657056383983
+            },
+            {
+              "ageS": 469.33333333323515,
+              "mode": "COAST",
+              "rangeM": 3340.6925928582923
+            },
+            {
+              "ageS": 469.9333333332346,
+              "mode": "TRACK",
+              "rangeM": 3286.6301651996523
+            },
+            {
+              "ageS": 470.0333333332345,
+              "mode": "COAST",
+              "rangeM": 3277.177998554258
+            },
+            {
+              "ageS": 470.8333333332338,
+              "mode": "TRACK",
+              "rangeM": 3197.272097576044
+            },
+            {
+              "ageS": 470.9333333332337,
+              "mode": "COAST",
+              "rangeM": 3186.766364737657
+            },
+            {
+              "ageS": 474.8499999998968,
+              "mode": "SEARCH",
+              "rangeM": 2719.66307735939
+            },
+            {
+              "ageS": 474.93333333323005,
+              "mode": "ACQUIRE",
+              "rangeM": 2709.766036989499
+            },
+            {
+              "ageS": 475.2333333332298,
+              "mode": "TRACK",
+              "rangeM": 2673.7372202797987
+            },
+            {
+              "ageS": 476.3333333332288,
+              "mode": "COAST",
+              "rangeM": 2545.192744060885
+            },
+            {
+              "ageS": 476.7333333332284,
+              "mode": "TRACK",
+              "rangeM": 2498.4683492232466
+            },
+            {
+              "ageS": 476.8333333332283,
+              "mode": "COAST",
+              "rangeM": 2486.681840198846
+            },
+            {
+              "ageS": 480.74999999989143,
+              "mode": "SEARCH",
+              "rangeM": 2080.7622693819367
+            },
+            {
+              "ageS": 480.8333333332247,
+              "mode": "ACQUIRE",
+              "rangeM": 2073.757363945089
+            },
+            {
+              "ageS": 481.0333333332245,
+              "mode": "TRACK",
+              "rangeM": 2056.8602099230466
+            },
+            {
+              "ageS": 481.73333333322387,
+              "mode": "COAST",
+              "rangeM": 2000.4014146417078
+            },
+            {
+              "ageS": 485.649999999887,
+              "mode": "SEARCH",
+              "rangeM": 1721.5412977747883
+            },
+            {
+              "ageS": 485.73333333322023,
+              "mode": "ACQUIRE",
+              "rangeM": 1717.3176128627574
+            },
+            {
+              "ageS": 486.03333333321996,
+              "mode": "TRACK",
+              "rangeM": 1702.156502656704
+            },
+            {
+              "ageS": 486.7333333332193,
+              "mode": "COAST",
+              "rangeM": 1672.4394433923424
+            },
+            {
+              "ageS": 490.6499999998824,
+              "mode": "SEARCH",
+              "rangeM": 1634.0965834524363
+            },
+            {
+              "ageS": 490.7333333332157,
+              "mode": "ACQUIRE",
+              "rangeM": 1635.6530869388769
+            },
+            {
+              "ageS": 490.9333333332155,
+              "mode": "TRACK",
+              "rangeM": 1639.434263812833
+            },
+            {
+              "ageS": 491.1333333332153,
+              "mode": "COAST",
+              "rangeM": 1643.4694812507446
+            },
+            {
+              "ageS": 491.2333333332152,
+              "mode": "TRACK",
+              "rangeM": 1645.890243693171
+            },
+            {
+              "ageS": 491.33333333321514,
+              "mode": "COAST",
+              "rangeM": 1648.6038089793112
+            },
+            {
+              "ageS": 491.43333333321505,
+              "mode": "TRACK",
+              "rangeM": 1651.6068375293435
+            },
+            {
+              "ageS": 491.53333333321496,
+              "mode": "COAST",
+              "rangeM": 1654.8887498680758
+            },
+            {
+              "ageS": 495.44999999987806,
+              "mode": "SEARCH",
+              "rangeM": 1919.4335503413822
+            },
+            {
+              "ageS": 495.5333333332113,
+              "mode": "ACQUIRE",
+              "rangeM": 1926.877271958765
+            },
+            {
+              "ageS": 495.83333333321104,
+              "mode": "TRACK",
+              "rangeM": 1953.5106864597963
+            },
+            {
+              "ageS": 495.93333333321095,
+              "mode": "COAST",
+              "rangeM": 1962.3206047518336
+            },
+            {
+              "ageS": 496.03333333321086,
+              "mode": "TRACK",
+              "rangeM": 1971.0886611313288
+            },
+            {
+              "ageS": 496.13333333321077,
+              "mode": "COAST",
+              "rangeM": 1979.8155553951
+            },
+            {
+              "ageS": 500.0499999998739,
+              "mode": "SEARCH",
+              "rangeM": 2322.004009045989
+            },
+            {
+              "ageS": 500.13333333320713,
+              "mode": "ACQUIRE",
+              "rangeM": 2329.7668246416374
+            },
+            {
+              "ageS": 500.33333333320695,
+              "mode": "TRACK",
+              "rangeM": 2348.2885630031788
+            },
+            {
+              "ageS": 500.6333333332067,
+              "mode": "COAST",
+              "rangeM": 2375.8607610743475
+            },
+            {
+              "ageS": 504.5499999998698,
+              "mode": "SEARCH",
+              "rangeM": 2790.4797376865895
+            },
+            {
+              "ageS": 504.83333333320286,
+              "mode": "ACQUIRE",
+              "rangeM": 2822.170692270734
+            },
+            {
+              "ageS": 505.2333333332025,
+              "mode": "TRACK",
+              "rangeM": 2866.335161038764
+            },
+            {
+              "ageS": 505.4333333332023,
+              "mode": "COAST",
+              "rangeM": 2888.1427749471095
+            }
+          ],
+          "lastMode": "COAST"
+        }
+      },
+      "outcome": "SEA_IMPACT",
+      "checks": {
+        "corePass": true,
+        "shipTracksRemainAbsent": true,
+        "noShipGuidanceUpdates": true,
+        "flightRngIndependentBeforeContact": false,
+        "finishedWithin600Seconds": true,
+        "shipPictureHasNoMissilePositionWithoutObservation": true,
+        "independentArhAcquired": true,
+        "physicalTargetContact": false
+      }
+    }
+  ],
+  "errors": [],
+  "console": [],
+  "wallSeconds": 22.13677243499842
+}
