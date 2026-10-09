@@ -60,4 +60,6 @@ range14는 별도 offline fixture다. 원본 E main에 **scenario/probe 진단 b
 
 ## 인계
 
+원격 native 검사는 소프트웨어 WebGL의 느린 실행을 허용하도록 전체 벽시계 한도 900초를 사용하고 15초 간격으로 프레임·물리 틱·발사 상태를 기록한다. 실제 입력·전체 RAF/고정 틱·4.2초/0.3초 비행·11개 판정 조건은 그대로이며 수동 물리/geometry queue 진행은 하지 않는다. 초기 180초 비행 대기 시간 초과 기록은 PR의 첫 Actions 실행에 보존한다. 같은 HTML의 진단 로컬 재실행은 11/11을 통과했다. 최종 원격 결과는 PR의 현재 head를 따른다.
+
 사용자가 **E HTML 하나**를 업로드했고 원격 bytes/SHA/parent/Git blob 및 무결성 Actions를 확인했다. 이 revision은 작은 support/상태/manifest·K 기존 blob archive·E 전체 workflow를 포함한다. 큰 A/B/C/D 로컬 archive HTML은 재업로드하지 않고 K+작은 A/B/C/D/E 모듈로 E까지 byte exact 재생성한다. [GitHub 인계](GITHUB_HANDOFF.md), [업로드 검증](evidence/remote-publication.json), [PR #44](https://github.com/0-FLANDRE-0/Aegis_Project/pull/44)를 따른다. 전체 기능 CI는 E workflow의 해당 head 결과를 기준으로 하며 업로드 무결성 검사와 구분한다. 전달 전 evidence와 원본 ZIP은 다시 작성하지 않는다.

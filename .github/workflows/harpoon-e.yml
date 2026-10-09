@@ -69,6 +69,8 @@ jobs:
         run: |
           if [ "${{ matrix.suite }}" = "selection" ]; then
             python docs/harpoon/D/verify_selection.py "$AEGIS_CANDIDATE" artifacts/harpoon/selection
+          elif [ "${{ matrix.suite }}" = "native" ]; then
+            python docs/harpoon/E/verify_native.py "$AEGIS_CANDIDATE" artifacts/harpoon/native --deadline 900
           else
             python docs/harpoon/E/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/harpoon/${{ matrix.suite }}
           fi
