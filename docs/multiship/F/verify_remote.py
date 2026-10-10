@@ -3,7 +3,7 @@
 Run after normal push. Report is excluded from its own support checksum;
 the later evidence-only commit leaves the verified HTML/support blobs intact.
 """
-import argparse,concurrent.futures,hashlib,json,subprocess
+import argparse,base64,concurrent.futures,hashlib,json,subprocess
 from pathlib import Path
 from urllib.parse import quote
 REPO='0-FLANDRE-0/Aegis_Project'
@@ -21,8 +21,17 @@ def main():
  assert all(q not in entries for q in deleted)
  def read(path):
   data=command(['git','show',a.commit+':'+path]);blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest();assert entries[path]['sha']==blob,(path,'BLOB_MISMATCH')
-  remote=gh('contents/'+quote(path,safe='/')+'?ref='+a.commit,'-H','Accept: application/vnd.github.raw+json');assert remote==data,(path,'RAW_BYTES_MISMATCH')
-  return {'path':path,'bytes':len(data),'gitBlob':blob,'sha256':hashlib.sha256(remote).hexdigest(),'exact':True}
+  raw=subprocess.run(['gh','api','repos/'+REPO+'/contents/'+quote(path,safe='/')+'?ref='+a.commit,'-H','Accept: application/vnd.github.raw+json'],cwd=ROOT,capture_output=True)
+  transport='contents raw';failure=None
+  if raw.returncode:
+   # Some API proxies fail gzip raw transport. The blob API independently
+   # returns the exact stored bytes as base64; never infer success from local data.
+   q=json.loads(gh('git/blobs/'+blob));assert q['encoding']=='base64' and q['sha']==blob,(path,'BLOB_RESPONSE_MISMATCH')
+   remote=base64.b64decode(q['content']);assert len(remote)==q['size'],(path,'BLOB_SIZE_MISMATCH')
+   transport='git blob base64';failure=raw.stderr.decode(errors='replace').strip()[:500]
+  else:remote=raw.stdout
+  assert remote==data,(path,'REMOTE_BYTES_MISMATCH')
+  return {'path':path,'bytes':len(data),'gitBlob':blob,'sha256':hashlib.sha256(remote).hexdigest(),'transport':transport,'rawTransportError':failure,'exact':True}
  rows=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4)as pool:
   for row in pool.map(read,changed):
