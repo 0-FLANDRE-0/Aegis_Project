@@ -187,7 +187,19 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP E — 방어 AUTO/BDA·출항 전 항공기 설정
+### 최신 개발 기준 MULTI SHIP F — 배치 분리·receiver 전자전·함정 해상효과
+
+- 현재 개발 HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_F`, HTML 15,638,513 bytes, SHA `438c4ea21c7c762243728092dcee269d12334af4c8265163300eb9b9b03f29d7`, main `cbed31af60addb8a757225251783df462336c449730975d1a5d836fc7c487b16`. E head `bdcf8d1724a72587f9d42e4b1cf70ba4cbe57ef6` 위 `multiship-ew-f`이며 지원·검증은 `docs/multiship/F/`를 따른다. stable v48과 original profiles/models/physics kernels는 보존한다.
+- 출항 전 near ALLY/far ENEMY(10~30km)·각 radar EMCON·hulk·항공기 선택. role/faction을 sensor truth identity로 바꾸지 않는다. 일반3D focus는 아군만이며 진단 적 focus는 DIAGNOSTIC_ONLY다.
+- `ShipRuntime.ew.executionF`와 47개 원본 owner soft-kill closure로 ESM/SLQ-32·Nulka/SRBOC 실행을 분리했다. anonymous receiver plot은 방위/sigma/세기/품질/대역/계열/시각만 받고 truth ID/좌표를 거부한다. noise/replay는 실제 수신 전력/빔·대역·장비/지형/기상에서 합성하고 기존 seeker/echo frontend로 적용한다. 기존 대역 I/J/X이며 SPY S-band에 임의 적용하지 않는다. 기본 외함 AUTO는 자기 측정 cue만 사용하고 자원/탄약/질량은 owner-local이다.
+- 초기 EMCON은 탐색 레이더 침묵이다. 방어 ECM·수동ESM과 구분한다. IFF 측정은 기존 fresh SURFACE 트랙의 FRIEND/WITHHELD 보호용이다. network/CEC/전술 공격·기동 AI는 아직 없다. Harpoon DL0·INS→ARH와 CG 양현 Phalanx/RAM0을 유지한다.
+- 자함의 원본 ocean shader/kernel을 그대로 보존하고 외함 함수파2+항적/선미 포말3개를 owner geometry/world history로 표시한다. 효과는 60초/255점 bounded, physics/RNG feedback0이며 import/reset/retire 때 owner layer/material/geometry를 폐기한다.
+- F strict snapshot은 두 fleet owner/role/faction/profile·EW bools·seed·soft-kill 재고를 preflight하고 실패 시 무변경 거부한다. legacy A/E/B는 명시 migration만 한다. 설정/재고는 복원하되 contacts/기법 timeline·flight/track/예약은 transient다.
+- 최종 직접 593/593 PASS: 세 척1/8/16/64×1536 ticks exact·두 함종 natural Kh-35U EW/시커·실제3D 피격/복원·기존 defense/무장/Harpoon 검증. ESM 난수를 격리했으므로 E의 shared combat RNG epoch와 raid 순서는 같다고 주장하지 않는다. paired fixture의 CG VLS1셀 delta를 기록했다.
+- CG는 등록된 SLQ-32 양현 위치/손상, DDG는 원본 EW antenna registry 부재로 legacy RF 기준점과 CDC/발전기/offline 가용성을 사용한다. DDG 실제 antenna 등록과 IFF 재인증·운용자 해제는 후속 보완이다. RF/IFF/ECCM 값은 SIM-TUNE, SwiftShader는 하드웨어 FPS 인증이 아니다.
+- E HTML/status/SHA/workflow는 same bytes로 `archive/v48/WIP_MULTI_SHIP_E/`에 보존한다. §7.1 직접 upload/readback을 수행한다. 사용자가 Actions 불가를 명시했으므로 이번 마감은 로컬 직접 검사이며 workflow는 수동 준비·미실행이다. main/선행 PR을 새 요청 없이 병합하지 않는다. 다음은 measured friendly network/정정/EMCON 기반이며 Tomahawk 미래 대상은 RGM-109E Block Va다.
+
+### 직전 개발 기준 MULTI SHIP E — 방어 AUTO/BDA·출항 전 항공기 설정
 
 - HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_E`, HTML 15,609,329 bytes, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`, decoded main SHA `446f96c11279970cda4d9e5542137dad96ba86ee155f3f503cbf83fa51f2c105`. 지원/검사는 `docs/multiship/E/`, 현재 workflow/manifest는 E다.
 - D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에서 원본 AUTO/BDA/alias 67개 함수를 기존 owner closure에 결속했다. immutable profile/원본 모델·stable v48·공통 world1회·60/120/20Hz를 유지한다. 실제 발사 직전에도 관측/식별·권한·사각·장비·재고를 재검사한다.

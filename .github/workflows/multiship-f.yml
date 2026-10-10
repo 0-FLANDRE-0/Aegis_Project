@@ -1,0 +1,77 @@
+name: Multi Ship F deployment and receiver EW (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_MULTI_SHIP_F.html
+  AEGIS_BASELINE: archive/v48/WIP_MULTI_SHIP_E/Aegis_SIM_v48_WIP_MULTI_SHIP_E.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_MULTI_SHIP_F.txt
+          sha256sum -c docs/multiship/F/REPOSITORY_SUPPORT.sha256
+          python docs/multiship/F/verify_static.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/multiship/static
+          python docs/multiship/D/verify_guidance.py "$AEGIS_CANDIDATE" artifacts/multiship/guidance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-f-static-${{ github.sha }}
+          path: artifacts/multiship
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [verification, natural, clock, native, aircraft, defense, weapons, baseline, routes, knowledge]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Run final artifact fixtures
+        run: |
+          if [ "${{ matrix.suite }}" = verification ]; then
+            python docs/multiship/F/verify.py "$AEGIS_CANDIDATE" artifacts/multiship/verification
+          elif [ "${{ matrix.suite }}" = aircraft ]; then
+            python docs/multiship/F/verify_departure.py "$AEGIS_CANDIDATE" artifacts/multiship/aircraft
+          elif [ "${{ matrix.suite }}" = defense ]; then
+            python docs/multiship/E/verify_defense.py "$AEGIS_CANDIDATE" artifacts/multiship/defense
+          elif [ "${{ matrix.suite }}" = weapons ]; then
+            python docs/multiship/F/verify_regression.py weapons "$AEGIS_CANDIDATE" artifacts/multiship/weapons
+          elif [ "${{ matrix.suite }}" = routes ] || [ "${{ matrix.suite }}" = knowledge ]; then
+            python docs/harpoon/E/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
+          elif [ "${{ matrix.suite }}" = baseline ]; then
+            python docs/multiship/F/verify_baseline.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/multiship/baseline
+          else
+            python docs/multiship/F/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-f-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/multiship
+          if-no-files-found: error

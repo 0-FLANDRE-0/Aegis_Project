@@ -1,0 +1,123 @@
+{
+  "schema": "AEGIS_MULTISHIP_F_VERIFICATION",
+  "source": "Aegis_SIM_v48_WIP_MULTI_SHIP_F.html",
+  "sha256": "438c4ea21c7c762243728092dcee269d12334af4c8265163300eb9b9b03f29d7",
+  "bytes": 15638513,
+  "mainSha256": "cbed31af60addb8a757225251783df462336c449730975d1a5d836fc7c487b16",
+  "baselineSha256": "d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2",
+  "seed": 1831565813,
+  "suites": [
+    {
+      "suite": "static",
+      "checks": 44,
+      "passed": 44,
+      "path": "docs/multiship/F/evidence/static.json",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "deployment-ew",
+      "checks": 96,
+      "passed": 96,
+      "path": "docs/multiship/F/evidence/deployment-ew.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "natural-ew",
+      "checks": 22,
+      "passed": 22,
+      "path": "docs/multiship/F/evidence/natural-ew.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "clock-three-ships",
+      "checks": 80,
+      "passed": 80,
+      "path": "docs/multiship/F/evidence/clock-three-ships.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "native-three-ships",
+      "checks": 38,
+      "passed": 38,
+      "path": "docs/multiship/F/evidence/native-three-ships.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "aircraft",
+      "checks": 48,
+      "passed": 48,
+      "path": "docs/multiship/F/evidence/aircraft.json",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "retained-defense",
+      "checks": 76,
+      "passed": 76,
+      "path": "docs/multiship/F/evidence/retained-defense.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "retained-weapons",
+      "checks": 72,
+      "passed": 72,
+      "path": "docs/multiship/F/evidence/retained-weapons.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "paired-ownship",
+      "checks": 24,
+      "passed": 24,
+      "path": "docs/multiship/F/evidence/paired-ownship.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "harpoon-guidance",
+      "checks": 45,
+      "passed": 45,
+      "path": "docs/multiship/F/evidence/harpoon-guidance.json",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "harpoon-knowledge",
+      "checks": 22,
+      "passed": 22,
+      "path": "docs/multiship/F/evidence/harpoon-knowledge.json",
+      "pageErrors": 0,
+      "pass": true
+    },
+    {
+      "suite": "harpoon-routes",
+      "checks": 26,
+      "passed": 26,
+      "path": "docs/multiship/F/evidence/harpoon-routes.json.gz",
+      "pageErrors": 0,
+      "pass": true
+    }
+  ],
+  "checks": 593,
+  "passed": 593,
+  "pageErrors": 0,
+  "coreSelftestFailures": 0,
+  "pass": true,
+  "excluded": "Earlier E660 checks, intermediate candidates, historical smoke and unrun suites are not counted",
+  "limits": [
+    "DDG EW mount uses legacy RF reference, no separate antenna registration",
+    "SIM-TUNE RF/IFF/replay performance, no real equipment certification",
+    "EW isolation changes old E shared RNG epoch/raid sequence: CG VLS count delta1 for paired fixture; F 1/8/16/64 exact",
+    "Native Chromium SwiftShader, no hardware/mobile FPS certification",
+    "Single-seed representative fixtures, no probability of kill or global placement guarantee",
+    "Network/CEC/tactical offensive AI/helicopters/Tomahawk deferred"
+  ],
+  "ci": "User cannot use GitHub Actions; local direct verification and remote byte readback, no dispatch or CI gate",
+  "addedScope": "Own ocean kernel/shader retained; ALLY/ENEMY bounded independent bow/center/stern wake meshes/history, read-only and disposed on reset/import"
+}
