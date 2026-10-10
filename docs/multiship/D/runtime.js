@@ -36,6 +36,7 @@ function prepareWeaponsD(r){
 }
 function retireWeaponsD(r){ENGAGEMENT_RUNTIME.world.entities.navalOrdnanceD?.delete(r.entityId);if(r.weapons.executionD){r.weapons.executionD.sam.length=0;r.weapons.executionD.ram.length=0;r.weapons.executionD.shells.length=0;r.weapons.executionD.bullets.length=0;r.weapons.executionD=null;}for(const m of harpoonWorldA())if(m.ownerEntityId===r.entityId)m.alive=false;r.weapons.harpoon.pending=null;}
 function resetWeaponsD(){
+  ACTIVE_SHIP_RUNTIME.damage.navalSeenImpactsD?.clear();
   for(const r of physicalShipsB())prepareWeaponsD(r);
   ENGAGEMENT_RUNTIME.world.navalWeaponSerialD=1000000;
 }

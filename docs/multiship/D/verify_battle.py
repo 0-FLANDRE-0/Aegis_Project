@@ -21,6 +21,7 @@ FIXTURE=r'''foreign=>{const d=window.__NAVAL_SIM_DIAG__,h=window.__HARPOON_DIAG_
  checks.realReceiverDamage=Object.values(targetDamage).some(q=>q>0);checks.launcherDamageIsolated=JSON.stringify(sourceBefore)===JSON.stringify(sourceAfter);
  checks.noTelemetry=h.operatorPicture().telemetryAvailable===false&&h.profile().dataLink===false;
  checks.ownLaunchKnowledgeIsolated=!foreign||h.operatorPicture().launches.length===0;
+ if(foreign){const eventId=m.impact.eventId;d.importOperationalStateV48Wip11A(saved);h.reset(true);d.setTerrainDiagBypass(true);d.setEmcon(true);d.observerCommandC(id,{emcon:false});d.weaponFixtureD(id,{action:'track',trackId:31,domain:'SURFACE',positionM:{x:0,y:0,z:8}});d.weaponFixtureD(id,{action:'identity',trackId:31,identity:'HOSTILE'});const repeat=d.weaponCommandD(id,{observerShipId:id,trackId:31,weapon:'HARPOON'});for(let i=0;i<48;i++){d.runFramesToTicks(60,8,60);if(h.snapshot().missiles.at(-1)&&!h.snapshot().missiles.at(-1).alive)break;}const second=h.snapshot().missiles.at(-1);checks.resetAllowsReusedProjectileEventId=repeat.ok&&second?.impact?.eventId===eventId&&second.impact.accepted&&Object.values(d.exportOperationalStateV48Wip11A().ship.damage.moduleDamage).some(v=>v>0);}
  checks.coreZero=window.__CORE_SELFTEST_FAILURES__.length===0;checks.noFault=!window.__WIP125_DIAG__.wip150RuntimeFault()&&!window.__WIP125_DIAG__.wip150PresentationFault();
  return {checks,foreign,release,firingShipId,targetShipId,samples,targetDamage,operatorPicture:h.operatorPicture(),pass:Object.values(checks).every(Boolean)};}'''
 def main():
