@@ -1,11 +1,21 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP B
+## 최신 개발 기준 — Multi Ship WIP C
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_B.html), **15,328,273 bytes**, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_C.html), **15,344,725 bytes**, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`.
+- 4단계: 실제 배치 함정의 SPY/해면탐색/항법 레이더와 익명 관측·추정 트랙을 함정별로 실행한다. 자함 CIC는 자함 관측만 읽으며 상대 위치·정체를 바로 주입하지 않는다. CG/DDG의 면 배치·센서 profile, 지평선·지형 차폐와 EMCON/손상·coast를 적용한다.
+- 이후 헬기를 받을 오차·시각·지연·링크 단절이 있는 외부 관측 포트를 준비했다. **헬기 자체와 양방향 무장/EW/AI는 후속 단계**다. Harpoon 발사 후 DL=0, 기본 적함 없음/자함 EMCON ON, 60/120/20 Hz를 유지한다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_C.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt), [구조/포트](docs/multiship/C/README.md), [다음 단계](docs/multiship/C/DEPENDENCIES.md), [검증 집계](docs/multiship/C/evidence/verification-summary.json), [측정 조건](docs/multiship/C/PERFORMANCE.md), [GitHub 인계](docs/multiship/C/GITHUB_HANDOFF.md).
+- `multiship-sensors-c`는 B head `ae94326caea7cd0329233f381933cdc240bedb47` 위에서 이어간다. B 원본 세트/workflow는 동일 bytes로 archive에 보존한다. stable v48은 그대로다. 새 PR은 B branch를 base로 하며 A/B/C는 미병합 상태로 유지한다.
+
+- 최종 파일 직접 검증 **417/417 PASS**. 원격 PR/CI 결과는 최신 GitHub 기록을 따른다.
+
+## 직전 개발 기준 — Multi Ship WIP B
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_B/Aegis_SIM_v48_WIP_MULTI_SHIP_B.html), **15,328,273 bytes**, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`.
 - 3단계: 출항 전 선택한 DDG-119/CG-52를 실제 세계에 배치한다. 각 함정의 항해·피해·침수·구획/승조원·질량/동역학·침몰/구명뗏목과 원본 3D 모델을 독립 실행한다. `3D VIEW → 배치 함정 보기`로 카메라를 바꾼다.
 - 함정별 센서와 양방향 요격/공격·EW·AI는 4~7단계 잔여다. 상대 truth 위치를 CIC/교전 판단에 주입하지 않는다. 기본 적함 없음과 기존 자함 운용, shared world 1회 및 60/120/20 Hz 주기를 유지한다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_B.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_B.txt), [범위/저장/진단](docs/multiship/B/README.md), [다음 단계](docs/multiship/B/DEPENDENCIES.md), [검증 집계](docs/multiship/B/evidence/verification-summary.json), [측정 조건](docs/multiship/B/PERFORMANCE.md).
+- [상태](archive/v48/WIP_MULTI_SHIP_B/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_B.md), [SHA](archive/v48/WIP_MULTI_SHIP_B/SHA256SUMS_v48_WIP_MULTI_SHIP_B.txt), [범위/저장/진단](docs/multiship/B/README.md), [다음 단계](docs/multiship/B/DEPENDENCIES.md), [검증 집계](docs/multiship/B/evidence/verification-summary.json), [측정 조건](docs/multiship/B/PERFORMANCE.md).
 - `multiship-physics-b`는 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`을 기준으로 한다. A PR #45가 미병합이므로 B PR은 A 위에 연결한다. A HTML/status/SHA/workflow는 같은 bytes/blob으로 archive에 보존하고 stable v48은 변경하지 않는다. 원본 HTML 직접 업로드·원격 readback과 CI는 [GitHub 인계](docs/multiship/B/GITHUB_HANDOFF.md)를 따른다.
 
 - 최종 직접 검증 **466/466 PASS**. [PR #46](https://github.com/0-FLANDRE-0/Aegis_Project/pull/46), [원격 56파일 readback](docs/multiship/B/evidence/remote-publication.json). CI 실제 상태는 해당 PR의 head checks를 따른다.

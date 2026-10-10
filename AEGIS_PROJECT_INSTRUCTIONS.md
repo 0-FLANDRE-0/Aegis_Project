@@ -187,7 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP B — 실제 함정 물리·피해·표시
+### 최신 개발 기준 MULTI SHIP C — 함정별 관측·외부 관측 포트
+
+- 이번 범위는 4단계다. HTML/status/SHA는 `v48_WIP_MULTI_SHIP_C`, 지원은 `docs/multiship/C/`, HTML 15,344,725 bytes, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`, main SHA `d68eca1dbe2b3b6c491ba4f9d2de9c5ccbcb34221ee7d3f02631fd897925094e`.
+- 기준 B head `ae94326caea7cd0329233f381933cdc240bedb47`·B HTML SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`. B 세트/workflow를 동일 bytes로 archive에 보존한다. 현재 workflow/manifest는 C, 역사 B 자료는 그대로다. stable v48과 원본 assets/profile/module revision은 유지한다.
+- 자함은 기존 canonical scheduler/TrackStore, 비자함은 runtime-owned observer와 독립 RNG/scan/rotor/track을 사용한다. 공유 RF/측정/EKF에 명시 receiver를 전달한다. ACTIVE/global profile 교환 없이 fixed tick마다 각 owner 한 번, 공통 세계 한 번 진행한다.
+- 함종 face normal·sensor suite·budget·지평선/지형/원본 CG 사각·해면 clutter·손상/EMCON을 반영한 익명 plot만 연관한다. 식별/자동권한은 별개이며 자함 CIC는 자함 관측만 읽는다. 진단 truth/가상 높은 receiver를 실제 센서나 AI 입력으로 연결하지 않는다.
+- 외부 관측 포트는 source/sequence/measuredAt/추정 위치/SPD 공분산/domain evidence와 지연·링크 상태만 받는다. truth field·재전송/반복 fix·오래된/미래 시각을 검증하고 measured age를 유지한다. 헬기 모델/비행/센서는 아직 없다. Harpoon은 DL=0이며 발사 후 탄 정보를 이 포트로 받지 않는다.
+- 저장에는 offboardLinksAndReports를 deferred로 명시한다. 정상 reset/import/retire는 combat transient를 비우며 잘못된 import는 zero mutation이다. 실제 owner radar 회전각을 renderer가 읽으며 화면은 시뮬레이션을 진행하지 않는다.
+- 5단계 실제 탄 source/target routing·양방향 무장, 6단계 receiver별 EW, 7단계 관측 기반 AI는 후속 범위다. 일반 seeker에 naval reflector를 켤 때 실제 contact routing도 함께 검증한다. 60/120/20 Hz는 유지한다. SwiftShader native 관측은 실제 mobile FPS가 아니다.
+- 7.1에 따라 `multiship-sensors-c`에 원본 HTML/support를 직접 업로드/readback하고 B branch 위에 PR/CI를 만든다. 새 병합 지시가 없으므로 A/B/C는 임의 병합하지 않는다. 최종 판정/원격 증거는 최신 상태와 C evidence/GitHub checks를 따른다.
+
+### 직전 개발 기준 MULTI SHIP B — 실제 함정 물리·피해·표시
 
 - 이번 범위는 다함정 3단계다. HTML `Aegis_SIM_v48_WIP_MULTI_SHIP_B.html`, 상태/SHA 같은 토큰, 지원 `docs/multiship/B/`를 따른다. HTML 15,328,273 bytes, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`, main SHA `2d20d1927a47443aaaadc084faae07e21b6009baae4d78e055f600ecd143319c`.
 - 기준 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`, A HTML SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`. A 세트/workflow를 `archive/v48/WIP_MULTI_SHIP_A/`에 같은 bytes로 보존한다. A 당시 support manifest는 역사 자료다. current workflow/manifest는 B다. stable v48과 packed asset records 0~12, 함종/무장 revision을 유지한다.

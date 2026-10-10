@@ -1,0 +1,106 @@
+{
+  "schema": "AEGIS_MULTI_SHIP_C_FINAL_VERIFICATION",
+  "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363",
+  "mainSha256": "d68eca1dbe2b3b6c491ba4f9d2de9c5ccbcb34221ee7d3f02631fd897925094e",
+  "baselineSha256": "1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946",
+  "passed": 417,
+  "total": 417,
+  "pass": true,
+  "historicalResultsAdded": 0,
+  "counting": "Only direct top-level checks. Nested observer/offboard fixture checks are included once through parent checks. Preliminary HTML and timeout runs excluded.",
+  "seed": 1831565813,
+  "suites": [
+    {
+      "suite": "static",
+      "passed": 30,
+      "total": 30,
+      "evidence": "static.json",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "observers",
+      "passed": 136,
+      "total": 136,
+      "evidence": "observers.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "propagation",
+      "passed": 6,
+      "total": 6,
+      "evidence": "propagation.json",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "fleet clock",
+      "passed": 40,
+      "total": 40,
+      "evidence": "fleet-clock.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "paired baseline",
+      "passed": 12,
+      "total": 12,
+      "evidence": "paired-baseline.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "native observers",
+      "passed": 18,
+      "total": 18,
+      "evidence": "native-observers.json",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "physical native",
+      "passed": 20,
+      "total": 20,
+      "evidence": "physical-native.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "departure",
+      "passed": 48,
+      "total": 48,
+      "evidence": "departure.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "guidance",
+      "passed": 45,
+      "total": 45,
+      "evidence": "guidance.json",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "routes",
+      "passed": 26,
+      "total": 26,
+      "evidence": "routes.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "knowledge",
+      "passed": 22,
+      "total": 22,
+      "evidence": "knowledge.json",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    },
+    {
+      "suite": "DDG runtime",
+      "passed": 14,
+      "total": 14,
+      "evidence": "DDG-runtime.json.gz",
+      "htmlSha256": "e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363"
+    }
+  ],
+  "limits": [
+    "player keeps mature legacy scheduler; foreign owner uses explicit shared RF/measurement/EKF",
+    "bidirectional weapon routing, receiver-specific EW, enemy AI and helicopter flight/sensors deferred",
+    "60 km elevated receiver test is diagnostic only; does not create helicopter reports",
+    "native SwiftShader at 393x852, physical-native inherited B fixture at 8x controlled inert probe; no hardware FPS claim",
+    "CG historic source triangle count audit remains false; source bytes and actual class mesh fingerprints checked separately",
+    "operational restore clears combat/offboard transients"
+  ]
+}
