@@ -187,7 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP A — 독립 상태·출항 전 배치 설정
+### 최신 개발 기준 MULTI SHIP B — 실제 함정 물리·피해·표시
+
+- 이번 범위는 다함정 3단계다. HTML `Aegis_SIM_v48_WIP_MULTI_SHIP_B.html`, 상태/SHA 같은 토큰, 지원 `docs/multiship/B/`를 따른다. HTML 15,328,273 bytes, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`, main SHA `2d20d1927a47443aaaadc084faae07e21b6009baae4d78e055f600ecd143319c`.
+- 기준 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`, A HTML SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`. A 세트/workflow를 `archive/v48/WIP_MULTI_SHIP_A/`에 같은 bytes로 보존한다. A 당시 support manifest는 역사 자료다. current workflow/manifest는 B다. stable v48과 packed asset records 0~12, 함종/무장 revision을 유지한다.
+- 선택한 적함은 출항 때 PHYSICAL_ACTIVE가 되어 world navalShips에 연결한다. 함정별 navigation/flood/survival/control/interior/crew/mass/dynamics/wave/rescue를 shared owner API로 진행한다. 원본 DDG/CG builder를 함정별 root/material/job과 사용하며 global profile swap·render 물리 적분·상대 truth CIC 주입은 없다.
+- deploymentState NONE/PENDING/ACTIVE를 구분하며 초기 선택 단계에도 정상 export/preflight가 된다. fleet state는 독립 detached 준비 후 복원하고 잘못된 입력은 zero mutation으로 거부한다. 저장의 fire/DC/structural timeline·body rates·combat transient 제외와 legacy/PENDING 새 배치를 명시한다.
+- 함체 접촉은 profile footprint/질량 기반 비탄성 충격과 bounded SIM-TUNE 개구다. 좌초 정지는 대상 owner만 적용한다. 60 Hz tick/120 Hz 침수·힘/20 Hz hydro, world weather 한 번, 독립 전투 RNG를 보존한다.
+- 4단계 센서/트랙 observer 분리, 5단계 실제 탄 source/target routing·양방향 무장, 6단계 receiver별 EW/CIC, 7단계 관측 기반 AI는 미완료다. B의 physical probe/native 구멍 검사는 자연 미사일 명중·적 AI·mobile FPS 인증이 아니다. 공개 UI는 배치/카메라와 기존 자함 운용이다.
+- 7.1에 따라 Codex가 원본 HTML과 지원을 직접 push/readback한다. B branch는 `multiship-physics-b`이며 미병합 A PR #45 위에 연결한다. 이번 B 병합 요청은 없으므로 A/B를 임의 병합하지 않는다. 실제 최종 검증/PR/CI 상태는 B 상태·evidence와 GitHub 기록을 따른다.
+
+### 직전 개발 기준 MULTI SHIP A — 독립 상태·출항 전 배치 설정
 
 - 이번 승인 범위는 다함정 작업의 1~2단계다. HTML은 `Aegis_SIM_v48_WIP_MULTI_SHIP_A.html`, 상태/SHA는 같은 토큰이며 지원은 `docs/multiship/A/`다. HTML 15,314,629 bytes, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`, main SHA `8cb35bd169cb6de69270297bf33222bec337055da19f64519936917c267089c8`.
 - 기준은 PR #44 병합 main `cb70a637105ce00e7c0619270237cc35a83d39c2`의 Harpoon E다. E HTML/status/SHA와 당시 workflow는 `archive/v48/WIP_HARPOON_E/`에 same bytes로 이동하며 E의 profile/module revision과 전투 모델은 바꾸지 않는다. stable v48도 같은 bytes다.
