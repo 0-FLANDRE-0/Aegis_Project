@@ -8,6 +8,8 @@
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_B.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_B.txt), [범위/저장/진단](docs/multiship/B/README.md), [다음 단계](docs/multiship/B/DEPENDENCIES.md), [검증 집계](docs/multiship/B/evidence/verification-summary.json), [측정 조건](docs/multiship/B/PERFORMANCE.md).
 - `multiship-physics-b`는 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`을 기준으로 한다. A PR #45가 미병합이므로 B PR은 A 위에 연결한다. A HTML/status/SHA/workflow는 같은 bytes/blob으로 archive에 보존하고 stable v48은 변경하지 않는다. 원본 HTML 직접 업로드·원격 readback과 CI는 [GitHub 인계](docs/multiship/B/GITHUB_HANDOFF.md)를 따른다.
 
+- 최종 직접 검증 **466/466 PASS**. [PR #46](https://github.com/0-FLANDRE-0/Aegis_Project/pull/46), [원격 56파일 readback](docs/multiship/B/evidence/remote-publication.json). CI 실제 상태는 해당 PR의 head checks를 따른다.
+
 ## 직전 개발 기준 — Multi Ship WIP A
 
 - [HTML](archive/v48/WIP_MULTI_SHIP_A/Aegis_SIM_v48_WIP_MULTI_SHIP_A.html), **15,314,629 bytes**, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`.

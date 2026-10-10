@@ -53,3 +53,5 @@ A HTML/status/SHA/workflow는 `archive/v48/WIP_MULTI_SHIP_A/`에 동일 bytes/bl
 `multiship-physics-b`는 미병합 A PR #45 위에 연결한다. 지침7.1과 사용자 승인에 따라 Codex가 원본 HTML과 지원을 직접 push/readback하고 동일 파일 CI를 진행한다. 실제 원격 SHA/PR/CI는 [GitHub 인계](docs/multiship/B/GITHUB_HANDOFF.md) 및 GitHub 기록을 따른다. B 병합 요청은 없어 A/B를 임의 병합하지 않는다.
 
 다음은 **4단계 함정별 센서/익명 관측·observer 트랙 분리**다. 이후 실제 탄의 source/target routing·양방향 무장, receiver별 EW와 관측 기반 AI를 연결한다. [의존성/잔여](docs/multiship/B/DEPENDENCIES.md).
+
+원격 최초 publication `6b060dd156405ef97d59c2f7b5eb4ad77a95032f`의 HTML/support/A archive/stable 56파일을 독립 readback해 byte-identical임을 확인했다. 원본 B Git blob `f534ffd1de49b5a7a1c81a6efc6753b710fa4aa8`. [원격 증거](docs/multiship/B/evidence/remote-publication.json), [PR #46](https://github.com/0-FLANDRE-0/Aegis_Project/pull/46). 기록 자체를 포함하는 후속 commit의 HTML bytes는 동일하며 CI 실제 상태는 해당 head checks를 따른다.

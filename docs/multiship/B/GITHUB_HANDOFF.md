@@ -14,3 +14,7 @@
 push 전 remote expected head를 확인하고 fast-forward로 반영한다. 독립 원격 bare checkout에서 HTML 크기/SHA/Git blob, 지원 manifest, A archive와 stable을 다시 읽어 대조한다. 원격 publication 기록은 `evidence/remote-publication.json`에 추가한다. 해당 기록의 publication commit 뒤에는 기록 자체를 포함하는 후속 commit이 있을 수 있으며 HTML bytes는 동일하다.
 
 현재 CI는 `.github/workflows/multiship-b.yml`다. static/checksum/rebuild/guidance 뒤 departure/runtime/contacts/baseline/native/fleet clock/routes/knowledge/Harpoon clock/DDG의 10 browser jobs를 실행한다. 기존 smoke는 역사 payload 검사도 포함하며 최신 B의 466개 직접 판정에 합산하지 않는다. 실제 PR/Actions 완료 상태는 GitHub의 해당 head 결과를 따른다.
+
+## 원격 publication 확인
+
+[PR #46](https://github.com/0-FLANDRE-0/Aegis_Project/pull/46)을 A branch 위에 생성했다. 최초 publication commit `6b060dd156405ef97d59c2f7b5eb4ad77a95032f`을 독립 원격 bare repository에서 다시 읽어 HTML·지원·A archive·stable **56개 파일**을 byte 단위로 대조했다. 모두 일치하며 원본 B Git blob은 `f534ffd1de49b5a7a1c81a6efc6753b710fa4aa8`이다. [원격 기록](evidence/remote-publication.json). 후속 commit은 이 기록/문서와 manifest를 포함하며 HTML bytes는 동일하다. 같은 최종 파일의 Actions 실제 결과는 PR checks를 따른다.
