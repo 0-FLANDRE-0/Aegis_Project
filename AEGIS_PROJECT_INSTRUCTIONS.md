@@ -186,7 +186,19 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HARPOON E — 경유점/최종 통과 ARH
+### 최신 개발 기준 MULTI SHIP A — 독립 상태·출항 전 배치 설정
+
+- 이번 승인 범위는 다함정 작업의 1~2단계다. HTML은 `Aegis_SIM_v48_WIP_MULTI_SHIP_A.html`, 상태/SHA는 같은 토큰이며 지원은 `docs/multiship/A/`다. HTML 15,314,629 bytes, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`, main SHA `8cb35bd169cb6de69270297bf33222bec337055da19f64519936917c267089c8`.
+- 기준은 PR #44 병합 main `cb70a637105ce00e7c0619270237cc35a83d39c2`의 Harpoon E다. E HTML/status/SHA와 당시 workflow는 `archive/v48/WIP_HARPOON_E/`에 same bytes로 이동하며 E의 profile/module revision과 전투 모델은 바꾸지 않는다. stable v48도 같은 bytes다.
+- 표적함 HULK/NONE, 적함 준비 null/DDG/CG를 초기 함선 선택과 VLS 편성에서 지정·출항 확정한다. 기본은 HULK/적함 없음이다. NONE은 실제 기본 표적 생성·reset에 반영한다. 출항 후 변경 금지다.
+- `createPreparedShipRuntimeA`는 불변 프로필·공통 생성 함수로 독립 core 모델·재고·센서/FCS/EW 준비 버퍼를 만든다. 가변 상태 복사나 함종 전역 swap을 사용하지 않는다. 명시적 runtime getter·살아 있는 context binding·가변 객체 소유권 guard를 사용하며 기존 자함 alias/UI를 유지한다.
+- 적함은 STATE_BOUND_INACTIVE다. registered 2와 simulated 1을 구분하고 world/weather/ordnance·기존 ownship loop를 함정 수만큼 실행하지 않는다. 적함의 실제 model/world 배치·physics tick·observer measurement·무장 routing·EW·AI는 3~8단계다. 미연결 적함 함포 command/solve/fire/step은 명시적으로 거부한다. rescue는 provision만 준비하고 world/controller 연결을 3단계로 미룬다.
+- 불변 피해 등록은 pinned E에서 함종별로 캡처한 기존 hitbox/material/ID다. geometry/revision 변경 시 재등록과 baseline 비교가 필요하다. 자함의 기존 hitbox 생성 경로를 유지한다.
+- 운용 저장은 deployment codec을 포함한다. 옛 배치 누락은 HULK/적함 없음으로 명시 migration한다. 모든 codec 검사 후 detached 준비/적용하며 거부는 world·상태·난수 zero-mutation이다. 적함 transient/비행/EW timeline 복원으로 취급하지 않는다. 상세 의존성과 검사 범위는 `docs/multiship/A/DEPENDENCIES.md`와 최신 상태를 따른다.
+- 원격 브랜치 `multiship-runtime-a`는 main 기준에서 준비했다. 7.1의 사용자 큰 HTML 업로드 분담을 그대로 적용한다. 업로드 후 exact확인 → 작은 support/기존 E blob 이동 → PR/같은 bytes CI → 요청된 병합 순서다. 현재 새 원격 HTML/support/PR/CI/merge는 미실행이다. 최신 workflow/manifest는 Multi Ship A이며 archived E는 역사 기록이다.
+- 후속 착수는 3단계의 실제 두 함정 물리·피해·표시다. 4단계 observer truth boundary와 5~7단계 양방향 요격·공격/EW/AI 완료 전에는 적함 교전이 구현되었다고 표시하지 않는다. 실제 mobile FPS/heap/GPU 측정은 소프트웨어 WebGL 결과와 구분한다.
+
+### 직전 병합 기준 HARPOON E — 경유점/최종 통과 ARH
 
 - 최신 E HTML 15,285,590 bytes, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`, main SHA `11cf8d757821b8601da5a3a50153666e48524ea31a33de1a88d7a11a72794067`. status/SHA/README/지원 E가 같은 인계다.
 - HARPOON FIRE 아래 지정/해제 native click, 최대8 CIC 점·NAV/락온 분리·drag/pinch 점 추가0. 해제는 초안 clear/cursor 복귀. 마지막 점은 탐색 시작이며 final leg 전방8km/반경4km fixed search area다. route shot은 MANUAL 좌표 계획, 보호 수상 file/자동교전 금지. 경유점 없는 관측 track memory shot을 보존한다.

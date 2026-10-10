@@ -1,12 +1,20 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Harpoon WIP E
+## 최신 개발 기준 — Multi Ship WIP A
 
-- [HTML](Aegis_SIM_v48_WIP_HARPOON_E.html), **15,285,590 bytes**, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_A.html), **15,314,629 bytes**, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`.
+- 1~2단계: 기존 동작·성능 기준 기록과 독립 함정 상태/컨텍스트. 출항 전 표적함 `있음/없음`, 적함 준비 `없음/DDG-119/CG-52`를 선택하고 저장·reset에도 적용한다.
+- 적함은 **STATE_BOUND_INACTIVE** 준비 상태다. 실제 해상 모델 배치·항해·탐지·요격·공격·EW/AI는 3단계 이후다. 자함의 기존 UI·물리·전투 루프와 세계 업데이트 1회를 유지한다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_A.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_A.txt), [상세/한계](docs/multiship/A/README.md), [다음 단계](docs/multiship/A/DEPENDENCIES.md), [검증 집계](docs/multiship/A/evidence/verification-summary.json), [업로드 인계](docs/multiship/A/GITHUB_HANDOFF.md).
+- 준비 브랜치 `multiship-runtime-a`, 기준 main `cb70a637105ce00e7c0619270237cc35a83d39c2`. 기존 7.1 분담대로 사용자 HTML 업로드 뒤 원격 bytes 확인·작은 support·PR/Actions를 진행한다. 새 원격 HTML/PR/CI/병합은 아직 실행하지 않았다. stable v48은 같은 bytes로 보존한다.
+
+## 직전 병합 기준 — Harpoon WIP E
+
+- [HTML](archive/v48/WIP_HARPOON_E/Aegis_SIM_v48_WIP_HARPOON_E.html), **15,285,590 bytes**, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`.
 - ARM → VLS 하푼 아래 웨이포인트 지정/해제. 최대8점 CIC 탭·초안 점선, 해제 시 AIM 커서 복귀. 발사 시 관/경로 pin, 성공 뒤 초안 삭제/다음 탄의 독립 경로. 마지막 점 전 ARH OFF, INS 평면 통과 뒤 전방 SEARCH. 마지막 점은 탐색 시작점이다.
 - 고정 좌표 검색 계획 +8km search/+2km turn reserve ≤140km SIM-TUNE, fuel0.225kg/s. 익명 height/Doppler filter 조정·DL0·보호 수상 track/수동 발사·자동 관/고정재고·DDG 미설치를 유지한다. CG E_1/C·B·A·G·D 명시 legacy; route/flight는 transient다.
 - 동일 bytes **178/178 PASS**, 120/124/130km×정지/15kt6건 물리 접촉·empty-sea 강제명중0, 1/8/16/64×3072 full ticks exact, native640×480 실제 경로2/발사2·덮개/부스터/RAF/reset·오류0. 단일 seed·terrain bypass/focused60Hz range와 SwiftShader 범위를 명시하고 실제140km 전조건 인증/일반 명중률을 주장하지 않는다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_HARPOON_E.md), [SHA](SHA256SUMS_v48_WIP_HARPOON_E.txt), [E 상세](docs/harpoon/E/README.md), [집계](docs/harpoon/E/evidence/verification-summary.json), [인계](docs/harpoon/E/GITHUB_HANDOFF.md).
+- [상태](archive/v48/WIP_HARPOON_E/AEGIS_PLAN_STATUS_v48_WIP_HARPOON_E.md), [SHA](archive/v48/WIP_HARPOON_E/SHA256SUMS_v48_WIP_HARPOON_E.txt), [E 상세](docs/harpoon/E/README.md), [집계](docs/harpoon/E/evidence/verification-summary.json), [인계](docs/harpoon/E/GITHUB_HANDOFF.md).
 - 사용자 업로드 `a96053ba1dc56389822c17c92a632f21fcc446b2`의 E HTML을 전달본과 byte 단위로 대조했고 원격 무결성 검사도 통과했다. 이 revision은 작은 지원 파일·상태/SHA·E 전체 workflow와 K 기존 blob의 archive 이동을 포함한다. 전체 Actions와 병합 결과는 [PR #44](https://github.com/0-FLANDRE-0/Aegis_Project/pull/44)를 따른다. [업로드 검증 기록](docs/harpoon/E/evidence/remote-publication.json).
 
 ## 직전 로컬 비교 — Harpoon WIP D
