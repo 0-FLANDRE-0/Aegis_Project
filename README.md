@@ -1,11 +1,19 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP A
+## 최신 개발 기준 — Multi Ship WIP B
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_A.html), **15,314,629 bytes**, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_B.html), **15,328,273 bytes**, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`.
+- 3단계: 출항 전 선택한 DDG-119/CG-52를 실제 세계에 배치한다. 각 함정의 항해·피해·침수·구획/승조원·질량/동역학·침몰/구명뗏목과 원본 3D 모델을 독립 실행한다. `3D VIEW → 배치 함정 보기`로 카메라를 바꾼다.
+- 함정별 센서와 양방향 요격/공격·EW·AI는 4~7단계 잔여다. 상대 truth 위치를 CIC/교전 판단에 주입하지 않는다. 기본 적함 없음과 기존 자함 운용, shared world 1회 및 60/120/20 Hz 주기를 유지한다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_B.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_B.txt), [범위/저장/진단](docs/multiship/B/README.md), [다음 단계](docs/multiship/B/DEPENDENCIES.md), [검증 집계](docs/multiship/B/evidence/verification-summary.json), [측정 조건](docs/multiship/B/PERFORMANCE.md).
+- `multiship-physics-b`는 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`을 기준으로 한다. A PR #45가 미병합이므로 B PR은 A 위에 연결한다. A HTML/status/SHA/workflow는 같은 bytes/blob으로 archive에 보존하고 stable v48은 변경하지 않는다. 원본 HTML 직접 업로드·원격 readback과 CI는 [GitHub 인계](docs/multiship/B/GITHUB_HANDOFF.md)를 따른다.
+
+## 직전 개발 기준 — Multi Ship WIP A
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_A/Aegis_SIM_v48_WIP_MULTI_SHIP_A.html), **15,314,629 bytes**, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`.
 - 1~2단계: 기존 동작·성능 기준 기록과 독립 함정 상태/컨텍스트. 출항 전 표적함 `있음/없음`, 적함 준비 `없음/DDG-119/CG-52`를 선택하고 저장·reset에도 적용한다.
 - 적함은 **STATE_BOUND_INACTIVE** 준비 상태다. 실제 해상 모델 배치·항해·탐지·요격·공격·EW/AI는 3단계 이후다. 자함의 기존 UI·물리·전투 루프와 세계 업데이트 1회를 유지한다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_A.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_A.txt), [상세/한계](docs/multiship/A/README.md), [다음 단계](docs/multiship/A/DEPENDENCIES.md), [검증 집계](docs/multiship/A/evidence/verification-summary.json), [업로드 인계](docs/multiship/A/GITHUB_HANDOFF.md).
+- [상태](archive/v48/WIP_MULTI_SHIP_A/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_A.md), [SHA](archive/v48/WIP_MULTI_SHIP_A/SHA256SUMS_v48_WIP_MULTI_SHIP_A.txt), [상세/한계](docs/multiship/A/README.md), [다음 단계](docs/multiship/A/DEPENDENCIES.md), [검증 집계](docs/multiship/A/evidence/verification-summary.json), [업로드 인계](docs/multiship/A/GITHUB_HANDOFF.md).
 - 브랜치 `multiship-runtime-a`, 기준 main `cb70a637105ce00e7c0619270237cc35a83d39c2`. 사용자 업로드 `28dfc4fcefb22e8c0989617b2212e37d096c05d6`의 HTML을 검증본과 byte 단위로 대조했다. [업로드 검증 기록](docs/multiship/A/evidence/remote-upload-check.json). 이 revision은 지원 파일·E archive 이동·직접 업로드 규칙을 포함한다. PR/Actions 결과는 GitHub 기록을 따른다. stable v48은 같은 bytes로 보존한다.
 - [GitHub 규칙 7.1](AEGIS_PROJECT_INSTRUCTIONS.md#71-github-직접-업로드-및-확인): 사용자 승인에 따라 앞으로 Codex가 원본 HTML과 지원 파일을 직접 업로드하고 원격 bytes를 확인한다. 사용자 수동 HTML 업로드는 필수가 아니다.
 
