@@ -187,7 +187,19 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP F — 배치 분리·receiver 전자전·함정 해상효과
+### 최신 개발 기준 MULTI SHIP G — FLEET 조작·관측 공유·공동 방어
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_G`, HTML 15,664,301 bytes, SHA `7ffded6480e74e0f9ab6259c2c8a9e4dfd81ad70bb2434d8dcfd711db2e7bda7`, main `a6f5a22de6ca0a4daac033dd05c3a2c03f8b5aeaeb5f97c0b6e8c4c7f2c1911f`다. F head `e4a1ceb6700f1d891e1c11aee0f9519b8ccde9c5` 위 `multiship-network-g`, support는 `docs/multiship/G/`를 따른다.
+- FLEET은 새로운 정식 운용 탭이다. `ENGAGEMENT_RUNTIME.fleetOperatorG`는 UI 명령 목적지만, `ShipRuntime.combatSystem.operatorG`는 해당 owner의 현지 표적 선택/명령 결과만 소유한다. 자함·아군 함정의 native 항법/관제/식별/발사 포트로 전달하며 적함 조종·global profile/runtime/PLAYER role 교환은 하지 않는다. NAV·ARM·CIC·기존3D 교전 버튼은 원래 자함 기준이다. 선택 자체는 simulation authority가 없고 reset/import/deployment에서 UI 선택과 target transient를 비운다.
+- 수동 발사는 fresh confirmed 현지 파일과 HOSTILE/TRAINING_TARGET 식별만 허용한다. 공유 FRIEND/NEUTRAL·stale/UNKNOWN·AUTO 수동 포트는 보류한다. native 발사 간격·사통/사각·재고/손상 재검증을 유지한다. 함포 마운트와 Harpoon 설치 유무도 owner profile에서 따르며 CG RAM0/Harpoon8·DDG Harpoon0을 보존한다.
+- 네트워크는 friendly 인증 self 항법/오차와 실제 local KF 관측/공분산/시각/분류·식별만 전송한다. 2Hz/.3s delay/2s fresh/12s coast, bounded receiver 파일과 보수적 covariance intersection은 SIM-TUNE이다. 공유 정정은 detached CIC 표시용이며 canonical EKF/FCS에 원격 파일을 쓰지 않는다. 현지 승인과 전달된 bid/lease에 한정한 SAM 담당 분담, 긴급 방어/단절 복귀가 있고 CEC 사통·Harpoon DL은 없다.
+- 그룹 EMCON은 각 함정의 개별 기준값을 보존하는 지연 lease다. 링크 무선은 레이더 침묵과 구분하며 단절 시 개별 운용으로 복귀한다. bool/enum 설정을 fleet G_1 strict preflight 후 복원하고 F/B 저장은 명시 migration만 한다. peer/report/lease/group runtime은 저장하지 않는다.
+- Harpoon 오인 완화는 발사 승인과 이전 레이더 추적의 위치/속도 오차·기동 여유/시각만 읽는다. 최초 연관은 기존 발사 회랑을 유지하고 이후 notch/turn/alias 재획득은8초 이내, 모호하면 UNKNOWN/자동교전 보류다. 표시 coast4초와 DL0, 미사일 actual INS/seeker/truth 비접근을 유지한다.
+- 3D 아군함 보기 버튼의 pointer-events와 실제 native 입력을 고치고 focus/reset/retire에 레이블을 동기화했다. 실제 pointer/touch와 RAF 이후 camera world position/함정 중심/복귀를 확인한다. render는 physics/RNG를 진행하지 않는다.
+- final SHA 검사와 원격 검증은 G evidence/상태/SHA를 따른다. superseded 테스트 SHA를 final로 바꾸지 않는다. 원본 F 네 파일은 same bytes/blob으로 `archive/v48/WIP_MULTI_SHIP_F/`에 보존한다. stable v48과 원본 모델 assets0~12, 60/120/20Hz/물리·비행 커널을 유지한다. §7.1에 따라 원본을 직접 upload/readback하고 Actions는 사용 불가로 dispatch하지 않는다. main/선행 PR을 임의 병합하지 않는다.
+- 다음 H는 현지 관측 기반 방어 태세·기동/공격 전술 AI다. 헬기/CEC·RGM-109E Block Va는 후속이다. DDG 실제 EW antenna 등록과 IFF 재인증 한계는 F 그대로이며 별도 문서로 추적한다.
+
+### 직전 개발 기준 MULTI SHIP F — 배치 분리·receiver 전자전·함정 해상효과
 
 - 현재 개발 HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_F`, HTML 15,638,513 bytes, SHA `438c4ea21c7c762243728092dcee269d12334af4c8265163300eb9b9b03f29d7`, main `cbed31af60addb8a757225251783df462336c449730975d1a5d836fc7c487b16`. E head `bdcf8d1724a72587f9d42e4b1cf70ba4cbe57ef6` 위 `multiship-ew-f`이며 지원·검증은 `docs/multiship/F/`를 따른다. stable v48과 original profiles/models/physics kernels는 보존한다.
 - 출항 전 near ALLY/far ENEMY(10~30km)·각 radar EMCON·hulk·항공기 선택. role/faction을 sensor truth identity로 바꾸지 않는다. 일반3D focus는 아군만이며 진단 적 focus는 DIAGNOSTIC_ONLY다.
