@@ -1,14 +1,20 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP E
+## 최신 개발 기준 — Multi Ship WIP F
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_E.html), **15,609,329 bytes**, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`.
-- 5C/5D: 실제 배치 적함의 기존 AUTO를 독립 owner 상태에 결속했다. 자기 센서의 신선한 관측·식별/ROE·장비·사각·탄약·지원 조건을 통과하면 실제 VLS/RAM/Phalanx로 방어한다. BDA·후속 관측·alias/지원 이관도 기존 커널을 사용한다.
-- 출항 전 함선 선택과 적재 화면에 **적 항공기 스폰 ON/OFF**를 추가했다. 기본 ON은 기존 스폰 조건을 유지하고 OFF는 정상 초기/주기/재시작 스폰을 끈다. 저장·불러오기·새 해역·reset에 유지하며 출항 후 잠긴다.
-- CG는 양현 Phalanx, DDG는 기존 설치 무장을 사용한다. 저고도 Harpoon이 CG 센서에서 확인되지 않는 시험 조건에서는 AI도 발사하지 않는다. 센서 검출/요격 성공을 보장하지 않는다. receiver별 EW·공격/기동 AI·헬기는 다음 단계다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_E.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_E.txt), [구조/검사](docs/multiship/E/README.md), [다음 단계](docs/multiship/E/DEPENDENCIES.md), [최종 검증](docs/multiship/E/evidence/verification-summary.json), [측정 조건](docs/multiship/E/PERFORMANCE.md), [GitHub 인계](docs/multiship/E/GITHUB_HANDOFF.md).
-- 최종 원본 직접 검사 **660/660 PASS**. 이전 candidate 결과는 합산하지 않는다. CI의 실제 결과는 최신 PR head checks/artifacts를 따른다.
-- `multiship-defense-e`는 D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에 연결한다. D 세트/workflow는 동일 bytes로 archive에 보존했다. 원본 HTML 직접 업로드·readback/CI를 수행하며 main과 A/B/C/D를 임의 병합하지 않는다.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_F.html), **15,638,513 bytes**, SHA `438c4ea21c7c762243728092dcee269d12334af4c8265163300eb9b9b03f29d7`.
+- 출항 전 아군/적군을 각각 없음/DDG-119/CG-52로 선택한다. 아군은 자함 근처, 적군은10~30km 임의 해상에 배치한다. 초기 레이더 EMCON·시험 표적함·항공기 ON/OFF도 선택한다. normal3D `아군함 보기`로 적 truth 위치를 드러내지 않는다.
+- 함정별 ESM·noise/replay·눌카/SRBOC를 기존 owner 무장/방어 AUTO에 연결했다. 실제 방사·대역·기하·손상·수신빔과 자기 측정으로 대응한다. CIC는 자함의 방위/오차·신호세기 및 거리 미확정만 표시한다. 초기 EMCON은 레이더 침묵이며 방어 ECM 정책과 분리한다.
+- 아군·적군에도 자함과 같은 함수파·선미 포말·항적을 표시한다. 실제 속도/위치·침로와 함종 수선면을 따르며 표시용 history/mesh는 owner별로 분리·폐기한다.
+- 인증 IFF 측정을 기존 수상 트랙에 연관해 FRIEND 보호한다. 아군 네트워크/정정/공동 EMCON·합동교전·기동/공격 AI는 다음 단계다. CG RAM0, 원본 물리·고정 셀·Harpoon INS→ARH/DL0를 유지한다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_F.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_F.txt), [구조/검사/한계](docs/multiship/F/README.md), [다음 단계](docs/multiship/F/DEPENDENCIES.md), [최종 검증](docs/multiship/F/evidence/verification-summary.json), [측정 조건](docs/multiship/F/PERFORMANCE.md), [직접 원격 반영](docs/multiship/F/GITHUB_HANDOFF.md).
+- 최종 원본 직접 **593/593 PASS**. 실제 Kh-35U RF/자연 관측 AUTO·시커 재밍, 세 척1/8/16/64 결정성, 실제3D 피격/복원을 확인했다. ESM RNG 분리로 E 대비 일부 raid 발사 순서/잔탄은 바뀐다. DDG EW 안테나는 별도 등록이 없어 legacy RF 기준점으로 유지한다. SIM-TUNE/SwiftShader와 상세 한계는 위 문서를 따른다.
+- `multiship-ew-f`는 E head `bdcf8d1724a72587f9d42e4b1cf70ba4cbe57ef6` 위다. 원본 HTML을 직접 업로드·readback한다. Actions 사용 불가라는 사용자 조건에 따라 로컬 검증으로 마감하며 새 workflow는 수동 실행용이다. main/선행 branch를 임의 병합하지 않는다.
+
+## 직전 개발 기준 — Multi Ship WIP E
+
+- [E HTML](archive/v48/WIP_MULTI_SHIP_E/Aegis_SIM_v48_WIP_MULTI_SHIP_E.html), 15,609,329 bytes, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`. [E 상태](archive/v48/WIP_MULTI_SHIP_E/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_E.md), [PR #49](https://github.com/0-FLANDRE-0/Aegis_Project/pull/49).
+- 원래 AUTO/BDA·alias/지원 이관과 항공기 ON/OFF를 owner-local로 실행했다. 당시 E660건은 역사 기록이며 F 직접 수에 합산하지 않는다. E 원본 세트/workflow는 same bytes/blob으로 archive에 보존한다.
 
 ## 직전 개발 기준 — Multi Ship WIP D
 

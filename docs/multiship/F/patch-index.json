@@ -1,0 +1,412 @@
+{
+  "normalizeDeploymentE": {
+    "start": 146697,
+    "end": 146929,
+    "sha256": "4ca791f75405c8f1f7bbd2bd00bb335accd99c4d0129426af44467bf7d95bf30",
+    "refs": [
+      "MULTISHIP_DEPLOYMENT_SCHEMA_A",
+      "MULTISHIP_DEPLOYMENT_LEGACY_SCHEMA_E"
+    ]
+  },
+  "validateDeploymentA": {
+    "start": 146930,
+    "end": 147785,
+    "sha256": "b5e6ecf03ea2edc2f1ab07e3c18abdfd70ffc85f3883912feb08149598848dff",
+    "refs": [
+      "Array",
+      "MULTISHIP_DEPLOYMENT_SCHEMA_A",
+      "MULTISHIP_DEPLOYMENT_LEGACY_SCHEMA_E",
+      "Object",
+      "SHIP_PROFILE_REGISTRY",
+      "normalizeDeploymentE"
+    ]
+  },
+  "syncDeploymentUiA": {
+    "start": 149031,
+    "end": 149421,
+    "sha256": "9e29e544114cdb6e46c67e059baa3821462d8b43bc7cabae29e69d48b1181fbd",
+    "refs": [
+      "document",
+      "MULTISHIP_DEPLOYMENT_STATE_A"
+    ]
+  },
+  "mountDeploymentUiA": {
+    "start": 149422,
+    "end": 151517,
+    "sha256": "de5c5ed9c8624e6bc9455ae1e99e436b3e3c974d99e3470905a87809f815a728",
+    "refs": [
+      "document",
+      "SHIP_STARTUP_CATALOG",
+      "setDeploymentDraftA",
+      "MULTISHIP_DEPLOYMENT_SCHEMA_A",
+      "syncDeploymentUiA"
+    ]
+  },
+  "prepareDeploymentA": {
+    "start": 151518,
+    "end": 151902,
+    "sha256": "0dc25a3407942e61b6633d2f194c9419ec0f064f6e18eaf19f13adc573cbf816",
+    "refs": [
+      "validateDeploymentA",
+      "Error",
+      "preparePhysicalShipB",
+      "createPreparedShipRuntimeA",
+      "SHIP_PROFILE_REGISTRY",
+      "normalizeDeploymentE"
+    ]
+  },
+  "applyDeploymentA": {
+    "start": 151903,
+    "end": 152563,
+    "sha256": "52177302da46f6ced7c237a96e854453beb87334379e212d7e0605b77fa50fcc",
+    "refs": [
+      "targetPool",
+      "SPAWN",
+      "ENGAGEMENT_RUNTIME",
+      "destroyShipRuntime",
+      "activatePhysicalShipB",
+      "MULTISHIP_DEPLOYMENT_STATE_A",
+      "syncDeploymentUiA"
+    ]
+  },
+  "restorePreparedPhysicalFleetB": {
+    "start": 920509,
+    "end": 922185,
+    "sha256": "33148bc7ae8e75b063fa8d6f1bbf1ea0961e1e427346396e13a34b7904ada3d6",
+    "refs": [
+      "jsonSafeCloneV48Wip11A",
+      "Object",
+      "shipMassLossB"
+    ]
+  },
+  "validatePhysicalFleetB": {
+    "start": 917569,
+    "end": 920508,
+    "sha256": "975b6c6e19fb88e63ff0385c2a02fb8a6a1bb159571b7d3f39289e104e292047",
+    "refs": [
+      "MULTISHIP_PHYSICAL_SCHEMA_B",
+      "Array",
+      "SHIP_PROFILE_REGISTRY",
+      "createPreparedShipRuntimeA",
+      "physicalValidationContextB",
+      "validateOperationalNavigationV48Wip11B",
+      "validateOperationalLoadsV48Wip11B",
+      "validateOperationalDamageFloodingV48Wip11B",
+      "validateOperationalCrewV48Wip11B",
+      "validateOperationalRescueK",
+      "validateWeaponInventoryD",
+      "Number",
+      "Math",
+      "shipAheadLimitB",
+      "SIM_FIXED_DT"
+    ]
+  },
+  "exportPhysicalFleetB": {
+    "start": 916121,
+    "end": 917046,
+    "sha256": "a4fe1248ac0883ae74d1c153196e82d439f13213cbface4e4e18b3bfba43983c",
+    "refs": [
+      "physicalShipsB",
+      "MULTISHIP_PHYSICAL_SCHEMA_B",
+      "deploymentConfigA",
+      "resolveShipProfile",
+      "exportWeaponInventoryD",
+      "jsonSafeCloneV48Wip11A",
+      "Object"
+    ]
+  },
+  "exportWeaponInventoryD": {
+    "start": 280018,
+    "end": 280672,
+    "sha256": "83ae402678a797171b1e88ceff3604acb1da306299bcfb5878b6c4a785213fa8",
+    "refs": [
+      "jsonSafeCloneV48Wip11A"
+    ]
+  },
+  "validateWeaponInventoryD": {
+    "start": 280673,
+    "end": 282773,
+    "sha256": "4041f102f7b9b9732914b184850d4a8f534269c36ad1528897e4a28354a74d24",
+    "refs": [
+      "Number",
+      "Array",
+      "Object",
+      "Set",
+      "harpoonValidateA"
+    ]
+  },
+  "restoreWeaponInventoryD": {
+    "start": 282774,
+    "end": 283600,
+    "sha256": "297f0fc6c9175b7a95c55048b27bbe1393a4c3ae4ea6ad74da2ea6a63eb3e773",
+    "refs": [
+      "Object",
+      "jsonSafeCloneV48Wip11A"
+    ]
+  },
+  "asmNoiseJammerAtSeeker": {
+    "start": 2074189,
+    "end": 2075879,
+    "sha256": "373e538821044e56f3469c223e06a10cb8405fa75f0b526cd7ea4b394d4bff86",
+    "refs": [
+      "asmReceiverNoisePowerW",
+      "IS_BUNKER",
+      "bunkerEwEmitter",
+      "worldToMeters",
+      "aircraft",
+      "OWN_ALT_M",
+      "Math",
+      "slq32EaEffectiveShare",
+      "noiseJamActive",
+      "SLQ32_EA_ALLOC",
+      "slq32TransmitBeamGainTo",
+      "NOISE_JAM",
+      "asmRfBandCoupling",
+      "clamp",
+      "Number"
+    ]
+  },
+  "asmDeceptionJammerAtSeeker": {
+    "start": 2075882,
+    "end": 2077639,
+    "sha256": "a50f1f27cadd876516793d3a47af27649d3f0897fcf189a038a98eef44c299b0",
+    "refs": [
+      "asmReceiverNoisePowerW",
+      "IS_BUNKER",
+      "bunkerEwEmitter",
+      "worldToMeters",
+      "aircraft",
+      "OWN_ALT_M",
+      "Math",
+      "slq32EaEffectiveShare",
+      "deceptJamActive",
+      "SLQ32_EA_ALLOC",
+      "slq32TransmitBeamGainTo",
+      "DECEPTION_JAM",
+      "asmRfBandCoupling",
+      "clamp",
+      "Number"
+    ]
+  },
+  "asmShipHojEmitterSignal15B": {
+    "start": 2213347,
+    "end": 2215098,
+    "sha256": "583f66f22740b337a5c496c43bfcb2021485eabaa5063d93467d9fe6cf98f9d8",
+    "refs": [
+      "asmReceiverNoisePowerW",
+      "noiseJamActive",
+      "deceptJamActive",
+      "worldToMeters",
+      "aircraft",
+      "OWN_ALT_M",
+      "Math",
+      "angNorm",
+      "deg",
+      "clamp",
+      "Number",
+      "asmNoiseJammerAtSeeker",
+      "asmDeceptionJammerAtSeeker",
+      "terrainAwareRadarLOS",
+      "SHIP_REF_HEIGHT_M"
+    ]
+  },
+  "updateESM": {
+    "start": 2084109,
+    "end": 2085806,
+    "sha256": "77a55fae92e4159aa8059fe4f99bc37131ad0406722600040185f5e02b38dd62",
+    "refs": [
+      "aircraft",
+      "getShipDamageEffects",
+      "esmContacts",
+      "SENSOR_MODEL",
+      "enemyMissiles",
+      "worldToKm",
+      "dist",
+      "terrainAwareRadarLOS",
+      "SHIP_REF_HEIGHT_M",
+      "sensorDwellDue",
+      "clamp",
+      "Math",
+      "simRandom",
+      "_updateEsmBearingContact",
+      "trackTruthRefV27",
+      "targetPool"
+    ]
+  },
+  "resetObserversC": {
+    "start": 216665,
+    "end": 216895,
+    "sha256": "2af36ed8657edbb58bf67fe3a9096577ac25d75170356b869b6cb98d01077d94",
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME",
+      "prepareObserverC",
+      "physicalShipsB"
+    ]
+  },
+  "retirePhysicalShipB": {
+    "start": 911199,
+    "end": 911383,
+    "sha256": "1f255ada961ad5c52d8754a6e2f98d6496b01c03ea2d905bc07d04173eeb9e1c",
+    "refs": [
+      "retireWeaponsD",
+      "retireObserverC",
+      "ENGAGEMENT_RUNTIME"
+    ]
+  },
+  "bloomMk214Cloud": {
+    "start": 2113307,
+    "end": 2114726,
+    "sha256": "97103c856f353db4fb03278e9e0015525391728ae7968c3c0669b0dea9f46a17",
+    "refs": [
+      "maritimeEnvironmentSnapshotWip13A3",
+      "angNorm",
+      "rand",
+      "deg",
+      "clamp",
+      "MK36_SRBOC",
+      "worldSpeedToMps",
+      "Math",
+      "ownChaffs",
+      "MK36_RUNTIME_WIP15A",
+      "mpsToWorldSpeed"
+    ]
+  },
+  "nulkaFire15B": {
+    "start": 89735,
+    "end": 91891,
+    "sha256": "ad0ca298785b8a26a46245f16c6c215f5cc8845a565f207bff5bb18a4335e82a",
+    "refs": [
+      "skRuntime15B",
+      "skSpec15B",
+      "notify",
+      "shipEquipmentOfflineV1",
+      "nulkaCueError15B",
+      "nulkaEntities15B",
+      "nulkaSelectLauncher15B",
+      "skLayout15B",
+      "skNextTube15B",
+      "skPauseReason15B",
+      "nulkaBuildPlan15B",
+      "ACTIVE_SHIP_RUNTIME",
+      "simStepCounter",
+      "deepFreezeShipProfileV48Wip09",
+      "metersToWorld",
+      "mpsToWorldSpeed",
+      "JSON",
+      "skTryReload15B",
+      "shipMassMarkWeaponsV32",
+      "updateNulkaUi15B",
+      "skCount15B"
+    ]
+  },
+  "updateSoftKillThreatManager": {
+    "start": 2090012,
+    "end": 2094677,
+    "sha256": "0fc3ec461ecdd86ab08b7696a6484e1a599f8afe1c5149301489d305c0628d65",
+    "refs": [
+      "aircraft",
+      "tracks",
+      "trackIsDisplayable",
+      "wip118ControlState",
+      "trackKinematicThreatCue",
+      "worldToMeters",
+      "OWN_ALT_M",
+      "Math",
+      "trackCovarianceMetrics",
+      "clamp",
+      "esmContacts",
+      "SOFT_KILL_COORD",
+      "angNorm",
+      "String",
+      "Set",
+      "Map",
+      "softKillThreatState",
+      "simStepCounter"
+    ]
+  },
+  "applyPreparedOperationalStateV48Wip11B": {
+    "start": 3971489,
+    "end": 3974804,
+    "sha256": "76b44f9d956e52fbd094562383a82099fc3b890cc22505fef666c7d0e2b4a651",
+    "refs": [
+      "prepareDeploymentA",
+      "restorePreparedPhysicalFleetB",
+      "resetEngagementTransientV48Wip11A",
+      "resetModules",
+      "applyDeploymentA",
+      "MULTISHIP_DEPLOYMENT_STATE_A",
+      "deploymentConfigA",
+      "spawnSurfaceTraffic",
+      "Object",
+      "shipNav",
+      "aircraft",
+      "Array",
+      "vlsCells",
+      "jsonSafeCloneV48Wip11A",
+      "ciws",
+      "clamp",
+      "Number",
+      "Math",
+      "harpoonRestoreA",
+      "mk36RestoreSnapshotWip15A",
+      "skRestore15B",
+      "IS_BUNKER",
+      "bunkerRestoreGunInventory",
+      "getShipMassLedgerV32",
+      "getDamageFloodV1",
+      "getShipCrewV21",
+      "shipRescueK",
+      "shipHP",
+      "ACTIVE_SHIP_RUNTIME",
+      "ENGAGEMENT_RUNTIME",
+      "lifecycleSnapshotV48Wip11A",
+      "exportOperationalState"
+    ]
+  },
+  "shipboardRadarEchoFieldWip13B13": {
+    "start": 2235654,
+    "end": 2243159,
+    "sha256": "6362394550eb37cc9fdbe14d099f877008a8fcf4f0d775f7598f1a2be2fe0cae",
+    "refs": [
+      "observerRandomC",
+      "shipboardRadarRandomWip13B13",
+      "observerNormalC",
+      "shipboardRadarRandnWip13B13",
+      "String",
+      "rfBandKeyWip13A2",
+      "Number",
+      "Math",
+      "clamp",
+      "deg",
+      "shipboardRadarPhysicalSceneWip13B13",
+      "ACTIVE_SHIP_RUNTIME",
+      "worldToMeters",
+      "angNorm",
+      "terrainAwareRadarLOS",
+      "rfReflectorRcsM2Wip13A2",
+      "maritimeRfWeatherPathFactorWip13A3",
+      "metersToWorld",
+      "worldSpeedToMps",
+      "shipboardRadarSeaStateAtWip13B13"
+    ]
+  },
+  "stepObserversC": {
+    "start": 229331,
+    "end": 230249,
+    "sha256": "dcbaa9a16d3f1eef3076c81db3f5e747c349f3e8e74e952ba1b0cf6b57970dd1",
+    "refs": [
+      "observerC",
+      "ACTIVE_SHIP_RUNTIME",
+      "drainOffboardC",
+      "simStepCounter",
+      "physicalShipsB",
+      "Error",
+      "OBSERVER_POLICY_C",
+      "trackEkfPredict",
+      "trackCovarianceMetrics",
+      "TRACK_FILTER_MODEL",
+      "observerSpyCycleC",
+      "observerAuxStepC"
+    ]
+  }
+}
