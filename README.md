@@ -1,13 +1,23 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP G
+## 최신 개발 기준 — Multi Ship WIP H1
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_G.html), **15,664,301 bytes**, SHA `7ffded6480e74e0f9ab6259c2c8a9e4dfd81ad70bb2434d8dcfd711db2e7bda7`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H1.html), **15,669,638 bytes**, SHA `e683e23f3bb832bac29bde05def2c46ce3acdbfe114cea37ce2156ec90db5058`.
+- 함정별 **유틸리티 방어 AI**가 현지 관측의 접근 긴급도·미대응 수·가용탄·사통 채널·장비 손상을 비교한다. 기존 AUTO 실행기에 표적 우선순위와 부족한 탄약의 살보 배분을 연결하고 레이더·전자전 준비를 조절한다. 발사 권한·사각·NEZ·예비탄·BDA·G 아군 보호/담당 분담은 기존 gate를 유지한다.
+- FLEET의 **전술 AI ON/OFF / AI 운용 재개**로 조작한다. 자함 기본 OFF, 아군/적함 기본 ON이며 해당 owner AUTO에서 실행한다. 수동 레이더·전자전과 공동 EMCON이 우선한다. 공유·ESM 경보는 준비에만 쓰며 현지 FCS 없이 발사하지 않는다.
+- 설정만 strict detached preflight로 저장하고 판단·우선 파일·임시 radar/EW 소유권은 reset/import 때 비운다. G/F/B 저장은 명시 migration한다. 기존 owner 항법·3D·물리/비행·CG RAM0·고정 셀·Harpoon DL0를 유지한다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H1.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H1.txt), [운용/계약](docs/multiship/H1/README.md), [직접 검증](docs/multiship/H1/evidence/verification-summary.json), [측정 조건](docs/multiship/H1/PERFORMANCE.md), [후속 H2/H3](docs/multiship/H1/DEPENDENCIES.md), [직접 업로드](docs/multiship/H1/GITHUB_HANDOFF.md).
+- 최종 원본 직접 **625/625 PASS**, page/core/runtime/presentation 오류0. H1-on 실제 발사, 초기 트랙 없는 자연 센서→AUTO, 수동/그룹 우선권과 손상, 세 척1/8/16/64 결정성, 기존 G 물리/RNG, 실제 WebGL/RAF 피격·복원을 확인했다. 조건과 한계는 위 집계를 따른다.
+- `multiship-tactical-h1`은 G head `d902d24486918c23d43e3067be16ab03fbaedde2` 위다. 원본 직접 업로드·독립 readback을 수행한다. Actions 사용 불가 조건에 따라 수동 workflow를 준비하고 로컬 검증으로 마감한다. 다음은 **H2 기동 utility**, 이어 H3 대수상 공격이다.
+
+## 직전 개발 기준 — Multi Ship WIP G
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_G/Aegis_SIM_v48_WIP_MULTI_SHIP_G.html), **15,664,301 bytes**, SHA `7ffded6480e74e0f9ab6259c2c8a9e4dfd81ad70bb2434d8dcfd711db2e7bda7`.
 - 새 **FLEET** 탭에서 함정 변경으로 자함/아군함을 선택하고 속력·타각, 수동/자율 방어, 현지 표적 식별과 SAM·함포·Harpoon 발사, EMCON·링크/공유/방어 분담을 조작한다. 공동 탐색 레이더 정책은 함대에 적용한다. 각 함정의 항법·현지 track ID·탄약·센서/무장·피해 runtime은 유지한다. NAV·ARM·CIC·기존3D 교전 버튼은 원래 자함 기준이다.
 - 3D 아군함 보기의 실제 pointer/touch 입력을 고쳤다. 카메라 focus/reset/retire 레이블과 FLEET의 선택 함정 3D 보기도 연결했다.
 - 아군의 측정 위치·속도·공분산·관측 시각을 2Hz/.3s 지연으로 공유한다. 보수적 covariance intersection의 CIC 정정, 연결 손실 시 개별 EMCON 복귀, 현지 FCS 승인에 한정한 SAM 분담을 적용한다. 공유만으로 사통을 생성하거나 원격 발사하지 않는다.
 - 하푼의 빔각·선회·짧은 재획득 때 이전 레이더 관측과 발사 기록으로 연관을 이어가고 애매하면 자동 요격을 보류한다. 위치 미관측 때 지도에 없고 **Harpoon DL=0**이다. 비행/물리 커널·CG RAM0·고정 셀·함정별 해상효과를 보존한다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_G.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_G.txt), [구조/운용/한계](docs/multiship/G/README.md), [검증 집계](docs/multiship/G/evidence/verification-summary.json), [측정 조건](docs/multiship/G/PERFORMANCE.md), [후속 H 전술 AI](docs/multiship/G/DEPENDENCIES.md), [직접 업로드](docs/multiship/G/GITHUB_HANDOFF.md).
+- [상태](archive/v48/WIP_MULTI_SHIP_G/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_G.md), [SHA](archive/v48/WIP_MULTI_SHIP_G/SHA256SUMS_v48_WIP_MULTI_SHIP_G.txt), [구조/운용/한계](docs/multiship/G/README.md), [검증 집계](docs/multiship/G/evidence/verification-summary.json), [측정 조건](docs/multiship/G/PERFORMANCE.md), [후속 H 전술 AI](docs/multiship/G/DEPENDENCIES.md), [직접 업로드](docs/multiship/G/GITHUB_HANDOFF.md).
 - 최종 원본 직접 **897/897 PASS**, page/core/runtime/presentation 오류0. mouse/touch와 실제 RAF camera, owner별 실제 발사/보호, 세 척1/8/16/64 결정성, native3D 피격/복원과 F 물리/RNG 회귀를 확인했다. 각 tested SHA와 조건은 위 집계를 따른다.
 - `multiship-network-g`는 F head `e4a1ceb6700f1d891e1c11aee0f9519b8ccde9c5` 위다. 원본 직접 업로드와 원격 readback을 수행하며 Actions 사용 불가 조건에 따라 로컬 검증으로 마감한다. 수동 workflow는 dispatch하지 않는다. main/선행 branch를 임의 병합하지 않는다.
 

@@ -187,7 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP G — FLEET 조작·관측 공유·공동 방어
+### 최신 개발 기준 MULTI SHIP H1 — owner 유틸리티 방어 AI
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H1`, HTML 15,669,638 bytes, SHA `e683e23f3bb832bac29bde05def2c46ce3acdbfe114cea37ce2156ec90db5058`, main SHA `302352d3dfe47e83fc38d057b002fe46a2e3b12656567dde214561cc28c17105`다. G head `d902d24486918c23d43e3067be16ab03fbaedde2` 위 `multiship-tactical-h1`, support/검사는 `docs/multiship/H1/`, 현재 workflow/support manifest는 H1이다.
+- `ShipRuntime.combatSystem.tacticalH1`이 settings/utility/우선 파일/임시 radar·EW 기준값을 소유한다. 자함 기본 OFF·외함 기본 ON이며 해당 owner native AUTO에서만 실행한다. 기존 MANUAL/SEMIAUTO/HOLD 권한을 바꾸지 않는다. FLEET 전술 AI ON/OFF는 수동 권한을 보존하며 AI 운용 재개만 manualRadar/manualEw를 명시 해제한다. 적함에 운용자 FLEET 명령은 금지한다. NAV·ARM·CIC·기존3D는 원래 자함, 선택 owner 조작은 FLEET이라는 G 계약을 유지한다.
+- 승인된 fresh 현지 AIR 위협의 측정 KF·접근 시간/속도/품질·미대응, 자기 native 예비탄 이상 재고·SPG 채널·전투/레이더 손상만 점수 입력이다. WATCH/CONSERVE/DEFEND/SATURATED/DEGRADED 비교·2초 유지/.08 margin·긴급12초, 최대96 priority/64 log는 SIM-TUNE이다. native5Hz에서 동일 simStep 평가를 한 번으로 제한하고 RNG/wall clock/상대 truth·생존/시커/peer private FCS는 읽지 않는다.
+- utility 순서는 native 자원 배분과 실제 AUTO 추천에 모두 적용한다. 승인 현지 위협3개 이상·선택 SAM pool<2×위협·접근25초 초과·속도600m/s 미만만 native2→1발 살보로 배분한다. 급박/고속·진행 중 pending·NEZ/사각·재고·BDA/reengagement·근접방어·G 보호/lease·실제 release gate는 native를 유지한다.
+- 신선한 현지 위협/anonymous ACTIVE_SEEKER ESM/실제 전달 shared THREAT는 readiness만 올린다. 현지 FCS 없이 lethal authority·거리·적성 식별을 만들지 않는다. manual/group 우선권이 없을 때만 개별 radar/EW baseline을 저장해 탐색 방사와 기존 soft-kill AUTO/EA 허용을 임시 적용하며 조용해지면 복귀한다. 그룹 명령 baseline capture 전에 AI 임시 레이더를 반환한다. group lease expiry/link loss 뒤도 요청된 개별 기준값을 보존한다. H1은 항법/route 명령을 쓰지 않는다.
+- `AEGIS_NAVAL_PHYSICAL_FLEET_H1_1`과 `AEGIS_UTILITY_TACTICAL_H1_1` settings bool3개를 전 owner detached preflight한다. invalid/missing/extra H1 fields는 zero authoritative writes로 거부하고 G/F/B/no-fleet만 명시 migration한다. `utilityDecisionsPrioritiesAndEffectOwnership`은 deferred다. reset/import/deployment/retire에서 transient를 비우며 임시 AI radar/EW 대신 요청 baseline을 export한다. foreign defense AUTO/HOLD의 E 초기화 계약도 보존한다.
+- final SHA 검증/상태/evidence만 완료 판정에 쓴다. superseded draft/test fixture 결과는 합산하지 않는다. G HTML/status/SHA/workflow 네 파일을 same bytes/blob으로 `archive/v48/WIP_MULTI_SHIP_G/`에 이동한다. stable v48·assets0~12·native 물리/비행/damage/RF·60/120/20Hz·Harpoon INS/ARH/DL0·CG RAM0는 보존한다.
+- §7.1 승인에 따라 원본 HTML/support를 직접 업로드하고 독립 remote tree/raw-byte readback한다. main/선행 branch/PR을 새 요청 없이 병합하지 않는다. GitHub Actions는 사용자 조건으로 미실행, workflow_dispatch만 준비한다. 다음 H2는 관측 기반 기동과 수동 항법 우선권, H3는 별도 ROE/승인 대수상 공격이다. 헬기/CEC/팀 기동·RGM-109E Block Va는 후속이다.
+
+### 직전 개발 기준 MULTI SHIP G — FLEET 조작·관측 공유·공동 방어
 
 - 현재 개발 세트는 `v48_WIP_MULTI_SHIP_G`, HTML 15,664,301 bytes, SHA `7ffded6480e74e0f9ab6259c2c8a9e4dfd81ad70bb2434d8dcfd711db2e7bda7`, main `a6f5a22de6ca0a4daac033dd05c3a2c03f8b5aeaeb5f97c0b6e8c4c7f2c1911f`다. F head `e4a1ceb6700f1d891e1c11aee0f9519b8ccde9c5` 위 `multiship-network-g`, support는 `docs/multiship/G/`를 따른다.
 - FLEET은 새로운 정식 운용 탭이다. `ENGAGEMENT_RUNTIME.fleetOperatorG`는 UI 명령 목적지만, `ShipRuntime.combatSystem.operatorG`는 해당 owner의 현지 표적 선택/명령 결과만 소유한다. 자함·아군 함정의 native 항법/관제/식별/발사 포트로 전달하며 적함 조종·global profile/runtime/PLAYER role 교환은 하지 않는다. NAV·ARM·CIC·기존3D 교전 버튼은 원래 자함 기준이다. 선택 자체는 simulation authority가 없고 reset/import/deployment에서 UI 선택과 target transient를 비운다.

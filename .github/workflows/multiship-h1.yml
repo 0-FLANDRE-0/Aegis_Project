@@ -1,0 +1,81 @@
+name: Multi Ship H1 utility defense AI (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_MULTI_SHIP_H1.html
+  AEGIS_BASELINE: archive/v48/WIP_MULTI_SHIP_G/Aegis_SIM_v48_WIP_MULTI_SHIP_G.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm ci --prefix docs/multiship/H1 --ignore-scripts --no-audit --no-fund
+          sha256sum -c SHA256SUMS_v48_WIP_MULTI_SHIP_H1.txt
+          sha256sum -c docs/multiship/H1/REPOSITORY_SUPPORT.sha256
+          python docs/multiship/H1/verify_static.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/H1/static
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-h1-static-${{ github.sha }}
+          path: artifacts/H1
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [tactical, policy, ui, natural-h1, clock, baseline, cooperation, harpoon, camera, defense, natural-ew, native]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Run original final HTML
+        run: |
+          if [ "${{ matrix.suite }}" = tactical ] || [ "${{ matrix.suite }}" = policy ] || [ "${{ matrix.suite }}" = ui ] || [ "${{ matrix.suite }}" = clock ]; then
+            python docs/multiship/H1/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/H1/${{ matrix.suite }}
+          elif [ "${{ matrix.suite }}" = natural-h1 ]; then
+            python docs/multiship/H1/verify_natural.py "$AEGIS_CANDIDATE" artifacts/H1/natural-h1
+          elif [ "${{ matrix.suite }}" = baseline ]; then
+            python docs/multiship/H1/verify_baseline.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/H1/baseline
+          elif [ "${{ matrix.suite }}" = cooperation ]; then
+            python docs/multiship/G/verify_cooperation.py "$AEGIS_CANDIDATE" artifacts/H1/cooperation
+          elif [ "${{ matrix.suite }}" = harpoon ]; then
+            python docs/multiship/G/verify_harpoon.py archive/v48/WIP_MULTI_SHIP_F/Aegis_SIM_v48_WIP_MULTI_SHIP_F.html "$AEGIS_CANDIDATE" artifacts/H1/harpoon
+          elif [ "${{ matrix.suite }}" = camera ]; then
+            python docs/multiship/G/verify_fleet.py "$AEGIS_CANDIDATE" artifacts/H1/camera --suite camera
+          elif [ "${{ matrix.suite }}" = defense ]; then
+            python docs/multiship/E/verify_defense.py "$AEGIS_CANDIDATE" artifacts/H1/defense
+          elif [ "${{ matrix.suite }}" = natural-ew ]; then
+            python docs/multiship/F/verify_natural.py "$AEGIS_CANDIDATE" artifacts/H1/natural-ew
+          else
+            python docs/multiship/F/verify_native.py "$AEGIS_CANDIDATE" artifacts/H1/native
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-h1-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/H1
+          if-no-files-found: error
