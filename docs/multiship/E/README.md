@@ -33,10 +33,11 @@ D의 SPG reservation metadata는 const였지만 native offline reset이 재대�
 - `verify_closein`: 실제 20m Kh-35U의 자연 관측, DDG RAM과 CG Phalanx 실발사/연속 burst. CMS fixture만으로 발사0.
 - `verify_natural`: 실제 8km Harpoon 발사/INS/ARH/물리 접촉. DDG AUTO ESSM 2발이 나가지만 해당 seed에서 Harpoon 접촉도 발생한다. CG 저고도 접근은 확인된 ASM 관측이 없고 AUTO 발사0이다. 사각/검출 문턱을 바꾸거나 truth로 접촉을 만들지 않는다.
 - `verify_clock`: mixed profiles ×1/8/16/64 ×1,536 full ticks, 물리/관측/무장/방어/난수 exact, owner/world 중복 진행0.
+- `verify_observers`: C 센서/외부 관측 fixture는 그대로 유지하되, E에서 UNKNOWN/보호 수상 접촉 보류와 confirmed ASM의 독립 measured hostile-intent 승인 계약을 검사한다. C 당시의 모든 foreign file 권한 보류 기대값을 그대로 사용하지 않는다. 센서 분류/적성 오판 가능성은 원본 측정 정책의 한계이며 truth IFF를 주입하지 않는다.
 - `verify_native`: 원본 RAF/WebGL에서 measured HOSTILE에 AUTO 실발사·owner SAM mesh/SPG·카메라 read-only. 자연 탐지 증거는 위 별도 시험이다.
 - `verify_regression`: D 원본 파일을 수정하지 않고 시험 측 mode를 HOLD로 설정해 manual port/효과/실탄 battle/native 피해 회귀를 유지한다. AUTO 시험은 HOLD를 사용하지 않는다.
 
-기존 D guidance, C sensor/propagation/native, A paired ownship baseline, B departure, Harpoon routes/knowledge와 DDG runtime도 같은 E 원본에 실행한다. CI는 static +18 browser suite와 기존 smoke다. 검출률/격추율·120~140km 신규 함정간 battle·모바일 하드웨어 FPS를 인증하지 않는다.
+기존 D guidance, C sensor(E 권한 계약)/propagation/native, A paired ownship baseline, B departure, Harpoon routes/knowledge와 DDG runtime도 같은 E 원본에 실행한다. CI는 E 원본명을 명시한 static +18 browser suite와 기존 smoke다. 기존 smoke는 역사 payload/기준 파일의 회귀이며, 그 PASS를 E 원본의 신규 검사 수에 합산하지 않는다. 검출률/격추율·120~140km 신규 함정간 battle·모바일 하드웨어 FPS를 인증하지 않는다.
 
 ```bash
 python docs/multiship/E/build.py archive/v48/WIP_MULTI_SHIP_D/Aegis_SIM_v48_WIP_MULTI_SHIP_D.html artifacts/E.html

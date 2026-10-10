@@ -7,7 +7,7 @@
 - 출항 전 함선 선택과 적재 화면에 **적 항공기 스폰 ON/OFF**를 추가했다. 기본 ON은 기존 스폰 조건을 유지하고 OFF는 정상 초기/주기/재시작 스폰을 끈다. 저장·불러오기·새 해역·reset에 유지하며 출항 후 잠긴다.
 - CG는 양현 Phalanx, DDG는 기존 설치 무장을 사용한다. 저고도 Harpoon이 CG 센서에서 확인되지 않는 시험 조건에서는 AI도 발사하지 않는다. 센서 검출/요격 성공을 보장하지 않는다. receiver별 EW·공격/기동 AI·헬기는 다음 단계다.
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_E.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_E.txt), [구조/검사](docs/multiship/E/README.md), [다음 단계](docs/multiship/E/DEPENDENCIES.md), [최종 검증](docs/multiship/E/evidence/verification-summary.json), [측정 조건](docs/multiship/E/PERFORMANCE.md), [GitHub 인계](docs/multiship/E/GITHUB_HANDOFF.md).
-- 최종 원본 직접 검사 **516/516 PASS**. 이전 candidate 결과는 합산하지 않는다. CI의 실제 결과는 최신 PR head checks/artifacts를 따른다.
+- 최종 원본 직접 검사 **660/660 PASS**. 이전 candidate 결과는 합산하지 않는다. CI의 실제 결과는 최신 PR head checks/artifacts를 따른다.
 - `multiship-defense-e`는 D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에 연결한다. D 세트/workflow는 동일 bytes로 archive에 보존했다. 원본 HTML 직접 업로드·readback/CI를 수행하며 main과 A/B/C/D를 임의 병합하지 않는다.
 
 ## 직전 개발 기준 — Multi Ship WIP D

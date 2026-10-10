@@ -14,7 +14,7 @@ HTML `Aegis_SIM_v48_WIP_MULTI_SHIP_E.html`, 15,609,329 bytes, SHA `d1aa4b1876bea
 
 ## 검증과 한계
 
-최종 같은 SHA 직접 검사 **516/516 PASS**. 직접 결과는 [verification-summary](docs/multiship/E/evidence/verification-summary.json), 실행 계약은 [README](docs/multiship/E/README.md), 측정 조건은 [PERFORMANCE](docs/multiship/E/PERFORMANCE.md)다. initial candidate와 탐색 방향 실험은 최종 PASS에 합산하지 않는다. 최신 head CI는 E static+18 browser와 기존 smoke의 PR checks를 따른다.
+최종 같은 SHA 직접 검사 **660/660 PASS**. 직접 결과는 [verification-summary](docs/multiship/E/evidence/verification-summary.json), 실행 계약은 [README](docs/multiship/E/README.md), 측정 조건은 [PERFORMANCE](docs/multiship/E/PERFORMANCE.md)다. initial candidate와 탐색 방향 실험은 최종 PASS에 합산하지 않는다. 최신 head CI는 E static+18 browser와 기존 smoke의 PR checks를 따른다.
 
 실제 자연20m Kh-35U에서 DDG RAM/CG Phalanx 자동발사, 실제8km Harpoon에서 DDG ESSM2발을 확인한다. 해당 Harpoon seed에서는 접촉도 발생한다. CG 저고도 Harpoon은 확인된 ASM 관측 없이 발사0이며 검출 문턱이나 사각을 억지로 바꾸지 않는다. 격추율·검출 보장, 신규120~140km 함정간 battle·모바일 FPS 인증은 아니다. measured/effect fixture와 자연 실탄·native RAF/WebGL을 구분한다.
 

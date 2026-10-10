@@ -72,7 +72,9 @@ jobs:
             python docs/ship-startup/A/tests/runtime.py "$AEGIS_CANDIDATE" > artifacts/multiship/ddg/runtime.json
           elif [ "${{ matrix.suite }}" = routes ] || [ "${{ matrix.suite }}" = knowledge ]; then
             python docs/harpoon/E/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
-          elif [ "${{ matrix.suite }}" = observers ] || [ "${{ matrix.suite }}" = propagation ]; then
+          elif [ "${{ matrix.suite }}" = observers ]; then
+            python docs/multiship/E/verify_observers.py "$AEGIS_CANDIDATE" artifacts/multiship/observers
+          elif [ "${{ matrix.suite }}" = propagation ]; then
             python docs/multiship/C/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
           elif [ "${{ matrix.suite }}" = aircraft ]; then
             python docs/multiship/E/verify_departure.py "$AEGIS_CANDIDATE" artifacts/multiship/aircraft
