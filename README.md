@@ -8,7 +8,7 @@
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_C.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt), [구조/포트](docs/multiship/C/README.md), [다음 단계](docs/multiship/C/DEPENDENCIES.md), [검증 집계](docs/multiship/C/evidence/verification-summary.json), [측정 조건](docs/multiship/C/PERFORMANCE.md), [GitHub 인계](docs/multiship/C/GITHUB_HANDOFF.md).
 - `multiship-sensors-c`는 B head `ae94326caea7cd0329233f381933cdc240bedb47` 위에서 이어간다. B 원본 세트/workflow는 동일 bytes로 archive에 보존한다. stable v48은 그대로다. 새 PR은 B branch를 base로 하며 A/B/C는 미병합 상태로 유지한다.
 
-- 최종 파일 직접 검증 **417/417 PASS**. 원격 PR/CI 결과는 최신 GitHub 기록을 따른다.
+- 최종 파일 직접 검증 **417/417 PASS**. [PR #47](https://github.com/0-FLANDRE-0/Aegis_Project/pull/47), [독립 원격104파일 readback](docs/multiship/C/evidence/remote-publication.json). CI 실제 상태는 해당 최신 head checks를 따른다.
 
 ## 직전 개발 기준 — Multi Ship WIP B
 

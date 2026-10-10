@@ -49,3 +49,7 @@ B HTML/status/SHA/workflow는 `archive/v48/WIP_MULTI_SHIP_B/`에 같은 bytes/bl
 `multiship-sensors-c`는 미병합 B PR#46 위에 연결한다. 지침7.1에 따라 원본 HTML/support 직접 push/readback/CI를 수행하며 A/B/C는 이번 요청에서 병합하지 않는다. 실제 publication과 해당 head CI는 [GitHub 인계](docs/multiship/C/GITHUB_HANDOFF.md) 및 원격 기록을 따른다.
 
 다음은 **5단계 owner 사통·실제 탄 source/target/contact/피해 routing·양방향 무장**이다. 이후 수신기별 EW와 관측 기반 AI를 연결한다. 일반 시커의 새 naval reflector는 실제 routing과 같이 검증하여 켠다. [의존성](docs/multiship/C/DEPENDENCIES.md).
+
+## 원격 publication 확인
+
+[PR #47](https://github.com/0-FLANDRE-0/Aegis_Project/pull/47)을 B branch 위에 생성했다. 최초 publication `e1cf3b55966cb87ede1f4d1a45f3af453bec8bee`의 HTML·지원·B archive·stable **104개 파일**을 독립 원격 bare fetch에서 다시 읽어 byte-identical임을 확인했다. 원본 C Git blob `9ab03765b1df538c2c22f16ea184ac715e9280ce`, HTML SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`다. [원격 증거](docs/multiship/C/evidence/remote-publication.json). 기록 자체를 포함하는 후속 commit도 HTML bytes를 유지하며 실제 CI는 해당 최신 head checks를 따른다.
