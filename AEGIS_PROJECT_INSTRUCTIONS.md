@@ -165,13 +165,14 @@
 7. HTML과 상태 문서의 SHA-256
 8. README의 현재 기준·다음 단계, 이 문서의 현재 인계 기준, 최신 상태 문서와 체크섬을 같은 반영 작업에서 함께 갱신
 
-### 7.1 GitHub 업로드 분담
+### 7.1 GitHub 직접 업로드 및 확인
 
-- 대용량 시뮬레이터 HTML은 ChatGPT가 GitHub API의 Base64/blob 업로드로 직접 전송하지 않는다.
-- ChatGPT는 기준 `main`과 권한을 확인하고 작업 브랜치를 먼저 만든 뒤, 완성된 HTML 파일명·크기·SHA-256과 다운로드 파일을 사용자에게 전달한다.
-- 사용자가 그 HTML을 지정 브랜치에 직접 업로드하면 ChatGPT가 원격 파일의 SHA-256과 브랜치 기준을 확인한다.
-- 확인 후 ChatGPT는 상태 문서, 체크섬, README, 본 지침, 테스트, workflow 등 작은 파일만 해당 브랜치에 반영하고 PR을 만든다.
-- 사용자가 대용량 HTML의 직접 업로드를 명시적으로 다시 요청하지 않는 한 이 분담을 바꾸지 않는다.
+- 2026-10-10 사용자 승인에 따라 Codex는 **대용량 원본 HTML을 포함한 프로젝트 파일을 직접 GitHub에 업로드하고 원격 확인까지 수행한다.** HTML 직접 업로드를 위해 사용자에게 다시 승인이나 수동 업로드를 요청하지 않는다.
+- 기준 `main`, 저장소 권한과 작업 브랜치의 현재 head를 확인한 뒤 검증이 끝난 파일을 작업 브랜치에 반영한다. 사용자의 새 commit을 보존하며 fast-forward 또는 expected-head 검사로 반영한다.
+- 원본 HTML bytes를 그대로 업로드한다. Git push 또는 사용 가능한 GitHub API/blob 방식을 사용할 수 있다. 전송 크기·도구 제한은 적합한 방법으로 처리하며 HTML을 잘라 보내거나 전송용 대체 파일로 바꾸지 않는다.
+- 같은 버전의 HTML·상태·SHA·README·본 지침·지원 파일·검사·workflow를 일관되게 반영한다. 이전 버전은 동일 bytes/blob으로 archive에 보존한다. 이미 사용자가 올린 HTML이 검증본과 일치하면 그 blob을 재사용한다.
+- 업로드 후 원격 파일을 다시 읽어 크기·SHA-256·Git blob 및 commit 기준을 대조한다. 로컬 업로드 성공만으로 원격 검증 완료라고 보고하지 않는다. 완성 HTML의 파일명·크기·SHA와 다운로드 또는 원격 파일 링크를 남긴다.
+- PR과 같은 파일의 CI를 진행하고 실제 결과와 남은 범위를 보고한다. 병합은 해당 작업에 대한 사용자 요청을 따른다. 사용자가 직접 올리는 방식도 선택할 수 있지만 필수 작업 분담으로 요구하지 않는다.
 
 ## 8. 현재 인계 기준
 
@@ -195,7 +196,7 @@
 - 적함은 STATE_BOUND_INACTIVE다. registered 2와 simulated 1을 구분하고 world/weather/ordnance·기존 ownship loop를 함정 수만큼 실행하지 않는다. 적함의 실제 model/world 배치·physics tick·observer measurement·무장 routing·EW·AI는 3~8단계다. 미연결 적함 함포 command/solve/fire/step은 명시적으로 거부한다. rescue는 provision만 준비하고 world/controller 연결을 3단계로 미룬다.
 - 불변 피해 등록은 pinned E에서 함종별로 캡처한 기존 hitbox/material/ID다. geometry/revision 변경 시 재등록과 baseline 비교가 필요하다. 자함의 기존 hitbox 생성 경로를 유지한다.
 - 운용 저장은 deployment codec을 포함한다. 옛 배치 누락은 HULK/적함 없음으로 명시 migration한다. 모든 codec 검사 후 detached 준비/적용하며 거부는 world·상태·난수 zero-mutation이다. 적함 transient/비행/EW timeline 복원으로 취급하지 않는다. 상세 의존성과 검사 범위는 `docs/multiship/A/DEPENDENCIES.md`와 최신 상태를 따른다.
-- 원격 브랜치 `multiship-runtime-a`는 main 기준에서 준비했다. 7.1의 사용자 큰 HTML 업로드 분담을 그대로 적용한다. 업로드 후 exact확인 → 작은 support/기존 E blob 이동 → PR/같은 bytes CI → 요청된 병합 순서다. 현재 새 원격 HTML/support/PR/CI/merge는 미실행이다. 최신 workflow/manifest는 Multi Ship A이며 archived E는 역사 기록이다.
+- 원격 브랜치 `multiship-runtime-a`의 사용자 HTML 업로드 commit `28dfc4fcefb22e8c0989617b2212e37d096c05d6`은 기준 main을 parent로 가지며 로컬 검증본과 byte-identical이다. 이 revision은 지원 파일·기존 E blob archive 이동·직접 업로드 규칙을 포함한다. 7.1은 사용자 승인으로 원본 HTML 직접 업로드/원격 확인을 허용하도록 바꿨다. PR과 같은 bytes CI의 실제 결과는 GitHub 기록을 따른다. 최신 workflow/manifest는 Multi Ship A이며 archived E는 역사 기록이다.
 - 후속 착수는 3단계의 실제 두 함정 물리·피해·표시다. 4단계 observer truth boundary와 5~7단계 양방향 요격·공격/EW/AI 완료 전에는 적함 교전이 구현되었다고 표시하지 않는다. 실제 mobile FPS/heap/GPU 측정은 소프트웨어 WebGL 결과와 구분한다.
 
 ### 직전 병합 기준 HARPOON E — 경유점/최종 통과 ARH

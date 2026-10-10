@@ -6,7 +6,8 @@
 - 1~2단계: 기존 동작·성능 기준 기록과 독립 함정 상태/컨텍스트. 출항 전 표적함 `있음/없음`, 적함 준비 `없음/DDG-119/CG-52`를 선택하고 저장·reset에도 적용한다.
 - 적함은 **STATE_BOUND_INACTIVE** 준비 상태다. 실제 해상 모델 배치·항해·탐지·요격·공격·EW/AI는 3단계 이후다. 자함의 기존 UI·물리·전투 루프와 세계 업데이트 1회를 유지한다.
 - [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_A.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_A.txt), [상세/한계](docs/multiship/A/README.md), [다음 단계](docs/multiship/A/DEPENDENCIES.md), [검증 집계](docs/multiship/A/evidence/verification-summary.json), [업로드 인계](docs/multiship/A/GITHUB_HANDOFF.md).
-- 준비 브랜치 `multiship-runtime-a`, 기준 main `cb70a637105ce00e7c0619270237cc35a83d39c2`. 기존 7.1 분담대로 사용자 HTML 업로드 뒤 원격 bytes 확인·작은 support·PR/Actions를 진행한다. 새 원격 HTML/PR/CI/병합은 아직 실행하지 않았다. stable v48은 같은 bytes로 보존한다.
+- 브랜치 `multiship-runtime-a`, 기준 main `cb70a637105ce00e7c0619270237cc35a83d39c2`. 사용자 업로드 `28dfc4fcefb22e8c0989617b2212e37d096c05d6`의 HTML을 검증본과 byte 단위로 대조했다. [업로드 검증 기록](docs/multiship/A/evidence/remote-upload-check.json). 이 revision은 지원 파일·E archive 이동·직접 업로드 규칙을 포함한다. PR/Actions 결과는 GitHub 기록을 따른다. stable v48은 같은 bytes로 보존한다.
+- [GitHub 규칙 7.1](AEGIS_PROJECT_INSTRUCTIONS.md#71-github-직접-업로드-및-확인): 사용자 승인에 따라 앞으로 Codex가 원본 HTML과 지원 파일을 직접 업로드하고 원격 bytes를 확인한다. 사용자 수동 HTML 업로드는 필수가 아니다.
 
 ## 직전 병합 기준 — Harpoon WIP E
 

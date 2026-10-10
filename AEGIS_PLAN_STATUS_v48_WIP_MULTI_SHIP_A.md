@@ -47,6 +47,8 @@ CPU fixture의 subsystem avg/p95/max·개체 수·CDP heap와 native SwiftShader
 
 stable `Aegis_SIM_v48.html`은 SHA `9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83`로 변경 없이 보존했다. 직전 E HTML/status/SHA와 workflow는 `archive/v48/WIP_HARPOON_E/`에 같은 bytes로 보존한다. 기존 historical fixture 예외는 유지했다.
 
-원격 `multiship-runtime-a` 브랜치를 기준 main에서 준비했다. 현재 새 HTML/support 원격 업로드·PR·Actions·병합은 미실행이다. 저장소 지침 7.1에 따라 사용자가 새 HTML 하나를 브랜치 루트에 올리면 Codex가 bytes/SHA/parent를 확인한 뒤 작은 지원 파일·archive 이동·PR/Actions를 진행한다. 지원 ZIP은 검증/재생성 자료의 백업이며 HTML에 필요한 별도 실행 의존성은 아니다. [GitHub 인계](docs/multiship/A/GITHUB_HANDOFF.md).
+원격 `multiship-runtime-a`의 사용자 업로드 commit `28dfc4fcefb22e8c0989617b2212e37d096c05d6`은 기준 main을 parent로 가지며 새 HTML 하나만 추가했다. 원격 HTML 크기·SHA·Git blob `0232701c8acf6dc4330bcaba4243dd99ccf1d96d`과 stable 보존을 확인했고 로컬 검증본과 byte 단위로 일치한다. [업로드 검증 기록](docs/multiship/A/evidence/remote-upload-check.json).
+
+사용자 추가 승인으로 저장소 지침 7.1을 수정했다. 앞으로 Codex가 **원본 HTML을 포함한 파일을 직접 업로드하고 원격 bytes를 확인**한다. 이 revision은 지원 파일·archive 이동·새 규칙과 workflow를 포함하며 PR/Actions 실제 결과는 GitHub 기록을 따른다. 지원 ZIP은 검증/재생성 자료의 백업이며 HTML에 필요한 별도 실행 의존성은 아니다. [GitHub 인계](docs/multiship/A/GITHUB_HANDOFF.md).
 
 다음은 3단계로 실제 적함 1척의 모델·pose·해수면·피해/침수/crew/질량·외판/내부 표시를 runtime에 연결한다. 그 뒤 관측 경계를 분리하고 양방향 무장/EW, 마지막으로 관측과 허용 command만 쓰는 AI를 구현한다. 구체적 실행 소유권과 완료 조건은 [DEPENDENCIES.md](docs/multiship/A/DEPENDENCIES.md)를 따른다.
