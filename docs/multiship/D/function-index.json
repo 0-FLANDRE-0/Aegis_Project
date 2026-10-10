@@ -1,0 +1,3830 @@
+{
+  "wip13c52DynamicEnvelopeEvent": {
+    "start": 45062,
+    "end": 46416,
+    "line": 574,
+    "refs": [
+      "shipGeometryLayout",
+      "wip12aPointAlong",
+      "Math",
+      "wip12cHullSurfaceInfo",
+      "wip12aBoundarySurface"
+    ],
+    "sha256": "d92eb48b9cfc86519d1d02553f7a61481840ec07857dbb75002f123ae3f82f0a"
+  },
+  "bunkerGunClearance": {
+    "start": 159198,
+    "end": 159938,
+    "line": 1428,
+    "refs": [
+      "ACTIVE_SHIP_PROFILE",
+      "bunkerGunAzimuth",
+      "Math",
+      "bunkerRayAngles"
+    ],
+    "sha256": "1abb6eef90152df225cfeee7af98e1f9ee0ed74924854a8da3ad559fc68a7885"
+  },
+  "spg62DamagePct": {
+    "start": 538380,
+    "end": 538466,
+    "line": 9977,
+    "refs": [
+      "clamp",
+      "getModuleDmg"
+    ],
+    "sha256": "233905078e02cee5a599992290627187b9546283e537ebec4683662a72371149"
+  },
+  "spg62HardwareHealth01": {
+    "start": 538469,
+    "end": 538760,
+    "line": 9978,
+    "refs": [
+      "spg62DamagePct",
+      "SPG62_DESTROY_THRESHOLD",
+      "Math",
+      "clamp"
+    ],
+    "sha256": "ac83cbfd68a66aafb6eb9d54ab1e1116f28611130b0d444b10b23ba4887568c4"
+  },
+  "spg62Operational": {
+    "start": 538763,
+    "end": 538833,
+    "line": 9984,
+    "refs": [
+      "spg62HardwareHealth01"
+    ],
+    "sha256": "0dc419f2bbce1a73ff03e1497fd564d6c0c4eb152bce1f90a9579e6567556539"
+  },
+  "wip199HullContainsPoint": {
+    "start": 547867,
+    "end": 547964,
+    "line": 10087,
+    "refs": [
+      "shipGeometryLayout"
+    ],
+    "sha256": "d978a0d93cd006a68ed975ec200359a083739b2341e9fab02d9d64d330c60d94"
+  },
+  "wip199HullSegmentEntryT": {
+    "start": 548219,
+    "end": 548808,
+    "line": 10091,
+    "refs": [
+      "Math",
+      "Number",
+      "wip199HullContainsPoint"
+    ],
+    "sha256": "76076ccc958a8c8af0538ce32b346f222b9c667fe017bcb3c6f776ce3ececa07"
+  },
+  "wip199BridgeContainsPoint": {
+    "start": 549598,
+    "end": 549699,
+    "line": 10108,
+    "refs": [
+      "shipGeometryLayout"
+    ],
+    "sha256": "8a66c840dcb3ae952f7855c467bf2ba6c75e7a1fe88f9030945e8cf93b810bd8"
+  },
+  "spg62Quality": {
+    "start": 568035,
+    "end": 569159,
+    "line": 10242,
+    "refs": [
+      "IS_BUNKER",
+      "bunkerSpgMask",
+      "spg62HardwareHealth01",
+      "Math",
+      "angNorm",
+      "deg",
+      "clamp",
+      "lerp"
+    ],
+    "sha256": "55fb8dbcfce77547d47acbc57f27d732716c25ed4b5f4bda0d4af2bb2179d79f"
+  },
+  "wip199SpgTerrainLosQ": {
+    "start": 569248,
+    "end": 569513,
+    "line": 10268,
+    "refs": [
+      "IS_BUNKER",
+      "bunkerSpgWorldMask",
+      "wip199ShipLocalWorldPoint",
+      "SPG62_FWD_HEIGHT_M",
+      "terrainAwareRadarLOS"
+    ],
+    "sha256": "45c460ac4b4b85f4e020ec40fb87e85323f19a10cad6a81b2e53186f10ba31b0"
+  },
+  "wip199SpgTerrainLineFactor": {
+    "start": 569516,
+    "end": 569791,
+    "line": 10269,
+    "refs": [
+      "IS_BUNKER",
+      "bunkerSpgWorldMask",
+      "wip199ShipLocalWorldPoint",
+      "SPG62_FWD_HEIGHT_M",
+      "terrainLineOfSightFactor"
+    ],
+    "sha256": "511b4a5ab7b1573b094b956ff64e9a4f5d24f98406a9ceff261c68d49e8daad9"
+  },
+  "scoreIlluminator": {
+    "start": 569852,
+    "end": 570228,
+    "line": 10272,
+    "refs": [
+      "spg62Quality",
+      "radarLOSQuality"
+    ],
+    "sha256": "4bb661bebb6a8fc2ca483b91249024efcdd56f60b020112c5685f899f6ad2f5f"
+  },
+  "computeSarhIllumQ": {
+    "start": 570410,
+    "end": 572162,
+    "line": 10287,
+    "refs": [
+      "horizDistKm",
+      "SPG62_ILLUMINATORS",
+      "Math",
+      "angNorm",
+      "shipNav",
+      "spg62Quality",
+      "wip199SpgTerrainLosQ",
+      "clamp",
+      "radarHorizonKm",
+      "SPG62_FWD_HEIGHT_M"
+    ],
+    "sha256": "1d89f61a8f769527b5d4e737db5ebcaf0072aa20540491357f2e9f4e7a84d28d"
+  },
+  "computeSarhIllumOpportunityV1": {
+    "start": 572519,
+    "end": 573235,
+    "line": 10331,
+    "refs": [
+      "horizDistKm",
+      "Math",
+      "angNorm",
+      "shipNav",
+      "SPG62_FWD_HEIGHT_M",
+      "SPG62_ILLUMINATORS",
+      "spg62Quality",
+      "wip199SpgTerrainLosQ",
+      "clamp",
+      "radarHorizonKm"
+    ],
+    "sha256": "e42eab65ffcd6297ce0f4768f2c14d1f7d4d4126b02cce39c401314d40b170a9"
+  },
+  "segmentAabbHitDetailed": {
+    "start": 642796,
+    "end": 645007,
+    "line": 11058,
+    "refs": [
+      "Array",
+      "Math",
+      "clamp",
+      "wip199HullSegmentEntryT",
+      "wip199EnvelopeSegmentEntryT",
+      "shipGeometryLayout",
+      "wip199BridgeContainsPoint"
+    ],
+    "sha256": "aa2a823578097fcc279ca09465ca575b4edbb9ab7b26195f2c504c91ba9f00aa"
+  },
+  "wip12fKineticSpallParts": {
+    "start": 744348,
+    "end": 745661,
+    "line": 11672,
+    "refs": [
+      "wip12eRev4PhysicalDamageTargets",
+      "Map",
+      "Math",
+      "wip12aFinite",
+      "wip12aVec",
+      "wip12aUnit",
+      "clamp",
+      "wip12aSub",
+      "wip12aMag",
+      "wip12aDot",
+      "wip12aScale",
+      "wip12ePointBoundsDistance"
+    ],
+    "sha256": "f4b6b4b39e949805bcd9b0a0dd1672b7b79a25d5929a7aa314d759cf1b08877d"
+  },
+  "wip12aApplyDamagePacket": {
+    "start": 745664,
+    "end": 754239,
+    "line": 11679,
+    "refs": [
+      "Map",
+      "String",
+      "Math",
+      "wip12aFinite",
+      "wip12fKineticSpallParts",
+      "wip12aUnit",
+      "wip12aSub",
+      "wip12aMag",
+      "WIP12E_BLAST_MODE",
+      "wip12eSolveCompartmentBlast",
+      "wip12eAuthorityParts",
+      "wip12eBlastTraceSummary",
+      "wip12eBlastOpenings",
+      "wip12cMechanicalIgnitionCandidates",
+      "damageFloodImpactV48Wip12E",
+      "damageFloodImpactV48Wip12C",
+      "wip12fCommitArmorPatches",
+      "WIP12F_ARMOR_PATCH_LEDGER",
+      "wip125ApplyImpactEffects",
+      "performance",
+      "shipLastHit",
+      "shipHitHistory",
+      "wip12eVisualPayload",
+      "wip173PushVisualEvent"
+    ],
+    "sha256": "d076bc65f12efe2118ac07fa1215f0d65c8fd1fe4bb0998c607639134f689261"
+  },
+  "wip12cApplyTerminalIgnition": {
+    "start": 882095,
+    "end": 882583,
+    "line": 12642,
+    "refs": [
+      "wip12cIgnitionPlan",
+      "getDamageFloodV1"
+    ],
+    "sha256": "01d69d135d54c5db4cad3919767bfb131095eef9dbe80944e0b07bd9a3a2f8cb"
+  },
+  "wip12cShipGeometryTemplate": {
+    "start": 890144,
+    "end": 893700,
+    "line": 12678,
+    "refs": [
+      "WIP12C_SHIP_GEOMETRY_CACHE",
+      "getShipInteriorTopologyV48Wip06",
+      "Map",
+      "buildShipHitBoxes",
+      "Math",
+      "wip12cIgnitionClassForEquipment",
+      "wip12aDamageVolume",
+      "String",
+      "wip12aCrewExposureVolume",
+      "WIP12C_INTERNAL_EFFECTS_CONTRACT",
+      "wip12cBuildSpatialBins"
+    ],
+    "sha256": "fcb02e5e0f69019b5750244b66872984e11d23987c33070b8d4d3bfd16630b63"
+  },
+  "wip12cHullStrictContains": {
+    "start": 900830,
+    "end": 901111,
+    "line": 12725,
+    "refs": [
+      "wip199HullInterpolatedSection",
+      "wip199BowMaxXAtZ",
+      "wip199HullHalfBeamAt",
+      "WIP173_SHIP_STERN_X_M",
+      "Math"
+    ],
+    "sha256": "574f0dc2a52a35c2f535fd493001f00811a26fd627b822b46a4f7b7af0bd57c2"
+  },
+  "wip12cRayHullExit": {
+    "start": 901114,
+    "end": 901709,
+    "line": 12726,
+    "refs": [
+      "wip12aUnit",
+      "wip12cHullStrictContains",
+      "Math",
+      "wip12aPointAlong"
+    ],
+    "sha256": "fee7f7b274951e48909cad2796e57390d337207c3d198c3159ce879db9e2f4f8"
+  },
+  "wip12cHullSurfaceInfo": {
+    "start": 901712,
+    "end": 903076,
+    "line": 12729,
+    "refs": [
+      "wip199HullInterpolatedSection",
+      "wip199HullHalfBeamAt",
+      "wip199BowMaxXAtZ",
+      "Math",
+      "WIP173_SHIP_STERN_X_M",
+      "wip12aUnit"
+    ],
+    "sha256": "7672d536238fbc9c5bc3e30fcb55448604dbed232645340e586240aaa160757f"
+  },
+  "wip12cDynamicHullEvent": {
+    "start": 903079,
+    "end": 903242,
+    "line": 12736,
+    "refs": [
+      "wip13c52DynamicEnvelopeEvent"
+    ],
+    "sha256": "de11ca5d361cb75bff977fca1143d21eeeb878f77e03f6e98be864a178329580"
+  },
+  "wip12cShipMacroGeometry": {
+    "start": 903245,
+    "end": 904874,
+    "line": 12737,
+    "refs": [
+      "wip12cShipGeometryTemplate",
+      "getShipInteriorTopologyV48Wip06",
+      "Map",
+      "WIP12C_SHIP_GEOMETRY_CACHE",
+      "wip12cDetailedBoundaryEvents",
+      "wip12cIndexedVolumeEvents",
+      "wip12cDynamicHullEvent",
+      "wip12aUnit",
+      "wip12cRayHullExit",
+      "wip12aPointAlong",
+      "WIP12C_INTERNAL_EFFECTS_CONTRACT"
+    ],
+    "sha256": "739ff2241b89cff3aabce0e282b68464df2d1f8bf43a4341e8500fbb7e662519"
+  },
+  "wip12eBuildTopologyBase": {
+    "start": 939638,
+    "end": 942176,
+    "line": 12867,
+    "refs": [
+      "WIP12E_TOPOLOGY_CACHE",
+      "wip12cShipGeometryTemplate",
+      "getShipInteriorTopologyV48Wip06",
+      "wip12eBounds",
+      "Math",
+      "wip12aFinite",
+      "wip12eVolume",
+      "Map",
+      "Set",
+      "String",
+      "wip12cPortalProfile",
+      "wip12aUnit",
+      "wip12aSub",
+      "wip12eSurfaceProfile",
+      "wip12aVec",
+      "wip12eSharedFace",
+      "wip12cInteriorBoundaryProfile",
+      "wip12eRev4PhysicalDamageTargets"
+    ],
+    "sha256": "830b54f0d0a2eb27df3d7dd0192539bdf8a7f919731205efb63f9aebabea5cdd"
+  },
+  "wip12eIsExteriorFace": {
+    "start": 942964,
+    "end": 943537,
+    "line": 12875,
+    "refs": [
+      "wip199HullInterpolatedSection",
+      "Math",
+      "wip199HullHalfBeamAt",
+      "wip199BowMaxXAtZ",
+      "WIP173_SHIP_STERN_X_M"
+    ],
+    "sha256": "747702e5653c1f9bdfd3046cf9681cefc8cdf1847a49ad0d8c55356324e1445e"
+  },
+  "wip12eExteriorSurfaces": {
+    "start": 943540,
+    "end": 944341,
+    "line": 12876,
+    "refs": [
+      "wip12eFaceGeometry",
+      "wip12eIsExteriorFace",
+      "wip12cExteriorSpaceProfile",
+      "wip12eSurfaceProfile",
+      "Math"
+    ],
+    "sha256": "5b4db0f99e09910aa2c7d8d626ae9f6433cf2ed2f034560ce73a9e2196d77311"
+  },
+  "wip12eTopologyForEvent": {
+    "start": 944344,
+    "end": 947587,
+    "line": 12877,
+    "refs": [
+      "wip12eBounds",
+      "Math",
+      "wip12aFinite",
+      "wip12eVolume",
+      "String",
+      "Set",
+      "WIP12E_COMPARTMENT_BLAST_CONTRACT",
+      "Map",
+      "wip12eBuildTopologyBase",
+      "wip12aPointInBounds",
+      "Boolean",
+      "wip12ePointBoundsDistance",
+      "getShipInteriorTopologyV48Wip06",
+      "wip12eExteriorSurfaces",
+      "getDamageFloodV1",
+      "Number"
+    ],
+    "sha256": "e22803e6e8187883b44a59ecc1c619f81b23678cd6075fc45350d132ab644405"
+  },
+  "wip12eRev4PhysicalDamageTargets": {
+    "start": 950499,
+    "end": 951476,
+    "line": 12889,
+    "refs": [
+      "Map",
+      "buildShipHitBoxes",
+      "DF_TARGET_IDS",
+      "Math",
+      "String",
+      "shipHitboxSystemForName",
+      "clamp",
+      "Number"
+    ],
+    "sha256": "39a5187d45c0d60963618a250ff201fd47e2b84b9284665c3ddd2bc8adc3da23"
+  },
+  "wip12eSolveCompartmentBlast": {
+    "start": 972503,
+    "end": 1018316,
+    "line": 12960,
+    "refs": [
+      "wip12eChargeSpec",
+      "String",
+      "WIP12E_BLAST_MODE",
+      "SIM_RNG_STATE",
+      "clamp",
+      "wip12aFinite",
+      "wip12eTopologyForEvent",
+      "wip12eAutoMedium",
+      "WIP12E_COMPARTMENT_BLAST_CONTRACT",
+      "Map",
+      "Math",
+      "Set",
+      "wip12aPointInBounds",
+      "wip12aVec",
+      "wip12aUnit",
+      "wip12aScale",
+      "wip12ePointBoundsDistance",
+      "wip12eNearestExteriorSurface",
+      "wip12aMag",
+      "wip12aSub",
+      "Infinity",
+      "wip12eTearFootprint",
+      "wip12ePeakPressureKPa",
+      "wip12eSurfaceLoadPoint",
+      "wip12eSurfaceResponse",
+      "wip12aDot",
+      "wip12eStatisticalFragmentBreaches",
+      "Boolean",
+      "wip12eRev4ThermalTransferCandidates",
+      "wip12eRev4DamageEnvelope",
+      "wip12eEquipmentLoadProfile",
+      "wip12eRev4EquipmentResponse",
+      "wip12eRev4RangeCoupling",
+      "wip12eRev4YieldRangeDamageFloor",
+      "wip12eRev4EquipmentRoutes",
+      "Object",
+      "wip12eCombustibleProfile",
+      "wip12eHotGasIgnitionCandidate",
+      "wip12eRev5ExternalEquipmentResponse",
+      "Number",
+      "wip12eHash",
+      "wip12eRecordTrace"
+    ],
+    "sha256": "020d2b0f473c8efc7c5232d2054a34f80315e4946c4555667170ba773dc6e92b"
+  },
+  "wip12eApplyHotGasIgnition": {
+    "start": 1021561,
+    "end": 1022585,
+    "line": 13038,
+    "refs": [
+      "Map",
+      "getDamageFloodV1"
+    ],
+    "sha256": "45628a89f8b05d1cf01498e069ef0b50993786594ee62daa1faf89cdf3245215"
+  },
+  "_wip99FuzeDetectionDraw": {
+    "start": 1060465,
+    "end": 1060767,
+    "line": 13191,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math"
+    ],
+    "sha256": "980c06548473ae73997753923048637f128c4b3bfd13021fc8cdc3e78335672d"
+  },
+  "_wip99FuzeDetectionInfo": {
+    "start": 1061223,
+    "end": 1062961,
+    "line": 13203,
+    "refs": [
+      "_wip143FuzeParamsForMissile",
+      "Math",
+      "_wip149OpticalTargetProxyAreaM2",
+      "Number",
+      "clamp",
+      "getASMRcs",
+      "targetRcsM2",
+      "_wip143FuzeDetectRadiusM",
+      "smoothstep",
+      "lerp",
+      "_wip99FuzeDetectionDraw"
+    ],
+    "sha256": "c7066e3490b4b42f4ede2006e884688a824e9ef9bea799f96bb7782ae83742e8"
+  },
+  "_wip99FuzeClutterRandom": {
+    "start": 1063710,
+    "end": 1064042,
+    "line": 13236,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math",
+      "_xorshift32"
+    ],
+    "sha256": "e38cfeb29e9e8f6a9893b63365a507b4879b8c3374d81b9fe959284c9f5f0e31"
+  },
+  "_wip99SeaClutterFalseTrigger": {
+    "start": 1064045,
+    "end": 1064429,
+    "line": 13241,
+    "refs": [
+      "Infinity",
+      "_wip99SeaClutterRatePerSec",
+      "probabilityFromRatePerSec",
+      "_wip99FuzeClutterRandom",
+      "seaStateFactor"
+    ],
+    "sha256": "bec42d0a0191960a82245652978d16d52d9748b6a114382f2cee4b8ffbebb51f"
+  },
+  "_wip99Stage2CandidateDecision": {
+    "start": 1064432,
+    "end": 1065075,
+    "line": 13246,
+    "refs": [
+      "_wip99Stage2AnyEnabled",
+      "_wip99TddBeamInfo",
+      "_wip143FuzeParamsForMissile",
+      "_wip99FuzeDetectionInfo"
+    ],
+    "sha256": "685931e5577ec72e087e119aa9a6cc781c3ad2ca3f214ea2e99d94378f2db3d9"
+  },
+  "_wip144EventUniform": {
+    "start": 1075875,
+    "end": 1076177,
+    "line": 13323,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math",
+      "_xorshift32"
+    ],
+    "sha256": "136bdd2c71401eeb4be750a7f5671de8087392a3544936959583fe856c1be85d"
+  },
+  "_wip144EssmFieldEfficiencyForEvent": {
+    "start": 1076180,
+    "end": 1076321,
+    "line": 13328,
+    "refs": [
+      "_wip144FieldEfficiencyFromU",
+      "_wip144EventUniform"
+    ],
+    "sha256": "1f82bc9127dace2f99a549356d08e4c92ea149dab1ac3e1145f6acf60499b27c"
+  },
+  "applyInterceptResult": {
+    "start": 1136425,
+    "end": 1137599,
+    "line": 13811,
+    "refs": [
+      "simRandom",
+      "wip11cQueueAsmRetirement",
+      "retireTruthAssociationV27",
+      "rand",
+      "ASM_PROFILES",
+      "wip11cRememberEngagementTrack"
+    ],
+    "sha256": "66aaa8fa5688a3e60c43673b925bdd0ef8ed2f7b207c55e946abb484ef3f8ecd"
+  },
+  "getLOSState": {
+    "start": 1137602,
+    "end": 1137748,
+    "line": 13837,
+    "refs": [
+      "_losState"
+    ],
+    "sha256": "c6776c9d14fb7322a07c229fcb007eae049fdad4b796802afce39c0119235c26"
+  },
+  "hystLOS": {
+    "start": 1137751,
+    "end": 1138031,
+    "line": 13841,
+    "refs": [
+      "getLOSState"
+    ],
+    "sha256": "04aba70501fb3f5c9c3799bdb8d2dd60dd8c224be7a6fa8ab7174d8a217d4e5b"
+  },
+  "trackEkfInit": {
+    "start": 1152202,
+    "end": 1153955,
+    "line": 14172,
+    "refs": [
+      "Float64Array",
+      "worldToMeters",
+      "aircraft",
+      "OWN_ALT_M",
+      "worldSpeedToMps",
+      "trackMeasurementBasis",
+      "Math",
+      "deg",
+      "trackCartesianMeasurementCovarianceV33",
+      "_mIdx",
+      "_outerAdd3",
+      "TRACK_FILTER_MODEL",
+      "_symmetrizeClampP",
+      "trackSyncLegacyFromEkf"
+    ],
+    "sha256": "8e4c27099e4f0a0e84bc6e2c7077003cb29863d55828b397e05d0686c7b724f6"
+  },
+  "trackCovarianceMetrics": {
+    "start": 1169454,
+    "end": 1170047,
+    "line": 14415,
+    "refs": [
+      "trackEkfInit",
+      "Math"
+    ],
+    "sha256": "b6c5457021fa4c3ba9418a22751cdb40edc9392cfad58359b1143cdbbbd52e17"
+  },
+  "trackRefreshDerivedQuality": {
+    "start": 1170050,
+    "end": 1171026,
+    "line": 14421,
+    "refs": [
+      "trackCovarianceMetrics",
+      "Math",
+      "clamp"
+    ],
+    "sha256": "5b3f6f620383e9a41b0081ad8f1a0c65552f30a82bd718e2e349f070e5c76cb5"
+  },
+  "trackSyncLegacyFromEkf": {
+    "start": 1171029,
+    "end": 1171306,
+    "line": 14431,
+    "refs": [
+      "metersToWorld",
+      "clamp",
+      "ALT_MIN_M",
+      "TRACK_ALT_MAX_M",
+      "mpsToWorldSpeed",
+      "trackRefreshDerivedQuality"
+    ],
+    "sha256": "5c034d5b43e5591cb208a8d734c7cad3339750824f0f5f4c3df4d78f672d4928"
+  },
+  "spyFaceSteerLimitRadV32": {
+    "start": 1187016,
+    "end": 1187472,
+    "line": 14644,
+    "refs": [
+      "SPY1DV_SEARCH_SECTORS_V32",
+      "deg",
+      "SENSOR_MODEL",
+      "Math"
+    ],
+    "sha256": "4e332149d5d28a9982a5ec71e3a69e9bca40c0a50e3e6466bea5ce63a4842a8d"
+  },
+  "spyFaceForRelativeBearing": {
+    "start": 1192831,
+    "end": 1193092,
+    "line": 14728,
+    "refs": [
+      "angNorm",
+      "Infinity",
+      "SPY1DV_FACE_KEYS",
+      "Math",
+      "SPY1DV_FACE_CENTER_REL"
+    ],
+    "sha256": "a807485e7e9afef01c3bcaa67a9659334b29dde5e49712fa80bdcc51d7ee0072"
+  },
+  "spyFaceForAngle": {
+    "start": 1193095,
+    "end": 1193196,
+    "line": 14733,
+    "refs": [
+      "spyFaceForRelativeBearing",
+      "shipNav"
+    ],
+    "sha256": "20cb095d2a8d5b316403761ab03aa147f31e497991293e679dadf678795a8df6"
+  },
+  "spyFaceCenterWorld": {
+    "start": 1193199,
+    "end": 1193302,
+    "line": 14734,
+    "refs": [
+      "angNorm",
+      "shipNav",
+      "SPY1DV_FACE_CENTER_REL"
+    ],
+    "sha256": "0c01d11c3e63dcbd74e2bfa3aabdf301105faf3306e4b12b2cd9a7820346f813"
+  },
+  "spyFaceHealth01": {
+    "start": 1193305,
+    "end": 1193496,
+    "line": 14735,
+    "refs": [
+      "getSPY1DVFaceStatus",
+      "getModuleDmg",
+      "SPY1DV_FACE_MODULE",
+      "clamp"
+    ],
+    "sha256": "de4eab9cb13a200743ccc6ef5076acc601c1cda2ca9681d5865c60ce3ae8c17d"
+  },
+  "spyFaceOffsetRad": {
+    "start": 1193662,
+    "end": 1193776,
+    "line": 14745,
+    "refs": [
+      "Math",
+      "angNorm",
+      "spyFaceCenterWorld"
+    ],
+    "sha256": "d5900c9c2a6824051440ca353bd7c48e3b9143a46f3b43bc42f1835df4feeed2"
+  },
+  "spyFaceSteerGain": {
+    "start": 1193779,
+    "end": 1194140,
+    "line": 14748,
+    "refs": [
+      "spyFaceOffsetRad",
+      "spyFaceSteerLimitRadV32",
+      "Math",
+      "deg",
+      "clamp"
+    ],
+    "sha256": "ac681177cd578a9012bf8bd6a8370ce21d4a07904d2e7df8ca8a829ab8d8828d"
+  },
+  "spyBestFaceForAngle": {
+    "start": 1194143,
+    "end": 1194611,
+    "line": 14756,
+    "refs": [
+      "SPY1DV_FACE_KEYS",
+      "spyFaceHealth01",
+      "spyFaceSteerGain",
+      "spyScheduler",
+      "spyFaceForAngle"
+    ],
+    "sha256": "2dff672bff50bac2141493502f0f6bac76b02cae15c6193cdea47e8061c44262"
+  },
+  "spyTrackClosureMps": {
+    "start": 1195879,
+    "end": 1196325,
+    "line": 14794,
+    "refs": [
+      "aircraft",
+      "worldToMeters",
+      "OWN_ALT_M",
+      "Math",
+      "worldSpeedToMps"
+    ],
+    "sha256": "7fe61ba1c46ac44dc21fb51cd9e864ec2358c34ffdd59ed240119647efdd813d"
+  },
+  "trackKinematicThreatCue": {
+    "start": 1196329,
+    "end": 1196879,
+    "line": 14805,
+    "refs": [
+      "Math",
+      "worldSpeedToMps",
+      "spyTrackClosureMps"
+    ],
+    "sha256": "81427960ec1a182b2cd47181ab62d12724ba8a64c2b08bbe1489043a543f68c2"
+  },
+  "trackDisplayLabelById": {
+    "start": 1249459,
+    "end": 1249758,
+    "line": 15498,
+    "refs": [
+      "tracks"
+    ],
+    "sha256": "1782557e06239c40feec4f4e308b9f082e2c16ea13f95c3095b822dc15474f42"
+  },
+  "trackIsDisplayable": {
+    "start": 1250207,
+    "end": 1250751,
+    "line": 15514,
+    "refs": [
+      "wip121BdaTrackPresentation",
+      "trackCovarianceMetrics",
+      "TRACK_FILTER_MODEL"
+    ],
+    "sha256": "8b72fb5bbc4a1374221e443729a33223839fe21f1aa6e7075997bc9f1618e842"
+  },
+  "trackIsFireControlQuality": {
+    "start": 1250754,
+    "end": 1251708,
+    "line": 15523,
+    "refs": [
+      "trackRefreshDerivedQuality",
+      "wip121TargetSupportBlocked",
+      "trackIsDisplayable",
+      "trackCovarianceMetrics",
+      "TRACK_FILTER_MODEL"
+    ],
+    "sha256": "be418119048be88b2326b04306c0e8e48f02ff44b10aa89592fd672d22a632e1"
+  },
+  "vlsIncidentModelV23": {
+    "start": 1460810,
+    "end": 1460901,
+    "line": 17671,
+    "refs": [
+      "createVlsIncidentsV23",
+      "vlsCells",
+      "vlsIncidentBurstV23"
+    ],
+    "sha256": "97e6ca6208a8ad9f3d8143c6b4bf53171b8989c9dac40a7775f6e591e208e2e5"
+  },
+  "vlsReleaseB2Snapshot": {
+    "start": 1461607,
+    "end": 1462176,
+    "line": 17680,
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME",
+      "simStepCounter",
+      "VLS_RELEASE_B2_PROFILE",
+      "SIM_FIXED_DT"
+    ],
+    "sha256": "43d938eb262f70c873a8009ccff0f2cb4735a464d39398bd86de485e2e37f3f9"
+  },
+  "vlsReleaseB2CycleFeedback": {
+    "start": 1462739,
+    "end": 1463010,
+    "line": 17696,
+    "refs": [
+      "vlsReleaseB2Snapshot",
+      "notify"
+    ],
+    "sha256": "dabdc0f829ee60f819396bf7f075286db0e6805ed2bb03673f3fa9603e21d7d8"
+  },
+  "vlsReleaseB2Request": {
+    "start": 1463898,
+    "end": 1465837,
+    "line": 17713,
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME",
+      "Error",
+      "vlsReleaseB2CycleFeedback",
+      "simStepCounter",
+      "wip119ReserveAvailable",
+      "vlsReleaseB2SupportPreflight",
+      "notify",
+      "missiles",
+      "Math",
+      "SIM_FIXED_DT",
+      "engagementControlMode",
+      "VLS_RELEASE_B2_PROFILE"
+    ],
+    "sha256": "b006746d5f2a711733cfd0f62d89545bf040007ef57826accbe86dfa30034c96"
+  },
+  "wip125SectionRounds": {
+    "start": 1466964,
+    "end": 1467099,
+    "line": 17768,
+    "refs": [
+      "vlsCells",
+      "wip125CellRoundCount"
+    ],
+    "sha256": "2f045ce3cb1491fa03791e25d20b845f5abe601febab012df8b79a13630717c6"
+  },
+  "wip125ChooseConsumeSection": {
+    "start": 1467102,
+    "end": 1467458,
+    "line": 17769,
+    "refs": [
+      "wip125SectionRounds",
+      "wip125VlsConsumeTieFlip"
+    ],
+    "sha256": "64c22ac202b2d64c2b9a02ea54cc667426a782e24f72ff5575e97773be23ebec"
+  },
+  "wip148PeekVlsLaunchMeta": {
+    "start": 1467785,
+    "end": 1468692,
+    "line": 17780,
+    "refs": [
+      "wip125SectionRounds",
+      "wip125VlsConsumeTieFlip",
+      "vlsCells",
+      "vlsCellReadyV23",
+      "Math",
+      "Number"
+    ],
+    "sha256": "7a5feaa7fe4c1801172672b846b6ffef97252d32d6baf3714a7e6b256f538a0c"
+  },
+  "wip199BindPhysicalVlsOrigin": {
+    "start": 1468695,
+    "end": 1469215,
+    "line": 17796,
+    "refs": [
+      "wip148VlsCellLocal",
+      "wip199ShipLocalWorldPoint",
+      "shipGameFrameV1",
+      "shipGameAnglesV1",
+      "Number",
+      "angNorm"
+    ],
+    "sha256": "0ae3064793948bdeecc8524c1e93472a274e131277b8fb2abc1675ff49ac0036"
+  },
+  "shipGameVlsReadyV1": {
+    "start": 1469219,
+    "end": 1469645,
+    "line": 17803,
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "notify",
+      "wip148PeekVlsLaunchMeta",
+      "wip148VlsCellLocal",
+      "shipGameFrameV1"
+    ],
+    "sha256": "c7a96de7689d5932a529781c18b76efe1d356bacdfdd5315be25a5ca6381513e"
+  },
+  "consumeVlsCell": {
+    "start": 1469648,
+    "end": 1470689,
+    "line": 17808,
+    "refs": [
+      "wip125ChooseConsumeSection",
+      "vlsCells",
+      "vlsCellReadyV23",
+      "shipMassMarkWeaponsV32"
+    ],
+    "sha256": "502e8d4b1f1f60736c419065e3c7356f87eba6bd4fe14c3e7424fed2a37e451c"
+  },
+  "getVlsCounts": {
+    "start": 1470693,
+    "end": 1472119,
+    "line": 17823,
+    "refs": [
+      "vlsCells",
+      "Math",
+      "Number",
+      "wip125SectionRounds"
+    ],
+    "sha256": "ad819a8a88c93a5d03731a6c80efe7236d1bc670c99de35a85dac3b769a997ba"
+  },
+  "wip125VlsGeometry": {
+    "start": 1483821,
+    "end": 1484183,
+    "line": 17898,
+    "refs": [
+      "WIP199_FINAL_LAYOUT",
+      "SHIP_EXTERNAL_GEOMETRY"
+    ],
+    "sha256": "14ba132f36d2b8d25d8c75c93b4d983576d41b2d2b4ddc71e71c2840bf80a3fe"
+  },
+  "wip125CellBox": {
+    "start": 1484186,
+    "end": 1484504,
+    "line": 17902,
+    "refs": [
+      "vlsCells",
+      "wip125VlsGeometry",
+      "shipCellRegistration"
+    ],
+    "sha256": "8383730fc0333c1cc15dcd79a8783e6e6272d3daf9e930f6c97f6d2970992504"
+  },
+  "wip125CellIndexAtPoint": {
+    "start": 1484641,
+    "end": 1484809,
+    "line": 17908,
+    "refs": [
+      "vlsCells",
+      "wip125CellBox",
+      "wip125PointInBox"
+    ],
+    "sha256": "f5ad9b3782ad870ed30b27c26ee8cfe2e1d18793a1a2cf9d11726afe3a5bd247"
+  },
+  "wip125MaybeCookoff": {
+    "start": 1484812,
+    "end": 1485776,
+    "line": 17909,
+    "refs": [
+      "WIP125_VLS_COOOKOFF",
+      "Math",
+      "Number",
+      "clamp",
+      "simRandom",
+      "wip12cUnit",
+      "rand",
+      "lerp",
+      "addModuleDmg",
+      "notify"
+    ],
+    "sha256": "df6069b70cc6eab6a974f91e0a84d74c5b91c355626aed90fb9f8d1f7eb5f216"
+  },
+  "wip125DestroyVlsCell": {
+    "start": 1485779,
+    "end": 1486669,
+    "line": 17913,
+    "refs": [
+      "vlsCells",
+      "Math",
+      "Number",
+      "shipMassMarkWeaponsV32",
+      "vlsIncidentModelV23",
+      "vlsIncidentIgniteCompartmentV23",
+      "notify"
+    ],
+    "sha256": "92c279b51a02c788c15d0fcb02c8724eee8c1f99c06c7c2ada01a4dee619cdc3"
+  },
+  "wip125ApplyImpactEffects": {
+    "start": 1486672,
+    "end": 1489545,
+    "line": 17917,
+    "refs": [
+      "Set",
+      "wip125DestroyVlsCell",
+      "wip125CellIndexAtPoint",
+      "vlsCells",
+      "wip125CellBox",
+      "segmentAabbHitDetailed",
+      "Map",
+      "getShipInteriorTopologyV48Wip06",
+      "clamp",
+      "Math",
+      "vlsIncidentModelV23",
+      "Number",
+      "vlsIncidentIgniteCompartmentV23",
+      "shipHitboxSystemForName",
+      "wip125MaybeCookoff",
+      "String"
+    ],
+    "sha256": "8bfd007facfef135b6147f9f3e35d02f5b02b7ad82e9125db3c73943431015bb"
+  },
+  "vlsIncidentCompartmentV23": {
+    "start": 1490140,
+    "end": 1490309,
+    "line": 17939,
+    "refs": [
+      "wip125CellBox",
+      "getDamageFloodV1"
+    ],
+    "sha256": "98684094fad60f6254e034b27d2e4e61501014e2f026c207fc6c35bbe4ed3ccc"
+  },
+  "vlsIncidentIgniteCompartmentV23": {
+    "start": 1490312,
+    "end": 1490529,
+    "line": 17940,
+    "refs": [
+      "vlsCells",
+      "vlsIncidentCompartmentV23",
+      "getDamageControlV1"
+    ],
+    "sha256": "8fee375de6694167432b3d08c5bd7c29368026e6b4501fe9b4825282f9db2ea5"
+  },
+  "vlsIncidentBurstV23": {
+    "start": 1490532,
+    "end": 1491215,
+    "line": 17941,
+    "refs": [
+      "wip125CellBox",
+      "vlsIncidentCompartmentV23",
+      "shipMassMarkWeaponsV32",
+      "addModuleDmg",
+      "getDamageControlV1",
+      "getShipCrewV21",
+      "wip173PushVisualEvent",
+      "notify"
+    ],
+    "sha256": "28a80684daa454f81b52158c5a18c0a8736df8ef2ea48238d012ae3cc17e0c64"
+  },
+  "vlsIncidentsStepV23": {
+    "start": 1491218,
+    "end": 1492540,
+    "line": 17949,
+    "refs": [
+      "Map",
+      "getDamageFloodV1",
+      "shipEquipmentOfflineV1",
+      "getShipCrewV21",
+      "vlsIncidentModelV23",
+      "vlsIncidentCompartmentV23",
+      "Math",
+      "Object",
+      "vlsCells",
+      "getDamageControlV1"
+    ],
+    "sha256": "27cfcd7f9bfa28ed33712e2c528e8550ea34547cb7f474ca7a300641dfd77cb3"
+  },
+  "addModuleDmg": {
+    "start": 1884310,
+    "end": 1884387,
+    "line": 21889,
+    "refs": [
+      "getDamageFloodV1"
+    ],
+    "sha256": "3f6cd1f1fa69b8ee0d1ceb419c44df6c5e0a2558a4187dfa82659f59293de8da"
+  },
+  "damageFloodImpactV48Wip12C": {
+    "start": 1890726,
+    "end": 1893086,
+    "line": 21929,
+    "refs": [
+      "Math",
+      "Number",
+      "DF_TARGET_IDS",
+      "getDamageFloodV1",
+      "getDamageControlV1",
+      "wip12cApplyTerminalIgnition",
+      "getShipLongitudinalStrengthV48Wip03",
+      "getShipCrewV21"
+    ],
+    "sha256": "df8ce2588c6ad7f79650bb253284e4f59f0ff3020f922997f8065606df11e303"
+  },
+  "damageFloodImpactV48Wip12E": {
+    "start": 1893089,
+    "end": 1896933,
+    "line": 21939,
+    "refs": [
+      "damageFloodImpactV48Wip12C",
+      "Math",
+      "Number",
+      "DF_TARGET_IDS",
+      "wip12eBlastOpenings",
+      "Set",
+      "Boolean",
+      "Map",
+      "String",
+      "getDamageFloodV1",
+      "getDamageControlV1",
+      "wip12cApplyTerminalIgnition",
+      "wip12eApplyHotGasIgnition",
+      "getShipLongitudinalStrengthV48Wip03",
+      "getShipCrewV21"
+    ],
+    "sha256": "7536024834fa88548a5cc50ff7db3d9d4c6423a092509a0680cd2fcd08a42690"
+  },
+  "getSPY1DVFaceStatus": {
+    "start": 1957012,
+    "end": 1957415,
+    "line": 22310,
+    "refs": [
+      "getModuleDmg",
+      "SPY1DV_FACE_MODULE",
+      "SPY1DV_DESTROY_THRESHOLD"
+    ],
+    "sha256": "6254b7ceec86c2f6c2b821b761db3357b592beb1976f56dee496a262f9a05a40"
+  },
+  "bridgeMasterEWorldOrigin": {
+    "start": 1988840,
+    "end": 1989004,
+    "line": 22681,
+    "refs": [
+      "wip199ShipLocalWorldPoint",
+      "BRIDGEMASTER_E_INSTALLATION"
+    ],
+    "sha256": "a357e75091aec836a737bd4d515d58c72b3fc4ba135d529faaa3be43add6de38"
+  },
+  "bridgeMasterEArpaMetrics": {
+    "start": 2005131,
+    "end": 2006168,
+    "line": 22826,
+    "refs": [
+      "bridgeMasterEWorldOrigin",
+      "worldToMeters",
+      "Number",
+      "worldSpeedToMps",
+      "shipNav",
+      "Math",
+      "Infinity"
+    ],
+    "sha256": "c499ccbcd3f8725634cdd2f404f4464bda97c134817b7710ab08df32a79d823f"
+  },
+  "ciwsGameConstraintsV1": {
+    "start": 2069881,
+    "end": 2070607,
+    "line": 23438,
+    "refs": [
+      "IS_BUNKER",
+      "CIWS_GAME_CONSTRAINT_CACHE_V1",
+      "bunkerCiwsConstraints",
+      "createGameMountConstraintsV1",
+      "Math",
+      "shipAssetRegistration",
+      "SPG62_ILLUMINATORS",
+      "spg62HitboxForIlluminator"
+    ],
+    "sha256": "e1009e9ddf3a5db158b6cc3c8e33551d473643696604f28572a664a8705d0969"
+  },
+  "shipGameAimBodyV1": {
+    "start": 2071176,
+    "end": 2071294,
+    "line": 23451,
+    "refs": [
+      "shipGameAnglesV1",
+      "shipGameFrameV1",
+      "shipGameVectorV1"
+    ],
+    "sha256": "473cf9af81e800957858cef90e90abb3f717dc3b64fa1dd0aa14ed1e19ab36a8"
+  },
+  "shipGameAimWorldV1": {
+    "start": 2071295,
+    "end": 2071415,
+    "line": 23452,
+    "refs": [
+      "shipGameAnglesV1",
+      "shipGameFrameV1",
+      "shipGameVectorV1"
+    ],
+    "sha256": "4fc90f92aa9ff43b914b5c1bf1e81118fd42bb2aa5a087c320e0a1151467b08c"
+  },
+  "wip13b15GunBodyDemandForWorldSolution": {
+    "start": 2072894,
+    "end": 2073211,
+    "line": 23473,
+    "refs": [
+      "Number",
+      "shipGameAimBodyV1",
+      "simStepCounter"
+    ],
+    "sha256": "1564a2169cbaa75eb6dc12217691736f4477ca6991e552e57a4fdf1089f168af"
+  },
+  "wip13b1GunClearance": {
+    "start": 2092179,
+    "end": 2093454,
+    "line": 23601,
+    "refs": [
+      "IS_BUNKER",
+      "bunkerGunClearance",
+      "ACTIVE_SHIP_PROFILE",
+      "Math",
+      "shipAssetRegistration",
+      "wip12aRayAabbInterval"
+    ],
+    "sha256": "d6f95838f56016f7d4883f7d41b3dddd8ac21f6dad10eb001455869f0d6debe7"
+  },
+  "wip13b1SurfaceTrackReady": {
+    "start": 2093455,
+    "end": 2095595,
+    "line": 23607,
+    "refs": [
+      "trackLifecycleState",
+      "surfaceSensorContributorSnapshotWip13B9",
+      "Object",
+      "Number",
+      "Math",
+      "trackCovarianceMetrics",
+      "bridgeMasterEArpaMetrics",
+      "Infinity",
+      "worldSpeedToMps",
+      "surfaceTrackExtentSnapshotWip13B8"
+    ],
+    "sha256": "86871cc8c3d978201d2449602b457f8ecad14383cdd06b5424ef3d6bd39dd4c1"
+  },
+  "wip13b10SurfaceFireControlQuality": {
+    "start": 2096009,
+    "end": 2101023,
+    "line": 23624,
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME",
+      "Math",
+      "Number",
+      "simStepCounter",
+      "aircraft",
+      "surfaceSensorContributorSnapshotWip13B9",
+      "Infinity",
+      "Object",
+      "clamp",
+      "lerp",
+      "surfaceTrackExtentSnapshotWip13B8",
+      "wip13b8GunEffectiveImpactWindow",
+      "String"
+    ],
+    "sha256": "d06c27dadee272a1717af13c98555bea4a7a6e74b22b11967972c0712396ed17"
+  },
+  "wip13b1SurfaceGunReleaseGate": {
+    "start": 2101024,
+    "end": 2102463,
+    "line": 23634,
+    "refs": [
+      "tracks",
+      "Number",
+      "String",
+      "ACTIVE_SHIP_RUNTIME",
+      "wip13b1GunHardwareHealth",
+      "Math",
+      "simStepCounter",
+      "SIM_FIXED_DT",
+      "normalizeTrackOperatorIdentityA3",
+      "wip13b1SurfaceReleasePolicy",
+      "wip13b10SurfaceFireControlQuality"
+    ],
+    "sha256": "11471100fd80ee1e31cef7b3eb5df3cc6d133b3a7b389047865ac8fb22f5b6ae"
+  },
+  "wip13b1SurfaceReleasePolicy": {
+    "start": 2102464,
+    "end": 2103176,
+    "line": 23643,
+    "refs": [
+      "normalizeTrackOperatorIdentityA3",
+      "String",
+      "SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8",
+      "ACTIVE_SHIP_PROFILE"
+    ],
+    "sha256": "f763f78b8d5fd8a2f6d278f365fad028edd68a38d2b4be1f23db454563050380"
+  },
+  "wip13b1GunHardwareHealth": {
+    "start": 2103177,
+    "end": 2103481,
+    "line": 23646,
+    "refs": [
+      "Math",
+      "Number",
+      "getModuleDmg",
+      "getShipSystemDamage",
+      "clamp"
+    ],
+    "sha256": "2e7c47afca1b0724efb4c2b73f32403b81bd372cf3ac4849f3d75ee0675b9968"
+  },
+  "wip13b6GunPointingAssessment": {
+    "start": 2105616,
+    "end": 2107517,
+    "line": 23656,
+    "refs": [
+      "wip13b8GunEffectiveImpactWindow",
+      "Math",
+      "Number",
+      "Infinity",
+      "shipGameAimWorldV1",
+      "angNorm",
+      "shipGameVectorV1",
+      "clamp"
+    ],
+    "sha256": "7a799e6adfaad227787ac7cfbc3130b2ab68238c866f297cdc47629b58ca0f81"
+  },
+  "createProfileGunModuleWip13B3": {
+    "start": 2107518,
+    "end": 2128379,
+    "line": 23662,
+    "refs": [
+      "ACTIVE_SHIP_PROFILE",
+      "SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8",
+      "deepFreezeShipProfileV48Wip09",
+      "Error",
+      "simStepCounter",
+      "String",
+      "Math",
+      "SIM_FIXED_DT",
+      "Number",
+      "tracks",
+      "wip13b1SurfaceTrackReady",
+      "shipGamePointStateV1",
+      "maritimeEnvironmentSnapshotWip13A3",
+      "worldToMeters",
+      "wip13b1SolveTrackState",
+      "shipGameAimBodyV1",
+      "bunkerGunAzimuth",
+      "wip13b1GunClearance",
+      "terrainAwareRadarLOS",
+      "metersToWorld",
+      "wip13b10SurfaceFireControlQuality",
+      "wip13b1GunHardwareHealth",
+      "wip13b1SurfaceGunReleaseGate",
+      "wip13b6GunPointingAssessment",
+      "spawnMainGunProjectileWip13B3",
+      "shipMassMarkWeaponsV32",
+      "shipEquipmentOfflineV1",
+      "normalizeTrackOperatorIdentityA3",
+      "wip13b1SurfaceReleasePolicy",
+      "wip13b15GunBodyDemandForWorldSolution",
+      "clamp",
+      "stepGameMountYawV1",
+      "wip13b8GunEffectiveImpactWindow"
+    ],
+    "sha256": "e407f260d3d8a1f836ef26e20c50394630fbfffe3e0ae5c598032f31950d3629"
+  },
+  "spawnMainGunProjectileWip13B3": {
+    "start": 2152154,
+    "end": 2154082,
+    "line": 23871,
+    "refs": [
+      "shipGamePointStateV1",
+      "Math",
+      "shipGameAimWorldV1",
+      "shipGameVectorV1",
+      "Number",
+      "mainGunProjectileSerialWip13B3",
+      "String",
+      "maritimeEnvironmentSnapshotWip13A3",
+      "mainGunProjectilesWip13B3",
+      "wip173PushVisualEvent",
+      "metersToWorld"
+    ],
+    "sha256": "c6f6c99c9ee59169edeabd738f1639e3a97ad3525fe24c4d7ba0d1d8ad43c241"
+  },
+  "surfaceMissileTrackReadinessWip13C4": {
+    "start": 2160722,
+    "end": 2162187,
+    "line": 23930,
+    "refs": [
+      "trackLifecycleState",
+      "Number",
+      "tracks",
+      "wip121TargetSupportBlocked",
+      "surfaceSensorContributorSnapshotWip13B9",
+      "Object",
+      "Math",
+      "SURFACE_MISSILE_ENGAGEMENT_PROFILE_V48_WIP13C4",
+      "horizDistKm",
+      "aircraft",
+      "Infinity"
+    ],
+    "sha256": "45be93cc0a342140b2f70fbcf7fffc8907f7ad85f4587907aee2d4e411f1c7f8"
+  },
+  "surfaceMissileFireControlQualityWip13C4": {
+    "start": 2162188,
+    "end": 2166884,
+    "line": 23942,
+    "refs": [
+      "surfaceMissileWeaponPolicyWip13C4",
+      "SURFACE_MISSILE_ENGAGEMENT_PROFILE_V48_WIP13C4",
+      "surfaceMissileVariantKeyWip15C",
+      "surfaceMissileTrackReadinessWip13C4",
+      "clamp",
+      "Math",
+      "aircraft",
+      "Infinity",
+      "Number",
+      "lerp",
+      "worldToMeters",
+      "worldSpeedToMps",
+      "surfaceTrackExtentSnapshotWip13B8",
+      "Object"
+    ],
+    "sha256": "9861d42da02dad863bbbe512b4a1c66e99ff380464aa38423d052af00624ea10"
+  },
+  "surfaceMissileSpgFeasibilityWip13C4": {
+    "start": 2166885,
+    "end": 2168850,
+    "line": 23952,
+    "refs": [
+      "surfaceMissileVariantKeyWip15C",
+      "SURFACE_MISSILE_ENGAGEMENT_PROFILE_V48_WIP13C4",
+      "emconActive",
+      "simStepCounter",
+      "metersToWorld",
+      "Math",
+      "SPG62_RESERVATION_POLICY",
+      "spg62ReservationCandidateIlluminators",
+      "spg62ReservationWindowFree",
+      "computeSarhIllumOpportunityV1",
+      "aircraft"
+    ],
+    "sha256": "218889ba5b73f9054c7bcd31613f4d1fbe88acdaa1c2f13086bfcd8155b0ce21"
+  },
+  "surfaceMissileArhHandoffFeasibilityWip15C": {
+    "start": 2168851,
+    "end": 2169799,
+    "line": 23959,
+    "refs": [
+      "surfaceMissileVariantKeyWip15C",
+      "SURFACE_MISSILE_ENGAGEMENT_PROFILE_V48_WIP13C4",
+      "metersToWorld",
+      "spg62ReservationCandidateIlluminators",
+      "Number"
+    ],
+    "sha256": "7cef390efeda1b1adaecb25b4cd2beb55b8856d8c284040cc68d50969d4be985"
+  },
+  "surfaceMissilePlatformSnapshotWip13C4": {
+    "start": 2169921,
+    "end": 2171277,
+    "line": 23965,
+    "refs": [
+      "surfaceMissileWeaponPolicyWip13C4",
+      "surfaceMissileVariantKeyWip15C",
+      "getVlsCounts",
+      "getShipDamageEffects",
+      "wip148PeekVlsLaunchMeta",
+      "shipGameFrameV1",
+      "wip148VlsCellLocal",
+      "shipEquipmentOfflineV1",
+      "emconActive"
+    ],
+    "sha256": "3714660b78b76d4f3a29578dd4b554c6358f6f3fde40e8234cd34552722d0b0e"
+  },
+  "surfaceMissileReleaseAssessmentWip13C4": {
+    "start": 2171278,
+    "end": 2172886,
+    "line": 23970,
+    "refs": [
+      "surfaceMissileWeaponPolicyWip13C4",
+      "surfaceMissileVariantKeyWip15C",
+      "String",
+      "engagementControlMode",
+      "normalizeTrackOperatorIdentityA3",
+      "surfaceMissileIdentityPolicyWip13C4",
+      "surfaceMissileFireControlQualityWip13C4",
+      "surfaceMissilePlatformSnapshotWip13C4",
+      "surfaceMissileSpgFeasibilityWip13C4",
+      "surfaceMissileArhHandoffFeasibilityWip15C"
+    ],
+    "sha256": "a670db6d3edffd15c0e8ea5ff457c999f5d97ad084c9a762e52f65f36cbdb24e"
+  },
+  "surfaceMissileReleaseGateWip13C4": {
+    "start": 2172887,
+    "end": 2173053,
+    "line": 23978,
+    "refs": [
+      "surfaceMissileReleaseAssessmentWip13C4",
+      "tracks",
+      "Number"
+    ],
+    "sha256": "74c84b5331e280139344885aa2738dc3e4fc008802ce8abb685087d053bbc2aa"
+  },
+  "surfaceEssmLiveReleaseGateWip13C6": {
+    "start": 2181260,
+    "end": 2181619,
+    "line": 24014,
+    "refs": [
+      "surfaceMissileVariantKeyWip15C",
+      "surfaceMissileReleaseGateWip13C4"
+    ],
+    "sha256": "677d26c9970a9c29cd495ee02063fb95e17f627f8a20b834c40c3e4821683496"
+  },
+  "surfaceMissileGlideAimWip15C": {
+    "start": 2182941,
+    "end": 2183761,
+    "line": 24037,
+    "refs": [
+      "Math",
+      "surfaceMissileGuidanceFloorWip13C6",
+      "surfaceMissileVariantKeyWip15C",
+      "SURFACE_STANDARD_GLIDE_WIP15C",
+      "missileNavB2OwnState",
+      "Number",
+      "clamp",
+      "deg"
+    ],
+    "sha256": "9787770ad127d0297509b655021ae248cd1ba8fd2805ab8257c6b3655f9fcca2"
+  },
+  "surfaceMissileCommandAimHeightWip15C": {
+    "start": 2183762,
+    "end": 2183970,
+    "line": 24046,
+    "refs": [
+      "surfaceMissileGlideAimWip15C",
+      "worldToMeters"
+    ],
+    "sha256": "335791fea798c4eaa7e963410a864cf2de70537e5ed1781e24e890c725b5c54e"
+  },
+  "surfaceMissileAimStateWip13C7": {
+    "start": 2183971,
+    "end": 2184635,
+    "line": 24049,
+    "refs": [
+      "surfaceMissileRuntimeWip13C6",
+      "Number",
+      "surfaceMissileGlideAimWip15C"
+    ],
+    "sha256": "3ebf14568ada4ca2d814f5cebec41ab2ab870d45826eb39b217b7fab49841999"
+  },
+  "surfaceSm2LiveReleaseGateWip13C5": {
+    "start": 2184869,
+    "end": 2185563,
+    "line": 24063,
+    "refs": [
+      "surfaceMissileVariantKeyWip15C",
+      "tracks",
+      "Number",
+      "surfaceMissileReleaseAssessmentWip13C4",
+      "String",
+      "engagementControlMode"
+    ],
+    "sha256": "3dbb630439a707b7f2c8631cf045aa83996b76b3b412b0bcfae92f3dce1c208d"
+  },
+  "surfaceSm2CommitReservationWip13C5": {
+    "start": 2186179,
+    "end": 2187452,
+    "line": 24074,
+    "refs": [
+      "Number",
+      "tracks",
+      "SPG62_ILLUMINATORS",
+      "spg62ReservationNowS",
+      "surfaceTrackWip13C5",
+      "emconActive",
+      "spg62Operational",
+      "spg62CurrentIlluminatorScore",
+      "SPG62_RESERVATION_POLICY",
+      "spg62ReservationWindowFree",
+      "spg62ReservationThreatScore",
+      "SPG62_RESERVATIONS",
+      "SPG62_RESERVATION_STATE"
+    ],
+    "sha256": "f6186323a97a0a1771f0c7633de761d87bfb3ae41a27fff90a5a72a540ac6492"
+  },
+  "surfaceSm2RollbackReservationWip13C5": {
+    "start": 2187453,
+    "end": 2187757,
+    "line": 24083,
+    "refs": [
+      "SPG62_RESERVATIONS",
+      "SPG62_RESERVATION_STATE"
+    ],
+    "sha256": "70da742dc66d4b10f38829e0cb4ad0784389e617dd005956d38a8ace83ae9ce5"
+  },
+  "updateMainGunProjectilesWip13B3": {
+    "start": 2241372,
+    "end": 2245549,
+    "line": 24347,
+    "refs": [
+      "SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8",
+      "ACTIVE_SHIP_PROFILE",
+      "mainGunProjectilesWip13B3",
+      "wip13b5ProjectileAcceleration",
+      "Math",
+      "metersToWorld",
+      "surfaceTargetFirstAsmContactWip13A",
+      "wip13b5TerrainContactFraction",
+      "wip13b5SeaContactFraction",
+      "clamp",
+      "Number",
+      "lerp",
+      "wip173PushVisualEvent",
+      "resolveMainGunSurfaceImpactWip13B3",
+      "mainGunImpactLogWip13B3"
+    ],
+    "sha256": "ddf3ec031415bb9ace0cef3d671dafc54d74f4dcc59d740981f28d891ab4f7c3"
+  },
+  "ciwsBodyYawV1": {
+    "start": 2255623,
+    "end": 2255739,
+    "line": 24395,
+    "refs": [
+      "Number",
+      "shipGameAimBodyV1"
+    ],
+    "sha256": "b3d5b0a15713c3ba0a1907ac5b7563137be633e71b35b3ab9b65309c71b65cef"
+  },
+  "ciwsGamePublishYawV1": {
+    "start": 2255740,
+    "end": 2255974,
+    "line": 24396,
+    "refs": [
+      "angNorm",
+      "shipGameAimWorldV1",
+      "shipNav"
+    ],
+    "sha256": "1a8d37bd402c62abac6b467a276d3edbd3c9329d6ecd3195902596233574174f"
+  },
+  "ciwsGameSlewV1": {
+    "start": 2256596,
+    "end": 2257515,
+    "line": 24407,
+    "refs": [
+      "ciwsGameConstraintsV1",
+      "shipGameAimBodyV1",
+      "ciwsBodyYawV1",
+      "ciwsB3Performance",
+      "Math",
+      "Infinity",
+      "stepGameMountYawV1",
+      "ciwsGamePublishYawV1",
+      "angNorm",
+      "deg"
+    ],
+    "sha256": "d4c9b6e207cc141ad484d6bcd6e9a766e9b5860bd4430427c908871017dc2f55"
+  },
+  "ciwsGameDirectionV1": {
+    "start": 2257516,
+    "end": 2257921,
+    "line": 24415,
+    "refs": [
+      "shipGameAimBodyV1",
+      "ciwsGameConstraintsV1",
+      "Math",
+      "deg",
+      "ciwsMountStateM"
+    ],
+    "sha256": "ca61b571790e5699bab06ea7d0a63a9663928d69824fefe6c2bc29dfcbba5c0b"
+  },
+  "ciwsGameCanFireV1": {
+    "start": 2257922,
+    "end": 2258209,
+    "line": 24421,
+    "refs": [
+      "shipGameAimBodyV1",
+      "ciwsGameConstraintsV1",
+      "emconActive",
+      "shipEquipmentOfflineV1",
+      "ciwsBodyYawV1",
+      "ciwsGameDirectionV1"
+    ],
+    "sha256": "baf246d3cd470faf0717e5461e8e124218c8cce1167a54feba67e48b228b3064"
+  },
+  "ciwsHardwareHealth01": {
+    "start": 2260090,
+    "end": 2260217,
+    "line": 24449,
+    "refs": [
+      "ciwsHardwareHealthFromDamageB3",
+      "getModuleDmg"
+    ],
+    "sha256": "36e1981dff0ba2a9d593e2ba3d587c8df9c6a4231cabb94d7ce42112e7036b7c"
+  },
+  "ciwsB3Performance": {
+    "start": 2262315,
+    "end": 2262419,
+    "line": 24471,
+    "refs": [
+      "ciwsB3PerformanceForHealth",
+      "ciwsHardwareHealth01"
+    ],
+    "sha256": "476278e56ad8b2963f57f6bf9a6f93e9c936c2321d7cff1fe621f27548a0f3b3"
+  },
+  "phalanxFireControlGate": {
+    "start": 2292715,
+    "end": 2293640,
+    "line": 24746,
+    "refs": [
+      "WIP16_PHALANX_FIRE_CONTROL_MODEL",
+      "Math",
+      "Number",
+      "PHALANX_MK244_BALLISTICS",
+      "clamp",
+      "deg"
+    ],
+    "sha256": "771ef173a1290c66d8424c10d92eb55e1dd58563c13dd05f21a56ddad604db75"
+  },
+  "ciwsGunBallisticInterceptSolution": {
+    "start": 2297553,
+    "end": 2299273,
+    "line": 24811,
+    "refs": [
+      "PHALANX_MK244_BALLISTICS",
+      "ciwsMountStateM",
+      "clamp",
+      "Math",
+      "ciwsPredictLocalStateB3",
+      "wip199CiwsMuzzleStateM",
+      "phalanxIntegratePointMass",
+      "shipGameVectorV1",
+      "deg"
+    ],
+    "sha256": "e9bb6c75d9e6708c490d9a9e160b8856b331a91b93176b6e7166a5d04c2c24cb"
+  },
+  "ciwsMountStateM": {
+    "start": 2305699,
+    "end": 2305828,
+    "line": 24907,
+    "refs": [
+      "shipGamePointStateV1"
+    ],
+    "sha256": "f4578584563f2f1e526452f77d76ff1158eff462b0510a507e2e8af5e6a8cc9f"
+  },
+  "wip199CiwsMuzzleStateM": {
+    "start": 2305831,
+    "end": 2307030,
+    "line": 24908,
+    "refs": [
+      "IS_BUNKER",
+      "BUNKER_REGISTRATION",
+      "shipGameAimBodyV1",
+      "bunkerCiwsMuzzleOffset",
+      "shipGamePointStateV1",
+      "shipAssetRegistration",
+      "window",
+      "shipGameVectorV1"
+    ],
+    "sha256": "d21950a9377fdcab332e74155c4f0a53cc1c35fe5dee2b9260c5a05fc6d9ae05"
+  },
+  "ciwsTrackStateForTargetB1": {
+    "start": 2307033,
+    "end": 2307956,
+    "line": 24926,
+    "refs": [
+      "tracks",
+      "ciwsMountStateM",
+      "clamp",
+      "worldToMeters",
+      "aircraft",
+      "Math",
+      "shipNav",
+      "Number",
+      "OWN_ALT_M",
+      "worldSpeedToMps"
+    ],
+    "sha256": "b785fd87ef772d4c441354b5ebe275d850b8b46eb90d0a8044ad69292f098b4b"
+  },
+  "ciwsLocalMeasurement": {
+    "start": 2309545,
+    "end": 2312653,
+    "line": 24960,
+    "refs": [
+      "emconActive",
+      "CIWS_LOCAL_TRACK_MODEL",
+      "ciwsMountStateM",
+      "ciwsB3Performance",
+      "worldToMeters",
+      "Math",
+      "sensorDwellDue",
+      "wip199ShipLocalWorldPoint",
+      "terrainAwareRadarLOS",
+      "ciwsGameDirectionV1",
+      "clamp",
+      "getASMRcs",
+      "simRandom",
+      "deg",
+      "gaussRand"
+    ],
+    "sha256": "0f877ce3d54719347d86902fd3f93c2171186a1fed8556aaf688ce1d3eaac305"
+  },
+  "c55Bank": {
+    "start": 2328117,
+    "end": 2328355,
+    "line": 25154,
+    "refs": [
+      "CIWS_C55",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math",
+      "Map"
+    ],
+    "sha256": "aeff56fcbfa92f13c71063658042ca73ea65330081f07ef3890cd23d4dba5007"
+  },
+  "c55CmsRows": {
+    "start": 2329216,
+    "end": 2329946,
+    "line": 25164,
+    "refs": [
+      "tracks",
+      "CIWS_C55_POLICY",
+      "ciwsTrackStateForTargetB1",
+      "ciwsRelativeKinematicsFromState",
+      "Math",
+      "Number",
+      "trackKinematicThreatCue"
+    ],
+    "sha256": "871ea9a6e239eb443884139e8c0a05dea939134dcf53d401077f2f781e545eb6"
+  },
+  "c55UpdateFile": {
+    "start": 2331035,
+    "end": 2332581,
+    "line": 25193,
+    "refs": [
+      "CIWS_LOCAL_TRACK_MODEL",
+      "CIWS_C55",
+      "Math",
+      "ciwsCapVectorB3",
+      "ciwsUpdateManeuverEstimateB3",
+      "clamp",
+      "CIWS_C55_POLICY"
+    ],
+    "sha256": "889cbf574d276bf277ada611eef6e7333701feeaa2e16051ff5d2c62c6bb26ba"
+  },
+  "c55SensorSweep": {
+    "start": 2332822,
+    "end": 2335277,
+    "line": 25212,
+    "refs": [
+      "ciwsMountStateM",
+      "Set",
+      "CIWS_LOCAL_TRACK_MODEL",
+      "enemyMissiles",
+      "targetPool",
+      "targetRcsM2",
+      "metersToWorld",
+      "missiles",
+      "ramMissiles",
+      "worldToMeters",
+      "Math",
+      "clamp",
+      "CIWS_C55_SENSOR_LINKS",
+      "ciwsLocalMeasurement",
+      "c55SensorRandom",
+      "c55SensorNormal",
+      "CIWS_C55",
+      "Infinity",
+      "CIWS_C55_POLICY",
+      "deg",
+      "c55BlankState",
+      "c55UpdateFile"
+    ],
+    "sha256": "aba1a05964c3bcffd117c5fbe17c311eeaf4815cc6649784b53b6777977cd561"
+  },
+  "c55ContactAudit": {
+    "start": 2335280,
+    "end": 2337295,
+    "line": 25242,
+    "refs": [
+      "emconActive",
+      "CIWS_LOCAL_TRACK_MODEL",
+      "ciwsMountStateM",
+      "ciwsRelativeKinematicsFromState",
+      "Math",
+      "deg",
+      "Number",
+      "CIWS_C55_POLICY",
+      "clamp",
+      "ciwsGameDirectionV1",
+      "shipGameAimBodyV1",
+      "ciwsGameConstraintsV1",
+      "ciwsBodyYawV1",
+      "ramMissiles"
+    ],
+    "sha256": "6e3ce2dbf6a8060e3ac7a610c975da7fa59badb0854e9e0a6647878010b11cae"
+  },
+  "c55StepSensors": {
+    "start": 2337298,
+    "end": 2339922,
+    "line": 25264,
+    "refs": [
+      "CIWS_C55",
+      "emconActive",
+      "shipEquipmentOfflineV1",
+      "getShipDamageEffects",
+      "ciws",
+      "c55Bank",
+      "ciwsB3Performance",
+      "ciwsMountStateM",
+      "c55CmsRows",
+      "ciwsPredictTrackStepB3",
+      "CIWS_LOCAL_TRACK_MODEL",
+      "Math",
+      "CIWS_C55_POLICY",
+      "c55SensorSweep",
+      "c55AssociateCms",
+      "ciwsRelativeKinematicsFromState",
+      "Object",
+      "c55ContactAudit"
+    ],
+    "sha256": "bec258839bd3202b4b6997e59199694459848d0d375f01436a662b7d6384c6db"
+  },
+  "ciwsInterceptSolution": {
+    "start": 2342650,
+    "end": 2343357,
+    "line": 25307,
+    "refs": [
+      "Math",
+      "ciwsCvInterceptTimeB3",
+      "ciwsPredictLocalStateB3",
+      "lerp"
+    ],
+    "sha256": "0a7be18ff43107a2b78675a4baaaf4262d33698f9c14d564a3366a66f9467822"
+  },
+  "applyPhalanxProjectileHit": {
+    "start": 2346237,
+    "end": 2347474,
+    "line": 25339,
+    "refs": [
+      "ASM_PROFILES",
+      "clamp",
+      "wip11cRememberEngagementTrack",
+      "simRandom",
+      "wip11cQueueAsmRetirement",
+      "retireTruthAssociationV27",
+      "rand"
+    ],
+    "sha256": "d3a4cbd87a9aaec09c2c2e733edc21cb10c14a7d19b10fdb2d8b988619033a7a"
+  },
+  "ramSlewSeekerGimbals": {
+    "start": 2360064,
+    "end": 2361110,
+    "line": 25536,
+    "refs": [
+      "missileNavB2Kinematics",
+      "RAM_BLK1A_SEEKER_MODEL",
+      "ramSelectedSeekerTrack",
+      "Number",
+      "Math",
+      "worldSpeedToMps",
+      "deg",
+      "angNorm",
+      "clamp"
+    ],
+    "sha256": "fd7fd683b6935807e36841ece4d55623004fc7b7aa6ddae79511e4c24c6cef37"
+  },
+  "ramIrMeasurement": {
+    "start": 2363490,
+    "end": 2366865,
+    "line": 25576,
+    "refs": [
+      "RAM_BLK1A_SEEKER_MODEL",
+      "sensorDwellDue",
+      "ramSeekerBoresight",
+      "deg",
+      "angNorm",
+      "Math",
+      "terrainLineOfSightFactor",
+      "worldToMeters",
+      "ramIrSourceSignal",
+      "clamp",
+      "simRandom",
+      "gaussRand",
+      "enemyMissiles",
+      "flares"
+    ],
+    "sha256": "8ff27eec47982c15453415bd127b433b8619bb24aa0099522eb837fcaf2c3253"
+  },
+  "initializeRamSeeker": {
+    "start": 2370272,
+    "end": 2371503,
+    "line": 25651,
+    "refs": [
+      "missileNavB2Init",
+      "ramLosRatesFromRelState",
+      "clamp",
+      "ramNewAngularTrack",
+      "Math",
+      "missileNavB2Kinematics"
+    ],
+    "sha256": "5943dc8cb87b071a0711909bd2449994512de4fe42a07f83292689af509270c4"
+  },
+  "updateRamMeasurementSeeker": {
+    "start": 2371506,
+    "end": 2372160,
+    "line": 25663,
+    "refs": [
+      "missileNavB2Update",
+      "ramPredictAngularTrack",
+      "Math",
+      "ramSlewSeekerGimbals",
+      "ramRfMeasurement",
+      "ramIrMeasurement",
+      "ramUpdateAngularTrack",
+      "RAM_BLK1A_SEEKER_MODEL",
+      "ramUpdateSeekerAuthority",
+      "ramGuidanceTrackForAuthority",
+      "ramSelectedSeekerTrack",
+      "ramGuidanceFromEstimateB2"
+    ],
+    "sha256": "f62abb15d0adab684553bfc6b482a7934c60c8615c9c92c1ea4b1cafc7afc72e"
+  },
+  "ramGuidanceFromEstimateB2": {
+    "start": 2372163,
+    "end": 2375406,
+    "line": 25672,
+    "refs": [
+      "missileNavB2Kinematics",
+      "Math",
+      "worldSpeedToMps",
+      "clamp",
+      "RAM_BLK1A_SEEKER_MODEL",
+      "_samSmooth01",
+      "RAM_BLK1A_6DOF_LITE",
+      "airDensityKgM3",
+      "Number",
+      "G0"
+    ],
+    "sha256": "6b7ebe71565bc5a8b10dd575b61cc4cf47434bf343badb1e29c630a241a205d1"
+  },
+  "initializeRamSixDof": {
+    "start": 2375410,
+    "end": 2375859,
+    "line": 25697,
+    "refs": [
+      "RAM_BLK1A_6DOF_LITE",
+      "worldSpeedToMps",
+      "Math"
+    ],
+    "sha256": "bdb946a785be907d6a78d168c417c27124d0728e194e9cb3e58a7fc68ce77c06"
+  },
+  "updateRamSixDof": {
+    "start": 2376821,
+    "end": 2383762,
+    "line": 25719,
+    "refs": [
+      "RAM_BLK1A_6DOF_LITE",
+      "ramMotorState",
+      "worldSpeedToMps",
+      "Math",
+      "airDensityKgM3",
+      "speedOfSoundMps",
+      "wip14a7AeroCd",
+      "clamp",
+      "lerp",
+      "deg",
+      "_samSmooth01",
+      "G0",
+      "angNorm",
+      "WIP14A2_SPEED_DIAGNOSTICS",
+      "mpsToWorldSpeed",
+      "rad2deg"
+    ],
+    "sha256": "df7e533d0160b53db350175fab48be1951fdcdfcec0fd315f017e4e3b35d1e7e"
+  },
+  "ramSweptClosestHit": {
+    "start": 2390397,
+    "end": 2391814,
+    "line": 25801,
+    "refs": [
+      "enemyMissiles",
+      "ASM_PROFILES",
+      "worldSpeedToMps",
+      "worldToMeters",
+      "ciwsSegmentSegmentDistSq3",
+      "Math",
+      "Number",
+      "RAM_BLK1A_MASS_LEDGER"
+    ],
+    "sha256": "c8cbaba3d658fa47992cbc9a7e3fb2090ce58c20c28be42da7553a3ba4f11f30"
+  },
+  "canRadarProvideDL": {
+    "start": 2426217,
+    "end": 2428267,
+    "line": 26144,
+    "refs": [
+      "tracks",
+      "wip121TargetSupportBlocked",
+      "aircraft",
+      "dist3Km",
+      "OWN_ALT_M",
+      "SPY1DV_SEARCH_MAX_RANGE_KM",
+      "horizDistKm",
+      "isAegisAvailable",
+      "spq9bTrackFresh",
+      "SPQ9B_SEARCH_MAX_RANGE_KM",
+      "wip199ShipLocalWorldPoint",
+      "WIP199_FINAL_LAYOUT",
+      "terrainAwareRadarLOS",
+      "hystLOS",
+      "spq9bLowAltitudeClutterFactor",
+      "Math",
+      "spyBestFaceForAngle",
+      "WIP199_SPY_LAYOUT",
+      "seaSkimPenalty",
+      "surfaceTrackWip13C5",
+      "surfaceMissileFireControlQualityWip13C4",
+      "trackIsFireControlQuality",
+      "TRACK_DL_MAX_AGE"
+    ],
+    "sha256": "2b4cf375df6c6c9881b5fe67f62efab4c6b5749709167cac72e9477655e976b7"
+  },
+  "allocateDatalinks": {
+    "start": 2428271,
+    "end": 2429977,
+    "line": 26176,
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "missiles",
+      "getShipDamageEffects",
+      "DL_MAX",
+      "Math",
+      "weaponLinkB3IsOpen",
+      "canRadarProvideDL",
+      "surfaceMissileRuntimeWip13C6",
+      "surfaceMissileVariantKeyWip15C",
+      "Set"
+    ],
+    "sha256": "fdaf719cffa7d06003a4cf306dc23083b19630e6ad6a9ec5a415a393c9ecee6d"
+  },
+  "spg62ServoMount": {
+    "start": 2431880,
+    "end": 2432038,
+    "line": 26241,
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME",
+      "Number"
+    ],
+    "sha256": "aebbd8c753d708fd6bff3c02a835e515548dd30ee0f6cf2833f470ca6cf18817"
+  },
+  "spg62ServoBoresight": {
+    "start": 2432041,
+    "end": 2432180,
+    "line": 26242,
+    "refs": [
+      "spg62ServoMount",
+      "angNorm",
+      "shipNav"
+    ],
+    "sha256": "1f6c0b2e6e8546ffb372fe43fda09350f45c20ee7de62f81b1a83f9b653d90f1"
+  },
+  "spg62ServoTrackAngles": {
+    "start": 2432183,
+    "end": 2432528,
+    "line": 26245,
+    "refs": [
+      "Number",
+      "_sarhIlluminatorWorldState",
+      "worldToMeters",
+      "angNorm",
+      "Math",
+      "shipNav"
+    ],
+    "sha256": "8e2ebe8b14713590faed4693b384b9ad57fdf5532d41eecee91e973838d5746a"
+  },
+  "spg62ServoPointingError": {
+    "start": 2432531,
+    "end": 2432776,
+    "line": 26250,
+    "refs": [
+      "SPG62_ILLUMINATORS",
+      "Number",
+      "spg62ServoMount",
+      "spg62ServoTrackAngles",
+      "angNorm"
+    ],
+    "sha256": "b43cb75248d40242e225b4e549abc22223fbe7bd81c541bab22b06a1950daaa5"
+  },
+  "spg62ServoReady": {
+    "start": 2432779,
+    "end": 2433072,
+    "line": 26254,
+    "refs": [
+      "spg62ServoMount",
+      "SPG62_SERVO_POLICY",
+      "Number",
+      "Math"
+    ],
+    "sha256": "55c29c6c0ee6a07288eae4d98f5824f3cd92d69b086b6a0a199ebf9688e2ea8d"
+  },
+  "spg62ServoStep": {
+    "start": 2435183,
+    "end": 2437959,
+    "line": 26292,
+    "refs": [
+      "spg62ReservationNowS",
+      "SPG62_SERVO_POLICY",
+      "SPG62_ILLUMINATORS",
+      "spg62ServoMount",
+      "SPG62_ENGAGEMENT_STATE",
+      "spg62ActiveReservationForTarget",
+      "SPG62_RESERVATIONS",
+      "SPG62_RESERVATION_STATE",
+      "Number",
+      "Math",
+      "tracks",
+      "emconActive",
+      "shipEquipmentOfflineV1",
+      "wip121TargetSupportBlocked",
+      "spg62CurrentIlluminatorScore",
+      "SPG62_RESERVATION_POLICY",
+      "spg62ServoTrackAngles",
+      "stepSpg62ServoAxis",
+      "angNorm",
+      "spg62ServoPointingError",
+      "spg62ServoReady"
+    ],
+    "sha256": "2595e39b6dae90bdf9d2d3b899f97363225916084b65cfe0e5ce7a76b2f11e10"
+  },
+  "spg62ResetReservations": {
+    "start": 2439536,
+    "end": 2439835,
+    "line": 26351,
+    "refs": [
+      "SPG62_RESERVATIONS",
+      "SPG62_RESERVATION_STATE",
+      "SPG62_RESERVATION_META"
+    ],
+    "sha256": "1f2d6cb27428f4bf11587fa7e549b3ff4fb59926bacd080092f92d107b3b98ff"
+  },
+  "spg62ReservationHardwareSig": {
+    "start": 2439838,
+    "end": 2440003,
+    "line": 26356,
+    "refs": [
+      "SPG62_ILLUMINATORS",
+      "spg62Operational",
+      "Math",
+      "spg62DamagePct"
+    ],
+    "sha256": "3922a36796e681eeaedd76a2333c00fc02ec4949ec24dd3a8725d689ab3f28f6"
+  },
+  "spg62ReservationEngagementSig": {
+    "start": 2440006,
+    "end": 2440334,
+    "line": 26359,
+    "refs": [
+      "missiles",
+      "wip121TargetSupportBlocked",
+      "tracks"
+    ],
+    "sha256": "59799fb22b12dee4fd1eb3acd63503d4694ae0ca4850c6b46c4fa50f95f42178"
+  },
+  "spg62ReservationWindowFree": {
+    "start": 2440441,
+    "end": 2440715,
+    "line": 26364,
+    "refs": [
+      "SPG62_RESERVATIONS",
+      "spg62ReservationOverlap"
+    ],
+    "sha256": "7f23f1bada19eb1564a7819431b6fccfede2974951567004782dafa9d8f37c37"
+  },
+  "spg62BuildReservationEngagements": {
+    "start": 2443054,
+    "end": 2444166,
+    "line": 26397,
+    "refs": [
+      "spg62ReservationNowS",
+      "Map",
+      "missiles",
+      "tracks",
+      "wip121TargetSupportBlocked",
+      "spg62PredictMissileIlluminationWindow",
+      "spg62ReservationThreatScore",
+      "Set",
+      "Math",
+      "spg62SupportClassForMissile"
+    ],
+    "sha256": "30b6bd506bc059d7913da6407025ec9a36af27a0f4aa25a1493d76fc4a387421"
+  },
+  "spg62CurrentIlluminatorScore": {
+    "start": 2444169,
+    "end": 2444578,
+    "line": 26410,
+    "refs": [
+      "spg62Operational",
+      "aircraft",
+      "Math",
+      "angNorm",
+      "shipNav",
+      "horizDistKm",
+      "scoreIlluminator",
+      "wip199SpgTerrainLineFactor"
+    ],
+    "sha256": "9667590d5203cdaa62d8c3cf9e0156fd7001467474d6dbe463108c41f6445986"
+  },
+  "spg62ReservationCandidateIlluminators": {
+    "start": 2444581,
+    "end": 2444810,
+    "line": 26417,
+    "refs": [
+      "SPG62_ILLUMINATORS",
+      "spg62CurrentIlluminatorScore",
+      "SPG62_RESERVATION_POLICY"
+    ],
+    "sha256": "751793b05301c67e4afc7fd7c2a6b61ce945b05b2c562b4dd597f59205c73ea1"
+  },
+  "spg62ReplanReservations": {
+    "start": 2444813,
+    "end": 2448347,
+    "line": 26420,
+    "refs": [
+      "performance",
+      "spg62ReservationNowS",
+      "Map",
+      "SPG62_RESERVATION_STATE",
+      "spg62BuildReservationEngagements",
+      "SPG62_ENGAGEMENT_STATE",
+      "SPG62_ILLUMINATORS",
+      "spg62CurrentIlluminatorScore",
+      "SPG62_RESERVATION_POLICY",
+      "Math",
+      "SPG62_RESERVATIONS",
+      "spg62ReservationWindowFree",
+      "Infinity",
+      "spg62ReservationCandidateIlluminators",
+      "SPG62_RESERVATION_META",
+      "simStepCounter",
+      "spg62ReservationHardwareSig",
+      "spg62ReservationEngagementSig"
+    ],
+    "sha256": "9b57c5aca6f61fdf4c5b0217b17585c9b3bf2626403538c4be51f3d94eb3a7de"
+  },
+  "spg62MaybeReplanReservations": {
+    "start": 2448350,
+    "end": 2448968,
+    "line": 26465,
+    "refs": [
+      "Math",
+      "SPG62_RESERVATION_POLICY",
+      "SIM_FIXED_DT",
+      "spg62ReservationHardwareSig",
+      "spg62ReservationEngagementSig",
+      "SPG62_RESERVATION_META",
+      "simStepCounter",
+      "spg62ReplanReservations"
+    ],
+    "sha256": "5fc4769a8c574f35d3f17985fe39d70eb28b3055e61c86a2916c58b4cb6f0fee"
+  },
+  "spg62ActiveReservationForTarget": {
+    "start": 2448971,
+    "end": 2449272,
+    "line": 26474,
+    "refs": [
+      "spg62ReservationNowS",
+      "wip121TargetSupportBlocked",
+      "tracks",
+      "SPG62_RESERVATION_STATE"
+    ],
+    "sha256": "c575b7ab325cf4ca0499e7001e2160c28ad0b0cf1de1b8ae3a7a60c575294dbf"
+  },
+  "sortSpg62Engagements": {
+    "start": 2450938,
+    "end": 2451596,
+    "line": 26519,
+    "refs": [
+      "SPG62_ENGAGEMENT_STATE",
+      "Infinity"
+    ],
+    "sha256": "f042e6ab53a422a987188dcf8102ee26e643d9fb2761b6b9ec16f16649459813"
+  },
+  "allocateSARH": {
+    "start": 2453590,
+    "end": 2459630,
+    "line": 26572,
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "SPG62_ENGAGEMENT_STATE",
+      "spg62ResetReservations",
+      "ACTIVE_SHIP_RUNTIME",
+      "missiles",
+      "aircraft",
+      "spg62ReservationNowS",
+      "clearSpg62MissileAssignment",
+      "emconActive",
+      "spg62MaybeReplanReservations",
+      "Map",
+      "Set",
+      "spg62CurrentIlluminatorScore",
+      "tracks",
+      "wip121TargetSupportBlocked",
+      "computeSarhIllumQ",
+      "lerp",
+      "clamp",
+      "computeSarhIllumOpportunityV1",
+      "SPG62_RESERVATION_STATE",
+      "SPG62_ILLUMINATORS",
+      "SPG62_RESERVATION_POLICY",
+      "spg62ServoReady",
+      "Math",
+      "spg62SupportClassForMissile",
+      "isAegisAvailable",
+      "spq9bTrackFresh",
+      "dist3Km",
+      "buildSpg62Engagements",
+      "sortSpg62Engagements",
+      "spg62ReservationCandidateIlluminators",
+      "SPG62_RESERVATIONS",
+      "spg62ActiveReservationForTarget",
+      "spg62ServoMount"
+    ],
+    "sha256": "f5584e412ffbaeeda9f22e3dea0620cb5b25c85e05687f0762ad6bec4d4c6b4d"
+  },
+  "_vlsVerticalLaunchState": {
+    "start": 2462775,
+    "end": 2463589,
+    "line": 26708,
+    "refs": [
+      "Math",
+      "Number",
+      "shipNav",
+      "worldSpeedToMps",
+      "mpsToWorldSpeed"
+    ],
+    "sha256": "262ffc3f5aea2b0a6dfe6affbf7de3d21faa986e55770cc287a1fb1b56e3523b"
+  },
+  "_wip156StepVlsInCell": {
+    "start": 2465449,
+    "end": 2467776,
+    "line": 26742,
+    "refs": [
+      "Math",
+      "Number",
+      "wip148VlsCellLocal",
+      "shipGameFrameV1",
+      "G0",
+      "shipGamePointStateV1",
+      "shipGameAnglesV1",
+      "metersToWorld",
+      "angNorm",
+      "mpsToWorldSpeed",
+      "wip14a5Sm2ErStageEvent",
+      "wip14a6Sm6StageEvent"
+    ],
+    "sha256": "c38d45c3588a1195d4c2a1ba956b996a8c678738a694609eff315b8bc9f1854e"
+  },
+  "vlsReleaseStandardB1": {
+    "start": 2467780,
+    "end": 2484050,
+    "line": 26764,
+    "refs": [
+      "String",
+      "shipGameVlsReadyV1",
+      "getShipDamageEffects",
+      "notify",
+      "selectedLockId",
+      "tracks",
+      "surfaceTrackWip13C5",
+      "surfaceEssmLiveReleaseGateWip13C6",
+      "engagementControlMode",
+      "surfaceSm2LiveReleaseGateWip13C5",
+      "emconActive",
+      "SM2_EMCON_POLICY",
+      "toggleEmcon",
+      "aircraft",
+      "trackIsFireControlQuality",
+      "trackEngagementGateA3",
+      "trackA3ReasonKo",
+      "Math",
+      "lockCursor",
+      "_vlsVerticalLaunchState",
+      "Number",
+      "OWN_ALT_M",
+      "missileSerial",
+      "performance",
+      "_wip156CreateVlsInCellState",
+      "MISSILE_AREF_M2",
+      "MISSILE_LIFTREF_M2",
+      "MISSILE_CDA",
+      "selectedMslType",
+      "mpsToWorldSpeed",
+      "MACH1_MPS",
+      "deg",
+      "surfaceSm2CommitReservationWip13C5",
+      "wip148PeekVlsLaunchMeta",
+      "consumeVlsCell",
+      "surfaceSm2RollbackReservationWip13C5",
+      "wip199BindPhysicalVlsOrigin",
+      "initializeMissileV1",
+      "tagWorldEntityOwnershipV48Wip11A",
+      "ACTIVE_SHIP_RUNTIME",
+      "missiles",
+      "spg62ReplanReservations",
+      "allocateSARH",
+      "trackDisplayLabelById",
+      "allocateDatalinks",
+      "SM2_ALLOW_IOG_TEST_FIRE",
+      "kmToWorld"
+    ],
+    "sha256": "6a93866188a29b3b4e27e765babe4843cc1d476bcfad6332d09966b00de113f9"
+  },
+  "vlsReleaseEssmB1": {
+    "start": 2484252,
+    "end": 2493591,
+    "line": 27172,
+    "refs": [
+      "shipGameVlsReadyV1",
+      "getShipDamageEffects",
+      "notify",
+      "emconActive",
+      "ESSM_EMCON_POLICY",
+      "selectedLockId",
+      "aircraft",
+      "tracks",
+      "surfaceTrackWip13C5",
+      "surfaceEssmLiveReleaseGateWip13C6",
+      "engagementControlMode",
+      "trackIsFireControlQuality",
+      "trackEngagementGateA3",
+      "trackA3ReasonKo",
+      "Math",
+      "_vlsVerticalLaunchState",
+      "OWN_ALT_M",
+      "missileSerial",
+      "performance",
+      "_wip156CreateVlsInCellState",
+      "MISSILE_CDA",
+      "mpsToWorldSpeed",
+      "MACH1_MPS",
+      "deg",
+      "Number",
+      "ESSM_BLOCK2_TDD_SIM",
+      "wip148PeekVlsLaunchMeta",
+      "consumeVlsCell",
+      "wip199BindPhysicalVlsOrigin",
+      "initializeMissileV1",
+      "tagWorldEntityOwnershipV48Wip11A",
+      "ACTIVE_SHIP_RUNTIME",
+      "missiles",
+      "trackDisplayLabelById",
+      "allocateDatalinks"
+    ],
+    "sha256": "f3780abc225b47b155608ac74e7a4303b5084441624005205df69bbb2bdd4e0f"
+  },
+  "loftB4UpdatePlan": {
+    "start": 2527192,
+    "end": 2530132,
+    "line": 28033,
+    "refs": [
+      "loftB4Profile",
+      "surfaceMissileRuntimeWip13C6",
+      "surfaceMissileVariantKeyWip15C",
+      "missileNavB2OwnState",
+      "Number",
+      "Math",
+      "_samSmooth01",
+      "lerp",
+      "simStepCounter",
+      "weaponLinkB3NavUncertainty",
+      "speedOfSoundMps",
+      "airDensityKgM3",
+      "G0",
+      "loftB4Transition"
+    ],
+    "sha256": "6c0d8e00cdbcda1309b24b0e77d451dac3406c025120e1fd60863b13e95e2c1d"
+  },
+  "loftB4ShapeWaypoint": {
+    "start": 2530135,
+    "end": 2531315,
+    "line": 28076,
+    "refs": [
+      "loftB4Profile",
+      "missileNavB2OwnState",
+      "Math",
+      "Number",
+      "clamp",
+      "deg"
+    ],
+    "sha256": "7977580f0b7cfa9535af03468c854c7ff99d29133374557bb0d0473a5f0ae107"
+  },
+  "_samBuildAdaptiveTrajectoryPlan": {
+    "start": 2532976,
+    "end": 2541613,
+    "line": 28126,
+    "refs": [
+      "_samTrajectoryProfileFor",
+      "Math",
+      "_samInvWindow",
+      "_samUpWindow",
+      "clamp",
+      "_samEstimateRmaxKm",
+      "_samSmooth01",
+      "lerp",
+      "deg",
+      "Infinity",
+      "loftB4UpdatePlan"
+    ],
+    "sha256": "ec08f5be77f4f444beda5a9f9a1f0e3c2a2247c4d4de22c7db81b75404ddaa95"
+  },
+  "missileNavB2Kinematics": {
+    "start": 2693900,
+    "end": 2694226,
+    "line": 30008,
+    "refs": [
+      "missileNavB2OwnState",
+      "metersToWorld",
+      "mpsToWorldSpeed",
+      "Math"
+    ],
+    "sha256": "4cc4d13da2ef57eb4514e0e0151448804bfd4561d288cdaabd5a47bd941da869"
+  },
+  "missileNavB2Init": {
+    "start": 2697859,
+    "end": 2699430,
+    "line": 30067,
+    "refs": [
+      "missileNavB2ProfileFor",
+      "_samB1TruthOwnState",
+      "_samB1HashSigned",
+      "MISSILE_NAV_B2_CONTRACT",
+      "SAM_NAV_B1_CONTRACT",
+      "Infinity"
+    ],
+    "sha256": "3ad167712d7cf2dc1433f0b2796cfacfd14647533e6f513fa9231146143c8a8f"
+  },
+  "missileNavB2Update": {
+    "start": 2699433,
+    "end": 2702164,
+    "line": 30083,
+    "refs": [
+      "missileNavB2Init",
+      "missileNavB2ProfileFor",
+      "clamp",
+      "Number",
+      "missileNavB2Clock",
+      "_samB1HashSigned",
+      "Math",
+      "SIM_FIXED_DT",
+      "_samB1TruthOwnState"
+    ],
+    "sha256": "a4fc454240af69e29c203b44ef1841e429638966f77300e5eb0fae5d05771fe2"
+  },
+  "missileNavB2OwnState": {
+    "start": 2702167,
+    "end": 2702489,
+    "line": 30125,
+    "refs": [
+      "missileNavB2Init",
+      "_samB1VecCopy"
+    ],
+    "sha256": "0b3f065c6fce81a6335afe3ae08306343830db63507f68b27afceec63f632f50"
+  },
+  "_samB1HashSigned": {
+    "start": 2702560,
+    "end": 2702856,
+    "line": 30130,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math"
+    ],
+    "sha256": "8b76f55bd0a59afbbe6e604dc6ac3677056f3a8bac3632dfdb9d0d543e6aafa0"
+  },
+  "samNavB1Init": {
+    "start": 2703156,
+    "end": 2703339,
+    "line": 30137,
+    "refs": [
+      "ASM_PASSIVE_RF_B2_PROFILES",
+      "missileNavB2Init"
+    ],
+    "sha256": "301c228b0bd9a8ea292fe84c8c8c3a211ff3a59d28ac4e62db23e071ec4328db"
+  },
+  "samNavB1Update": {
+    "start": 2703342,
+    "end": 2703461,
+    "line": 30138,
+    "refs": [
+      "missileNavB2Update"
+    ],
+    "sha256": "d2c95b5e8eb8e3593aff792b6980fb5a398c195bdde78f9ae5e3dcfc96f3d145"
+  },
+  "samNavB1OwnState": {
+    "start": 2703464,
+    "end": 2703541,
+    "line": 30139,
+    "refs": [
+      "samNavB1Init",
+      "missileNavB2OwnState"
+    ],
+    "sha256": "f58ebe27998529037fc2407849cfc45685e5037c0512559ceaf40e8dd3fba876"
+  },
+  "samNavB1ReanchorRelativeCandidate": {
+    "start": 2704349,
+    "end": 2704979,
+    "line": 30145,
+    "refs": [
+      "_samB1TruthOwnState",
+      "samNavB1OwnState"
+    ],
+    "sha256": "03f51690ba1830822cf42a53f64429bca5a9c6cbbc5b3316930c851b1162e06e"
+  },
+  "weaponLinkB3Init": {
+    "start": 2723976,
+    "end": 2724435,
+    "line": 30379,
+    "refs": [
+      "weaponLinkB3ProfileFor",
+      "Number",
+      "WEAPON_LINK_B3",
+      "SIM_SEED_BASE",
+      "ACTIVE_SHIP_RUNTIME",
+      "simStepCounter"
+    ],
+    "sha256": "343e954611b138776ec8398546f483403902b46c336b312df91174b070f4ebd8"
+  },
+  "weaponLinkB3UplinkPayload": {
+    "start": 2726033,
+    "end": 2727073,
+    "line": 30413,
+    "refs": [
+      "surfaceMissileRuntimeWip13C6",
+      "Math",
+      "Number",
+      "trackCovarianceMetrics",
+      "SIM_FIXED_DT",
+      "worldToMeters",
+      "worldSpeedToMps",
+      "Array",
+      "_samB1CovarianceFromSigma",
+      "clamp",
+      "String",
+      "WEAPON_LINK_B3"
+    ],
+    "sha256": "915fa6262ec8a13cb52042c56e2bf8115d36c5bdc1ae2c1ed7be80c58ffc9bd8"
+  },
+  "weaponLinkB3Tick": {
+    "start": 2728941,
+    "end": 2730006,
+    "line": 30451,
+    "refs": [
+      "undefined",
+      "weaponLinkB3Init",
+      "weaponLinkB3Now",
+      "weaponLinkB3Close",
+      "weaponLinkB3Rebind",
+      "WEAPON_LINK_B3",
+      "shipEquipmentOfflineV1",
+      "emconActive",
+      "weaponLinkB3ReturnPayload",
+      "tracks",
+      "weaponLinkB3UplinkPayload",
+      "weaponLinkB3TrackSnapshot"
+    ],
+    "sha256": "3dfe4da181d2041a1bdf04d4e67b17035e68bfa0f300174506a81e632e65b077"
+  },
+  "_v1FindTarget": {
+    "start": 2745098,
+    "end": 2745239,
+    "line": 30596,
+    "refs": [
+      "truthObjectForTrackV27"
+    ],
+    "sha256": "611cd8cb1ae331471aad2474408987208f81e271a2f9003426ebf8df17927bf7"
+  },
+  "_wip75DeterministicSarhState": {
+    "start": 2754775,
+    "end": 2755509,
+    "line": 30813,
+    "refs": [
+      "_v1FindTarget",
+      "worldToMeters",
+      "worldSpeedToMps"
+    ],
+    "sha256": "592468c64d1ddee972f8ee985ce4dc8e6baf847c66c297e016c5fed3b25ceb65"
+  },
+  "getGuidanceTargetStateV1": {
+    "start": 2755513,
+    "end": 2760230,
+    "line": 30830,
+    "refs": [
+      "samB1GuidanceCueTrack",
+      "_wip75DeterministicSarhState",
+      "getSarhTargetStateV1",
+      "samNavB1ReanchorRelativeCandidate",
+      "updateArhSeekerV1",
+      "getArhTargetStateV1",
+      "getDlTargetStateV1",
+      "getMemTargetStateV1",
+      "_v1SelectGuidanceSource",
+      "Boolean",
+      "surfaceMissileAimStateWip13C7",
+      "samNavB1OwnState",
+      "Math"
+    ],
+    "sha256": "5aea8fb12da6c27d4b56c8a6416ddcc549141199296e23942b71a4c74a136178"
+  },
+  "_sarhSeekerRandom": {
+    "start": 2766782,
+    "end": 2767093,
+    "line": 31051,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math",
+      "_xorshift32"
+    ],
+    "sha256": "8d6b062e5930914f2a8a65baa4c752c8540810b7a287bac96f417f2684779f4e"
+  },
+  "_sarhSeekerRandn": {
+    "start": 2767096,
+    "end": 2767270,
+    "line": 31059,
+    "refs": [
+      "_sarhSeekerRandom",
+      "Math",
+      "TAU"
+    ],
+    "sha256": "e7f88d977d380af64a34d03d840080d95e46659b8a49820ddfb9002c8c0e0c2f"
+  },
+  "_sarhAssignedIlluminator": {
+    "start": 2767273,
+    "end": 2767385,
+    "line": 31063,
+    "refs": [
+      "SPG62_ILLUMINATORS"
+    ],
+    "sha256": "f531bad9182443b73b6630bf92661253db55f5a2b86ec8fdcf33f7fb96f3b96d"
+  },
+  "_sarhIlluminatorWorldState": {
+    "start": 2767388,
+    "end": 2767805,
+    "line": 31064,
+    "refs": [
+      "aircraft",
+      "metersToWorld",
+      "Math",
+      "shipNav",
+      "SPG62_FWD_HEIGHT_M",
+      "worldSpeedToMps"
+    ],
+    "sha256": "41db8903dad884a97e81645b87e19db26fce8694456fc66d5abd2bd4cca9a517"
+  },
+  "_sarhEchoIdentity": {
+    "start": 2769738,
+    "end": 2769914,
+    "line": 31094,
+    "refs": [
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math"
+    ],
+    "sha256": "3e50d513b1f158c8e57256bc92b7b701840a5f1f3f7d54258e97ec78e2dc6063"
+  },
+  "buildNavalSarhEchoPool": {
+    "start": 2770789,
+    "end": 2774635,
+    "line": 31102,
+    "refs": [
+      "SAM_SARH_RF_PROFILE",
+      "_sarhAssignedIlluminator",
+      "emconActive",
+      "spg62ServoMount",
+      "SPG62_ENGAGEMENT_STATE",
+      "_sarhIlluminatorWorldState",
+      "worldToMeters",
+      "_sarhReceiverState",
+      "_sarhPointStateMeters",
+      "_sarhUnitGeometry",
+      "deg",
+      "_sarhTruthReflectorPool",
+      "maritimeRfSeaClutterFieldWip13A3",
+      "Math",
+      "radarLOSQuality",
+      "terrainAwareRadarLOS",
+      "angNorm",
+      "aircraft",
+      "shipNav",
+      "spg62Quality",
+      "_sarhIlluminatorBeamGain",
+      "spg62ServoBoresight",
+      "_sarhReceiverBeamGain",
+      "_sarhReflectorBistaticRcsM2",
+      "lerp",
+      "clamp",
+      "maritimeRfWeatherPathFactorWip13A3",
+      "_sarhNormalizedBistaticPower",
+      "_sarhEchoIdentity"
+    ],
+    "sha256": "430cd54d3815a919d323515fd6112b48f4ba3a89e9cf594af5b87ccea61f6205"
+  },
+  "_sarhMonopulseMeasurement": {
+    "start": 2775604,
+    "end": 2778288,
+    "line": 31140,
+    "refs": [
+      "SAM_SARH_RF_PROFILE",
+      "deg",
+      "angNorm",
+      "Math",
+      "clamp",
+      "_sarhSeekerRandom",
+      "_sarhSeekerRandn"
+    ],
+    "sha256": "3e1c9b081cc32f186d2a0ee7d84d56a3392436811444dd96e5444033e236dfad"
+  },
+  "_sarhBuildMeasurementSet": {
+    "start": 2778291,
+    "end": 2778871,
+    "line": 31158,
+    "refs": [
+      "_sarhAssignedIlluminator",
+      "_sarhIlluminatorWorldState",
+      "_sarhReceiverState",
+      "worldToMeters",
+      "buildNavalSarhEchoPool",
+      "_sarhClusterEchoes",
+      "_sarhMonopulseMeasurement"
+    ],
+    "sha256": "3a46e3f5f401a9ef1faf192d49ff58e7858e1cb1f06579189bd086fe557b447d"
+  },
+  "_v1UpdateSarhMeasurementCore": {
+    "start": 2792532,
+    "end": 2795225,
+    "line": 31272,
+    "refs": [
+      "SAM_SARH_RF_PROFILE",
+      "_sarhEnsureTrackState",
+      "_sarhEkfPredict",
+      "_sarhServoCue",
+      "emconActive",
+      "Math",
+      "_sarhReceiverState",
+      "_sarhBuildMeasurementSet",
+      "_sarhAssociateMeasurements",
+      "_sarhEkfUpdate",
+      "_sarhUpdateStateMachine",
+      "_sarhStoreDiagnostics",
+      "_sarhTrackSigma",
+      "clamp",
+      "lerp",
+      "v1QualityMul",
+      "_sarhEkfAim"
+    ],
+    "sha256": "405509ce33fe59ca411195b8b5c2c740f7b3e67962bfba30c8fa7a4120e9d01e"
+  },
+  "_v1StepSarhSensorV1": {
+    "start": 2799831,
+    "end": 2800938,
+    "line": 31386,
+    "refs": [
+      "surfaceSarhCueTrackWip13C5",
+      "_sarhEnsureTrackState",
+      "_v1UpdateSarhMeasurementCore",
+      "debugLog"
+    ],
+    "sha256": "0db6783e62c997524f59b25b8e733f255b3453a90b5698746f1a40e6c137d0c0"
+  },
+  "getSarhTargetStateV1": {
+    "start": 2800942,
+    "end": 2802685,
+    "line": 31406,
+    "refs": [
+      "_v1StepSarhSensorV1",
+      "_sarhEnsureTrackState",
+      "_sarhEkfAim",
+      "clamp",
+      "_sarhTrackSigma",
+      "SAM_SARH_RF_PROFILE",
+      "Math"
+    ],
+    "sha256": "f354d3203371344a725b61cf596c21aa64b8efadd4b8f9af079eb15227b7a316"
+  },
+  "_arhSeekerRandom": {
+    "start": 2811315,
+    "end": 2811621,
+    "line": 31579,
+    "refs": [
+      "Number",
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math",
+      "_xorshift32"
+    ],
+    "sha256": "66d147299267adcb16494c01ada604abce5a19d8c1474745cfb5c9fc1dad915b"
+  },
+  "_arhSeekerRandn": {
+    "start": 2811624,
+    "end": 2811782,
+    "line": 31587,
+    "refs": [
+      "_arhSeekerRandom",
+      "Math",
+      "TAU"
+    ],
+    "sha256": "ff66ccbf3f7a29a2bc69a2e76d6a9a6ae378fdf00cad50097fe6b02ab8df3e7d"
+  },
+  "_arhEchoIdentity": {
+    "start": 2811848,
+    "end": 2812035,
+    "line": 31589,
+    "refs": [
+      "_mix32",
+      "SIM_SEED_BASE",
+      "Math"
+    ],
+    "sha256": "4c312e51c075fa06d21ed02e73a125fbd34e47774ad6519f62589bda356d8645"
+  },
+  "buildEssmArhEchoPool": {
+    "start": 2813096,
+    "end": 2816321,
+    "line": 31604,
+    "refs": [
+      "getSamArhProfile",
+      "_arhReceiverState",
+      "deg",
+      "Math",
+      "_sarhTruthReflectorPool",
+      "maritimeRfSeaClutterFieldWip13A3",
+      "_sarhPointStateMeters",
+      "_sarhUnitGeometry",
+      "radarLOSQuality",
+      "terrainAwareRadarLOS",
+      "_arhBeamGain",
+      "_arhReflectorRcsM2",
+      "getArhSeekerModel",
+      "seaSkimPenalty",
+      "clamp",
+      "maritimeRfWeatherPathFactorWip13A3",
+      "_arhNormalizedMonostaticPower",
+      "arhRfTargetEvidenceWip13B12",
+      "_arhClassifyBackground",
+      "_arhEchoIdentity"
+    ],
+    "sha256": "552c16310134f267677b7aca55a7a4b1b79dbac4faa523bd4f30a2fbda2c09e5"
+  },
+  "_arhV2MonopulseMeasurement": {
+    "start": 2817274,
+    "end": 2820775,
+    "line": 31634,
+    "refs": [
+      "getSamArhProfile",
+      "Math",
+      "deg",
+      "angNorm",
+      "clamp",
+      "_arhSeekerRandom",
+      "lerp",
+      "_arhSeekerRandn"
+    ],
+    "sha256": "9b206aa5727f5bffc11513f0bea56e0d82615352689454b0c3144fd57368579a"
+  },
+  "_arhMonopulseMeasurement": {
+    "start": 2820779,
+    "end": 2823504,
+    "line": 31660,
+    "refs": [
+      "getArhSeekerModel",
+      "_arhV2MonopulseMeasurement",
+      "getSamArhProfile",
+      "deg",
+      "angNorm",
+      "Math",
+      "clamp",
+      "_arhSeekerRandom",
+      "_arhSeekerRandn"
+    ],
+    "sha256": "642772739de5c8300106a64e57fe6c894d09d92426a79f370a5c02f013161224"
+  },
+  "updateArhSeekerV1": {
+    "start": 2830205,
+    "end": 2830405,
+    "line": 31687,
+    "refs": [
+      "_v1UpdateArhMeasurementCore",
+      "surfaceSarhCueTrackWip13C5"
+    ],
+    "sha256": "b280a2461def0edbc2a647e8cb3d47633238e680c1948ebd49e3c0625beaa3a0"
+  },
+  "_arhBuildMeasurementSet": {
+    "start": 2845115,
+    "end": 2845666,
+    "line": 31844,
+    "refs": [
+      "_arhEnsureTrackState",
+      "_arhReceiverState",
+      "buildEssmArhEchoPool",
+      "_arhApplyPdMtiFrontend",
+      "_arhUpdateTemporalEchoTracks",
+      "_arhClusterEchoes",
+      "getSamArhProfile",
+      "_arhDecorateMeasurementFromCluster",
+      "_arhMonopulseMeasurement"
+    ],
+    "sha256": "fd2fcdfc9c58757a452b8c135a320bd7f76ca44ca4c8f9fe41305f74f7364a25"
+  },
+  "_v1UpdateArhMeasurementCore": {
+    "start": 2854277,
+    "end": 2857441,
+    "line": 31901,
+    "refs": [
+      "getSamArhProfile",
+      "_arhEnsureTrackState",
+      "_arhEccmDecay",
+      "_arhUpdateStateMachine",
+      "_arhEkfPredict",
+      "_arhServoCue",
+      "Math",
+      "_arhBuildMeasurementSet",
+      "_arhAssociateMeasurements",
+      "_arhShouldProtectCoast",
+      "lerp",
+      "clamp",
+      "_arhEkfUpdate",
+      "Number",
+      "Set",
+      "Boolean",
+      "_arhSaveProtectedTrack",
+      "_arhStoreDiagnostics",
+      "_arhTrackSigma",
+      "v1QualityMul",
+      "_arhEkfAim"
+    ],
+    "sha256": "541cc241de7536ac97c7bd8ad02d4f439243fa2ace1fb54fc2db9e3d24d11143"
+  },
+  "getDlTargetStateV1": {
+    "start": 2873364,
+    "end": 2875493,
+    "line": 31964,
+    "refs": [
+      "samB1RefreshDlRx",
+      "surfaceMissileRuntimeWip13C6",
+      "surfaceMissileFireControlQualityWip13C4",
+      "surfaceMissileVariantKeyWip15C",
+      "worldToMeters",
+      "Math",
+      "Number",
+      "worldSpeedToMps",
+      "clamp",
+      "TRACK_DL_MAX_AGE",
+      "v1QualityMul",
+      "trackCovarianceMetrics"
+    ],
+    "sha256": "a0e85c7bc50849490f04906e983a11a418f649beeba4678ce85bf711dd33dc8b"
+  },
+  "computeTruePN3D": {
+    "start": 2876419,
+    "end": 2878133,
+    "line": 32022,
+    "refs": [
+      "samNavB1OwnState",
+      "Math",
+      "smoothstep"
+    ],
+    "sha256": "fc9ec85ebb1cc1f8c6b4f6ec4661decd62685a379dbfba830ae01796de71ab66"
+  },
+  "computeAPNCorrectionV1": {
+    "start": 2878176,
+    "end": 2880642,
+    "line": 32068,
+    "refs": [
+      "Math",
+      "lerp",
+      "samNavB1OwnState",
+      "clamp"
+    ],
+    "sha256": "79956f6d6e22f065dd6ed13cda609235d69061a1103b2bead358ebe95732d83e"
+  },
+  "computeZEMCorrectionV1": {
+    "start": 2880646,
+    "end": 2882716,
+    "line": 32120,
+    "refs": [
+      "samNavB1OwnState",
+      "Math",
+      "clamp",
+      "G0",
+      "Number"
+    ],
+    "sha256": "5a5261fc04cbec774e4b05d483789f045573cad16180649ebf8b5f5d7f43cfaa"
+  },
+  "_wip79KappaOmegaPerM": {
+    "start": 2883882,
+    "end": 2884973,
+    "line": 32186,
+    "refs": [
+      "samNavB1OwnState",
+      "Math",
+      "airDensityKgM3",
+      "speedOfSoundMps",
+      "MISSILE_AREF_M2",
+      "MISSILE_LIFTREF_M2",
+      "missileCLalphaMach",
+      "samParasiticCdV14A5",
+      "missileThrustN",
+      "MISSILE_MASS_KG"
+    ],
+    "sha256": "b1fea77ab621d4d73321c11ff21fdd3e10ecc2ea45c785f8b62d6d1363292d77"
+  },
+  "_wip79KappaPipState": {
+    "start": 2887159,
+    "end": 2889291,
+    "line": 32234,
+    "refs": [
+      "samNavB1OwnState",
+      "_samB1VecCopy",
+      "Math",
+      "Number",
+      "weaponLinkB3AdvisedTgo",
+      "_wip81KappaTgoLimit",
+      "clamp",
+      "String",
+      "window",
+      "deg",
+      "loftB4ShapeWaypoint"
+    ],
+    "sha256": "596a8a0a5f101b62c2664a608618d1f530cea72a04d0b925b9ffffe40eda94b6"
+  },
+  "computeKappaMidcourseAccelV2": {
+    "start": 2889295,
+    "end": 2892851,
+    "line": 32266,
+    "refs": [
+      "_wip86UpdateKappaAzEstimate",
+      "_wip79KappaPipState",
+      "_wip79KappaOmegaPerM",
+      "_wip79KappaGainsFromX",
+      "Math",
+      "G0",
+      "Number",
+      "window",
+      "rad2deg",
+      "Infinity"
+    ],
+    "sha256": "e5cf8ea49c2d5c1b46cb640db7019269fa0158ef0e632bc7b8c7a5782a8c4710"
+  },
+  "computeGuidanceAccelV1": {
+    "start": 2895667,
+    "end": 2898465,
+    "line": 32357,
+    "refs": [
+      "Math",
+      "lerp",
+      "clamp",
+      "computeTruePN3D",
+      "computeAPNCorrectionV1",
+      "computeZEMCorrectionV1"
+    ],
+    "sha256": "9a5c45530be360b7b7a266e9df05ad38a6204a7dfa1057b3945fd8a4e83b9bb5"
+  },
+  "applyAccelCommandToAutopilotV1": {
+    "start": 2900951,
+    "end": 2904706,
+    "line": 32469,
+    "refs": [
+      "samNavB1OwnState",
+      "Math",
+      "Number",
+      "window",
+      "clamp",
+      "lerp",
+      "G0",
+      "_sm2CommandEnvelopeG",
+      "debugLog",
+      "deg"
+    ],
+    "sha256": "066199c3c445b597b099f480fc3478d322ee73a18047c7b9d6939e7114ba0fd1"
+  },
+  "initializeMissileV1": {
+    "start": 2911192,
+    "end": 2913289,
+    "line": 32635,
+    "refs": [
+      "GUIDANCE_TEST_MODE",
+      "debugLog",
+      "SAM_MISSILE_PROFILES",
+      "console",
+      "String",
+      "window",
+      "SAM_LOFT_PROFILE_REGISTRY",
+      "applySamPhysicalProfile",
+      "initializeSamSixDofLite",
+      "samNavB1Init",
+      "samB1InitializeLaunchCue",
+      "weaponLinkB3Init",
+      "wip14a8IsStandardMissile",
+      "STANDARD_AERO_KERNEL",
+      "wip14a12NewTelemetry"
+    ],
+    "sha256": "c0fae838fec476573687a61ac52ff6c8679143c71e1aab1af89dca1328a488d5"
+  },
+  "applyGuidanceKernelV1ToLegacyRates": {
+    "start": 2918966,
+    "end": 2925133,
+    "line": 32703,
+    "refs": [
+      "surfaceMissileRuntimeWip13C6",
+      "getGuidanceTargetStateV1",
+      "computeKappaMidcourseAccelV2",
+      "applyAccelCommandToAutopilotV1",
+      "_wip79ResolveKappaEligibility",
+      "WIP79_KAPPA_TERMINAL_TGO_S",
+      "_wip79CaptureTerminalEntry",
+      "computeGuidanceAccelV1",
+      "_wip79CaptureThreeSecEntry",
+      "updateEssmTvcV1",
+      "Math",
+      "clamp",
+      "_samSmooth01",
+      "lerp",
+      "samNavB1OwnState",
+      "debugLog",
+      "deg"
+    ],
+    "sha256": "c39541a3310e15b6ea70e6cbfd39765a53abdb9672a3d515de1550d3f7597012"
+  },
+  "_samLeadPointForLaunch": {
+    "start": 2939065,
+    "end": 2939777,
+    "line": 33022,
+    "refs": [
+      "samNavB1OwnState",
+      "metersToWorld",
+      "worldToMeters",
+      "Math",
+      "clamp"
+    ],
+    "sha256": "6e1b2de2d6e92111c07de6445b05b139f74eceda11cf430b6951720fea3073a4"
+  },
+  "_samSetLaunchCorridorCommand": {
+    "start": 2939782,
+    "end": 2941422,
+    "line": 33030,
+    "refs": [
+      "_samVlsControlConfig",
+      "samNavB1OwnState",
+      "metersToWorld",
+      "worldToMeters",
+      "Math",
+      "clamp"
+    ],
+    "sha256": "2172484114a02001610032035f42f55313ffa5ab3031219b0521a22a992c6019"
+  },
+  "_samSeaClearanceRateGuard": {
+    "start": 2941427,
+    "end": 2942800,
+    "line": 33049,
+    "refs": [
+      "_samVlsControlConfig",
+      "samNavB1OwnState",
+      "Number",
+      "Math",
+      "clamp",
+      "lerp",
+      "G0",
+      "worldSpeedToMps",
+      "deg"
+    ],
+    "sha256": "e7b4fff6115c3a5cf541aee1c084b1bed7c3da4f401cc66ff60d812e7d3333b4"
+  },
+  "updateMissile": {
+    "start": 2942873,
+    "end": 2943011,
+    "line": 33069,
+    "refs": [
+      "updateMissileBodyB3",
+      "weaponLinkB3Close"
+    ],
+    "sha256": "88bd6a222994efcdba9a72a75430af6ddf2854c5ad5350b21736a906db44f9bd"
+  },
+  "updateMissileBodyB3": {
+    "start": 2943014,
+    "end": 3070488,
+    "line": 33073,
+    "refs": [
+      "samNavB1Update",
+      "weaponLinkB3Tick",
+      "samB1GuidanceCueTrack",
+      "surfaceMissileRuntimeWip13C6",
+      "Math",
+      "notify",
+      "_v1StepSarhSensorV1",
+      "clamp",
+      "OWN_ALT_M",
+      "ALT_MIN_M",
+      "ATMOSPHERE_MODEL_MAX_M",
+      "airDensityFactor",
+      "worldSpeedToMps",
+      "MISSILE_MASS_KG",
+      "airDensityKgM3",
+      "MISSILE_G_MIN_Q",
+      "MISSILE_Q_MIN_PA",
+      "MISSILE_Q_MAX_PA",
+      "missileThrustN",
+      "deg",
+      "G0",
+      "Number",
+      "window",
+      "propulsionPropellantKgBetween",
+      "Error",
+      "wip14a5AdvanceSm2ErStage",
+      "wip14a6AdvanceSm6Stage",
+      "_wip156StepVlsInCell",
+      "speedOfSoundMps",
+      "samParasiticCdV14A5",
+      "wip14a8IsStandardMissile",
+      "wip14a11ParasiticCd",
+      "isFinite",
+      "MISSILE_CD0",
+      "MISSILE_AREF_M2",
+      "MISSILE_LIFTREF_M2",
+      "missileCLalphaMach",
+      "MISSILE_AR",
+      "MISSILE_E_OSWALD",
+      "MISSILE_CDCTRL_K",
+      "transonicFactor",
+      "MISSILE_CDWAVE_K",
+      "WIP14A2_SPEED_DIAGNOSTICS",
+      "mpsToWorldSpeed",
+      "tracks",
+      "samNavB1OwnState",
+      "trackIsDisplayable",
+      "lerp",
+      "weaponLinkB3TrackSnapshot",
+      "surfaceMissileCommandAimHeightWip15C",
+      "dist3Km",
+      "metersToWorld",
+      "worldToKm",
+      "dist",
+      "worldToMeters",
+      "trackCovarianceMetrics",
+      "_samBuildAdaptiveTrajectoryPlan",
+      "_samVlsControlConfig",
+      "_samLeadPointForLaunch",
+      "_samSetLaunchCorridorCommand",
+      "angNorm",
+      "debugLog",
+      "rad2deg",
+      "horizDistKm",
+      "surfaceLaunchVectorAlignedWip13C6",
+      "wip136JettisonEssmTvc",
+      "_samSmooth01",
+      "_samUpWindow",
+      "_samTrajectoryProfileFor",
+      "altitudeForDynamicPressureM",
+      "surfaceSm2GuidanceFloorWip13C5",
+      "computeSarhIllumQ",
+      "aircraft",
+      "smoothstep",
+      "truthObjectForTrackV27",
+      "seekerAcquire",
+      "kmToWorld",
+      "MACH1_MPS",
+      "surfaceMissileGuidanceFloorWip13C6",
+      "preSlewSeekerToBearing",
+      "ownX",
+      "ownY",
+      "applyGuidanceKernelV1ToLegacyRates",
+      "_samSeaClearanceRateGuard",
+      "_sm2CommandEnvelopeG",
+      "updateSamSixDofLiteDynamics",
+      "surfaceMissileSweptContactWip13C5",
+      "wip173PushVisualEvent",
+      "_wip75RecordGuidanceSample",
+      "Infinity",
+      "_wip75NearestGuidanceSample",
+      "_wip143FuzeParamsForMissile",
+      "_wip143FuzeDetectRadiusM",
+      "_wip99FragmentLeadTimeS",
+      "_wip99SeaClutterFalseTrigger",
+      "WIP143_TDD_EVENT_TRACE",
+      "seaStateFactor",
+      "_wip99Stage2CandidateDecision",
+      "_wip88InterceptKinematics",
+      "_wip144EssmFieldEfficiencyForEvent",
+      "trackDisplayLabelOr",
+      "_wip99FragmentArrivalGeometry",
+      "_wip99FragmentSpeedMps",
+      "JSON",
+      "WIP87_CASE_META",
+      "WIP87_PROX_CONTEXT",
+      "_wip87Finite",
+      "computeInterceptPk",
+      "simRandom",
+      "applyInterceptResult",
+      "SIM_TEST_WIP87_PK_TRACE",
+      "WIP87_PENDING_PK",
+      "SIM_RNG_STATE",
+      "wip173RecordInterceptBurst",
+      "rand",
+      "retireTruthAssociationV27"
+    ],
+    "sha256": "a99f2441d63058c42b82325b96a4f1d8fb2b90939b5c30d5e7dbb5ba7f64e72e"
+  },
+  "seekerAcquire": {
+    "start": 3071134,
+    "end": 3081711,
+    "line": 35455,
+    "refs": [
+      "angNorm",
+      "clamp",
+      "Math",
+      "getIrccmAnchor",
+      "deg",
+      "flares",
+      "dist3Km",
+      "OWN_ALT_M",
+      "targetPool",
+      "terrainLineOfSightFactor",
+      "trackIdForTruthV27",
+      "irSignature",
+      "irSeekerEffectiveRange",
+      "closingSpeedKmh3",
+      "notchFactor",
+      "enemyMissiles",
+      "chaffs",
+      "simRandom"
+    ],
+    "sha256": "8a79a5587601820e5fa84f638b860c00d2e4fe929ae09b9abffaaacaeb7f3912"
+  },
+  "getIrccmAnchor": {
+    "start": 3124924,
+    "end": 3125590,
+    "line": 36628,
+    "refs": [
+      "truthObjectForTrackV27",
+      "Math",
+      "Number"
+    ],
+    "sha256": "45f167f9503761772fb0556d1850fd891b53765ccea97c7f37aece6a7965ce21"
+  },
+  "wip14a14DecisionInventory": {
+    "start": 3132494,
+    "end": 3132941,
+    "line": 36740,
+    "refs": [
+      "getVlsCounts",
+      "Math",
+      "HARD_KILL_DOCTRINE",
+      "ciws"
+    ],
+    "sha256": "49fdc99e17b343c85fbe634962dcdf8f25255004584f54a485de081274fb893a"
+  },
+  "hardKillMountGeometry": {
+    "start": 3134574,
+    "end": 3135041,
+    "line": 36772,
+    "refs": [
+      "ciwsMountStateM",
+      "worldToMeters",
+      "Math",
+      "ciwsGameDirectionV1"
+    ],
+    "sha256": "0e92becb14e1aff81e7d2f7990753a6cb2897e9506abc3cd9c274e93d2d6d0eb"
+  },
+  "wip118TrackStateSI": {
+    "start": 3162825,
+    "end": 3163192,
+    "line": 37115,
+    "refs": [
+      "worldToMeters",
+      "aircraft",
+      "Number",
+      "worldSpeedToMps"
+    ],
+    "sha256": "8f748487cd2ddfa9e8d3947545da74567ca4cf8b1d5a0c24ddbb521847f1cfa0"
+  },
+  "wip118PredictTrackCPA": {
+    "start": 3188305,
+    "end": 3189908,
+    "line": 37285,
+    "refs": [
+      "wip118TrackStateSI",
+      "worldToMeters",
+      "aircraft",
+      "OWN_ALT_M",
+      "worldSpeedToMps",
+      "shipNav",
+      "Number",
+      "clamp",
+      "WIP118_KILL_ASSESSMENT_POLICY",
+      "Math"
+    ],
+    "sha256": "714eb7922cb9a76e0b55c2138ca1d909579ff451baf704fb12a451595787ed46"
+  },
+  "wip118FutureThreat": {
+    "start": 3198531,
+    "end": 3199191,
+    "line": 37351,
+    "refs": [
+      "wip118TrackStateSI",
+      "Math",
+      "wip118TrackAcceleration",
+      "metersToWorld",
+      "mpsToWorldSpeed",
+      "worldToKm",
+      "dist",
+      "aircraft",
+      "closingSpeedKmh3",
+      "shipNav",
+      "OWN_ALT_M"
+    ],
+    "sha256": "6c67d99cabf3a78904137431535be863248140af5d64c88a9f1723089415749c"
+  },
+  "wip118NezPoint": {
+    "start": 3199194,
+    "end": 3200334,
+    "line": 37356,
+    "refs": [
+      "wip14a14WeaponProfile",
+      "wip118FutureThreat",
+      "hardKillKinematicInterceptEstimate",
+      "wip118TrackAcceleration",
+      "Math",
+      "wip118SamAuthorityAt",
+      "wip118TargetEvasiveG",
+      "Number",
+      "WIP118_KILL_ASSESSMENT_POLICY"
+    ],
+    "sha256": "8e9d3935e308f7fe252b3f7cd31ad54c9b2859f9fedf6d25c64f42394b362720"
+  },
+  "wip118ReservationAtNezPoint": {
+    "start": 3200337,
+    "end": 3201463,
+    "line": 37363,
+    "refs": [
+      "spg62ReservationNowS",
+      "WIP79_KAPPA_TERMINAL_TGO_S",
+      "Math",
+      "SPG62_RESERVATION_POLICY",
+      "SPG62_RESERVATION_STATE",
+      "spg62ReservationWindowFree",
+      "spg62ReservationCandidateIlluminators"
+    ],
+    "sha256": "a300827485fca22f90be4d36d38ced1d15cd1bbafac0d863d563fa185bae3299"
+  },
+  "wip118FindNezPlan": {
+    "start": 3201466,
+    "end": 3203360,
+    "line": 37369,
+    "refs": [
+      "wip119WeaponDescriptor",
+      "Number",
+      "WIP118_KILL_ASSESSMENT_POLICY",
+      "clamp",
+      "wip118TrackAcceleration",
+      "wip118NezPoint",
+      "wip118ReservationAtNezPoint"
+    ],
+    "sha256": "9152c29e66b34df1ae557c33c29804380fda21200933b04a07fb1cbb88138d48"
+  },
+  "wip118BasicResource": {
+    "start": 3203363,
+    "end": 3204357,
+    "line": 37378,
+    "refs": [
+      "getShipDamageEffects",
+      "wip119WeaponDescriptor",
+      "emconActive",
+      "ESSM_EMCON_POLICY",
+      "wip14a14InventoryAmount",
+      "SM2_EMCON_POLICY",
+      "ciws",
+      "hardKillMountGeometry"
+    ],
+    "sha256": "c304b64c656f6f0888b85c2550d46b0040744a73507ce73a35c95793551dd3e4"
+  },
+  "wip118SalvoPolicy": {
+    "start": 3204360,
+    "end": 3205521,
+    "line": 37382,
+    "refs": [
+      "HARD_KILL_DOCTRINE",
+      "wip14a14WeaponProfile",
+      "WIP118_KILL_ASSESSMENT_POLICY",
+      "wip118FutureThreat",
+      "wip118TrackAcceleration",
+      "Number",
+      "hardKillKinematicInterceptEstimate"
+    ],
+    "sha256": "df44b95ac472fdc7d952964e3149c4f8b78321202c2d7e8ee51e34c75a665bbf"
+  },
+  "harpoonRouteGateE": {
+    "start": 4527215,
+    "end": 4529536,
+    "line": 43682,
+    "refs": [
+      "harpoonRuntimeA",
+      "harpoonTubeSpecA",
+      "HARPOON_PROFILE_A",
+      "tracks",
+      "Number",
+      "surfaceMissileIdentityPolicyWip13C4",
+      "shipEquipmentOfflineV1",
+      "getModuleDmg",
+      "shipGameFrameV1",
+      "maritimeSeaLevelAtSimulationMetersWip13A3",
+      "harpoonRouteProgramE",
+      "deepFreezeShipProfileV48Wip09",
+      "Array",
+      "simStepCounter"
+    ],
+    "sha256": "e9ec1ae060f1406dd209c32fdcb2f2b606663bcad0918833ec84a545c041660b"
+  },
+  "harpoonGateA": {
+    "start": 4532201,
+    "end": 4534381,
+    "line": 43735,
+    "refs": [
+      "selectedLockId",
+      "harpoonRuntimeA",
+      "harpoonRouteGateE",
+      "harpoonTubeSpecA",
+      "tracks",
+      "Number",
+      "HARPOON_PROFILE_A",
+      "surfaceMissileIdentityPolicyWip13C4",
+      "surfaceMissileTrackReadinessWip13C4",
+      "Math",
+      "shipEquipmentOfflineV1",
+      "getModuleDmg",
+      "shipGameFrameV1",
+      "maritimeSeaLevelAtSimulationMetersWip13A3",
+      "harpoonMemoryA"
+    ],
+    "sha256": "60457ef19a5ba6def2db1a150fb51977d9e91b419cc902aa4b386883527b8ef4"
+  },
+  "harpoonAutoTubeGateD": {
+    "start": 4535086,
+    "end": 4536036,
+    "line": 43770,
+    "refs": [
+      "selectedLockId",
+      "harpoonRuntimeA",
+      "harpoonGateA",
+      "harpoonRankTubesD"
+    ],
+    "sha256": "e3315203c1a6e7faa5e2097006ea59cc900423eafdbadc6fc2ab5a6a9df554a5"
+  },
+  "harpoonRequestFireA": {
+    "start": 4536957,
+    "end": 4537468,
+    "line": 43795,
+    "refs": [
+      "selectedLockId",
+      "harpoonAutoTubeGateD",
+      "harpoonGateA",
+      "harpoonRuntimeA",
+      "notify",
+      "HARPOON_PROFILE_A"
+    ],
+    "sha256": "fab7edc88c77c7b5c4113aae32a1fddd5607170ca0b321653931d38ea2ae4be4"
+  },
+  "harpoonReleaseA": {
+    "start": 4537469,
+    "end": 4540069,
+    "line": 43802,
+    "refs": [
+      "harpoonGateA",
+      "harpoonRuntimeA",
+      "notify",
+      "HARPOON_PROFILE_A",
+      "shipGamePointStateV1",
+      "harpoonTubeSpecA",
+      "ENGAGEMENT_RUNTIME",
+      "ACTIVE_SHIP_RUNTIME",
+      "harpoonInsInitC",
+      "maritimeSeaLevelAtSimulationMetersWip13A3",
+      "Math",
+      "shipGameFrameV1",
+      "rfSeedWip13A2",
+      "BATTLESPACE",
+      "harpoonLaunchRecordC",
+      "harpoonWorldA",
+      "harpoonSyncWorldCoordinatesA",
+      "getShipMassLedgerV32"
+    ],
+    "sha256": "2612a7f0eb0a84ab58ae90655c9ad3bc7bc1ec726e1c2bda73fbf6a9584dea73"
+  },
+  "harpoonLaunchRecordC": {
+    "start": 4571793,
+    "end": 4572118,
+    "line": 44159,
+    "refs": [
+      "simStepCounter",
+      "Array",
+      "tracks"
+    ],
+    "sha256": "4c760d8c4f692113e99e0f915a69f6fa1cbdb4fe3204be64520014ab9d73bacb"
+  }
+}
