@@ -1,11 +1,26 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP C
+## 최신 개발 기준 — Multi Ship WIP E
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_C.html), **15,344,725 bytes**, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_E.html), **15,609,329 bytes**, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`.
+- 5C/5D: 실제 배치 적함의 기존 AUTO를 독립 owner 상태에 결속했다. 자기 센서의 신선한 관측·식별/ROE·장비·사각·탄약·지원 조건을 통과하면 실제 VLS/RAM/Phalanx로 방어한다. BDA·후속 관측·alias/지원 이관도 기존 커널을 사용한다.
+- 출항 전 함선 선택과 적재 화면에 **적 항공기 스폰 ON/OFF**를 추가했다. 기본 ON은 기존 스폰 조건을 유지하고 OFF는 정상 초기/주기/재시작 스폰을 끈다. 저장·불러오기·새 해역·reset에 유지하며 출항 후 잠긴다.
+- CG는 양현 Phalanx, DDG는 기존 설치 무장을 사용한다. 저고도 Harpoon이 CG 센서에서 확인되지 않는 시험 조건에서는 AI도 발사하지 않는다. 센서 검출/요격 성공을 보장하지 않는다. receiver별 EW·공격/기동 AI·헬기는 다음 단계다.
+- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_E.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_E.txt), [구조/검사](docs/multiship/E/README.md), [다음 단계](docs/multiship/E/DEPENDENCIES.md), [최종 검증](docs/multiship/E/evidence/verification-summary.json), [측정 조건](docs/multiship/E/PERFORMANCE.md), [GitHub 인계](docs/multiship/E/GITHUB_HANDOFF.md).
+- 최종 원본 직접 검사 **660/660 PASS**. 이전 candidate 결과는 합산하지 않는다. CI의 실제 결과는 최신 PR head checks/artifacts를 따른다.
+- `multiship-defense-e`는 D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에 연결한다. D 세트/workflow는 동일 bytes로 archive에 보존했다. 원본 HTML 직접 업로드·readback/CI를 수행하며 main과 A/B/C/D를 임의 병합하지 않는다.
+
+## 직전 개발 기준 — Multi Ship WIP D
+
+- [D HTML](archive/v48/WIP_MULTI_SHIP_D/Aegis_SIM_v48_WIP_MULTI_SHIP_D.html), SHA `babac7fba08e4d59628c25245b1c657a87516f6774f6ec505c2314b1e3c1bf6e`, 15,575,097 bytes. [D 상태](archive/v48/WIP_MULTI_SHIP_D/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_D.md), [PR #48](https://github.com/0-FLANDRE-0/Aegis_Project/pull/48).
+- 5A/5B의 owner 무장·양방향 실물 접촉/구획 피해·3D와 advisory shadow를 구현했다. E에서 방어 AUTO/BDA를 추가했으며 D 기록과 증거는 역사 기준으로 보존한다.
+
+## 직전 개발 기준 — Multi Ship WIP C
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_C/Aegis_SIM_v48_WIP_MULTI_SHIP_C.html), **15,344,725 bytes**, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`.
 - 4단계: 실제 배치 함정의 SPY/해면탐색/항법 레이더와 익명 관측·추정 트랙을 함정별로 실행한다. 자함 CIC는 자함 관측만 읽으며 상대 위치·정체를 바로 주입하지 않는다. CG/DDG의 면 배치·센서 profile, 지평선·지형 차폐와 EMCON/손상·coast를 적용한다.
 - 이후 헬기를 받을 오차·시각·지연·링크 단절이 있는 외부 관측 포트를 준비했다. **헬기 자체와 양방향 무장/EW/AI는 후속 단계**다. Harpoon 발사 후 DL=0, 기본 적함 없음/자함 EMCON ON, 60/120/20 Hz를 유지한다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_C.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt), [구조/포트](docs/multiship/C/README.md), [다음 단계](docs/multiship/C/DEPENDENCIES.md), [검증 집계](docs/multiship/C/evidence/verification-summary.json), [측정 조건](docs/multiship/C/PERFORMANCE.md), [GitHub 인계](docs/multiship/C/GITHUB_HANDOFF.md).
+- [상태](archive/v48/WIP_MULTI_SHIP_C/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_C.md), [SHA](archive/v48/WIP_MULTI_SHIP_C/SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt), [구조/포트](docs/multiship/C/README.md), [다음 단계](docs/multiship/C/DEPENDENCIES.md), [검증 집계](docs/multiship/C/evidence/verification-summary.json), [측정 조건](docs/multiship/C/PERFORMANCE.md), [GitHub 인계](docs/multiship/C/GITHUB_HANDOFF.md).
 - `multiship-sensors-c`는 B head `ae94326caea7cd0329233f381933cdc240bedb47` 위에서 이어간다. B 원본 세트/workflow는 동일 bytes로 archive에 보존한다. stable v48은 그대로다. 새 PR은 B branch를 base로 하며 A/B/C는 미병합 상태로 유지한다.
 
 - 최종 파일 직접 검증 **417/417 PASS**. [PR #47](https://github.com/0-FLANDRE-0/Aegis_Project/pull/47), [독립 원격104파일 readback](docs/multiship/C/evidence/remote-publication.json). CI 실제 상태는 해당 최신 head checks를 따른다.

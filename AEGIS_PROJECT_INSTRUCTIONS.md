@@ -187,7 +187,20 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP C — 함정별 관측·외부 관측 포트
+### 최신 개발 기준 MULTI SHIP E — 방어 AUTO/BDA·출항 전 항공기 설정
+
+- HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_E`, HTML 15,609,329 bytes, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`, decoded main SHA `446f96c11279970cda4d9e5542137dad96ba86ee155f3f503cbf83fa51f2c105`. 지원/검사는 `docs/multiship/E/`, 현재 workflow/manifest는 E다.
+- D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에서 원본 AUTO/BDA/alias 67개 함수를 기존 owner closure에 결속했다. immutable profile/원본 모델·stable v48·공통 world1회·60/120/20Hz를 유지한다. 실제 발사 직전에도 관측/식별·권한·사각·장비·재고를 재검사한다.
+- 적함은 기본 방어 AUTO이며 기존 measured hostile-intent와 보호 identity/ROE를 사용한다. effect/후속 coherent observation/alias 지원 이관은 owner-local이다. 실제 alive/truth로 격추를 확정하지 않는다. 독립 C55 확인 관측으로 RAM/Phalanx를 연속 실행한다. CG에 SeaRAM을 추가하지 않는다.
+- 출항 전 적 항공기 ON/OFF는 두 UI에서 동기화되고 `AEGIS_DEPLOYMENT_MULTI_SHIP_E_1`로 저장한다. legacy A_1은 ON으로 명시 migration한다. OFF는 정상 초기/주기/reset/새 해역 스폰을 막고 시계·스폰 난수를 소비하지 않는다. 전투 transient/BDA/진행 살보는 저장 복원하지 않는다.
+- 실탄 Harpoon 시험에서 DDG는 자동 ESSM을 발사했으나 해당 seed에서 접촉도 발생했다. CG의 저고도 접근은 확인된 ASM 관측이 없어 발사0이며, 별도의 자연 20m Kh-35U에서는 실제 Phalanx 방어를 확인한다. 센서 검출과 격추율 보장은 없다. EW/공격·기동/헬기는 후속이며 Harpoon DL=0을 유지한다.
+- D HTML/status/SHA/workflow는 같은 bytes로 `archive/v48/WIP_MULTI_SHIP_D/`에 보존한다. §7.1에 따라 `multiship-defense-e` 원본 HTML 업로드/readback·D 위 PR/최신 head CI를 수행한다. main/A/B/C/D 병합은 새 요청 없이 실행하지 않는다. 최종 결과는 E 상태/evidence와 PR checks를 따른다.
+
+### 직전 개발 기준 MULTI SHIP D — owner 무장·실물 접촉/shadow
+
+- D 원본 HTML SHA `babac7fba08e4d59628c25245b1c657a87516f6774f6ec505c2314b1e3c1bf6e`, 15,575,097 bytes. PR #48은 C 위 미병합이며 D original status/evidence를 archive/지원에 보존한다. D의 active enemyAI 미구현 설명은 당시 기록이다.
+
+### 직전 개발 기준 MULTI SHIP C — 함정별 관측·외부 관측 포트
 
 - 이번 범위는 4단계다. HTML/status/SHA는 `v48_WIP_MULTI_SHIP_C`, 지원은 `docs/multiship/C/`, HTML 15,344,725 bytes, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`, main SHA `d68eca1dbe2b3b6c491ba4f9d2de9c5ccbcb34221ee7d3f02631fd897925094e`.
 - 기준 B head `ae94326caea7cd0329233f381933cdc240bedb47`·B HTML SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`. B 세트/workflow를 동일 bytes로 archive에 보존한다. 현재 workflow/manifest는 C, 역사 B 자료는 그대로다. stable v48과 원본 assets/profile/module revision은 유지한다.
