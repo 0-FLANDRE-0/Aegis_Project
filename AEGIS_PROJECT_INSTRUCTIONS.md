@@ -187,7 +187,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 PERF_C — 최적화3단계
+### 최신 개발 기준 PERF_D — 최적화4단계
+
+- 현재 v48_WIP_PERF_D, HTML 15,707,799bytes SHA `bd3bc97089cd0085c1990b5460fd4b8d6f5c9bcf794e1f520a42bc9c2aa95c2e`, main `7212a596022d0aa7f7294633eff41015e03cb6f217d7150bcdd025c04e7d3b31`. PERF_C final `5ddd05ce9358e9a23c11d26030bff05c6f18fa1d` 위 performance-d. 현행 support/workflow/checksum은 PERF_D, 아래 이전 단계는 당시 기록이다.
+- source sectional envelope의 기존 rounded-key/last-value/order/sort/convex 결과를 유지하면서 임시 배열을 줄인다. 변형 radial edge는 동일 scalar 산술이다. packed2/13만 변경하고 등록 모델·삼각형·envelope source bytes를 유지한다.
+- 완성된 quick opening/fold snapshot을 atomic publish한 후 동일 generator로 scorch/outline을 완성한다. detail은 기존 동작. live geometry ownership을 publish 시 이전하며 cancellation finally는 미공개 작업만 dispose한다. reset/import/owner retirement가 기존 수명주기로 live geometry를 회수한다. presenter-only _damageOpeningRevisionPerfD는 snapshot/authority에 저장하지 않는다.
+- 자함 quick은 다른 owner 이후 기존6ms allowance의 unused share를 빌린다. total allowance/다른 owner shares/detail slice/fixed60/120/20Hz 및 physics/damage/RNG/release/PERF_A/B/C caches를 보존한다. 기존 cooperative step overshoot 가능성은 남아 있다.
+- 최종 원본 1660/1660PASS/33suites, 오류0. 두 함종 geometry quick/detail/sealed bytes/index/groups/bounds/bindings와 cancel/reset, layout3,072/convex384 사례 exact. 전체 기존 회귀·six strict ownship 조건·density16쌍·native latency4쌍 state/RNG exact. 증거의 fixture와 실제 native RAF latency를 구별하고 host CPU/SwiftShader submission을 phone/hardwareGPU FPS로 표현하지 않는다.
+- 이전 PERF_C 네 파일 samebytes/blob archive, stablev48 보존. §7.1 승인으로 full original 직접 upload/readback. Actions dispatch/CI PASS/main·선행 branch 병합/새PR 생성 없음. 다음은 실제3D/효과 최적화·최종 재측정, 그 뒤 헬기/초수평선 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_C — 최적화3단계 (당시 기록)
 
 - 현재 세트 v48_WIP_PERF_C, HTML 15,707,171bytes SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`, main `015c4cf9f83c9f6bd595ce61583e214bbd12c8248fad15bacdc87fa10f0c7358`. PERF_B final `d26e94194d52f0040f4d3d388b9bbce49460b440` 위 performance-c. 현행 support/workflow/checksum은 PERF_C, 아래 PERF_B 이하는 당시 기록이다.
 - SPY 공통 대공 NIS의 prediction/Jacobian/공분산 투영·동일 오차 역행렬만 캐시한다. 트랙 객체별 WeakMap last1, 상태6·공분산36·센서 위치/속도6·오차4 exact 비교로 in-place/same-tick 변경도 즉시 반영한다. 측정 innovation은 매번 현재값, native 산술·행렬/NIS 합산 순서를 유지한다.

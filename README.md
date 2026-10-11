@@ -1,10 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 최적화 WIP PERF_C
+## 최신 개발 기준 — 최적화 WIP PERF_D
 
-- [HTML](Aegis_SIM_v48_WIP_PERF_C.html), **15,707,171bytes**, SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`.
+- [HTML](Aegis_SIM_v48_WIP_PERF_D.html), **15,707,799bytes**, SHA `bd3bc97089cd0085c1990b5460fd4b8d6f5c9bcf794e1f520a42bc9c2aa95c2e`.
+- 피격 메쉬의 완성된 구멍·변형을 먼저 표시하고, 기존 frame 작업 예산의 남은 부분을 사용한다. 두 함종의 단면·변형 경계 계산 할당 비용도 줄였다. 최종 메쉬/물리 피해·RNG·주기·release guard는 유지한다.
+- 최종 원본 **1660/1660PASS/33suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_D.md), [SHA](SHA256SUMS_v48_WIP_PERF_D.txt), [계약](docs/performance/D/README.md), [조건/성능](docs/performance/D/PERFORMANCE.md), [검증](docs/performance/D/evidence/verification-summary.json).
+- performance-d full original upload/readback. Actions dispatch/main·선행 branch 병합/새PR 생성 없음. 다음은 실제3D/효과 부하와 최종 재측정 → 헬기/초수평선 → RGM-109E Block Va다.
+
+## 직전 개발 기준 — 최적화 WIP PERF_C (당시 기록)
+
+- [HTML](archive/v48/WIP_PERF_C/Aegis_SIM_v48_WIP_PERF_C.html), **15,707,171bytes**, SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`.
 - SPY NIS 연관의 exact 트랙 상태/공분산/센서 원점 계산 재사용. 측정 innovation·native EKF 갱신·배정/게이트·발사권한·RNG/물리/피해는 유지한다.
-- 최종 원본 **1603/1603PASS /31suites**, 오류0. NIS231사례·CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/C/PERFORMANCE.md), [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_C.md), [SHA](SHA256SUMS_v48_WIP_PERF_C.txt), [계약](docs/performance/C/README.md), [직접 검증](docs/performance/C/evidence/verification-summary.json).
+- 최종 원본 **1603/1603PASS /31suites**, 오류0. NIS231사례·CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/C/PERFORMANCE.md), [상태](archive/v48/WIP_PERF_C/AEGIS_PLAN_STATUS_v48_WIP_PERF_C.md), [SHA](archive/v48/WIP_PERF_C/SHA256SUMS_v48_WIP_PERF_C.txt), [계약](docs/performance/C/README.md), [직접 검증](docs/performance/C/evidence/verification-summary.json).
 - PERF_B final 위 `performance-c`, full original 직접 upload·독립 readback. Actions dispatch/main·선행PR 병합·새PR 생성 없음. 다음은 피격 envelope → 실제 render·최종 재측정 → 헬기/초수평선 → RGM-109E Block Va다.
 
 ## 직전 개발 기준 — 최적화 WIP PERF_B (당시 기록)

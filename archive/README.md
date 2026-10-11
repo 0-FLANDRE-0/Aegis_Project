@@ -30,3 +30,7 @@ PERF_C의 직전 PERF_B HTML/status/SHA/workflow는 `v48/WIP_PERF_B/`에 원래 
 
 - `Aegis_SIM_v37.1_WIPNN.html`
 - `AEGIS_PLAN_STATUS_v37.1_WIPNN.md`
+
+## WIP PERF_C 보존
+
+직전 verified PERF_C HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_C에 samebytes/blob으로 이동했다. 해당 historical scripts/records는 당시 경로와 조건을 보존하며 현재 root/support/workflow는 PERF_D다.
