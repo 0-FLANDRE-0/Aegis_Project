@@ -187,7 +187,15 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP H4A — 독립 근접 자위·측정 기반 채프
+### 최신 개발 기준 PERF_A — 최적화1단계
+
+- 현재 세트 `v48_WIP_PERF_A`, HTML 15,704,207bytes SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`, main `c43d9287e066bd56132d57d3a2cb2b4b37bee05e008f59432a61f82ae41d64e1`. H4A final `b97925cb5fb27d4dad26d62db78520641ee70857` 위 `performance-a`. 현행 support/workflow/checksum은 PERF_A, 아래 H4A 이하 내용은 당시 기록이다.
+- 불변 등록 hitbox system→고유 module name만 WeakMap으로 색인하고 현재 owner damage를 매번 읽는다. 자함 기존 함수/가변 geometry scan을 유지한다. EW IJ band 검사를 pod geometry 이전으로 이동하며 지원 band 계산·정책은 유지한다.
+- Kh32 기존 도색 texture/canvas를 view/THREE/실제 paint 입력별로 공유한다. geometry/material/plume은 개별이고 body geometry lease는 idempotent, 마지막 참조에서만 texture.dispose 및 entry 제거다. live/MAIN wreck/도감·import/reset/native render를 검사했다. 닫힌 도감은 기존 current model1개를 보관한다. 두 캐시는 파생 데이터이며 snapshot/전투 상태를 소유하지 않는다.
+- 새 원본 직접 1483/1483PASS/29suites/15captures, 오류0. H4A26 browser suites, 두 함종 selftests/72 EW조건,64모델 source texture1개·pixel/geometry parity,6ownship strict state/RNG와3owner1/8/16/64배속exact,별도직렬16쌍을 확인했다. counts/SHA/조건/범위는 PERF_A evidence를 따른다.
+- H4A 네 원본 samebytes/blob과 stablev48/assets0~12를 보존한다. §7.1 full original upload/readback 승인 유지; Actions 미실행/CI PASS 주장 없음; main/선행PR 병합·새PR 생성 없음. 다음은 planner/SPG·SPY·피격 envelope·실제 render 최적화이며 이후 헬기/초수평선 → RGM-109E Block Va를 유지한다. CPU 관측을 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H4A — 독립 근접 자위·측정 기반 채프 (당시 기록)
 
 - 현재 세트 `v48_WIP_MULTI_SHIP_H4A`, HTML 15,702,263bytes SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`, main `b9f2ae3e1f53d88df36dab03e52dcde4cdb2ddd9fc8043b6456f732e63948d77`. H4 final `b74a2c733352230a0799446cfdb6730b2bb87421` 위 `multiship-defense-h4a`, PR base H4. 현행 support/workflow/checksum은 H4A다. 아래 H4 이하 기록은 당시 기준이다.
 - 기존 CMS+local RF 경로를 유지하고 confirmed fresh local RF·접근 지속·미사일 운동학·자함 CPA/품질/사각/구동/전원/탄약 조건을 통과한 독립 `LOCAL_SELF_DEFENCE_H4A`만 추가한다. 실제 발사에 동일 owner/mount/pending/file 객체와 freshness/FRIEND·NEUTRAL/own-fire/효과 보호/HOLD/EMCON/손상 재검사가 있다. generic AUTO 포트 개방·CMS 적성 파일 생성·SAM 권한 확대가 아니다.

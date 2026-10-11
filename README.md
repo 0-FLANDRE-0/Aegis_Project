@@ -1,11 +1,19 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP H4A
+## 최신 개발 기준 — 최적화 WIP PERF_A
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H4A.html), **15,702,263 bytes**, SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`.
+- [HTML](Aegis_SIM_v48_WIP_PERF_A.html), **15,704,207 bytes**, SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`.
+- 불변 부품 색인·EW 지원 대역 조기 검사·Kh-32 동일 도색 공유. **64모델에 canvas/texture1개**, 원래 도색 픽셀과 geometry를 보존하고 부분/최종 제거·도감·import/reset 수명을 검증했다.
+- 기존 fixed60/120/20Hz·센서·AI·무장·피해·Harpoon DL0를 유지한다. strict6 ownship조건과 직렬CPU16쌍에서 상태/RNG exact. [성능 조건/관측](docs/performance/A/PERFORMANCE.md).
+- 최종 원본 **1483/1483PASS /29suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_A.md), [SHA](SHA256SUMS_v48_WIP_PERF_A.txt), [운용](docs/performance/A/README.md), [직접 검증](docs/performance/A/evidence/verification-summary.json).
+- H4A final 위 `performance-a`, 원본 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. 다음은 교전 planner/SPG 중복 계산 최적화이며 헬기/초수평선 → RGM-109E Block Va는 최적화 뒤다. main/선행PR 병합·새PR 생성은 실행하지 않는다.
+
+## 직전 개발 기준 — Multi Ship WIP H4A (당시 기록)
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_H4A/Aegis_SIM_v48_WIP_MULTI_SHIP_H4A.html), **15,702,263 bytes**, SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`.
 - CMS 미획득에도 **CIWS 자체 RF의 확인된 접근 위협**으로 독립 자위 대응한다. 실제 발사에서 owner-local capability·freshness·아군/중립/효과 보호·HOLD/EMCON/손상을 재검사한다. CMS 적성/원거리 SAM 권한을 만들지 않는다.
 - 유일하게 연관된 **local RF 거리·접근 + passive 시커 방위**를 기존 채프 timing에 전달한다. ESM 방위만으로 거리를 추측하지 않는다. 기본 fresh CG 하푼 공격에서 채프4/Phalanx95발·실제 분해를 확인했다.
-- 최종 원본 **1484/1484 PASS /27 suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H4A.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H4A.txt), [운용](docs/multiship/H4A/README.md), [직접 검증](docs/multiship/H4A/evidence/verification-summary.json), [조건](docs/multiship/H4A/PERFORMANCE.md).
+- 최종 원본 **1484/1484 PASS /27 suites**, 오류0. [상태](archive/v48/WIP_MULTI_SHIP_H4A/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H4A.md), [SHA](archive/v48/WIP_MULTI_SHIP_H4A/SHA256SUMS_v48_WIP_MULTI_SHIP_H4A.txt), [운용](docs/multiship/H4A/README.md), [직접 검증](docs/multiship/H4A/evidence/verification-summary.json), [조건](docs/multiship/H4A/PERFORMANCE.md).
 - H4 final 위 `multiship-defense-h4a`, PR base H4. 원본/support 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. 새 main/선행 PR 병합은 실행하지 않는다. 다음은 헬기/초수평선 탐지 → 사용자 지정 RGM-109E Block Va다.
 
 ## 직전 개발 기준 — Multi Ship WIP H4 (당시 기록)
