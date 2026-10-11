@@ -1,12 +1,21 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP H2
+## 최신 개발 기준 — Multi Ship WIP H3
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H2.html), **15,675,514 bytes**, SHA `522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H3.html), **15,683,482 bytes**, SHA `0a9626535c209d8ad4e5a9b5262bd826d8ede8df928562534ba6c44b5673d178`.
+- owner별 **대수상 공격 AI**: fresh 현지 HOSTILE 수상 관측·별도1/2발 공격 동의(120초)·발사대/사거리/예측 오차·chart/아군 보호를 거쳐 기존 native 하푼을 발사한다. 자함/아군함 기본OFF이며 전술 AI ON + AUTO와 동의가 필요하다. FLEET에서 공격량/동의/철회를 조작한다.
+- 개방 중 OFF/철회/관제 인계·식별/alias/관측 소실/손상/보호 변경은 actual release를 막는다. 수동 하푼/waypoint 우선, 예비2발, native 자동 고정 튜브 선택/INS→ARH/DL0와 기존 H1/H2/G 물리·방어·기동·3D/해상효과를 유지한다.
+- 적함도 자기 현지 HOSTILE 파일에만 mission 살보를 실행한다. IFF 무응답을 적성으로 간주하지 않아 UNKNOWN 첫 공격은 보류한다. 공유/ESM-only는 공격 권한이나 현지 FCS가 아니다. AI는 비행 위치/명중 truth를 알지 못한다.
+- strict settings-only 저장, H2/H1/G/F/B/no-fleet 명시 OFF migration, 동의/계획/capability reset. 최종 원본 직접 **1198/1198 PASS**, page/core/runtime/presentation 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H3.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H3.txt), [운용](docs/multiship/H3/README.md), [직접 검증](docs/multiship/H3/evidence/verification-summary.json), [조건](docs/multiship/H3/PERFORMANCE.md), [남은3단계](docs/multiship/H3/DEPENDENCIES.md).
+- H2 `59fad37cc170c760c1659b916febc168021a31b4` 위 `multiship-tactical-h3`, PR base H2. 원본 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. main/선행 PR 병합은 실행하지 않는다.
+
+## 직전 개발 기준 — Multi Ship WIP H2
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_H2/Aegis_SIM_v48_WIP_MULTI_SHIP_H2.html), **15,675,514 bytes**, SHA `522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1`.
 - 관측 기반 **기동 utility AI**가 승인된 현지 위협·조종/장비 상태·기존 SPG-62/CIWS 사각으로 유지/선회/속력 후보를 비교한다. native 타/기관 명령만 쓰며 실제 선회·가감속·피해/침수 물리를 유지한다. chart 해안과 관측된 수상 교통으로 위험 후보를 제외한다.
 - FLEET **기동 AI ON/OFF / 기동 AI 재개**, 자함 기본OFF·아군/적함 기본ON. 전술 AI ON + AUTO에서 실행하며 NAV/FLEET 수동 항법·지도 항로 조작이 우선한다. ON/OFF는 수동 우선권을 지우지 않는다. 기동 재개는 레이더/EW 수동 hold를 유지한다.
 - 요청 항법 baseline과 strict 설정만 저장하며 판단/목표/명령 소유권은 reset/import 때 비운다. H1/G/F/B/no-fleet 저장을 명시 migration한다. 공유/ESM만으로 기동·현지 FCS·적성 식별을 생성하지 않는다. 기존 방어 gate·물리/비행·CG RAM0·고정 셀·Harpoon DL0를 유지한다.
-- [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H2.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H2.txt), [운용/계약](docs/multiship/H2/README.md), [직접 검증](docs/multiship/H2/evidence/verification-summary.json), [측정 조건](docs/multiship/H2/PERFORMANCE.md), [후속 H3](docs/multiship/H2/DEPENDENCIES.md), [직접 업로드](docs/multiship/H2/GITHUB_HANDOFF.md).
+- [상태](archive/v48/WIP_MULTI_SHIP_H2/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H2.md), [SHA](archive/v48/WIP_MULTI_SHIP_H2/SHA256SUMS_v48_WIP_MULTI_SHIP_H2.txt), [운용/계약](docs/multiship/H2/README.md), [직접 검증](docs/multiship/H2/evidence/verification-summary.json), [측정 조건](docs/multiship/H2/PERFORMANCE.md), [후속 H3](docs/multiship/H2/DEPENDENCIES.md), [직접 업로드](docs/multiship/H2/GITHUB_HANDOFF.md).
 - 최종 원본 직접 **883/883 PASS**, page/core/runtime/presentation 오류0. 실제 기동·수동 항법/저장·사각/해안/수상 접촉, 자연 센서→AI→요격, 세 척1/8/16/64 결정성, H1 물리/RNG, 실제 WebGL/RAF 피격·복원을 확인했다. 조건과 한계는 위 집계를 따른다.
 - `multiship-tactical-h2`는 H1 head `43021f9693dc0500b5f2def531ec5d0d9e17bf0b` 위다. 원본 직접 업로드·독립 readback을 수행한다. Actions 사용 불가 조건에 따라 수동 workflow만 준비하고 로컬 검증으로 마감한다. 다음은 **H3 대수상 공격 AI**다.
 

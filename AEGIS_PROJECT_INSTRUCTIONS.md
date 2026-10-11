@@ -187,7 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP H2 — owner 관측 기반 기동 AI
+### 최신 개발 기준 MULTI SHIP H3 — owner 관측 기반 대수상 공격 AI
+
+- 현재 개발 세트 `v48_WIP_MULTI_SHIP_H3`, HTML 15,683,482 bytes, SHA `0a9626535c209d8ad4e5a9b5262bd826d8ede8df928562534ba6c44b5673d178`, main SHA `904116a4d73455b5a12d4c800afea30fac9e05415d81c0f1c16ce3f37cba38f4`. H2 final `59fad37cc170c760c1659b916febc168021a31b4` 위 `multiship-tactical-h3`, PR base `multiship-tactical-h2`, 현행 support/workflow/checksum은 H3다. 아래 이전 기준은 당시 기록이다.
+- canonical root `ShipRuntime.combatSystem.attackH3`, 설정/제한 동의/계획/capability/접수 이력 owner-local. 자함/아군OFF, enemyON. H1 전술 ON + owner AUTO, fresh 현지 SURFACE/명시 HOSTILE + 별도1/2발120초 동의를 요구한다. 적함은 mission 권한이어도 현지 HOSTILE만 허용한다. UNKNOWN/IFF 무응답·shared/ESM-only를 적성/FCS/발사 권한으로 만들지 않는다.
+- 5Hz bounded command phase, 파일96/후보16/protected64/log64, 예비2발·enemy90초 살보 재평가·선회120도 상한은 SIM-TUNE이다. 등록 CG departure geometry·native gate·CV route/chart·관측/수신 protected 경로/search basket 검사. actual release 재검사가 최종이다. 정확한 capability 객체만 새 H3 권한이며 generic AUTO/SEMIAUTO, coordinate search와 다른 surface weapons의 MANUAL-only를 완화하지 않는다.
+- FLEET 공격 ON/OFF/1~2발 동의/철회는 selected friendly owner에만 작용한다. ON만으로 발사하지 않고 새 동의/ON/OFF는 이전 동의를 지운다. 철회/OFF/MANUAL/HOLD/masterOFF는 준비를 취소한다. 수동 Harpoon/waypoint가 우선하고 actual release만 동의량을 차감한다. 번호/alias는 동의를 승계하지 않는다.
+- H3 AI는 비행 Harpoon world state/시커/생존/명중/BDA truth나 peer private FCS를 읽지 않는다. DL0, launch frozen INS cue→독립 ARH 및 native RF/physical/damage/effects는 유지한다. 실제 물리는 기존60/120/20Hz, heading/speed/position 직접 writes나 render physics/RNG가 없다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H3_1`, attack `AEGIS_SURFACE_ATTACK_H3_1` schema/enabled만 strict detached preflight로 저장한다. 현재 attack missing/type/extra는 zero writes 거부, H2 기존 필수 tactical/maneuver/network도 유지한다. H2/H1/G/F/B/no-fleet의 새 공격 권한은 명시 OFF migration하며 pending deployment에도 적용한다. 동의/계획/capability/log는 deferred, import/reset/deploy/retire에서 비운다.
+- 최종 원본 직접 1198/1198 PASS와 조건은 H3 evidence/verification-summary.json을 따른다. 역사/폐기 draft 수치를 합산하지 않는다. 원본 직접 GitHub 업로드는 §7.1 standing authorization을 사용하고 Actions dispatch·main/선행 PR 병합은 실행하지 않는다. automatic smoke blocked를 CI PASS로 표기하지 않는다.
+- 후속3큰 단계: H4 팀 전술/합동 기동, 헬기/초수평선 탐지, RGM-109E Block Va. ARH 자체 IFF/보편적 오격 방지·미식별 적성 추론/장거리 offboard firing 완료를 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H2 — owner 관측 기반 기동 AI
 
 - 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H2`, HTML 15,675,514 bytes, SHA `522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1`, main SHA `80ecfe1be494132521b6f6e1327647f50608c92da98fef235f541ed657926865`다. H1 head `43021f9693dc0500b5f2def531ec5d0d9e17bf0b` 위 `multiship-tactical-h2`, PR base `multiship-tactical-h1`, 최신 support/workflow/checksum은 H2다.
 - `ShipRuntime.combatSystem.maneuverH2`가 설정·유틸리티 후보·임시 항법 소유권을 소유한다. 자함 기본OFF·외함 기본ON이며 H1 전술 AI ON + owner AUTO에서 실행한다. 현지 승인 fresh AIR 측정과 자기 장비/조종 상태·native SPG/CIWS 사각만 사용한다. shared/ESM-only는 H1 readiness이며 기동 목표/현지 FCS/살상 권한이 아니다.
