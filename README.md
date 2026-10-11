@@ -1,10 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 최적화 WIP PERF_B
+## 최신 개발 기준 — 최적화 WIP PERF_C
 
-- [HTML](Aegis_SIM_v48_WIP_PERF_B.html), **15,706,015bytes**, SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`.
+- [HTML](Aegis_SIM_v48_WIP_PERF_C.html), **15,707,171bytes**, SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`.
+- SPY NIS 연관의 exact 트랙 상태/공분산/센서 원점 계산 재사용. 측정 innovation·native EKF 갱신·배정/게이트·발사권한·RNG/물리/피해는 유지한다.
+- 최종 원본 **1603/1603PASS /31suites**, 오류0. NIS231사례·CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/C/PERFORMANCE.md), [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_C.md), [SHA](SHA256SUMS_v48_WIP_PERF_C.txt), [계약](docs/performance/C/README.md), [직접 검증](docs/performance/C/evidence/verification-summary.json).
+- PERF_B final 위 `performance-c`, full original 직접 upload·독립 readback. Actions dispatch/main·선행PR 병합·새PR 생성 없음. 다음은 피격 envelope → 실제 render·최종 재측정 → 헬기/초수평선 → RGM-109E Block Va다.
+
+## 직전 개발 기준 — 최적화 WIP PERF_B (당시 기록)
+
+- [HTML](archive/v48/WIP_PERF_B/Aegis_SIM_v48_WIP_PERF_B.html), **15,706,015bytes**, SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`.
 - 교전 판단 내 관측 예측/SPG 기하 공유와 exact owner 자세의 body frame 재사용. 실제 예약·발사 재검사와 기존 물리/센서/AI/RNG/피해를 유지한다.
-- 최종 원본 **1534/1534PASS /30suites**, 오류0. strict CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/B/PERFORMANCE.md), [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_B.md), [SHA](SHA256SUMS_v48_WIP_PERF_B.txt), [계약](docs/performance/B/README.md), [직접 검증](docs/performance/B/evidence/verification-summary.json).
+- 최종 원본 **1534/1534PASS /30suites**, 오류0. strict CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/B/PERFORMANCE.md), [상태](archive/v48/WIP_PERF_B/AEGIS_PLAN_STATUS_v48_WIP_PERF_B.md), [SHA](archive/v48/WIP_PERF_B/SHA256SUMS_v48_WIP_PERF_B.txt), [계약](docs/performance/B/README.md), [직접 검증](docs/performance/B/evidence/verification-summary.json).
 - PERF_A final 위 `performance-b`, full original 직접 upload·독립 readback. Actions dispatch/병합/새PR 생성 없음. 다음은 SPY 관측 연관 최적화, 이후 피격/3D·최종 재측정 → 헬기/초수평선 → RGM-109E Block Va다.
 
 ## 직전 개발 기준 — 최적화 WIP PERF_A (당시 기록)

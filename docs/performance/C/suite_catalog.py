@@ -1,0 +1,10 @@
+"""Direct original-file suites; historical H4A evidence is not counted."""
+import runpy
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[3]
+SUITES={k:('docs/multiship/'+v[0],v[1])for k,v in runpy.run_path(str(ROOT/'docs/multiship/H4A/suite_catalog.py'))['SUITES'].items()}
+SUITES['baseline']=('docs/performance/C/verify_baseline.py','baseline-comparison.json')
+SUITES['semantics']=('docs/performance/C/verify_semantics.py','semantics.json')
+SUITES['resources']=('docs/performance/C/verify_resources.py','resources.json')
+SUITES['planner']=('docs/performance/C/verify_planner.py','planner.json')
+SUITES['radar']=('docs/performance/C/verify_radar.py','radar.json')

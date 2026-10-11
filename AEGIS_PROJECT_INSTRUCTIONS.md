@@ -187,7 +187,15 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 PERF_B — 최적화2단계
+### 최신 개발 기준 PERF_C — 최적화3단계
+
+- 현재 세트 v48_WIP_PERF_C, HTML 15,707,171bytes SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`, main `015c4cf9f83c9f6bd595ce61583e214bbd12c8248fad15bacdc87fa10f0c7358`. PERF_B final `d26e94194d52f0040f4d3d388b9bbce49460b440` 위 performance-c. 현행 support/workflow/checksum은 PERF_C, 아래 PERF_B 이하는 당시 기록이다.
+- SPY 공통 대공 NIS의 prediction/Jacobian/공분산 투영·동일 오차 역행렬만 캐시한다. 트랙 객체별 WeakMap last1, 상태6·공분산36·센서 위치/속도6·오차4 exact 비교로 in-place/same-tick 변경도 즉시 반영한다. 측정 innovation은 매번 현재값, native 산술·행렬/NIS 합산 순서를 유지한다.
+- 캐시는 파생값·snapshot 비저장이며 truth/권한/시간 기반 cache가 아니다. native EKF 예측/갱신·수상 연관·plot 생성/난수·focused/global 배정/게이트·actual release source와 fixed60/120/20Hz·물리/피해/EW/AI/Harpoon DL0·PERF_A/B 최적화를 유지한다.
+- 최종 원본 직접 1603/1603PASS/31suites/15captures, 오류0. NIS231차등/전체 입력 제자리 변화·오차·signed zero/invalid·갱신/거부·게이트 경계, 두 함종 core, strict CG/DDG6조건/직렬16쌍 상태/RNG/entity exact와 기존 native/browser/세 owner1/8/16/64를 확인했다. 집계/SHA/조건/한계는 PERF_C evidence를 따른다.
+- PERF_B 네 원본 samebytes/blob·stablev48/assets0~12 보존. §7.1 승인에 따라 full original 직접 upload/readback, Actions dispatch/CI PASS/main·선행PR 병합/새PR 생성 없음. 다음은 피격 envelope → 실제 render·최종 재측정이며 이후 헬기/초수평선 → RGM-109E Block Va다. host CPU를 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 PERF_B — 최적화2단계 (당시 기록)
 
 - 현재 세트 v48_WIP_PERF_B, HTML 15,706,015bytes SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`, main `6577a3e216f0bec2ae7aeefb7e79524c33ee52c564de94dfb3763ad3cb24a977`. PERF_A final `4b42aacd4271ce790b47b981b9a58dc960e5d5c5` 위 performance-b. 현행 support/workflow/checksum은 PERF_B, 아래 PERF_A 이하는 당시 기록이다.
 - 두 native lexical planner의 build-local ctx에서 같은 threat/delay forecast와 SPG 기하 점수를 재사용하고 unused track metadata 복사를 생략한다. 다음 판단의 현재 sensor/pose/damage/firecontrol과 매회 current reservation 충돌 검사는 유지한다. 실제 발사에 이 cache를 넘기지 않으며 권한/FRIEND/NEUTRAL/HOLD/EMCON/damage/capability/FCS/예비탄 재검사를 유지한다.
