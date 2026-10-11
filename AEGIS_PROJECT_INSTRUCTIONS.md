@@ -187,7 +187,15 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 PERF_A — 최적화1단계
+### 최신 개발 기준 PERF_B — 최적화2단계
+
+- 현재 세트 v48_WIP_PERF_B, HTML 15,706,015bytes SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`, main `6577a3e216f0bec2ae7aeefb7e79524c33ee52c564de94dfb3763ad3cb24a977`. PERF_A final `4b42aacd4271ce790b47b981b9a58dc960e5d5c5` 위 performance-b. 현행 support/workflow/checksum은 PERF_B, 아래 PERF_A 이하는 당시 기록이다.
+- 두 native lexical planner의 build-local ctx에서 같은 threat/delay forecast와 SPG 기하 점수를 재사용하고 unused track metadata 복사를 생략한다. 다음 판단의 현재 sensor/pose/damage/firecontrol과 매회 current reservation 충돌 검사는 유지한다. 실제 발사에 이 cache를 넘기지 않으며 권한/FRIEND/NEUTRAL/HOLD/EMCON/damage/capability/FCS/예비탄 재검사를 유지한다.
+- owner별 body frame은 heading/heel/trim/draft/origin xyz 전부 Object.is exact일 때만 재사용한다. current snapshot/항법 읽기·canonical constructor/invalid 예외를 유지하고 same-tick 변화도 즉시 반영한다. 캐시는 파생값·snapshot 비저장, fixed60/120/20Hz·RNG·무장·피해·EW·AI·Harpoon DL0와 PERF_A 최적화를 유지한다.
+- 새 원본 직접 1534/1534PASS/30suites/15captures, 오류0. planner96제어사례, exact frame transitions/두 함종 core, CG/DDG6조건·직렬16쌍 상태/RNG·entity exact와 기존26 H4A browser suites/native 방어/피해/UI·세 owner1/8/16/64를 확인했다. counts/SHA/조건/한계는 PERF_B evidence를 따른다.
+- PERF_A 네 원본 samebytes/blob과 stablev48/assets0~12 보존. §7.1 직접 원본 upload/readback 승인 유지, Actions dispatch/CI PASS/main·선행PR 병합/새PR 생성 없음. 다음은 SPY 관측 연관 → 피격 envelope → 실제 render·최종 재측정이며 이후 헬기/초수평선 → RGM-109E Block Va다. host CPU를 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 PERF_A — 최적화1단계 (당시 기록)
 
 - 현재 세트 `v48_WIP_PERF_A`, HTML 15,704,207bytes SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`, main `c43d9287e066bd56132d57d3a2cb2b4b37bee05e008f59432a61f82ae41d64e1`. H4A final `b97925cb5fb27d4dad26d62db78520641ee70857` 위 `performance-a`. 현행 support/workflow/checksum은 PERF_A, 아래 H4A 이하 내용은 당시 기록이다.
 - 불변 등록 hitbox system→고유 module name만 WeakMap으로 색인하고 현재 owner damage를 매번 읽는다. 자함 기존 함수/가변 geometry scan을 유지한다. EW IJ band 검사를 pod geometry 이전으로 이동하며 지원 band 계산·정책은 유지한다.

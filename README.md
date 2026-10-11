@@ -1,11 +1,18 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 최적화 WIP PERF_A
+## 최신 개발 기준 — 최적화 WIP PERF_B
 
-- [HTML](Aegis_SIM_v48_WIP_PERF_A.html), **15,704,207 bytes**, SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`.
+- [HTML](Aegis_SIM_v48_WIP_PERF_B.html), **15,706,015bytes**, SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`.
+- 교전 판단 내 관측 예측/SPG 기하 공유와 exact owner 자세의 body frame 재사용. 실제 예약·발사 재검사와 기존 물리/센서/AI/RNG/피해를 유지한다.
+- 최종 원본 **1534/1534PASS /30suites**, 오류0. strict CG/DDG6조건과 직렬16쌍 상태/RNG exact. [성능·조건](docs/performance/B/PERFORMANCE.md), [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_B.md), [SHA](SHA256SUMS_v48_WIP_PERF_B.txt), [계약](docs/performance/B/README.md), [직접 검증](docs/performance/B/evidence/verification-summary.json).
+- PERF_A final 위 `performance-b`, full original 직접 upload·독립 readback. Actions dispatch/병합/새PR 생성 없음. 다음은 SPY 관측 연관 최적화, 이후 피격/3D·최종 재측정 → 헬기/초수평선 → RGM-109E Block Va다.
+
+## 직전 개발 기준 — 최적화 WIP PERF_A (당시 기록)
+
+- [HTML](archive/v48/WIP_PERF_A/Aegis_SIM_v48_WIP_PERF_A.html), **15,704,207 bytes**, SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`.
 - 불변 부품 색인·EW 지원 대역 조기 검사·Kh-32 동일 도색 공유. **64모델에 canvas/texture1개**, 원래 도색 픽셀과 geometry를 보존하고 부분/최종 제거·도감·import/reset 수명을 검증했다.
 - 기존 fixed60/120/20Hz·센서·AI·무장·피해·Harpoon DL0를 유지한다. strict6 ownship조건과 직렬CPU16쌍에서 상태/RNG exact. [성능 조건/관측](docs/performance/A/PERFORMANCE.md).
-- 최종 원본 **1483/1483PASS /29suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_A.md), [SHA](SHA256SUMS_v48_WIP_PERF_A.txt), [운용](docs/performance/A/README.md), [직접 검증](docs/performance/A/evidence/verification-summary.json).
+- 최종 원본 **1483/1483PASS /29suites**, 오류0. [상태](archive/v48/WIP_PERF_A/AEGIS_PLAN_STATUS_v48_WIP_PERF_A.md), [SHA](archive/v48/WIP_PERF_A/SHA256SUMS_v48_WIP_PERF_A.txt), [운용](docs/performance/A/README.md), [직접 검증](docs/performance/A/evidence/verification-summary.json).
 - H4A final 위 `performance-a`, 원본 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. 다음은 교전 planner/SPG 중복 계산 최적화이며 헬기/초수평선 → RGM-109E Block Va는 최적화 뒤다. main/선행PR 병합·새PR 생성은 실행하지 않는다.
 
 ## 직전 개발 기준 — Multi Ship WIP H4A (당시 기록)

@@ -2,7 +2,9 @@
 
 루트에는 현재 최신 안정판과 최신 개발 WIP 세트를 두며, 아래 파일은 내용 변경 없이 버전별 폴더에 보존한다. `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상이 아니다.
 
-PERF_A의 직전 H4A HTML/status/SHA/workflow는 `v48/WIP_MULTI_SHIP_H4A/`에 원래 bytes/blob으로 보존한다. H4A support와 당시 evidence는 `docs/multiship/H4A/`에 유지하며, 현재 검증·workflow 기준은 `docs/performance/A/`다.
+PERF_B의 직전 PERF_A HTML/status/SHA/workflow는 `v48/WIP_PERF_A/`에 원래 bytes/blob으로 보존한다. PERF_A support/evidence는 `docs/performance/A/`에 유지하고 현재 검증/workflow는 `docs/performance/B/`다.
+
+당시 PERF_A의 직전 H4A HTML/status/SHA/workflow는 `v48/WIP_MULTI_SHIP_H4A/`에 원래 bytes/blob으로 보존한다. H4A support와 당시 evidence는 `docs/multiship/H4A/`에 유지하며, 당시 검증·workflow 기준은 `docs/performance/A/`였다.
 
 | 버전 | 주요 변경 | 최종 상태 | 후속 버전 |
 | --- | --- | --- | --- |
