@@ -1,12 +1,20 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — Multi Ship WIP H4
+## 최신 개발 기준 — Multi Ship WIP H4A
 
-- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H4.html), **15,697,218 bytes**, SHA `602371dfd5be5147c2e04dd4078e3216ca4f47e8ce4e7b0092bd861c3d9a5132`.
+- [HTML](Aegis_SIM_v48_WIP_MULTI_SHIP_H4A.html), **15,702,263 bytes**, SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`.
+- CMS 미획득에도 **CIWS 자체 RF의 확인된 접근 위협**으로 독립 자위 대응한다. 실제 발사에서 owner-local capability·freshness·아군/중립/효과 보호·HOLD/EMCON/손상을 재검사한다. CMS 적성/원거리 SAM 권한을 만들지 않는다.
+- 유일하게 연관된 **local RF 거리·접근 + passive 시커 방위**를 기존 채프 timing에 전달한다. ESM 방위만으로 거리를 추측하지 않는다. 기본 fresh CG 하푼 공격에서 채프4/Phalanx95발·실제 분해를 확인했다.
+- 최종 원본 **1484/1484 PASS /27 suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H4A.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H4A.txt), [운용](docs/multiship/H4A/README.md), [직접 검증](docs/multiship/H4A/evidence/verification-summary.json), [조건](docs/multiship/H4A/PERFORMANCE.md).
+- H4 final 위 `multiship-defense-h4a`, PR base H4. 원본/support 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. 새 main/선행 PR 병합은 실행하지 않는다. 다음은 헬기/초수평선 탐지 → 사용자 지정 RGM-109E Block Va다.
+
+## 직전 개발 기준 — Multi Ship WIP H4 (당시 기록)
+
+- [HTML](archive/v48/WIP_MULTI_SHIP_H4/Aegis_SIM_v48_WIP_MULTI_SHIP_H4.html), **15,697,218 bytes**, SHA `602371dfd5be5147c2e04dd4078e3216ca4f47e8ce4e7b0092bd861c3d9a5132`.
 - FLEET의 **함대 전술·호위/수상전 임무·종렬/좌우 전형·1/2/4km 간격**을 owner별로 설정한다. 기본OFF이며 아군은 받은 선도함 항법과 기존 H2 타/기관 명령으로 기동한다. 수동/대공 방어가 우선하고 단절/OFF에 항법을 반환한다.
 - fresh 현지 적성 수상 관측과 **각 함정의 별도 H3 동의** 아래 한 primary에 native Harpoon2발을 분담한다. 받은 접수는 동의/lease 만료 뒤에도 기억해 추가 AI 살보를 보류한다. 공유OFF는 항법만, 링크 없는 상황의 보편적 중복 방지는 아니다.
 - **수상 자위 판단**은 반복된 현지 incoming ASM와 유일한 near-origin 수상 관측의 근거를 사용한다. operator 식별을 덮어쓰지 않고 아군/중립 보호가 우선한다. 발사원 근거 없는 미식별 첫 공격은 보류한다. Harpoon DL0/INS→ARH, 기존 물리·무장·EW·해상효과/3D를 유지한다.
-- strict 설정 저장·H3 이하 팀OFF migration·transient reset, 최종 원본 **1403/1403 PASS /24 suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H4.md), [SHA](SHA256SUMS_v48_WIP_MULTI_SHIP_H4.txt), [운용](docs/multiship/H4/README.md), [직접 검증](docs/multiship/H4/evidence/verification-summary.json), [조건](docs/multiship/H4/PERFORMANCE.md), [남은2단계](docs/multiship/H4/DEPENDENCIES.md).
+- strict 설정 저장·H3 이하 팀OFF migration·transient reset, 최종 원본 **1403/1403 PASS /24 suites**, 오류0. [상태](archive/v48/WIP_MULTI_SHIP_H4/AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_H4.md), [SHA](archive/v48/WIP_MULTI_SHIP_H4/SHA256SUMS_v48_WIP_MULTI_SHIP_H4.txt), [운용](docs/multiship/H4/README.md), [직접 검증](docs/multiship/H4/evidence/verification-summary.json), [조건](docs/multiship/H4/PERFORMANCE.md), [남은2단계](docs/multiship/H4/DEPENDENCIES.md).
 - H3 `af1eade2d418b215720a68a5b902aae0d9387203` 위 `multiship-tactical-h4`, PR base H3. 원본/support 직접 업로드·독립 readback, Actions dispatch 없이 로컬 gate. main/선행 PR 병합은 실행하지 않는다. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.
 
 ## 직전 개발 기준 — Multi Ship WIP H3 (당시 기록)

@@ -187,7 +187,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP H4 — 함대 전술·합동 기동
+### 최신 개발 기준 MULTI SHIP H4A — 독립 근접 자위·측정 기반 채프
+
+- 현재 세트 `v48_WIP_MULTI_SHIP_H4A`, HTML 15,702,263bytes SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`, main `b9f2ae3e1f53d88df36dab03e52dcde4cdb2ddd9fc8043b6456f732e63948d77`. H4 final `b74a2c733352230a0799446cfdb6730b2bb87421` 위 `multiship-defense-h4a`, PR base H4. 현행 support/workflow/checksum은 H4A다. 아래 H4 이하 기록은 당시 기준이다.
+- 기존 CMS+local RF 경로를 유지하고 confirmed fresh local RF·접근 지속·미사일 운동학·자함 CPA/품질/사각/구동/전원/탄약 조건을 통과한 독립 `LOCAL_SELF_DEFENCE_H4A`만 추가한다. 실제 발사에 동일 owner/mount/pending/file 객체와 freshness/FRIEND·NEUTRAL/own-fire/효과 보호/HOLD/EMCON/손상 재검사가 있다. generic AUTO 포트 개방·CMS 적성 파일 생성·SAM 권한 확대가 아니다.
+- EW는 detached own local RF 거리/접근/오차와 passive ACTIVE_SEEKER 방위의 unique association만 기존 채프 정책에 전달한다. same-mount multiple/many-to-one/multiple-emitter 모호성은 보류, ESM bearing-only range/TTC 추측 금지. reserve/interval/살보/발사 geometry·EA/눌카를 유지한다.
+- 자함 nativeCIWS/CG Phalanx-only·DDG장비·radar RF/search/CMS분류·Harpoon 무DL/INS/ARH·비행/피해·H4팀/H3공격/H2기동/H1유틸리티/G공유/60·120·20Hz를 보존한다. H4 저장 schema 그대로, 새 local pending는 기존 transient 수명주기를 따른다.
+- 최종 원본 직접 1484/1484PASS,27suites와 검사/보고/capture SHA·조건은 H4A evidence를 따른다. freshCG8km actualHarpoon에서 CMS ASM0·채프4/Phalanx95발·실제 DIRECT_BREAKUP/잔해, HOLD0, DDG기존방어, baseline-admitted 뒤8개 late actual-release 차단,1/8/16/64배속exact 및 H4전체회귀를 확인했다. DIAGNOSTIC_ONLY probe의 phase 조정은 실제 권한·센서·명중을 변경하는 운용 기능이 아니다.
+- H4 네 원본 samebytes/blob archive와 stable v48/assets0~12를 보존한다. §7.1 직접 upload/readback 승인 유지, Actions dispatch/main·선행 PR 병합 미실행이며 계정 제한 자동 smoke를 CI PASS로 쓰지 않는다. 후속2큰단계 헬기/초수평선 탐지 → RGM-109E Block Va다. 대표 조건 밖 요격률·오격 방지/remoteFCS/실제 doctrine/FPS 인증을 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H4 — 함대 전술·합동 기동 (당시 기록)
 
 - 현재 개발 세트 `v48_WIP_MULTI_SHIP_H4`, HTML 15,697,218 bytes, SHA `602371dfd5be5147c2e04dd4078e3216ca4f47e8ce4e7b0092bd861c3d9a5132`, main `451a717f0dbc97c289990eda7bf4864703c5a8832b81b0d4af4f53d3f6c56416`. H3 final `af1eade2d418b215720a68a5b902aae0d9387203` 위 branch `multiship-tactical-h4`, PR base `multiship-tactical-h3`, 현행 support/workflow/checksum은 H4다. 아래 이전 기준은 당시 기록이다.
 - canonical `ShipRuntime.combatSystem.teamH4`가 owner-local team 설정·지연 메시지·수신 항법·전형·배정·접수·자위 근거를 소유한다. 자함/아군 teamOFF, 적함은 friendly transport에 가입하지 않는다. 원래 PLAYER 선도함/ALLY 역할 유지, FLEET selected owner 설정이며 NAV/ARM/CIC/기존3D 교전은 원래 자함이다.
