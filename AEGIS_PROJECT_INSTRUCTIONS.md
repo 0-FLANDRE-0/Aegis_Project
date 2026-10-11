@@ -187,7 +187,20 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP H3 — owner 관측 기반 대수상 공격 AI
+### 최신 개발 기준 MULTI SHIP H4 — 함대 전술·합동 기동
+
+- 현재 개발 세트 `v48_WIP_MULTI_SHIP_H4`, HTML 15,697,218 bytes, SHA `602371dfd5be5147c2e04dd4078e3216ca4f47e8ce4e7b0092bd861c3d9a5132`, main `451a717f0dbc97c289990eda7bf4864703c5a8832b81b0d4af4f53d3f6c56416`. H3 final `af1eade2d418b215720a68a5b902aae0d9387203` 위 branch `multiship-tactical-h4`, PR base `multiship-tactical-h3`, 현행 support/workflow/checksum은 H4다. 아래 이전 기준은 당시 기록이다.
+- canonical `ShipRuntime.combatSystem.teamH4`가 owner-local team 설정·지연 메시지·수신 항법·전형·배정·접수·자위 근거를 소유한다. 자함/아군 teamOFF, 적함은 friendly transport에 가입하지 않는다. 원래 PLAYER 선도함/ALLY 역할 유지, FLEET selected owner 설정이며 NAV/ARM/CIC/기존3D 교전은 원래 자함이다.
+- H4 전용2Hz/18틱 지연/2초 fresh packet은 기존 G 가용성/LOS/radio 경계를 지킨다. G contract를 바꾸지 않고 shareTracksOFF는 항법만 허용한다. field/time/sequence/replay/SPD covariance/caps 전체를 write 전에 검사한다. sender 자기 항법·측정 bid·native 실제 발사 접수만 전송하고 world targetID/peer FCS/탄체 위치·시커·생존/BDA는 금지한다.
+- formation은 받은 SELF 항법에 대한 종렬/좌우·1/2/4km desired slot, H2 공통 baseline과 타/기관 명령만 쓴다. 현지 대공 방어/수동NAV·지도/MANUAL/HOLD/masterOFF/기동OFF 우선, 단절/OFF는 반환한다. heading/speed/position 직접 write·순간 배치·간격 보장이 없다.4후보×6자세와 기존교통16+수신선도함1·chart guard로 bounded다.
+- 수상전 담당 분담은 fresh 현지 적성 SURFACE·owner AUTO/H1/H3와 각 owner의 별도 동의가 필요하다. 받은 bid를6D측정으로 보수적으로 연관하고 모호하면 보류한다. native bid preview는 요청/발사 없이 exact capability를 finally 복원하며 수동 pending를 빌리지 않는다. primary lease/native release 재검사·임무 전환2.4초 대기·측정 접수2발 뒤90초 보류를 지킨다. 접수는 sender/serial dedup, 동의 소진/lease/heartbeat 만료 뒤 유지하고 BDA가 아니다. 연결이 없거나 못 받은 정보의 보편적 중복 방지는 아니다. teamOFF와 attackOFF는 별도다.
+- 별도 SELF_DEFENSE는 반복된 현지 승인 incoming ASM·fresh confirmed SURFACE의 유일한 near-origin 운동학 근거30초만 적성으로 사용하고 operator identity를 바꾸지 않는다. 아군/중립/IFF/G 보호·late weapon FRIEND 우선, alias/expiry/reset/import 승계 없음. friendly 기본IDENTIFIED_ONLY/새enemy SELF_DEFENSE, 아군 별도 발사 동의 유지. IFF 무응답·ESM-only·received HOSTILE·faction·발사원 미관측 첫 공격은 계속 보류한다.
+- tight own-hull FRIEND TRACK relay만 자기 항법으로 처리하는 H3 보호 오류 수정을 허용했다. 다른 local file/SELF/NEUTRAL·주변/큰 오차·stale 보고는 보호한다. Harpoon ARH에 IFF를 추가한 것이 아니며 DL0/nativeINS→ARH·RF/physics/damage/effects·CG RAM0/DDG Harpoon0/고정 셀·60/120/20Hz/owner 해상효과·3D는 보존한다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H4_1`, team `AEGIS_TEAM_TACTICS_H4_1` schema/enabled/mission/formation/spacingM/surfaceRoe만 strict all-owner detached preflight. 현재 missing/type/extra는 zero writes 거부하며 H3/H2/H1/G/F/B/no-fleet은 teamOFF·IDENTIFIED_ONLY migration, pending legacyenemy도 동일하다. 메시지/배정/접수/근거는 deferred이며 import/reset/deploy/retire에서 비우고 H2 operator baseline을 저장한다.
+- 최종 원본 직접 1403/1403 PASS,24suites 및 검사/보고/capture SHA와 조건은 H4 evidence/verification-summary.json을 따른다. 역사/draft 수치 합산 금지. H3 네 원본을 same bytes/blob archive로 보존하고 stablev48/assets0~12를 유지한다. §7.1에 따라 원본/support 직접 upload·독립 readback, Actions dispatch/main·선행 PR 병합은 하지 않으며 자동 작업 미실행을 CI PASS로 표시하지 않는다.
+- 이후2큰 단계는 헬기/초수평선 탐지 → 사용자 지정 RGM-109E Block Va다. 임의 다수 함대/자유 ROE/모든 발사원 획득·오격/충돌 방지/실제 doctrine/휴대폰 FPS 인증을 완료로 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H3 — owner 관측 기반 대수상 공격 AI (당시 기록)
 
 - 현재 개발 세트 `v48_WIP_MULTI_SHIP_H3`, HTML 15,683,482 bytes, SHA `0a9626535c209d8ad4e5a9b5262bd826d8ede8df928562534ba6c44b5673d178`, main SHA `904116a4d73455b5a12d4c800afea30fac9e05415d81c0f1c16ce3f37cba38f4`. H2 final `59fad37cc170c760c1659b916febc168021a31b4` 위 `multiship-tactical-h3`, PR base `multiship-tactical-h2`, 현행 support/workflow/checksum은 H3다. 아래 이전 기준은 당시 기록이다.
 - canonical root `ShipRuntime.combatSystem.attackH3`, 설정/제한 동의/계획/capability/접수 이력 owner-local. 자함/아군OFF, enemyON. H1 전술 ON + owner AUTO, fresh 현지 SURFACE/명시 HOSTILE + 별도1/2발120초 동의를 요구한다. 적함은 mission 권한이어도 현지 HOSTILE만 허용한다. UNKNOWN/IFF 무응답·shared/ESM-only를 적성/FCS/발사 권한으로 만들지 않는다.
