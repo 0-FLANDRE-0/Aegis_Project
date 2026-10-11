@@ -187,7 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 MULTI SHIP H1 — owner 유틸리티 방어 AI
+### 최신 개발 기준 MULTI SHIP H2 — owner 관측 기반 기동 AI
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H2`, HTML 15,675,514 bytes, SHA `522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1`, main SHA `80ecfe1be494132521b6f6e1327647f50608c92da98fef235f541ed657926865`다. H1 head `43021f9693dc0500b5f2def531ec5d0d9e17bf0b` 위 `multiship-tactical-h2`, PR base `multiship-tactical-h1`, 최신 support/workflow/checksum은 H2다.
+- `ShipRuntime.combatSystem.maneuverH2`가 설정·유틸리티 후보·임시 항법 소유권을 소유한다. 자함 기본OFF·외함 기본ON이며 H1 전술 AI ON + owner AUTO에서 실행한다. 현지 승인 fresh AIR 측정과 자기 장비/조종 상태·native SPG/CIWS 사각만 사용한다. shared/ESM-only는 H1 readiness이며 기동 목표/현지 FCS/살상 권한이 아니다.
+- 5Hz fixed command phase,8후보/위협8/교통16/예측 자세6/log64 상한, 첫 판단 즉시·3초 유지/.04 margin·긴급12초는 SIM-TUNE이다. 고정 mission heading으로 목표 누적을 막고 native 기관 단계·타각 명령만 내린다. heading/speed/position을 직접 쓰지 않는다. 실제 chart/신선한 SURFACE 측정·수신 SELF 항법으로 위험 후보를 제외하되 전 해역 충돌 회피를 주장하지 않는다.
+- NAV 타각/기관·지도 route와 FLEET 항법은 owner별 지속 manualNav hold다. ON/OFF로 이를 지우지 않고 기동 AI 재개만 명시 인계한다. 기동 재개는 레이더/EW hold를 보존하며 H1 운용 재개는 항법 hold를 해제하지 않는다. MANUAL/SEMIAUTO/HOLD/masterOFF/기동OFF/offline은 임시 orders를 반환한다. 조용한4초 뒤 native RECOVER하고 요청 항법으로 복귀한다. freshness와 실제 선회 시간이 더해진다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H2_1`/설정 `AEGIS_MANEUVER_UTILITY_H2_1` enabled/manualNav bool·native 기관 metadata를 전 owner detached preflight한다. current wrong/missing/extra fields는 zero writes로 거부한다. H1/G/F/B/no-fleet만 명시 migration하고 기존 manual flags를 항법 hold로 승계한다. `maneuverGoalsScoresAndCommandOwnership`은 deferred이며 reset/import/deployment/retire에서 비운다. save는 임시 AI orders 대신 요청 baseline과 실제 물리 상태를 내보낸다.
+- 최종 원본 직접 **883/883 PASS**, 모든 tested SHA/조건/한계는 H2 evidence다. superseded draft/실패한 fixture/역사 수는 합산하지 않는다. H1 HTML/status/SHA/workflow4파일 same bytes/blob을 archive에 보존하고 stable v48·원본 models/profiles·native 물리/유도/damage/RF·60/120/20Hz·방어 gate·Harpoon INS/ARH/DL0·CG RAM0를 유지한다.
+- §7.1 승인에 따라 원본 HTML/support를 직접 업로드·독립 readback한다. main/선행 branch는 새 병합 지시 없이 병합하지 않는다. Actions는 dispatch하지 않고 수동 workflow만 준비한다. 다음은 H3 별도 ROE/승인 대수상 공격, 이후 팀 기동/헬기/CEC·RGM-109E Block Va다.
+
+### 직전 개발 기준 MULTI SHIP H1 — owner 유틸리티 방어 AI
 
 - 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H1`, HTML 15,669,638 bytes, SHA `e683e23f3bb832bac29bde05def2c46ce3acdbfe114cea37ce2156ec90db5058`, main SHA `302352d3dfe47e83fc38d057b002fe46a2e3b12656567dde214561cc28c17105`다. G head `d902d24486918c23d43e3067be16ab03fbaedde2` 위 `multiship-tactical-h1`, support/검사는 `docs/multiship/H1/`, 현재 workflow/support manifest는 H1이다.
 - `ShipRuntime.combatSystem.tacticalH1`이 settings/utility/우선 파일/임시 radar·EW 기준값을 소유한다. 자함 기본 OFF·외함 기본 ON이며 해당 owner native AUTO에서만 실행한다. 기존 MANUAL/SEMIAUTO/HOLD 권한을 바꾸지 않는다. FLEET 전술 AI ON/OFF는 수동 권한을 보존하며 AI 운용 재개만 manualRadar/manualEw를 명시 해제한다. 적함에 운용자 FLEET 명령은 금지한다. NAV·ARM·CIC·기존3D는 원래 자함, 선택 owner 조작은 FLEET이라는 G 계약을 유지한다.

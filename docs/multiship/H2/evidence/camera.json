@@ -1,0 +1,135 @@
+{
+  "sha256": "522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1",
+  "suite": "camera",
+  "backend": "Chromium SwiftShader native RAF camera",
+  "cases": [
+    {
+      "own": "CG_52_LATE_TICONDEROGA",
+      "ally": "DDG_119_LATE_FLIGHT_IIA",
+      "viewport": [
+        1100,
+        800
+      ],
+      "input": "pointer",
+      "checks": {
+        "realPointerOrTouch": true,
+        "cameraActuallyMoves": true,
+        "cameraNearAlliedHull": true,
+        "returnsToOwnship": true,
+        "cameraStateReadOnly": true,
+        "selectedShipViewWorks": true,
+        "resetResyncsLabel": true,
+        "noCoreOrRuntimeFaults": true
+      },
+      "trace": {
+        "before": {
+          "focus": null,
+          "position": [
+            161.50320400005853,
+            91.37473368153215,
+            150.60417418962288
+          ],
+          "label": "아군함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        },
+        "focused": {
+          "focus": "SHIP_SCENARIO_ALLY_F",
+          "position": [
+            542.4293494468783,
+            105.76564013118724,
+            -270.5567286251301
+          ],
+          "label": "자함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        },
+        "after": {
+          "focus": null,
+          "position": [
+            192.42934944687823,
+            105.76564013118724,
+            179.44327137486982
+          ],
+          "label": "아군함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        }
+      }
+    },
+    {
+      "own": "DDG_119_LATE_FLIGHT_IIA",
+      "ally": "CG_52_LATE_TICONDEROGA",
+      "viewport": [
+        393,
+        852
+      ],
+      "input": "touch",
+      "checks": {
+        "realPointerOrTouch": true,
+        "cameraActuallyMoves": true,
+        "cameraNearAlliedHull": true,
+        "returnsToOwnship": true,
+        "cameraStateReadOnly": true,
+        "selectedShipViewWorks": true,
+        "resetResyncsLabel": true,
+        "noCoreOrRuntimeFaults": true
+      },
+      "trace": {
+        "before": {
+          "focus": null,
+          "position": [
+            252.09294010635088,
+            136.45821025343275,
+            235.08046975797012
+          ],
+          "label": "아군함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        },
+        "focused": {
+          "focus": "SHIP_SCENARIO_ALLY_F",
+          "position": [
+            542.4293494468783,
+            105.76564013118724,
+            -270.5567286251301
+          ],
+          "label": "자함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        },
+        "after": {
+          "focus": null,
+          "position": [
+            542.4293494468783,
+            105.76564013118724,
+            -270.5567286251301
+          ],
+          "label": "아군함 보기",
+          "target": [
+            350.00000000000006,
+            0,
+            -449.99999999999994
+          ]
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "pass": true
+}
