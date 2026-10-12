@@ -1,10 +1,19 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 최적화 WIP PERF_E
+## 최신 개발 기준 — 최적화 WIP PERF_F
 
-- [HTML](Aegis_SIM_v48_WIP_PERF_E.html), **15,709,083bytes**, SHA `0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5`.
+- 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
+- complete anchor 공개 이후에만 remaining quick work를 최신 피격으로 선점한다. unpublished opening은 보호하고 live/original buffers를 유지한다. 안정된 입력의 최종 형상·현재6ms budget·physics/피해/sensors/AI/RNG/fixed60/120/20Hz/actual release와 이전 캐시/모델/연기 결과는 보존한다. packed13 표시용 scheduler와 texture disposal만 수정한다.
+- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
+- 기존 전체 회귀와 연속3회 cut/queue, 양함종 각각120simulated seconds/7200ticks의 세 함정 overload exact state/RNG,8회nativeGPU smoke/Kh32 epoch와pending-cut 외부 함정owner replacement/disposal 검증. 전체 회귀/카메라 종료 후 native second-hit submit4쌍 직렬 AB/BA. 제어된 detached scar/diagnostic tracks이며 자연 다발 피격·실제 수시간 soak·hardware/phone FPS는 미실행이다. 누적CPU는 E 당시기록을 참조하며 새 F측정으로 표현하지 않는다.
+- E 네 파일 samebytes/blob archive, stable와 이전 증거 유지. §7.1 full original 직접 upload/독립 remote readback. Actions dispatch/main·선행 branch merge/새 PR 없음.
+- 계획한 최종 최적화 검증 범위 완료. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.
+
+## 직전 개발 기준 — 최적화 WIP PERF_E (당시 기록)
+
+- [HTML](archive/v48/WIP_PERF_E/Aegis_SIM_v48_WIP_PERF_E.html), **15,709,083bytes**, SHA `0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5`.
 - 완성된 양측 anchor 구멍·변형을 먼저 공개한다. 주변 최종 메쉬와 수명/원본을 보존한다. 일곱 smoke attributes의 exact GPU dirty ranges만 전송하고 split/bound 임시 계산을 줄였다. packed13만 변경, 모델/물리/센서/AI/피해/RNG/고정 주기/발사 gate 유지.
-- 최종 원본 **1735/1735PASS/35suites**, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_E.md), [SHA](SHA256SUMS_v48_WIP_PERF_E.txt), [계약](docs/performance/E/README.md), [누적·3D 성능](docs/performance/E/PERFORMANCE.md), [검증](docs/performance/E/evidence/verification-summary.json).
+- 최종 원본 **1735/1735PASS/35suites**, 오류0. [상태](archive/v48/WIP_PERF_E/AEGIS_PLAN_STATUS_v48_WIP_PERF_E.md), [SHA](archive/v48/WIP_PERF_E/SHA256SUMS_v48_WIP_PERF_E.txt), [계약](docs/performance/E/README.md), [누적·3D 성능](docs/performance/E/PERFORMANCE.md), [검증](docs/performance/E/evidence/verification-summary.json).
 - H4A→E 누적 CPU를 직접 같은 실행에서 측정한다. 단계별 개선율을 더하지 않는다. D→E native 피격·RAF/driver 전송은 별도이며 host/software WebGL 결과를 hardware/phone FPS로 표현하지 않는다.
 - performance-e full original upload/readback, Actions dispatch/main·선행 branch 병합/새PR 없음. 다음은 다수 동시 피격·장시간 과부하/자원 회수 최종 점검 → 헬기/초수평선 → RGM-109E Block Va다.
 

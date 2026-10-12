@@ -187,7 +187,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 PERF_E — 최적화5단계
+### 최신 개발 기준 PERF_F — 최종 최적화 검증
+
+- 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
+- complete anchor 공개 이후에만 remaining quick work를 최신 피격으로 선점한다. unpublished opening은 보호하고 live/original buffers를 유지한다. 안정된 입력의 최종 형상·현재6ms budget·physics/피해/sensors/AI/RNG/fixed60/120/20Hz/actual release와 이전 캐시/모델/연기 결과는 보존한다. packed13 표시용 scheduler와 texture disposal만 수정한다.
+- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
+- 기존 전체 회귀와 연속3회 cut/queue, 양함종 각각120simulated seconds/7200ticks의 세 함정 overload exact state/RNG,8회nativeGPU smoke/Kh32 epoch와pending-cut 외부 함정owner replacement/disposal 검증. 전체 회귀/카메라 종료 후 native second-hit submit4쌍 직렬 AB/BA. 제어된 detached scar/diagnostic tracks이며 자연 다발 피격·실제 수시간 soak·hardware/phone FPS는 미실행이다. 누적CPU는 E 당시기록을 참조하며 새 F측정으로 표현하지 않는다.
+- E 네 파일 samebytes/blob archive, stable와 이전 증거 유지. §7.1 full original 직접 upload/독립 remote readback. Actions dispatch/main·선행 branch merge/새 PR 없음.
+- 계획한 최종 최적화 검증 범위 완료. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_E — 최적화5단계 (당시 기록)
 
 - 현재 v48_WIP_PERF_E, HTML 15,709,083bytes SHA `0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5`, main `0f57e35ae2efe55a9ac9c1e5af54650d8eb574e1faf1672e2fef1b84931f617d`. PERF_D final `b4b58dcf61cff18674ec58f5798a2a15ca178ae9` 위 performance-e. 현재 support/workflow/checksum은 E이고 이전 단계 문장은 당시 기록이다.
 - 등록 CG/DDG quick job은 각 mesh의 ordered holes를 유지하며 모든 actual scar anchor를 먼저 완성해 함께 공개한다. 주변 작업은 계속한다. unprocessed 이전 live geometry/originals를 조기 복원·dispose하지 않으며 incremental 입력을 보존한다. final publish는 attached anchor buffers를 재사용한다. finally는 미공개 버퍼만, reset/import/retirement는 기존 lifecycle로 live cuts를 회수한다. legacy 비등록 모델은 기존 공개 경로다. LOD proxy는 같은 draw 전에 opening revision을 확인한다.

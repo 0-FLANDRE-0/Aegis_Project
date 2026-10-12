@@ -38,3 +38,7 @@ PERF_C의 직전 PERF_B HTML/status/SHA/workflow는 `v48/WIP_PERF_B/`에 원래 
 ## WIP PERF_D 보존
 
 직전 D HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_D에 samebytes/blob으로 이동했다. 이전 scripts/records는 당시 경로와 조건을 유지하며 현재 root/support/workflow는 PERF_E다.
+
+## WIP PERF_E 보존
+
+직전 E HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_E에 samebytes/blob 보존. 현재root/support/workflow는 PERF_F다.
