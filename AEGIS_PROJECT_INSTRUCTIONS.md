@@ -187,7 +187,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 PERF_D — 최적화4단계
+### 최신 개발 기준 PERF_E — 최적화5단계
+
+- 현재 v48_WIP_PERF_E, HTML 15,709,083bytes SHA `0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5`, main `0f57e35ae2efe55a9ac9c1e5af54650d8eb574e1faf1672e2fef1b84931f617d`. PERF_D final `b4b58dcf61cff18674ec58f5798a2a15ca178ae9` 위 performance-e. 현재 support/workflow/checksum은 E이고 이전 단계 문장은 당시 기록이다.
+- 등록 CG/DDG quick job은 각 mesh의 ordered holes를 유지하며 모든 actual scar anchor를 먼저 완성해 함께 공개한다. 주변 작업은 계속한다. unprocessed 이전 live geometry/originals를 조기 복원·dispose하지 않으며 incremental 입력을 보존한다. final publish는 attached anchor buffers를 재사용한다. finally는 미공개 버퍼만, reset/import/retirement는 기존 lifecycle로 live cuts를 회수한다. legacy 비등록 모델은 기존 공개 경로다. LOD proxy는 같은 draw 전에 opening revision을 확인한다.
+- 동일 split plane distance를 인접 edge에서 재사용하고 triangle bound의3배열을 제거한다. plane 순서/epsilon/정점/법선/색상·산술과 최종 attrs/index/groups/bounds/bindings를 보존한다.
+- smoke shader/sort/pool/time/RNG를 유지하고 exact Float32 dirty range만 전송한다. pending ranges는 native onUpload 또는 r140 consumed-range 확인 이후에만 해제한다. 여러 flush/숨김/재등장/축소된 tail/camera/origin/ULP/signed0/reset과 WebGL2 GPU bytes exact를 검증한다.
+- packed13만 변경, 나머지 packed/model/envelope bytes와 physical damage/flight/sensors/AI/actual release/fixed60/120/20Hz/PERF_A/B/C caches 보존. 최종 원본 1735/1735PASS/35suites, 오류0. 누적 host CPU16쌍·native cut8쌍·RAF8쌍 직렬, 조건/한계/증거는 E docs를 따른다. generator shape fixture를 native latency로, host/SwiftShader submission을 hardware/phone FPS로 표현하지 않는다. 최초 H4A→D static-overlap timing은 제외/보존한다.
+- 이전 D 네 파일 samebytes/blob archive, stablev48/이전 증거 유지. §7.1 승인 full original upload/독립 readback. Actions dispatch/main·선행 branch 병합/새 PR 없음. 다음은 다수 피격/장시간/자원 회수 최종 점검 이후 헬기 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_D — 최적화4단계 (당시 기록)
 
 - 현재 v48_WIP_PERF_D, HTML 15,707,799bytes SHA `bd3bc97089cd0085c1990b5460fd4b8d6f5c9bcf794e1f520a42bc9c2aa95c2e`, main `7212a596022d0aa7f7294633eff41015e03cb6f217d7150bcdd025c04e7d3b31`. PERF_C final `5ddd05ce9358e9a23c11d26030bff05c6f18fa1d` 위 performance-d. 현행 support/workflow/checksum은 PERF_D, 아래 이전 단계는 당시 기록이다.
 - source sectional envelope의 기존 rounded-key/last-value/order/sort/convex 결과를 유지하면서 임시 배열을 줄인다. 변형 radial edge는 동일 scalar 산술이다. packed2/13만 변경하고 등록 모델·삼각형·envelope source bytes를 유지한다.
