@@ -1,5 +1,9 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
+## 헬기 모델 검사 — v01
+
+사용자 DDG-118 GLB에서 SH-60의 공통 기체와 격납·전개·비행 정적 부품을 추출했다. [독립 미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [lossless GLB](docs/helicopter/A/seahawk-poses-lossless.glb), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [구성·검증·재현](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt). 게임용 압축 223,419bytes, 기존 Three 재사용 시 HTML 추가량 301,239bytes (+1.9176%). 구조/native 비교·회수/최종 scene·UI 51검사와 정적 문법 PASS. Simulator 기준은 아래 PERF_F 그대로이며 별도 helicopter-model-a asset 브랜치다. 다음은 미터 축척·회전축·함정 갑판/격납고 배치와 LOD를 준비한 뒤 항공 runtime·센서·초수평선 탐지다.
+
 ## 최신 개발 기준 — 최적화 WIP PERF_F
 
 - 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.

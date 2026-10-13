@@ -187,6 +187,13 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
+### 모델 검사 기준 — 헬기 v01
+
+- 별도 `helicopter-model-a` 브랜치에서 사용자 DDG-118 GLB의 SH-60 정적 격납/전개/비행 부품을 추출했다. [미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [계약·재현·한계](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt).
+- 공통 geometry/material 공유·텍스처0, lossless GLB 591,920bytes, Q16/SNORM16 압축223,419bytes, 게임 HTML 내 모델/로더 추가301,239bytes (+1.9176%). 구조14/native13/최종scene·UI24 검사와 정적 문법PASS. 디코더는 표시 전용이며 렌더러가 물리·센서·교전 상태를 소유하지 않는다.
+- 게임 HTML/상태/체크섬, PERF_F/이전 검사·workflow는 보존한다. 모델 검사기는 §1의 별도 버전 규칙을 따르므로 새 시뮬레이터 WIP 또는 archive 이동은 없다. 이전 PERF_F 지원 checksum은 당시 PERF_F commit의 기록이고, 새 asset branch 문서 변경은 모델 SHA manifest에 포함한다. Actions/새 PR/병합을 실행하지 않는다.
+- source 이름만으로 MH-60R 등 형식을 확정하지 않으며 source unit→meter 축척과 로터/꼬리 동적 animation은 미검증이다. 다음은 축척·회전축·갑판/격납고 배치·LOD, 이후 별도 항공 profile/runtime·비행·센서·초수평선 탐지·정보공유다.
+
 ### 최신 개발 기준 PERF_F — 최종 최적화 검증
 
 - 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
