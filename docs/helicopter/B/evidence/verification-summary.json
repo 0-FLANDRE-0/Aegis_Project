@@ -1,0 +1,85 @@
+{
+  "schema": "AEGIS_HELI_A_VERIFICATION",
+  "pass": true,
+  "totalChecks": 198,
+  "suites": [
+    {
+      "suite": "static",
+      "checks": 56,
+      "pass": true,
+      "record": "static.json"
+    },
+    {
+      "suite": "motion",
+      "checks": 28,
+      "pass": true,
+      "record": "motion.json"
+    },
+    {
+      "suite": "runtime",
+      "checks": 44,
+      "pass": true,
+      "record": "runtime.json"
+    },
+    {
+      "suite": "ui",
+      "checks": 16,
+      "pass": true,
+      "record": "ui.json"
+    },
+    {
+      "suite": "native",
+      "checks": 19,
+      "pass": true,
+      "record": "native.json"
+    },
+    {
+      "suite": "clock",
+      "checks": 5,
+      "pass": true,
+      "record": "clock.json"
+    },
+    {
+      "suite": "baseline",
+      "checks": 30,
+      "pass": true,
+      "record": "baseline-comparison.json"
+    }
+  ],
+  "html": {
+    "path": "Aegis_SIM_v48_WIP_HELI_A.html",
+    "bytes": 16035793,
+    "sha256": "35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477",
+    "mainSha256": "7d204584e25814797b54e09398e0e222823c14f8e3d7a0bd52b5f90794f02680"
+  },
+  "baselineSha256": "4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5",
+  "baseCommit": "f0a12d4fcb7d455f34f4583e8f79cb8849da62a5",
+  "bytesAdded": 326494,
+  "increasePercent": 2.0783486265045945,
+  "modules": {
+    "motion.js": "9755bc06657493f09ad58a885dcdc90d638a2b3663040af5bfb401ddeeea189c",
+    "runtime.js": "77414544508aa274d493b842cda5a716dd576471642b3cd6342a8ec26f91be60",
+    "ui.js": "7c9c123d29ef23e698603e018b371076220aca0b07fb37d4a6c145b3813bb2fd",
+    "render.js": "db9db0f77973cf804bc23e178228ff71ca6e588907063da4847f94b2d9e89eea",
+    "rig.json": "d70471bdd82b753df8114aee62141fc73a89071ef0999776681b8cd93e1aba67",
+    "build.py": "8a1af9fa2e30c602c3fabc5aacf4250acb1af5438bb56f730b607b64e1523cd7"
+  },
+  "conditions": {
+    "physics": "SI, original full fixed-step path at 60Hz; moving parent, wind, two helicopters",
+    "clock": "1/8/16/64, 16000 ticks, initial RAF disabled only by fixture to equalize predeparture tick; original HTML bytes not modified",
+    "ui": "Desktop 1000x760 and touch/viewport 390x844; original HTML, normal RAF",
+    "native": "SwiftShader WebGL; first lazy 3D open, actual door aperture and existing interior, deployment/spin, finite poses, rotor plane, paint buffer validity, read-only rendering and lease cleanup. Reset explicitly invokes the same read-only epoch/fittings synchronization without a wall-time GPU assertion.",
+    "baseline": "PERF_F versus HELI_A, DDG/CG x idle/8 Kh32 AUTO/damage. Cold helicopters. Physics/damage/ammunition/combat RNG exact; aviation schema and profiler excluded; EW/network/tactical/maneuver/attack/team included."
+  },
+  "limits": [
+    "Point mass and state machine, not rotor aerodynamic model",
+    "Own DDG-119 only; no CG/ally aviation operation",
+    "No sensor/IFF/offboard registration, weapons, fuel burn, recovery or altitude UI",
+    "Source generic SH-60 visual is not a verified MH-60R exterior",
+    "Native/software GPU and touch emulation, no phone hardware FPS or long-duration trial claim",
+    "Historical PERF_F 1817/38 suites not counted as rerun on HELI_A"
+  ],
+  "actionsDispatched": false,
+  "prCreated": false,
+  "merged": false
+}

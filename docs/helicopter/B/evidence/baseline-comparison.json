@@ -1,0 +1,144 @@
+{
+  "schema": "AEGIS_HELO_A_BASELINE_COMPARISON",
+  "baselineSha256": "4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5",
+  "candidateSha256": "35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477",
+  "backend": "headless Chromium CPU fixtures, terrain bypass; no mobile/hardware FPS claim",
+  "timingPolicy": "record observations, no speedup claim from a single run",
+  "comparisonScope": "PERF_F/HELI_A idle, damaged, 8 Kh32 AUTO: physical state and combat RNG exact; exclude only profiler and new aircraft operational schema; EW/network/tactical/maneuver/attack/team included",
+  "errors": [],
+  "pass": true,
+  "cases": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "idle",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 3169036119,
+        "newRng": 3169036119,
+        "loadedVlsBeforeAfter": [
+          96,
+          96
+        ]
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 2134102897,
+        "newRng": 2134102897,
+        "loadedVlsBeforeAfter": [
+          91,
+          91
+        ]
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "damaged",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 260457076,
+        "newRng": 260457076,
+        "loadedVlsBeforeAfter": [
+          96,
+          96
+        ]
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "idle",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 3169036119,
+        "newRng": 3169036119,
+        "loadedVlsBeforeAfter": [
+          122,
+          122
+        ]
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 2134102897,
+        "newRng": 2134102897,
+        "loadedVlsBeforeAfter": [
+          116,
+          116
+        ]
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "damaged",
+      "checks": {
+        "samePhysicalState": true,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "bothFaultFree": true
+      },
+      "observations": {
+        "oldVersionPhysicalAndRngExact": true,
+        "physicalStateExact": true,
+        "oldRng": 260457076,
+        "newRng": 260457076,
+        "loadedVlsBeforeAfter": [
+          122,
+          122
+        ]
+      }
+    }
+  ],
+  "fullReport": {
+    "path": "baseline-comparison-full.json.gz",
+    "uncompressedBytes": 7765741,
+    "uncompressedSha256": "f91f3939c3c6dca9bb9fcd5b251fd82720d20923918a4ebf776e4497aa120178",
+    "note": "Full original harness output, including its historical H3 prose. Only the six paired cases and returned checks are claimed for HELI_A."
+  }
+}

@@ -42,3 +42,7 @@ PERF_C의 직전 PERF_B HTML/status/SHA/workflow는 `v48/WIP_PERF_B/`에 원래 
 ## WIP PERF_E 보존
 
 직전 E HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_E에 samebytes/blob 보존. 현재root/support/workflow는 PERF_F다.
+
+## v48 WIP PERF_F 보존 — HELI_A 작업
+
+`v48/WIP_PERF_F/`에 PERF_F HTML, 상태, SHA 세트와 비활성 `performance-f.workflow.yml`을 같은 bytes/Git blob으로 이동했다. HTML SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, 15,709,299bytes. checksum은 이 폴더를 작업 디렉터리로 실행한다. F 지원 manifest는 F 당시 commit의 기록이며 현재 HELI_A의 문서·workflow manifest와 구분한다. stable v48와 선행 archive/증거는 수정하지 않는다.

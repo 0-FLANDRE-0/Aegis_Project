@@ -1,0 +1,66 @@
+name: Helicopter A fixed-step launch and movement (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_HELI_A.html
+  AEGIS_BASELINE: archive/v48/WIP_PERF_F/Aegis_SIM_v48_WIP_PERF_F.html
+  NODE_PATH: ${{ github.workspace }}/docs/performance/F/node_modules
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund
+          sha256sum -c SHA256SUMS_v48_WIP_HELI_A.txt
+          sha256sum -c docs/helicopter/B/REPOSITORY_SUPPORT.sha256
+          python docs/helicopter/B/run_suite.py static "$AEGIS_CANDIDATE" artifacts/HELI_A/static --baseline "$AEGIS_BASELINE"
+          python docs/helicopter/B/run_suite.py motion "$AEGIS_CANDIDATE" artifacts/HELI_A/motion
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helicopter-a-static-${{ github.sha }}
+          path: artifacts/HELI_A
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [runtime, ui, native, clock, baseline]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: pip install -r docs/helicopter/B/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: python docs/helicopter/B/run_suite.py '${{ matrix.suite }}' "$AEGIS_CANDIDATE" artifacts/HELI_A/'${{ matrix.suite }}' --baseline "$AEGIS_BASELINE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helicopter-a-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/HELI_A
+          if-no-files-found: error

@@ -1,14 +1,23 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 헬기 모델 검사 — v01
+## 최신 개발 기준 — 헬기 WIP HELI_A
 
-사용자 DDG-118 GLB에서 SH-60의 공통 기체와 격납·전개·비행 정적 부품을 추출했다. [독립 미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [lossless GLB](docs/helicopter/A/seahawk-poses-lossless.glb), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [구성·검증·재현](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt). 게임용 압축 223,419bytes, 기존 Three 재사용 시 HTML 추가량 301,239bytes (+1.9176%). 구조/native 비교·회수/최종 scene·UI 51검사와 정적 문법 PASS. Simulator 기준은 아래 PERF_F 그대로이며 별도 helicopter-model-a asset 브랜치다. 다음은 미터 축척·회전축·함정 갑판/격납고 배치와 LOD를 준비한 뒤 항공 runtime·센서·초수평선 탐지다.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_A.html), **16,035,793bytes**, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. PERF_F + SH-60 asset A 위 `helicopter-a` 작업이다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_A.txt), [조작·계약·재현](docs/helicopter/B/README.md), [검증](docs/helicopter/B/evidence/verification-summary.json).
+- 자함 DDG-119의 두 기를 AIR에서 선택·위치 지정·출격/대기열 취소한다. 문 개방 → 갑판 이동 → 꼬리/로터 전개 → 45초 시동 → 안정화 → 부상까지 120초. 첫 기체가 실제 갑판을 비운 뒤 두 번째가 준비한다. 좌현 이탈 뒤 50m MSL로 비행·목표 호버한다.
+- MH-60R 제원 제한 질점 + 상태기계, SI/고정60Hz. 바람·대기속도·선회율·가감속·정지/오버슈트·재지향과 읽기 전용 자세/3D를 적용했다. 레이더/관측 포트·IFF·무장·연료·로터 공력·회수·고도 UI는 이번 단계에서 제외했다.
+- 공통 압축 모델 223,419bytes를 한 번 내장, 두 기 geometry/material 공유와 LOD. HTML 증가 **326,494bytes (+2.07835%)**. 원본 SH-60 외형을 MH-60R 상세 외장 검증으로 표현하지 않는다.
+- 최종 검증과 실행 조건은 상태/증거를 따른다. 기존 F 전투 회귀와 native 3D를 로컬에서 확인하며 수동 Actions를 dispatch하지 않는다. main/선행 브랜치를 자동 병합하지 않는다.
+- PERF_F 네 파일은 같은 bytes/blob으로 [archive](archive/v48/WIP_PERF_F/)에 보존한다. stable v48, asset A와 과거 evidence는 유지한다. 다음은 항공 센서/IFF/초수평선 관측 단계다.
 
-## 최신 개발 기준 — 최적화 WIP PERF_F
+## 헬기 모델 검사 — v01 (당시 asset 기록)
 
-- 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
+사용자 DDG-118 GLB에서 SH-60의 공통 기체와 격납·전개·비행 정적 부품을 추출했다. [독립 미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [lossless GLB](docs/helicopter/A/seahawk-poses-lossless.glb), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [구성·검증·재현](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt). 게임용 압축 223,419bytes, 기존 Three 재사용 시 HTML 추가량 301,239bytes (+1.9176%). 구조/native 비교·회수/최종 scene·UI 51검사와 정적 문법 PASS. 당시 별도 helicopter-model-a에서 게임 PERF_F를 보존한 자산 검사 기록이다. 해당 자산을 현재 HELI_A에서 재사용한다.
+
+## 직전 개발 기준 — 최적화 WIP PERF_F (당시 기록)
+
+- 현재 [HTML](archive/v48/WIP_PERF_F/Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
 - complete anchor 공개 이후에만 remaining quick work를 최신 피격으로 선점한다. unpublished opening은 보호하고 live/original buffers를 유지한다. 안정된 입력의 최종 형상·현재6ms budget·physics/피해/sensors/AI/RNG/fixed60/120/20Hz/actual release와 이전 캐시/모델/연기 결과는 보존한다. packed13 표시용 scheduler와 texture disposal만 수정한다.
-- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
+- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](archive/v48/WIP_PERF_F/AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](archive/v48/WIP_PERF_F/SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
 - 기존 전체 회귀와 연속3회 cut/queue, 양함종 각각120simulated seconds/7200ticks의 세 함정 overload exact state/RNG,8회nativeGPU smoke/Kh32 epoch와pending-cut 외부 함정owner replacement/disposal 검증. 전체 회귀/카메라 종료 후 native second-hit submit4쌍 직렬 AB/BA. 제어된 detached scar/diagnostic tracks이며 자연 다발 피격·실제 수시간 soak·hardware/phone FPS는 미실행이다. 누적CPU는 E 당시기록을 참조하며 새 F측정으로 표현하지 않는다.
 - E 네 파일 samebytes/blob archive, stable와 이전 증거 유지. §7.1 full original 직접 upload/독립 remote readback. Actions dispatch/main·선행 branch merge/새 PR 없음.
 - 계획한 최종 최적화 검증 범위 완료. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.

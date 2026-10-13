@@ -187,18 +187,27 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 모델 검사 기준 — 헬기 v01
+### 최신 개발 기준 HELI_A — 2기 출격·질점 이동
+
+- 현재 HTML은 `Aegis_SIM_v48_WIP_HELI_A.html`, 16,035,793bytes, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_A.txt), [계약·조작·재현](docs/helicopter/B/README.md), [최종 증거](docs/helicopter/B/evidence/verification-summary.json)를 따른다. PERF_F 게임과 asset A를 기준으로 `helicopter-a`에서 진행한다.
+- 사용자 확정 범위는 MH-60R 제원 제한 질점/상태기계다. 모든 항공 운동은 SI와 SIM_FIXED_DT(1/60)를 사용한다. 3D는 read-only이며 source geometry 측정 hardpoint를 오프라인 등록한다. 레이더 truth→sensor/targetPool/configureOffboardSourceC에는 연결하지 않는다. 센서/IFF/무장/연료/로터 공력/회수/고도 UI는 구현하지 않는다.
+- 자함 DDG-119만 2기 운용한다. HANGAR_OPEN10/TRAVERSE20/SPREAD30/START45/PRE_LAUNCH_CHECK10/LIFT_HOVER5초. LIFT 마지막까지 ship-local, DEPART에 월드 분리·함 속도 상속, 좌현 이탈·50m MSL 이동. 갑판 실제 clearance 이후 다음 기체가 시작한다. RECOVERY는 상태 자리만 있다.
+- 새 항공 상태·명령·저장 codec는 ShipRuntime.aviation/world.helicopters 아래다. AIR 조작·snapshot·render 조회를 센서/IFF 진실로 사용하지 않는다. 기존 AIRCRAFT 질량 proxy 이동/분리는 원래 8.5t 노드를 사용하며 추가 질량·연료 소모를 만들지 않는다.
+- 최종 파일의 실제 검증 집계/조건을 보고한다. F의 과거 1817/38suites를 새 HELI_A 검사에 합산하지 않는다. native는 SwiftShader, mobile은 viewport/touch emulation이며 hardware/phone FPS로 과장하지 않는다.
+- §7.1에 따라 전체 원본 직접 업로드/독립 원격 blob readback을 수행한다. 사용자의 Actions 사용 불가 조건으로 수동 workflow만 준비하고 dispatch/새 PR/main·선행 branch 병합은 하지 않는다. F 원본·상태·SHA·workflow는 `archive/v48/WIP_PERF_F/`에 같은 bytes/blob으로 보존한다. 현재 support/checksum/workflow는 HELI_A이고 F/A의 과거 manifest는 당시 commit 기준 기록이다.
+
+### 모델 검사 기준 — 헬기 v01 (당시 asset 기록)
 
 - 별도 `helicopter-model-a` 브랜치에서 사용자 DDG-118 GLB의 SH-60 정적 격납/전개/비행 부품을 추출했다. [미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [계약·재현·한계](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt).
 - 공통 geometry/material 공유·텍스처0, lossless GLB 591,920bytes, Q16/SNORM16 압축223,419bytes, 게임 HTML 내 모델/로더 추가301,239bytes (+1.9176%). 구조14/native13/최종scene·UI24 검사와 정적 문법PASS. 디코더는 표시 전용이며 렌더러가 물리·센서·교전 상태를 소유하지 않는다.
 - 게임 HTML/상태/체크섬, PERF_F/이전 검사·workflow는 보존한다. 모델 검사기는 §1의 별도 버전 규칙을 따르므로 새 시뮬레이터 WIP 또는 archive 이동은 없다. 이전 PERF_F 지원 checksum은 당시 PERF_F commit의 기록이고, 새 asset branch 문서 변경은 모델 SHA manifest에 포함한다. Actions/새 PR/병합을 실행하지 않는다.
 - source 이름만으로 MH-60R 등 형식을 확정하지 않으며 source unit→meter 축척과 로터/꼬리 동적 animation은 미검증이다. 다음은 축척·회전축·갑판/격납고 배치·LOD, 이후 별도 항공 profile/runtime·비행·센서·초수평선 탐지·정보공유다.
 
-### 최신 개발 기준 PERF_F — 최종 최적화 검증
+### 직전 개발 기준 PERF_F — 최종 최적화 검증 (당시 기록)
 
-- 현재 [HTML](Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
+- 현재 [HTML](archive/v48/WIP_PERF_F/Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
 - complete anchor 공개 이후에만 remaining quick work를 최신 피격으로 선점한다. unpublished opening은 보호하고 live/original buffers를 유지한다. 안정된 입력의 최종 형상·현재6ms budget·physics/피해/sensors/AI/RNG/fixed60/120/20Hz/actual release와 이전 캐시/모델/연기 결과는 보존한다. packed13 표시용 scheduler와 texture disposal만 수정한다.
-- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
+- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](archive/v48/WIP_PERF_F/AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](archive/v48/WIP_PERF_F/SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
 - 기존 전체 회귀와 연속3회 cut/queue, 양함종 각각120simulated seconds/7200ticks의 세 함정 overload exact state/RNG,8회nativeGPU smoke/Kh32 epoch와pending-cut 외부 함정owner replacement/disposal 검증. 전체 회귀/카메라 종료 후 native second-hit submit4쌍 직렬 AB/BA. 제어된 detached scar/diagnostic tracks이며 자연 다발 피격·실제 수시간 soak·hardware/phone FPS는 미실행이다. 누적CPU는 E 당시기록을 참조하며 새 F측정으로 표현하지 않는다.
 - E 네 파일 samebytes/blob archive, stable와 이전 증거 유지. §7.1 full original 직접 upload/독립 remote readback. Actions dispatch/main·선행 branch merge/새 PR 없음.
 - 계획한 최종 최적화 검증 범위 완료. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.
