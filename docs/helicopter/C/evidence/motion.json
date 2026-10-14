@@ -1,0 +1,281 @@
+{
+  "pass": true,
+  "checks": {
+    "calm.arrives": true,
+    "calm.airSpeedBound": true,
+    "calm.climbBound": true,
+    "calm.turnBound": true,
+    "calm.accelBound": true,
+    "crosswind.arrives": true,
+    "crosswind.airSpeedBound": true,
+    "crosswind.climbBound": true,
+    "crosswind.turnBound": true,
+    "crosswind.accelBound": true,
+    "tailwind.arrives": true,
+    "tailwind.airSpeedBound": true,
+    "tailwind.climbBound": true,
+    "tailwind.turnBound": true,
+    "tailwind.accelBound": true,
+    "overshoot.arrives": true,
+    "overshoot.airSpeedBound": true,
+    "overshoot.climbBound": true,
+    "overshoot.turnBound": true,
+    "overshoot.accelBound": true,
+    "overshootReturns": true,
+    "reverseTurn.arrives": true,
+    "reverseTurn.airSpeedBound": true,
+    "reverseTurn.climbBound": true,
+    "reverseTurn.turnBound": true,
+    "reverseTurn.accelBound": true,
+    "retargetDoesNotWritePose": true,
+    "retargetNoInstantVelocityReversal": true,
+    "sharpTurnSlows": true,
+    "sharpTurnRadiusNarrows": true,
+    "sharpTurnDecelBound": true,
+    "sharpTurnNoHeadingSnap": true,
+    "movingFollowStation": true,
+    "followWindAndVelocity": true,
+    "followAltitude": true
+  },
+  "cases": [
+    {
+      "label": "calm",
+      "distanceM": 0.9856840247039145,
+      "arrivedAt": 116.85,
+      "maxAir": 61.733333333333334,
+      "maxClimb": 3.500000000000014,
+      "maxTurnRatio": 0,
+      "maxLongAccel": 1.500000000000128,
+      "maxLongDecel": 2.0000000000000995,
+      "overshoot": false,
+      "final": {
+        "positionM": {
+          "x": 4999.014315975296,
+          "y": 0,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": 0,
+        "motionBearingRad": 0,
+        "pitchRad": 3.0421608245282553e-247,
+        "bankRad": 0,
+        "motion": {
+          "airSpeedMps": 0,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    },
+    {
+      "label": "crosswind",
+      "distanceM": 1.4999475722123183,
+      "arrivedAt": 122.81666666666666,
+      "maxAir": 61.73333333333335,
+      "maxClimb": 3.500000000000014,
+      "maxTurnRatio": 1.0000000000000016,
+      "maxLongAccel": 1.5000000000007674,
+      "maxLongDecel": 1.894571364243376,
+      "overshoot": false,
+      "final": {
+        "positionM": {
+          "x": 4998.513369925569,
+          "y": 0.19943355079812364,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": 1.2246467991473533e-15,
+          "y": -20
+        },
+        "groundVelocityMps": {
+          "x": 1.2246467991473533e-15,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": -1.5707963267948966,
+        "motionBearingRad": -1.5707963267948966,
+        "pitchRad": 7.4e-323,
+        "bankRad": -7.4e-323,
+        "motion": {
+          "airSpeedMps": 20,
+          "groundSpeedMps": 1.2246467991473533e-15,
+          "stopDistanceM": 3.7493994566546447e-31,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    },
+    {
+      "label": "tailwind",
+      "distanceM": 1.4561148133070674,
+      "arrivedAt": 116.73333333333333,
+      "maxAir": 46.733333333333334,
+      "maxClimb": 3.500000000000014,
+      "maxTurnRatio": 5.2660950879640796e-14,
+      "maxLongAccel": 1.500000000000128,
+      "maxLongDecel": 2.0000000000000995,
+      "overshoot": true,
+      "final": {
+        "positionM": {
+          "x": 5001.456114813307,
+          "y": -1.8724662088868423e-16,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": -15,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": 3.141592653589793,
+        "motionBearingRad": 3.141592653589793,
+        "pitchRad": 7.4e-323,
+        "bankRad": 7.4e-323,
+        "motion": {
+          "airSpeedMps": 15,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    },
+    {
+      "label": "overshoot",
+      "distanceM": 1.2327879719374997,
+      "arrivedAt": 44.916666666666664,
+      "maxAir": 59.96666666666667,
+      "maxClimb": 3.500000000000014,
+      "maxTurnRatio": 1.0000000000001368,
+      "maxLongAccel": 1.500000000000128,
+      "maxLongDecel": 2.000000000000739,
+      "overshoot": true,
+      "final": {
+        "positionM": {
+          "x": 200.5976831388764,
+          "y": 1.078211968611292,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": -2.076956343466314,
+        "motionBearingRad": -2.076956343466314,
+        "pitchRad": 7.4e-323,
+        "bankRad": 7.4e-323,
+        "motion": {
+          "airSpeedMps": 0,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    },
+    {
+      "label": "reverseTurn",
+      "distanceM": 0.9856955180407332,
+      "arrivedAt": 125.96666666666667,
+      "maxAir": 61.73333333333334,
+      "maxClimb": 3.500000000000014,
+      "maxTurnRatio": 1.0000000000002014,
+      "maxLongAccel": 1.500000000000341,
+      "maxLongDecel": 2.000000000000739,
+      "overshoot": true,
+      "final": {
+        "positionM": {
+          "x": -4999.015802811327,
+          "y": 200.05432815195175,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": -3.0864481436520426,
+        "motionBearingRad": -3.0864481436520426,
+        "pitchRad": 7.4e-323,
+        "bankRad": -7.4e-323,
+        "motion": {
+          "airSpeedMps": 0,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    },
+    {
+      "label": "sharpRetargetComparison",
+      "minSpeedA": 61.733333333333306,
+      "minSpeedB": 34.10000000000175,
+      "minRadiusA": 673.099715565313,
+      "minRadiusB": 205.3755359423833,
+      "maxDecel": 2.0000000000003126,
+      "maxHeadingJump": 0.002767288376025468
+    },
+    {
+      "label": "movingFollow",
+      "followTarget": {
+        "x": 3399.999999999584,
+        "y": 400
+      },
+      "final": {
+        "positionM": {
+          "x": 3400.1333333333814,
+          "y": 399.9999999991198,
+          "z": 50
+        },
+        "airVelocityMps": {
+          "x": 8,
+          "y": -12
+        },
+        "groundVelocityMps": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": 0,
+        "motionBearingRad": -0.982793723247329,
+        "pitchRad": -2.218570634315823e-139,
+        "bankRad": 2.3831789343487213e-190,
+        "motion": {
+          "airSpeedMps": 14.422205101855958,
+          "groundSpeedMps": 8,
+          "stopDistanceM": 16,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,8 +1,16 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 헬기 WIP HELI_A
+## 최신 개발 기준 — 헬기 WIP HELI_B
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_A.html), **16,035,793bytes**, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. PERF_F + SH-60 asset A 위 `helicopter-a` 작업이다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_A.txt), [조작·계약·재현](docs/helicopter/B/README.md), [검증](docs/helicopter/B/evidence/verification-summary.json).
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_B.html), **16,037,621bytes**, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. A final 위 `helicopter-b`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_B.txt), [조작·재현](docs/helicopter/C/README.md), [검증](docs/helicopter/C/evidence/verification-summary.json).
+- 메인/꼬리 실제 축·회전 주체를 수정하고 고정 gearbox/지지부를 분리했다. 문 뒤 HULL 벽 제거, 양쪽 외측 배치·문 정렬·벽 밖 곡선 턴, 정지 지점3.7m 뒤로 이동.
+- AIR는 왼쪽 조작/오른쪽 여백·스크롤 목록. 여러 경로점/UNDO/급한 코너 감속·선회/함선 뒤·측방 약410m 따라가기. 3D CAMERA에 H1/H2 추적을 추가했다. 준비120초와50m MSL, fixed60Hz/read-only 및 센서 격리를 유지한다.
+- **264/264 PASS /11 suites**, native 양쪽 portal/rigidity/고정 gearbox, 독립 source401pose 간섭, 실제 A 저장 migration,1/8/16/64배속, 기존 DDG/CG 전투·피격 비교 포함. software GPU/viewport 조건은 보고서를 따른다. Actions는 dispatch하지 않았다.
+- 원본 자산 재사용으로 HTML은 A 대비 **1,828bytes(+0.0114%)** 증가. A 네 파일 same bytes/blob archive, stable/asset/과거 증거 유지. 다음 센서/IFF 단계는 이번에 연결하지 않았다.
+
+## 직전 개발 기준 — 헬기 WIP HELI_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_A/Aegis_SIM_v48_WIP_HELI_A.html), **16,035,793bytes**, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. PERF_F + SH-60 asset A 위 `helicopter-a` 작업이다. [상태](archive/v48/WIP_HELI_A/AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](archive/v48/WIP_HELI_A/SHA256SUMS_v48_WIP_HELI_A.txt), [조작·계약·재현](docs/helicopter/B/README.md), [검증](docs/helicopter/B/evidence/verification-summary.json).
 - 자함 DDG-119의 두 기를 AIR에서 선택·위치 지정·출격/대기열 취소한다. 문 개방 → 갑판 이동 → 꼬리/로터 전개 → 45초 시동 → 안정화 → 부상까지 120초. 첫 기체가 실제 갑판을 비운 뒤 두 번째가 준비한다. 좌현 이탈 뒤 50m MSL로 비행·목표 호버한다.
 - MH-60R 제원 제한 질점 + 상태기계, SI/고정60Hz. 바람·대기속도·선회율·가감속·정지/오버슈트·재지향과 읽기 전용 자세/3D를 적용했다. 레이더/관측 포트·IFF·무장·연료·로터 공력·회수·고도 UI는 이번 단계에서 제외했다.
 - 공통 압축 모델 223,419bytes를 한 번 내장, 두 기 geometry/material 공유와 LOD. HTML 증가 **326,494bytes (+2.07835%)**. 원본 SH-60 외형을 MH-60R 상세 외장 검증으로 표현하지 않는다.

@@ -187,9 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HELI_A — 2기 출격·질점 이동
+### 최신 개발 기준 HELI_B — 로터·격납고·경로 피드백
 
-- 현재 HTML은 `Aegis_SIM_v48_WIP_HELI_A.html`, 16,035,793bytes, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_A.txt), [계약·조작·재현](docs/helicopter/B/README.md), [최종 증거](docs/helicopter/B/evidence/verification-summary.json)를 따른다. PERF_F 게임과 asset A를 기준으로 `helicopter-a`에서 진행한다.
+- `Aegis_SIM_v48_WIP_HELI_B.html`, 16,037,621bytes, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_B.txt), [계약](docs/helicopter/C/README.md), [최종 검증](docs/helicopter/C/evidence/verification-summary.json). A head15dfc8c 위 `helicopter-b`이며 packed13의 aviation 모듈만 변경한다.
+- 실제 source 축/회전 주체와 metric rigid spin, 문 뒤 HULL 외판, 양쪽 외측/정렬/벽 밖 곡선 턴/뒤쪽 정지 지점을 수정했다. AIR 왼쪽 조작·오른쪽 여백/스크롤 목록, 다중 경로·UNDO·선회 감속·약410m 함선 따라가기와 CAMERA H1/H2를 추가했다. 최종 사용자 선택은 따라가기다.
+- source 등록값/시각/새 control tuning은 SIM_TUNED, 공개 제원은 이전 사용자값이다. SI/fixed60Hz/read-only renderer, ShipRuntime/world ownership과 기존 질량 proxy를 유지한다. 센서/IFF/targetPool/offboard/무장/연료/회수/고도 UI/aero는 다음 단계다.
+- 새 save B1 codec는 실제 A 비행을 migration하며 pose/velocity/heading을 보존한다. input preflight 이전에 writes를 하지 않는다. 상태/route/index/localYaw의 소유권과 재현은 C 모듈/README를 따른다.
+- 최종264검사/11suites 및 tested SHA를 보고한다. 과거A198/F1817을 새로 통과했다고 표현하지 않는다. native/뷰포트는 hardware FPS가 아니다. 이번 HTML 증가는 A 대비1,828bytes다.
+- §7.1 original 직접 upload/독립 원격 readback을 수행한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다. A 네 파일은 `archive/v48/WIP_HELI_A/`에 same bytes/blob. 현재 support/workflow/checksum은 B이고 과거A/B asset manifest는 당시 commit 기록이다.
+
+### 직전 개발 기준 HELI_A — 2기 출격·질점 이동 (당시 기록)
+
+- 현재 HTML은 `Aegis_SIM_v48_WIP_HELI_A.html`, 16,035,793bytes, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. [상태](archive/v48/WIP_HELI_A/AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](archive/v48/WIP_HELI_A/SHA256SUMS_v48_WIP_HELI_A.txt), [계약·조작·재현](docs/helicopter/B/README.md), [최종 증거](docs/helicopter/B/evidence/verification-summary.json)를 따른다. PERF_F 게임과 asset A를 기준으로 `helicopter-a`에서 진행한다.
 - 사용자 확정 범위는 MH-60R 제원 제한 질점/상태기계다. 모든 항공 운동은 SI와 SIM_FIXED_DT(1/60)를 사용한다. 3D는 read-only이며 source geometry 측정 hardpoint를 오프라인 등록한다. 레이더 truth→sensor/targetPool/configureOffboardSourceC에는 연결하지 않는다. 센서/IFF/무장/연료/로터 공력/회수/고도 UI는 구현하지 않는다.
 - 자함 DDG-119만 2기 운용한다. HANGAR_OPEN10/TRAVERSE20/SPREAD30/START45/PRE_LAUNCH_CHECK10/LIFT_HOVER5초. LIFT 마지막까지 ship-local, DEPART에 월드 분리·함 속도 상속, 좌현 이탈·50m MSL 이동. 갑판 실제 clearance 이후 다음 기체가 시작한다. RECOVERY는 상태 자리만 있다.
 - 새 항공 상태·명령·저장 codec는 ShipRuntime.aviation/world.helicopters 아래다. AIR 조작·snapshot·render 조회를 센서/IFF 진실로 사용하지 않는다. 기존 AIRCRAFT 질량 proxy 이동/분리는 원래 8.5t 노드를 사용하며 추가 질량·연료 소모를 만들지 않는다.
