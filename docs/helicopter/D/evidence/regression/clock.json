@@ -1,0 +1,1801 @@
+{
+  "pass": true,
+  "checks": {
+    "1.exact": true,
+    "8.exact": true,
+    "16.exact": true,
+    "64.exact": true,
+    "allCommandsAccepted": true,
+    "differentAltitudesPreserved": true,
+    "fixed60Hz": true,
+    "corePass": true
+  },
+  "rows": [
+    {
+      "scale": 1,
+      "commands": [
+        {
+          "ok": true,
+          "altitudeM": 1200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true,
+          "altitudeM": 200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        }
+      ],
+      "run": {
+        "steps": 16000,
+        "frames": 16000,
+        "simStepCounter": 16000,
+        "simAccumulator": 0
+      },
+      "after": {
+        "schema": "AEGIS_HELO_C1",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "supported": true,
+        "fixedDtS": 0.016666666666666666,
+        "constants": {
+          "knotMps": {
+            "value": 0.5144444444444445,
+            "source": "PUBLIC_SPEC",
+            "reference": "SI nautical mile/hour"
+          },
+          "gravity": {
+            "value": 9.80665,
+            "source": "PUBLIC_SPEC",
+            "reference": "standard gravity"
+          },
+          "maxCruiseKt": {
+            "value": 140,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "maxClimbMps": {
+            "value": 8.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "cruiseKt": {
+            "value": 120,
+            "source": "SIM_TUNED"
+          },
+          "verticalMps": {
+            "value": 3.5,
+            "source": "SIM_TUNED"
+          },
+          "accel": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "decel": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "maxBankRad": {
+            "value": 0.5235987755982988,
+            "source": "SIM_TUNED"
+          },
+          "hoverTurnRadS": {
+            "value": 0.2617993877991494,
+            "source": "SIM_TUNED"
+          },
+          "hoverThresholdKt": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "holdGain": {
+            "value": 0.8,
+            "source": "SIM_TUNED"
+          },
+          "arrivalRadiusM": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "arrivalSpeedMps": {
+            "value": 0.3,
+            "source": "SIM_TUNED"
+          },
+          "holdZoneM": {
+            "value": 8,
+            "source": "SIM_TUNED"
+          },
+          "traverseExitFraction": {
+            "value": 0.7,
+            "source": "SIM_TUNED"
+          },
+          "tailSpreadFraction": {
+            "value": 0.4,
+            "source": "SIM_TUNED"
+          },
+          "engineOneFraction": {
+            "value": 0.45,
+            "source": "SIM_TUNED"
+          },
+          "engineTwoStartFraction": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "rotorStartFraction": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "attitudeLagS": {
+            "value": 0.5,
+            "source": "SIM_TUNED"
+          },
+          "altitudeM": {
+            "value": 50,
+            "source": "SIM_TUNED"
+          },
+          "minAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "maxAltitudeM": {
+            "value": 3962.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "US 7th Fleet Public Affairs 2014-03-10: MH-60R ceiling 13,000 ft (exact 0.3048 m/ft); https://www.cpf.navy.mil/Newsroom/News/Article/2750444/uss-kidd-joins-uss-pinckney-in-flight-mh370-search-effort/"
+          },
+          "liftHeightM": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          },
+          "rotorRpm": {
+            "value": 258,
+            "source": "SIM_TUNED"
+          },
+          "departOffsetM": {
+            "value": 60,
+            "source": "SIM_TUNED"
+          },
+          "departMinAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "deckClearMarginM": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "visualRotorDiameterM": {
+            "value": 16.36,
+            "source": "SIM_TUNED",
+            "reference": "visual scale of supplied SH-60 model"
+          },
+          "visualHeightM": {
+            "value": 5.13,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowStartRad": {
+            "value": 0.17453292519943295,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowFullRad": {
+            "value": 1.3089969389957472,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowMinKt": {
+            "value": 35,
+            "source": "SIM_TUNED"
+          },
+          "waypointPassRadiusM": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "routeCapacity": {
+            "value": 32,
+            "source": "SIM_TUNED"
+          },
+          "followLateralM": {
+            "value": 400,
+            "source": "SIM_TUNED"
+          },
+          "followAftM": {
+            "value": 100,
+            "source": "SIM_TUNED"
+          },
+          "followGain": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "tailRotorRatio": {
+            "value": 4.6,
+            "source": "SIM_TUNED"
+          },
+          "heroCameraDistanceM": {
+            "value": 42,
+            "source": "SIM_TUNED"
+          },
+          "lodDistanceM": {
+            "value": 1800,
+            "source": "SIM_TUNED"
+          },
+          "rotorDiskOpacity": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "HANGAR_OPEN_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "TRAVERSE_S": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "SPREAD_S": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "START_S": {
+            "value": 45,
+            "source": "SIM_TUNED"
+          },
+          "PRE_LAUNCH_CHECK_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "LIFT_HOVER_S": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          }
+        },
+        "queue": [],
+        "deckOwnerId": null,
+        "doors": [
+          0,
+          0
+        ],
+        "holdReason": "",
+        "windMps": {
+          "x": 5.660560123957502,
+          "y": -15.16701186335583
+        },
+        "aircraft": [
+          {
+            "id": "SHIP_DDG119_OWN:H1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 0,
+            "bay": "PORT",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "FOLLOW_SHIP",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": -400.00051935580245,
+              "y": 99.98727618169734,
+              "z": 521.8977135010522
+            },
+            "airVelocityMps": {
+              "x": -5.660560122703387,
+              "y": 15.167011904509993
+            },
+            "groundVelocityMps": {
+              "x": 1.2541150340439344e-09,
+              "y": 4.115416274430572e-08,
+              "z": 3.5
+            },
+            "headingRad": 1.9280013663718194,
+            "motionBearingRad": 1.9280013663718194,
+            "targetAltitudeM": 1200,
+            "pitchRad": -0.0004421682204207071,
+            "bankRad": 0.00024287877939802767,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 2.1519909677105336,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": null,
+            "departPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "localYawRad": 0,
+            "navigationMode": "FOLLOW_SHIP",
+            "route": [],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "followPointM": {
+              "x": -400.0005193522402,
+              "y": 99.98727629859476,
+              "z": 1200
+            },
+            "motion": {
+              "airSpeedMps": 16.1888909754278,
+              "groundSpeedMps": 4.1173267003037496e-08,
+              "stopDistanceM": 1.7266127399338176e-09,
+              "braking": true,
+              "turnRateRadS": 0.00014619189196540816,
+              "longitudinalAccelMps2": 0.004390638872422414
+            },
+            "airSpeedKt": 31.468686561306736,
+            "groundSpeedKt": 8.003442829964091e-08,
+            "altitudeM": 521.8977135010522,
+            "headingDeg": 200.46634118856127,
+            "distanceM": 1.1695168963752549e-07,
+            "etaS": 193.7435104282708,
+            "remainingS": null
+          },
+          {
+            "id": "SHIP_DDG119_OWN:H2",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 1,
+            "bay": "STARBOARD",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "TRANSIT",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": 268.57629618460203,
+              "y": 117.49382114734736,
+              "z": 90.94496648268296
+            },
+            "airVelocityMps": {
+              "x": 28.04925125040678,
+              "y": 24.42998632365126
+            },
+            "groundVelocityMps": {
+              "x": 33.70981137436428,
+              "y": 9.26297446029543,
+              "z": 3.5
+            },
+            "headingRad": 0.7165415382499276,
+            "motionBearingRad": 0.7165415382499276,
+            "targetAltitudeM": 200,
+            "pitchRad": -0.15178103922384134,
+            "bankRad": 0.00814612206119838,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 5.461135229490601,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": {
+              "x": 3000,
+              "y": 1500,
+              "z": 200
+            },
+            "departPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "localYawRad": 0,
+            "navigationMode": "ROUTE",
+            "route": [
+              {
+                "x": 3000,
+                "y": 1500,
+                "z": 200
+              },
+              {
+                "x": 1000,
+                "y": 2200,
+                "z": 200
+              }
+            ],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "followPointM": null,
+            "motion": {
+              "airSpeedMps": 37.19656875952719,
+              "groundSpeedMps": 34.959320341609974,
+              "stopDistanceM": 305.15498246874006,
+              "braking": false,
+              "turnRateRadS": 0.0021520461950008674,
+              "longitudinalAccelMps2": 1.4999999999999147
+            },
+            "airSpeedKt": 72.30434532089518,
+            "groundSpeedKt": 67.95548230550534,
+            "altitudeM": 90.94496648268296,
+            "headingDeg": 131.0548059875327,
+            "distanceM": 3061.372042782515,
+            "etaS": 87.56955263626074,
+            "remainingS": null
+          }
+        ]
+      },
+      "rng": 2447379481,
+      "contract": {
+        "schema": "AEGIS_SIMULATION_UPDATE_CONTRACT_V48_WIP11A",
+        "fixedTickHz": 60,
+        "physicsDtS": 0.016666666666666666,
+        "floodForceSubstepHz": 120,
+        "hydrostaticQuadratureHz": 20,
+        "crewMovementHz": 5,
+        "crewPhysiologyHz": 1,
+        "structuralLoadHz": 1,
+        "damageControlHz": 10,
+        "policy": "PRESERVE_CALL_ORDER_AND_RNG_CONSUMPTION__MEASURE_BEFORE_OPTIMIZING"
+      },
+      "core": []
+    },
+    {
+      "scale": 8,
+      "commands": [
+        {
+          "ok": true,
+          "altitudeM": 1200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true,
+          "altitudeM": 200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        }
+      ],
+      "run": {
+        "steps": 16000,
+        "frames": 2000,
+        "simStepCounter": 16000,
+        "simAccumulator": 5.550421233735392e-14
+      },
+      "after": {
+        "schema": "AEGIS_HELO_C1",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "supported": true,
+        "fixedDtS": 0.016666666666666666,
+        "constants": {
+          "knotMps": {
+            "value": 0.5144444444444445,
+            "source": "PUBLIC_SPEC",
+            "reference": "SI nautical mile/hour"
+          },
+          "gravity": {
+            "value": 9.80665,
+            "source": "PUBLIC_SPEC",
+            "reference": "standard gravity"
+          },
+          "maxCruiseKt": {
+            "value": 140,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "maxClimbMps": {
+            "value": 8.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "cruiseKt": {
+            "value": 120,
+            "source": "SIM_TUNED"
+          },
+          "verticalMps": {
+            "value": 3.5,
+            "source": "SIM_TUNED"
+          },
+          "accel": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "decel": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "maxBankRad": {
+            "value": 0.5235987755982988,
+            "source": "SIM_TUNED"
+          },
+          "hoverTurnRadS": {
+            "value": 0.2617993877991494,
+            "source": "SIM_TUNED"
+          },
+          "hoverThresholdKt": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "holdGain": {
+            "value": 0.8,
+            "source": "SIM_TUNED"
+          },
+          "arrivalRadiusM": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "arrivalSpeedMps": {
+            "value": 0.3,
+            "source": "SIM_TUNED"
+          },
+          "holdZoneM": {
+            "value": 8,
+            "source": "SIM_TUNED"
+          },
+          "traverseExitFraction": {
+            "value": 0.7,
+            "source": "SIM_TUNED"
+          },
+          "tailSpreadFraction": {
+            "value": 0.4,
+            "source": "SIM_TUNED"
+          },
+          "engineOneFraction": {
+            "value": 0.45,
+            "source": "SIM_TUNED"
+          },
+          "engineTwoStartFraction": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "rotorStartFraction": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "attitudeLagS": {
+            "value": 0.5,
+            "source": "SIM_TUNED"
+          },
+          "altitudeM": {
+            "value": 50,
+            "source": "SIM_TUNED"
+          },
+          "minAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "maxAltitudeM": {
+            "value": 3962.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "US 7th Fleet Public Affairs 2014-03-10: MH-60R ceiling 13,000 ft (exact 0.3048 m/ft); https://www.cpf.navy.mil/Newsroom/News/Article/2750444/uss-kidd-joins-uss-pinckney-in-flight-mh370-search-effort/"
+          },
+          "liftHeightM": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          },
+          "rotorRpm": {
+            "value": 258,
+            "source": "SIM_TUNED"
+          },
+          "departOffsetM": {
+            "value": 60,
+            "source": "SIM_TUNED"
+          },
+          "departMinAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "deckClearMarginM": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "visualRotorDiameterM": {
+            "value": 16.36,
+            "source": "SIM_TUNED",
+            "reference": "visual scale of supplied SH-60 model"
+          },
+          "visualHeightM": {
+            "value": 5.13,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowStartRad": {
+            "value": 0.17453292519943295,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowFullRad": {
+            "value": 1.3089969389957472,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowMinKt": {
+            "value": 35,
+            "source": "SIM_TUNED"
+          },
+          "waypointPassRadiusM": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "routeCapacity": {
+            "value": 32,
+            "source": "SIM_TUNED"
+          },
+          "followLateralM": {
+            "value": 400,
+            "source": "SIM_TUNED"
+          },
+          "followAftM": {
+            "value": 100,
+            "source": "SIM_TUNED"
+          },
+          "followGain": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "tailRotorRatio": {
+            "value": 4.6,
+            "source": "SIM_TUNED"
+          },
+          "heroCameraDistanceM": {
+            "value": 42,
+            "source": "SIM_TUNED"
+          },
+          "lodDistanceM": {
+            "value": 1800,
+            "source": "SIM_TUNED"
+          },
+          "rotorDiskOpacity": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "HANGAR_OPEN_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "TRAVERSE_S": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "SPREAD_S": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "START_S": {
+            "value": 45,
+            "source": "SIM_TUNED"
+          },
+          "PRE_LAUNCH_CHECK_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "LIFT_HOVER_S": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          }
+        },
+        "queue": [],
+        "deckOwnerId": null,
+        "doors": [
+          0,
+          0
+        ],
+        "holdReason": "",
+        "windMps": {
+          "x": 5.660560123957502,
+          "y": -15.16701186335583
+        },
+        "aircraft": [
+          {
+            "id": "SHIP_DDG119_OWN:H1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 0,
+            "bay": "PORT",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "FOLLOW_SHIP",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": -400.00051935580245,
+              "y": 99.98727618169734,
+              "z": 521.8977135010522
+            },
+            "airVelocityMps": {
+              "x": -5.660560122703387,
+              "y": 15.167011904509993
+            },
+            "groundVelocityMps": {
+              "x": 1.2541150340439344e-09,
+              "y": 4.115416274430572e-08,
+              "z": 3.5
+            },
+            "headingRad": 1.9280013663718194,
+            "motionBearingRad": 1.9280013663718194,
+            "targetAltitudeM": 1200,
+            "pitchRad": -0.0004421682204207071,
+            "bankRad": 0.00024287877939802767,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 2.1519909677105336,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": null,
+            "departPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "localYawRad": 0,
+            "navigationMode": "FOLLOW_SHIP",
+            "route": [],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "followPointM": {
+              "x": -400.0005193522402,
+              "y": 99.98727629859476,
+              "z": 1200
+            },
+            "motion": {
+              "airSpeedMps": 16.1888909754278,
+              "groundSpeedMps": 4.1173267003037496e-08,
+              "stopDistanceM": 1.7266127399338176e-09,
+              "braking": true,
+              "turnRateRadS": 0.00014619189196540816,
+              "longitudinalAccelMps2": 0.004390638872422414
+            },
+            "airSpeedKt": 31.468686561306736,
+            "groundSpeedKt": 8.003442829964091e-08,
+            "altitudeM": 521.8977135010522,
+            "headingDeg": 200.46634118856127,
+            "distanceM": 1.1695168963752549e-07,
+            "etaS": 193.7435104282708,
+            "remainingS": null
+          },
+          {
+            "id": "SHIP_DDG119_OWN:H2",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 1,
+            "bay": "STARBOARD",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "TRANSIT",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": 268.57629618460203,
+              "y": 117.49382114734736,
+              "z": 90.94496648268296
+            },
+            "airVelocityMps": {
+              "x": 28.04925125040678,
+              "y": 24.42998632365126
+            },
+            "groundVelocityMps": {
+              "x": 33.70981137436428,
+              "y": 9.26297446029543,
+              "z": 3.5
+            },
+            "headingRad": 0.7165415382499276,
+            "motionBearingRad": 0.7165415382499276,
+            "targetAltitudeM": 200,
+            "pitchRad": -0.15178103922384134,
+            "bankRad": 0.00814612206119838,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 5.461135229490601,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": {
+              "x": 3000,
+              "y": 1500,
+              "z": 200
+            },
+            "departPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "localYawRad": 0,
+            "navigationMode": "ROUTE",
+            "route": [
+              {
+                "x": 3000,
+                "y": 1500,
+                "z": 200
+              },
+              {
+                "x": 1000,
+                "y": 2200,
+                "z": 200
+              }
+            ],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "followPointM": null,
+            "motion": {
+              "airSpeedMps": 37.19656875952719,
+              "groundSpeedMps": 34.959320341609974,
+              "stopDistanceM": 305.15498246874006,
+              "braking": false,
+              "turnRateRadS": 0.0021520461950008674,
+              "longitudinalAccelMps2": 1.4999999999999147
+            },
+            "airSpeedKt": 72.30434532089518,
+            "groundSpeedKt": 67.95548230550534,
+            "altitudeM": 90.94496648268296,
+            "headingDeg": 131.0548059875327,
+            "distanceM": 3061.372042782515,
+            "etaS": 87.56955263626074,
+            "remainingS": null
+          }
+        ]
+      },
+      "rng": 2447379481,
+      "contract": {
+        "schema": "AEGIS_SIMULATION_UPDATE_CONTRACT_V48_WIP11A",
+        "fixedTickHz": 60,
+        "physicsDtS": 0.016666666666666666,
+        "floodForceSubstepHz": 120,
+        "hydrostaticQuadratureHz": 20,
+        "crewMovementHz": 5,
+        "crewPhysiologyHz": 1,
+        "structuralLoadHz": 1,
+        "damageControlHz": 10,
+        "policy": "PRESERVE_CALL_ORDER_AND_RNG_CONSUMPTION__MEASURE_BEFORE_OPTIMIZING"
+      },
+      "core": []
+    },
+    {
+      "scale": 16,
+      "commands": [
+        {
+          "ok": true,
+          "altitudeM": 1200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true,
+          "altitudeM": 200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        }
+      ],
+      "run": {
+        "steps": 16000,
+        "frames": 1000,
+        "simStepCounter": 16000,
+        "simAccumulator": 5.550421233735392e-14
+      },
+      "after": {
+        "schema": "AEGIS_HELO_C1",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "supported": true,
+        "fixedDtS": 0.016666666666666666,
+        "constants": {
+          "knotMps": {
+            "value": 0.5144444444444445,
+            "source": "PUBLIC_SPEC",
+            "reference": "SI nautical mile/hour"
+          },
+          "gravity": {
+            "value": 9.80665,
+            "source": "PUBLIC_SPEC",
+            "reference": "standard gravity"
+          },
+          "maxCruiseKt": {
+            "value": 140,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "maxClimbMps": {
+            "value": 8.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "cruiseKt": {
+            "value": 120,
+            "source": "SIM_TUNED"
+          },
+          "verticalMps": {
+            "value": 3.5,
+            "source": "SIM_TUNED"
+          },
+          "accel": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "decel": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "maxBankRad": {
+            "value": 0.5235987755982988,
+            "source": "SIM_TUNED"
+          },
+          "hoverTurnRadS": {
+            "value": 0.2617993877991494,
+            "source": "SIM_TUNED"
+          },
+          "hoverThresholdKt": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "holdGain": {
+            "value": 0.8,
+            "source": "SIM_TUNED"
+          },
+          "arrivalRadiusM": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "arrivalSpeedMps": {
+            "value": 0.3,
+            "source": "SIM_TUNED"
+          },
+          "holdZoneM": {
+            "value": 8,
+            "source": "SIM_TUNED"
+          },
+          "traverseExitFraction": {
+            "value": 0.7,
+            "source": "SIM_TUNED"
+          },
+          "tailSpreadFraction": {
+            "value": 0.4,
+            "source": "SIM_TUNED"
+          },
+          "engineOneFraction": {
+            "value": 0.45,
+            "source": "SIM_TUNED"
+          },
+          "engineTwoStartFraction": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "rotorStartFraction": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "attitudeLagS": {
+            "value": 0.5,
+            "source": "SIM_TUNED"
+          },
+          "altitudeM": {
+            "value": 50,
+            "source": "SIM_TUNED"
+          },
+          "minAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "maxAltitudeM": {
+            "value": 3962.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "US 7th Fleet Public Affairs 2014-03-10: MH-60R ceiling 13,000 ft (exact 0.3048 m/ft); https://www.cpf.navy.mil/Newsroom/News/Article/2750444/uss-kidd-joins-uss-pinckney-in-flight-mh370-search-effort/"
+          },
+          "liftHeightM": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          },
+          "rotorRpm": {
+            "value": 258,
+            "source": "SIM_TUNED"
+          },
+          "departOffsetM": {
+            "value": 60,
+            "source": "SIM_TUNED"
+          },
+          "departMinAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "deckClearMarginM": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "visualRotorDiameterM": {
+            "value": 16.36,
+            "source": "SIM_TUNED",
+            "reference": "visual scale of supplied SH-60 model"
+          },
+          "visualHeightM": {
+            "value": 5.13,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowStartRad": {
+            "value": 0.17453292519943295,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowFullRad": {
+            "value": 1.3089969389957472,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowMinKt": {
+            "value": 35,
+            "source": "SIM_TUNED"
+          },
+          "waypointPassRadiusM": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "routeCapacity": {
+            "value": 32,
+            "source": "SIM_TUNED"
+          },
+          "followLateralM": {
+            "value": 400,
+            "source": "SIM_TUNED"
+          },
+          "followAftM": {
+            "value": 100,
+            "source": "SIM_TUNED"
+          },
+          "followGain": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "tailRotorRatio": {
+            "value": 4.6,
+            "source": "SIM_TUNED"
+          },
+          "heroCameraDistanceM": {
+            "value": 42,
+            "source": "SIM_TUNED"
+          },
+          "lodDistanceM": {
+            "value": 1800,
+            "source": "SIM_TUNED"
+          },
+          "rotorDiskOpacity": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "HANGAR_OPEN_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "TRAVERSE_S": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "SPREAD_S": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "START_S": {
+            "value": 45,
+            "source": "SIM_TUNED"
+          },
+          "PRE_LAUNCH_CHECK_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "LIFT_HOVER_S": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          }
+        },
+        "queue": [],
+        "deckOwnerId": null,
+        "doors": [
+          0,
+          0
+        ],
+        "holdReason": "",
+        "windMps": {
+          "x": 5.660560123957502,
+          "y": -15.16701186335583
+        },
+        "aircraft": [
+          {
+            "id": "SHIP_DDG119_OWN:H1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 0,
+            "bay": "PORT",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "FOLLOW_SHIP",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": -400.00051935580245,
+              "y": 99.98727618169734,
+              "z": 521.8977135010522
+            },
+            "airVelocityMps": {
+              "x": -5.660560122703387,
+              "y": 15.167011904509993
+            },
+            "groundVelocityMps": {
+              "x": 1.2541150340439344e-09,
+              "y": 4.115416274430572e-08,
+              "z": 3.5
+            },
+            "headingRad": 1.9280013663718194,
+            "motionBearingRad": 1.9280013663718194,
+            "targetAltitudeM": 1200,
+            "pitchRad": -0.0004421682204207071,
+            "bankRad": 0.00024287877939802767,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 2.1519909677105336,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": null,
+            "departPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "localYawRad": 0,
+            "navigationMode": "FOLLOW_SHIP",
+            "route": [],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "followPointM": {
+              "x": -400.0005193522402,
+              "y": 99.98727629859476,
+              "z": 1200
+            },
+            "motion": {
+              "airSpeedMps": 16.1888909754278,
+              "groundSpeedMps": 4.1173267003037496e-08,
+              "stopDistanceM": 1.7266127399338176e-09,
+              "braking": true,
+              "turnRateRadS": 0.00014619189196540816,
+              "longitudinalAccelMps2": 0.004390638872422414
+            },
+            "airSpeedKt": 31.468686561306736,
+            "groundSpeedKt": 8.003442829964091e-08,
+            "altitudeM": 521.8977135010522,
+            "headingDeg": 200.46634118856127,
+            "distanceM": 1.1695168963752549e-07,
+            "etaS": 193.7435104282708,
+            "remainingS": null
+          },
+          {
+            "id": "SHIP_DDG119_OWN:H2",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 1,
+            "bay": "STARBOARD",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "TRANSIT",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": 268.57629618460203,
+              "y": 117.49382114734736,
+              "z": 90.94496648268296
+            },
+            "airVelocityMps": {
+              "x": 28.04925125040678,
+              "y": 24.42998632365126
+            },
+            "groundVelocityMps": {
+              "x": 33.70981137436428,
+              "y": 9.26297446029543,
+              "z": 3.5
+            },
+            "headingRad": 0.7165415382499276,
+            "motionBearingRad": 0.7165415382499276,
+            "targetAltitudeM": 200,
+            "pitchRad": -0.15178103922384134,
+            "bankRad": 0.00814612206119838,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 5.461135229490601,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": {
+              "x": 3000,
+              "y": 1500,
+              "z": 200
+            },
+            "departPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "localYawRad": 0,
+            "navigationMode": "ROUTE",
+            "route": [
+              {
+                "x": 3000,
+                "y": 1500,
+                "z": 200
+              },
+              {
+                "x": 1000,
+                "y": 2200,
+                "z": 200
+              }
+            ],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "followPointM": null,
+            "motion": {
+              "airSpeedMps": 37.19656875952719,
+              "groundSpeedMps": 34.959320341609974,
+              "stopDistanceM": 305.15498246874006,
+              "braking": false,
+              "turnRateRadS": 0.0021520461950008674,
+              "longitudinalAccelMps2": 1.4999999999999147
+            },
+            "airSpeedKt": 72.30434532089518,
+            "groundSpeedKt": 67.95548230550534,
+            "altitudeM": 90.94496648268296,
+            "headingDeg": 131.0548059875327,
+            "distanceM": 3061.372042782515,
+            "etaS": 87.56955263626074,
+            "remainingS": null
+          }
+        ]
+      },
+      "rng": 2447379481,
+      "contract": {
+        "schema": "AEGIS_SIMULATION_UPDATE_CONTRACT_V48_WIP11A",
+        "fixedTickHz": 60,
+        "physicsDtS": 0.016666666666666666,
+        "floodForceSubstepHz": 120,
+        "hydrostaticQuadratureHz": 20,
+        "crewMovementHz": 5,
+        "crewPhysiologyHz": 1,
+        "structuralLoadHz": 1,
+        "damageControlHz": 10,
+        "policy": "PRESERVE_CALL_ORDER_AND_RNG_CONSUMPTION__MEASURE_BEFORE_OPTIMIZING"
+      },
+      "core": []
+    },
+    {
+      "scale": 64,
+      "commands": [
+        {
+          "ok": true,
+          "altitudeM": 1200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true,
+          "altitudeM": 200
+        },
+        {
+          "ok": true,
+          "queued": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        },
+        {
+          "ok": true
+        }
+      ],
+      "run": {
+        "steps": 16000,
+        "frames": 250,
+        "simStepCounter": 16000,
+        "simAccumulator": 0
+      },
+      "after": {
+        "schema": "AEGIS_HELO_C1",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "supported": true,
+        "fixedDtS": 0.016666666666666666,
+        "constants": {
+          "knotMps": {
+            "value": 0.5144444444444445,
+            "source": "PUBLIC_SPEC",
+            "reference": "SI nautical mile/hour"
+          },
+          "gravity": {
+            "value": 9.80665,
+            "source": "PUBLIC_SPEC",
+            "reference": "standard gravity"
+          },
+          "maxCruiseKt": {
+            "value": 140,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "maxClimbMps": {
+            "value": 8.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "user-supplied MH-60R public specification"
+          },
+          "cruiseKt": {
+            "value": 120,
+            "source": "SIM_TUNED"
+          },
+          "verticalMps": {
+            "value": 3.5,
+            "source": "SIM_TUNED"
+          },
+          "accel": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "decel": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "maxBankRad": {
+            "value": 0.5235987755982988,
+            "source": "SIM_TUNED"
+          },
+          "hoverTurnRadS": {
+            "value": 0.2617993877991494,
+            "source": "SIM_TUNED"
+          },
+          "hoverThresholdKt": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "holdGain": {
+            "value": 0.8,
+            "source": "SIM_TUNED"
+          },
+          "arrivalRadiusM": {
+            "value": 1.5,
+            "source": "SIM_TUNED"
+          },
+          "arrivalSpeedMps": {
+            "value": 0.3,
+            "source": "SIM_TUNED"
+          },
+          "holdZoneM": {
+            "value": 8,
+            "source": "SIM_TUNED"
+          },
+          "traverseExitFraction": {
+            "value": 0.7,
+            "source": "SIM_TUNED"
+          },
+          "tailSpreadFraction": {
+            "value": 0.4,
+            "source": "SIM_TUNED"
+          },
+          "engineOneFraction": {
+            "value": 0.45,
+            "source": "SIM_TUNED"
+          },
+          "engineTwoStartFraction": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "rotorStartFraction": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "attitudeLagS": {
+            "value": 0.5,
+            "source": "SIM_TUNED"
+          },
+          "altitudeM": {
+            "value": 50,
+            "source": "SIM_TUNED"
+          },
+          "minAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "maxAltitudeM": {
+            "value": 3962.4,
+            "source": "PUBLIC_SPEC",
+            "reference": "US 7th Fleet Public Affairs 2014-03-10: MH-60R ceiling 13,000 ft (exact 0.3048 m/ft); https://www.cpf.navy.mil/Newsroom/News/Article/2750444/uss-kidd-joins-uss-pinckney-in-flight-mh370-search-effort/"
+          },
+          "liftHeightM": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          },
+          "rotorRpm": {
+            "value": 258,
+            "source": "SIM_TUNED"
+          },
+          "departOffsetM": {
+            "value": 60,
+            "source": "SIM_TUNED"
+          },
+          "departMinAltitudeM": {
+            "value": 25,
+            "source": "SIM_TUNED"
+          },
+          "deckClearMarginM": {
+            "value": 2,
+            "source": "SIM_TUNED"
+          },
+          "visualRotorDiameterM": {
+            "value": 16.36,
+            "source": "SIM_TUNED",
+            "reference": "visual scale of supplied SH-60 model"
+          },
+          "visualHeightM": {
+            "value": 5.13,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowStartRad": {
+            "value": 0.17453292519943295,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowFullRad": {
+            "value": 1.3089969389957472,
+            "source": "SIM_TUNED"
+          },
+          "turnSlowMinKt": {
+            "value": 35,
+            "source": "SIM_TUNED"
+          },
+          "waypointPassRadiusM": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "routeCapacity": {
+            "value": 32,
+            "source": "SIM_TUNED"
+          },
+          "followLateralM": {
+            "value": 400,
+            "source": "SIM_TUNED"
+          },
+          "followAftM": {
+            "value": 100,
+            "source": "SIM_TUNED"
+          },
+          "followGain": {
+            "value": 0.35,
+            "source": "SIM_TUNED"
+          },
+          "tailRotorRatio": {
+            "value": 4.6,
+            "source": "SIM_TUNED"
+          },
+          "heroCameraDistanceM": {
+            "value": 42,
+            "source": "SIM_TUNED"
+          },
+          "lodDistanceM": {
+            "value": 1800,
+            "source": "SIM_TUNED"
+          },
+          "rotorDiskOpacity": {
+            "value": 0.12,
+            "source": "SIM_TUNED"
+          },
+          "HANGAR_OPEN_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "TRAVERSE_S": {
+            "value": 20,
+            "source": "SIM_TUNED"
+          },
+          "SPREAD_S": {
+            "value": 30,
+            "source": "SIM_TUNED"
+          },
+          "START_S": {
+            "value": 45,
+            "source": "SIM_TUNED"
+          },
+          "PRE_LAUNCH_CHECK_S": {
+            "value": 10,
+            "source": "SIM_TUNED"
+          },
+          "LIFT_HOVER_S": {
+            "value": 5,
+            "source": "SIM_TUNED"
+          }
+        },
+        "queue": [],
+        "deckOwnerId": null,
+        "doors": [
+          0,
+          0
+        ],
+        "holdReason": "",
+        "windMps": {
+          "x": 5.660560123957502,
+          "y": -15.16701186335583
+        },
+        "aircraft": [
+          {
+            "id": "SHIP_DDG119_OWN:H1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 0,
+            "bay": "PORT",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "FOLLOW_SHIP",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": -400.00051935580245,
+              "y": 99.98727618169734,
+              "z": 521.8977135010522
+            },
+            "airVelocityMps": {
+              "x": -5.660560122703387,
+              "y": 15.167011904509993
+            },
+            "groundVelocityMps": {
+              "x": 1.2541150340439344e-09,
+              "y": 4.115416274430572e-08,
+              "z": 3.5
+            },
+            "headingRad": 1.9280013663718194,
+            "motionBearingRad": 1.9280013663718194,
+            "targetAltitudeM": 1200,
+            "pitchRad": -0.0004421682204207071,
+            "bankRad": 0.00024287877939802767,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 2.1519909677105336,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": null,
+            "departPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "localYawRad": 0,
+            "navigationMode": "FOLLOW_SHIP",
+            "route": [],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -57.60558560502012,
+              "y": 84.56952726152417,
+              "z": 1200
+            },
+            "followPointM": {
+              "x": -400.0005193522402,
+              "y": 99.98727629859476,
+              "z": 1200
+            },
+            "motion": {
+              "airSpeedMps": 16.1888909754278,
+              "groundSpeedMps": 4.1173267003037496e-08,
+              "stopDistanceM": 1.7266127399338176e-09,
+              "braking": true,
+              "turnRateRadS": 0.00014619189196540816,
+              "longitudinalAccelMps2": 0.004390638872422414
+            },
+            "airSpeedKt": 31.468686561306736,
+            "groundSpeedKt": 8.003442829964091e-08,
+            "altitudeM": 521.8977135010522,
+            "headingDeg": 200.46634118856127,
+            "distanceM": 1.1695168963752549e-07,
+            "etaS": 193.7435104282708,
+            "remainingS": null
+          },
+          {
+            "id": "SHIP_DDG119_OWN:H2",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "slot": 1,
+            "bay": "STARBOARD",
+            "profileId": "MH60R_POINT_MASS_A1",
+            "state": "TRANSIT",
+            "stateTick": 0,
+            "visible": true,
+            "onboard": false,
+            "localM": {
+              "x": -65,
+              "y": 0,
+              "z": 8.862831532416504
+            },
+            "positionM": {
+              "x": 268.57629618460203,
+              "y": 117.49382114734736,
+              "z": 90.94496648268296
+            },
+            "airVelocityMps": {
+              "x": 28.04925125040678,
+              "y": 24.42998632365126
+            },
+            "groundVelocityMps": {
+              "x": 33.70981137436428,
+              "y": 9.26297446029543,
+              "z": 3.5
+            },
+            "headingRad": 0.7165415382499276,
+            "motionBearingRad": 0.7165415382499276,
+            "targetAltitudeM": 200,
+            "pitchRad": -0.15178103922384134,
+            "bankRad": 0.00814612206119838,
+            "engine01": [
+              1,
+              1
+            ],
+            "rotor01": 1,
+            "rotorAngleRad": 5.461135229490601,
+            "tail01": 1,
+            "blades01": 1,
+            "waypointM": {
+              "x": 3000,
+              "y": 1500,
+              "z": 200
+            },
+            "departPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "localYawRad": 0,
+            "navigationMode": "ROUTE",
+            "route": [
+              {
+                "x": 3000,
+                "y": 1500,
+                "z": 200
+              },
+              {
+                "x": 1000,
+                "y": 2200,
+                "z": 200
+              }
+            ],
+            "routeIndex": 0,
+            "holdPointM": {
+              "x": -59.93226295577706,
+              "y": 68.22057496064438,
+              "z": 200
+            },
+            "followPointM": null,
+            "motion": {
+              "airSpeedMps": 37.19656875952719,
+              "groundSpeedMps": 34.959320341609974,
+              "stopDistanceM": 305.15498246874006,
+              "braking": false,
+              "turnRateRadS": 0.0021520461950008674,
+              "longitudinalAccelMps2": 1.4999999999999147
+            },
+            "airSpeedKt": 72.30434532089518,
+            "groundSpeedKt": 67.95548230550534,
+            "altitudeM": 90.94496648268296,
+            "headingDeg": 131.0548059875327,
+            "distanceM": 3061.372042782515,
+            "etaS": 87.56955263626074,
+            "remainingS": null
+          }
+        ]
+      },
+      "rng": 2447379481,
+      "contract": {
+        "schema": "AEGIS_SIMULATION_UPDATE_CONTRACT_V48_WIP11A",
+        "fixedTickHz": 60,
+        "physicsDtS": 0.016666666666666666,
+        "floodForceSubstepHz": 120,
+        "hydrostaticQuadratureHz": 20,
+        "crewMovementHz": 5,
+        "crewPhysiologyHz": 1,
+        "structuralLoadHz": 1,
+        "damageControlHz": 10,
+        "policy": "PRESERVE_CALL_ORDER_AND_RNG_CONSUMPTION__MEASURE_BEFORE_OPTIMIZING"
+      },
+      "core": []
+    }
+  ],
+  "errors": [],
+  "htmlSha256": "65c1f2ec7deb4bc4740a0477754edd210a6c09bacbefad41e93a3ae9675e6ff6"
+}

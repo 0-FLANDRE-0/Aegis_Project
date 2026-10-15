@@ -187,7 +187,16 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HELI_B — 로터·격납고·경로 피드백
+### 최신 개발 기준 HELI_C — 출구·착륙장치·AIR·고도
+
+- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_C.html`, HELI_B head `b4052e7113c8808bf89be43a21cba2d078bdb22c` 위 `helicopter-c`다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](SHA256SUMS_v48_WIP_HELI_C.txt), [계약](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json)을 따른다.
+- 이번 피드백: 실제 함정 출구/갑판에 따른 기수 간섭, 이륙 뒤 꼬리 바퀴 중복, AIR 축소, 출격·대기 취소 통합, AIR 헬기/모함 보기만 삭제. CAMERA H1/H2 추적은 유지한다.
+- 사용자가 고도 설정을 이번 범위로 명시했다. 이전50m 고정/고도 UI 제외 지침을 이 범위에서 대체한다. 기본50m, 기체별25–3,962.4m MSL/대표값·직접 입력/고정 스텝 상승·하강과 C1 저장을 사용한다. 최대 공개 근거/추상화는 `docs/helicopter/D/altitude-spec.md`를 따른다.
+- SI/fixed60Hz/read-only 렌더, 공유 모델/로터/LOD,120초 준비/대기열/경로/함선 추종을 유지한다. 센서/IFF/offboard/무장/연료/회수/회전익 공력은 이번에도 제외한다.
+- 과거 B264/A198/F1817을 새 검사 수에 더하지 않는다. native/software GPU 및 mobile viewport 검사를 hardware/실제 휴대폰 FPS로 표현하지 않는다. 최종 HTML 크기/SHA/통과 수와 source commit은 상태/증거를 따른다.
+- §7.1 full original 업로드/독립 원격 readback을 수행한다. B 네 파일은 `archive/v48/WIP_HELI_B/`에 same bytes/blob. stable/이전 자산/source/evidence를 보존한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다.
+
+### 직전 개발 기준 HELI_B — 로터·격납고·경로 피드백
 
 - `Aegis_SIM_v48_WIP_HELI_B.html`, 16,037,621bytes, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_B.txt), [계약](docs/helicopter/C/README.md), [최종 검증](docs/helicopter/C/evidence/verification-summary.json). A head15dfc8c 위 `helicopter-b`이며 packed13의 aviation 모듈만 변경한다.
 - 실제 source 축/회전 주체와 metric rigid spin, 문 뒤 HULL 외판, 양쪽 외측/정렬/벽 밖 곡선 턴/뒤쪽 정지 지점을 수정했다. AIR 왼쪽 조작·오른쪽 여백/스크롤 목록, 다중 경로·UNDO·선회 감속·약410m 함선 따라가기와 CAMERA H1/H2를 추가했다. 최종 사용자 선택은 따라가기다.

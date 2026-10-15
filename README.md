@@ -1,8 +1,16 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 헬기 WIP HELI_B
+## 최신 개발 기준 — 헬기 WIP HELI_C
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_B.html), **16,037,621bytes**, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. A final 위 `helicopter-b`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_B.txt), [조작·재현](docs/helicopter/C/README.md), [검증](docs/helicopter/C/evidence/verification-summary.json).
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_C.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](SHA256SUMS_v48_WIP_HELI_C.txt), [조작·재현](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json). HELI_B final 위 `helicopter-c`다.
+- 실제 출구 구조물/갑판 경사에 따른 기수 간섭과 겹친 꼬리 바퀴를 수정했다. 공통 모델을 재사용한다.
+- AIR 높이를 줄이고 출격/대기 취소를 같은 버튼으로 통합한다. AIR 헬기 보기/모함 보기만 삭제하며 **3D CAMERA H1/H2 추적은 유지**한다.
+- 기체별 목표 고도25–3,962.4m를 대표값/직접 입력으로 설정한다. 미 해군의 MH-60R ceiling13,000ft [공개 근거](docs/helicopter/D/altitude-spec.md)를 사용한다. 기본50m/운용 상하3.5m/s, fixed60Hz/read-only와 센서 격리 유지. 경로·호버·함선 따라가기 중에도 고도를 바꾼다.
+- **16,041,537bytes**, SHA `65c1f2ec7deb4bc4740a0477754edd210a6c09bacbefad41e93a3ae9675e6ff6`, **248/248 PASS /6 suites**. B 대비3,916bytes 증가. Actions는 dispatch하지 않는다. B 네 파일은 같은 bytes/blob으로 archive하고 stable/자산/이전 source·evidence를 유지한다.
+
+## 직전 개발 기준 — 헬기 WIP HELI_B (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_B/Aegis_SIM_v48_WIP_HELI_B.html), **16,037,621bytes**, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. A final 위 `helicopter-b`. [상태](archive/v48/WIP_HELI_B/AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](archive/v48/WIP_HELI_B/SHA256SUMS_v48_WIP_HELI_B.txt), [조작·재현](docs/helicopter/C/README.md), [검증](docs/helicopter/C/evidence/verification-summary.json).
 - 메인/꼬리 실제 축·회전 주체를 수정하고 고정 gearbox/지지부를 분리했다. 문 뒤 HULL 벽 제거, 양쪽 외측 배치·문 정렬·벽 밖 곡선 턴, 정지 지점3.7m 뒤로 이동.
 - AIR는 왼쪽 조작/오른쪽 여백·스크롤 목록. 여러 경로점/UNDO/급한 코너 감속·선회/함선 뒤·측방 약410m 따라가기. 3D CAMERA에 H1/H2 추적을 추가했다. 준비120초와50m MSL, fixed60Hz/read-only 및 센서 격리를 유지한다.
 - **264/264 PASS /11 suites**, native 양쪽 portal/rigidity/고정 gearbox, 독립 source401pose 간섭, 실제 A 저장 migration,1/8/16/64배속, 기존 DDG/CG 전투·피격 비교 포함. software GPU/viewport 조건은 보고서를 따른다. Actions는 dispatch하지 않았다.
