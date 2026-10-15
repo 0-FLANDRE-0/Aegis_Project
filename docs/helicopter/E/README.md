@@ -35,6 +35,7 @@ python docs/helicopter/E/run_suite.py static Aegis_SIM_v48_WIP_HELI_D.html /tmp/
 python docs/helicopter/E/run_suite.py stage_a Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-a
 python docs/helicopter/E/run_suite.py stage_b Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-b
 python docs/helicopter/E/run_suite.py stage_c Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-c
+python docs/helicopter/E/run_suite.py transport Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-transport
 python docs/helicopter/E/run_suite.py codec Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-codec
 python docs/helicopter/E/run_suite.py ui Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-ui
 python docs/helicopter/E/run_suite.py visual Aegis_SIM_v48_WIP_HELI_D.html /tmp/heli-d-visual

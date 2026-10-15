@@ -1,6 +1,6 @@
-# Stage C preparation: Hawklink
+# Stage C: Hawklink
 
-This plan is prepared while stages A/B remain independent validation gates. No Stage C patch is included in a published HTML until both preceding stages pass.
+The pinned builder applies A → B → C. Stage C was activated after both preceding validation gates passed. Its first complete gate uses HTML SHA256 `843c86ac5de6f99ee3b9c24dcf425a79e5c0a55a11f0bc1cdec7c7c1546b25ac`: 42 native browser checks and 32 isolated transport checks passed. Exact evidence is in `evidence/stage-c/native/stage-c.json` and `evidence/stage-c/transport/transport-unit.json`; final release evidence is rerun against the final HTML.
 
 ## Interfaces and ownership
 
@@ -11,7 +11,7 @@ This plan is prepared while stages A/B remain independent validation gates. No S
 
 ## Link policy
 
-All new numeric parameters carry `SIM_TUNED` source tags. Candidate values: maximum distance 160 km, latency 0.4 s, mother antenna height from the existing navigation-radar hardpoint, recent-transmit count over the last 10 s. These are simulation settings, not asserted Hawklink performance.
+All new numeric parameters carry `SIM_TUNED` source tags. Values: maximum distance 160 km, latency 0.4 s, mother antenna height from the existing navigation-radar hardpoint, recent-transmit count over the last 10 s. These are simulation settings, not asserted Hawklink performance.
 
 Priority for displayed unavailability reason: ONBOARD/LOST, MOTHER_UNAVAILABLE, RANGE, LOS. Mother radio availability also follows the existing fleet limits: combat-center damage below 80% and mast damage below 85% (`SIM_TUNED`). Available airborne helicopters connect regardless of radar ON/OFF: a connected radio can carry zero radar reports. User policy update: EMCON currently suppresses radar only. Hawklink remains connected in EMCON, like the existing fleet network. A future communications EMCON policy governing both Link 16 and Hawklink is deferred.
 

@@ -97,19 +97,22 @@ def clock(a):
                 d.setShipRudderTest(6);d.setEmcon(false);
                 const run=d.runFramesToTicks(60,scale,8000);d.setEmcon(true);
                 const emconRun=d.runFramesToTicks(60,scale,8000),after=api.snapshot();
-                return {scale,commands,run,emconRun,after,offboard:d.offboardSnapshotC(),observers:d.observerSnapshotC(),rng:__HARPOON_DIAG_A__.snapshot().rng,
+                return {scale,commands,run,emconRun,after,radar:__HELO_SENSOR_STAGE_B_E__.snapshot(),iff:__HELO_SENSOR_STAGE_A_E__.snapshot(),ownIffRng:JSON.parse(JSON.stringify(__AEGIS_ACTIVE_SHIP_RUNTIME__.combatSystem.observerC.heloIffE?.rng??null)),offboard:d.offboardSnapshotC(),observers:d.observerSnapshotC(),rng:__HARPOON_DIAG_A__.snapshot().rng,
                     contract:d.simulationUpdateContractV48Wip11A(),core:__CORE_SELFTEST_FAILURES__};
             }''', scale)
             rows.append(row)
             page.close()
         browser.close()
-    signature = lambda r: json.dumps({'after': r['after'], 'rng': r['rng'], 'offboard': r['offboard'], 'observers': r['observers']}, sort_keys=True)
+    signature = lambda r: json.dumps({'after': r['after'], 'rng': r['rng'], 'offboard': r['offboard'], 'observers': r['observers'], 'radar': r['radar'], 'iff': r['iff'], 'ownIffRng': r['ownIffRng']}, sort_keys=True)
     checks = {str(r['scale']) + '.exact': signature(r) == signature(rows[0]) for r in rows}
     checks['allCommandsAccepted'] = all(c['ok'] for r in rows for c in r['commands'])
     checks['differentAltitudesPreserved'] = all([h['targetAltitudeM'] for h in r['after']['aircraft']] == [1200, 200] for r in rows)
     checks['sensorsEnabled'] = all(all(h['iffOn'] and h['radarOn'] for h in r['after']['aircraft']) for r in rows)
     checks['hawklinkSourcesRegistered'] = all({s['sourceId'] for s in r['offboard']['sources']} >= {'H1','H2'} for r in rows)
     checks['radarEmconDoesNotBlockLinks'] = all(all(s['connected'] for s in r['offboard']['sources'] if s['sourceId'] in ['H1','H2']) for r in rows)
+    checks['privateRadarStreamsActuallyAdvanced'] = all(all(h['statistics'] is not None and h['statistics']['rngState'] != 0 and h['radar']['turn'] > 0 for h in r['radar']['aircraft']) for r in rows)
+    checks['hawklinkActuallyDelivered'] = all(r['offboard']['accepted'] > 0 and any(h['sensorsE']['link']['transmittedTotal'] > 0 for h in r['after']['aircraft']) for r in rows)
+    checks['iffStreamActuallyRan'] = all(r['ownIffRng'] is not None and r['after']['aircraft'][0]['sensorsE']['iffRepliesReceived'] > 0 for r in rows)
     checks['fixed60Hz'] = all(r['contract']['fixedTickHz'] == 60 for r in rows)
     checks['corePass'] = all(not r['core'] for r in rows)
     report = {'pass': all(checks.values()) and not errors, 'checks': checks, 'rows': rows, 'errors': errors,
