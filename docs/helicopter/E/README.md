@@ -1,6 +1,6 @@
 # HELI_D — 헬기 피탐·IFF·수상 레이더·Hawklink
 
-기준은 HELI_C `370d924a7bba5fa739498b9cd9e220e07abde823`이다. 기존 120초 준비, 두 기의 갑판 대기열, 다중 경로·함선 추종, 25–3,962.4m 고도 조절, 로터·격납고·착륙장치 수정과 공통 압축 모델을 유지한다. [구현 전 계약 대조와 사용자 결정](CONFLICTS.md)을 우선한다.
+[실행 HTML](../../../Aegis_SIM_v48_WIP_HELI_D.html)의 기준은 HELI_C `370d924a7bba5fa739498b9cd9e220e07abde823`이다. 기존 120초 준비, 두 기의 갑판 대기열, 다중 경로·함선 추종, 25–3,962.4m 고도 조절, 로터·격납고·착륙장치 수정과 공통 압축 모델을 유지한다. [구현 전 계약 대조와 사용자 결정](CONFLICTS.md)을 우선한다.
 
 ## 조작과 정책
 
@@ -20,11 +20,15 @@ AIR에서 H1/H2를 선택해 **IFF ON/OFF**, **레이더 ON/OFF**를 각각 조�
 
 이번 단계는 **식별과 교전 허용/차단 판정까지**다. 실제 헬기 피격·격추, FLIR/ISAR·ESM·소나·공중 탐색·무장·연료·회수·로터 공력은 후속 범위다. 현재 수상 탐색 모드는 측정 특성으로 공중/배경 반사를 걸러내며 truth 종류를 후단에 보내 완벽한 식별을 만들지 않는다.
 
+대표 조정값은 레이더 6초/회전·최대 100km·표적 마스트 30m·기본 거리 오차 σ18m·방위 오차 σ0.12°·자체 항법 오차 σ3m, Hawklink 최대 160km·지연 0.4초, 새 AIR IFF 증거 유지 3초다. 모두 **SIM_TUNED**이며 유효 탐지/연결 범위는 수평선·SNR·기상·장비 상태에 제한된다.
+
+검증 중 기존 generic 수상 접촉의 RCS에 기본 표적함 프로파일이 잘못 적용되던 조건 누락을 수정했다. 기존 generic 크기별 envelope를 복원하며 명시된 함정/표적 프로파일은 보존한다. 또한 타함의 실제 현지 재관측이 혼합 파일의 현지 관측 시각을 갱신하도록 보완했다. 외부 보고만으로 이 시각을 갱신하지 않는다.
+
 ## 검증과 재현
 
 단계 A는 `856475f`에서 독립 고정했다. 동일 A 후보 SHA `8f524591e60852ff1b4b14e09b4d666a6372107527ab1ff9ee3597d0880c59bb`의 static46 + codec26 + runtime39 = **111/111 PASS**다. [A 게이트](evidence/stage-a/gate.json)는 당시 검증이며 최종 C 후보의 검사 수에 중복 합산하지 않는다. `build.py --phase A`는 이 커밋의 소스로 재현한다.
 
-최종 원본과 최종 검사 수는 배포 시 `evidence/verification-summary.json`으로 고정한다. Chromium/SwiftShader와 desktop/touch viewport 검사는 실제 휴대폰 또는 hardware FPS 측정을 뜻하지 않는다.
+최종 원본 **16,058,953bytes**, HELI_C 대비 **17,416bytes (+0.10857%)**. 최종 동일 HTML **414/414 PASS /9 suites**이며 [verification-summary.json](evidence/verification-summary.json)에 고정했다. B는 `13c9b15`의105개 게이트, C는 `de0e611`의128개 게이트로 검증했다. 이 역사적 게이트 수는 최종 수에 다시 더하지 않는다. Chromium/SwiftShader와 desktop/touch viewport 검사는 실제 휴대폰 또는 hardware FPS 측정을 뜻하지 않는다.
 
 ```sh
 npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund

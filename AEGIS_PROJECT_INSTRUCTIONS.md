@@ -187,9 +187,21 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HELI_C — 출구·착륙장치·AIR·고도
+### 최신 개발 기준 HELI_D — 피탐·IFF·수상 탐색·Hawklink
 
-- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_C.html`, HELI_B head `b4052e7113c8808bf89be43a21cba2d078bdb22c` 위 `helicopter-c`다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](SHA256SUMS_v48_WIP_HELI_C.txt), [계약](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json)을 따른다.
+- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_D.html`, HELI_C head `370d924a7bba5fa739498b9cd9e220e07abde823` 위 `helicopter-sensors`다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](SHA256SUMS_v48_WIP_HELI_D.txt), [계약](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json)을 따른다.
+- 사용자가 HELI_C의 센서 격리를 이번 A→B→C 범위에서 해제했다. [구현 전 충돌 보고와 결정](docs/helicopter/E/CONFLICTS.md)을 따른다. A/B/C 별도 게이트와 source commit을 보존하고 과거 단계 수를 최종 검사 수에 중복 합산하지 않는다.
+- 비행 헬기만 물리 RF/CIWS 입력에 등록한다. IFF ON 기본값과 잡음 거리·방위·고각으로 연관한 만료형 아군 증거를 사용한다. truth ID로 식별/보호하지 않는다. OFF는 기존 UNKNOWN/ROE 규칙이며 즉시 적성이 아니다. 이번 검증은 식별·교전 허용 판정까지, 실제 헬기 피격·격추는 후속이다.
+- 수상 탐색 레이더는 기본 OFF, 공통 RF 경로를 재사용한다. APS-153급 밴드·출력·거리·오차와 새 링크 설정은 모두 SIM_TUNED다. 익명 위치·3×3 SI 공분산·도메인 증거·측정 시각만 전송한다. 공중 탐색/FLIR/ISAR/ESM/소나/무장/연료/회수/로터 공력은 추가하지 않는다.
+- **현재 EMCON은 레이더 통제이며 Hawklink에는 적용하지 않는다.** 기존 Link 16도 그대로다. 통신 EMCON은 차후 Link 16과 Hawklink에 함께 적용할 별도 정책이다. 모함 장비/LOS/최대 거리 단절은 queue drain 전에 평가하며 대기·신규 보고를 버리고 재전송하지 않는다. 검증의 EMCON 단절 시나리오는 LOS/최대 거리 초과 단절로 교체한다.
+- 순수 공유 트랙 발사 금지를 유지한다. ARM 하푼 트랙 발사의 현지 관측 누락을 보완하고, 실제 현지 관측이 신선한 혼합 파일과 기존 좌표 검색은 보존한다. 외부 보고는 현지 관측 시각을 갱신하지 않는다. Hawklink 전용 트랙의 Link 16 전단 공유는 추가하지 않는다.
+- 기존 120초 준비/두 기 대기열/고도/경로/함선 추종/로터/격납고/바퀴/CAMERA, SI/fixed60Hz/read-only 렌더와 공유 자산을 유지한다. AIR 보기 버튼은 재추가하지 않는다. AIR 센서/링크, 지도 수평선, 3D SENSORS HELO RADAR를 표시한다. D1 저장에는 IFF/레이더 설정만 추가하며 센서/링크 이력은 reset한다.
+- generic 표적에 기본 컨테이너선 RCS가 잘못 적용되던 누락 조건을 수정했다. 명시된 함정/표적 프로파일의 기존 특성은 보존하며 좁은 수정과 회귀 증거를 기록한다. 그 외 기존 kernel 변경은 검토한 접점으로 제한한다.
+- §7.1 full original 업로드/독립 원격 readback을 수행한다. C 네 파일은 `archive/v48/WIP_HELI_C/`에 same bytes/blob, stable와 과거 자산/source/evidence는 유지한다. Actions 사용 불가 조건으로 수동 workflow만 준비한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다.
+
+### 직전 개발 기준 HELI_C — 출구·착륙장치·AIR·고도 (당시 기록)
+
+- 당시 작업본은 `Aegis_SIM_v48_WIP_HELI_C.html`, HELI_B head `b4052e7113c8808bf89be43a21cba2d078bdb22c` 위 `helicopter-c`다. [상태](archive/v48/WIP_HELI_C/AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](archive/v48/WIP_HELI_C/SHA256SUMS_v48_WIP_HELI_C.txt), [계약](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json)을 따른다.
 - 이번 피드백: 실제 함정 출구/갑판에 따른 기수 간섭, 이륙 뒤 꼬리 바퀴 중복, AIR 축소, 출격·대기 취소 통합, AIR 헬기/모함 보기만 삭제. CAMERA H1/H2 추적은 유지한다.
 - 사용자가 고도 설정을 이번 범위로 명시했다. 이전50m 고정/고도 UI 제외 지침을 이 범위에서 대체한다. 기본50m, 기체별25–3,962.4m MSL/대표값·직접 입력/고정 스텝 상승·하강과 C1 저장을 사용한다. 최대 공개 근거/추상화는 `docs/helicopter/D/altitude-spec.md`를 따른다.
 - SI/fixed60Hz/read-only 렌더, 공유 모델/로터/LOD,120초 준비/대기열/경로/함선 추종을 유지한다. 센서/IFF/offboard/무장/연료/회수/회전익 공력은 이번에도 제외한다.

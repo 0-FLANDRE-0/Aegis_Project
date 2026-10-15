@@ -1,8 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 헬기 WIP HELI_C
+## 최신 개발 기준 — 헬기 WIP HELI_D
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_C.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](SHA256SUMS_v48_WIP_HELI_C.txt), [조작·재현](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json). HELI_B final 위 `helicopter-c`다.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_D.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](SHA256SUMS_v48_WIP_HELI_D.txt), [조작·계약·재현](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json). HELI_C final 위 `helicopter-sensors`다.
+- 비행 헬기의 실제 RF 반사와 잡음 기반 IFF를 연결했다. IFF ON 기본값, 만료되는 아군 증거와 운용자 식별을 분리하고 실제 AUTO 요격 판단에서 확인한다. 실제 헬기 피격·격추는 후속이다.
+- 헬기 수상 탐색 레이더는 기본 OFF다. 공통 RF/SNR·해면·기상과 회전당 탐지 1회, 잡음 측정·SI 공분산을 사용한다. APS-153급 밴드·출력·거리는 전부 SIM_TUNED 가정이다.
+- Hawklink H1/H2는 원래 모함에 익명 plot만 지연 전송한다. **레이더 EMCON과 독립**이며 LOS/최대 거리/모함 장비로 연결을 결정한다. 단절 시 대기 보고도 버리고 재전송하지 않는다. 통신 EMCON은 두 링크를 함께 다룰 후속 정책이다.
+- AIR의 IFF/레이더·링크 상태, 선택 기체의 지도 수평선, 3D SENSORS의 HELO RADAR 표시를 추가했다. 기존 출격/경로/고도/CAMERA를 유지한다. 원격 관측만으로 무장을 발사하지 않으며 하푼 좌표 검색은 유지한다.
+- A→B→C 각 게이트를 별도 커밋으로 고정했다. 최종 동일 HTML의 검사 수·크기·SHA와 조건은 상태/검증을 따른다. 공통 헬기 자산을 재사용하며 이전 C 네 파일은 같은 bytes/blob으로 archive한다. Actions는 실행하지 않는다.
+
+## 직전 개발 기준 — 헬기 WIP HELI_C (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_C/Aegis_SIM_v48_WIP_HELI_C.html), [상태](archive/v48/WIP_HELI_C/AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](archive/v48/WIP_HELI_C/SHA256SUMS_v48_WIP_HELI_C.txt), [조작·재현](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json). HELI_B final 위 `helicopter-c`다.
 - 실제 출구 구조물/갑판 경사에 따른 기수 간섭과 겹친 꼬리 바퀴를 수정했다. 공통 모델을 재사용한다.
 - AIR 높이를 줄이고 출격/대기 취소를 같은 버튼으로 통합한다. AIR 헬기 보기/모함 보기만 삭제하며 **3D CAMERA H1/H2 추적은 유지**한다.
 - 기체별 목표 고도25–3,962.4m를 대표값/직접 입력으로 설정한다. 미 해군의 MH-60R ceiling13,000ft [공개 근거](docs/helicopter/D/altitude-spec.md)를 사용한다. 기본50m/운용 상하3.5m/s, fixed60Hz/read-only와 센서 격리 유지. 경로·호버·함선 따라가기 중에도 고도를 바꾼다.
