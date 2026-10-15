@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 p = argparse.ArgumentParser()
-p.add_argument('suite', choices=['static', 'codec', 'regression', 'stage_a', 'stage_b', 'stage_c', 'ui', 'native'])
+p.add_argument('suite', choices=['static', 'codec', 'regression', 'stage_a', 'stage_b', 'stage_c', 'ui', 'visual'])
 p.add_argument('html', type=Path)
 p.add_argument('out', type=Path)
 p.add_argument('--baseline', type=Path, default=ROOT / 'archive/v48/WIP_HELI_C/Aegis_SIM_v48_WIP_HELI_C.html')

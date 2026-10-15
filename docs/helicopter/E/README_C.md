@@ -13,7 +13,7 @@ This plan is prepared while stages A/B remain independent validation gates. No S
 
 All new numeric parameters carry `SIM_TUNED` source tags. Candidate values: maximum distance 160 km, latency 0.4 s, mother antenna height from the existing navigation-radar hardpoint, recent-transmit count over the last 10 s. These are simulation settings, not asserted Hawklink performance.
 
-Priority for displayed unavailability reason: ONBOARD/LOST, MOTHER_UNAVAILABLE, RANGE, LOS. Available airborne helicopters connect regardless of radar ON/OFF: a connected radio can carry zero radar reports. User policy update: EMCON currently suppresses radar only. Hawklink remains connected in EMCON, like the existing fleet network. A future communications EMCON policy governing both Link 16 and Hawklink is deferred.
+Priority for displayed unavailability reason: ONBOARD/LOST, MOTHER_UNAVAILABLE, RANGE, LOS. Mother radio availability also follows the existing fleet limits: combat-center damage below 80% and mast damage below 85% (`SIM_TUNED`). Available airborne helicopters connect regardless of radar ON/OFF: a connected radio can carry zero radar reports. User policy update: EMCON currently suppresses radar only. Hawklink remains connected in EMCON, like the existing fleet network. A future communications EMCON policy governing both Link 16 and Hawklink is deferred.
 
 Use `radarHorizonKm(heloMSLAltitudeM, motherAntennaMSLAltitudeM)` and planar SI distance, with strict finite positive heights. `configureOffboardSourceC(motherRuntime, {sourceId,connected,latencyS})` runs every tick so any newly disconnected source purges the existing transport queue before its next drain. Link transition logging occurs only when availability/reason changes.
 
@@ -23,7 +23,7 @@ Every disconnected plot is discarded immediately, without a backlog or replay. C
 
 Pure OFFBOARD_C files already fail `networkLocalAgeG` and native SAM fire-control source checks, and are excluded from `networkBuildReportsG`. Preserve these existing gates and do not connect helicopter sources directly to the fleet network.
 
-Direct track-based ARM Harpoon currently has a provenance gap. Add a local-observation freshness gate to the track branch of `harpoonGateA`, including the final release recheck. Leave coordinate-search route release unchanged. Check the separate `observationReportsC.localAtS` timestamp rather than the latest source label: a genuine fresh local+remote mixed file remains eligible even when the most recent update is external. Pure remote files have no local timestamp. A remote report never freshens that timestamp or grants local fire-control authority.
+Direct track-based ARM Harpoon currently has a provenance gap. Add a local-observation freshness gate to the track branch of `harpoonGateA`, including the final release recheck. Leave coordinate-search route release unchanged. Check the separate `observationReportsC.localAtS` timestamp rather than the latest source label: a genuine fresh local+remote mixed file remains eligible even when the most recent update is external. Pure remote files have no local timestamp. A remote report never freshens that timestamp or grants local fire-control authority. The foreign native observer successful-measurement path gains the same timestamp update already present in the player native observer, so real local reacquisition refreshes provenance for both owners.
 
 ## Own-navigation surface-return blanking
 

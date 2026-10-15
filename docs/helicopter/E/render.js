@@ -1,4 +1,4 @@
-// Read-only helo render adapter. No simulation commands, integration or sensors.
+// Read-only helo render adapter. No simulation commands, integration or sensor updates.
 const HELO_RIG_A=__HELO_RIG_JSON__;
 let heloDecodedPromiseA=null;
 function heloReadAssetA(){
@@ -87,11 +87,11 @@ function heloSyncDoorsA(view,values){
   }
 }
 function installHeloRendererA(view){
-  view.heloVisualsA=new Map();view.heloFocusA=null;view.heloAssetLoadingA=false;
+  view.heloVisualsA=new Map();view.heloFocusA=null;view.heloAssetLoadingA=false;view.heloRadarVisibleE=false;view.heloRadarResourcesE=null;
   // Partition clean source geometry before paint/damage capture it. Opening a
   // door never swaps/disposes a mesh that a live damage job still owns.
   const build=view.buildShip;view.buildShip=function(...args){const root=build.apply(this,args);if(root.userData.shipProfileId==='DDG_119_LATE_FLIGHT_IIA'&&!this.ownerRuntime)heloCutDoorsA(this,root);return root;};
-  const fittings=view.syncShipFittings;view.syncShipFittings=function(st){fittings.call(this,st);const state=st.helicopters;if(!state?.supported)return;
+  const fittings=view.syncShipFittings;view.syncShipFittings=function(st){fittings.call(this,st);const state=st.helicopters;heloSyncRadarVisualsE(this,state);if(!state?.supported)return;
     if(state.aircraft.length||state.doors.some(v=>v>0))heloCutDoorsA(this);heloSyncDoorsA(this,state.doors);
     if(!this.worldRoot)return;if(!this.heloLayerA){this.heloLayerA=new this.THREE.Group();this.heloLayerA.name='HELICOPTERS_A';this.worldRoot.add(this.heloLayerA);}
     if(state.aircraft.length&&!this.heloLeaseA&&!this.heloAssetLoadingA){this.heloAssetLoadingA=true;heloReadAssetA().then(source=>{this.heloLeaseA=createSeahawkAssetLeaseA1(this.THREE,source);heloBuildProxyA(this);this.heloAssetLoadingA=false;}).catch(e=>{this.heloAssetErrorA=String(e);this.heloAssetLoadingA=false;});}
@@ -106,5 +106,33 @@ function installHeloRendererA(view){
   };
   const camera=view.syncCamera;view.syncCamera=function(...args){const v=this.heloVisualsA.get(this.heloFocusA);if(!v)return camera.apply(this,args);const T=this.THREE,o=this.orbit,target=v.root.getWorldPosition(new T.Vector3());target.y+=2;const d=o.distance;this.camera.position.set(target.x+Math.cos(o.yaw)*Math.cos(o.pitch)*d,target.y+Math.sin(o.pitch)*d,target.z+Math.sin(o.yaw)*Math.cos(o.pitch)*d);this.camera.lookAt(target);};
   const reset=view.resetCamera;view.resetCamera=function(...args){this.heloFocusA=null;return reset.apply(this,args);};
-  const epoch=view.syncWorldEpochWip14A;view.syncWorldEpochWip14A=function(st){const e=st.sim?.presentationEpoch??0;if(this._heloEpochA!==e){for(const v of this.heloVisualsA.values())v.dispose();this.heloVisualsA.clear();if(this._heloEpochA!==undefined)this.heloFocusA=null;this._heloEpochA=e;}return epoch.call(this,st);};
+  const epoch=view.syncWorldEpochWip14A;view.syncWorldEpochWip14A=function(st){const e=st.sim?.presentationEpoch??0;if(this._heloEpochA!==e){heloDisposeRadarVisualsE(this);for(const v of this.heloVisualsA.values())v.dispose();this.heloVisualsA.clear();if(this._heloEpochA!==undefined)this.heloFocusA=null;this._heloEpochA=e;}return epoch.call(this,st);};
+}
+// Presentation constants only. Neither visualization visibility nor geometry
+// feeds back into antenna phase, emission, probability, plots, or links.
+const HELO_RADAR_VIEW_SPEC_E=Object.freeze({
+  circleSegments:{value:96,source:'SIM_TUNED',reference:'Horizon ring presentation tessellation'},
+  seaLiftM:{value:1,source:'SIM_TUNED',reference:'Keep sea-plane line above wave surface'},
+  ringOpacity:{value:.25,source:'SIM_TUNED',reference:'Radar horizon presentation opacity'},
+  sweepOpacity:{value:.65,source:'SIM_TUNED',reference:'Radar sweep presentation opacity'},
+  dashUnit:{value:.025,source:'SIM_TUNED',reference:'Fraction of unit-circle circumference'},
+  gapUnit:{value:.018,source:'SIM_TUNED',reference:'Fraction of unit-circle circumference'},
+  h1Color:{value:0x7ae6da,source:'SIM_TUNED',reference:'Presentation color H1'},
+  h2Color:{value:0x89bfff,source:'SIM_TUNED',reference:'Presentation color H2'}
+});
+const HELO_RADAR_VIEW_VALUES_E=Object.freeze(Object.fromEntries(Object.entries(HELO_RADAR_VIEW_SPEC_E).map(([k,v])=>[k,v.value])));
+function heloDisposeRadarVisualsE(view){
+  const r=view.heloRadarResourcesE;if(!r)return;for(const v of r.visuals.values())v.root.removeFromParent();for(const g of r.geometries)g.dispose();for(const m of r.materials)m.dispose();r.visuals.clear();view.heloRadarResourcesE=null;
+}
+function heloSyncRadarVisualsE(view,state){
+  const aircraft=state?.supported?state.aircraft??[]:[];if(!aircraft.length||!view.worldRoot){heloDisposeRadarVisualsE(view);return;}
+  if(!view.heloRadarVisibleE){if(view.heloRadarResourcesE)for(const v of view.heloRadarResourcesE.visuals.values())v.root.visible=false;return;}
+  const T=view.THREE,C=HELO_RADAR_VIEW_VALUES_E;
+  let resource=view.heloRadarResourcesE;if(!resource){const points=[],distances=[];for(let i=0;i<C.circleSegments;i++){const angle=i/C.circleSegments*2*Math.PI;points.push(Math.cos(angle),0,Math.sin(angle));distances.push(i*2*Math.sin(Math.PI/C.circleSegments));}
+    const circle=new T.BufferGeometry().setAttribute('position',new T.Float32BufferAttribute(points,3)).setAttribute('lineDistance',new T.Float32BufferAttribute(distances,1)),axis=new T.BufferGeometry().setAttribute('position',new T.Float32BufferAttribute([0,1,0,1,0,0],3));resource=view.heloRadarResourcesE={geometries:[circle,axis],materials:[],visuals:new Map()};}
+  const wanted=new Set();for(const h of aircraft){wanted.add(h.id);let v=resource.visuals.get(h.id);const radar=h.radar;
+    if(!v){const root=new T.Group(),color=h.slot===0?C.h1Color:C.h2Color,ringMaterial=new T.LineDashedMaterial({color,transparent:true,opacity:C.ringOpacity,dashSize:C.dashUnit,gapSize:C.gapUnit,depthWrite:false,fog:false}),sweepMaterial=new T.LineBasicMaterial({color,transparent:true,opacity:C.sweepOpacity,depthWrite:false,fog:false}),ring=new T.LineLoop(resource.geometries[0],ringMaterial),axis=new T.Line(resource.geometries[1],sweepMaterial);root.name='HELO_RADAR_E:'+h.id;root.userData={presentationOnly:true,physicsFeedback:false,heloId:h.id};root.add(ring,axis);view.worldRoot.add(root);resource.materials.push(ringMaterial,sweepMaterial);v={root,ring,axis};resource.visuals.set(h.id,v);}
+    v.root.visible=!!radar?.emitting&&!h.onboard;if(!v.root.visible)continue;const range=Math.max(0,Math.min(radar.horizonM,radar.maxRangeM));v.root.position.set(h.positionM.x,C.seaLiftM,h.positionM.y);v.ring.scale.setScalar(range);v.axis.scale.set(range,Math.max(0,h.positionM.z-C.seaLiftM),range);v.axis.rotation.y=-radar.azimuthRad;v.root.userData.horizonM=radar.horizonM;v.root.userData.displayRangeM=range;v.root.userData.azimuthRad=radar.azimuthRad;
+  }
+  for(const[id,v]of resource.visuals)if(!wanted.has(id)){v.root.removeFromParent();for(const m of [v.ring.material,v.axis.material]){m.dispose();resource.materials.splice(resource.materials.indexOf(m),1);}resource.visuals.delete(id);}
 }

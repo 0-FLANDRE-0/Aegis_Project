@@ -1,8 +1,9 @@
 """C/D combat comparison and equal fixed ticks at 1/8/16/64x.
 
 The six cold-aircraft cases use the existing full-simulation fixture, comparing
-all existing combat/EW/network/team state and RNG. Only aviation's intentionally
-new schema and host profiler observations are excluded from the paired state.
+all existing combat/EW/network/team state and global/private RF RNG. The exact
+new aviation/radio metadata and host profiler observations are excluded; existing
+port queues, counters, sources and tracks are retained.
 """
 import argparse
 import hashlib
@@ -20,10 +21,31 @@ from browser_g import launch, load_fleet
 def baseline(a):
     source_path = ROOT / 'docs/multiship/H4/regression_baseline.py'
     source = source_path.read_text()
-    source = source.replace("['performance','ew','network','tactical','maneuver','attack','team']", "['performance','aviation']")
+    normalizer = r'''def physical(value):
+    if isinstance(value,dict):
+        result={k:physical(v)for k,v in value.items()if k not in ['performance','aviation']}
+        if value.get('schema')=='AEGIS_OFFBOARD_PORT_C_1':
+            # HELI_D owns only these new radios. Existing port queues, counters,
+            # unrelated sources, all tracks and every RNG stay in the comparison.
+            result.pop('helicopterImplemented',None)
+            result['sources']=[s for s in result.get('sources',[])if s.get('sourceId')not in ['H1','H2']]
+        if value.get('schema')=='AEGIS_SHIP_OBSERVER_C_1'and'deferred'in result:
+            result['deferred']=[s for s in result['deferred']if s!='helicopterFlightAndSensors']
+        return result
+    if isinstance(value,list):return [physical(v)for v in value]
+    return value
+'''
+    start,end=source.index('def physical('),source.index('def main(')
+    source=source[:start]+normalizer+source[end:]
+    needle='dynamics:d.shipDynamics(),rng:'
+    assert source.count(needle)==1
+    source=source.replace(needle,'dynamics:d.shipDynamics(),observers:d.observerSnapshotC(),offboard:d.offboardSnapshotC(),rng:',1)
+    needle="'bothFaultFree':"
+    assert source.count(needle)==1
+    source=source.replace(needle,"'sameExistingObserverState':physical(pair['baseline']['observers'])==physical(pair['candidate']['observers']),'sameExistingOffboardPorts':physical(pair['baseline']['offboard'])==physical(pair['candidate']['offboard']),'bothFaultFree':",1)
     source = source.replace('AEGIS_MULTI_SHIP_H4_BASELINE_COMPARISON', 'AEGIS_HELO_D_BASELINE_COMPARISON').replace('H3/H4', 'HELI_C/HELI_D')
     source = source.replace("abs(count_vls(pair['baseline'])-count_vls(pair['candidate']))<=1", "count_vls(pair['baseline'])==count_vls(pair['candidate'])")
-    source = source.replace('exclude existing EW/network/tactical metadata, new attack settings and profiler', 'exclude only profiler and the changed aviation schema; include EW/network/tactical/maneuver/attack/team')
+    source = source.replace('exclude existing EW/network/tactical metadata, new attack settings and profiler', 'exclude only profiler, changed aviation schema, new H1/H2 radio configs and the exact completed-helicopter metadata labels; include full existing observer tracks/private RF RNG/queues/counters/unrelated ports and EW/network/tactical/maneuver/attack/team')
     source = source.replace('Ownship defense/maneuver utility is OFF by default. No allied peers or Harpoon launch in this paired regression; H3-on maneuver and native defense are verified separately.', 'Cold helicopters, defense/maneuver utility OFF. No allied peers or Harpoon launch in these six paired cases. Active aircraft are tested by the separate fixed-clock, altitude and native suites.')
     scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline'}
     exec(compile(source, str(source_path), 'exec'), scope)

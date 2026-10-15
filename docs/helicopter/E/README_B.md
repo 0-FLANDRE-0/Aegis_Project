@@ -1,6 +1,6 @@
-# Stage B — airborne surface-search radar adapter (design gate)
+# Stage B — airborne surface-search radar adapter
 
-This file records the preimplementation contract. Stage B production code must wait until Stage A's IFF/airborne-detection gate passes. There is no offboard source or Hawklink delivery in Stage B; those belong to Stage C.
+Stage A passed before this adapter was activated. The separately buildable Phase B artifact contains surface-search measurements and the UI/render adapter, while Hawklink delivery remains absent until the later Stage C gate. This file records the contract and implementation limits.
 
 ## Ownership and API
 
@@ -53,3 +53,17 @@ The measured position is in simulation world-frame SI metres, z=8m. Covariance i
 - Measurement poison fields do not cross the exact output contract. Covariance is finite/symmetric/SPD and transverse variance grows with range. Plotz does not reveal truth mast height.
 - Radar ON marks emission only in airborne flight, radar OFF stops attempts/plots immediately. Rendering and snapshot reads do not advance scan, RNG, attempt counters or simulation state.
 - No `configureOffboardSourceC`, `ingestOffboardReportC`, Link16, sensor-onboard perfect truth, remote fire control, weapon, sonar, ESM, FLIR, ISAR, fuel, or air-detection behavior is added at this gate.
+
+## Generic physical-RCS correction
+
+Stage B verification found an existing shared-RCS bug: `surfaceTargetProfileWip13A` intentionally defaults a missing ID to the container-hulk profile, but generic-contact RCS lookup passed `undefined` into it. Consequently generic SMALL/MEDIUM/LARGE contacts all received the hulk signature and the already-written generic size/aspect envelopes were unreachable. `surfaceTargetRcsM2Wip13A` now returns null immediately when an object has no explicit profileId, so the existing generic fallback runs. The profile factory default itself and explicit container-hulk band/aspect signatures are unchanged. This correction affects physical generic-contact signatures for every receiver, rather than assigning APS a separate arbitrary RCS. The native gate records pre-fix equal SMALL/LARGE RCS, post-fix different RCS/SNR, and equal explicit hulk S/X/IJ signatures.
+
+## Frozen tuning and interpretation
+
+The current simulation assumption is X-band-like,6s per360° revolution,400m minimum horizontal range,100km maximum instrumented range,30m target mast propagation approximation,32km/20m² normalized SNR reference,18m range sigma and0.12° azimuth sigma before SNR scaling,3m own-navigation sigma and8m surface-height uncertainty. All are SIM_TUNED, including the X-band-like assumption and normalized transmitter scale. No physical APS transmit wattage or actual carrier frequency is claimed.
+
+`physicalEchoGate` is an optional shared RF physical-stage hook. Without it, existing radars retain their old beam/LOS behavior. For the APS adapter it applies the once-per-revolution ledger and mast propagation height, and uses peak azimuth gain at the continuously crossed beam centre. The existing generic physical-RCS bug correction above is an intentional shared exception to unchanged defaults.
+
+The surface extractor derives horizontal range from noisy slant range and own altitude. It rejects impossible or sub-minimum projected measurements rather than clamping them to a false400m contact. Reference plotz is8m; no target mast truth crosses the extraction boundary. The physical scene still includes aircraft and missiles, which contribute legitimate RF returns. Only measured surface evidence can reach the surface report batch; there is no air-output mode. This is not a guarantee of perfect physical discrimination for every imaginable ambiguous low return.
+
+Per the user's later clarification, mother EMCON does not stop the independently commanded airborne radar. Only the helicopter's own radar setting controls its emitter in flight. Stage C separately documents the revised Hawklink policy.

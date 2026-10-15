@@ -22,8 +22,8 @@ INTEGRATION = {
     'c55SensorSweep', 'updateTrackOperationalStateA3',
     'physicalRfReflectorRegistryWip13A2', 'simulateFixedTick',
 }
-B_INTEGRATION = {'shipboardRadarEchoFieldWip13B13'}
-C_INTEGRATION = {'harpoonGateA', 'offboardSnapshotC', 'observerSnapshotC'}
+B_INTEGRATION = {'shipboardRadarEchoFieldWip13B13', 'surfaceTargetRcsM2Wip13A', 'installHeloRendererA'}
+C_INTEGRATION = {'harpoonGateA', 'offboardSnapshotC', 'observerSnapshotC', 'observerAcceptPlotsC'}
 AST_AUDIT = r'''
 const fs=require('node:fs'),acorn=require('acorn');
 function inspect(file){const s=fs.readFileSync(file,'utf8'),out={};
@@ -96,7 +96,7 @@ def main():
     code = re.sub(r'//[^\n]*', '', modules)
     checks['flightRuntimeNoTruthRegistrationOrWeaponRelease'] = not re.search(r'\b(?:targetPool|navalReflectorsC|weaponCommandD|fireSM2|simRandom)\b', code)
     render = (HERE / 'render.js').read_text()
-    checks['renderReadOnly'] = not any(x in render for x in ['heloCommandA(', 'heloFixedStepA(', 'heloMoveA(', 'heloIffStepE(', 'heloHawklinkStepE(', 'ingestOffboardReportC('])
+    checks['renderReadOnly'] = not any(x in render for x in ['heloCommandA(', 'heloFixedStepA(', 'heloMoveA(', 'heloIffStepE(', 'heloRadarFixedStepE(', 'heloHawklinkBeforeObserversE(', 'heloSensorStateE(', 'heloRadarStateE(', 'configureOffboardSourceC(', 'ingestOffboardReportC('])
     checks['singleHeloPayload'] = c.count('id="helo-render-a1"') == 1
     ui = (HERE / 'ui.js').read_text()
     checks['airOldViewButtonsRemoved'] = not any(x in ui for x in ['airViewA', 'airShipViewA', 'airCancelA'])
