@@ -1,0 +1,100 @@
+{
+  "pass": true,
+  "checks": 152,
+  "suites": [
+    {
+      "suite": "static",
+      "pass": true,
+      "checks": 38,
+      "report": "final/static/static.json"
+    },
+    {
+      "suite": "comparison",
+      "pass": true,
+      "checks": 15,
+      "report": "final/comparison/comparison.json.gz"
+    },
+    {
+      "suite": "receiver",
+      "pass": true,
+      "checks": 12,
+      "report": "final/receiver/receiver.json"
+    },
+    {
+      "suite": "model",
+      "pass": true,
+      "checks": 25,
+      "report": "final/model/model.json"
+    },
+    {
+      "suite": "native",
+      "pass": true,
+      "checks": 20,
+      "report": "final/native/native.json"
+    },
+    {
+      "suite": "regression",
+      "pass": true,
+      "checks": 42,
+      "report": "final/regression/baseline-comparison.json.gz"
+    }
+  ],
+  "htmlSha256": "4515668a06d7efcbae351b8e7b1d433c8c534e2b479c0ea3f1e9a7d826e2a352",
+  "htmlBytes": 16074222,
+  "addedBytes": 2277,
+  "baselineSha256": "e34cb884f375600a1c5bb3b0441bb89a385075f4167cfad04242594e26df9bcb",
+  "sourceCommit": "8a919aef97c176f8cf8ff53f4c18458364d80705",
+  "nativePd": {
+    "PERI_ANCHOR": 0.491,
+    "SHORT_TARGET": 0.4936,
+    "LONG_LOW_SMALL": 0.499,
+    "LONG_HIGH_MEDIUM": 0.4964
+  },
+  "falseField": [
+    {
+      "mode": "LONG",
+      "hours": 8,
+      "noise": 12724,
+      "births": 9,
+      "perHour": 1.125,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "SHORT",
+      "hours": 8,
+      "noise": 70454,
+      "births": 11,
+      "perHour": 1.375,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "PERI",
+      "hours": 8,
+      "noise": 9784283,
+      "births": 6,
+      "perHour": 0.75,
+      "candidates": 1654,
+      "drops": 0
+    }
+  ],
+  "compressedReports": [
+    {
+      "path": "final/regression/baseline-comparison.json.gz",
+      "rawBytes": 8156283,
+      "rawSha256": "bc6b8b96d8af2bece51f62348c4405a0ba1922a8176c0bf267c2e35c0f43fedd"
+    },
+    {
+      "path": "final/comparison/comparison.json.gz",
+      "rawBytes": 257714,
+      "rawSha256": "bc36d173ee16e76bd75d5b8b442891b1cbe22d89574216d0014b65fef561c864"
+    }
+  ],
+  "limits": [
+    "All radar settings SIM_TUNED, not APS-153 hardware performance.",
+    "False-field is detached receiver-noise/association/confirmation acceleration, not eight-hour full-world real-time play.",
+    "Fixed-clock test uses two validated airborne helicopter poses; 120-second preparation/geometry/render/IFF/release code is unchanged and not added to new test count.",
+    "No hardware/phone FPS claim, Actions dispatch, merge or PR."
+  ]
+}
