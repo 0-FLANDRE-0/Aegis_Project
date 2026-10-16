@@ -1,0 +1,673 @@
+{
+  "checks": {
+    "defaultSTBY": true,
+    "DSaveValid": true,
+    "migrationE1": true,
+    "oldFlightFieldsPreserved": true,
+    "migrationRadar": true,
+    "validationInputPure": true,
+    "ESaveValid": true,
+    "roundTripExact": true,
+    "invalidModeZeroWrites": true,
+    "invalidSaveAtomic": true,
+    "diagnosticsPure": true,
+    "tableFull": true,
+    "anchorNative50": true,
+    "anchorPure": true,
+    "oneFullScanTransition": true,
+    "liveConfirmed": true,
+    "nativeClutterUsed": true,
+    "queueSafe": true,
+    "hawklinkDelivered": true,
+    "emconLinkIndependent": true,
+    "wireAnonymous": true,
+    "historyReset": true,
+    "disconnected": true,
+    "modeWhileDisconnected": true,
+    "disconnectedModeActive": true,
+    "noDisconnectedReplay": true,
+    "STBYNoEmission": true,
+    "corePass": true
+  },
+  "records": {
+    "table": "AN/APS-153(V) SIM_TUNED — 단일 주사 → 이진 M-of-N (9주사 에너지 누적 없음)\nANCHOR: 152m / 1m² / 높이1m / Hs0.9m / PERI 4-of-9: Pd50 35.000km (목표35km), 신규 오경보 1.000/h\n{\"source\":\"SIM_TUNED\",\"reference\":\"APS137_ANALOG\",\"singleScanPd\":0.39308483281062956,\"alpha\":9.568529571635784,\"snr\":9.247642578845888,\"clutterRcsM2\":0.03863140073624803,\"referenceElevationGain\":0.47070370754905994,\"K\":45870055038317175000,\"snrReferenceRangeKm\":82.29667999683674,\"snrReferenceRcsM2\":1,\"longProcessingEfficiency\":0.18530739630932783,\"shortProcessingEfficiency\":1,\"rawPfa\":{\"LONG\":0.000011381820717031775,\"SHORT\":0.000004055830637546954,\"PERI\":0.00006989408231300982},\"associationFactor\":{\"LONG\":27.944068594525824,\"SHORT\":13.951694880967219,\"PERI\":42923.39110662772}}\n확률은 임의의 완전한 주사 창 하나. 오경보는 신규 확정 접촉의 기대 발생률.\n수치는 독립 exponential-power CFAR / 이진 주사 모델의 계산값이며 실장비 성능이 아님.\nband=X [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceEvidence=0.9 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nairEvidence=0.06 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmissileEvidence=0.03 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbackgroundEvidence=0.04 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nqualityFloor=0.02 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseQuality=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseDopplerSigmaMps=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseDopplerSpreadMps=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseVerticalExtentM=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngrazingFloorRad=0.0001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nprojectedCellCosineFloor=0.1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nazimuthBeamDeg=2.1 [SIM_TUNED; APS143_FAMILY_ANALOG]\nelevationBeamDeg=8 [SIM_TUNED; APS143_FAMILY_ANALOG]\nmaxDownlookDeg=40 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nstabilizationDeg=30 [SIM_TUNED; APS143_FAMILY_ANALOG]\nazimuthSigmaDeg=0.3 [SIM_TUNED; APS143_FAMILY_ANALOG]\nazimuthSigmaFloorDeg=0.025 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nrangeSigmaFloorM=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnavigationSigmaM=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceSigmaM=8 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nelevationSigmaDeg=0.003 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndopplerSigmaMps=1.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceDopplerLimitMps=100 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaAzimuthCells=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaRangeCells=6 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxDistributedEchoes=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nhorizonCoefficient=4120 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfallbackHeightM=30 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceReferenceM=0 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\neffectiveEarthRadiusM=8487200 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nanchorAltitudeM=152 [SIM_TUNED; APS137_ANALOG]\nanchorHeightM=1 [SIM_TUNED; APS137_ANALOG]\nanchorRcsM2=1 [SIM_TUNED; APS137_ANALOG]\nanchorRangeM=35000 [SIM_TUNED; APS137_ANALOG]\nanchorHsM=0.9 [SIM_TUNED; APS137_ANALOG]\nanchorWindowPd=0.5 [SIM_TUNED; APS137_ANALOG]\nanchorFalseBirthsPerHour=1 [SIM_TUNED; APS137_ANALOG]\nsigma0Anchor=0.00001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaExponent=1.4 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngrazingExponent=0.85 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nclutterLeak01=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsampledClutterFraction=0.02 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxContacts=200 [SIM_TUNED; APS143_FAMILY_ANALOG]\nmaxCandidates=40000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nassociationSigma=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngateRangeCells=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngateAzimuthCells=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nvelocityGateMps=20 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportRatePerSecond=64 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportBurst=24 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportQueueReserve=8 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxNewNoiseCellsPerTick=192 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbeamPhaseSamples=128 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbeamSupportWidths=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nminimumGain=0.000001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ncscFloorDeg=4 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ncscPeak=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticMediumRcsM2=180 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticMediumHeightM=15 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticDestroyerRcsM2=5000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticDestroyerHeightM=30 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfalseGateRadialBins=128 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfalseGateCorrection=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticSeed=153137 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticWindows=100000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticRangeStepM=100 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.rpm=12 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.minM=463 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.maxM=296000 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.resolutionM=45 [SIM_TUNED; APS143_FAMILY_ANALOG]\nLONG.m=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.n=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.clutterFactor=1.7 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.rpm=108 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.minM=91 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.maxM=29600 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.resolutionM=15 [SIM_TUNED; APS143_FAMILY_ANALOG]\nSHORT.m=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.n=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.clutterFactor=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nPERI.rpm=108 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.minM=3700 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.maxM=59000 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.resolutionM=3 [SIM_TUNED; APS137_ANALOG]\nPERI.m=4 [SIM_TUNED; APS147_DTIC]\nPERI.n=9 [SIM_TUNED; APS147_DTIC]\nPERI.clutterFactor=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 0.5 / SNR / 60 / 0.66 | 0.0 / SNR/BLIND / 60 / 0.66 | 0.0 / SNR/BLIND / 60 / 0.66\n150 | 0.0 / SNR/BLIND / 179 / 0.99 | 0.0 / SNR/BLIND / 179 / 0.99 | 0.0 / SNR/BLIND / 179 / 0.99\n300 | 0.0 / SNR/BLIND / 358 / 1.32 | 0.0 / SNR/BLIND / 358 / 1.32 | 0.0 / SNR/BLIND / 358 / 1.32\n600 | 0.0 / SNR/BLIND / 715 / 1.72 | 0.0 / SNR/BLIND / 715 / 1.72 | 0.0 / SNR/BLIND / 715 / 1.72\n1000 | 0.0 / SNR/BLIND / 1192 / 2.11 | 0.0 / SNR/BLIND / 1192 / 2.11 | 0.0 / SNR/BLIND / 1192 / 2.11\n3000 | 0.0 / SNR/BLIND / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 26.1 / SNR / 60 / 1.00 | 14.5 / SNR / 60 / 1.00 | 0.0 / SNR/BLIND / 60 / 1.00\n150 | 15.0 / SNR / 179 / 1.00 | 0.0 / SNR/BLIND / 179 / 1.00 | 0.0 / SNR/BLIND / 179 / 1.00\n300 | 0.5 / SNR / 358 / 0.98 | 0.0 / SNR/BLIND / 358 / 0.98 | 0.0 / SNR/BLIND / 358 / 0.98\n600 | 0.0 / SNR/BLIND / 715 / 0.96 | 0.0 / SNR/BLIND / 715 / 0.96 | 0.0 / SNR/BLIND / 715 / 0.96\n1000 | 0.0 / SNR/BLIND / 1192 / 0.94 | 0.0 / SNR/BLIND / 1192 / 0.94 | 0.0 / SNR/BLIND / 1192 / 0.94\n3000 | 0.0 / SNR/BLIND / 3575 / 0.85 | 0.0 / SNR/BLIND / 3575 / 0.85 | 0.0 / SNR/BLIND / 3575 / 0.85\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 33.3 / HORIZON / 60 / 0.57 | 33.3 / HORIZON / 60 / 0.57 | 28.8 / SNR / 60 / 0.57\n150 | 37.4 / SNR / 179 / 0.99 | 35.0 / SNR / 179 / 0.99 | 15.2 / SNR / 179 / 0.99\n300 | 36.7 / SNR / 358 / 1.16 | 32.7 / SNR / 358 / 1.16 | 0.0 / SNR/BLIND / 358 / 1.16\n600 | 35.5 / SNR / 715 / 1.16 | 26.3 / SNR / 715 / 1.16 | 0.0 / SNR/BLIND / 715 / 1.16\n1000 | 33.6 / SNR / 1192 / 1.16 | 6.8 / SNR / 1192 / 1.16 | 0.0 / SNR/BLIND / 1192 / 1.16\n3000 | 0.0 / SNR/BLIND / 3575 / 1.16 | 0.0 / SNR/BLIND / 3575 / 1.16 | 0.0 / SNR/BLIND / 3575 / 1.16\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 45.1 / HORIZON / 60 / 0.66 | 45.1 / HORIZON / 60 / 0.66 | 45.1 / HORIZON / 60 / 0.66\n150 | 66.4 / HORIZON / 179 / 0.99 | 66.4 / HORIZON / 179 / 0.99 | 66.4 / HORIZON / 179 / 0.99\n300 | 87.3 / HORIZON / 358 / 1.32 | 87.3 / HORIZON / 358 / 1.32 | 74.8 / SNR / 358 / 1.32\n600 | 116.9 / HORIZON / 715 / 1.72 | 116.9 / HORIZON / 715 / 1.72 | 48.0 / SNR / 715 / 1.72\n1000 | 131.2 / SNR / 1192 / 2.11 | 114.8 / SNR / 1192 / 2.11 | 8.9 / SNR / 1192 / 2.11\n3000 | 122.8 / SNR / 3575 / 3.39 | 75.8 / SNR / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00\n150 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00\n300 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98\n600 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96\n1000 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94\n3000 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 45.1 / HORIZON / 60 / 0.57 | 45.1 / HORIZON / 60 / 0.57 | 45.1 / HORIZON / 60 / 0.57\n150 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99\n300 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16\n600 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16\n1000 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16\n3000 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 51.7 / HORIZON / 60 / 0.66 | 51.7 / HORIZON / 60 / 0.66 | 51.7 / HORIZON / 60 / 0.66\n150 | 73.0 / HORIZON / 179 / 0.99 | 73.0 / HORIZON / 179 / 0.99 | 73.0 / HORIZON / 179 / 0.99\n300 | 93.9 / HORIZON / 358 / 1.32 | 93.9 / HORIZON / 358 / 1.32 | 93.9 / HORIZON / 358 / 1.32\n600 | 123.5 / HORIZON / 715 / 1.72 | 123.5 / HORIZON / 715 / 1.72 | 123.5 / HORIZON / 715 / 1.72\n1000 | 152.9 / HORIZON / 1192 / 2.11 | 152.9 / HORIZON / 1192 / 2.11 | 152.9 / HORIZON / 1192 / 2.11\n3000 | 248.2 / HORIZON / 3575 / 3.39 | 248.2 / HORIZON / 3575 / 3.39 | 248.2 / HORIZON / 3575 / 3.39\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00\n150 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00\n300 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98\n600 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96\n1000 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94\n3000 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 51.7 / HORIZON / 60 / 0.57 | 51.7 / HORIZON / 60 / 0.57 | 51.7 / HORIZON / 60 / 0.57\n150 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99\n300 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16\n600 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16\n1000 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16\n3000 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16\n\nReferences\n{\n  \"APS147_DTIC\": {\n    \"title\": \"Shannon, History of U.S. Airborne and Shipboard Periscope Detection Radar Design and Development (2014), ADA618106\",\n    \"url\": \"https://apps.dtic.mil/sti/pdfs/ADA618106.pdf\",\n    \"status\": \"Bibliography verified; primary PDF not retrievable in this session; binary accumulation selected by user, not certified implementation\"\n  },\n  \"APS153_MODE_TABLE_UNOFFICIAL\": {\n    \"title\": \"AN/APS-147/153 radar study cards; user-supplied mode table\",\n    \"url\": \"https://quizlet.com/jp/376490050/anaps-147153-mmr-flash-cards/\",\n    \"status\": \"Unofficial; requested values are simulation settings\"\n  },\n  \"APS143_FAMILY_ANALOG\": {\n    \"title\": \"APS-143C(V)3/OceanEye manufacturer datasheet, family analogy only\",\n    \"url\": \"https://pdf.aeroexpo.online/pdf/telephonics-corporation/aps-143c-v-3-oceaneye/170712-22112.html\",\n    \"status\": \"Manufacturer datasheet mirror; does not establish APS-153 numeric performance\"\n  },\n  \"APS137_ANALOG\": {\n    \"title\": \"APS-137 analogy in ADA618106; 19NM/500ft/SS3 anchor supplied by user\",\n    \"url\": \"https://apps.dtic.mil/sti/pdfs/ADA618106.pdf\",\n    \"status\": \"Analogy, not APS-153 validation\"\n  },\n  \"GENERIC_RADAR_PRINCIPLE\": {\n    \"title\": \"Monostatic radar equation, Gaussian beam, sea-cell area, exponential power CFAR and binary M-of-N\",\n    \"url\": \"https://www.jhuapl.edu/Content/techdigest/pdf/V18-N01/18-01-Ousbourn.pdf\",\n    \"status\": \"Principles; coefficients and simplified distributions are SIM_TUNED\"\n  }\n}",
+    "anchor": {
+      "ok": true,
+      "diagnosticOnly": true,
+      "mode": "PERI",
+      "windows": 5000,
+      "seed": 153137,
+      "confirmed": 2506,
+      "pd": 0.5012,
+      "singleScanPd": 0.4225333333333333,
+      "standardError": 0.007071047447160852,
+      "conditions": {
+        "altitudeM": 152,
+        "rangeM": 35000,
+        "rcsM2": 1,
+        "heightM": 1,
+        "hsM": 0.9
+      },
+      "statistics": {
+        "noiseCells": 256340,
+        "noiseBudgetDrops": 0,
+        "candidateDrops": 0,
+        "merged": 9,
+        "expired": 0,
+        "surfaceAccepted": 274061,
+        "airRejected": 14,
+        "scene": 19,
+        "clutterSignal": 19682.625285593083,
+        "transportThrottled": 0,
+        "confirmationBirths": 2509,
+        "discreteTrials": 45000,
+        "discretePdSum": 17573.933653409124,
+        "discreteSnrSum": 414718.56924835406
+      }
+    },
+    "live": {
+      "schema": "AEGIS_APS153_F1",
+      "constants": {
+        "band": {
+          "value": "X",
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "surfaceEvidence": {
+          "value": 0.9,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "airEvidence": {
+          "value": 0.06,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "missileEvidence": {
+          "value": 0.03,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "backgroundEvidence": {
+          "value": 0.04,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "qualityFloor": {
+          "value": 0.02,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "noiseQuality": {
+          "value": 0.5,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "noiseDopplerSigmaMps": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "noiseDopplerSpreadMps": {
+          "value": 0.5,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "noiseVerticalExtentM": {
+          "value": 0.5,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "grazingFloorRad": {
+          "value": 0.0001,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "projectedCellCosineFloor": {
+          "value": 0.1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "azimuthBeamDeg": {
+          "value": 2.1,
+          "source": "SIM_TUNED",
+          "reference": "APS143_FAMILY_ANALOG"
+        },
+        "elevationBeamDeg": {
+          "value": 8,
+          "source": "SIM_TUNED",
+          "reference": "APS143_FAMILY_ANALOG"
+        },
+        "maxDownlookDeg": {
+          "value": 40,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "stabilizationDeg": {
+          "value": 30,
+          "source": "SIM_TUNED",
+          "reference": "APS143_FAMILY_ANALOG"
+        },
+        "azimuthSigmaDeg": {
+          "value": 0.3,
+          "source": "SIM_TUNED",
+          "reference": "APS143_FAMILY_ANALOG"
+        },
+        "azimuthSigmaFloorDeg": {
+          "value": 0.025,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "rangeSigmaFloorM": {
+          "value": 0.5,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "navigationSigmaM": {
+          "value": 3,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "surfaceSigmaM": {
+          "value": 8,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "elevationSigmaDeg": {
+          "value": 0.003,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "dopplerSigmaMps": {
+          "value": 1.5,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "surfaceDopplerLimitMps": {
+          "value": 100,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "seaAzimuthCells": {
+          "value": 3,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "seaRangeCells": {
+          "value": 6,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "maxDistributedEchoes": {
+          "value": 3,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "horizonCoefficient": {
+          "value": 4120,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "fallbackHeightM": {
+          "value": 30,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "surfaceReferenceM": {
+          "value": 0,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "effectiveEarthRadiusM": {
+          "value": 8487200,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "anchorAltitudeM": {
+          "value": 152,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorHeightM": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorRcsM2": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorRangeM": {
+          "value": 35000,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorHsM": {
+          "value": 0.9,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorWindowPd": {
+          "value": 0.5,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "anchorFalseBirthsPerHour": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "APS137_ANALOG"
+        },
+        "sigma0Anchor": {
+          "value": 1e-05,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "seaExponent": {
+          "value": 1.4,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "grazingExponent": {
+          "value": 0.85,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "clutterLeak01": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "sampledClutterFraction": {
+          "value": 0.02,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "maxContacts": {
+          "value": 200,
+          "source": "SIM_TUNED",
+          "reference": "APS143_FAMILY_ANALOG"
+        },
+        "maxCandidates": {
+          "value": 40000,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "associationSigma": {
+          "value": 3,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "gateRangeCells": {
+          "value": 3,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "gateAzimuthCells": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "velocityGateMps": {
+          "value": 20,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "reportRatePerSecond": {
+          "value": 64,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "reportBurst": {
+          "value": 24,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "reportQueueReserve": {
+          "value": 8,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "maxNewNoiseCellsPerTick": {
+          "value": 192,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "beamPhaseSamples": {
+          "value": 128,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "beamSupportWidths": {
+          "value": 2,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "minimumGain": {
+          "value": 1e-06,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "cscFloorDeg": {
+          "value": 4,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "cscPeak": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticMediumRcsM2": {
+          "value": 180,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticMediumHeightM": {
+          "value": 15,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticDestroyerRcsM2": {
+          "value": 5000,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticDestroyerHeightM": {
+          "value": 30,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "falseGateRadialBins": {
+          "value": 128,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "falseGateCorrection": {
+          "value": 1,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticSeed": {
+          "value": 153137,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticWindows": {
+          "value": 100000,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        },
+        "diagnosticRangeStepM": {
+          "value": 100,
+          "source": "SIM_TUNED",
+          "reference": "GENERIC_RADAR_PRINCIPLE"
+        }
+      },
+      "modes": {
+        "STBY": {
+          "rpm": 0,
+          "minM": 0,
+          "maxM": 0,
+          "resolutionM": 0,
+          "m": 0,
+          "n": 0,
+          "clutterFactor": 0,
+          "periodS": 0,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS143_FAMILY_ANALOG",
+            "m": "GENERIC_RADAR_PRINCIPLE",
+            "n": "GENERIC_RADAR_PRINCIPLE",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        },
+        "LONG": {
+          "rpm": 12,
+          "minM": 463,
+          "maxM": 296000,
+          "resolutionM": 45,
+          "m": 2,
+          "n": 3,
+          "clutterFactor": 1.7,
+          "periodS": 5,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS143_FAMILY_ANALOG",
+            "m": "GENERIC_RADAR_PRINCIPLE",
+            "n": "GENERIC_RADAR_PRINCIPLE",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        },
+        "SHORT": {
+          "rpm": 108,
+          "minM": 91,
+          "maxM": 29600,
+          "resolutionM": 15,
+          "m": 2,
+          "n": 3,
+          "clutterFactor": 1,
+          "periodS": 0.5555555555555556,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS143_FAMILY_ANALOG",
+            "m": "GENERIC_RADAR_PRINCIPLE",
+            "n": "GENERIC_RADAR_PRINCIPLE",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        },
+        "PERI": {
+          "rpm": 108,
+          "minM": 3700,
+          "maxM": 59000,
+          "resolutionM": 3,
+          "m": 4,
+          "n": 9,
+          "clutterFactor": 1,
+          "periodS": 0.5555555555555556,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS137_ANALOG",
+            "m": "APS147_DTIC",
+            "n": "APS147_DTIC",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        },
+        "ISAR": {
+          "reserved": true,
+          "periodS": 0,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS143_FAMILY_ANALOG",
+            "m": "GENERIC_RADAR_PRINCIPLE",
+            "n": "GENERIC_RADAR_PRINCIPLE",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        },
+        "ARPDD": {
+          "reserved": true,
+          "periodS": 0,
+          "source": "SIM_TUNED",
+          "references": {
+            "rpm": "APS153_MODE_TABLE_UNOFFICIAL",
+            "minM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "maxM": "APS153_MODE_TABLE_UNOFFICIAL",
+            "resolutionM": "APS143_FAMILY_ANALOG",
+            "m": "GENERIC_RADAR_PRINCIPLE",
+            "n": "GENERIC_RADAR_PRINCIPLE",
+            "clutterFactor": "GENERIC_RADAR_PRINCIPLE"
+          }
+        }
+      },
+      "calibration": {
+        "source": "SIM_TUNED",
+        "reference": "APS137_ANALOG",
+        "singleScanPd": 0.39308483281062956,
+        "alpha": 9.568529571635784,
+        "snr": 9.247642578845888,
+        "clutterRcsM2": 0.03863140073624803,
+        "referenceElevationGain": 0.47070370754905994,
+        "K": 45870055038317175000,
+        "snrReferenceRangeKm": 82.29667999683674,
+        "snrReferenceRcsM2": 1,
+        "longProcessingEfficiency": 0.18530739630932783,
+        "shortProcessingEfficiency": 1
+      },
+      "references": {
+        "APS147_DTIC": {
+          "title": "Shannon, History of U.S. Airborne and Shipboard Periscope Detection Radar Design and Development (2014), ADA618106",
+          "url": "https://apps.dtic.mil/sti/pdfs/ADA618106.pdf",
+          "status": "Bibliography verified; primary PDF not retrievable in this session; binary accumulation selected by user, not certified implementation"
+        },
+        "APS153_MODE_TABLE_UNOFFICIAL": {
+          "title": "AN/APS-147/153 radar study cards; user-supplied mode table",
+          "url": "https://quizlet.com/jp/376490050/anaps-147153-mmr-flash-cards/",
+          "status": "Unofficial; requested values are simulation settings"
+        },
+        "APS143_FAMILY_ANALOG": {
+          "title": "APS-143C(V)3/OceanEye manufacturer datasheet, family analogy only",
+          "url": "https://pdf.aeroexpo.online/pdf/telephonics-corporation/aps-143c-v-3-oceaneye/170712-22112.html",
+          "status": "Manufacturer datasheet mirror; does not establish APS-153 numeric performance"
+        },
+        "APS137_ANALOG": {
+          "title": "APS-137 analogy in ADA618106; 19NM/500ft/SS3 anchor supplied by user",
+          "url": "https://apps.dtic.mil/sti/pdfs/ADA618106.pdf",
+          "status": "Analogy, not APS-153 validation"
+        },
+        "GENERIC_RADAR_PRINCIPLE": {
+          "title": "Monostatic radar equation, Gaussian beam, sea-cell area, exponential power CFAR and binary M-of-N",
+          "url": "https://www.jhuapl.edu/Content/techdigest/pdf/V18-N01/18-01-Ousbourn.pdf",
+          "status": "Principles; coefficients and simplified distributions are SIM_TUNED"
+        }
+      },
+      "aircraft": [
+        {
+          "id": "SHIP_DDG119_OWN:H1",
+          "radar": {
+            "mode": "PERI",
+            "enabled": true,
+            "emitting": true,
+            "status": "ACTIVE",
+            "transitionRemainingS": 0,
+            "azimuthRad": 0.3769911184306604,
+            "periodS": 0.5555555555555556,
+            "turn": 30,
+            "attempts": 6200,
+            "plots": 22,
+            "confirmedCount": 1,
+            "candidateCount": 1522,
+            "lastPlotAtS": 22.866666666666667,
+            "lastSweepAtS": 22.866666666666667,
+            "minRangeM": 3700,
+            "maxRangeM": 59000,
+            "resolutionM": 3,
+            "beamWidthRad": 0.03665191429188092,
+            "targetMastHeightM": 30,
+            "instrumentM": 58999.804203064945,
+            "horizonM": 73360.9407536772,
+            "minimumM": 3696.8765194417842,
+            "blindM": 181.14654607431993,
+            "effectiveM": 58999.804203064945,
+            "factor": "INSTRUMENT",
+            "surfaceOnly": true,
+            "geometryOnlyLimit": true
+          },
+          "statistics": {
+            "noiseCells": 5809,
+            "noiseBudgetDrops": 0,
+            "candidateDrops": 0,
+            "merged": 1,
+            "expired": 4104,
+            "surfaceAccepted": 5838,
+            "airRejected": 0,
+            "scene": 169,
+            "clutterSignal": 5846.808299118888,
+            "transportThrottled": 0,
+            "confirmationBirths": 1,
+            "discreteTrials": 30,
+            "discretePdSum": 29.983036809280268,
+            "discreteSnrSum": 510872.4580717467,
+            "rngState": 365851269
+          },
+          "lastPlots": []
+        },
+        {
+          "id": "SHIP_DDG119_OWN:H2",
+          "radar": {
+            "mode": "STBY",
+            "enabled": false,
+            "emitting": false,
+            "status": "STBY",
+            "transitionRemainingS": 0,
+            "azimuthRad": 0,
+            "periodS": 0,
+            "turn": 0,
+            "attempts": 0,
+            "plots": 0,
+            "confirmedCount": 0,
+            "candidateCount": 0,
+            "lastPlotAtS": null,
+            "lastSweepAtS": null,
+            "minRangeM": 0,
+            "maxRangeM": 0,
+            "resolutionM": 0,
+            "beamWidthRad": 0.03665191429188092,
+            "targetMastHeightM": 30,
+            "instrumentM": 0,
+            "horizonM": 30025.379177439365,
+            "effectiveM": 0,
+            "minimumM": 0,
+            "blindM": 3.9064087453216643,
+            "factor": "STBY",
+            "surfaceOnly": true,
+            "geometryOnlyLimit": true
+          },
+          "statistics": null,
+          "lastPlots": []
+        }
+      ]
+    },
+    "port": {
+      "schema": "AEGIS_OFFBOARD_PORT_C_1",
+      "sources": [
+        {
+          "sourceId": "H1",
+          "connected": true,
+          "latencyS": 0.4,
+          "lastSequence": 22,
+          "lastReportS": 21.883333333333333
+        },
+        {
+          "sourceId": "H2",
+          "connected": false,
+          "latencyS": 0.4,
+          "lastSequence": -1,
+          "lastReportS": null
+        }
+      ],
+      "queued": 1,
+      "accepted": 21,
+      "rejected": 0,
+      "helicopterImplemented": true,
+      "ordnanceDatalink": false
+    }
+  },
+  "errors": [],
+  "htmlSha256": "e34cb884f375600a1c5bb3b0441bb89a385075f4167cfad04242594e26df9bcb",
+  "pass": true
+}

@@ -187,9 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HELI_D — 피탐·IFF·수상 탐색·Hawklink
+### 최신 개발 기준 — 헬기 WIP HELI_E
 
-- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_D.html`, HELI_C head `370d924a7bba5fa739498b9cd9e220e07abde823` 위 `helicopter-sensors`다. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](SHA256SUMS_v48_WIP_HELI_D.txt), [계약](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json)을 따른다.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_E.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_E.md), [SHA](SHA256SUMS_v48_WIP_HELI_E.txt), [조작·계산·재현](docs/helicopter/F/README.md), [검증](docs/helicopter/F/evidence/verification-summary.json). HELI_D e64f7af 위 `helicopter-radar-e`다.
+- 단일 주사 검출 → PERI4-of-9 / LONG·SHORT2-of-3을 적용했다. 모드·빔·해면·CFAR·병합·익명 공분산·200접촉·Hawklink queue 보호와 E1 migration을 사용한다. 수치는 모두 SIM_TUNED이며 analog/reference를 구분한다.
+- AIR 모드, 지도 별도 링, 3D AN/APS-153 쐐기·잔상·직하 사각, DEBUG 성능표를 제공한다. 기존 비행·고도·경로·CAMERA·IFF·EMCON 독립·무장 권한을 유지한다.
+- 원본16,071,945bytes, D 대비12,992bytes 증가. 최종355/355 PASS /9 suites, 양함종 전투와1/8/16/64× 일치. 앵커와 오경보 결과·시험 범위·한계는 상태와 증거를 따른다.
+- 원본 전체 직접 업로드와 독립 GitHub readback, D 네 파일의 동일 bytes/blob archive, stable/과거 소스·자산 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 생성은 하지 않는다. 다음은 OTH 표적지시·공유 정책의 별도 결정이다.
+
+### 직전 개발 기준 HELI_D — 피탐·IFF·수상 탐색·Hawklink (당시 기록)
+
+- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_D.html`, HELI_C head `370d924a7bba5fa739498b9cd9e220e07abde823` 위 `helicopter-sensors`다. [상태](archive/v48/WIP_HELI_D/AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](archive/v48/WIP_HELI_D/SHA256SUMS_v48_WIP_HELI_D.txt), [계약](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json)을 따른다.
 - 사용자가 HELI_C의 센서 격리를 이번 A→B→C 범위에서 해제했다. [구현 전 충돌 보고와 결정](docs/helicopter/E/CONFLICTS.md)을 따른다. A/B/C 별도 게이트와 source commit을 보존하고 과거 단계 수를 최종 검사 수에 중복 합산하지 않는다.
 - 비행 헬기만 물리 RF/CIWS 입력에 등록한다. IFF ON 기본값과 잡음 거리·방위·고각으로 연관한 만료형 아군 증거를 사용한다. truth ID로 식별/보호하지 않는다. OFF는 기존 UNKNOWN/ROE 규칙이며 즉시 적성이 아니다. 이번 검증은 식별·교전 허용 판정까지, 실제 헬기 피격·격추는 후속이다.
 - 수상 탐색 레이더는 기본 OFF, 공통 RF 경로를 재사용한다. APS-153급 밴드·출력·거리·오차와 새 링크 설정은 모두 SIM_TUNED다. 익명 위치·3×3 SI 공분산·도메인 증거·측정 시각만 전송한다. 공중 탐색/FLIR/ISAR/ESM/소나/무장/연료/회수/로터 공력은 추가하지 않는다.

@@ -1,0 +1,157 @@
+{
+  "pass": true,
+  "checks": 355,
+  "suites": [
+    {
+      "suite": "static",
+      "pass": true,
+      "checks": 39,
+      "report": "final/static/static.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "model",
+      "pass": true,
+      "checks": 25,
+      "report": "final/model/model.json",
+      "binding": "Final F source, exact HTML rebuild verified by static gate"
+    },
+    {
+      "suite": "transport",
+      "pass": true,
+      "checks": 9,
+      "report": "final/transport/transport.json",
+      "binding": "Final F source, exact HTML rebuild verified by static gate"
+    },
+    {
+      "suite": "native",
+      "pass": true,
+      "checks": 28,
+      "report": "final/native/native.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "iff",
+      "pass": true,
+      "checks": 39,
+      "report": "final/iff/stage-a.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "policy",
+      "pass": true,
+      "checks": 42,
+      "report": "final/policy/stage-c.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "regression",
+      "pass": true,
+      "checks": 56,
+      "report": "final/regression/regression.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "ui",
+      "pass": true,
+      "checks": 100,
+      "report": "final/ui/ui.json",
+      "binding": "Exact final HTML"
+    },
+    {
+      "suite": "visual",
+      "pass": true,
+      "checks": 17,
+      "report": "final/visual/visual.json",
+      "binding": "Exact final HTML"
+    }
+  ],
+  "htmlSha256": "e34cb884f375600a1c5bb3b0441bb89a385075f4167cfad04242594e26df9bcb",
+  "htmlBytes": 16071945,
+  "addedBytes": 12992,
+  "baselineSha256": "843c86ac5de6f99ee3b9c24dcf425a79e5c0a55a11f0bc1cdec7c7c1546b25ac",
+  "sourceCommit": "5702606fa8d3b0c35b90daf639f1ff0641525a72",
+  "seed": 1831565813,
+  "anchorWindows": 5000,
+  "anchor": {
+    "ok": true,
+    "diagnosticOnly": true,
+    "mode": "PERI",
+    "windows": 5000,
+    "seed": 153137,
+    "confirmed": 2506,
+    "pd": 0.5012,
+    "singleScanPd": 0.4225333333333333,
+    "standardError": 0.007071047447160852,
+    "conditions": {
+      "altitudeM": 152,
+      "rangeM": 35000,
+      "rcsM2": 1,
+      "heightM": 1,
+      "hsM": 0.9
+    },
+    "statistics": {
+      "noiseCells": 256340,
+      "noiseBudgetDrops": 0,
+      "candidateDrops": 0,
+      "merged": 9,
+      "expired": 0,
+      "surfaceAccepted": 274061,
+      "airRejected": 14,
+      "scene": 19,
+      "clutterSignal": 19682.625285593083,
+      "transportThrottled": 0,
+      "confirmationBirths": 2509,
+      "discreteTrials": 45000,
+      "discretePdSum": 17573.933653409124,
+      "discreteSnrSum": 414718.56924835406
+    }
+  },
+  "falseField": [
+    {
+      "mode": "LONG",
+      "hours": 8,
+      "noise": 12724,
+      "births": 9,
+      "perHour": 1.125,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "SHORT",
+      "hours": 8,
+      "noise": 70454,
+      "births": 11,
+      "perHour": 1.375,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "PERI",
+      "hours": 8,
+      "noise": 9784283,
+      "births": 6,
+      "perHour": 0.75,
+      "candidates": 1654,
+      "drops": 0
+    }
+  ],
+  "compressedReports": [
+    {
+      "path": "final/regression/clock.json.gz",
+      "uncompressedBytes": 333644,
+      "uncompressedSha256": "3021365d7420d97aefe6b88fc210281c921bf3f12be1879c38ed2eb22f0ec84d"
+    },
+    {
+      "path": "final/regression/baseline-comparison.json.gz",
+      "uncompressedBytes": 8156130,
+      "uncompressedSha256": "df0a1d4785c83c1486d266aba80a20c672f53b1caacb4a6fceb3a13dc495a06c"
+    }
+  ],
+  "limits": [
+    "Software Chromium/SwiftShader and touch viewport, no hardware or physical phone FPS claim.",
+    "False-field endurance is detached RF noise/measurement/association/M-of-N, not a full-world real-time eight-hour soak.",
+    "All APS-153 numeric settings SIM_TUNED; analog references are not certified hardware performance.",
+    "No Actions dispatch, main/old-branch merge or new PR."
+  ]
+}

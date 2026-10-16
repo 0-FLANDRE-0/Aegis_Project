@@ -1,8 +1,16 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 헬기 WIP HELI_D
+## 최신 개발 기준 — 헬기 WIP HELI_E
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_D.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](SHA256SUMS_v48_WIP_HELI_D.txt), [조작·계약·재현](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json). HELI_C final 위 `helicopter-sensors`다.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_E.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_E.md), [SHA](SHA256SUMS_v48_WIP_HELI_E.txt), [조작·계산·재현](docs/helicopter/F/README.md), [검증](docs/helicopter/F/evidence/verification-summary.json). HELI_D e64f7af 위 `helicopter-radar-e`다.
+- 단일 주사 검출 → PERI4-of-9 / LONG·SHORT2-of-3을 적용했다. 모드·빔·해면·CFAR·병합·익명 공분산·200접촉·Hawklink queue 보호와 E1 migration을 사용한다. 수치는 모두 SIM_TUNED이며 analog/reference를 구분한다.
+- AIR 모드, 지도 별도 링, 3D AN/APS-153 쐐기·잔상·직하 사각, DEBUG 성능표를 제공한다. 기존 비행·고도·경로·CAMERA·IFF·EMCON 독립·무장 권한을 유지한다.
+- 원본16,071,945bytes, D 대비12,992bytes 증가. 최종355/355 PASS /9 suites, 양함종 전투와1/8/16/64× 일치. 앵커와 오경보 결과·시험 범위·한계는 상태와 증거를 따른다.
+- 원본 전체 직접 업로드와 독립 GitHub readback, D 네 파일의 동일 bytes/blob archive, stable/과거 소스·자산 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 생성은 하지 않는다. 다음은 OTH 표적지시·공유 정책의 별도 결정이다.
+
+## 직전 개발 기준 — 헬기 WIP HELI_D (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_D/Aegis_SIM_v48_WIP_HELI_D.html), [상태](archive/v48/WIP_HELI_D/AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](archive/v48/WIP_HELI_D/SHA256SUMS_v48_WIP_HELI_D.txt), [조작·계약·재현](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json). HELI_C final 위 `helicopter-sensors`다.
 - 비행 헬기의 실제 RF 반사와 잡음 기반 IFF를 연결했다. IFF ON 기본값, 만료되는 아군 증거와 운용자 식별을 분리하고 실제 AUTO 요격 판단에서 확인한다. 실제 헬기 피격·격추는 후속이다.
 - 헬기 수상 탐색 레이더는 기본 OFF다. 공통 RF/SNR·해면·기상과 회전당 탐지 1회, 잡음 측정·SI 공분산을 사용한다. APS-153급 밴드·출력·거리는 전부 SIM_TUNED 가정이다.
 - Hawklink H1/H2는 원래 모함에 익명 plot만 지연 전송한다. **레이더 EMCON과 독립**이며 LOS/최대 거리/모함 장비로 연결을 결정한다. 단절 시 대기 보고도 버리고 재전송하지 않는다. 통신 EMCON은 두 링크를 함께 다룰 후속 정책이다.
