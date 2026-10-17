@@ -3,7 +3,7 @@ import argparse,base64,gzip,hashlib,json,os,re,subprocess,tempfile
 from pathlib import Path
 from build import BASE_SHA,build,decoded
 ROOT=Path(__file__).resolve().parents[3]
-CHANGED=set('heloSaveSchemaI heloOperationsSchemaI heloFixedStepA heloMigrateSaveA heloValidateSaveA heloDisposeDoorsI heloBuildCgHangarI heloSyncDoorsA'.split())
+CHANGED=set('heloSaveSchemaI heloOperationsSchemaI heloGroundPathB heloFixedStepA heloMigrateSaveA heloValidateSaveA heloDisposeDoorsI heloBuildCgHangarI heloSyncDoorsA'.split())
 REMOVED={'heloSyncFoldingDoorI'}
 AST=r'''const fs=require('fs'),acorn=require('acorn');function f(file){const s=fs.readFileSync(file,'utf8'),o={};function w(n){if(!n||typeof n!=='object')return;if(n.type==='FunctionDeclaration')(o[n.id.name]??=[]).push(s.slice(n.start,n.end));for(const[k,v]of Object.entries(n))if(!['start','end'].includes(k)){if(Array.isArray(v))v.forEach(w);else if(v&&typeof v==='object')w(v);}}w(acorn.parse(s,{ecmaVersion:2022}));return o;}const b=f(process.argv[1]),c=f(process.argv[2]);console.log(JSON.stringify({existingCount:Object.keys(b).length,changed:Object.keys(b).filter(k=>c[k]&&JSON.stringify(b[k])!==JSON.stringify(c[k])),removed:Object.keys(b).filter(k=>!c[k])}));'''
 def main():

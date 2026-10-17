@@ -16,6 +16,9 @@ const HELO_CG_FACILITY_I=Object.freeze({source:'SIM_TUNED',basis:'CG52_VIEWER5_O
   throatClearXM:-39.4,deckXM:-44.2,deckZM:9.84,deckSlope:0,deckPlaneXM:-30.413,deckPlaneZM:9.8,deckFootClearanceM:.04,
   deckMinXM:-52.01,deckMaxXM:-30.413,deckHalfWidthM:8.1,rotorRadiusM:HELO_VALUES_A.visualRotorDiameterM/2,
   alignDistanceM:0,curveControl1XM:-41.4,curveControl2XM:-42.8,
+  // SIM_TUNED fractions of the unchanged 20 s tow: allocate H2 6.4 s to
+  // lateral transfer, 8.6 s to clear the door, 5.0 s to turn onto the pad.
+  traversePhases01:Object.freeze([Object.freeze([.1,.2,.62]),Object.freeze([0,.32,.75])]),towSpeedLimitMps:3,
   rearSlabMinXM:-31.05,rearSlabMaxXM:-30.30,interiorAftXM:-30.35,interiorFwdXM:-16.45,
   interiorFloorZM:9.8,interiorCeilingZM:14.85,interiorBaysM:Object.freeze([Object.freeze([-6.72,6.72])])});
 const HELO_FACILITY_PROFILES_I=Object.freeze({DDG_119_LATE_FLIGHT_IIA:HELO_DDG_FACILITY_I,CG_52_LATE_TICONDEROGA:HELO_CG_FACILITY_I});
@@ -52,11 +55,11 @@ function heloGroundAttitudeC(h,lift01=0){const F=heloFacilityA(),k=F.deckSlope*h
 // the folded tail has cleared the rear wall; follow the measured flight deck.
 function heloGroundPathB(slot,u){
   const F=heloFacilityA(),sign=slot===0?-1:1,bay=heloBayCenterI(slot,F)-F.foldedCenterOffsetM,alignX=F.hangarXM-(F.alignDistanceM??5);
-  const c1=F.curveControl1XM??-59.8,c2=F.curveControl2XM??-61.9;let x,y,yaw=0;
-  if(u<.1){const t=heloSmoothA(u/.1);x=F.hangarXM+(alignX-F.hangarXM)*t;y=heloParkLateralC(slot);}
-  else if(u<.2){const t=heloSmoothA((u-.1)/.1);x=alignX;y=heloParkLateralC(slot)+(bay-heloParkLateralC(slot))*t;}
-  else if(u<.62){const t=heloSmoothA((u-.2)/.42);x=alignX+(F.throatClearXM-alignX)*t;y=bay;}
-  else{const t=heloSmoothA((u-.62)/.38),v=1-t;x=v*v*v*F.throatClearXM+3*v*v*t*c1+3*v*t*t*c2+t*t*t*F.deckXM;
+  const c1=F.curveControl1XM??-59.8,c2=F.curveControl2XM??-61.9,[a,b,c]=F.traversePhases01?.[slot]??[.1,.2,.62];let x,y,yaw=0;
+  if(u<a){const t=heloSmoothA(u/a);x=F.hangarXM+(alignX-F.hangarXM)*t;y=heloParkLateralC(slot);}
+  else if(u<b){const t=heloSmoothA((u-a)/(b-a));x=alignX;y=heloParkLateralC(slot)+(bay-heloParkLateralC(slot))*t;}
+  else if(u<c){const t=heloSmoothA((u-b)/(c-b));x=alignX+(F.throatClearXM-alignX)*t;y=bay;}
+  else{const t=heloSmoothA((u-c)/(1-c)),v=1-t;x=v*v*v*F.throatClearXM+3*v*v*t*c1+3*v*t*t*c2+t*t*t*F.deckXM;
     y=bay*(v*v*v+3*v*v*t);const dx=3*v*v*(c1-F.throatClearXM)+6*v*t*(c2-c1)+3*t*t*(F.deckXM-c2),dy=-6*bay*v*t;yaw=heloAngleA(Math.atan2(dy,dx)-Math.PI);}
   return {x,y,z:heloGroundHeightC(x),yaw};
 }
