@@ -1,0 +1,49 @@
+name: Helicopter F1 manual OTH and after-action journal (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  NODE_PATH: ${{ github.workspace }}/docs/performance/F/node_modules
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund
+          pip install -r docs/helicopter/F/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HELI_F1.txt
+          sha256sum -c docs/helicopter/H/REPOSITORY_SUPPORT.sha256
+          python docs/helicopter/H/build.py archive/v48/WIP_HELI_E1/Aegis_SIM_v48_WIP_HELI_E1.html /tmp/HELI_F1.html
+          python docs/helicopter/H/verify_static.py archive/v48/WIP_HELI_E1/Aegis_SIM_v48_WIP_HELI_E1.html Aegis_SIM_v48_WIP_HELI_F1.html artifacts/static
+          node docs/helicopter/H/verify_policy.cjs /tmp/HELI_F1.main.js artifacts/policy
+          python docs/helicopter/H/verify_native.py Aegis_SIM_v48_WIP_HELI_F1.html artifacts/native
+          python docs/helicopter/H/verify_helo.py Aegis_SIM_v48_WIP_HELI_F1.html artifacts/helo
+          python docs/helicopter/H/verify_mixed.py Aegis_SIM_v48_WIP_HELI_F1.html artifacts/mixed
+          python docs/helicopter/H/verify_ui_clock.py Aegis_SIM_v48_WIP_HELI_F1.html artifacts/ui-clock
+          python docs/helicopter/F/verify_regression.py archive/v48/WIP_HELI_E1/Aegis_SIM_v48_WIP_HELI_E1.html Aegis_SIM_v48_WIP_HELI_F1.html artifacts/regression --baseline-only
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helicopter-f1-${{ github.sha }}
+          path: artifacts
+          if-no-files-found: error

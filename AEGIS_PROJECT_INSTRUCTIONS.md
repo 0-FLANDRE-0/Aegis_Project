@@ -187,9 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 헬기 WIP HELI_E1
+### 최신 개발 기준 — 헬기 WIP HELI_F1
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_E1.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_E1.md), [SHA](SHA256SUMS_v48_WIP_HELI_E1.txt), [계산·재현](docs/helicopter/G/README.md), [수정 전후 표](docs/helicopter/G/evidence/final/comparison/performance-comparison.md), [검증](docs/helicopter/G/evidence/verification-summary.json). HELI_E ff3eceb 위 `helicopter-radar-e1`이다.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_F1.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F1.md), [SHA](SHA256SUMS_v48_WIP_HELI_F1.txt), [운용·재현](docs/helicopter/H/README.md), [검증](docs/helicopter/H/evidence/verification-summary.json). HELI_E1 `69a5e38` 위 `helicopter-harpoon-f1`.
+- 순수 offboard 수동 하푼을 트랙 품질·10초·2σ 바스켓으로 판단한다. active/foreign native·자동 발사관·FLEET wrapper에 일관 적용하며 기존 식별/수동 권한·AI local 조건·사거리·손상·좌표/경로를 보존한다.
+- 식별 근거 LOCAL_SENSOR/OPERATOR_ONLY/ISAR 예약과 DEBUG 교전 로그64건. 실제 종료 대상 범주는 AFTER_ACTION_TRUTH 사후 기록만 사용하며 전술·센서·AI는 읽지 않는다. 발사 뒤 DL/업데이트 없음.
+- 사용자 결정에 따라 CG-52 헬기는 다음 단계다. 현재 DDG 헬기/CG 하푼 분리는 유지한다. 실제 APS 보고를 CG 수신기에 진단 재생했으며 플레이 전단 공유를 추가한 것은 아니다.
+- 원본16,075,722bytes, E1 대비1,500bytes 증가. 209/209 PASS /7 suites, 오류0. 전체 원본 직접 업로드·독립 readback, E1 네 파일 동일 bytes/blob archive. stable/과거 소스·자산 보존, Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_E1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_E1/Aegis_SIM_v48_WIP_HELI_E1.html), [상태](archive/v48/WIP_HELI_E1/AEGIS_PLAN_STATUS_v48_WIP_HELI_E1.md), [SHA](archive/v48/WIP_HELI_E1/SHA256SUMS_v48_WIP_HELI_E1.txt), [계산·재현](docs/helicopter/G/README.md), [수정 전후 표](docs/helicopter/G/evidence/final/comparison/performance-comparison.md), [검증](docs/helicopter/G/evidence/verification-summary.json). HELI_E ff3eceb 위 `helicopter-radar-e1`이다.
 - 빔 체류 내 PRF×체류시간 펄스 수와 주파수 민첩성의 부분 상관 이득을 클러터에만 적용한다. 신호·열잡음 추가 배율 없이 PERI 앵커를 다시 맞춘다. 주사 간 이진 M-of-N은 그대로다. 모두 SIM_TUNED다.
 - SHORT 소형152m·SS3의12.5km, LONG 소형25m·잔잔3km 이하, LONG 중형3000m·Hs3m의50km, PERI35km를 함께 맞췄다. 계기거리 limiter와 전체288조건 전후 표를 제공한다.
 - 원본16,074,222bytes, E 대비2,277bytes 증가. 최종152/152 PASS /6 suites. 실제 RF·펄스 이득 무중복·오경보·배속·기존 양함종 전투를 확인했다. 구체적인 수치와 한계는 상태/증거를 따른다.
