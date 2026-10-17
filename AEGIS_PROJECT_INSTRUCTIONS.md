@@ -187,9 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 헬기 WIP HELI_CG_A
+### 최신 개발 기준 — 헬기 WIP HELI_CG_B
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_CG_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_CG_A.txt), [운용·재현](docs/helicopter/I/README.md), [검증](docs/helicopter/I/evidence/verification-summary.json). HELI_F1 `bd0e88a` 위 `helicopter-cg-a`.
+- [수정 실행 HTML](Aegis_SIM_v48_WIP_HELI_CG_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_CG_B.txt), [운용](docs/helicopter/J/README.md), [검증](docs/helicopter/J/evidence/verification-summary.json). HELI_CG_A `3ce88eb` 위 `helicopter-cg-b`.
+- **A의 후벽 전체 개구·상부 접힘 문은 형상 판단 오류였다.** B는 원본 좌현 문/해치/창1456삼각형을 측방 이동하고 우현 벽·세로 패널·상부 창/플랫폼·관제 구조물을 복원·보존한다. 원본 모델 치수/문 이동량·내부는 SIM_TUNED다.
+- 두 기는 나란히 격납하고 좁은 좌현 출구를 공유한다. H2 단독 요청은 H1 통로 이탈까지 대기하며, H1을 무단 출격시키지 않는다. 기존120초/한 패드/DDG 두 문·출격/비행·센서·Hawklink·IFF·OTH 정책은 유지한다.
+- CG J1 저장: 유효 I1만 migration, 공중 기체 보존/주문된 지상 기체 재대기. DDG E1 유지. 닫힌 후방75ray 원본 일치/열림 중 우현 보존/202포즈 무간섭/실제 OTH 포함227/227 PASS /8 suites, 오류0.
+- 원본16,079,980bytes, A 대비1,644bytes 증가. A 네 파일과 과거 A–I/stable 보존, 전체 원본 직접 업로드·독립 readback. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_CG_A (형상 교정 전 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html), [상태](archive/v48/WIP_HELI_CG_A/AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_A.md), [SHA](archive/v48/WIP_HELI_CG_A/SHA256SUMS_v48_WIP_HELI_CG_A.txt), [운용·재현](docs/helicopter/I/README.md), [검증](docs/helicopter/I/evidence/verification-summary.json). HELI_F1 `bd0e88a` 위 `helicopter-cg-a`.
 - CG: **하나의 공용 격납고·단일 출입구·두 주기 위치**. DDG: 기존 좌우 독립 문/출격 경로 보존. 시설 프로파일과 기체 slot/door index를 분리하고120초 준비/하나의 공용 패드를 같은 시스템으로 운용한다. CG 문 기구·내부 치수는 SIM_TUNED다.
 - CG 기존 겹친 후벽·개구 부속을 제거하고 절차적 내부/상부 접힘 문을 추가했다. 원본 모델/텍스처는 재사용하며 새 시각 내부를 피해·침수 구획 재저작으로 취급하지 않는다.
 - DDG E1 저장 유지/CG I1 단일 문 저장, 이전 CG 빈 재고는 두 격납 기체로만 migration. 기존 SI/fixed60Hz/read-only 렌더/IFF·Hawklink·F1 OTH 권한/무DL 정책 유지.

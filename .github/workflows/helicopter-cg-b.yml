@@ -1,0 +1,50 @@
+name: Helicopter CG original port sliding door and facade restoration (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  NODE_PATH: ${{ github.workspace }}/docs/performance/F/node_modules
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund
+          pip install -r docs/helicopter/F/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HELI_CG_B.txt
+          sha256sum -c docs/helicopter/J/REPOSITORY_SUPPORT.sha256
+          python docs/helicopter/J/build.py archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html /tmp/HELI_CG_B.html
+          python docs/helicopter/J/verify_static.py archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/static
+          python docs/helicopter/J/verify_native.py archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/native
+          python docs/helicopter/J/verify_clearance.py Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/clearance
+          python docs/helicopter/J/verify_visual.py Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/visual
+          python docs/helicopter/J/verify_ui.py Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/ui
+          python docs/helicopter/I/verify_live_oth.py Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/live-oth
+          python docs/helicopter/I/verify_iff.py Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/iff
+          python docs/helicopter/F/verify_regression.py archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html Aegis_SIM_v48_WIP_HELI_CG_B.html artifacts/regression --baseline-only
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helicopter-cg-b-${{ github.sha }}
+          path: artifacts
+          if-no-files-found: error
