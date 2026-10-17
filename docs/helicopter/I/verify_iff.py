@@ -1,0 +1,14 @@
+"""CG local radar + measured AIR IFF protection on canonical validated flight pose."""
+import argparse,hashlib,json,sys
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT/'docs/helicopter/H'))
+from browser import load_fleet,launch
+TEST=r'''()=>{const a=__HELO__,d=__NAVAL_SIM_DIAG__,diag=__HELO_SENSOR_STAGE_A_E__,checks={},s=d.exportOperationalStateV48Wip11A(),h=s.ship.aviation.aircraft[0];Object.assign(h,{state:'ARRIVED_HOVER',visible:true,onboard:false,stateTick:0,targetAltitudeM:50,positionM:{x:4000,y:0,z:50},departPointM:{x:4000,y:0,z:50},holdPointM:{x:4000,y:0,z:50},engine01:[1,1],rotor01:1,blades01:1,tail01:1});const v=d.validateOperationalStateV48Wip11B(s);if(!v.ok)throw Error(JSON.stringify(v));d.importOperationalStateV48Wip11A(s);d.setTerrainDiagBypass(true);d.wip13a3SetManualWeather({hsM:.1,windSpeedMps:0,precipitation01:0});d.setEmcon(false);d.wip119SetMode('AUTO');d.stepTicks(1200);const on=diag.snapshot(),tr=on.ships[0].tracks.find(t=>t.identity==='FRIEND'),guard=tr?diag.nativeGuardProbe(tr.trackId):null;checks.physicalRegistration=on.physicalAirborneCount===1&&on.ciwsSourceCount===1;checks.measuredIffResponse=on.ships[0].iff.associated>0&&!!tr;checks.autoWeaponGuard=!!guard?.ok&&guard.calls.every(q=>!q.ok)&&guard.ciws.every(q=>!q.releaseAllowed)&&!d.a3EngagementGate(tr.trackId,true).ok&&guard.inventoryAndOrdnanceUnchanged;
+ a.command(h.id,'SET_IFF',{enabled:false});d.stepTicks(600);const off=diag.snapshot(),tracks=d.observerFacadeC(d.exportOperationalStateV48Wip11A().shipId).tracks.filter(t=>Math.hypot(t.positionM.x-4000,t.positionM.y)<500);checks.offExpiresFriendlyEvidence=off.ships[0].tracks.length===0;checks.offUnknownByExistingPolicy=tracks.some(t=>t.identity==='UNKNOWN');a.command(h.id,'SET_IFF',{enabled:true});d.stepTicks(300);const restored=diag.snapshot();checks.onRestoresMeasuredFriend=restored.ships[0].tracks.some(t=>t.identity==='FRIEND');checks.core=!__CORE_SELFTEST_FAILURES__.length;return {checks,on,off,tracks,restored,guard};}'''
+def main():
+ p=argparse.ArgumentParser();p.add_argument('html',type=Path);p.add_argument('out',type=Path);a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();errors=[]
+ with sync_playwright()as pw:
+  b=launch(pw);x=load_fleet(b,raw,own='CG_52_LATE_TICONDEROGA',errors=errors);x.evaluate('window.requestAnimationFrame=()=>0');out=x.evaluate(TEST);b.close()
+ out.update(errors=errors,htmlSha256=hashlib.sha256(raw).hexdigest());out['pass']=all(out['checks'].values())and not errors;(a.out/'iff.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n');print(json.dumps({'pass':out['pass'],'checks':len(out['checks']),'failed':[k for k,v in out['checks'].items()if not v],'errors':errors}));raise SystemExit(0 if out['pass']else 1)
+if __name__=='__main__':main()
