@@ -187,9 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 헬기 WIP HELI_F1
+### 최신 개발 기준 — 헬기 WIP HELI_CG_A
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_F1.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F1.md), [SHA](SHA256SUMS_v48_WIP_HELI_F1.txt), [운용·재현](docs/helicopter/H/README.md), [검증](docs/helicopter/H/evidence/verification-summary.json). HELI_E1 `69a5e38` 위 `helicopter-harpoon-f1`.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_CG_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_A.md), [SHA](SHA256SUMS_v48_WIP_HELI_CG_A.txt), [운용·재현](docs/helicopter/I/README.md), [검증](docs/helicopter/I/evidence/verification-summary.json). HELI_F1 `bd0e88a` 위 `helicopter-cg-a`.
+- CG: **하나의 공용 격납고·단일 출입구·두 주기 위치**. DDG: 기존 좌우 독립 문/출격 경로 보존. 시설 프로파일과 기체 slot/door index를 분리하고120초 준비/하나의 공용 패드를 같은 시스템으로 운용한다. CG 문 기구·내부 치수는 SIM_TUNED다.
+- CG 기존 겹친 후벽·개구 부속을 제거하고 절차적 내부/상부 접힘 문을 추가했다. 원본 모델/텍스처는 재사용하며 새 시각 내부를 피해·침수 구획 재저작으로 취급하지 않는다.
+- DDG E1 저장 유지/CG I1 단일 문 저장, 이전 CG 빈 재고는 두 격납 기체로만 migration. 기존 SI/fixed60Hz/read-only 렌더/IFF·Hawklink·F1 OTH 권한/무DL 정책 유지.
+- 206/206 PASS /8 suites, 오류0. 양쪽 출격 순서/202포즈 무간섭/실제 CG 헬기→APS→Hawklink→순수OFFBOARD 수동 하푼 발사/DDG 및 전투 회귀를 확인했다. 원본16,078,336bytes, F1 대비2,614bytes 증가.
+- 전체 원본 직접 업로드·독립 readback, F1 네 파일 동일 bytes/blob archive. stable/과거 A–H 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 없음. 착함/연료/타함 항공 AI/헬기 무장 등은 후속.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_F1/Aegis_SIM_v48_WIP_HELI_F1.html), [상태](archive/v48/WIP_HELI_F1/AEGIS_PLAN_STATUS_v48_WIP_HELI_F1.md), [SHA](archive/v48/WIP_HELI_F1/SHA256SUMS_v48_WIP_HELI_F1.txt), [운용·재현](docs/helicopter/H/README.md), [검증](docs/helicopter/H/evidence/verification-summary.json). HELI_E1 `69a5e38` 위 `helicopter-harpoon-f1`.
 - 순수 offboard 수동 하푼을 트랙 품질·10초·2σ 바스켓으로 판단한다. active/foreign native·자동 발사관·FLEET wrapper에 일관 적용하며 기존 식별/수동 권한·AI local 조건·사거리·손상·좌표/경로를 보존한다.
 - 식별 근거 LOCAL_SENSOR/OPERATOR_ONLY/ISAR 예약과 DEBUG 교전 로그64건. 실제 종료 대상 범주는 AFTER_ACTION_TRUTH 사후 기록만 사용하며 전술·센서·AI는 읽지 않는다. 발사 뒤 DL/업데이트 없음.
 - 사용자 결정에 따라 CG-52 헬기는 다음 단계다. 현재 DDG 헬기/CG 하푼 분리는 유지한다. 실제 APS 보고를 CG 수신기에 진단 재생했으며 플레이 전단 공유를 추가한 것은 아니다.
