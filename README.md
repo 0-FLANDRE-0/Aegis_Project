@@ -1,8 +1,16 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 헬기 WIP HELI_CG_B
+## 최신 개발 기준 — 헬기 WIP HELI_F2_0
 
-- [수정 실행 HTML](Aegis_SIM_v48_WIP_HELI_CG_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_CG_B.txt), [운용](docs/helicopter/J/README.md), [검증](docs/helicopter/J/evidence/verification-summary.json). HELI_CG_A `3ce88eb` 위 `helicopter-cg-b`.
+- [0번 단독 실행 HTML](Aegis_SIM_v48_WIP_HELI_F2_0.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md), [SHA](SHA256SUMS_v48_WIP_HELI_F2_0.txt), [운용](docs/helicopter/K/README.md), [검증](docs/helicopter/K/evidence/verification-summary.json). CG_B `273c36f` 위 `helicopter-emcon-f2-0`.
+- EMCON 중 ARM LOCK은 표시 트랙을 지정하고 SPY mode=TWS/pdTracking=false를 유지한다. ON은 PD만 종료·지정 유지, OFF는 기존 SPY 섹터 안이면 PD. MODE/진단/network 전환에서도 같다.
+- 하푼 UI를 지정 직후 갱신하고 기존 F1 관문/무DL·Hawklink 독립·VLS/3D AUTO/AUTO TGT/SPG/AUTO 차단을 유지한다. 로그 launchEmcon은 실제 커밋 시점의 함 상태다.
+- 실제 CG 헬기→Hawklink→ARM 지정→SPY 물리 방사원/빔 작업0→하푼→launchEmcon=true, 모바일/데스크톱 및 기존 전투 포함124/124 PASS /4 suites, 오류0.
+- 원본16,081,768bytes, CG_B 대비1,788bytes 증가. 기존 파일/과거 소스 보존·직접 업로드·독립 readback. **0번 별도 보고 뒤 ISAR1번 이후 진행**이며 이 HTML에는 ISAR가 없다. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+## 직전 개발 기준 — 헬기 WIP HELI_CG_B (당시 기록)
+
+- [수정 실행 HTML](archive/v48/WIP_HELI_CG_B/Aegis_SIM_v48_WIP_HELI_CG_B.html), [상태](archive/v48/WIP_HELI_CG_B/AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_B.md), [SHA](archive/v48/WIP_HELI_CG_B/SHA256SUMS_v48_WIP_HELI_CG_B.txt), [운용](docs/helicopter/J/README.md), [검증](docs/helicopter/J/evidence/verification-summary.json). HELI_CG_A `3ce88eb` 위 `helicopter-cg-b`.
 - **A의 후벽 전체 개구·상부 접힘 문은 형상 판단 오류였다.** B는 원본 좌현 문/해치/창1456삼각형을 측방 이동하고 우현 벽·세로 패널·상부 창/플랫폼·관제 구조물을 복원·보존한다. 원본 모델 치수/문 이동량·내부는 SIM_TUNED다.
 - 두 기는 나란히 격납하고 좁은 좌현 출구를 공유한다. H2 단독 요청은 H1 통로 이탈까지 대기하며, H1을 무단 출격시키지 않는다. 기존120초/한 패드/DDG 두 문·출격/비행·센서·Hawklink·IFF·OTH 정책은 유지한다.
 - CG J1 저장: 유효 I1만 migration, 공중 기체 보존/주문된 지상 기체 재대기. DDG E1 유지. 닫힌 후방75ray 원본 일치/열림 중 우현 보존/202포즈 무간섭/실제 OTH 포함227/227 PASS /8 suites, 오류0.
