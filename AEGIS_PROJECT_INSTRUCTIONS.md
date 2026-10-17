@@ -187,9 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 헬기 WIP HELI_F2_0
+### 최신 개발 기준 — 헬기 WIP HELI_F2
 
-- [0번 단독 실행 HTML](Aegis_SIM_v48_WIP_HELI_F2_0.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md), [SHA](SHA256SUMS_v48_WIP_HELI_F2_0.txt), [운용](docs/helicopter/K/README.md), [검증](docs/helicopter/K/evidence/verification-summary.json). CG_B `273c36f` 위 `helicopter-emcon-f2-0`.
+- [실행 HTML](Aegis_SIM_v48_WIP_HELI_F2.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F2.md), [SHA](SHA256SUMS_v48_WIP_HELI_F2.txt), [운용](docs/helicopter/L/README.md), [검증](docs/helicopter/L/evidence/verification-summary.json). 별도0번 `1b26a0f` 뒤 `helicopter-isar-f2`.
+- AIR ISAR→지도 트랙: 공통 RF 물리→잡음 특징→함급 후보. 고정 방위16초, 탐색/M-of-N 정지, 종료/취소 후 직전 모드·한 주사 전환. 실제 표적 ID/프로파일로 분류하지 않는다.
+- ISAR 판독만 버퍼 예외. 수신은 식별/트랙 나이를 바꾸지 않고 운용자 식별 때 근거를 복사한다. 로그 ISAR 후보/신뢰도/경과시간·launchEmcon, 종료 AFTER_ACTION_TRUTH. 기존 F1·무DL·EMCON 통신 독립·함선/헬기 모델 보존.
+- 실제 CG LONG40km→ISAR→HOSTILE→무방사 지정→하푼→중립 상선 피격, 실제 DDG/CG RF, 모바일/3D/배율/기존 전투 포함227/227 PASS /8 suites, 오류0. 진단은 SIM_TUNED이며 실제 장비 성능 아님.
+- 원본16,099,946bytes,0번 대비18,178bytes 증가.0번 네 파일과 A–K/stable 보존·직접 업로드·독립 readback. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F2_0 (0번 단독 당시 기록)
+
+- [0번 단독 실행 HTML](archive/v48/WIP_HELI_F2_0/Aegis_SIM_v48_WIP_HELI_F2_0.html), [상태](archive/v48/WIP_HELI_F2_0/AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md), [SHA](archive/v48/WIP_HELI_F2_0/SHA256SUMS_v48_WIP_HELI_F2_0.txt), [운용](docs/helicopter/K/README.md), [검증](docs/helicopter/K/evidence/verification-summary.json). CG_B `273c36f` 위 `helicopter-emcon-f2-0`.
 - EMCON 중 ARM LOCK은 표시 트랙을 지정하고 SPY mode=TWS/pdTracking=false를 유지한다. ON은 PD만 종료·지정 유지, OFF는 기존 SPY 섹터 안이면 PD. MODE/진단/network 전환에서도 같다.
 - 하푼 UI를 지정 직후 갱신하고 기존 F1 관문/무DL·Hawklink 독립·VLS/3D AUTO/AUTO TGT/SPG/AUTO 차단을 유지한다. 로그 launchEmcon은 실제 커밋 시점의 함 상태다.
 - 실제 CG 헬기→Hawklink→ARM 지정→SPY 물리 방사원/빔 작업0→하푼→launchEmcon=true, 모바일/데스크톱 및 기존 전투 포함124/124 PASS /4 suites, 오류0.

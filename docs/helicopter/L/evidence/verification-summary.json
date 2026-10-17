@@ -1,0 +1,93 @@
+{
+  "schema": "AEGIS_HELI_F2_VERIFICATION",
+  "pass": true,
+  "baseCommit": "1b26a0f6bbbe9056fbf1ef64f70cf680220306e3",
+  "sourceCommit": "aa9dcf306453f53ae6592f0c0408209a565a7752",
+  "html": "Aegis_SIM_v48_WIP_HELI_F2.html",
+  "htmlSha256": "100b12c24355666627c76f7e79c88b98a1a7a963e9bb777ea8f9f7e9c908bb94",
+  "bytes": 16099946,
+  "addedBytes": 18178,
+  "suites": [
+    {
+      "suite": "static",
+      "checks": 43,
+      "pass": true,
+      "report": "final/static/static.json"
+    },
+    {
+      "suite": "model",
+      "checks": 21,
+      "pass": true,
+      "report": "final/model/model.json"
+    },
+    {
+      "suite": "native",
+      "checks": 36,
+      "pass": true,
+      "report": "final/native/native.json"
+    },
+    {
+      "suite": "classes",
+      "checks": 8,
+      "pass": true,
+      "report": "final/classes/classes.json"
+    },
+    {
+      "suite": "ui",
+      "checks": 38,
+      "pass": true,
+      "report": "final/ui/ui.json"
+    },
+    {
+      "suite": "clock",
+      "checks": 12,
+      "pass": true,
+      "report": "final/clock/clock.json.gz"
+    },
+    {
+      "suite": "emcon",
+      "checks": 27,
+      "pass": true,
+      "report": "final/emcon/native.json"
+    },
+    {
+      "suite": "regression",
+      "checks": 42,
+      "pass": true,
+      "report": "final/regression/baseline-comparison.json.gz"
+    }
+  ],
+  "checks": 227,
+  "browserPageErrors": 0,
+  "archive": [
+    {
+      "oldPath": "Aegis_SIM_v48_WIP_HELI_F2_0.html",
+      "newPath": "archive/v48/WIP_HELI_F2_0/Aegis_SIM_v48_WIP_HELI_F2_0.html",
+      "sha256": "abb0423050d974d878714510cf5356ad9913b4371d04ccc757602782e8d74b86"
+    },
+    {
+      "oldPath": "AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md",
+      "newPath": "archive/v48/WIP_HELI_F2_0/AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md",
+      "sha256": "93775c4b0d675cfdeea97558caedd6dfa66d56669a99ace565ef8447b6c2e825"
+    },
+    {
+      "oldPath": "SHA256SUMS_v48_WIP_HELI_F2_0.txt",
+      "newPath": "archive/v48/WIP_HELI_F2_0/SHA256SUMS_v48_WIP_HELI_F2_0.txt",
+      "sha256": "bb29956e00b58386c86016b346356cae73e249a6d3534c1bd074e5e094cb7d04"
+    },
+    {
+      "oldPath": ".github/workflows/helicopter-f2-0.yml",
+      "newPath": "archive/v48/WIP_HELI_F2_0/helicopter-f2-0.yml",
+      "sha256": "1ccb4ce97a414fe6f83aa73f0f07d9d2719b7723a554b6fdf3abe63a6d675e40"
+    }
+  ],
+  "limits": [
+    "All8 suites use the exact final HTML or source validated by exact reproducible build.",
+    "Software Chromium/SwiftShader, no hardware FPS claim.",
+    "First CG launch/native40km hit is full simulation. Outage and class/UI/clock fixtures explicitly stage physical poses; no teleport control added.",
+    "Diagnostics are SIM_TUNED measurements/confusions, not certified APS-153 accuracy.",
+    "ISAR evidence never freshens tracks. Existing10s/INS basket gates may require resumed search reports before release."
+  ],
+  "actionsDispatched": false,
+  "mainMerged": false
+}

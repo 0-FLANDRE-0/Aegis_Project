@@ -1,0 +1,46 @@
+name: Helicopter F2 ISAR identification (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  NODE_PATH: ${{ github.workspace }}/docs/performance/F/node_modules
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund
+          pip install -r docs/helicopter/F/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_HELI_F2.txt
+          sha256sum -c docs/helicopter/L/REPOSITORY_SUPPORT.sha256
+          node docs/helicopter/L/library.cjs
+          git diff --exit-code -- docs/helicopter/L/library.json
+          python docs/helicopter/L/build.py archive/v48/WIP_HELI_F2_0/Aegis_SIM_v48_WIP_HELI_F2_0.html /tmp/HELI_F2.html
+          cmp /tmp/HELI_F2.html Aegis_SIM_v48_WIP_HELI_F2.html
+          python docs/helicopter/L/run_suite.py archive/v48/WIP_HELI_F2_0/Aegis_SIM_v48_WIP_HELI_F2_0.html Aegis_SIM_v48_WIP_HELI_F2.html artifacts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: helicopter-isar-f2-${{ github.sha }}
+          path: artifacts
+          if-no-files-found: error
