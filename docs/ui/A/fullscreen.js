@@ -10,7 +10,7 @@ window.__UI_A_SETTINGS__=(()=>{
  function save(){try{window.localStorage.setItem(KEY,JSON.stringify({schema:1,scale,landscape}));}catch(_){scale=100;}sync();}
  async function lockOrientation(){if(landscape&&isFullscreenActive())try{await window.screen.orientation?.lock?.('landscape');}catch(_){}}
  function mount(host,suffix){const row=document.createElement('div');row.className='ui-settings-a';row.id='uiSettingsA-'+suffix;
-  const fs=document.createElement('button');fs.type='button';fs.textContent='⛶ 전체화면';fs.addEventListener('click',()=>toggleFullscreen());
+  const existing=suffix==='system'?document.getElementById('fullscreenBtn'):null,fs=existing??document.createElement('button');if(!existing){fs.type='button';fs.textContent='⛶ 전체화면';fs.addEventListener('click',()=>toggleFullscreen());}
   const label=document.createElement('label');label.textContent='UI 크기 ';const select=document.createElement('select');select.dataset.uiScaleA='';select.setAttribute('aria-label','UI 크기');for(const n of allowed){const o=document.createElement('option');o.value=n;o.textContent=n+'%';select.append(o);}select.value=String(scale);select.addEventListener('change',()=>{scale=Number(select.value);save();});label.append(select);
   const orientation=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.checked=landscape;check.dataset.uiLandscapeA='';check.addEventListener('change',()=>{landscape=check.checked;save();});orientation.append(check,document.createTextNode(' 가로 고정'));row.append(fs,label,orientation);host.append(row);sync();return row;}
  document.addEventListener('fullscreenchange',()=>{const now=isFullscreenActive();if(wasFullscreen&&!now)exited=true;wasFullscreen=now;});

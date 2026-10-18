@@ -8,7 +8,7 @@ window.__UI_A__=(()=>{
  const button=(text,fn,title=text)=>{const e=make('button','ui-button-a',text);e.type='button';e.title=title;e.addEventListener('click',fn);return e;};
  const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};};
  function isolate(e){for(const name of ['pointerdown','pointermove','pointerup','pointercancel','mousedown','mouseup','click','dblclick','touchstart','touchmove','touchend','wheel','contextmenu'])e.addEventListener(name,event=>event.stopPropagation(),{passive:name==='wheel'||name.startsWith('touch')});}
- function bring(q){q.el.style.zIndex=++z;}
+ function bring(q){if(q.id!=='engage')q.el.style.zIndex=++z;}
  function bounds(){const v=AEGIS_VIEWPORT.layout,b=bar.getBoundingClientRect();return {x:v.x,y:v.y,w:v.w,h:Math.max(38,Math.min(v.y+v.h,b.y)-v.y)};}
  function key(){const b=AEGIS_VIEWPORT.layout;return (b.w>=b.h?'landscape':'portrait')+'-'+(b.w<700?'small':b.w<1100?'medium':'large');}
  function writeBox(q){const s=settings.scale;q.el.style.left=q.x/s+'px';q.el.style.top=q.y/s+'px';q.el.style.width=q.w/s+'px';q.el.style.height=q.h/s+'px';q.el.style.opacity=q.opacity;q.el.classList.toggle('collapsed',q.collapsed);q.el.hidden=!q.open;q.el.dataset.dock=q.dock||'';if(q.open&&q.dock&&!q.collapsed)AEGIS_VIEWPORT.registerPanel({id:q.el.id,edge:q.dock,screen:'both'});else AEGIS_VIEWPORT.unregisterPanel(q.el.id);}
