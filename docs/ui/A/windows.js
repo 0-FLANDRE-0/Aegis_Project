@@ -4,6 +4,7 @@ window.__UI_A__=(()=>{
  const host=document.createElement('div');host.id='uiDesktopA';document.body.append(host);
  let z=910,layoutKey='',applying=false,lastStatus=-Infinity,savedTimer=0,presetName='',miniWas3D=false;
  const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+ const windowLayer=make('div','ui-windows-layer-a');windowLayer.id='uiWindowsLayerA';host.append(windowLayer);
  const button=(text,fn,title=text)=>{const e=make('button','ui-button-a',text);e.type='button';e.title=title;e.addEventListener('click',fn);return e;};
  const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height};};
  function isolate(e){for(const name of ['pointerdown','pointermove','pointerup','pointercancel','mousedown','mouseup','click','dblclick','touchstart','touchmove','touchend','wheel','contextmenu'])e.addEventListener(name,event=>event.stopPropagation(),{passive:name==='wheel'||name.startsWith('touch')});}
@@ -34,7 +35,7 @@ window.__UI_A__=(()=>{
   const q={id,el,header,body,menu,x:20,y:60,w:360,h:380,minW,minH,open:false,dock:'',collapsed:false,opacity:1,maximized:false};windows.set(id,q);
   const fold=button('▾',()=>{q.collapsed=!q.collapsed;if(!q.collapsed)q.h=q.restoreHeight??380;else q.restoreHeight=q.h;clampWindow(q);persist();},'접기 / 펼치기'),menuButton=button('≡',()=>{menu.hidden=!menu.hidden;bring(q);},'창 메뉴'),max=button('□',()=>{if(!q.maximized){q.restoreBox=serialize(q);q.dock='';q.collapsed=false;q.maximized=true;}else{q.maximized=false;Object.assign(q,q.restoreBox??{});}clampWindow(q);persist();},'최대화 / 복원'),shut=button('×',()=>close(q),'닫기');
   for(const [label,edge]of [['왼쪽 고정','left'],['오른쪽 고정','right'],['위쪽 고정','top'],['고정 해제','']])menu.append(button(label,()=>{dock(id,edge);menu.hidden=true;}));for(const opacity of [1,.85,.7])menu.append(button(Math.round(opacity*100)+'%',()=>{q.opacity=opacity;writeBox(q);menu.hidden=true;persist();}));
-  header.append(name,fold,menuButton,max,shut);body.append(content);const corner=make('div','ui-resize-a');corner.setAttribute('aria-label','창 크기 조절');el.append(header,body,menu,corner);host.append(el);isolate(el);el.addEventListener('pointerdown',()=>{bring(q);if(q.id!=='CIC'&&controlDeckActiveTabWip13C!==q.id)setControlDeckTabWip13C(q.id);},{capture:true});drag(q,header);drag(q,corner,true);AEGIS_VIEWPORT.observe(el);return q;
+  header.append(name,fold,menuButton,max,shut);body.append(content);const corner=make('div','ui-resize-a');corner.setAttribute('aria-label','창 크기 조절');el.append(header,body,menu,corner);windowLayer.append(el);isolate(el);el.addEventListener('pointerdown',()=>{bring(q);if(q.id!=='CIC'&&controlDeckActiveTabWip13C!==q.id)setControlDeckTabWip13C(q.id);},{capture:true});drag(q,header);drag(q,corner,true);AEGIS_VIEWPORT.observe(el);return q;
  }
  const bar=make('footer','ui-status-a');bar.id='uiStatusBarA';bar.setAttribute('aria-label','함정 상태 및 시간');host.append(bar);isolate(bar);
  const ship=button('',()=>{open('NAV');setControlDeckTabWip13C('NAV');});ship.id='uiShipA';const inventory=button('',()=>{open('ARM');setControlDeckTabWip13C('ARM');});inventory.id='uiInventoryA';inventory.setAttribute('aria-label','설치 무장 재고');

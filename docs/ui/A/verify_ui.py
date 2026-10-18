@@ -1,5 +1,5 @@
 """UI_A native browser A-D/G-J, with CSS-client geometry and real input."""
-import argparse,json,sys,math,random,time
+import argparse,json,sys,math,random,time,base64
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
@@ -9,6 +9,10 @@ INPUT='''()=>({view:__VIEWPORT_A__.snapshot().twoD,lock:__EMCON_DESIGNATION_F2__
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();checks={};rows=[];errors=[];records={}
  def ck(k,v):checks[k]=bool(v)
+ def capture(p,path):
+  session=p.context.new_cdp_session(p)
+  try:path.write_bytes(base64.b64decode(session.send('Page.captureScreenshot',{'format':'png','fromSurface':True,'captureBeyondViewport':False})['data']))
+  finally:session.detach()
  def settle(p,w,h):
   p.bring_to_front();p.set_viewport_size({'width':w,'height':h})
   try:p.wait_for_function('([w,h])=>Math.abs(AEGIS_VIEWPORT.raw.w-w)<.1&&Math.abs(AEGIS_VIEWPORT.raw.h-h)<.1',arg=[w,h],polling=50)
@@ -33,12 +37,12 @@ def main():
      ck(prefix+'.titles',all(not r['open']or r['title']['x']>=-.1 and r['title']['y']>=-.1 and r['title']['x']+r['title']['w']<=w+.1 and r['title']['y']+r['title']['h']<=bar['y']+.1 for r in q['s']['windows'].values()))
      ownxy=q['map']['ownship'];v=q['v']['twoD'];ce=math.hypot(ownxy['x']-v['cx'],ownxy['y']-v['cy']);ck(prefix+'.center',ce<=1)
      # The actual map route editor must invert the visible client transform.
-     p.evaluate("()=>{__UI_A__.close('NAV');__UI_A__.close('ARM');__UI_A__.close('CIC');__NAVAL_SIM_DIAG__.wip13cSetControlDeckTab('ARM');__UI_A__.close('ARM');}")
-     v=p.evaluate('AEGIS_VIEWPORT.twoD');xy={'x':v['cx']-.13*v['shortSide'],'y':v['cy']+.1*v['shortSide']};p.evaluate('__HARPOON_DIAG_A__.routeToggle()');p.mouse.click(xy['x'],xy['y']);draft=p.evaluate('__HARPOON_DIAG_A__.routeDraft()');err=None
+     p.evaluate("()=>{__UI_A__.close('NAV');__UI_A__.close('CIC');__NAVAL_SIM_DIAG__.wip13cSetControlDeckTab('ARM');__HARPOON_DIAG_A__.routeToggle();if(!__UI_A__.snapshot().windows.ARM.dock)__UI_A__.close('ARM');}");p.wait_for_timeout(350)
+     v=p.evaluate('AEGIS_VIEWPORT.twoD');xy={'x':v['cx']-.13*v['shortSide'],'y':v['cy']+.1*v['shortSide']};p.mouse.click(xy['x'],xy['y']);draft=p.evaluate('__HARPOON_DIAG_A__.routeDraft()');err=None
      if draft['pointsM']:
       point=draft['pointsM'][-1];project=p.evaluate('t=>__VIEWPORT_A__.worldToScreen(t.x*.0038,t.y*.0038)',point);err=math.hypot(project['x']-xy['x'],project['y']-xy['y'])
      if own.startswith('DDG'):
-      p.evaluate("()=>{document.getElementById('modeNavBtn').click();__UI_A__.close('NAV');}");p.wait_for_timeout(80);p.mouse.click(xy['x'],xy['y']);point=p.evaluate('__NAVAL_SIM_DIAG__.wip13cControlDeckSnapshot().state.routePoints.at(-1)');project=p.evaluate('t=>__VIEWPORT_A__.worldToScreen(t.x,t.y)',point);err=math.hypot(project['x']-xy['x'],project['y']-xy['y'])
+      p.evaluate("()=>{document.getElementById('modeNavBtn').click();__UI_A__.close('NAV');}");p.wait_for_timeout(350);v=p.evaluate('AEGIS_VIEWPORT.twoD');xy={'x':v['cx']-.13*v['shortSide'],'y':v['cy']+.1*v['shortSide']};p.mouse.click(xy['x'],xy['y']);point=p.evaluate('__NAVAL_SIM_DIAG__.wip13cControlDeckSnapshot().state.routePoints.at(-1)');project=p.evaluate('t=>__VIEWPORT_A__.worldToScreen(t.x,t.y)',point);err=math.hypot(project['x']-xy['x'],project['y']-xy['y'])
      ck(prefix+'.tap',err is not None and err<=2)
      if own.startswith('CG'):p.evaluate('__HARPOON_DIAG_A__.routeToggle()')
      rows.append({'profile':own,'scale':scale,'size':[w,h],'barHeightPx':bar['h'],'centerErrorPx':ce,'tapErrorPx':err,'inventory':q['s']['inventory']});p.evaluate("__UI_A__.preset(__UI_A__.snapshot().preset)")
@@ -63,6 +67,9 @@ def main():
      box=p.locator(selector).bounding_box();x=box['x']+min(35,box['width']*.15);y=box['y']+box['height']/2;before=p.evaluate(INPUT);p.mouse.move(x,y);p.mouse.down();p.mouse.move(x+15,y+9,steps=4);p.mouse.up();p.mouse.move(x,y);p.mouse.wheel(0,-100);p.locator(selector).evaluate("e=>{const t=[new Touch({identifier:1,target:e,clientX:20,clientY:30}),new Touch({identifier:2,target:e,clientX:100,clientY:30})];e.dispatchEvent(new TouchEvent('touchstart',{touches:t,bubbles:true,cancelable:true}));e.dispatchEvent(new TouchEvent('touchmove',{touches:t,bubbles:true,cancelable:true}));e.dispatchEvent(new TouchEvent('touchend',{touches:[],bubbles:true,cancelable:true}));}");p.wait_for_timeout(50);after=p.evaluate(INPUT)
      for q in [before,after]:q['view']={k:q['view'][k]for k in ['tacticalViewKm','pan']}
      ck('D.'+str(scale)+selector,before==after)
+   # Persistent chrome must stay above ordinary windows after repeated focus.
+   p.evaluate("()=>{for(let i=0;i<150;i++)__UI_A__.open(i%2?'NAV':'ARM');}");p.wait_for_timeout(100)
+   ck('widget.alwaysAboveWindows',p.locator('#wip14a14QuickEngage3D .ui-widget-handle-a').evaluate("e=>{const r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+20,r.y+r.height/2);return !!hit?.closest('#wip14a14QuickEngage3D')}"))
    # Time buttons, same exact handler, then the new pause path.
    for n in [1,4,8,16,64]:
     r=p.evaluate("n=>{document.querySelectorAll('.time-btn').forEach(e=>{if(Number(e.dataset.tw)===n)e.click()});const r=__UI_A__.snapshot().time;document.getElementById('uiPauseA').click();return r;}",n);ck('G.scale'+str(n),r['scale']==n)
@@ -73,9 +80,9 @@ def main():
    (a.out/'progress.json').write_text(json.dumps({'phase':'screenshots','rows':rows}));
    p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);}")
    for preset,size in [(preset,size)for preset in ['PC 가로','폰 가로','세로']for size in [(1400,900),(844,390),(390,844)]]:
-    settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);p.screenshot(path=str(a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'-'+str(size[0])+'x'+str(size[1])+'.png')))
+    settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);capture(p,a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'-'+str(size[0])+'x'+str(size[1])+'.png'))
    for size in [(1400,900),(390,844)]:
-    settle(p,*size);p.evaluate('async()=>{const v=__WIP148_3D_VIEW__;await v.open();v.c12ApplyPreset("LOW");v.render(performance.now());}');p.wait_for_timeout(600);p.screenshot(path=str(a.out/f'3d-{size[0]}x{size[1]}.png'));p.evaluate('__WIP148_3D_VIEW__.close()')
+    settle(p,*size);p.evaluate('async()=>{const v=__WIP148_3D_VIEW__;await v.open();v.c12ApplyPreset("LOW");v.render(performance.now());}');p.wait_for_timeout(600);capture(p,a.out/f'3d-{size[0]}x{size[1]}.png');p.evaluate('__WIP148_3D_VIEW__.close()')
    ck('core',p.evaluate('__CORE_SELFTEST_FAILURES__.length===0'));p.close();b.close()
  out={'pass':all(checks.values())and not errors,'checks':checks,'rows':rows,'records':records,'errors':errors};(a.out/'ui.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pass':out['pass'],'checks':len(checks),'failed':[k for k,v in checks.items()if not v],'errors':errors}));raise SystemExit(0 if out['pass']else 1)
 if __name__=='__main__':main()

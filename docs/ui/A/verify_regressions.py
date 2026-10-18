@@ -1,15 +1,32 @@
 """VP_A business assertions unchanged; navigate new containers for pointer tests."""
-import argparse,importlib.util,json,sys,subprocess,concurrent.futures
+import argparse,importlib.util,json,sys,subprocess,concurrent.futures,base64
 from pathlib import Path
 R=Path(__file__).resolve().parents[3]
 spec=importlib.util.spec_from_file_location('vp_reg',R/'docs/viewport/A/verify_regressions.py');vp=importlib.util.module_from_spec(spec);spec.loader.exec_module(vp)
 def install_navigation():
- from playwright.sync_api import Locator
+ from playwright.sync_api import Locator,Page
+ sys.path.insert(0,str(R/'docs/helicopter/H'));import browser,browser_g
+ def foreground_loader(original):
+  def load(*args,**kw):
+   p=original(*args,**kw);p.evaluate('async()=>{if(window.__UI_A__&&document.fullscreenElement)await document.exitFullscreen()}');p.bring_to_front();p.wait_for_timeout(200);return p
+  return load
+ browser.load_fleet=foreground_loader(browser.load_fleet);browser_g.load_fleet=foreground_loader(browser_g.load_fleet)
+ # Capture the already rendered surface directly. Playwright's extra animation-
+ # frame/font stabilization can time out under simultaneous SwiftShader runs.
+ # This is a read-only capture, with no clock/render/DOM mutation.
+ def screenshot(self,**kw):
+  session=self.context.new_cdp_session(self)
+  try:data=base64.b64decode(session.send('Page.captureScreenshot',{'format':'png','fromSurface':True,'captureBeyondViewport':False})['data'])
+  finally:session.detach()
+  if kw.get('path'):Path(kw['path']).write_bytes(data)
+  return data
+ Page.screenshot=screenshot
  original=Locator.click
  def click(self,*args,**kwargs):
   info={};reopen_air=False
   try:
-   info=self.evaluate('e=>({id:e.id,tab:e.dataset.tab,window:e.closest(".ui-window-a")?.id})',timeout=2000)
+   info=self.evaluate('e=>({id:e.id,tab:e.dataset.tab,arm:e.closest("[data-arm-group]")?.dataset.armGroup,window:e.closest(".ui-window-a")?.id})',timeout=2000)
+   if info.get('arm'):self.page.evaluate('g=>__NAVAL_SIM_DIAG__.wip13c3SetArmSubtab(g)',info['arm'])
    if info.get('id')=='c':
     reopen_air=self.page.evaluate("()=>{if(!window.__UI_A__)return false;const was=__UI_A__.snapshot().windows.AIR.open;for(const id of ['NAV','AIR','CIC'])__UI_A__.close(id);return was;}")
    if info.get('id','').startswith(('c14','c15')):self.page.evaluate("()=>{if(window.__UI_A__)for(const id of ['NAV','ARM','AIR','DEBUG','FLEET','CIC'])__UI_A__.close(id)}")
@@ -50,5 +67,5 @@ def main():
    if not start:continue
    print('RUN '+name,flush=True);p=subprocess.run([sys.executable,__file__,str(a.html),str(a.out/name),'--only',name],cwd=R);rows.append({'suite':name,'exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n')
    if p.returncode:raise SystemExit(p.returncode)
- p=subprocess.run([sys.executable,'docs/helicopter/F/verify_regression.py',str(R/'Aegis_SIM_v48_WIP_VP_A.html'),str(a.html),str(a.out/'paired-baseline'),'--baseline-only'],cwd=R);rows.append({'suite':'paired-baseline','exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n');raise SystemExit(p.returncode)
+ p=subprocess.run([sys.executable,'docs/helicopter/F/verify_regression.py',str((R/'Aegis_SIM_v48_WIP_VP_A.html')if(R/'Aegis_SIM_v48_WIP_VP_A.html').exists()else(R/'archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html')),str(a.html),str(a.out/'paired-baseline'),'--baseline-only'],cwd=R);rows.append({'suite':'paired-baseline','exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n');raise SystemExit(p.returncode)
 if __name__=='__main__':main()
