@@ -1,8 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — UI WIP UI_A
+## 최신 개발 기준 — 모바일 UI WIP UI_A1
 
-- [실행 HTML](Aegis_SIM_v48_WIP_UI_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_UI_A.md), [SHA](SHA256SUMS_v48_WIP_UI_A.txt), [검수·스크린샷](docs/ui/A/REPORT.md), [재현](docs/ui/A/README.md). VP_A `3afd0fc` 위 `ui-a`.
+- [실행 HTML](Aegis_SIM_v48_WIP_UI_A1.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_UI_A1.md), [SHA](SHA256SUMS_v48_WIP_UI_A1.txt), [수치·스크린샷](docs/ui/A1/REPORT.md), [재현](docs/ui/A1/README.md). UI_A `30428d6` 위 `ui-a1`.
+- 모바일 상태 바는 기본100%에서 세로42.84px·가로24px다. 모든 재고를 유지하고 창 목록/추가를 아이콘으로 압축했다. 창10px 글자·작은 기본 크기, 탭 전면화·제목줄 이동·겹침과 순서 저장을 제공한다. FIRE/LOCK 40px 보호 크기는 유지한다.
+- EMCON은 바로 전환한다. 교전 칩은 위쪽에 수동/반자동/자동 팝업을 표시하고 기존 canonical 조작 함수를 호출한다. 시뮬·센서·판정·발사 권한·게임 저장·모델은 유지한다.
+- **456/456 assertions /4 suites PASS, 페이지 오류0**. 36 화면/배율/함종 조합, 실제 창 조작·입력 격리·저장, native 탭 조작·위젯 발사 비교,120초 상태·pause/resume 동일. UI_A의1144건은 당시 기록이며 이번 합계에 넣지 않는다.
+- 원본18,029,844bytes (+6,522), SHA `fd7079e9154e8778f7f5a340e6102c8843930b9865d4dc1135714c4847cdc3b8`. UI_A 네 파일 동일 bytes/blob archive. 원본 전체 업로드·독립 원격 readback 기록은 docs/ui/A1/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 확대UI는 내용에 맞춰 높이가 늘어난다. 배치schema2는 예전 배치를 새 프리셋으로 시작하며 UI 크기 설정은 보존한다. 실폰 GPU/FPS 미측정, HUD/SPY·손상 창 편입/ARM 분리/지도 PIP는 UI_B.
+
+## 직전 개발 기준 — UI WIP UI_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_UI_A/Aegis_SIM_v48_WIP_UI_A.html), [상태](archive/v48/WIP_UI_A/AEGIS_PLAN_STATUS_v48_WIP_UI_A.md), [SHA](archive/v48/WIP_UI_A/SHA256SUMS_v48_WIP_UI_A.txt), [검수·스크린샷](docs/ui/A/REPORT.md), [재현](docs/ui/A/README.md). VP_A `3afd0fc` 위 `ui-a`.
 - 공용 하단 상태 바·창 6종·공용 교전 위젯·3D 방위 테이프, DOM 전용 UI 85/100/115/130%와 전체화면·가로 고정 설정. 기존 컨트롤은 같은 노드를 이동하며 센서·판정·발사 권한·게임 저장·모델을 보존한다.
 - **1144/1144 assertions / 24 suites PASS, 페이지 오류0**. DDG/CG × 9크기 × 3배율 54조합. 원래 127개 노드 연결·중복 id 0, 기존 420건 전체와 120초 상태·pause/resume 동일성 확인.
 - 원본18,023,322bytes (+20,368), SHA `a4b6825df6c28eb8f0747f73ec9469c90f277f96eb23e55be67298a6a1cab8e4`. VP_A 네 파일은 동일 bytes/blob archive. 전체 HTML 직접 업로드·원격 전체 readback. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
