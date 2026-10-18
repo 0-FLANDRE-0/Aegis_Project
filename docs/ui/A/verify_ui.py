@@ -22,12 +22,12 @@ def main():
    p=native_new_page(**kw);p.add_init_script("Element.prototype.requestFullscreen=()=>Promise.reject(Error('geometry fixture: fullscreen tested separately'))");return p
   b.new_page=geometry_page
   for own in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
-   p=load_fleet(b,raw,own=own,width=1400,height=900,errors=errors);p.wait_for_timeout(400)
+   p=load_fleet(b,raw,own=own,width=1400,height=900,errors=errors);p.wait_for_timeout(400);mobile_cdp=p.context.new_cdp_session(p)
    for scale in [100,85,130]:
     p.evaluate('n=>__UI_A__.setScale(n)',scale)
     for w,h in SIZES:
      settle(p,w,h)
-     if (w,h)in[(384,832),(832,384)]:p.context.new_cdp_session(p).send('Emulation.setDeviceMetricsOverride',{'width':w,'height':h,'deviceScaleFactor':2.8125,'mobile':False});p.wait_for_timeout(200)
+     if (w,h)in[(384,832),(832,384)]:mobile_cdp.send('Emulation.setDeviceMetricsOverride',{'width':w,'height':h,'deviceScaleFactor':2.8125,'mobile':False});p.wait_for_timeout(200)
      q=p.evaluate('''()=>{const s=__UI_A__.snapshot(),r=e=>e.getBoundingClientRect().toJSON(),ammo=[...document.querySelectorAll('.ui-ammo-a')].map(e=>({rect:r(e),text:e.innerText,overflow:e.scrollWidth-e.clientWidth}));return {s,v:AEGIS_VIEWPORT.snapshot(),map:__VIEWPORT_A__.snapshot().twoD,ammo,scroll:[document.documentElement.scrollWidth,innerWidth],mainZoom:[getComputedStyle(document.getElementById('c')).zoom,getComputedStyle(document.getElementById('external3DCanvas')).zoom]};}''')
      prefix=f'{own}.{scale}.{w}x{h}';bar=q['s']['bar'];ck(prefix+'.barVisible',bar['h']>0 and abs(bar['y']+bar['h']-h)<1);ck(prefix+'.inventoryAll',all(0<=r['rect']['left']and r['rect']['right']<=w+.1 and bar['y']<=r['rect']['top'] and r['rect']['bottom']<=h+.1 and r['overflow']<=1 for r in q['ammo']));ck(prefix+'.noHorizontalScroll',q['scroll'][0]<=w);ck(prefix+'.canvasNotScaled',q['mainZoom']==['1','1']);names=[r['name']for r in q['s']['inventory']];ck(prefix+'.installed',('RGM-84'in names)==own.startswith('CG') and ('RAM'in names)==own.startswith('DDG'))
      ck(prefix+'.titles',all(not r['open']or r['title']['x']>=-.1 and r['title']['y']>=-.1 and r['title']['x']+r['title']['w']<=w+.1 and r['title']['y']+r['title']['h']<=bar['y']+.1 for r in q['s']['windows'].values()))
@@ -43,7 +43,7 @@ def main():
      if own.startswith('CG'):p.evaluate('__HARPOON_DIAG_A__.routeToggle()')
      rows.append({'profile':own,'scale':scale,'size':[w,h],'barHeightPx':bar['h'],'centerErrorPx':ce,'tapErrorPx':err,'inventory':q['s']['inventory']});p.evaluate("__UI_A__.preset(__UI_A__.snapshot().preset)")
      (a.out/'progress.json').write_text(json.dumps({'phase':'matrix','rows':rows,'failed':[k for k,v in checks.items()if not v]}));
-     if (w,h)in[(384,832),(832,384)]:p.context.new_cdp_session(p).send('Emulation.clearDeviceMetricsOverride')
+     if (w,h)in[(384,832),(832,384)]:mobile_cdp.send('Emulation.clearDeviceMetricsOverride')
    if own.startswith('DDG'):p.close();continue
    (a.out/'progress.json').write_text(json.dumps({'phase':'burst','rows':rows}));
    # A real 30-change burst, then layout settlement and title containment.
@@ -72,8 +72,10 @@ def main():
    p.evaluate('__UI_A__.setScale(100);__UI_A__.preset("PC 가로");__UI_A__.dock("NAV","left")');p.wait_for_timeout(650);saved=p.evaluate('({key:__UI_A__.snapshot().layoutKey,layout:JSON.parse(localStorage.getItem("aegis.ui.a.layout.1"))})');p.reload();p.wait_for_selector('#aegisShipConfirmBtn');p.locator('#aegisShipConfirmBtn').click();p.wait_for_function('window.__UI_A__&&window.C55Packaging?.ready');p.wait_for_timeout(500);restored=p.evaluate('__UI_A__.snapshot()');ck('H.reloadDock',restored['windows']['NAV']['dock']=='left');records['saved']=saved
    (a.out/'progress.json').write_text(json.dumps({'phase':'screenshots','rows':rows}));
    p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);}")
-   for preset,size in [('PC 가로',(1400,900)),('폰 가로',(844,390)),('세로',(390,844))]:
-    settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);p.screenshot(path=str(a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'.png')))
+   for preset,size in [(preset,size)for preset in ['PC 가로','폰 가로','세로']for size in [(1400,900),(844,390),(390,844)]]:
+    settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);p.screenshot(path=str(a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'-'+str(size[0])+'x'+str(size[1])+'.png')))
+   for size in [(1400,900),(390,844)]:
+    settle(p,*size);p.evaluate('async()=>{const v=__WIP148_3D_VIEW__;await v.open();v.c12ApplyPreset("LOW");v.render(performance.now());}');p.wait_for_timeout(600);p.screenshot(path=str(a.out/f'3d-{size[0]}x{size[1]}.png'));p.evaluate('__WIP148_3D_VIEW__.close()')
    ck('core',p.evaluate('__CORE_SELFTEST_FAILURES__.length===0'));p.close();b.close()
  out={'pass':all(checks.values())and not errors,'checks':checks,'rows':rows,'records':records,'errors':errors};(a.out/'ui.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pass':out['pass'],'checks':len(checks),'failed':[k for k,v in checks.items()if not v],'errors':errors}));raise SystemExit(0 if out['pass']else 1)
 if __name__=='__main__':main()

@@ -30,7 +30,7 @@ def main():
    def read(self,*x,**y):
     s=original_read(self,*x,**y)
     if self==R/vp.SUITES['isar-ui']:
-     s=s.replace('<=281', '<=document.querySelector("#uiWindowA-AIR .ui-body-a").clientHeight+1')
+     s=s.replace('<=281', "<=x.locator('#uiWindowA-AIR .ui-body-a').evaluate('e=>e.clientHeight')+1")
      s=s.replace("x.mouse.click(xy['x'],xy['y'])","x.evaluate('window.__UI_A__?.close(\"AIR\")');x.mouse.click(xy['x'],xy['y'])")
     return s
    Path.read_text=read
