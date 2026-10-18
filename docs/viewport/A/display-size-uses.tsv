@@ -1,0 +1,20 @@
+packed_record	line	excerpt
+c55-game-main	447	  const vv=window.visualViewport,raw=rect(vv?.offsetLeft??0,vv?.offsetTop??0,vv?.width??window.innerWidth,vv?.height??window.innerHeight),s=window.getComputedStyle(probe),safe={top:Number.parseFloat(s.paddingTop)||0,right:Number.parseFloat(s.paddingRight)||0,bottom:Number.parseFloat(s.paddingBottom)||0,left:Number.parseFloat(s.paddingLeft)||0},layout=rect(raw.x+safe.left,raw.y+safe.top,raw.w-safe.left-safe.right,raw.h-safe.top-safe.bottom),dpr=Math.max(1,window.devicePixelRatio||1),orientation=layout.w>=layout.h?'landscape':'portrait';
+c55-game-main	20679	  canvas.width=Math.max(1,Math.floor(v.w*dpr));canvas.height=Math.max(1,Math.floor(v.h*dpr));
+c55-game-main	49559	    const vp=AEGIS_VIEWPORT.layout,W=Math.min(360,Math.max(300,vp.w*.30)),H=151,x=vp.cx-W*.5,y=vp.y+6;
+c55-game-main	50563	    if(!cv){cv=document.createElement('canvas');cv.width=W;cv.height=H;const c=cv.getContext('2d');
+c55-game-main	50579	    const W = cv.width, H = cv.height;
+c55-game-main	50582	    const topH = H * 0.48;
+c55-game-main	50584	    const tcx = W/2, tcy = topH * 0.5;
+c55-game-main	57223	      const T=this.THREE,canvas=document.createElement('canvas');canvas.width=1024;canvas.height=2048;
+c55-game-main	57225	      const py=station=>(L*.5-noseLen-station*L)/bodyLen*canvas.height;
+c55-game-main	57226	      ctx.fillStyle=hex(p.bodyColor);ctx.fillRect(0,0,canvas.width,canvas.height);
+c55-game-main	57227	      for(const b of p.bodyBands??[]){const h=L*b.lengthFrac/bodyLen*canvas.height;ctx.fillStyle=hex(b.color);ctx.fillRect(0,py(b.station)-h*.5,canvas.width,h);}
+c55-game-main	57228	      ctx.fillStyle=hex(p.caseBandColor??0x818988);const h=L*.007/bodyLen*canvas.height;ctx.fillRect(0,py(-.425)-h*.5,canvas.width,h);
+c55-game-main	57230	      for(const station of p.panelStations??[]){ctx.beginPath();ctx.moveTo(0,py(station));ctx.lineTo(canvas.width,py(station));ctx.stroke();}
+c55-game-main	57233	      for(const u of [.13,.63]){ctx.save();ctx.translate(canvas.width*u,py(.205));ctx.rotate(Math.PI*.5);ctx.fillText(p.stencil??'',0,0);ctx.restore();}
+c55-game-main	57369	      const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=1024;
+c55-game-main	57455	      const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=2048;const ctx=canvas.getContext('2d');
+c55-game-main	57614	      const T=this.THREE,cv=document.createElement('canvas');cv.width=cv.height=128;const c=cv.getContext('2d');
+c55-game-main	58740	      if(cv.width!==pw||cv.height!==ph){cv.width=pw;cv.height=ph;}const c=cv.getContext('2d');if(!c)return;c.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;
+c55-game-main	59259	    resize(){if(!this.renderer||!this.canvas)return;const r=this.canvas.getBoundingClientRect(),w=Math.max(2,r.width),h=Math.max(2,r.height),pr=Math.min(2,AEGIS_VIEWPORT.raw.dpr);if(this._viewportVersionA!==AEGIS_VIEWPORT.version||this.canvas.width!==Math.floor(w*pr)||this.canvas.height!==Math.floor(h*pr)){this.renderer.setSize(w,h,false);this.vpShortFovDegA=vpCameraProjectionA(this.camera,{x:r.x,y:r.y,w,h},AEGIS_VIEWPORT.intersection({x:r.x,y:r.y,w,h},AEGIS_VIEWPORT.layout),38);this._viewportVersionA=AEGIS_VIEWPORT.version;}},
