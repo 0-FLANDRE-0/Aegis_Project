@@ -10,6 +10,7 @@ def install_navigation():
   info={}
   try:
    info=self.evaluate('e=>({id:e.id,tab:e.dataset.tab,window:e.closest(".ui-window-a")?.id})',timeout=2000)
+   if info.get('id','').startswith(('c14','c15')):self.page.evaluate("()=>{if(window.__UI_A__)for(const id of ['NAV','ARM','AIR','DEBUG','FLEET','CIC'])__UI_A__.close(id)}")
    if info.get('tab'):self.page.evaluate("()=>{const e=document.getElementById('uiWindowListA');if(e)e.hidden=false;}")
    elif info.get('window'):self.page.evaluate("id=>{if(window.__UI_A__){const s=__UI_A__.snapshot().windows[id];__UI_A__.open(id);if(s.collapsed)__UI_A__.dock(id,'');}}",info['window'].replace('uiWindowA-',''))
   except Exception:pass

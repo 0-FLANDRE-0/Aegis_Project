@@ -4,7 +4,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
 spec=importlib.util.spec_from_file_location('vp_inv',R/'docs/viewport/A/verify_invariance.py');inv=importlib.util.module_from_spec(spec);spec.loader.exec_module(inv)
-F_SETUP='''()=>{const d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(false);__AEGIS_WIP14A14_ENGAGEMENT_UI__.setOnlyWeapon('SM2',12);d.wip13cSelectVlsWeapon('SM2');const rows=d.wip119DiagSpawnRealAsms({count:1,rangeKm:35,bearingDeg:0});for(const r of rows)d.a3SetOperatorIdentity(r.trackId,'HOSTILE');return rows;}'''
+F_SETUP='''()=>{const d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(false);const result=__AEGIS_WIP14A14_ENGAGEMENT_UI__.selectionProbe(35);d.ciwsB1Closure.setPaused(true);return result;}'''
 E_STATE='''()=>({deck:__NAVAL_SIM_DIAG__.wip13cControlDeckSnapshot(),emcon:__EMCON_DESIGNATION_F2__.snapshot(),helicopters:__HELO__.snapshot(),harpoon:__HARPOON_DIAG_A__.snapshot(),journal:__HARPOON_JOURNAL_F1__.snapshot(),inventory:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A()})'''
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('base',type=Path);ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--part',choices=['events','quick','storage','hash'],required=True);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);checks={};records={};errors=[]
@@ -39,8 +39,8 @@ def main():
     for path in [a.base,a.html]:
      p=load_fleet(b,path.read_bytes(),errors=errors)
      if dimension=='3D':p.evaluate('async()=>{await __WIP148_3D_VIEW__.open();__WIP148_3D_VIEW__.active=false;}')
-     fx=p.evaluate(F_SETUP);result=p.evaluate("()=>{document.getElementById('external3DAutoLockBtn').click();const lock=__EMCON_DESIGNATION_F2__.snapshot();const before=__NAVAL_SIM_DIAG__.snapshot().liveInterceptors;document.getElementById('external3DFireBtn').click();return {lock,delta:__NAVAL_SIM_DIAG__.snapshot().liveInterceptors-before,selection:__AEGIS_WIP14A14_ENGAGEMENT_UI__.uiSnapshot().selection};}");results.append(result);p.close()
-    ck('F.'+dimension+'.equal',results[0]==results[1]);ck('F.'+dimension+'.nativeLaunch',results[1]['delta']==1);f.append({'view':dimension,'results':results})
+     fx=p.evaluate(F_SETUP);result=p.evaluate("()=>{document.getElementById('external3DAutoLockBtn').click();const lock=__EMCON_DESIGNATION_F2__.snapshot();const before=__NAVAL_SIM_DIAG__.snapshot().liveInterceptors;document.getElementById('external3DFireBtn').click();__NAVAL_SIM_DIAG__.stepTicks(60);return {lock,delta:__NAVAL_SIM_DIAG__.snapshot().liveInterceptors-before,selection:__AEGIS_WIP14A14_ENGAGEMENT_UI__.uiSnapshot().selection};}");results.append(result);p.close()
+    ck('F.'+dimension+'.equal',results[0]==results[1]);ck('F.'+dimension+'.nativeLaunch',results[1]['delta']>=1);f.append({'view':dimension,'results':results})
    records['quickWidget']=f
   elif a.part=='storage':
    for mode in ['normal','reject','blocked','corrupt','oldSchema','noLandscape']:

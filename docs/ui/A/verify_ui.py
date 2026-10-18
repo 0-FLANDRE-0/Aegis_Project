@@ -10,7 +10,11 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();checks={};rows=[];errors=[];records={}
  def ck(k,v):checks[k]=bool(v)
  def settle(p,w,h):
-  p.set_viewport_size({'width':w,'height':h});p.wait_for_function('([w,h])=>Math.abs(AEGIS_VIEWPORT.raw.w-w)<.1&&Math.abs(AEGIS_VIEWPORT.raw.h-h)<.1',arg=[w,h]);p.wait_for_timeout(350)
+  p.bring_to_front();p.set_viewport_size({'width':w,'height':h})
+  try:p.wait_for_function('([w,h])=>Math.abs(AEGIS_VIEWPORT.raw.w-w)<.1&&Math.abs(AEGIS_VIEWPORT.raw.h-h)<.1',arg=[w,h],polling=50)
+  except Exception:
+   print('SETTLE_FAILURE',w,h,p.evaluate('({raw:AEGIS_VIEWPORT.raw,inner:[innerWidth,innerHeight],vv:[visualViewport.width,visualViewport.height],visibility:document.visibilityState,ready:C55Packaging.ready})'),errors,flush=True);raise
+  p.wait_for_timeout(350)
  with sync_playwright()as pw:
   b=launch(pw,True)
   native_new_page=b.new_page
@@ -38,8 +42,10 @@ def main():
      ck(prefix+'.tap',err is not None and err<=2)
      if own.startswith('CG'):p.evaluate('__HARPOON_DIAG_A__.routeToggle()')
      rows.append({'profile':own,'scale':scale,'size':[w,h],'barHeightPx':bar['h'],'centerErrorPx':ce,'tapErrorPx':err,'inventory':q['s']['inventory']});p.evaluate("__UI_A__.preset(__UI_A__.snapshot().preset)")
+     (a.out/'progress.json').write_text(json.dumps({'phase':'matrix','rows':rows,'failed':[k for k,v in checks.items()if not v]}));
      if (w,h)in[(384,832),(832,384)]:p.context.new_cdp_session(p).send('Emulation.clearDeviceMetricsOverride')
    if own.startswith('DDG'):p.close();continue
+   (a.out/'progress.json').write_text(json.dumps({'phase':'burst','rows':rows}));
    # A real 30-change burst, then layout settlement and title containment.
    cd=p.context.new_cdp_session(p);rng=random.Random(317);start=time.monotonic()
    for i in range(30):cd.send('Emulation.setDeviceMetricsOverride',{'width':rng.randrange(360,1900),'height':rng.randrange(350,1081),'deviceScaleFactor':1,'mobile':False})
@@ -61,8 +67,10 @@ def main():
    for n in [1,4,8,16,64]:
     r=p.evaluate("n=>{document.querySelectorAll('.time-btn').forEach(e=>{if(Number(e.dataset.tw)===n)e.click()});const r=__UI_A__.snapshot().time;document.getElementById('uiPauseA').click();return r;}",n);ck('G.scale'+str(n),r['scale']==n)
    start=p.evaluate('__UI_A__.snapshot().time.step');p.wait_for_timeout(300);ck('G.pausedClock',p.evaluate('__UI_A__.snapshot().time.step')==start);ck('E.originalNodes',p.evaluate('__UI_A__.snapshot().originalNodesConnected'));ck('E.duplicateIds',p.evaluate('__UI_A__.snapshot().duplicateIds.length===0'))
+   (a.out/'progress.json').write_text(json.dumps({'phase':'storage','rows':rows}));
    # Persist and reload with a deterministic visible layout.
    p.evaluate('__UI_A__.setScale(100);__UI_A__.preset("PC 가로");__UI_A__.dock("NAV","left")');p.wait_for_timeout(650);saved=p.evaluate('({key:__UI_A__.snapshot().layoutKey,layout:JSON.parse(localStorage.getItem("aegis.ui.a.layout.1"))})');p.reload();p.wait_for_selector('#aegisShipConfirmBtn');p.locator('#aegisShipConfirmBtn').click();p.wait_for_function('window.__UI_A__&&window.C55Packaging?.ready');p.wait_for_timeout(500);restored=p.evaluate('__UI_A__.snapshot()');ck('H.reloadDock',restored['windows']['NAV']['dock']=='left');records['saved']=saved
+   (a.out/'progress.json').write_text(json.dumps({'phase':'screenshots','rows':rows}));
    p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);}")
    for preset,size in [('PC 가로',(1400,900)),('폰 가로',(844,390)),('세로',(390,844))]:
     settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);p.screenshot(path=str(a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'.png')))

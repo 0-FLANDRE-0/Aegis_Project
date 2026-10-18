@@ -16,7 +16,7 @@ def build(raw):
   let twoD={...layout},threeD=intersection(layout,rootBox);const panels=[];
   for(const p of EDGE_PANELS.values()){
    const el=document.getElementById(p.id);if(!el)continue;const r=box(el),css=window.getComputedStyle(el),visible=css.display!=='none'&&css.visibility!=='hidden'&&el.getBoundingClientRect().height>0;
-   panels.push({...p,...r,reduces:visible});if(!visible)continue;
+   const reduces=visible&&r.x<layout.x+layout.w&&r.x+r.w>layout.x&&r.y<layout.y+layout.h&&r.y+r.h>layout.y;panels.push({...p,...r,reduces});if(!reduces)continue;
    const reduce=v=>{const right=v.x+v.w,bottom=v.y+v.h;if(p.edge==='left')return rect(Math.min(right-1,Math.max(v.x,r.x+r.w)),v.y,Math.max(1,right-Math.max(v.x,r.x+r.w)),v.h);if(p.edge==='right')return rect(v.x,v.y,Math.max(1,Math.min(right,r.x)-v.x),v.h);if(p.edge==='top')return rect(v.x,Math.min(bottom-1,Math.max(v.y,r.y+r.h)),v.w,Math.max(1,bottom-Math.max(v.y,r.y+r.h)));return rect(v.x,v.y,v.w,Math.max(1,Math.min(bottom,r.y)-v.y));};
    if(p.screen==='both'||p.screen==='twoD')twoD=reduce(twoD);if(p.screen==='both'||p.screen==='threeD')threeD=reduce(threeD);
   }
