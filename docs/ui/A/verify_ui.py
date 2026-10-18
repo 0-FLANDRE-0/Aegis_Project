@@ -10,7 +10,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();checks={};rows=[];errors=[];records={}
  def ck(k,v):checks[k]=bool(v)
  def capture(p,path):
-  p.evaluate("()=>{const v=__WIP148_3D_VIEW__;if(v.active){v.render(performance.now());v.renderer.getContext().finish();}else __VIEWPORT_A__.draw();}")
+  p.evaluate("async()=>{await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const v=__WIP148_3D_VIEW__;if(v.active){v.render(performance.now());v.renderer.getContext().finish();}else __VIEWPORT_A__.draw();await new Promise(r=>requestAnimationFrame(r));}")
   session=p.context.new_cdp_session(p)
   try:path.write_bytes(base64.b64decode(session.send('Page.captureScreenshot',{'format':'png','fromSurface':True,'captureBeyondViewport':False})['data']))
   finally:session.detach()

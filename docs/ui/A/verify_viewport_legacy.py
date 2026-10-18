@@ -10,9 +10,11 @@ def load(*args,**kw):
  p=native_load(*args,**kw);p.evaluate('async()=>{if(document.fullscreenElement)await document.exitFullscreen()}');p.wait_for_timeout(250);return p
 browser.load_fleet=load
 if a.part=='viewport':
+ s=s.replace("p.evaluate('__WIP148_3D_VIEW__.active=true');p.mouse.move(700,400)","p.evaluate('__WIP148_3D_VIEW__.active=true');p.wait_for_function('__UI_A__.snapshot().windows.CIC.open',polling=50);p.wait_for_timeout(500);p.mouse.move(700,400)")
  s=s.replace('controlDeckPanel','uiStatusBarA')
  s=s.replace("p.evaluate('__VIEWPORT_A__.setPan(0,0);__VIEWPORT_A__.draw()')", "p.evaluate('__UI_A__.close(\"NAV\");__UI_A__.close(\"CIC\");__VIEWPORT_A__.setPan(0,0);__VIEWPORT_A__.draw()')")
  s=s.replace("elapsed=time.monotonic()-start;p.wait_for_timeout(500);burstResult", "elapsed=time.monotonic()-start;p.wait_for_function('AEGIS_VIEWPORT.raw.w===600&&AEGIS_VIEWPORT.raw.h===900');p.wait_for_timeout(350);burstResult")
+ s=s.replace("cdp.send('Emulation.setPageScaleFactor',{'pageScaleFactor':1.25});p.wait_for_timeout(400)","cdp.send('Emulation.setPageScaleFactor',{'pageScaleFactor':1.25});p.wait_for_function('Math.abs(AEGIS_VIEWPORT.raw.w-844/1.25)<.1',polling=50);p.wait_for_timeout(200)")
 else:
  needle="p.locator('#fullscreenBtn').click();p.wait_for_timeout(400);fs="
  s=s.replace(needle,"p.evaluate('async()=>{if(document.fullscreenElement)await document.exitFullscreen()}');p.wait_for_timeout(200);"+needle)
