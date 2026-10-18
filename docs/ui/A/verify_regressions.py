@@ -42,13 +42,16 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--only',choices=vp.SUITES);ap.add_argument('--start-at',choices=vp.SUITES);ap.add_argument('--parallel',type=int,default=1);a=ap.parse_args()
  if a.only:
   install_navigation()
-  if a.only=='isar-ui':
+  if a.only in ['isar-ui','sov-visual']:
    original_read=Path.read_text
    def read(self,*x,**y):
     s=original_read(self,*x,**y)
     if self==R/vp.SUITES['isar-ui']:
      s=s.replace('<=281', "<=x.locator('#uiWindowA-AIR .ui-body-a').evaluate('e=>e.clientHeight')+1")
      s=s.replace("x.mouse.click(xy['x'],xy['y'])","x.evaluate('window.__UI_A__?.close(\"AIR\")');x.mouse.click(xy['x'],xy['y'])")
+     s=s.replace("x.wait_for_timeout(300);checks[prefix+'progressText']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('50%')\",polling=50,timeout=15000);checks[prefix+'progressText']")
+     s=s.replace("x.wait_for_timeout(300);checks[prefix+'resultSummary']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('전장')\",polling=50,timeout=15000);checks[prefix+'resultSummary']")
+    if self==R/vp.SUITES['sov-visual']:s=s.replace('timeout=90000','timeout=180000,polling=50')
     return s
    Path.read_text=read
   return vp.adapted(a.only,a.html,a.out)

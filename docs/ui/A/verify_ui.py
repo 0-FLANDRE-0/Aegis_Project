@@ -10,6 +10,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();checks={};rows=[];errors=[];records={}
  def ck(k,v):checks[k]=bool(v)
  def capture(p,path):
+  p.evaluate("()=>{const v=__WIP148_3D_VIEW__;if(v.active){v.render(performance.now());v.renderer.getContext().finish();}else __VIEWPORT_A__.draw();}")
   session=p.context.new_cdp_session(p)
   try:path.write_bytes(base64.b64decode(session.send('Page.captureScreenshot',{'format':'png','fromSurface':True,'captureBeyondViewport':False})['data']))
   finally:session.detach()
@@ -26,7 +27,7 @@ def main():
    p=native_new_page(**kw);p.add_init_script("Element.prototype.requestFullscreen=()=>Promise.reject(Error('geometry fixture: fullscreen tested separately'))");return p
   b.new_page=geometry_page
   for own in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
-   p=load_fleet(b,raw,own=own,width=1400,height=900,errors=errors);p.wait_for_timeout(400);mobile_cdp=p.context.new_cdp_session(p)
+   p=load_fleet(b,raw,own=own,width=1400,height=900,errors=errors);p.evaluate("document.getElementById('uiPauseA').click()");p.wait_for_timeout(400);mobile_cdp=p.context.new_cdp_session(p)
    for scale in [100,85,130]:
     p.evaluate('n=>__UI_A__.setScale(n)',scale)
     for w,h in SIZES:
@@ -34,6 +35,8 @@ def main():
      if (w,h)in[(384,832),(832,384)]:mobile_cdp.send('Emulation.setDeviceMetricsOverride',{'width':w,'height':h,'deviceScaleFactor':2.8125,'mobile':False});p.wait_for_timeout(200)
      q=p.evaluate('''()=>{const s=__UI_A__.snapshot(),r=e=>e.getBoundingClientRect().toJSON(),ammo=[...document.querySelectorAll('.ui-ammo-a')].map(e=>({rect:r(e),text:e.innerText,overflow:e.scrollWidth-e.clientWidth}));return {s,v:AEGIS_VIEWPORT.snapshot(),map:__VIEWPORT_A__.snapshot().twoD,ammo,scroll:[document.documentElement.scrollWidth,innerWidth],mainZoom:[getComputedStyle(document.getElementById('c')).zoom,getComputedStyle(document.getElementById('external3DCanvas')).zoom]};}''')
      prefix=f'{own}.{scale}.{w}x{h}';bar=q['s']['bar'];ck(prefix+'.barVisible',bar['h']>0 and abs(bar['y']+bar['h']-h)<1);ck(prefix+'.inventoryAll',all(0<=r['rect']['left']and r['rect']['right']<=w+.1 and bar['y']<=r['rect']['top'] and r['rect']['bottom']<=h+.1 and r['overflow']<=1 for r in q['ammo']));ck(prefix+'.noHorizontalScroll',q['scroll'][0]<=w);ck(prefix+'.canvasNotScaled',q['mainZoom']==['1','1']);names=[r['name']for r in q['s']['inventory']];ck(prefix+'.installed',('RGM-84'in names)==own.startswith('CG') and ('RAM'in names)==own.startswith('DDG'))
+     if scale==100:
+      density=p.evaluate("()=>[...document.querySelectorAll('#uiDesktopA button')].map(e=>({id:e.id,font:parseFloat(getComputedStyle(e).fontSize),r:e.getBoundingClientRect().toJSON(),danger:e.classList.contains('ui-danger-a')})).filter(q=>q.r.width>0&&q.r.height>0)");ck(prefix+'.font11',all(r['font']>=11 for r in density if r['id']!='uiShipA'));ck(prefix+'.buttonSize',all(r['r']['width']>=28 and r['r']['height']>=28 and(not r['danger']or r['r']['width']>=40 and r['r']['height']>=40)for r in density))
      ck(prefix+'.titles',all(not r['open']or r['title']['x']>=-.1 and r['title']['y']>=-.1 and r['title']['x']+r['title']['w']<=w+.1 and r['title']['y']+r['title']['h']<=bar['y']+.1 for r in q['s']['windows'].values()))
      ownxy=q['map']['ownship'];v=q['v']['twoD'];ce=math.hypot(ownxy['x']-v['cx'],ownxy['y']-v['cy']);ck(prefix+'.center',ce<=1)
      # The actual map route editor must invert the visible client transform.
@@ -78,7 +81,7 @@ def main():
    # Persist and reload with a deterministic visible layout.
    p.evaluate('__UI_A__.setScale(100);__UI_A__.preset("PC 가로");__UI_A__.dock("NAV","left")');p.wait_for_timeout(650);saved=p.evaluate('({key:__UI_A__.snapshot().layoutKey,layout:JSON.parse(localStorage.getItem("aegis.ui.a.layout.1"))})');p.reload();p.wait_for_selector('#aegisShipConfirmBtn');p.locator('#aegisShipConfirmBtn').click();p.wait_for_function('window.__UI_A__&&window.C55Packaging?.ready');p.wait_for_timeout(500);restored=p.evaluate('__UI_A__.snapshot()');ck('H.reloadDock',restored['windows']['NAV']['dock']=='left');records['saved']=saved
    (a.out/'progress.json').write_text(json.dumps({'phase':'screenshots','rows':rows}));
-   p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);}")
+   p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();document.getElementById('uiPauseA').click();}")
    for preset,size in [(preset,size)for preset in ['PC 가로','폰 가로','세로']for size in [(1400,900),(844,390),(390,844)]]:
     settle(p,*size);p.evaluate('name=>__UI_A__.preset(name)',preset);p.wait_for_timeout(400);capture(p,a.out/('preset-'+{'PC 가로':'pc','폰 가로':'phone','세로':'portrait'}[preset]+'-'+str(size[0])+'x'+str(size[1])+'.png'))
    for size in [(1400,900),(390,844)]:
