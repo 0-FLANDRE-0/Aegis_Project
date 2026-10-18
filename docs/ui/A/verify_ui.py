@@ -13,6 +13,10 @@ def main():
   p.set_viewport_size({'width':w,'height':h});p.wait_for_function('([w,h])=>Math.abs(AEGIS_VIEWPORT.raw.w-w)<.1&&Math.abs(AEGIS_VIEWPORT.raw.h-h)<.1',arg=[w,h]);p.wait_for_timeout(350)
  with sync_playwright()as pw:
   b=launch(pw,True)
+  native_new_page=b.new_page
+  def geometry_page(**kw):
+   p=native_new_page(**kw);p.add_init_script("Element.prototype.requestFullscreen=()=>Promise.reject(Error('geometry fixture: fullscreen tested separately'))");return p
+  b.new_page=geometry_page
   for own in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
    p=load_fleet(b,raw,own=own,width=1400,height=900,errors=errors);p.wait_for_timeout(400)
    for scale in [100,85,130]:

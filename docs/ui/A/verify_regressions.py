@@ -11,14 +11,14 @@ def install_navigation():
   try:
    info=self.evaluate('e=>({id:e.id,tab:e.dataset.tab,window:e.closest(".ui-window-a")?.id})',timeout=2000)
    if info.get('tab'):self.page.evaluate("()=>{const e=document.getElementById('uiWindowListA');if(e)e.hidden=false;}")
-   elif info.get('window'):self.page.evaluate("id=>{if(window.__UI_A__){__UI_A__.open(id);__UI_A__.dock(id,'');}}",info['window'].replace('uiWindowA-',''))
+   elif info.get('window'):self.page.evaluate("id=>{if(window.__UI_A__){const s=__UI_A__.snapshot().windows[id];__UI_A__.open(id);if(s.collapsed)__UI_A__.dock(id,'');}}",info['window'].replace('uiWindowA-',''))
   except Exception:pass
   result=original(self,*args,**kwargs)
   if info.get('tab'):self.page.evaluate("()=>{const e=document.getElementById('uiWindowListA');if(e)e.hidden=true;}")
   return result
  Locator.click=click
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--only',choices=vp.SUITES);a=ap.parse_args()
+ ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--only',choices=vp.SUITES);ap.add_argument('--start-at',choices=vp.SUITES);a=ap.parse_args()
  if a.only:
   install_navigation()
   if a.only=='isar-ui':
@@ -30,7 +30,10 @@ def main():
    Path.read_text=read
   return vp.adapted(a.only,a.html,a.out)
  a.out.mkdir(parents=True,exist_ok=True);rows=[]
+ start=not a.start_at
  for name in vp.SUITES:
+  if name==a.start_at:start=True
+  if not start:continue
   print('RUN '+name,flush=True);p=subprocess.run([sys.executable,__file__,str(a.html),str(a.out/name),'--only',name],cwd=R);rows.append({'suite':name,'exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n')
   if p.returncode:raise SystemExit(p.returncode)
  p=subprocess.run([sys.executable,'docs/helicopter/F/verify_regression.py',str(R/'Aegis_SIM_v48_WIP_VP_A.html'),str(a.html),str(a.out/'paired-baseline'),'--baseline-only'],cwd=R);rows.append({'suite':'paired-baseline','exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n');raise SystemExit(p.returncode)

@@ -21,9 +21,9 @@
 #uiDesktopA .ui-chips-a button,#uiDesktopA .ui-bar-actions-a button{position:relative;font-size:10px;padding:2px 5px;min-height:28px}
 #uiDesktopA .ui-chips-a button:before,#uiDesktopA .ui-bar-actions-a button:before{content:'';position:absolute;top:-4px;bottom:-4px;left:0;right:0}
 .ui-window-a{position:fixed;display:flex;flex-direction:column;pointer-events:auto;background:rgba(7,21,31,var(--window-opacity-a,1));border:1px solid #56717f;border-radius:4px;box-shadow:0 8px 24px #0008;overflow:visible}
-.ui-title-a{height:36px;min-height:36px;display:flex;align-items:center;padding:0 3px 0 8px;background:#142936;border-bottom:1px solid #3e5b69;touch-action:none;cursor:move;user-select:none;gap:1px}
+.ui-title-a{height:38px;min-height:38px;display:flex;align-items:center;padding:0 3px 0 8px;background:#142936;border-bottom:1px solid #3e5b69;touch-action:none;cursor:move;user-select:none;gap:1px}
 .ui-window-name-a{flex:1;min-width:0;font-size:11px;white-space:nowrap;overflow:hidden}
-#uiDesktopA .ui-title-a button{width:30px;min-width:30px;height:32px;min-height:32px;padding:0;background:transparent;border-color:transparent;font-size:16px}
+#uiDesktopA .ui-title-a button{width:36px;min-width:36px;height:36px;min-height:36px;padding:0;background:transparent;border-color:transparent;font-size:16px}
 .ui-body-a{min-height:0;min-width:0;flex:1;overflow:auto;overscroll-behavior:contain;padding:8px;scrollbar-width:thin}
 .ui-window-a.collapsed .ui-body-a,.ui-window-a.collapsed .ui-resize-a{display:none}
 .ui-window-menu-a{position:absolute;right:3px;top:36px;padding:7px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;width:210px;background:#0b202d;border:1px solid #7194a0;z-index:10;box-shadow:0 5px 12px #0009}
@@ -58,7 +58,7 @@
 #uiDesktopA .control-deck-tabs{display:flex;flex-wrap:wrap;gap:4px;max-width:none}
 .ui-settings-a{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0;font:11px var(--mono,monospace)}
 .ui-settings-a label{display:flex;align-items:center;gap:4px}
-#uiSettingsA-selection{zoom:var(--ui-scale-a)}
+#aegisShipSelectionOverlay>section,dialog{zoom:var(--ui-scale-a);max-width:calc(100vw / var(--ui-scale-a) - 24px)}
 .ui-bearing-a{position:fixed;top:6px;left:50%;transform:translateX(-50%);padding:5px 8px;max-width:60vw;overflow:hidden;white-space:nowrap;background:#071925bb;border:1px solid #526f7d;pointer-events:none;font:11px/1.4 var(--mono,monospace);color:#d1e4e6;z-index:905}
 #external3DView .c14-topbar{justify-content:space-between}
 #external3DReadout{margin-left:auto;margin-top:34px;font-size:11px!important;max-width:180px!important}
@@ -66,4 +66,6 @@
 #hud{font-size:11px!important;max-width:min(360px,80vw)}
 .external3d-btn{font-size:11px!important;min-height:36px!important}
 #external3DView .external3d-help{display:none}
-@media(max-width:700px){.ui-status-a{justify-content:center;gap:2px 5px}.ui-bearing-a{top:3px;max-width:52vw;font-size:10px}#external3DReadout{max-width:120px!important}}
+#external3DView .c15-flyout,#external3DView .c15-flyout *,dialog *,#damageControlPanelV1 *,#damageFloodPanelV1 *{font-size:11px!important}
+#damageControlPanelV1 button,#damageFloodPanelV1 button{min-height:36px}
+@media(max-width:700px){.ui-status-a{justify-content:center;gap:2px 5px}.ui-bearing-a{top:3px;max-width:52vw;font-size:11px}#external3DReadout{max-width:120px!important}}

@@ -4,20 +4,21 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
 spec=importlib.util.spec_from_file_location('vp_inv',R/'docs/viewport/A/verify_invariance.py');inv=importlib.util.module_from_spec(spec);spec.loader.exec_module(inv)
-F_SETUP='''()=>{const d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(false);__AEGIS_WIP14A14_ENGAGEMENT_UI__.setOnlyWeapon('SM2MR',12);const rows=d.wip119DiagSpawnRealAsms({count:1,rangeKm:35,bearingDeg:0});for(const r of rows)d.a3SetOperatorIdentity(r.trackId,'HOSTILE');return rows;}'''
+F_SETUP='''()=>{const d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(false);__AEGIS_WIP14A14_ENGAGEMENT_UI__.setOnlyWeapon('SM2',12);d.wip13cSelectVlsWeapon('SM2');const rows=d.wip119DiagSpawnRealAsms({count:1,rangeKm:35,bearingDeg:0});for(const r of rows)d.a3SetOperatorIdentity(r.trackId,'HOSTILE');return rows;}'''
 E_STATE='''()=>({deck:__NAVAL_SIM_DIAG__.wip13cControlDeckSnapshot(),emcon:__EMCON_DESIGNATION_F2__.snapshot(),helicopters:__HELO__.snapshot(),harpoon:__HARPOON_DIAG_A__.snapshot(),journal:__HARPOON_JOURNAL_F1__.snapshot(),inventory:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A()})'''
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('base',type=Path);ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--part',choices=['events','storage','hash'],required=True);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);checks={};records={};errors=[]
+ ap=argparse.ArgumentParser();ap.add_argument('base',type=Path);ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--part',choices=['events','quick','storage','hash'],required=True);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);checks={};records={};errors=[]
  def ck(k,v):checks[k]=bool(v)
  with sync_playwright()as pw:
-  b=launch(pw,a.part=='events')
-  if a.part=='events':
+  b=launch(pw,a.part in ['events','quick'])
+  if a.part in ['events','quick']:
    # Controls execute natively; UI visibility is not part of the tactical result.
    groups={'NAV':['rudL','rudR','spdU','spdD','undoWpBtn','clearRouteBtn','rangeBtn','centerViewBtn','shipDetailBtn','damageControlToggleV1','damageFloodToggleV1'],
     'ARM':['lockBtn','autoEngBtn','engCtrlBtn','trackIdentityBtn','fireBtn','harpoonFireA','harpoonRouteE','mainGunCueBtn','mainGunFireBtn','mainGunContinuousBtn','mainGunAmmoBtn','emconBtn','chaffBtn','nulka15bBtn','softKillAutoBtn','noiseJamBtn','deceptJamBtn','missileSelectSm2Btn','missileSelectSm2ErBtn','missileSelectSm6Btn','missileSelectEssmBtn','external3DAutoLockBtn','external3DUnlockBtn','external3DFireBtn'],
     'FLEET':['fleetChangeG','fleetModeG','fleetFireG','fleetEmconG','networkRadioG','fleetSpeedApplyG','fleetRudderApplyG','fleetFormationG','fleetManeuverG','fleetAttackH3'],
     'AIR':['airHeloA0','airHeloA1','airLaunchA','airUndoB','airClearB','airFollowB','airIffE','airRadarModeFSTBY','airRadarModeFLONG','airRadarModeFSHORT','airRadarModeFPERI','airRadarModeFISAR','airIsarCancelF2'],
-    'DEBUG':['debugToggle','modeBtn','searchModeBtn','sectorBtn','rippleBtn','salvoBtn','apsPerformanceF','isarPerformanceF2','harpoonJournalF1','b4LoftBtn']}
+    'DEBUG':['debugToggle','fullscreenBtn','modeBtn','searchModeBtn','sectorBtn','rippleBtn','salvoBtn','apsPerformanceF','isarPerformanceF2','harpoonJournalF1','b4LoftBtn']}
+   if a.part=='quick':groups={}
    # Include every actual button in a tab up to 10 minimum if names changed.
    counts={};paired={}
    for tab,ids in groups.items():
@@ -28,7 +29,7 @@ def main():
      if tab=='ARM':wanted+=p.locator('.wep-btn.fire,.wep-btn.lock,#wip14a14QuickEngage3D button').evaluate_all('es=>es.map(e=>e.id).filter(Boolean)')
      wanted=list(dict.fromkeys(wanted));states=[]
      for id in wanted:
-      p.evaluate('id=>document.getElementById(id).click()',id);p.evaluate("document.querySelectorAll('dialog[open]').forEach(d=>d.close())");states.append({'id':id,'state':p.evaluate(E_STATE)})
+      p.evaluate('id=>document.getElementById(id).click()',id);p.evaluate("document.querySelectorAll('dialog[open]').forEach(d=>d.close())");state=p.evaluate(E_STATE);encoded=json.dumps(state,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode();states.append({'id':id,'stateSha256':hashlib.sha256(encoded).hexdigest(),'stateBytes':len(encoded)})
      counts[tab]=len(wanted);runs.append(states);p.close()
     ck('E.'+tab+'.minimum10',counts[tab]>=10);ck('E.'+tab+'.nativeResultsSame',runs[0]==runs[1]);paired[tab]=runs
    records['controlCounts']=counts;records['pairedControls']=paired
@@ -43,7 +44,7 @@ def main():
    records['quickWidget']=f
   elif a.part=='storage':
    for mode in ['normal','reject','blocked','corrupt','oldSchema','noLandscape']:
-    p=b.new_page(viewport={'width':1400,'height':900});p.on('pageerror',lambda e:errors.append(str(e)));script="""window.__NAVAL_SIM_SEED__=1831565813;window.__fsSpy={requests:0,locks:0,alerts:0};window.alert=()=>__fsSpy.alerts++;let active=null;Object.defineProperty(document,'fullscreenElement',{get:()=>active,configurable:true});document.documentElement.requestFullscreen=()=>{__fsSpy.requests++;REJECT active=document.documentElement;document.dispatchEvent(new Event('fullscreenchange'));return Promise.resolve();};document.exitFullscreen=()=>{active=null;document.dispatchEvent(new Event('fullscreenchange'));return Promise.resolve();};screen.orientation.lock=()=>{__fsSpy.locks++;return Promise.resolve();};""".replace('REJECT',"return Promise.reject(Error('test rejection'));"if mode=='reject'else'')
+    p=b.new_page(viewport={'width':1400,'height':900});p.on('pageerror',lambda e:errors.append(str(e)));script="""window.__NAVAL_SIM_SEED__=1831565813;window.__fsSpy={requests:0,locks:0,alerts:0};window.alert=()=>__fsSpy.alerts++;let active=null;Object.defineProperty(document,'fullscreenElement',{get:()=>active,configurable:true});Element.prototype.requestFullscreen=function(){__fsSpy.requests++;REJECT active=this;document.dispatchEvent(new Event('fullscreenchange'));return Promise.resolve();};document.exitFullscreen=()=>{active=null;document.dispatchEvent(new Event('fullscreenchange'));return Promise.resolve();};screen.orientation.lock=()=>{__fsSpy.locks++;return Promise.resolve();};""".replace('REJECT',"return Promise.reject(Error('test rejection'));"if mode=='reject'else'')
     if mode=='blocked':script+="Object.defineProperty(window,'localStorage',{get(){throw Error('storage blocked')}});"
     if mode=='corrupt':script+="localStorage.setItem('aegis.ui.a.layout.1','{bad');localStorage.setItem('aegis.ui.a.preferences.1','{bad');"
     if mode=='oldSchema':script+="localStorage.setItem('aegis.ui.a.layout.1',JSON.stringify({schema:99,layouts:{}}));"
