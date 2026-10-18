@@ -1,0 +1,23 @@
+"""Controlled waterline terminal cases, separate from native 5m sea-skimming hit.
+Compound casualty does not assert one above-water Harpoon inevitably sinks a ship.
+"""
+from pathlib import Path
+import argparse,json,sys,hashlib
+from playwright.sync_api import sync_playwright
+R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
+
+def main():
+ a=argparse.ArgumentParser();a.add_argument('html',type=Path);a.add_argument('out',type=Path);a=a.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();errors=[];checks={};rows=[]
+ with sync_playwright()as pw:
+  b=launch(pw,False);p=load_fleet(b,raw,enemy='SOVREMENNY_956',errors=errors);p.evaluate('window.requestAnimationFrame=()=>0')
+  q=p.evaluate('''()=>{const d=__NAVAL_SIM_DIAG__,r=__AEGIS_ENGAGEMENT_RUNTIME__.ships.get('SHIP_SCENARIO_ENEMY_A');d.setTerrainDiagBypass(true);d.setEmcon(true);d.wip13a3SetManualWeather({hsM:0,windSpeedMps:0,precipitation01:0});r.dynamics.haltHorizontalContact();Object.assign(r.navigation,{speed:0,targetSpeedKt:0,shaftRpm:0,vx:0,vy:0});d.stepTicks(60);const out=[];for(const x of [-31,-13,5,23]){const q=d.weaponFixtureD(r.entityId,{action:'contact',weapon:'HARPOON',xM:x,zM:-1.2,side:'PORT'});out.push({ok:q.ok,duplicateRejected:q.duplicateRejected,termination:q.terminationReason,blastKg:q.impacts.at(-1)?.explosiveMassKg,speedMps:q.impacts.at(-1)?.speedMps});}return {contacts:out,sov:__SOV_A__.snapshot()};}''');rows.append(q);checks['contactDamageAndDuplicateGuard']=all(q['ok']and q['duplicateRejected']for q in q['contacts']);checks['contact289mps']=all(250<q['speedMps']<330 for q in q['contacts']);checks['HEWarheads']=all(q['blastKg']>90 for q in q['contacts']);print('contacts',json.dumps(q['contacts']),flush=True)
+  for i in range(90):
+   if i==2:
+    p.evaluate("()=>{const r=__AEGIS_ENGAGEMENT_RUNTIME__.ships.get('SHIP_SCENARIO_ENEMY_A');for(const d of r.flooding.connections)r.flooding.setDoor(d.id,true);}");rows.append({'diagnosticFault':'WATERTIGHT_ISOLATION_LOSS_AFTER_SAVE_CHECK'})
+   q=p.evaluate('''()=>{__NAVAL_SIM_DIAG__.stepTicks(600);return __SOV_A__.snapshot().ships[0];}''');rows.append({k:q[k]for k in ['navigation','survival','flood','sensorTracks','emitters','esmContacts']});(a.out/'casualty-progress.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2));print('progress',i,q['survival']['state'],q['flood']['waterM3'],flush=True)
+   if q['flood']['waterM3']>100 and 'save'not in checks:
+    t=p.evaluate('''()=>{const d=__NAVAL_SIM_DIAG__,s=d.exportOperationalStateV48Wip11A(),v=d.validateOperationalStateV48Wip11A(s),a=s.fleet.ships[0];d.importOperationalStateV48Wip11A(s);const b=d.exportOperationalStateV48Wip11A().fleet.ships[0];return {v,before:a,after:b};}''');(a.out/'flood-save.json').write_text(json.dumps(t,ensure_ascii=False,indent=2));checks['save']=t['v']['ok'];checks['floodMassPreserved']=all(a['id']==b['id']and a['waterM3']==b['waterM3']for a,b in zip(t['before']['ship']['damage']['flooding']['cells'],t['after']['ship']['damage']['flooding']['cells']));checks['damageAndFirePreserved']=t['before']['ship']['damage']['moduleDamage']==t['after']['ship']['damage']['moduleDamage']and t['before']['ship']['damage']['controlSovA']==t['after']['ship']['damage']['controlSovA'];checks['floodPosePreserved']=all(t['before']['survival'][k]==t['after']['survival'][k]for k in ['heelRad','trimRad','draftM'])
+   if q['survival']['lost']:break
+  checks['seaIngress']=any(q.get('flood',{}).get('waterM3',0)>100 for q in rows);checks['heelAndDraft']=any(abs(q.get('survival',{}).get('heelRad',0))>.03 and q.get('survival',{}).get('draftM',0)>.02 for q in rows);checks['irreversibleLoss']=any(q.get('survival',{}).get('irreversible')for q in rows);checks['sinkingOrLost']=next(q['survival']['state']for q in reversed(rows)if'survival'in q)in ['SINKING','LOST','CAPSIZED'];checks['noDefensesAfterDamage']=all(q.get('emitters',0)==0 and q.get('sensorTracks',0)==0 for q in rows);checks['core']=not p.evaluate('__CORE_SELFTEST_FAILURES__');b.close()
+ report={'pass':all(checks.values())and not errors,'checks':checks,'rows':rows,'errors':errors,'htmlSha256':hashlib.sha256(raw).hexdigest(),'limits':'Four controlled submerged contacts at -1.2m, then explicit loss of watertight isolation; initial four isolated port cells may remain afloat; native ABOVE-water flight is in native.json. No claim a 5m hit always floods/sinks.'};(a.out/'casualty.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pass':report['pass'],'failed':[k for k,v in checks.items()if not v],'errors':errors}));raise SystemExit(0 if report['pass']else 1)
+if __name__=='__main__':main()

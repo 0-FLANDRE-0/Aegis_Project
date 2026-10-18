@@ -187,9 +187,17 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 헬기 WIP HELI_F2
+### 최신 개발 기준 — 소브레멘니 WIP SOV_A
 
-- [실행 HTML](Aegis_SIM_v48_WIP_HELI_F2.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_F2.md), [SHA](SHA256SUMS_v48_WIP_HELI_F2.txt), [운용](docs/helicopter/L/README.md), [검증](docs/helicopter/L/evidence/verification-summary.json). 별도0번 `1b26a0f` 뒤 `helicopter-isar-f2`.
+- [실행 HTML](Aegis_SIM_v48_WIP_SOV_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SOV_A.md), [SHA](SHA256SUMS_v48_WIP_SOV_A.txt), [운용·출처](docs/sovremenny/A/README.md), [검증](docs/sovremenny/A/evidence/verification-summary.json). HELI_F2 `570e5a3` 위 `sovremenny-hull-a`.
+- Project 956은 적·중립 NPC 전용이며 FLEET NAV만 가능하다. 센서/무장/전자전/Ka-27/자함 선택은 없다. 원본 수선 Z0·7,940t·32kt와 오프라인 단면/외피/비활성 장착점, 공통 물리·손상·침수·저장·3D·ISAR를 연결했다.
+- 157/157 PASS /6 suites, 페이지 오류0. 30km 실제 헬기 LONG/PERI→Hawklink→EMCON 하푼 명중, 통제된 격리 상실→LOST, 손상 중 저장/거부 원자성, 모바일 UI/소프트웨어 WebGL,1/8/16/64× 및 기존 양함종 회귀를 확인했다.
+- 원본 17998448bytes / SHA `1e2125e49ae0720d45f2457474753ed948324241aecf69120f5c7694ea733b28`. 실제49k 삼각형·81배치, 실폰 FPS 미측정. 내부·재질·RCS·CG/GM·응답은 SIM_TUNED다.
+- HELI_F2 네 파일을 같은 bytes/blob으로 archive하며 기존 소스/자산/stable을 보존한다. 전체 HTML 직접 업로드·독립 원격 readback. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F2 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_F2/Aegis_SIM_v48_WIP_HELI_F2.html), [상태](archive/v48/WIP_HELI_F2/AEGIS_PLAN_STATUS_v48_WIP_HELI_F2.md), [SHA](archive/v48/WIP_HELI_F2/SHA256SUMS_v48_WIP_HELI_F2.txt), [운용](docs/helicopter/L/README.md), [검증](docs/helicopter/L/evidence/verification-summary.json). 별도0번 `1b26a0f` 뒤 `helicopter-isar-f2`.
 - AIR ISAR→지도 트랙: 공통 RF 물리→잡음 특징→함급 후보. 고정 방위16초, 탐색/M-of-N 정지, 종료/취소 후 직전 모드·한 주사 전환. 실제 표적 ID/프로파일로 분류하지 않는다.
 - ISAR 판독만 버퍼 예외. 수신은 식별/트랙 나이를 바꾸지 않고 운용자 식별 때 근거를 복사한다. 로그 ISAR 후보/신뢰도/경과시간·launchEmcon, 종료 AFTER_ACTION_TRUTH. 기존 F1·무DL·EMCON 통신 독립·함선/헬기 모델 보존.
 - 실제 CG LONG40km→ISAR→HOSTILE→무방사 지정→하푼→중립 상선 피격, 실제 DDG/CG RF, 모바일/3D/배율/기존 전투 포함227/227 PASS /8 suites, 오류0. 진단은 SIM_TUNED이며 실제 장비 성능 아님.
