@@ -3,6 +3,9 @@ import argparse,hashlib,importlib.util,json,sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
+native_load_fleet=load_fleet
+def load_fleet(*args,**kwargs):
+ p=native_load_fleet(*args,**kwargs);p.evaluate('async()=>{if(document.fullscreenElement)await document.exitFullscreen()}');p.bring_to_front();p.evaluate('__WIP148_3D_VIEW__.c12ApplyPreset("LOW")');return p
 spec=importlib.util.spec_from_file_location('vp_inv',R/'docs/viewport/A/verify_invariance.py');inv=importlib.util.module_from_spec(spec);spec.loader.exec_module(inv)
 F_SETUP='''()=>{const d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(false);const result=__AEGIS_WIP14A14_ENGAGEMENT_UI__.selectionProbe(35);d.ciwsB1Closure.setPaused(true);return result;}'''
 E_STATE='''()=>({deck:__NAVAL_SIM_DIAG__.wip13cControlDeckSnapshot(),emcon:__EMCON_DESIGNATION_F2__.snapshot(),helicopters:__HELO__.snapshot(),harpoon:__HARPOON_DIAG_A__.snapshot(),journal:__HARPOON_JOURNAL_F1__.snapshot(),inventory:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A()})'''
@@ -24,12 +27,13 @@ def main():
    for tab,ids in groups.items():
     runs=[]
     for idx,path in enumerate([a.base,a.html]):
-     p=load_fleet(b,path.read_bytes(),width=1400,height=900,errors=errors);p.on('dialog',lambda d:d.accept());p.evaluate('__NAVAL_SIM_DIAG__.stepTicks(1)');p.evaluate('t=>__NAVAL_SIM_DIAG__.wip13cSetControlDeckTab(t)',tab)
+     p=load_fleet(b,path.read_bytes(),width=1400,height=900,errors=errors,ally='DDG_119_LATE_FLIGHT_IIA'if tab=='FLEET'else None);p.on('dialog',lambda d:d.accept());p.evaluate('__NAVAL_SIM_DIAG__.stepTicks(1)');p.evaluate('t=>__NAVAL_SIM_DIAG__.wip13cSetControlDeckTab(t)',tab)
      selector='.control-deck-page[data-page="'+tab+'"]';available=p.locator(selector+' button[id]').evaluate_all('es=>es.map(e=>e.id)');wanted=[i for i in ids if p.locator('#'+i).count()];wanted+= [i for i in available if i not in wanted][:max(0,10-len(wanted))]
      if tab=='ARM':wanted+=p.locator('.wep-btn.fire,.wep-btn.lock,#wip14a14QuickEngage3D button').evaluate_all('es=>es.map(e=>e.id).filter(Boolean)')
+     if tab in ['ARM','FLEET']:wanted+=available
      wanted=list(dict.fromkeys(wanted));states=[]
      for id in wanted:
-      p.evaluate('id=>document.getElementById(id).click()',id);p.evaluate("document.querySelectorAll('dialog[open]').forEach(d=>d.close())");state=p.evaluate(E_STATE);encoded=json.dumps(state,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode();states.append({'id':id,'stateSha256':hashlib.sha256(encoded).hexdigest(),'stateBytes':len(encoded)})
+      p.evaluate("id=>{const e=document.getElementById(id);if(e.tagName==='SELECT'){const o=[...e.options].find(o=>!o.disabled&&o.value!==e.value);if(o){e.value=o.value;e.dispatchEvent(new Event('change',{bubbles:true}));}}else e.click();}",id);p.evaluate("document.querySelectorAll('dialog[open]').forEach(d=>d.close())");state=p.evaluate(E_STATE);encoded=json.dumps(state,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode();states.append({'id':id,'stateSha256':hashlib.sha256(encoded).hexdigest(),'stateBytes':len(encoded)})
      counts[tab]=len(wanted);runs.append(states);p.close()
     ck('E.'+tab+'.minimum10',counts[tab]>=10);ck('E.'+tab+'.nativeResultsSame',runs[0]==runs[1]);paired[tab]=runs
    records['controlCounts']=counts;records['pairedControls']=paired

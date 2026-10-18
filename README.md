@@ -1,8 +1,16 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 화면 WIP VP_A
+## 최신 개발 기준 — UI WIP UI_A
 
-- [실행 HTML](Aegis_SIM_v48_WIP_VP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_VP_A.md), [SHA](SHA256SUMS_v48_WIP_VP_A.txt), [전체 보고](docs/viewport/A/README.md), [A–I 검수](docs/viewport/A/VERIFICATION.md). SOV_A `c7d498d` 위 `viewport-a`.
+- [실행 HTML](Aegis_SIM_v48_WIP_UI_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_UI_A.md), [SHA](SHA256SUMS_v48_WIP_UI_A.txt), [검수·스크린샷](docs/ui/A/REPORT.md), [재현](docs/ui/A/README.md). VP_A `3afd0fc` 위 `ui-a`.
+- 공용 하단 상태 바·창 6종·공용 교전 위젯·3D 방위 테이프, DOM 전용 UI 85/100/115/130%와 전체화면·가로 고정 설정. 기존 컨트롤은 같은 노드를 이동하며 센서·판정·발사 권한·게임 저장·모델을 보존한다.
+- **1144/1144 assertions / 24 suites PASS, 페이지 오류0**. DDG/CG × 9크기 × 3배율 54조합. 원래 127개 노드 연결·중복 id 0, 기존 420건 전체와 120초 상태·pause/resume 동일성 확인.
+- 원본18,023,322bytes (+20,368), SHA `a4b6825df6c28eb8f0747f73ec9469c90f277f96eb23e55be67298a6a1cab8e4`. VP_A 네 파일은 동일 bytes/blob archive. 전체 HTML 직접 업로드·원격 전체 readback. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 좁은 화면은 재고 생략·가로 스크롤 없이 표시하므로 상태 바가 2줄을 넘는다. SHIP/손상·침수 창 편입, ARM 분리와 실제 지도 PIP는 UI_B. 실폰 GPU/FPS는 미측정.
+
+## 직전 개발 기준 — 화면 WIP VP_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html), [상태](archive/v48/WIP_VP_A/AEGIS_PLAN_STATUS_v48_WIP_VP_A.md), [SHA](archive/v48/WIP_VP_A/SHA256SUMS_v48_WIP_VP_A.txt), [전체 보고](docs/viewport/A/README.md), [A–I 검수](docs/viewport/A/VERIFICATION.md). SOV_A `c7d498d` 위 `viewport-a`.
 - AEGIS_VIEWPORT로 visible rect/version 통합. 2D 거리 km 유지·공통 입력 변환, 3D 짧은 변52°·viewOffset·정규화 팬, 카탈로그38°. outer CSS와 시뮬/센서/ROE/저장/물리는 보존한다.
 - **567/567 assertions /19 suites PASS, 페이지 오류0**. 7크기, 30회/0.097432s 연타, 200ms 이후 panel reflow, 실제 VV/전체화면/터치·DPR, native120초 상태 해시 동일, 기존 헬기/APS/ISAR/하푼/EMCON/손상 회귀 확인.
 - 원본18,002,954bytes (+4,506), SHA `432de9b88566d6198da0a21856ab85d1febda8106fcd28f6d8f13fd8801e67b9`. SOV_A 네 파일을 같은 bytes/blob으로 archive한다. 원본 직접 업로드·원격 전체 bytes 대조. Actions/main·선행 브랜치 병합/새 PR 없음.

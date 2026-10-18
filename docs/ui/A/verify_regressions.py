@@ -48,6 +48,7 @@ def main():
     s=original_read(self,*x,**y)
     if self==R/vp.SUITES['isar-ui']:
      s=s.replace('<=281', "<=x.locator('#uiWindowA-AIR .ui-body-a').evaluate('e=>e.clientHeight')+1")
+     s=s.replace("x.locator('#c').click(position=xy)","xy=x.evaluate('t=>__VIEWPORT_A__.worldToScreen(t.x*.0038,t.y*.0038)',tr['positionM']);x.locator('#c').click(position=xy)")
      s=s.replace("x.mouse.click(xy['x'],xy['y'])","x.evaluate('window.__UI_A__?.close(\"AIR\")');x.mouse.click(xy['x'],xy['y'])")
      s=s.replace("x.wait_for_timeout(300);checks[prefix+'progressText']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('50%')\",polling=50,timeout=15000);checks[prefix+'progressText']")
      s=s.replace("x.wait_for_timeout(300);checks[prefix+'resultSummary']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('전장')\",polling=50,timeout=15000);checks[prefix+'resultSummary']")

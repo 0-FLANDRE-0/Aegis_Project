@@ -8,7 +8,7 @@
 python docs/ui/A/build.py archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html /tmp/UI_A.html
 cmp /tmp/UI_A.html Aegis_SIM_v48_WIP_UI_A.html
 python docs/ui/A/verify_static.py archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html Aegis_SIM_v48_WIP_UI_A.html /tmp/ui-a-check/static
-python docs/ui/A/verify_regressions.py Aegis_SIM_v48_WIP_UI_A.html /tmp/ui-a-check/regressions --parallel 3
+python docs/ui/A/verify_regressions.py Aegis_SIM_v48_WIP_UI_A.html /tmp/ui-a-check/regressions --parallel 1
 python docs/ui/A/verify_ui.py Aegis_SIM_v48_WIP_UI_A.html /tmp/ui-a-check/ui
 ```
 
@@ -25,3 +25,5 @@ python docs/ui/A/verify_ui.py Aegis_SIM_v48_WIP_UI_A.html /tmp/ui-a-check/ui
 UI 배치 검사에서는 자동 전체화면을 거부하도록 브라우저 fixture를 둔다. 전체화면 검사는 별도 storage suite와 VP_A 실제 진입/해제 검사로 수행한다. 일반 회귀에서는 첫 제스처의 실제 전체화면을 해제한 뒤 시작하여 Linux headless의 비활성 창 프레임 제한을 피한다. 스크린샷은 native 화면 갱신 뒤 CDP capture로 얻는다. 이 절차는 제품의 truth·센서·클록을 바꾸지 않는다.
 
 여러 전체 suite를 같은 evidence 폴더에 동시에 실행하지 않는다. UI/3D suite와 다수 SwiftShader 인스턴스를 병렬 실행하면 브라우저의 RAF/클릭 안정화가 타임아웃될 수 있다. 최종 기록은 `evidence/release/`에만 둔다.
+
+APS/ISAR/교전 로그의 기존 dialog 3개는 숨긴 옛 shell 밖의 body로 이동했다. 고도 설정 dialog는 AIR 페이지 subtree와 함께 이동하며 native modal을 유지한다.
