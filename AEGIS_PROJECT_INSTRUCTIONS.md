@@ -187,9 +187,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — 모바일 UI WIP UI_A1
+### 최신 개발 기준 — 지도 조작 WIP MAP_A
 
-- [실행 HTML](Aegis_SIM_v48_WIP_UI_A1.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_UI_A1.md), [SHA](SHA256SUMS_v48_WIP_UI_A1.txt), [수치·스크린샷](docs/ui/A1/REPORT.md), [재현](docs/ui/A1/README.md). UI_A `30428d6` 위 `ui-a1`.
+- [실행 HTML](Aegis_SIM_v48_WIP_MAP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_MAP_A.md), [SHA](SHA256SUMS_v48_WIP_MAP_A.txt), [A–P·스크린샷](docs/map/A/REPORT.md), [재현](docs/map/A/README.md), [출처 감사](docs/map/A/OBSERVATION_AUDIT.md). UI_A1 `0452e10` 위 `map-a`.
+- 조회/통제/현재 도구/사격 지정 예약 슬롯 분리,20px 객체 탭·겹침 후보·우클릭/550ms/펜 메뉴,정보창·통제/마지막 WP 취소와 연속 방위 테이프. SYS에서 기존 입력으로 전환 가능하며 원본 pointerup은 byte-exact다.
+- **1042/1042 assertions /27 suites PASS, 페이지 오류0**. 200회 조회/메뉴 명령 변화0,120초 해시 동일,3개 지도 크기/DPR2.8125·36개 UI 조합·기존 native 회귀420건 확인. 식별 번호 불변/저장 시 트랙·식별 초기화(기존 정책),하푼 계획 Undo 후 발사된 memory/route/INS 변화0,no-arg LOCK/EMCON 회귀 포함.
+- 무DL 하푼은 현재 위치 비공개,자함 발사 시각/지정 트랙/고정 계획만 표시한다. 시뮬·센서·물리·판정·발사 권한·게임 저장 스키마·모델을 보존한다. 모바일100% 바 세로42.84px·가로24px 유지.
+- 원본18,047,616bytes (+17,772), SHA `68c13d352c3e80ab8bae1e08138ee42284c426f7fb7cce24e9d64941b34362b5`. UI_A1 네 파일 동일 bytes/blob archive. 원본 전체 업로드·독립 원격 readback은 docs/map/A/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 다음은 MAP_B 사격 지정 UI/무장 플라이아웃/작은 발사 버튼/하푼 모드 전환과 임시 커서 연결 제거다.3D 미니 CIC 입력·실폰 GPU/FPS/펜 하드웨어는 미검증이다.
+
+### 직전 개발 기준 — 모바일 UI WIP UI_A1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_UI_A1/Aegis_SIM_v48_WIP_UI_A1.html), [상태](archive/v48/WIP_UI_A1/AEGIS_PLAN_STATUS_v48_WIP_UI_A1.md), [SHA](archive/v48/WIP_UI_A1/SHA256SUMS_v48_WIP_UI_A1.txt), [수치·스크린샷](docs/ui/A1/REPORT.md), [재현](docs/ui/A1/README.md). UI_A `30428d6` 위 `ui-a1`.
 - 모바일 상태 바는 기본100%에서 세로42.84px·가로24px다. 모든 재고를 유지하고 창 목록/추가를 아이콘으로 압축했다. 창10px 글자·작은 기본 크기, 탭 전면화·제목줄 이동·겹침과 순서 저장을 제공한다. FIRE/LOCK 40px 보호 크기는 유지한다.
 - EMCON은 바로 전환한다. 교전 칩은 위쪽에 수동/반자동/자동 팝업을 표시하고 기존 canonical 조작 함수를 호출한다. 시뮬·센서·판정·발사 권한·게임 저장·모델은 유지한다.
 - **456/456 assertions /4 suites PASS, 페이지 오류0**. 36 화면/배율/함종 조합, 실제 창 조작·입력 격리·저장, native 탭 조작·위젯 발사 비교,120초 상태·pause/resume 동일. UI_A의1144건은 당시 기록이며 이번 합계에 넣지 않는다.
