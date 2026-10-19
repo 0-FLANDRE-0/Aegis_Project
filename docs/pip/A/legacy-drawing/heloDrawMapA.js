@@ -1,0 +1,10 @@
+function heloDrawMapA(){
+  isarDrawMapF2();
+  if(!heloSupportedA())return;ctx.save();ctx.strokeStyle='#7ae6da';ctx.fillStyle='#a9fff2';ctx.lineWidth=tacticalLineWidthWorld(1,.5);ctx.font=`${tacticalFontWorldSize(10,6)}px monospace`;
+  const selected=ENGAGEMENT_RUNTIME.world.entities.helicopters?.get(heloUiA.selectedId),radar=selected?heloRadarSnapshotE(selected).radar:null;
+  if(heloAirborneE(selected)&&radar){for(const[radius,dashed]of [[radar.instrumentM,false],[radar.horizonM,true],...(radar.mode==='PERI'?[[radar.minimumM,false]]:[])]){if(!(radius>0))continue;ctx.globalAlpha=dashed?.4:.6;ctx.setLineDash(dashed?[tacticalWorldPx(5,8,2,8),tacticalWorldPx(5,8,2,8)]:[]);ctx.beginPath();ctx.arc(metersToWorld(selected.positionM.x),metersToWorld(selected.positionM.y),metersToWorld(radius),0,2*Math.PI);ctx.stroke();}ctx.setLineDash([]);ctx.globalAlpha=1;}
+  for(const h of ENGAGEMENT_RUNTIME.world.entities.helicopters?.values()??[]){if(!h.visible&&h.id!==heloUiA.selectedId)continue;const x=metersToWorld(h.positionM.x),y=metersToWorld(h.positionM.y),r=tacticalWorldPx(6,12,3,12),points=h.navigationMode==='FOLLOW_SHIP'?(h.followPointM?[h.followPointM]:[]):h.route.slice(h.routeIndex);
+    if(points.length){ctx.globalAlpha=.55;ctx.setLineDash([r,r]);ctx.beginPath();ctx.moveTo(x,y);for(const p of points)ctx.lineTo(metersToWorld(p.x),metersToWorld(p.y));ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;points.forEach((p,i)=>{const px=metersToWorld(p.x),py=metersToWorld(p.y);ctx.strokeRect(px-r,py-r,r*2,r*2);ctx.fillText(h.navigationMode==='FOLLOW_SHIP'?'FOLLOW H'+(h.slot+1):'H'+(h.slot+1)+' WP'+(h.routeIndex+i+1),px+r*1.5,py);});}
+    ctx.save();ctx.translate(x,y);ctx.rotate(h.headingRad);ctx.beginPath();ctx.moveTo(r*1.5,0);ctx.lineTo(-r,r*.75);ctx.lineTo(-r,-r*.75);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(0,0,r*.65,0,2*Math.PI);ctx.stroke();ctx.restore();ctx.fillText('H'+(h.slot+1)+' '+HELO_LABELS_A[h.state],x+r*1.8,y-r);
+  }ctx.restore();
+}

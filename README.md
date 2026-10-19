@@ -1,8 +1,17 @@
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 최신 개발 기준 — 지도 조작 WIP MAP_A
+## 최신 개발 기준 — 조작 가능한 지도 PiP WIP PIP_A
 
-- [실행 HTML](Aegis_SIM_v48_WIP_MAP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_MAP_A.md), [SHA](SHA256SUMS_v48_WIP_MAP_A.txt), [A–P·스크린샷](docs/map/A/REPORT.md), [재현](docs/map/A/README.md), [출처 감사](docs/map/A/OBSERVATION_AUDIT.md). UI_A1 `0452e10` 위 `map-a`.
+- [실행 HTML](Aegis_SIM_v48_WIP_PIP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_PIP_A.md), [SHA](SHA256SUMS_v48_WIP_PIP_A.txt), [A–J·스크린샷](docs/pip/A/REPORT.md), [재현](docs/pip/A/README.md), [그리기 감사](docs/pip/A/RENDER_AUDIT.md). MAP_A `c1297b6` 위 `pip-a`.
+- 같은 관측 트랙·MAP_A 선택/통제/계획을 쓰는 실제 2D PiP. 별도 거리/중심/추적, 팬/휠/핀치·메뉴·항로점·하푼 계획과 주화면 전환. 기본 40km/4Hz, SYS 2/4/10Hz, 최소 창200×160·반경0.1km, m 표시.
+- 후보 [확대]는 전부 보임 우선의 최대 확대. 40px 미만이면 분리 불가/주화면 전환, 목록 유지. ESM 처음40px 판정 제외. 기존 간이 지도는 DEAD_LEGACY로 원문 보존하고 숨겨진 메인2D 페인트는0회다.
+- **1271/1271 assertions /32 suites PASS, 페이지 오류0**. MAP_A 런타임994건과 새 핀 기준 정적48건, PiP 입력/순수성/기하/120초/실제3D 검증. PiP ON/OFF 및 기준·수정·pause/resume120초 해시 동일. 물리·센서·판정·발사 권한·게임 저장/모델 보존.
+- 원본18,060,939bytes (+13,323), SHA `76c77b5c80835f87654c8aa39cd6a82c1ad66de8bc408ebad675997157024847`. 최소 PiP100m 간격42.84~47.88px. 소프트웨어 WebGL 전후 평균1275.60→1039.96ms(18.47% 감소); 실폰 FPS가 아니며 낮은 전체FPS에서는 PiP도 같은 RAF 상한을 받는다.
+- MAP_A 네 파일 동일 bytes/blob archive. 전체 원본 업로드·독립 readback은 docs/pip/A/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음. 다음은 MAP_B 사격 지정/무장 플라이아웃/작은 발사 버튼/하푼 모드 전환과 임시 커서 연결 제거. 3D PiP·실폰 GPU/펜 하드웨어는 후속.
+
+## 직전 개발 기준 — 지도 조작 WIP MAP_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_MAP_A/Aegis_SIM_v48_WIP_MAP_A.html), [상태](archive/v48/WIP_MAP_A/AEGIS_PLAN_STATUS_v48_WIP_MAP_A.md), [SHA](archive/v48/WIP_MAP_A/SHA256SUMS_v48_WIP_MAP_A.txt), [A–P·스크린샷](docs/map/A/REPORT.md), [재현](docs/map/A/README.md), [출처 감사](docs/map/A/OBSERVATION_AUDIT.md). UI_A1 `0452e10` 위 `map-a`.
 - 조회/통제/현재 도구/사격 지정 예약 슬롯 분리,20px 객체 탭·겹침 후보·우클릭/550ms/펜 메뉴,정보창·통제/마지막 WP 취소와 연속 방위 테이프. SYS에서 기존 입력으로 전환 가능하며 원본 pointerup은 byte-exact다.
 - **1042/1042 assertions /27 suites PASS, 페이지 오류0**. 200회 조회/메뉴 명령 변화0,120초 해시 동일,3개 지도 크기/DPR2.8125·36개 UI 조합·기존 native 회귀420건 확인. 식별 번호 불변/저장 시 트랙·식별 초기화(기존 정책),하푼 계획 Undo 후 발사된 memory/route/INS 변화0,no-arg LOCK/EMCON 회귀 포함.
 - 무DL 하푼은 현재 위치 비공개,자함 발사 시각/지정 트랙/고정 계획만 표시한다. 시뮬·센서·물리·판정·발사 권한·게임 저장 스키마·모델을 보존한다. 모바일100% 바 세로42.84px·가로24px 유지.
