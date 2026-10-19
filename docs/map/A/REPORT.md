@@ -61,6 +61,12 @@ UI_A1 위에 조회·통제·도구·사격 지정 예약 슬롯을 분리했다
 
 다른 크기: [1400×900 빈 바다](evidence/input/menu-sea-1400.png), [832×384 빈 바다](evidence/input/menu-sea-832.png). 비활성 버튼의 이유를 바로 위에 표시한다. 메뉴만 열거나 닫아서는 명령이 나가지 않는다.
 
+| 자함 | 자함 항로점 | 하푼 경유점 |
+|---|---|---|
+| ![자함](evidence/examples/menu-ownship.png) | ![항로점](evidence/examples/menu-waypoint.png) | ![경유점](evidence/examples/menu-harpoon-waypoint.png) |
+
+세 화면은 `capture_routes.py`의 보완 예시이며 추가 assertion 수로 합산하지 않는다. 마지막이 아닌 점의 삭제는 비활성이며 기존 마지막 점 취소만 제공한다.
+
 ## 5) 정보창 데이터 소스
 
 [OBSERVATION_AUDIT.md](OBSERVATION_AUDIT.md)에 필드·소스·코드 위치를 전부 기록했다. 정보창 빌더의 입력은 자함 항법/AIR/자함 유도탄 상태, 관측 트랙과 contributor, offboard 메타데이터/ISAR/IFF, ESM 방위, 수신 Link 16, 자함 계획/발사 영수증이다. 미관측 적 truth 엔티티 직접 참조는0이다. 기존에 연관된 localTrackId/ESM 키만 묶으며 새 연관 규칙은 없다.
