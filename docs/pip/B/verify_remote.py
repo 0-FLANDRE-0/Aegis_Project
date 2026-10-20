@@ -21,7 +21,8 @@ def verify(name):
   import io
   with zipfile.ZipFile(io.BytesIO(data))as z:
    assert z.testzip()is None;q['zipMembers']=len(z.namelist());q['remoteZipCrcValid']=True
-   if name.endswith('_HTML.zip'):assert z.namelist()==['Aegis_SIM_v48_WIP_PIP_B.html'];assert z.read(z.namelist()[0])==subprocess.check_output(['git','show',a.commit+':Aegis_SIM_v48_WIP_PIP_B.html'],cwd=R)
+   if name.endswith('_HTML.zip'):
+    htmlPath=name.removesuffix('_HTML.zip')+'.html';assert z.namelist()==[Path(htmlPath).name];assert z.read(z.namelist()[0])==subprocess.check_output(['git','show',a.commit+':'+htmlPath],cwd=R)
  return q
 with concurrent.futures.ThreadPoolExecutor(max_workers=4)as pool:files=list(pool.map(verify,names))
 refs=subprocess.check_output(['git','ls-remote','origin',*[f'refs/heads/{n}'for n in base['protectedHeads']],'refs/heads/pip-b-env-a'],cwd=R,text=True);heads={line.split()[1].removeprefix('refs/heads/'):line.split()[0]for line in refs.splitlines()};assert all(heads.get(n)==v for n,v in base['protectedHeads'].items());assert heads['pip-b-env-a']==a.commit
