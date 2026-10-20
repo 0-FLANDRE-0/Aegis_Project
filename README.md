@@ -2,6 +2,8 @@
 
 ## 최신 개발 기준 — 조작 가능한 지도 PiP WIP PIP_A
 
+- [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-a/Aegis_SIM_v48_WIP_PIP_A_HTML.zip?download=1) · [ZIP 체크섬](SHA256SUMS_v48_WIP_PIP_A_HTML_ZIP.txt). 압축을 풀고 HTML을 브라우저로 연다. 현재는 실행 파일만 제공하며 다음 기능 완료본부터 리포트 ZIP을 별도로 제공한다.
+
 - [실행 HTML](Aegis_SIM_v48_WIP_PIP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_PIP_A.md), [SHA](SHA256SUMS_v48_WIP_PIP_A.txt), [A–J·스크린샷](docs/pip/A/REPORT.md), [재현](docs/pip/A/README.md), [그리기 감사](docs/pip/A/RENDER_AUDIT.md). MAP_A `c1297b6` 위 `pip-a`.
 - 같은 관측 트랙·MAP_A 선택/통제/계획을 쓰는 실제 2D PiP. 별도 거리/중심/추적, 팬/휠/핀치·메뉴·항로점·하푼 계획과 주화면 전환. 기본 40km/4Hz, SYS 2/4/10Hz, 최소 창200×160·반경0.1km, m 표시.
 - 후보 [확대]는 전부 보임 우선의 최대 확대. 40px 미만이면 분리 불가/주화면 전환, 목록 유지. ESM 처음40px 판정 제외. 기존 간이 지도는 DEAD_LEGACY로 원문 보존하고 숨겨진 메인2D 페인트는0회다.

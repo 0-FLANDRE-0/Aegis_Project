@@ -27,3 +27,9 @@ python docs/pip/A/run_suite.py archive/v48/WIP_MAP_A/Aegis_SIM_v48_WIP_MAP_A.htm
 Chromium/Playwright와 기존 `docs/performance/F` Node 의존성이 필요하다. 헤드리스 Chromium의 소켓 생성이 가능한 실행 환경에서 실행한다. 역사 테스트 파일은 그대로 사용하며 `run_map.py`는 화면 캡처 대기만 CDP 캡처로 대체한다. 회귀 조건이나 게임 함수를 대체하지 않는다. MAP_A의 정적 48건은 핀/승인 패치가 달라져 PIP_A용 동일 48개 항목으로 재검사한다. 나머지 994개 런타임 회귀는 역사 검사 그대로 실행한다.
 
 PiP 설정은 `aegis.pip.a.view.1` schema 1에만 저장한다. 손상·차단 시 40km/추적 ON/4Hz를 사용한다. 게임 저장 스키마에 포함하지 않는다. 실제 단말 FPS·펜 하드웨어는 이 헤드리스 결과로 주장하지 않는다.
+
+## 실행 파일 다운로드
+
+GitHub raw HTML이 코드로 표시되는 경우 [실행용 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-a/Aegis_SIM_v48_WIP_PIP_A_HTML.zip?download=1)을 받는다. 압축을 풀면 검증된 HTML 하나가 나오며 이를 브라우저에서 연다. 원본 HTML bytes는 변경하지 않았다.
+
+`python docs/pip/A/package_html.py`로 같은 ZIP을 재현할 수 있다. [검증 영수증](evidence/html-delivery.json)은 CRC·수록 목록·압축 해제 SHA·원본 commit 일치를 기록한다. 현재는 실행 파일만 전달하며 다음 기능 완료본부터 보고서 ZIP을 분리한다.

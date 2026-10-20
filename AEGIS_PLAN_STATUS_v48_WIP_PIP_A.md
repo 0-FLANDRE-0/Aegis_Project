@@ -23,3 +23,9 @@
 ## 발행
 
 수동 workflow만 준비하며 Actions는 실행하지 않는다. 전체 HTML 원본과 support를 직접 업로드하고 원격 전체 blob을 다시 읽는다. [발행 영수증](docs/pip/A/remote-publication.json). main 및 기존 브랜치의 head를 보존한다.
+
+## 다운로드 전달 보완 — 2026-10-20
+
+- [실행용 ZIP](Aegis_SIM_v48_WIP_PIP_A_HTML.zip), [ZIP SHA-256](SHA256SUMS_v48_WIP_PIP_A_HTML_ZIP.txt), [포장 검증](docs/pip/A/evidence/html-delivery.json).
+- 검증된 HTML 하나만 수록한다. 원본18,060,939bytes/SHA-256과 시뮬레이션 코드는 그대로다. 기존1271건 결과를 보존하며 이번 작업에서 시뮬레이션 검사를 새로 실행한 것은 아니다.
+- ZIP CRC·수록 목록·압축 해제 bytes·재현 생성·원격 전체 bytes를 확인한다. 현재 리포트 ZIP은 생략하고 다음 기능 완료본부터 실행/리포트 ZIP을 별도로 제공한다.
