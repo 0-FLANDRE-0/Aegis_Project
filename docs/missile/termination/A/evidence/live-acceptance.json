@@ -1,0 +1,65 @@
+{
+  "pass": true,
+  "checks": {
+    "normal240Complete": true,
+    "normalIdenticalScenes": true,
+    "noPrematureTermination": true,
+    "normalHitsUsePreservedNativeFuze": true,
+    "dual36Complete": true,
+    "dualSupportNoPrematureTermination": true,
+    "loss4ObservationClock": true,
+    "reacquire4NativeIntercepts": true,
+    "neverAcquire2UnsupportedArhExpire": true,
+    "sarhNeverAcquireNoArhRule": true,
+    "battery8BothABStates": true,
+    "sm6LivesPast450": true,
+    "nativeVlsRequest4Intercepts": true,
+    "batteryRemainingField0": true,
+    "pageErrors0": true,
+    "staticAudit": true
+  },
+  "records": {
+    "normalHitMaxTimeDifferenceS": 0.2833333333333474,
+    "normalHitMaxFuzeDistanceDifferenceM": 0.42157034330552157,
+    "normalPairs": 120,
+    "normalNativeHitsOff": 83,
+    "normalNativeHitsOn": 83,
+    "normalPrematureCount": 0,
+    "dualPairs": 18,
+    "dualHitsOff": 16,
+    "dualHitsOn": 16,
+    "dualPrematureCount": 0,
+    "normalByWeapon": {
+      "SM2": {
+        "pairs": 30,
+        "hits": 20,
+        "premature": 0
+      },
+      "SM2ER": {
+        "pairs": 30,
+        "hits": 20,
+        "premature": 0
+      },
+      "SM6": {
+        "pairs": 30,
+        "hits": 18,
+        "premature": 0
+      },
+      "ESSM": {
+        "pairs": 30,
+        "hits": 25,
+        "premature": 0
+      }
+    }
+  },
+  "inputs": {
+    "normals-release.json": "67c774aa17a309b834a4ff5cf551ffc44b3a3f1b2d73ed7e5b85b38c330e7ac5",
+    "dual-release.json": "0de29334089124c880efc7d9d2f622331abd80076b3f0cba3650d9360791e407",
+    "faults-release.json": "656ad08774c2326d8bd3eb4c0947979145572d499805a47a85b7a873f66924c7",
+    "battery-release.json": "b5b090927a5bbcc880f8a905c191c1100d553f9cc301132fce8afeeaf2cfd61b",
+    "release-request-final.json": "b070193a84277b33fadfb4e3b454484561eaea5cb07d2bb20ee3a996800abf6e",
+    "validation-release.json": "8795e7a420b18cef93b10afeca70a297acb6189cf12955880d0c2004aa1032cb",
+    "static.json": "267a5dec73e84d1c24cd93b0a26295b4f5df4f06bad2ad0d270802d9779cebbe"
+  },
+  "batteryTestMethod": "native flight then test-only clock checkpoint, no flight/fuze/propulsion function replacement"
+}

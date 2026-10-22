@@ -197,10 +197,20 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 — PiP·정보 정리 WIP PIP_B + ENV_A
+### 최신 개발 기준 — 누적 Dynamic B4 ALL4 + 관측 기반 종료 WIP ALL4_TERM
+
+- [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_REPORT.zip?download=1).
+- [HTML](Aegis_SIM_v48_WIP_ALL4_TERM.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_ALL4_TERM.md), [SHA](SHA256SUMS_v48_WIP_ALL4_TERM.txt), [실제 게임·종료 검수](docs/missile/termination/A/REPORT.md), [ENV_B 전후 사거리·궤적](docs/envelope/B/REPORT.md), [재현](docs/missile/termination/A/README.md).
+- 최신 PIP_B `294bbb0` 위 `missile-b4-termination`. 4종 B4를 자함/NPC에 적용, 중복 이식 방지. 원안의 SARH/DL 대체 유도 중 조기 종료와 임의 65초 교차 시계를 종료기에서 보완했다. 실제 표적 좌표를 종료 판단에 넣지 않는다. B4 코드·수치 및 기존 신관/추진/항력/시커/Kappa 계산 보존, SM-6 게임 배터리만480초.
+- 240발 ON/OFF + 대체 지원36발에서 기존 명중99건/조기 종료0. 실제 RF 소실·재획득·미획득, 배터리8건/정식VLS4건 및 자연 SPY트랙/전체fixed tick/WebGL8발 검사 통과. 기존 관련 회귀420/420 + UI88/88. 세부 조건·초기 실패·한계는 보고서를 따른다.
+- ENV_B는 96조합/120궤적, 독립2회 각각11,458사격·46,068,182bytes 동일. 실제 게임/분리 경로5,894샘플 오차0, Chromium 사거리경계151건 일치. ENV_A 구판 자료는 변경하지 않았다. 표는 아직 지도/교전 권한에 연결하지 않는다.
+- **알려진 결과 변화:** SM-6 100km/5km/접근250m/s/seed12002는 B4 후 종료기OFF도 비명중 후 SEA_IMPACT (구판명중,3회재현). 요청한 B4 수치를 유지하며 조기 종료와 분리 기록한다. 전면 안정판 승격 없음.
+- 원본18,278,162bytes, SHA `c6e10449c54b8b99aa2a51e2b7b1d3c020d15e36986c05f5941a172b90d15800`. 이전 전달세트8개 동일 bytes/blob archive. 원본/두 ZIP 직접 업로드·독립 원격 readback, Actions dispatch/PR/main·이전브랜치 병합 없음. 다음은 알려진 B4 결과 검토와 MAP_B다.
+
+### 직전 개발 기준 — PiP·정보 정리 WIP PIP_B + ENV_A
 
 - [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_REPORT.zip?download=1). 실행 ZIP을 풀어 HTML을 연다. 리포트에는 검증·그림·10Hz CSV·계산표·원시 결과·재현 소스·체크섬을 넣고 실행 HTML은 제외한다.
-- [실행 HTML](Aegis_SIM_v48_WIP_PIP_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_PIP_B.md), [SHA](SHA256SUMS_v48_WIP_PIP_B.txt), [P1–P5·스크린샷](docs/pip/B/REPORT.md), [ENV_A·그래프·사거리 표](docs/envelope/A/REPORT.md), [재현](docs/pip/B/README.md). PIP_A `662eb14` 위 `pip-b-env-a`.
+- [실행 HTML](archive/v48/WIP_PIP_B/Aegis_SIM_v48_WIP_PIP_B.html), [상태](archive/v48/WIP_PIP_B/AEGIS_PLAN_STATUS_v48_WIP_PIP_B.md), [SHA](archive/v48/WIP_PIP_B/SHA256SUMS_v48_WIP_PIP_B.txt), [P1–P5·스크린샷](docs/pip/B/REPORT.md), [ENV_A·그래프·사거리 표](docs/envelope/A/REPORT.md), [재현](docs/pip/B/README.md). PIP_A `662eb14` 위 `pip-b-env-a`.
 - 제목줄 아래 전체를 PiP 지도로 사용한다. 기존 중심/전환 버튼 노드와 리스너는 제목 메뉴로 이동하고 빈 바다 메뉴에도 연결했다. 락온 카드 본문은 일반 창으로 옮겨8Hz 갱신, 닫기 억제/다음 락 재개방을 제공한다. 정보/메뉴/후보/제목11px, 일반 버튼28px+36px hit, 위험 조작40px를 유지한다.
 - SYS의 2D 센서 빔 표시 기본 OFF. 트랙/ESM/항로점/섬/3D 센서는 보존한다. 자함의 청록 원은 world 단위 항적선 두께가 확대되던 표시 오류였으며 화면1.5px로 수정했다. 실제 원인 분리·확대율별 검사를 보고서에 기록했다.
 - ENV_A는 변경하지 않은 게임 비행·유도·로프트·신관241개 함수의 독립 진단이다.4종의96개 최대 거리 조합/120개 궤적·10Hz CSV와 표를 내장한다. 실제 장비 성능 비교는 없으며 시작 시 계산하지 않는다.300km는 검사 상한이다. 표 안쪽에도 실패 구간이 있으므로 지도/발사 판단에 아직 연결하지 않는다.
