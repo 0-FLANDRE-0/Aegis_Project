@@ -1,7 +1,17 @@
-## 최신 개발 기준 — 누적 Dynamic B4 ALL4 + 관측 기반 종료 WIP ALL4_TERM
+## 최신 개발 기준 — 설계 사거리 정렬 WIP RANGE_A + ENV_C
+
+- ALL4_TERM `9a6838a` 위 `range-a-env-c`. [실행ZIP(HTML1개)](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-a-env-c/Aegis_SIM_v48_WIP_RANGE_A_HTML.zip?download=1) · [리포트ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-a-env-c/Aegis_SIM_v48_WIP_RANGE_A_REPORT.zip?download=1).
+- [HTML](Aegis_SIM_v48_WIP_RANGE_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_RANGE_A.md), [SHA](SHA256SUMS_v48_WIP_RANGE_A.txt), [0단계/8값/목표 부족/전체검수](docs/missile/range/A/REPORT.md), [ENV_C전체표·전후 비교·120궤적](docs/envelope/C/REPORT.md).
+- ER/SM-6 설계8숫자만360/450km로 정렬했다. 정지 표적 고도1/10/20km 최대는ER136/135/241, SM-6 135/132/286km로 줄었다. 목표에 억지로 맞추지 않고 WIP 결과로 남긴다. 3,884명명 함수/추진/항력/유도/신관/배터리/종료기 보존, MR/ESSM 변경0.
+- 0단계/정렬후6조건/전체ENV_C 각각2회 비트 동일. 전체96조합/120궤적, 각 26,714사격. 실제요격점 거리·1km 전역상한 탐색, 계산표 해시 내장. 표를 지도/발사권한/AI에 연결하지 않았다.
+- 기존420회귀+UI88+종료기16 통과. 정상240발OFF/ON 각85명중, 기존83명중 보존+2회복, 조기종료0. 자연탐지/전체월드/WebGL8발 통과. 게임/사본 6,806샘플 오차0, 무표적120초truth/RNG hash 동일, 전투는8값복원으로 인과 확인.
+- SM-6 100km/5km 접근250m/s seed12002 해면 충돌은OFF3/ON3 모두명중으로 회복. 저고도 이탈3+횡단18조사는수정0이며 횡단11건도해면충돌했다. [조사](docs/envelope/C/results/LOW_ALT_INVESTIGATION.md).
+- 원본 18,283,304bytes / SHA `8f504eb45c19c34e473d0d04f08180afde95a9c72b5ec935ec0204bd9d7246b5`. ALL4_TERM8파일 동일 bytes/blob archive, ENV_A/B 및 기존 종료기 자료 변경0. 실행/리포트ZIP 분리·전체 원격readback 영수증은발행후추가한다. Actions/PR/main·이전브랜치 병합 없음.
+
+## 직전 개발 기준 — 누적 Dynamic B4 ALL4 + 관측 기반 종료 WIP ALL4_TERM
 
 - [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_REPORT.zip?download=1).
-- [HTML](Aegis_SIM_v48_WIP_ALL4_TERM.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_ALL4_TERM.md), [SHA](SHA256SUMS_v48_WIP_ALL4_TERM.txt), [실제 게임·종료 검수](docs/missile/termination/A/REPORT.md), [ENV_B 전후 사거리·궤적](docs/envelope/B/REPORT.md), [재현](docs/missile/termination/A/README.md).
+- [HTML](archive/v48/WIP_ALL4_TERM/Aegis_SIM_v48_WIP_ALL4_TERM.html), [상태](archive/v48/WIP_ALL4_TERM/AEGIS_PLAN_STATUS_v48_WIP_ALL4_TERM.md), [SHA](archive/v48/WIP_ALL4_TERM/SHA256SUMS_v48_WIP_ALL4_TERM.txt), [실제 게임·종료 검수](docs/missile/termination/A/REPORT.md), [ENV_B 전후 사거리·궤적](docs/envelope/B/REPORT.md), [재현](docs/missile/termination/A/README.md).
 - 최신 PIP_B `294bbb0` 위 `missile-b4-termination`. 4종 B4를 자함/NPC에 적용, 중복 이식 방지. 원안의 SARH/DL 대체 유도 중 조기 종료와 임의 65초 교차 시계를 종료기에서 보완했다. 실제 표적 좌표를 종료 판단에 넣지 않는다. B4 코드·수치 및 기존 신관/추진/항력/시커/Kappa 계산 보존, SM-6 게임 배터리만480초.
 - 240발 ON/OFF + 대체 지원36발에서 기존 명중99건/조기 종료0. 실제 RF 소실·재획득·미획득, 배터리8건/정식VLS4건 및 자연 SPY트랙/전체fixed tick/WebGL8발 검사 통과. 기존 관련 회귀420/420 + UI88/88. 세부 조건·초기 실패·한계는 보고서를 따른다.
 - ENV_B는 96조합/120궤적, 독립2회 각각11,458사격·46,068,182bytes 동일. 실제 게임/분리 경로5,894샘플 오차0, Chromium 사거리경계151건 일치. ENV_A 구판 자료는 변경하지 않았다. 표는 아직 지도/교전 권한에 연결하지 않는다.
@@ -10,7 +20,7 @@
 
 # AEGIS 현실형 함정 방위 시뮬레이터
 
-## 직전 개발 기준 — PiP·정보 정리 WIP PIP_B + ENV_A
+## 이전 개발 기준 — PiP·정보 정리 WIP PIP_B + ENV_A
 
 - [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_REPORT.zip?download=1). 실행 ZIP을 풀어 HTML을 연다. 리포트에는 검증·그림·10Hz CSV·계산표·원시 결과·재현 소스·체크섬을 넣고 실행 HTML은 제외한다.
 - [실행 HTML](archive/v48/WIP_PIP_B/Aegis_SIM_v48_WIP_PIP_B.html), [상태](archive/v48/WIP_PIP_B/AEGIS_PLAN_STATUS_v48_WIP_PIP_B.md), [SHA](archive/v48/WIP_PIP_B/SHA256SUMS_v48_WIP_PIP_B.txt), [P1–P5·스크린샷](docs/pip/B/REPORT.md), [ENV_A·그래프·사거리 표](docs/envelope/A/REPORT.md), [재현](docs/pip/B/README.md). PIP_A `662eb14` 위 `pip-b-env-a`.

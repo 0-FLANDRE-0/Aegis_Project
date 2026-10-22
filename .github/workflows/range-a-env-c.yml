@@ -1,0 +1,77 @@
+name: RANGE A and ENV C (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      full_envelope:
+        description: 'Run both expensive offline envelope sweeps'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+env:
+  NODE_PATH: ${{ github.workspace }}/docs/performance/F/node_modules
+  MPLCONFIGDIR: /tmp/aegis-env-matplotlib
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/F --ignore-scripts --no-audit --no-fund
+          pip install -r docs/helicopter/F/requirements.txt matplotlib
+          python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_RANGE_A.txt
+          sha256sum -c docs/missile/range/A/REPOSITORY_SUPPORT.sha256
+          NODE_PATH=docs/performance/F/node_modules node docs/missile/range/A/verify_static.cjs Aegis_SIM_v48_WIP_RANGE_A.html artifacts/static.json
+          python docs/missile/termination/A/verify_live.py Aegis_SIM_v48_WIP_RANGE_A.html artifacts/normals.json --cases docs/missile/termination/A/cases/normal.json --batch 10
+          python docs/pip/B/run_domain.py Aegis_SIM_v48_WIP_RANGE_A.html artifacts/domain --parallel 2
+          python docs/envelope/C/verify_path_all4.py Aegis_SIM_v48_WIP_RANGE_A.html artifacts/envelope-native
+          python docs/envelope/C/verify_status.py Aegis_SIM_v48_WIP_RANGE_A.html artifacts/envelope-status
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: range-a-${{ github.sha }}
+          path: artifacts
+          if-no-files-found: error
+  envelope:
+    if: inputs.full_envelope
+    runs-on: ubuntu-latest
+    timeout-minutes: 480
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install matplotlib
+      - run: |
+          mkdir -p artifacts/envelope
+          node docs/envelope/C/run.cjs artifacts/envelope/run-1.json
+          node docs/envelope/C/run.cjs artifacts/envelope/run-2.json
+          python docs/envelope/C/verify_results.py artifacts/envelope/run-1.json artifacts/envelope/run-2.json artifacts/envelope
+          python docs/envelope/C/report.py artifacts/envelope/run-1.json artifacts/envelope/graphs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: envelope-c-${{ github.sha }}
+          path: artifacts/envelope
+          if-no-files-found: error

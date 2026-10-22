@@ -1,0 +1,9 @@
+// DIAGNOSTIC_ONLY: read existing per-tick telemetry. No native body instrumentation.
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const H=__dirname,base=process.argv.includes('--baseline')?path.join(H,'stage0'):H;
+const d=JSON.parse(fs.readFileSync(base+'/inputs.json')),source=fs.readFileSync(base+'/native-engine.js','utf8')+'\n'+fs.readFileSync(H+'/private.js','utf8'),factory=new Function('DATA','SETTINGS','PROFILE','PRIVATE_SHIP',source);
+const model=factory(structuredClone(d.data),structuredClone(d.settings),{},{entityId:'ENV_PRIVATE',navigation:{heading:0,speed:0,positionWorld:{x:0,y:0}},weapons:{}});
+const cases=['SM2','SM2ER','SM6'].map(weapon=>({weapon,rangeKm:weapon==='SM2'?16:25,altM:30,targetSpeedMps:-250,telemetry:true}));
+for(const weapon of ['SM2','SM2ER','SM6'])for(const altM of [30,200])for(const rangeKm of [10,20,40])cases.push({weapon,altM,rangeKm,targetSpeedMps:0,crossSpeedMps:250,telemetry:true});
+const start=performance.now(),rows=cases.map(c=>{const q=model.runCase(c),ts=q.diagnosticTicks;let descent=null;for(let i=1;i<ts.length;i++)if(ts[i].vzMps<0&&ts[i-1].vzMps>=0){descent={before:ts[i-1],after:ts[i]};break;}return{...q,firstDescent:descent,descentDefinition:'first post-launch vz crossing from >=0 to <0, native dt 1/60',last2s:ts.filter(x=>x.timeS>=q.flightTimeS-2)};});
+const out=JSON.stringify({schema:'AEGIS_LOW_ALT_INVESTIGATION_C_1',baseline:base.endsWith('stage0'),cases:rows}),name=process.argv[2];fs.writeFileSync(name,out);fs.writeFileSync(name+'.receipt.json',JSON.stringify({elapsedMs:performance.now()-start,bytes:Buffer.byteLength(out),sha256:crypto.createHash('sha256').update(out).digest('hex'),cases:rows.length}));console.log(rows.map(q=>[q.weapon,q.rangeKm,q.altM,q.crossSpeedMps,q.reason,q.closestM,q.terminal.speedMps]));
