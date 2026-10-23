@@ -1,0 +1,182 @@
+{
+  "schema": "AEGIS_KAPPA_PIP_LOS_A_VERIFICATION_1",
+  "verificationPass": true,
+  "checks": {
+    "twoIndependentRunsBitIdentical": true,
+    "exactly14UniqueConditions": true,
+    "noRangeSweep": true,
+    "completeBeforeAfter": true,
+    "sameRequestedKinematics": true,
+    "finiteNativeTrajectory": true,
+    "observedPipAndVFinalLogged": true,
+    "onlyDefaultConfiguredPolicyUsed": true,
+    "tgo90Preserved": true,
+    "nativeFuzeOnlySuccess": true,
+    "run1Receipt": true,
+    "run2Receipt": true,
+    "providedSmallReproReproduced": true,
+    "staticSourceScope": true,
+    "wholeGameNativePathAndIsolation": true
+  },
+  "limited14CaseGatePass": true,
+  "gates": {
+    "fourSpecifiedSeaImpactsRepaired": true,
+    "sixNormalControlsPreserved": true,
+    "allExistingSuccessesPreservedIncludingCrossers": true,
+    "sourceAndParametersProtected": true
+  },
+  "summary": {
+    "CURRENT": {
+      "SEA_REPRO": {
+        "successes": 0,
+        "cases": 4
+      },
+      "CONTROL": {
+        "successes": 6,
+        "cases": 6
+      },
+      "CROSS": {
+        "successes": 2,
+        "cases": 4
+      }
+    },
+    "PATCHED": {
+      "SEA_REPRO": {
+        "successes": 4,
+        "cases": 4
+      },
+      "CONTROL": {
+        "successes": 6,
+        "cases": 6
+      },
+      "CROSS": {
+        "successes": 4,
+        "cases": 4
+      }
+    }
+  },
+  "successToFailure": [],
+  "improvedCases": [
+    "SEA_MR16_30",
+    "SEA_ER25_30",
+    "SEA_SM6_25_30",
+    "SEA_ER60_1000",
+    "CROSS_ER20_30",
+    "CROSS_SM6_20_30"
+  ],
+  "configuredPolicies": [
+    "PIP_LOS"
+  ],
+  "effectiveFreshPolicies": [
+    "B4_CLIMB",
+    "B4_CRUISE",
+    "PIP_LOS"
+  ],
+  "nondefaultPoliciesCertified": false,
+  "receipts": [
+    {
+      "sha256": "942705a08add02b7b853693d06398ef338bec11967c3ddb631023d5bfbc503c7",
+      "bytes": 234240109,
+      "calls": 28,
+      "elapsedMs": 9468.064332,
+      "workers": 2
+    },
+    {
+      "sha256": "942705a08add02b7b853693d06398ef338bec11967c3ddb631023d5bfbc503c7",
+      "bytes": 234240109,
+      "calls": 28,
+      "elapsedMs": 8445.752578,
+      "workers": 2
+    }
+  ],
+  "kitComparison": [
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 2.0054358174093068e-09
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 1.1738165994756855e-11
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 1.0658141036401503e-14
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    },
+    {
+      "version": "CURRENT",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 4.547473508864641e-12
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 2.0422730173663695e-10
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 5.551115123125783e-17
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 2.4091839634365897e-13
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 1.0658141036401503e-14
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    },
+    {
+      "version": "PATCHED",
+      "sameOutcome": true,
+      "timeDeltaS": 0.0,
+      "closestDeltaM": 0.0
+    }
+  ],
+  "browserCasePairs": 28,
+  "browserSamplePairs": 25529,
+  "full96SweepPerformed": false,
+  "fullModelCertification": false
+}

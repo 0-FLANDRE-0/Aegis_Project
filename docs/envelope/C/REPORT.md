@@ -1,3 +1,6 @@
+> **과거 유도 코드의 결과 — HISTORICAL_PRE_KAPPA_PIP_LOS**
+> 이 보고서는 Kappa 종말 수평방향 수정 전 결과다. 현재 KAPPA_PIP_LOS_A의 사거리·성공 판정으로 사용하지 않는다. 기존 측정 데이터는 보존했다. 새 제한 검증은 [KAPPA_PIP_LOS_A 보고서](../../missile/kappa/A/REPORT.md)를 확인한다.
+
 # ENV_C — RANGE_A 전체 재측정
 
 프로파일/진단 경계 SHA-256: `a481e469fc7201c626c243b6669a215f0feafbd608b4af10ab65b4ebf5574a61`

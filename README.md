@@ -1,7 +1,16 @@
-## 최신 시험 후보 — RANGE_RECOVERY_A
+## 최신 시험 후보 — KAPPA_PIP_LOS_A
+
+- `range-loft-recovery-a`의 `5af4726` 위 별도 `kappa-pip-los-a`. [HTML](Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_KAPPA_PIP_LOS_A.md), [SHA](SHA256SUMS_v48_WIP_KAPPA_PIP_LOS_A.txt), [보고서](docs/missile/kappa/A/REPORT.md), [실행 diff](docs/missile/kappa/A/game-change.diff).
+- [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_REPORT.zip?download=1).
+- 종말 수평방향2복사본만 관측 PIP의 dx/dy로 수정했다. B4·설계/RMAX/fullLoft·추진/항력/질량/시커/신관/배터리/종료기/해면판정/UI 및 TGO90초 유지.
+- 14조건 A/B×2에서 지정 해면충돌4건 모두 명중, 정상6건 유지, 횡단2/4→4/4. 기존 성공8건 유지·신규실패0. 원시 반복 비트동일, 실제월드/진단28쌍25,529샘플 오차0. 이는14조건의 제한 합격이다.
+- 실행 소스에서 진단 캡슐과 함수 해시를 재생성했다. native 불일치0, 현재 사거리표는 rows0/profileHashnull/envelopeMeasured=false. ENV_C/RECOVERY_A 보고서에는 구 유도 코드의 과거 결과임을 표시했고 기존 데이터는 유지했다.
+- 전체96/500km스윕, 새최대거리, 비기본정책, 전체420+UI88/자연센서 종합검사는 실행하지 않았다. 원본 RANGE_RECOVERY_A 전달세트7파일 같은 bytes/blob archive, 기존브랜치/main 병합·새PR·Actions 실행 없음.
+
+## 직전 시험 후보 — RANGE_RECOVERY_A (구 유도 코드)
 
 - `range-loft-recovery-a`: RANGE_A의 fullLoftKm만 ER360→240 / SM-6 450→260. 설계목표360/450·RMAX·추진/항력/Kappa/신관/배터리/종료기/UI 유지.
-- [HTML](Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_RANGE_RECOVERY_A.md), [SHA](SHA256SUMS_v48_WIP_RANGE_RECOVERY_A.txt), [제한 시험 보고](docs/missile/range/RECOVERY_A/REPORT.md), [검증](docs/missile/range/RECOVERY_A/evidence/verification.json).
+- [HTML](archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html), [상태](archive/v48/WIP_RANGE_RECOVERY_A/AEGIS_PLAN_STATUS_v48_WIP_RANGE_RECOVERY_A.md), [SHA](archive/v48/WIP_RANGE_RECOVERY_A/SHA256SUMS_v48_WIP_RANGE_RECOVERY_A.txt), [제한 시험 보고](docs/missile/range/RECOVERY_A/REPORT.md), [검증](docs/missile/range/RECOVERY_A/evidence/verification.json).
 - [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-loft-recovery-a/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-loft-recovery-a/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A_REPORT.zip?download=1).
 - 정지6조건 0/6→6/6 회복, 접근300m/s는6/6 유지. 장거리 이탈150m/s는 기준판/정렬판/후보 모두0/6. 추가60km 이탈확인은 기준판6/6, 정렬판/후보5/6으로 ER60km/1km 해면충돌이 남았다. 전체 복구 완료로 판정하지 않는다.
 - 본시험54조건+확인18조건 각각2회 비트동일. 실제월드/사본72조건 궤적 오차0, 진단의 월드/RNG/틱 변화0. 정적 byte 비교와 기존 종료기6fixture 통과. 전체96스윕/새최대거리/420+UI88전체회귀는 실행하지 않았다.
