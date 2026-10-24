@@ -1,0 +1,22 @@
+--- BASE/computeZEMCorrectionV1.js
++++ Z/computeZEMCorrectionV1.js
+@@ -1,5 +1,5 @@
+ function computeZEMCorrectionV1(m, targetState, profile){
+-    // Compute predicted CPA (Zero-Effort Miss) and -ZEM direction acceleration
++    // Compute predicted CPA; ZEM is target-minus-missile at future CPA
+     if(!targetState.isValid || targetState.rangeM < 5){
+       return { ax:0, ay:0, az:0, predictedCPA:0, predictedCPATime:0 };
+     }
+@@ -23,10 +23,10 @@
+     const zy = ry + rvy * tgo;
+     const zz = rz + rvz * tgo;
+     const zMag = Math.sqrt(zx*zx + zy*zy + zz*zz);
+-    // a_ZEM = -k * 2 * ZEM / tgo^2
++    // Relative future position is r+v_rel*t-0.5*a_m*t^2: steer +ZEM.
+     const gain = (profile.zemGain || 1.0) * clamp(targetState.confidence, 0.2, 1.0);
+     const k = gain * 2 / (tgo * tgo);
+-    let ax=-k*zx, ay=-k*zy, az=-k*zz;
++    let ax=k*zx, ay=k*zy, az=k*zz;
+     const rawG=Math.hypot(ax,ay,az)/G0;
+     // WIP57: ZEM is a refinement term, not an unbounded 1/tgo^2 actuator request.  Cap it against
+     // both a profile ceiling and the current physical 6DOF authority, then approach the cap smoothly.

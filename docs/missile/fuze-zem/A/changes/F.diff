@@ -1,0 +1,50 @@
+--- /dev/null
++++ added-declarations-F.js
+@@ -0,0 +1,3 @@
++// SIM_TUNED: a new geometric look requires >=100ms without a qualified
++  // range/beam return. This is a re-arm cadence, not a 60Hz Bernoulli trial.
++  const FUZE_OPPORTUNITY_REARM_GAP_S_A = 0.100;
+--- BASE/_wip99FuzeDetectionDraw.js
++++ F/_wip99FuzeDetectionDraw.js
+@@ -1,7 +1,25 @@
+-function _wip99FuzeDetectionDraw(m){
+-    if(!Number.isFinite(m?._wip99FuzeDetectionDraw)){
+-      const mid=(Number(m?.id)||1)>>>0,st=_mix32((SIM_SEED_BASE>>>0)^Math.imul(mid,0x51f15e5d)^0xd37ec7a1)||1;
+-      m._wip99FuzeDetectionDraw=(st>>>0)/4294967296;
++function _wip99FuzeDetectionDraw(m,target=null){
++    // One independent missile-local stream, separate from simRandom/clutter/Pk.
++    let stream=m._fuzeOpportunityRngA;
++    if(!stream){
++      const mid=(Number(m.id)||1)>>>0;
++      stream=m._fuzeOpportunityRngA={state:_mix32((SIM_SEED_BASE>>>0)^Math.imul(mid,0x51f15e5d)^0xd37ec7a1)||1,draws:0,looks:new WeakMap()};
+     }
+-    return m._wip99FuzeDetectionDraw;
++    const key=target&&typeof target==='object'?target:m;
++    const now=Number.isFinite(m.life)?m.life:0;
++    let look=stream.looks.get(key);
++    // Continuous eligible returns share one variate, even when Pd changes with
++    // range. Thus encounter Pd is max(Pd), never 1-product(1-Pd) at 60Hz.
++    if(!look || now<look.lastSeenS || now-look.lastSeenS>=FUZE_OPPORTUNITY_REARM_GAP_S_A-1e-9){
++      const epoch=Math.max(0,Math.floor((now+1e-9)/FUZE_OPPORTUNITY_REARM_GAP_S_A));
++      // The simulation-clock epoch decorrelates distinct observation occasions
++      // even in diagnostics that reset the missile serial to 1 for every shot.
++      stream.state=_xorshift32(_mix32(stream.state^Math.imul((epoch+1)>>>0,0x9e3779b1))||1);
++      look={id:++stream.draws,openedS:now,lastSeenS:now,draw:(stream.state>>>0)/4294967296};
++      stream.looks.set(key,look);
++    }
++    look.lastSeenS=now;
++    m._wip99FuzeDetectionDraw=look.draw; // compatibility/debug value only
++    m._fuzeOpportunityIdA=look.id;m._fuzeOpportunityOpenedSA=look.openedS;
++    return look.draw;
+   }
+--- BASE/_wip99FuzeDetectionInfo.js
++++ F/_wip99FuzeDetectionInfo.js
+@@ -18,6 +18,6 @@
+       rangePd01=smoothstep(clamp((detectM-r)/Math.max(1,detectM-fullR),0,1));
+       pd=lerp(pd,Math.max(pd,Number(cfg.maxPd)||.999),rangePd01);
+     }
+-    const draw=_wip99FuzeDetectionDraw(m);
+-    return {detected:draw<=pd,pd,draw,closingMps,closureQ,rangePd01,sensorDomain:p.sensorDomain??'RF_TDD',...returnMetric};
++    const draw=_wip99FuzeDetectionDraw(m,target);
++    return {detected:draw<=pd,pd,draw,opportunityId:m._fuzeOpportunityIdA,opportunityOpenedS:m._fuzeOpportunityOpenedSA,closingMps,closureQ,rangePd01,sensorDomain:p.sensorDomain??'RF_TDD',...returnMetric};
+   }

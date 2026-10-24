@@ -1,0 +1,63 @@
+const POLICY=`// SIM_TUNED termination evidence policy; not guidance/engine limits.
+  const TRACKED_PASS_POLICY_A=Object.freeze({terminalRangeM:35000,closingEvidenceMps:20,openingEvidenceMps:20,persistenceS:2.5,minGrowthM:200,sigmaMultiplier:3,freshContinuityS:.35,angleFilterS:.5,recoveryRateRadS:.002,recoveryHoldS:.75,turnMarginS:.75});`;
+const HELPER=`function gameTrackedPassEvidenceA(m,ob,memo,geometry){
+    const p=TRACKED_PASS_POLICY_A,now=Number(ob.nowS)||0,{dx,dy,dz,rvx,rvy,rvz,rng,closing}=geometry;
+    if(![dx,dy,dz,rvx,rvy,rvz,rng,closing].every(Number.isFinite))return null;
+    const v=ob.ownVelMps,speed=Math.hypot(v.x,v.y,v.z),rel2=rvx*rvx+rvy*rvy+rvz*rvz;
+    const tau=rel2>1e-6?-(dx*rvx+dy*rvy+dz*rvz)/rel2:0;
+    const angle=speed>1&&rng>1?Math.acos(clamp((dx*v.x+dy*v.y+dz*v.z)/(rng*speed),-1,1)):0;
+    const sigma=Number.isFinite(ob.trackSigmaM)&&ob.trackSigmaM>=0?ob.trackSigmaM:Infinity;
+    let e=memo.trackedPassA;
+    const gap=e?now-e.lastS:Infinity;
+    const discontinuous=e&&gap>0&&Math.abs(rng-e.lastRangeM)>Math.sqrt(rel2)*gap+Math.max(p.minGrowthM,6*sigma);
+    if(!e||gap<0||gap>p.freshContinuityS||e.kind!==ob.observationKind||discontinuous){
+      e=memo.trackedPassA={armed:false,kind:ob.observationKind,lastS:now,lastRangeM:rng,minRangeM:rng,lastAngle:angle,angleRate:0,openingSinceS:null,recoveryUntilS:-Infinity,turnAllowanceS:0};
+    }
+    const dt=now-e.lastS;
+    if(dt>1e-6){const a=1-Math.exp(-dt/p.angleFilterS);e.angleRate+=( (angle-e.lastAngle)/dt-e.angleRate)*a;}
+    e.minRangeM=Math.min(e.minRangeM,rng);
+    // CPA is from the local observed relative state; no truth CPA or Kappa TGO.
+    if(rng<=p.terminalRangeM&&closing>p.closingEvidenceMps&&tau>0){
+      e.armed=true;e.predictedCpaS=now+tau;e.openingSinceS=null;e.turnAllowanceS=0;
+    }
+    if(closing>=-p.openingEvidenceMps){e.openingSinceS=null;e.turnAllowanceS=0;}
+    else if(e.armed){
+      if(e.openingSinceS==null){e.openingSinceS=now;e.openingStartRangeM=rng;}
+      // Allow at least a physical half-turn at currently available authority.
+      // The allowance may grow as speed/authority change, never shrink.
+      // This is a recovery opportunity, not an asserted intercept solution.
+      const g=Number(m.availableG);
+      const turn=Number.isFinite(g)&&g>0&&speed>1?Math.PI*speed/(g*G0):Infinity;
+      e.turnAllowanceS=Math.max(e.turnAllowanceS,turn);
+    }
+    if(e.angleRate < -p.recoveryRateRadS)e.recoveryUntilS=now+p.recoveryHoldS;
+    const alt=ob.alternateTrack;
+    let alternateApproach=false;
+    if(alt?.isValid&&alt.posM&&alt.velMps){
+      const r=[alt.posM.x-ob.ownPosM.x,alt.posM.y-ob.ownPosM.y,alt.posM.z-ob.ownPosM.z],u=[alt.velMps.x-v.x,alt.velMps.y-v.y,alt.velMps.z-v.z];
+      alternateApproach=r.every(Number.isFinite)&&u.every(Number.isFinite)&&r.reduce((s,x,i)=>s+x*u[i],0)<0;
+    }
+    e.lastS=now;e.lastRangeM=rng;e.lastAngle=angle;e.lastClosingMps=closing;e.lastCpaTimeS=tau;e.trackSigmaM=Number.isFinite(sigma)?sigma:null;e.alternateApproach=alternateApproach;
+    const openingFor=e.openingSinceS==null?0:now-e.openingSinceS;
+    const growth=rng-e.minRangeM,requiredGrowth=Math.max(p.minGrowthM,p.sigmaMultiplier*sigma);
+    const pastCpa=Number.isFinite(e.predictedCpaS)&&now>=e.predictedCpaS+p.persistenceS;
+    const recoveryGrace=Math.max(p.persistenceS,e.turnAllowanceS+p.turnMarginS);
+    e.openingForS=openingFor;e.growthM=growth;e.requiredGrowthM=Number.isFinite(requiredGrowth)?requiredGrowth:null;e.recoveryGraceS=Number.isFinite(recoveryGrace)?recoveryGrace:null;
+    if(e.armed&&pastCpa&&tau<=0&&closing < -p.openingEvidenceMps&&openingFor>=recoveryGrace&&growth>=requiredGrowth&&now>e.recoveryUntilS&&!alternateApproach&&!ob.fuzeDetonated)return 'TERMINAL_MISS_TRACKED_DIVERGENCE';
+    return null;
+  }`;
+function definitions(symbols){
+ let evaluate=symbols.get('gameFlightTerminationEvaluateV48').code;
+ evaluate=evaluate.replace('      return null;\n    }\n    if(ob.alternateGuidance===true)return null;',`      return gameTrackedPassEvidenceA(m,ob,memo,{dx,dy,dz,rvx,rvy,rvz,rng,closing});
+    }
+    if(ob.alternateGuidance===true)return null;`);
+ if(!evaluate.includes('return gameTrackedPassEvidenceA'))throw Error('TERM_FRESH_GUARD_NOT_PATCHED');
+ let tick=symbols.get('gameFlightTerminationTickV48').code;
+ tick=tick.replace('const own=samNavB1OwnState(m);',`const own=samNavB1OwnState(m);
+    const cov=s?._kfP;
+    const trackSigmaM=cov?.length>=15&&[0,7,14].every(i=>Number.isFinite(cov[i]))?Math.sqrt(Math.max(0,cov[0],cov[7],cov[14])):null;`);
+ tick=tick.replace('profileId:id,kind:hasArh?',`trackSigmaM,alternateTrack:alternateGuidance?m._v1TargetState:null,
+      profileId:id,kind:hasArh?`);
+ return {out:{gameFlightTerminationEvaluateV48:evaluate,gameFlightTerminationTickV48:tick},constants:[POLICY,HELPER]};
+}
+module.exports={definitions,POLICY,HELPER};

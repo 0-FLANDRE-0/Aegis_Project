@@ -1,6 +1,16 @@
-## 최신 시험 후보 — REG_K + ENV_D
+## 최신 시험 후보 — 결정론적 SAM 신관 · ZEM · 관측 종료 FUZE_ZEM_A
 
-- `kappa-pip-los-a` / `80b6514` 위 별도 `reg-k-env-d`. [HTML](Aegis_SIM_v48_WIP_ENV_D.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_ENV_D.md), [SHA](SHA256SUMS_v48_WIP_ENV_D.txt), [전체 보고서](docs/envelope/D/REPORT.md), [재현](docs/envelope/D/README.md).
+- `reg-k-env-d@058273c` 위 별도 `fuze-zem-a`. [HTML](Aegis_SIM_v48_WIP_FUZE_ZEM_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_FUZE_ZEM_A.md), [보고서](docs/missile/fuze-zem/A/REPORT.md), [모델](docs/missile/fuze-zem/A/MODEL.md), [분리 diff](docs/missile/fuze-zem/A/changes/), [재현](docs/missile/fuze-zem/A/REPRODUCE.md).
+- [실행 HTML 하나 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_REPORT.zip?download=1). 실행 HTML과 보고서 포장은 분리했다.
+- 재추첨 F는 기존 성공16건 신규 실패로 승인하지 않았다. 최종 D는 고정/재추첨 draw 대신 기종별 빔·RCS·거리·상대속도·해면 배경잡음의 정규화 신호와 시간 누적으로 탐지한다. 수치는 SIM_TUNED이며 D 비행 시험 전 고정했다. 해면 클러터 조기 기폭·피해/Pk·항법/센서 난수는 보존했다.
+- 공통180발: BASE138효과/137lethal → D159/158, 최종 DZT159/159. 신규 실패0, F의16손실 회복·20회복 유지. ZEM 부호와 TRACK 종료는 독립 비교 뒤 결합했다. 기존 정상/대체지원/RF/배터리/VLS 300발씩(BASE/DZT) 신규 실패0. 기존420+UI88 PASS.
+- 자연RF, 실제 자연탐지/LOCK/VLS/전체fixed tick/WebGL 8+8발, 실제 함수/private8조건 오차0, 120초 무표적·지정전투 hash 동일. 신호 적분기30/60/120Hz 최대 탐지시각 차이14.716ns. 전체 엔진의 dt 불변성을 의미하지 않는다.
+- B4/Kappa/TGO90·PN/APN·추진/항력/질량/기동한계·사거리·배터리·기존 CPA/처리 지연·파편/Pk·UI/저장 유지. 고고도 근거리 miss/phase 역전은 조사만, 자연RF의 보수적 복귀 guard로 LOW_SPEED까지 남는 일부 사례는 한계로 기록했다.
+- 전체 ENV_D 재측정 없음. 내장120칸은 HISTORICAL이며 `__ENV_D__.status()`가 match=false / recalculationRequired=true. 원본 ENV_D 전달7파일 동일 bytes/blob archive. 기존 브랜치/main 병합, PR 생성, Actions dispatch 없음.
+
+## 직전 시험 후보 — REG_K + ENV_D
+
+- `kappa-pip-los-a` / `80b6514` 위 별도 `reg-k-env-d`. [HTML](archive/v48/WIP_ENV_D/Aegis_SIM_v48_WIP_ENV_D.html), [상태](archive/v48/WIP_ENV_D/AEGIS_PLAN_STATUS_v48_WIP_ENV_D.md), [SHA](archive/v48/WIP_ENV_D/SHA256SUMS_v48_WIP_ENV_D.txt), [전체 보고서](docs/envelope/D/REPORT.md), [재현](docs/envelope/D/README.md).
 - [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_REPORT.zip?download=1).
 - 게임 실행 코드·B4·Kappa·설계 사거리·추진/항력/질량/시커/신관/배터리/종료기/UI/저장 스키마 변경0. 내장 ENVELOPE_TABLE_D와 읽기 전용 상태 API만 추가했다. 지도·발사·AI 소비자 없음.
 - 기존420+UI88 및 종료기/실제WebGL 검수 수집 완료. RANGE_RECOVERY_A 대비 성공→실패0건·실패→성공2건. 무표적120초 hash 동일, 변경된 전투120초는 별도 기록했다.

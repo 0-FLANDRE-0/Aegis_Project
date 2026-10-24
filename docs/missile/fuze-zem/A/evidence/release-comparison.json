@@ -1,0 +1,63 @@
+{
+  "pass": true,
+  "checks": {
+    "normals.pageErrors0": true,
+    "normals.noNewFailure": true,
+    "normals.noPrematureComparedToTermOff": true,
+    "dual.pageErrors0": true,
+    "dual.noNewFailure": true,
+    "dual.noPrematureComparedToTermOff": true,
+    "faults.pageErrors0": true,
+    "faults.noNewFailure": true,
+    "rf.reacquire4NativeIntercepts": true,
+    "rf.loss4Retired": true,
+    "battery.pageErrors0": true,
+    "battery.noNewFailure": true,
+    "battery.exactPreservedLife": true,
+    "battery.zeroRemaining": true,
+    "request.pageErrors0": true,
+    "request.noNewFailure": true,
+    "request.nativeVlsRecord4": true
+  },
+  "shotsPerVersion": 300,
+  "groups": [
+    {
+      "kind": "normals",
+      "count": 240,
+      "baseSuccess": 170,
+      "candidateSuccess": 170,
+      "regressions": []
+    },
+    {
+      "kind": "dual",
+      "count": 36,
+      "baseSuccess": 32,
+      "candidateSuccess": 32,
+      "regressions": []
+    },
+    {
+      "kind": "faults",
+      "count": 12,
+      "baseSuccess": 6,
+      "candidateSuccess": 6,
+      "regressions": []
+    },
+    {
+      "kind": "battery",
+      "count": 8,
+      "baseSuccess": 0,
+      "candidateSuccess": 0,
+      "regressions": []
+    },
+    {
+      "kind": "request",
+      "count": 4,
+      "baseSuccess": 4,
+      "candidateSuccess": 4,
+      "regressions": []
+    }
+  ],
+  "regressions": [],
+  "failureChanges": [],
+  "method": "Same original release cases. Native RF, constant point target, native fuze/flight; not a full ENV_D sweep. Battery tests preserve the original test-only life checkpoint."
+}
