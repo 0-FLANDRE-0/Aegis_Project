@@ -197,9 +197,19 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 시험 후보 — KAPPA_PIP_LOS_A
+### 최신 시험 후보 — REG_K + ENV_D
 
-- `range-loft-recovery-a`의 `5af4726` 위 별도 `kappa-pip-los-a`. [HTML](Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_KAPPA_PIP_LOS_A.md), [SHA](SHA256SUMS_v48_WIP_KAPPA_PIP_LOS_A.txt), [보고서](docs/missile/kappa/A/REPORT.md), [실행 diff](docs/missile/kappa/A/game-change.diff).
+- `kappa-pip-los-a` / `80b6514` 위 별도 `reg-k-env-d`. [HTML](Aegis_SIM_v48_WIP_ENV_D.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_ENV_D.md), [SHA](SHA256SUMS_v48_WIP_ENV_D.txt), [전체 보고서](docs/envelope/D/REPORT.md), [재현](docs/envelope/D/README.md).
+- [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_REPORT.zip?download=1).
+- 게임 실행 코드·B4·Kappa·설계 사거리·추진/항력/질량/시커/신관/배터리/종료기/UI/저장 스키마 변경0. 내장 ENVELOPE_TABLE_D와 읽기 전용 상태 API만 추가했다. 지도·발사·AI 소비자 없음.
+- 기존420+UI88 및 종료기/실제WebGL 검수 수집 완료. RANGE_RECOVERY_A 대비 성공→실패0건·실패→성공2건. 무표적120초 hash 동일, 변경된 전투120초는 별도 기록했다.
+- 실제 ASM Kh-35U 기준120칸 + Kh-32 보조6칸, 거리당5개 독립 시드. 바깥/안쪽 거리와 요격점 평균/최소/최대, 경계 반복,10Hz 궤적, 해면 충돌 목록을 보존했다. 완전한 전수 측정은1회다.
+- `__ENV_D__.status()`로 새120칸 계산표/프로파일/함수 해시를 확인한다. 기존 ENV_C는 과거 AIR+구 유도 결과로 보존했다. 미완성 콜백을 발견한 초기 부분 시도는 폐기 자료로 구분했다.
+- 원본 18,433,996bytes / SHA `7d442b1fb254033b8bf281737c9c3d69745107d538e65fdbf6483acf809ce8a3`. 기존 KAPPA 전달7파일은 같은 bytes/blob으로 archive했다. 기존 브랜치/main 병합, 새PR, Actions 실행 없음.
+
+### 직전 시험 후보 — KAPPA_PIP_LOS_A (회귀·측정 전 기록)
+
+- `range-loft-recovery-a`의 `5af4726` 위 별도 `kappa-pip-los-a`. [HTML](archive/v48/WIP_KAPPA_PIP_LOS_A/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html), [상태](archive/v48/WIP_KAPPA_PIP_LOS_A/AEGIS_PLAN_STATUS_v48_WIP_KAPPA_PIP_LOS_A.md), [SHA](archive/v48/WIP_KAPPA_PIP_LOS_A/SHA256SUMS_v48_WIP_KAPPA_PIP_LOS_A.txt), [보고서](docs/missile/kappa/A/REPORT.md), [실행 diff](docs/missile/kappa/A/game-change.diff).
 - [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_REPORT.zip?download=1).
 - 종말 수평방향2복사본만 관측 PIP의 dx/dy로 수정했다. B4·설계/RMAX/fullLoft·추진/항력/질량/시커/신관/배터리/종료기/해면판정/UI 및 TGO90초 유지.
 - 14조건 A/B×2에서 지정 해면충돌4건 모두 명중, 정상6건 유지, 횡단2/4→4/4. 기존 성공8건 유지·신규실패0. 원시 반복 비트동일, 실제월드/진단28쌍25,529샘플 오차0. 이는14조건의 제한 합격이다.

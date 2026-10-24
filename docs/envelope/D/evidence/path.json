@@ -1,0 +1,146 @@
+{
+  "pass": true,
+  "checks": {
+    "0.worldRngTickUnchanged": true,
+    "1.worldRngTickUnchanged": true,
+    "2.worldRngTickUnchanged": true,
+    "3.worldRngTickUnchanged": true,
+    "4.worldRngTickUnchanged": true,
+    "5.worldRngTickUnchanged": true,
+    "0.sampleCounts": true,
+    "0.trajectoryExact": true,
+    "0.nativeOutcomeExact": true,
+    "1.sampleCounts": true,
+    "1.trajectoryExact": true,
+    "1.nativeOutcomeExact": true,
+    "2.sampleCounts": true,
+    "2.trajectoryExact": true,
+    "2.nativeOutcomeExact": true,
+    "3.sampleCounts": true,
+    "3.trajectoryExact": true,
+    "3.nativeOutcomeExact": true,
+    "4.sampleCounts": true,
+    "4.trajectoryExact": true,
+    "4.nativeOutcomeExact": true,
+    "5.sampleCounts": true,
+    "5.trajectoryExact": true,
+    "5.nativeOutcomeExact": true,
+    "pageErrors0": true
+  },
+  "conditions": [
+    {
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 20,
+        "altM": 30,
+        "targetSpeedMps": -250
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "PROX_DETONATION_KILL",
+      "samples": 364
+    },
+    {
+      "condition": {
+        "weapon": "SM2ER",
+        "rangeKm": 100,
+        "altM": 5000,
+        "targetSpeedMps": 250
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "PROX_DETONATION_KILL",
+      "samples": 795
+    },
+    {
+      "condition": {
+        "weapon": "SM6",
+        "rangeKm": 60,
+        "altM": 5000,
+        "crossSpeedMps": 250
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "PROX_DETONATION_KILL",
+      "samples": 604
+    },
+    {
+      "condition": {
+        "weapon": "ESSM",
+        "rangeKm": 10,
+        "altM": 1000,
+        "targetSpeedMps": 250
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "PROX_DETONATION_KILL",
+      "samples": 112
+    },
+    {
+      "condition": {
+        "weapon": "SM6",
+        "rangeKm": 20,
+        "altM": 30,
+        "targetSpeedMps": -250,
+        "rngSeed": 305419896,
+        "navigationSeed": 2654435769
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "SEA_IMPACT",
+      "samples": 257
+    },
+    {
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 30,
+        "altM": 5000,
+        "targetLabel": "Kh-32",
+        "crossSpeedMps": 250
+      },
+      "maxError": {
+        "timeS": 0,
+        "xM": 0,
+        "yM": 0,
+        "altitudeM": 0,
+        "speedMps": 0,
+        "mach": 0
+      },
+      "reason": "PROX_DETONATION_KILL",
+      "samples": 380
+    }
+  ],
+  "errors": [],
+  "elapsedS": 21.86119152700121,
+  "method": "Native whole-game lexical functions versus detached ASM diagnostic capsule.\n\nDisposable instrumented pages supply exactly the documented ideal boundaries.\nNo production game function body is changed. Private runs must not mutate the\nlive world, global RNG or tick. Includes a transverse ASM target.\n"
+}
