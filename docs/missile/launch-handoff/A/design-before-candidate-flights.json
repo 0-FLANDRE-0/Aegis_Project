@@ -1,0 +1,20 @@
+{
+  "contract": "AIR_STANDARD_3D_CORRIDOR_A",
+  "model": "Existing profile tolerances, min speed/clearance and physical incidence limit. Velocity projected onto intended 3D corridor; no new control multiplier.",
+  "patchSha256": "c31230cc6aad717290a4a87eff6d539324921bd5f9fa7bed2cc6c64be1a76216",
+  "existingPhysicsAndDZTChangesAllowed": false,
+  "timeOrTargetDistanceSpecialCase": false,
+  "hysteresis": "Existing minimum settling time plus one-way stage completion latch. No new dwell coefficient.",
+  "surfaceAndEssm": "Legacy readiness source unchanged, no new helper call.",
+  "readinessUnits": {
+    "angles": "rad",
+    "speeds": "m/s",
+    "altitude": "m MSL same existing clearance",
+    "time": "s"
+  },
+  "staticPass": true,
+  "boundaryPass": true,
+  "contractRevision": 2,
+  "revisionReason": "Preserve existing applyAccelCommandToAutopilotV1 vH>=1m/s coordinate-basis prerequisite. No gain/physics/detection tuning.",
+  "consumerBasisFloorMps": 1
+}

@@ -197,9 +197,18 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 시험 후보 — 결정론적 SAM 신관 · ZEM · 관측 종료 FUZE_ZEM_A
+### 최신 시험 후보 — 고각 발사 인계 LAUNCH_HANDOFF_A (회귀 승인 보류)
 
-- `reg-k-env-d@058273c` 위 별도 `fuze-zem-a`. [HTML](Aegis_SIM_v48_WIP_FUZE_ZEM_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_FUZE_ZEM_A.md), [보고서](docs/missile/fuze-zem/A/REPORT.md), [모델](docs/missile/fuze-zem/A/MODEL.md), [분리 diff](docs/missile/fuze-zem/A/changes/), [재현](docs/missile/fuze-zem/A/REPRODUCE.md).
+- `fuze-zem-a@7d86369` 최신 DZT 위 별도 `launch-handoff-a`. [HTML](Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_LAUNCH_HANDOFF_A.md), [보고서](docs/missile/launch-handoff/A/REPORT.md), [계약](docs/missile/launch-handoff/A/MODEL.md), [diff](docs/missile/launch-handoff/A/game-change.diff), [재현](docs/missile/launch-handoff/A/REPRODUCE.md).
+- [실행 HTML 하나 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/launch-handoff-a/Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/launch-handoff-a/Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A_REPORT.zip?download=1).
+- 공중 Standard의 절대 수평각 gate를 예정3D 경로 대비 준비 판정으로 수정. 안전 이격·자세·속도·받음각·하류 좌표기저·최소시간 유지, deadline 강제 해제 없음. ESSM/대수상·D/Z/T·PN/APN/Kappa/B4·추진/공력/G·시커/신관/Pk·RNG/UI/저장은 보존했다.
+- 지정 고각10발0→10KILL, 정상 대조10/10 유지. 공통180발159→170효과/lethal·신규실패0, 자연RF21→24/28lethal·신규실패0. 실제함수/private10조건 오차0·최종281함수 해시동일, 실제 전체월드/WebGL8발, UI88PASS.
+- **전체 승인 보류:** 추가 SM-6 100m/20km 1발 + 기존240km/5km 접근250m/s 종료기OFF/ON2발, 총3발 성공→실패. 기존420회귀414PASS/6FAIL(DDG/CG raid exact-state). 로그/원인 분리 보존, 계수 자동 조정 없음. 전면 안정판으로 사용하지 않는다.
+- HTML18,453,184bytes / SHA `e42a2e05b8ff2096dfb334e7b9427cd2cd6da46d567083f06620ffdf35729ed7`. 직전 전달7파일 byte/blob동일 archive. 전체ENV_D 재측정 없음·내장표HISTORICAL/재계산필요. main/기존브랜치 병합, 새PR/Actions dispatch, release/tag생성 없음.
+
+### 직전 시험 후보 — 결정론적 SAM 신관 · ZEM · 관측 종료 FUZE_ZEM_A
+
+- `reg-k-env-d@058273c` 위 별도 `fuze-zem-a`. [HTML](archive/v48/WIP_FUZE_ZEM_A/Aegis_SIM_v48_WIP_FUZE_ZEM_A.html), [상태](archive/v48/WIP_FUZE_ZEM_A/AEGIS_PLAN_STATUS_v48_WIP_FUZE_ZEM_A.md), [보고서](docs/missile/fuze-zem/A/REPORT.md), [모델](docs/missile/fuze-zem/A/MODEL.md), [분리 diff](docs/missile/fuze-zem/A/changes/), [재현](docs/missile/fuze-zem/A/REPRODUCE.md).
 - [실행 HTML 하나 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_REPORT.zip?download=1). 실행 HTML과 보고서 포장은 분리했다.
 - 재추첨 F는 기존 성공16건 신규 실패로 승인하지 않았다. 최종 D는 고정/재추첨 draw 대신 기종별 빔·RCS·거리·상대속도·해면 배경잡음의 정규화 신호와 시간 누적으로 탐지한다. 수치는 SIM_TUNED이며 D 비행 시험 전 고정했다. 해면 클러터 조기 기폭·피해/Pk·항법/센서 난수는 보존했다.
 - 공통180발: BASE138효과/137lethal → D159/158, 최종 DZT159/159. 신규 실패0, F의16손실 회복·20회복 유지. ZEM 부호와 TRACK 종료는 독립 비교 뒤 결합했다. 기존 정상/대체지원/RF/배터리/VLS 300발씩(BASE/DZT) 신규 실패0. 기존420+UI88 PASS.
