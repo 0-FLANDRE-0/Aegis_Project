@@ -1,0 +1,7 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),H=__dirname,R=path.resolve(H,'../../..');
+const {load}=require('../../missile/launch-handoff/A/source.cjs'),{source,input}=require('./engine.cjs');
+const p=require('./provenance.json'),scope=load(p.product.file),boundaries=require('../D/diagnostic/boundaries.json'),used=new Set(require('../D/diagnostic/dependencies.json').rows.map(r=>r.name));
+const names=Object.entries(boundaries).filter(([n,v])=>used.has(n)&&v.code.startsWith('function ')).map(([n])=>n);
+const fns=Object.keys(p.functionHashes).filter(n=>scope.symbols.get(n)?.type==='function'),hashes=Object.fromEntries(fns.map(n=>[n,p.functionHashes[n]]));
+const helper='window.__ENV_D2_TEXT__={'+fns.map(n=>JSON.stringify(n)+':'+n+'.toString()').join(',')+'};\n'+fs.readFileSync(path.join(R,'docs/envelope/D/diagnostic/native-asm-prefix.js'),'utf8')+'\n'+fs.readFileSync(path.join(H,'private.js'),'utf8').split('return {runCase,profiles:')[0]+'\nwindow.__ENV_D2_NATIVE__={runCase(c){const saved={'+names.join(',')+'};try{'+names.map(n=>n+'=('+boundaries[n].code+');').join('\n')+"selectedLockId=1;emconActive=false;engagementControlMode='MANUAL';shipNav.positionWorld.x=0;shipNav.positionWorld.y=0;shipNav.vx=shipNav.vy=shipNav.speed=0;return runCase(c);"+'}finally{'+names.map(n=>n+'=saved.'+n+';').join('')+'}}};';
+fs.writeFileSync(path.join(H,'path-fixture.json'),JSON.stringify({source,input,helper,functionHashes:hashes,product:p.product}));console.log(JSON.stringify({functions:fns.length}));
