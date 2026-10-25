@@ -1,0 +1,581 @@
+{
+  "schema": "AEGIS_NEAR_VERTICAL_PATH_FIX_A_GEOMETRY_1",
+  "pass": true,
+  "checks": {
+    "baseClampReproduced": true,
+    "minimumUnclamps": true,
+    "minimumSmallHorizontalShrinkReproduced": true,
+    "finalAnglesNatural": true,
+    "finalFinite": true,
+    "finalSpeedPreserved": true,
+    "finalCoincidentDeterministic": true,
+    "leftRightContinuous": true
+  },
+  "definition": {
+    "requestedGamma": "atan2(PIP vertical displacement, horizontal displacement)",
+    "coincident": "retain current horizontal heading and velocity pitch; deterministic +X only if no horizontal velocity exists"
+  },
+  "rows": [
+    {
+      "variant": "BASE",
+      "name": "LEVEL_1KM",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 300,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "BOUNDARY_UP_59_9",
+      "requestedGammaDeg": 59.9,
+      "actualGammaDeg": 59.9,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 150.4532211478372,
+        "y": 0,
+        "z": 259.54542617091136
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "BOUNDARY_UP_60_1",
+      "requestedGammaDeg": 60.1,
+      "actualGammaDeg": 59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300.00000000000006,
+      "vector": {
+        "x": 150.00000000000003,
+        "y": 0,
+        "z": 259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 1.8947806286936006e-16,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "NEAR_VERTICAL_UP",
+      "requestedGammaDeg": 89.89999874101761,
+      "actualGammaDeg": 59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300.00000000000006,
+      "vector": {
+        "x": 150.00000000000003,
+        "y": 0,
+        "z": 259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 1.8947806286936006e-16,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "NEAR_VERTICAL_DOWN",
+      "requestedGammaDeg": -89.90450712256413,
+      "actualGammaDeg": -59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300.00000000000006,
+      "vector": {
+        "x": 150.00000000000003,
+        "y": 0,
+        "z": -259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 1.8947806286936006e-16,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "TINY_HORIZONTAL_VALID",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 30,
+      "vector": {
+        "x": 30,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0.9,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "TINY_LEFT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 260.24027359346206,
+      "vector": {
+        "x": -15.000000000000004,
+        "y": 0,
+        "z": 259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 0.13253242135512647,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "TINY_RIGHT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 260.24027359346206,
+      "vector": {
+        "x": 15.000000000000004,
+        "y": 0,
+        "z": 259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 0.13253242135512647,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "EXACT_VERTICAL_UP",
+      "requestedGammaDeg": 90,
+      "actualGammaDeg": 59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 259.8076211353316,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": 259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 0.13397459621556132,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "EXACT_VERTICAL_DOWN",
+      "requestedGammaDeg": -90,
+      "actualGammaDeg": -59.99999999999999,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 259.8076211353316,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": -259.8076211353316
+      },
+      "finite": true,
+      "speedRelativeError": 0.13397459621556132,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "BASE",
+      "name": "COINCIDENT",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 0,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 1,
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "functionSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480"
+    },
+    {
+      "variant": "MIN",
+      "name": "LEVEL_1KM",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 300,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "BOUNDARY_UP_59_9",
+      "requestedGammaDeg": 59.9,
+      "actualGammaDeg": 59.9,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 150.4532211478372,
+        "y": 0,
+        "z": 259.54542617091136
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "BOUNDARY_UP_60_1",
+      "requestedGammaDeg": 60.1,
+      "actualGammaDeg": 60.1,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 149.5463219261491,
+        "y": 0,
+        "z": 260.06902468068085
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "NEAR_VERTICAL_UP",
+      "requestedGammaDeg": 89.89999874101761,
+      "actualGammaDeg": 89.89999874101761,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 0.5236051017758375,
+        "y": 0,
+        "z": 299.999543062481
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "NEAR_VERTICAL_DOWN",
+      "requestedGammaDeg": -89.90450712256413,
+      "actualGammaDeg": -89.90450712256413,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300.00000000000006,
+      "vector": {
+        "x": 0.49999930555702166,
+        "y": 0,
+        "z": -299.9995833342014
+      },
+      "finite": true,
+      "speedRelativeError": 1.8947806286936006e-16,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "TINY_HORIZONTAL_VALID",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 30,
+      "vector": {
+        "x": 30,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0.9,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "TINY_LEFT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 89.42706130231652,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 299.98515111736936,
+      "vector": {
+        "x": -0.29998500112490323,
+        "y": 0,
+        "z": 299.98500112490626
+      },
+      "finite": true,
+      "speedRelativeError": 0.000049496275435482556,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "TINY_RIGHT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 89.42706130231652,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 299.98515111736936,
+      "vector": {
+        "x": 0.29998500112490323,
+        "y": 0,
+        "z": 299.98500112490626
+      },
+      "finite": true,
+      "speedRelativeError": 0.000049496275435482556,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "EXACT_VERTICAL_UP",
+      "requestedGammaDeg": 90,
+      "actualGammaDeg": 89.99713521102673,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 299.999999625,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": 299.999999625
+      },
+      "finite": true,
+      "speedRelativeError": 1.2500000442135691e-9,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "EXACT_VERTICAL_DOWN",
+      "requestedGammaDeg": -90,
+      "actualGammaDeg": -89.99713521102673,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 299.999999625,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": -299.999999625
+      },
+      "finite": true,
+      "speedRelativeError": 1.2500000442135691e-9,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "MIN",
+      "name": "COINCIDENT",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 0,
+      "vector": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 1,
+      "htmlSha256": "ac239b39ca1de9463723b35cb077d980a6717daedb3b479799973c19e03fd2bc",
+      "functionSha256": "30e2d46bbad374c9c7c4ba6a124fea335d9685a07f83008f5b4ff9c7ebcb00e9"
+    },
+    {
+      "variant": "FINAL",
+      "name": "LEVEL_1KM",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 300,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "BOUNDARY_UP_59_9",
+      "requestedGammaDeg": 59.9,
+      "actualGammaDeg": 59.9,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 150.4532211478372,
+        "y": 0,
+        "z": 259.54542617091136
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "BOUNDARY_UP_60_1",
+      "requestedGammaDeg": 60.1,
+      "actualGammaDeg": 60.1,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 149.5463219261491,
+        "y": 0,
+        "z": 260.06902468068085
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "NEAR_VERTICAL_UP",
+      "requestedGammaDeg": 89.89999874101761,
+      "actualGammaDeg": 89.89999874101761,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 0.5236051017758375,
+        "y": 0,
+        "z": 299.999543062481
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "NEAR_VERTICAL_DOWN",
+      "requestedGammaDeg": -89.90450712256413,
+      "actualGammaDeg": -89.90450712256413,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300.00000000000006,
+      "vector": {
+        "x": 0.49999930555702166,
+        "y": 0,
+        "z": -299.9995833342014
+      },
+      "finite": true,
+      "speedRelativeError": 1.8947806286936006e-16,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "TINY_HORIZONTAL_VALID",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 300,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "TINY_LEFT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 89.94270423958551,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": -0.29999985000009616,
+        "y": 0,
+        "z": 299.9998500001125
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "TINY_RIGHT_UP",
+      "requestedGammaDeg": 89.94270423958551,
+      "actualGammaDeg": 89.94270423958551,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 0.29999985000009616,
+        "y": 0,
+        "z": 299.9998500001125
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "EXACT_VERTICAL_UP",
+      "requestedGammaDeg": 90,
+      "actualGammaDeg": 90,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 1.8369701987210297e-14,
+        "y": 0,
+        "z": 300
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "EXACT_VERTICAL_DOWN",
+      "requestedGammaDeg": -90,
+      "actualGammaDeg": -90,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 1.8369701987210297e-14,
+        "y": 0,
+        "z": -300
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    },
+    {
+      "variant": "FINAL",
+      "name": "COINCIDENT",
+      "requestedGammaDeg": 0,
+      "actualGammaDeg": 0,
+      "requestedSpeedMps": 300,
+      "vectorNormMps": 300,
+      "vector": {
+        "x": 300,
+        "y": 0,
+        "z": 0
+      },
+      "finite": true,
+      "speedRelativeError": 0,
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "functionSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+    }
+  ]
+}
