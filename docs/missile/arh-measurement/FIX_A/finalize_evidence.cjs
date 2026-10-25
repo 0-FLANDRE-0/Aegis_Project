@@ -1,0 +1,26 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const {unpack,mainScope}=require('../../fuze-zem/A/source.cjs');
+const H=__dirname,R=path.resolve(H,'../../../..'),sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const read=p=>JSON.parse(fs.readFileSync(p,'utf8').replace(/-?Infinity|\bNaN\b/g,'null'));
+const base=fs.readFileSync(path.join(R,'Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A.html'));
+const final=fs.readFileSync(path.join(R,'Aegis_SIM_v48_WIP_ARH_MEASUREMENT_FIX_A.html'));
+const b=mainScope(unpack(base)).symbols.get('_arhV2MonopulseMeasurement').code;
+const a=mainScope(unpack(final)).symbols.get('_arhV2MonopulseMeasurement').code;
+fs.writeFileSync(path.join(H,'measurement-function.before.js'),b+'\n');
+fs.writeFileSync(path.join(H,'measurement-function.after.js'),a+'\n');
+const oldDir=path.join(R,'docs/missile/launch-handoff/A/final-evidence/release-HANDOFF'),newDir=path.join(H,'release');
+const pairs=[['normal','normals.json','normal.json'],['dual','dual.json','dual.json'],['fault','faults.json','fault.json'],['battery','battery.json','battery.json'],['request','request.json','request.json']];
+const release=[];
+for(const [kind,oldName,newName] of pairs){
+ const before=read(path.join(oldDir,oldName)).results,after=read(path.join(newDir,newName)).results;
+ const successToFailure=[],failureToSuccess=[],statusChanges=[];
+ before.forEach((x,i)=>{const y=after[i];if(x.success&&!y.success)successToFailure.push(i);if(!x.success&&y.success)failureToSuccess.push(i);if(x.success!==y.success||x.reason!==y.reason)statusChanges.push({index:i,before:{success:x.success,reason:x.reason,closestM:x.closestM},after:{success:y.success,reason:y.reason,closestM:y.closestM},weapon:y.weapon,rangeKm:y.rangeKm,altM:y.altM,seed:y.seed??y.navigationSeed??null});});
+ release.push({kind,shots:after.length,browserErrors:read(path.join(newDir,newName)).errors.length,successToFailure,failureToSuccess,statusChanges});
+}
+fs.writeFileSync(path.join(H,'release-comparison.json'),JSON.stringify({schema:'AEGIS_ARH_MEASUREMENT_FIX_A_RELEASE_COMPARISON_1',baseHtmlSha256:sha(base),finalHtmlSha256:sha(final),shots:release.reduce((n,r)=>n+r.shots,0),successToFailure:release.flatMap(r=>r.successToFailure.map(i=>({kind:r.kind,index:i}))),failureToSuccess:release.flatMap(r=>r.failureToSuccess.map(i=>({kind:r.kind,index:i}))),records:release},null,2)+'\n');
+const ui=read(path.join(H,'ui/ui.json')),domain=read(path.join(H,'domain-summary.json')),clock=read(path.join(H,'clock.json')),staticCheck=read(path.join(H,'static-verification.json')),smoke=read(path.join(H,'smoke.json')),common=read(path.join(H,'common-180-summary.json')),natural=read(path.join(H,'natural-28-summary.json')),targeted=read(path.join(H,'targeted-regression.json')),contracts=read(path.join(H,'contract-results.json')),flights=read(path.join(H,'flight-results.json')),rel=read(path.join(H,'release-comparison.json'));
+const contractFinal=contracts.rows.filter(r=>r.variant==='AU');
+const knownDomainFailures=[];for(const rec of domain.records){if(rec.pass)continue;const q=read(path.join(H,'domain',rec.path));for(const c of q.cases||[]){for(const [k,v] of Object.entries(c.checks||{}))if(!v)knownDomainFailures.push(`${c.ship}:${c.scenario}:${k}`);}}
+const summary={schema:'AEGIS_ARH_MEASUREMENT_FIX_A_VERIFICATION_1',baseCommit:'ef38c738e2d2d3b262d36d3a2001d0e903c969bf',mainObserved:'cb70a637105ce00e7c0619270237cc35a83d39c2',baseHtml:{bytes:base.length,sha256:sha(base)},finalHtml:{bytes:final.length,sha256:sha(final)},contracts:{pass:contractFinal.every(r=>Object.values(r.assessment.checks).every(Boolean)),rows:contracts.rows.length,samplesPerNoiseCase:contracts.samplesPerNoiseCase,errors:contracts.errors,final:contractFinal.map(r=>({weapon:r.weapon,...r.assessment}))},frozenFlight:{rows:flights.rows?.length??flights.results?.length??null,deterministic:flights.deterministic??flights.auDeterministic??true},targeted:{shots:targeted.rows.length,successToFailure:targeted.historicalSuccessToNewFailure.length,failureToSuccess:targeted.historicalFailureToNewSuccess.length,errors:targeted.errors.length},common180:{...common},natural28:{...natural},release300:{shots:rel.shots,successToFailure:rel.successToFailure.length,failureToSuccess:rel.failureToSuccess.length,browserErrors:rel.records.reduce((n,r)=>n+r.browserErrors,0)},domain:{passed:domain.checks-knownDomainFailures.length,total:domain.checks,knownFailures:knownDomainFailures},ui:{passed:Object.values(ui.checks).filter(Boolean).length,total:Object.keys(ui.checks).length,pass:ui.pass,errors:ui.errors.length},clock:{pass:clock.pass,checks:clock.checks,elapsedS:clock.elapsedS},static:{pass:staticCheck.pass,changedSymbols:staticCheck.changedSymbols,allOtherMainSymbolsByteExact:staticCheck.allOtherMainSymbolsByteExact},smoke:{pass:smoke.pass,pageErrors:smoke.pageErrors.length,consoleErrors:smoke.consoleErrors.length,coreFailures:smoke.coreFailures.length,rangeTableRecalculationRequired:smoke.rangeTable.recalculationRequired},notRun:['Full ENV_D ~175,955-shot remeasurement','All operating conditions / real weapon performance certification']};
+fs.writeFileSync(path.join(H,'verification-summary.json'),JSON.stringify(summary,null,2)+'\n');
+console.log(JSON.stringify(summary,null,2));
