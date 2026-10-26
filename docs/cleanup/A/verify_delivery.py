@@ -29,6 +29,9 @@ with sync_playwright()as pw:
   checks[tag+'.rows120']=len(table['rows'])==120
   checks[tag+'.apiIsolation']=before==after
   checks[tag+'.pendingAccurate']=status['pendingEffectiveCells']==build['pendingCells']
+  checks[tag+'.completionAccurate']=status['effectiveIntervalsComplete']==build['effectiveIntervalsComplete']and status['additionalMeasurementsRequired']==(not build['effectiveIntervalsComplete'])
+  if build['effectiveIntervalsComplete']:
+   checks[tag+'.allIntervalsPresent']=all(r['effectiveMinKm']is not None and r['effectiveMaxKm']is not None and r['effectiveMaxKm']>=r['effectiveMinKm']for r in table['rows'])
   checks[tag+'.core0']=not p.evaluate('__CORE_SELFTEST_FAILURES__')
   records.append({'ship':ship,'status':status});p.close()
  b.close()

@@ -1,10 +1,10 @@
 # CLEAN_A 검증 보고서
 
-**전체 합격 보류: 도메인 회귀 417/420, CG 실제 자원 퇴행 3건 유지. 유효구간 최대값 5칸은 추가 시험 범위 확인 대기.**
+**유효구간 120/120 확정. 전체 회귀 합격은 보류: 도메인 417/420, CG 실제 자원 퇴행 3건 유지.**
 
 게임 비행·센서·교전 코드는 변경하지 않았다. DDG의 검증된 (a) 기준값 3건만 선택적으로 갱신했다. 결과를 맞추는 계수 조정·검사 완화·실패 제외는 없다. 원본 브랜치/main 병합 및 tag/release 생성 없음.
 
-기준 `env-d-remeasure-a@837539645b663e8653caa7aac037e6857efe5a2d`. 입력 SHA-256 `b846bd92a01f405fda82bafa08a5758925106d9827615d9dd06553134648c8db`. 출력 `Aegis_SIM_v48_WIP_CLEAN_A.html`, 20,428,424 bytes, SHA-256 `e58924e83c90acd4473a8003e64d80b1771ea28ff39cf2be91f1873738212084`. 모든 값은 게임 SIM_TUNED 모델 산출값이며 실물과 비교하지 않는다.
+기준 `env-d-remeasure-a@837539645b663e8653caa7aac037e6857efe5a2d`. 입력 SHA-256 `b846bd92a01f405fda82bafa08a5758925106d9827615d9dd06553134648c8db`. 출력 `Aegis_SIM_v48_WIP_CLEAN_A.html`, 20,450,832 bytes, SHA-256 `ceffbda64f3ffbefce4330b825e36408ea42bcc86abeddc27182843bd0b8ea45`. 모든 값은 게임 SIM_TUNED 모델 산출값이며 실물과 비교하지 않는다.
 
 ## 1. 도메인 회귀 6건
 
@@ -73,13 +73,13 @@ CG는 SAM 발사 21→22, VLS 잔여 104→103, 20mm 탄약 최신 61발 추가 
 
 변경 없음. 압축 실행 main의 ENV_D 진단 데이터/accessor 블록 외에는 byte 동일하고, 외부 HTML shell과 자산0–12도 동일하다. 새 함수/물리 계수/발사 정책을 적용하지 않았다. 수정한 별도 파일은 선택적 DDG 회귀 기준값 적용 도구와 CLEAN_A 측정·보고 도구다.
 
-내장 표는 `AEGIS_ENVELOPE_TABLE_D_2`, prior 각 행은 `previous`에 그대로 보존. frozen 진단 엔진과 실제 새 HTML에서 추출한 **283개 native 함수 해시 및 native 엔진 전체 bytes 일치**. profile `status().match=true`는 함수/프로파일 일치를 뜻한다. 5칸이 남은 현재 `effectiveIntervalsComplete=false`, `additionalMeasurementsRequired=true`를 별도로 공개한다. 지도·발사 판정 연결은 없다.
+내장 표는 `AEGIS_ENVELOPE_TABLE_D_2`, prior 각 행은 `previous`에 그대로 보존. frozen 진단 엔진과 실제 새 HTML에서 추출한 **283개 native 함수 해시 및 native 엔진 전체 bytes 일치**. `status().match=true`, `effectiveIntervalsComplete=true`, `pendingEffectiveCells=0`, `additionalMeasurementsRequired=false`를 DDG/CG에서 확인했다. 지도·발사 판정 연결은 없다.
 
 ## 4. 유효 요격 구간
 
 각 칸 표기: **바깥 / 최소~최대 유효 km**. 운동은 정지 / 접근250 / 접근680 / 이탈250 / 횡단250m/s. 최소는 1~30km 정수 지점 최초 3/5 KILL 또는 STRUCT_FAIL, 그 다음은 최소보다 엄격히 큰 5의 배수부터 연속 5km 간격이다. 최소가 정확히 5의 배수일 때 그 점을 중복 검사하지 않는다.
 
-추가 1,040발은 최소거리 탐색에만 사용했다. 기존 같은 빌드·조건·5개 시드 사격은 논리 SHA-256을 확인해 재사용했다. 최대구간의 미측정 점은 실행하지 않았다. 이는 사용자의 “새로 필요한 것은 1~30km 최소거리 사격뿐” 제한과 실제 부족 캐시 사이의 범위 충돌이다. 별도 질문의 답을 기다리며 값을 추정하지 않았다.
+추가 사격은 총 1,230발: 앞선 최소거리 탐색 1,040발 + 이번 승인된 부족 grid 190발이다. 기존 같은 빌드·조건·5개 시드 사격은 논리 SHA-256을 확인해 재사용했다. 사용자가 “ㅇㅇ 추가 시험 해봐.”로 ESSM 5칸의 후속 grid 시험을 승인해 실행했다. 기존 최소거리 사격 전부와 완료된 다른 115칸은 그대로 보존했다.
 
 ### SM2
 
@@ -120,10 +120,10 @@ CG는 SAM 발사 21→22, VLS 잔여 104→103, 20mm 탄약 최신 61발 추가 
 |---|---|---|---|---|---|
 | 30 | 53 / 1~25 | 99 / 1~30 | 179 / 1~30 | 11 / 1~10 | 17 / 1~15 |
 | 1000 | 49 / 1~25 | 99 / 2~95 | 179 / 4~175 | 12 / 1~10 | 18 / 1~15 |
-| 5000 | 30 / 1~30 | 62 / 1~60 | 116 / 7~미확정 | 13 / 1~10 | 20 / 1~20 |
-| 10000 | 28 / 2~25 | 41 / 1~1 | 66 / 14~미확정 | 15 / 1~15 | 22 / 1~20 |
-| 15000 | 29 / 2~25 | 40 / 1~1 | 63 / 19~미확정 | 15 / 1~15 | 23 / 1~20 |
-| 20000 | 27 / 2~25 | 37 / 10~미확정 | 55 / 24~미확정 | 15 / 1~15 | 22 / 2~20 |
+| 5000 | 30 / 1~30 | 62 / 1~60 | 116 / 7~115 | 13 / 1~10 | 20 / 1~20 |
+| 10000 | 28 / 2~25 | 41 / 1~1 | 66 / 14~65 | 15 / 1~15 | 22 / 1~20 |
+| 15000 | 29 / 2~25 | 40 / 1~1 | 63 / 19~60 | 15 / 1~15 | 23 / 1~20 |
+| 20000 | 27 / 2~25 | 37 / 10~35 | 55 / 24~50 | 15 / 1~15 | 22 / 2~20 |
 
 ### 이전 0km 13칸
 
@@ -135,28 +135,38 @@ CG는 SAM 발사 21→22, VLS 잔여 104→103, 20mm 탄약 최신 61발 추가 
 | SM2ER | 5000 | INBOUND_680 | 1 | 1 | 5 |
 | SM6 | 30 | INBOUND_680 | 1 | 1 | 5 |
 | SM6 | 5000 | INBOUND_680 | 1 | 1 | 5 |
-| ESSM | 5000 | INBOUND_680 | 7 | 미확정 | 10 |
+| ESSM | 5000 | INBOUND_680 | 7 | 115 | 120 |
 | ESSM | 10000 | INBOUND_250 | 1 | 1 | 5 |
-| ESSM | 10000 | INBOUND_680 | 14 | 미확정 | 20 |
+| ESSM | 10000 | INBOUND_680 | 14 | 65 | 70 |
 | ESSM | 15000 | INBOUND_250 | 1 | 1 | 5 |
-| ESSM | 15000 | INBOUND_680 | 19 | 미확정 | 20 |
-| ESSM | 20000 | INBOUND_250 | 10 | 미확정 | 20 |
-| ESSM | 20000 | INBOUND_680 | 24 | 미확정 | 25 |
+| ESSM | 15000 | INBOUND_680 | 19 | 60 | 65 |
+| ESSM | 20000 | INBOUND_250 | 10 | 35 | 40 |
+| ESSM | 20000 | INBOUND_680 | 24 | 50 | 55 |
 
 13칸을 전부 “5km보다 먼 최소 사거리 문제”로 해석할 수 없다. 8칸은 1km에서 3/5 이상이지만 5km에서 실패한다. 지정한 첫 구간 정의로는 **1~1km**다. 15km 이후의 다른 성공 구간을 임의로 골라 최대 유효거리를 늘리지 않았다. 이 결과는 거리별 성공이 단조가 아니라는 게임 모델의 관측이며, 사용자 판단 없이 정의/임계값을 바꾸지 않았다.
 
-대기 5칸은 ESSM 고도5km 접근680(최소7km), 10km 접근680(14km), 15km 접근680(19km), 20km 접근250(10km), 20km 접근680(24km). 기존 최대구간은 5km 실패에서 끊겨 후속 grid가 부족하다. 첫 실패까지 필요한 미측정 5km grid는 최악 38점×5발=190발이며, 기존 결과 재사용과 조기 중단 원칙은 동일하다. 추가 허용 시 실행 스크립트는 준비되어 있다.
+### 이번에 확정한 ESSM 5칸
 
-전체 120칸의 요격 지점 평균/최소/최대, 5발 내역, 끊김점, 이전값은 `EFFECTIVE_INTERVALS.csv` 및 `ENVELOPE_TABLE_D.json`에 있다. `NOT_MEASURED`는 빈칸/실패 제외가 아니라 명시적 미측정 상태다. 따라서 C4 전체 완료 판정은 보류한다.
+| 고도 m | 운동 | 유효 구간 km | 새 시험 지점 / 발수 | 최초 실패 km / 격추 수 |
+|---|---|---|---|---|
+| 5000 | INBOUND_680 | 7~115 | 17 / 85 | 120 / 0/5 |
+| 10000 | INBOUND_680 | 14~65 | 7 / 35 | 70 / 0/5 |
+| 15000 | INBOUND_680 | 19~60 | 7 / 35 | 65 / 0/5 |
+| 20000 | INBOUND_250 | 10~35 | 3 / 15 | 40 / 0/5 |
+| 20000 | INBOUND_680 | 24~50 | 4 / 20 | 55 / 2/5 |
+
+미측정 38점×5발=190발을 추가했다. 새 지점은 모두 5/5 KILL(190/190)이었고, 이후 첫 실패는 기존 사격 결과에서 확인했다. 첫 실패 뒤 새 사격은 하지 않았다. `evidence/grid-followup.json`에 승인 범위, 기존 사격 해시 보존, 5칸 외 변경 없음, 끊김점 5발 내역을 기록했다. `GRID_FOLLOWUP_SHOTS.csv`에 새 190발의 시드·결과·최근접 거리·기폭 miss·요격 위치를 정리했다.
+
+전체 120칸의 요격 지점 평균/최소/최대, 5발 내역, 끊김점, 이전값은 `EFFECTIVE_INTERVALS.csv` 및 `ENVELOPE_TABLE_D.json`에 있다. 최소·최대 값 미측정 칸은 0개다. 500km 상한까지 통과한 칸은 끊김점이 없으며 이를 실패 누락으로 세지 않았다. C4는 완료·통과다.
 
 ## 5. 검수 C1–C4와 실행 시간
 
 | 검수 | 결과 | 수치 / 제한 |
 |---|---|---|
 | C1 | 미통과 | 417/420; 원래 기준 414/420. DDG (a) 3개 exact 기준만 갱신, CG (b) 3개 유지 |
-| C2 | PASS | UI88/88, 종료기300, 공통180, 자연RF28, 실제WebGL8; 최신 대비 성공→실패0 |
-| C3 | PASS | 무표적/전투 각각120초 truth 해시 동일, 게임 코어 byte 동일 |
-| C4 | 보류 | 120개 최소 확정 / 115개 전체 구간 확정 / 5개 최대구간 미측정; 이전0km 13개 최소 모두 기록 |
+| C2 | PASS (코드 동등성으로 기존 비행 결과 유지) | UI88 새 실행, 기존 종료기300·공통180·자연RF28·WebGL8 결과 재사용; 신규 실패0 |
+| C3 | PASS (새 실행) | 무표적/전투 각각120초 truth 해시 동일, 게임 코어 byte 동일 |
+| C4 | PASS | 120개 전체 구간 확정 / 0개 미측정; 이전0km 13개 최소·최대 모두 기록 |
 
 | 시험 | 최신 성공 | CLEAN 성공 | 완전 반환값 차이 | 실행 초 (최신 / CLEAN) |
 |---|---|---|---|---|
@@ -166,6 +176,8 @@ CG는 SAM 발사 21→22, VLS 잔여 104→103, 20mm 탄약 최신 61발 추가 
 
 실제 WebGL8발은 양쪽 모두 원래29/29 검사를 통과하고 발사/관측 샘플/최종 물리 반환값이 모두 동일하다. 기존 MR/ER 명중4발 유지, SM-6/ESSM 기존 비명중4발도 그대로다. “8발 검증”을 “8발 명중”으로 세지 않았다. 종료기300은240normal+36dual+12fault+8battery+4정식VLS이고 중복 합산하지 않았다. 자연RF28은 별도 제어된 ASM 경로다.
 
+이 비행 회귀는 이번 190발에 중복 합산하지 않는다. 기존 회귀를 실행한 HTML SHA는 `e58924e83c90acd4473a8003e64d80b1771ea28ff39cf2be91f1873738212084`이며 새 산출물 SHA와 다르다. `evidence/regression-carryforward.json`으로 ENV_D 진단 표/accessor 블록 외 게임 실행 코드와 전체 UI/자산 bytes 동일함을 증명했다. 도메인/300/180/28/8 비행은 재실행하지 않고 그 결과를 보존했다. 이번에는 190발, 283개 함수 비교, UI88, DDG/CG 표 상태·API 독립성, 120초 무표적·전투를 새로 실행했다.
+
 | 상태 | 양쪽 동일 SHA-256 |
 |---|---|
 | 무표적120초 | fb1fac63054a72db26cce4b4f4781288a7f07a28465ce5ac2aa5597760adffbc |
@@ -173,19 +185,17 @@ CG는 SAM 발사 21→22, VLS 잔여 104→103, 20mm 탄약 최신 61발 추가 
 
 전투 hash 시나리오(SM-6 100km/5km/접근250m/s/seed12002)의 기존 비명중/POST_CROSS 종료도 양쪽 그대로다. 이를 회복 명중으로 올려 세지 않는다.
 
-최소거리 추가 사격 벽시계 63.67초(2 workers). 역사 raid 7개 변형, 장기 raid 8쌍, part2 18발, 전체 도메인 15 suites, 두 HTML의 C2/C3를 별도 실행했다. 각 작업 실제 소요는 원시 결과의 `elapsedS`에 보존했다. 동시 실행 시간이 겹치므로 이를 직렬 총시간/실기 FPS로 해석하지 않는다.
+최소거리 1,040발 벽시계 63.67초, 이번 후속 grid 190발 18.77초(각2 workers). 역사 raid 7개 변형, 장기 raid 8쌍, part2 18발, 전체 도메인 15 suites의 앞선 증거는 보존했다. 각 작업 실제 소요는 원시 결과의 `elapsedS`에 있다. 동시 실행 시간이 겹치므로 이를 직렬 총시간/실기 FPS로 해석하지 않는다.
 
 ### 재현
 
 ```sh
 export NODE_PATH=/workspace/aegis-performance-f/docs/performance/F/node_modules
-node docs/cleanup/A/prepare.cjs
-python docs/cleanup/A/run_history.py
-python docs/cleanup/A/run_raid_studies.py
-python docs/cleanup/A/analyze_part1.py
-node docs/cleanup/A/intervals.cjs
+node docs/cleanup/A/intervals.cjs --allow-missing-grid
+python docs/cleanup/A/verify_grid_followup.py
 python docs/cleanup/A/build.py
 node docs/cleanup/A/verify_native.cjs
+python docs/cleanup/A/verify_regression_carryforward.py
 python docs/cleanup/A/verify_delivery.py
 python docs/cleanup/A/report.py
 ```

@@ -10,25 +10,30 @@ CG 3건은 실제 자원 소모 퇴행으로 유지했다. 게임 비행/교전 
 기존 종료기·공통·RF·WebGL·UI와 120초 상태 비교는 통과했다.
 처음 실패했던 인계 수정 3발은 최신에서 모두 회복됐다.
 
-유효구간 최소거리는 120칸 모두 측정했으며, 추가 사격은 1,040발이다.
-115칸은 최대구간도 확정됐고 ESSM 5칸은 후속 5km grid가 없다.
-사용자의 “최소거리 사격만 추가” 제한 때문에 해당 최대값은 미측정으로 남겼다.
-이 5칸을 추측하거나 더 먼 성공 구간으로 대체하지 않았다.
+유효구간 120칸 모두 측정 완료했다. 최초 최소거리 사격 1,040발에 더해,
+사용자가 “ㅇㅇ 추가 시험 해봐.”로 승인한 ESSM 5칸의 부족 grid 38점×5발=190발을 추가했다.
+이번에 확정한 구간은 7~115 / 14~65 / 19~60 / 10~35 / 24~50km다.
+승인 원문과 범위는 `scope-approval.json`, 기존 사격과 다른 115칸의 보존 증거는
+`evidence/grid-followup.json`에 있다. 첫 실패 뒤 새 사격은 하지 않았다.
 
-추가 grid 승인이 도착하면 승인 원문과 범위를 `scope-approval.json`에 기록한 뒤 아래를 실행한다.
-승인 도착 전 이 파일을 만들거나 플래그를 사용하지 않는다.
+아래는 기존 cache를 포함한 후속 작업 재현 명령이다.
 
 ```sh
 node docs/cleanup/A/intervals.cjs --allow-missing-grid
+python docs/cleanup/A/verify_grid_followup.py
 python docs/cleanup/A/build.py
 node docs/cleanup/A/verify_native.cjs
+python docs/cleanup/A/verify_regression_carryforward.py
 python docs/cleanup/A/verify_delivery.py
 ```
 
-다음 검증 증거에는 HTML SHA도 기록되므로 재빌드했으면 새 산출물 SHA와 게임 코어 일치를
-반드시 확인하고, `report.py`의 부분 완료 상태/190발 상한 설명도 새 실제 결과로 갱신한다.
-기존 C2 결과는 표 변경 전 HTML에서 수행한 사실을 보존하고 새 HTML의 게임 코어 동등성을
-명시하거나 해당 C2를 다시 실행한다. 측정 완료 전 `effectiveIntervalsComplete`를 강제로 켜지 않는다.
+`status()`는 match=true, effectiveIntervalsComplete=true, pendingEffectiveCells=0을 반환한다.
+HTML SHA는 표가 바뀌어 이전과 다르다. 게임 실행 코드는 byte 동일하다.
+기존 300/180/28/8 비행 및 도메인 결과는 원래 실행 HTML SHA와 함께 보존하고,
+`evidence/regression-carryforward.json`으로 이번 파일과의 코드 동등성을 확인했다.
+이번에 UI88, DDG/CG status/API 독립성, 무표적·전투 120초 해시는 새로 실행했다.
+재현 cache를 그대로 사용한 재실행의 freshCalls는 0이므로, 최초 추가 190발의 원시 증거와
+`evidence/interval-followup-before.json`을 덮어써서 초기 측정 사실을 바꾸지 않는다.
 
 자료:
 

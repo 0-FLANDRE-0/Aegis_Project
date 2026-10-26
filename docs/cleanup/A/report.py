@@ -21,7 +21,7 @@ checks={c['ship']+'.'+c['scenario']+'.'+k:v for c in pair['cases']for k,v in c['
 domain.append({'suite':'paired-baseline (DDG a approved)','total':len(checks),'pass':sum(v is True for v in checks.values()),'fail':[k for k,v in checks.items()if v is not True]})
 assert sum(x['total']for x in domain)==420
 domain_pass=sum(x['pass']for x in domain);assert domain_pass==417
-save('evidence/domain-summary.json',{'total':420,'pass':domain_pass,'unapprovedOriginalPass':414,'approvedReferenceUpdates':3,'failed':3,'suites':domain,'scope':'14 original native suites on byte-identical latest game core; exact paired comparison freshly run on delivered CLEAN_A HTML'})
+save('evidence/domain-summary.json',{'total':420,'pass':domain_pass,'unapprovedOriginalPass':414,'approvedReferenceUpdates':3,'failed':3,'suites':domain,'scope':'14 original native suites on latest game core; paired comparison on prior CLEAN_A HTML. All preserved for this data-only revision by evidence/regression-carryforward.json; not rerun this revision.'})
 air=read(H/'results/part2-air.json.gz');near=read(H/'results/part2-near.json.gz');p2=[]
 for i,name in [(0,'SM6_240KM_AIR_TERMINATION_OFF'),(1,'SM6_240KM_AIR_TERMINATION_ON')]:
  rows=[r for r in air['rows']if r['condition']['enabled']==bool(i)]
@@ -32,6 +32,7 @@ save('evidence/part2.json',{'cases':p2,'recovered':3,'newGameFixes':0,'errors':a
 csvout('PART2_SHOTS.csv',[{'caseId':c['caseId'],'stage':v,**s}for c in p2 for v,s in c['stages'].items()])
 prior_zero=[r for r in m['rows']if r['previousEffectiveRangeKm']==0];assert len(prior_zero)==13
 intervalChecks={'rows120':len(m['rows'])==120,'schema2':env['schema']=='AEGIS_ENVELOPE_TABLE_D_2','oldRowsPreserved':all(r['previous']==oldby[r['cellId']]for r in env['rows']),'outerRangesPreserved':all(r['maxRangeKm']==oldby[r['cellId']]['maxRangeKm']for r in env['rows']),'all120MinimaMeasured':all(r['effectiveMinKm']is not None for r in m['rows']),'all13FormerZerosHaveMinima':all(r['effectiveMinKm']is not None for r in prior_zero),'noExtraGridWithoutApproval':m['additionalGridAuthorized']or all(q['purpose']=='MINIMUM'for r in m['rows']for q in r['newDistances'])}
+intervalChecks['all120MinMaxAndInterceptPointsPresent']=all(r['effectiveMinKm']is not None and r['effectiveMaxKm']is not None and all(r[k]is not None for k in ['maxInterceptPoint','effectiveMinInterceptPoint','effectiveMaxInterceptPoint'])for r in env['rows'])
 for r in m['rows']:
  original=read(R/'docs/envelope/D2/results/cells'/(r['cellId']+'.json.gz'));cache={q['rangeKm']:q for q in original['distances']};cache.update({q['rangeKm']:q for q in r['newDistances']})
  lethal=lambda k:sum(bool(x['lethal'])for x in cache[k]['shots'])
@@ -43,8 +44,10 @@ intervalChecks['minimumEarliestPassAll120']=True;intervalChecks['knownGridContin
 save('evidence/interval-verification.json',{'checks':intervalChecks,'integrityPass':all(intervalChecks.values()),'complete':m['complete'],'pendingCells':[r['cellId']for r in m['rows']if r['status']=='PENDING_REQUIRED_GRID'],'freshShots':m['newShotsTotal'],'formerZeroCount':len(prior_zero)})
 def stats(s):return json.dumps(s,ensure_ascii=False,separators=(',',':'))if s is not None else'NOT_MEASURED'
 csvout('EFFECTIVE_INTERVALS.csv',[{'cellId':r['cellId'],'weapon':r['weapon'],'altM':r['altM'],'motion':r['motion'],'maxRangeKm':r['maxRangeKm'],'effectiveMinKm':r['effectiveMinKm'],'effectiveMaxKm':r['effectiveMaxKm']if r['effectiveMaxKm']is not None else'NOT_MEASURED','status':r['intervalStatus'],'previousEffectiveRangeKm':r['previous']['effectiveRangeKm'],'maxInterceptPoint':stats(r['maxInterceptPoint']),'effectiveMinInterceptPoint':stats(r['effectiveMinInterceptPoint']),'effectiveMaxInterceptPoint':stats(r['effectiveMaxInterceptPoint']),'breakPointFiveShots':stats(r['intervalBreakBoundary'])}for r in env['rows']])
+csvout('GRID_FOLLOWUP_SHOTS.csv',[{'cellId':r['cellId'],'weapon':r['weapon'],'altM':r['altM'],'motion':r['motion'],'rangeKm':q['rangeKm'],**{k:s.get(k)for k in ['rngSeed','navigationSeed','outcome','reason','lethal','closestM','fuzeMissM','interceptPointKm','flightTimeS']}}for r in m['rows']for q in r['newDistances']if q['purpose']=='GRID'for s in q['shots']])
 csvout('RAID_OUTCOMES.csv',[{'ship':c['ship'],'version':v,'targetId':k,'outcome':o}for c in p1['comparisons']for v,s in [*c['before'].items(),('LATEST',c['current'])]for k,o in s['allNativeTargetOutcomes'].items()])
 c2=read(H/'evidence/c2-comparison.json');delivery=read(H/'evidence/delivery.json');world=read(H/'evidence/world120/world120.json');native=read(H/'evidence/native-equivalence.json')
+followup=read(H/'evidence/grid-followup.json');carry=read(H/'evidence/regression-carryforward.json');assert followup['pass']and carry['pass']
 ui=read(H/'evidence/c2/CLEAN/ui/ui.json');uiChecks=ui['checks'];assert len(uiChecks)==88 and all(uiChecks.values())
 web=[read(H/'evidence/c2'/t/'webgl/observed-world.json')for t in ['LATEST','CLEAN']]
 webrows=[]
@@ -55,9 +58,14 @@ for a,b in zip(web[0]['records'],web[1]['records']):
 assert len(webrows)==8 and all(x['actualWebglFramesIncreased']for x in webrows)
 save('evidence/webgl-comparison.json',{'shots':8,'successToFailure':0,'rows':webrows,'both29AssertionsPass':all(x['pass']for x in web)})
 acceptance={'C1':{'pass':domain_pass==420,'passed':domain_pass,'total':420,'approvedUpdates':3,'unresolvedCG':3},'C2':{'pass':all(not x['successToFailure']and not x['exactResultChanges']for x in c2.values())and all(uiChecks.values())and all(x['pass']for x in web),'ui':88,'release':300,'common':180,'naturalRF':28,'webgl':8,'successToFailure':0},'C3':{'pass':delivery['pass'],'idle':world['records'][0]['truthSha256'],'combat':world['records'][2]['truthSha256']},'C4':{'pass':m['complete']and all(intervalChecks.values()),'rows':120,'minimumKnown':120,'completeIntervals':sum(r['status']!='PENDING_REQUIRED_GRID'for r in m['rows']),'pending':build['pendingCells'],'formerZeroMinima':13}}
+acceptance['C1']['executionPolicy']='Prior results preserved by exact game-core equivalence'
+acceptance['C2']['executionPolicy']='UI88 freshly rerun; flight results preserved by exact game-core equivalence'
+acceptance['C2']['equivalenceEvidence']='evidence/regression-carryforward.json'
+acceptance['C3']['executedHtmlSha256']=build['sha256']
+acceptance['C4']['freshAdditionalGridShots']=followup['additionalGridShots']
 save('ACCEPTANCE.json',acceptance)
 stageNames={'KAPPA':'KAPPA','DZT':'DZT','HANDOFF':'HANDOFF','ARH':'ARH','VERTICAL':'NEAR_VERTICAL','LATEST':'최신'}
-out=['# CLEAN_A 검증 보고서','',f'**전체 합격 보류: 도메인 회귀 {domain_pass}/420, CG 실제 자원 퇴행 3건 유지. 유효구간 최대값 {build["pendingCells"]}칸은 추가 시험 범위 확인 대기.**','',
+out=['# CLEAN_A 검증 보고서','',f'**유효구간 120/120 확정. 전체 회귀 합격은 보류: 도메인 {domain_pass}/420, CG 실제 자원 퇴행 3건 유지.**','',
  '게임 비행·센서·교전 코드는 변경하지 않았다. DDG의 검증된 (a) 기준값 3건만 선택적으로 갱신했다. 결과를 맞추는 계수 조정·검사 완화·실패 제외는 없다. 원본 브랜치/main 병합 및 tag/release 생성 없음.','',
  f'기준 `env-d-remeasure-a@{build["baseCommit"]}`. 입력 SHA-256 `b846bd92a01f405fda82bafa08a5758925106d9827615d9dd06553134648c8db`. 출력 `{build["output"]}`, {build["bytes"]:,} bytes, SHA-256 `{build["sha256"]}`. 모든 값은 게임 SIM_TUNED 모델 산출값이며 실물과 비교하지 않는다.','',
  '## 1. 도메인 회귀 6건','',
@@ -78,28 +86,31 @@ out += [table(['함정','빌드','SAM 발사','native SAM KILL','자함 HP','VLS
  '극단 고각 1발: 수평0.1km / 고도20km / 정지 Kh-35U / `(rngSeed,navigationSeed)=(1831565813,2047861954)`. HANDOFF/ARH에서 TRACKED_DIVERGENCE, NEAR_VERTICAL부터 native KILL이다. 원래 AIR 시험과 ASM 피해 판정 경로를 섞지 않았다. 별도 신관·유도·종료기 조정은 없다. 세 발 전체 중간 단계 및 기폭 miss/시간은 `PART2_SHOTS.csv`, 원시 궤적은 `results/part2-*.json.gz`에 있다.','',
  '## 3. 게임 코드 변경 여부','',
  '변경 없음. 압축 실행 main의 ENV_D 진단 데이터/accessor 블록 외에는 byte 동일하고, 외부 HTML shell과 자산0–12도 동일하다. 새 함수/물리 계수/발사 정책을 적용하지 않았다. 수정한 별도 파일은 선택적 DDG 회귀 기준값 적용 도구와 CLEAN_A 측정·보고 도구다.','',
- f'내장 표는 `AEGIS_ENVELOPE_TABLE_D_2`, prior 각 행은 `previous`에 그대로 보존. frozen 진단 엔진과 실제 새 HTML에서 추출한 **{native["functions"]}개 native 함수 해시 및 native 엔진 전체 bytes 일치**. profile `status().match=true`는 함수/프로파일 일치를 뜻한다. {build["pendingCells"]}칸이 남은 현재 `effectiveIntervalsComplete=false`, `additionalMeasurementsRequired=true`를 별도로 공개한다. 지도·발사 판정 연결은 없다.','',
+ f'내장 표는 `AEGIS_ENVELOPE_TABLE_D_2`, prior 각 행은 `previous`에 그대로 보존. frozen 진단 엔진과 실제 새 HTML에서 추출한 **{native["functions"]}개 native 함수 해시 및 native 엔진 전체 bytes 일치**. `status().match=true`, `effectiveIntervalsComplete=true`, `pendingEffectiveCells=0`, `additionalMeasurementsRequired=false`를 DDG/CG에서 확인했다. 지도·발사 판정 연결은 없다.','',
  '## 4. 유효 요격 구간','',
  '각 칸 표기: **바깥 / 최소~최대 유효 km**. 운동은 정지 / 접근250 / 접근680 / 이탈250 / 횡단250m/s. 최소는 1~30km 정수 지점 최초 3/5 KILL 또는 STRUCT_FAIL, 그 다음은 최소보다 엄격히 큰 5의 배수부터 연속 5km 간격이다. 최소가 정확히 5의 배수일 때 그 점을 중복 검사하지 않는다.','',
- f'추가 {m["newShotsTotal"]:,}발은 최소거리 탐색에만 사용했다. 기존 같은 빌드·조건·5개 시드 사격은 논리 SHA-256을 확인해 재사용했다. 최대구간의 미측정 점은 실행하지 않았다. 이는 사용자의 “새로 필요한 것은 1~30km 최소거리 사격뿐” 제한과 실제 부족 캐시 사이의 범위 충돌이다. 별도 질문의 답을 기다리며 값을 추정하지 않았다.','']
+ f'추가 사격은 총 {m["newShotsTotal"]:,}발: 앞선 최소거리 탐색 {followup["minimumShots"]:,}발 + 이번 승인된 부족 grid {followup["additionalGridShots"]}발이다. 기존 같은 빌드·조건·5개 시드 사격은 논리 SHA-256을 확인해 재사용했다. 사용자가 “ㅇㅇ 추가 시험 해봐.”로 ESSM 5칸의 후속 grid 시험을 승인해 실행했다. 기존 최소거리 사격 전부와 완료된 다른 115칸은 그대로 보존했다.','']
 motions=['STATIONARY','INBOUND_250','INBOUND_680','OUTBOUND_250','CROSSING_250']
 actualMotions=list(dict.fromkeys(r['motion']for r in env['rows']));assert len(actualMotions)==5;motions=actualMotions
 for weapon in ['SM2','SM2ER','SM6','ESSM']:
  out += ['### '+weapon,'',table(['고도 m',*motions],[[alt,*[(lambda r:f"{r['maxRangeKm']} / {r['effectiveMinKm']}~"+(str(r['effectiveMaxKm'])if r['effectiveMaxKm']is not None else'미확정'))(next(r for r in env['rows']if r['weapon']==weapon and r['altM']==alt and r['motion']==motion))for motion in motions]]for alt in [30,1000,5000,10000,15000,20000]]),'']
 out += ['### 이전 0km 13칸','',table(['기종','고도 m','운동','새 최소 km','새 최대 km','끊김/대기 지점 km'],[[r['weapon'],r['altM'],r['motion'],r['effectiveMinKm'],r['effectiveMaxKm']if r['effectiveMaxKm']is not None else'미확정',r['breakPoint']['rangeKm']if r['breakPoint']else r['firstMissingGridKm']]for r in prior_zero]),'',
  '13칸을 전부 “5km보다 먼 최소 사거리 문제”로 해석할 수 없다. 8칸은 1km에서 3/5 이상이지만 5km에서 실패한다. 지정한 첫 구간 정의로는 **1~1km**다. 15km 이후의 다른 성공 구간을 임의로 골라 최대 유효거리를 늘리지 않았다. 이 결과는 거리별 성공이 단조가 아니라는 게임 모델의 관측이며, 사용자 판단 없이 정의/임계값을 바꾸지 않았다.','',
- '대기 5칸은 ESSM 고도5km 접근680(최소7km), 10km 접근680(14km), 15km 접근680(19km), 20km 접근250(10km), 20km 접근680(24km). 기존 최대구간은 5km 실패에서 끊겨 후속 grid가 부족하다. 첫 실패까지 필요한 미측정 5km grid는 최악 38점×5발=190발이며, 기존 결과 재사용과 조기 중단 원칙은 동일하다. 추가 허용 시 실행 스크립트는 준비되어 있다.','',
- '전체 120칸의 요격 지점 평균/최소/최대, 5발 내역, 끊김점, 이전값은 `EFFECTIVE_INTERVALS.csv` 및 `ENVELOPE_TABLE_D.json`에 있다. `NOT_MEASURED`는 빈칸/실패 제외가 아니라 명시적 미측정 상태다. 따라서 C4 전체 완료 판정은 보류한다.','',
+ '### 이번에 확정한 ESSM 5칸','',
+ table(['고도 m','운동','유효 구간 km','새 시험 지점 / 발수','최초 실패 km / 격추 수'],[[r['altM'],r['motion'],f"{r['effectiveMinKm']}~{r['effectiveMaxKm']}",f"{len(r['addedPoints'])} / {r['addedShots']}",f"{r['breakRangeKm']} / {r['breakLethalCount']}/5"]for r in followup['changes']]),'',
+ '미측정 38점×5발=190발을 추가했다. 새 지점은 모두 5/5 KILL(190/190)이었고, 이후 첫 실패는 기존 사격 결과에서 확인했다. 첫 실패 뒤 새 사격은 하지 않았다. `evidence/grid-followup.json`에 승인 범위, 기존 사격 해시 보존, 5칸 외 변경 없음, 끊김점 5발 내역을 기록했다. `GRID_FOLLOWUP_SHOTS.csv`에 새 190발의 시드·결과·최근접 거리·기폭 miss·요격 위치를 정리했다.','',
+ '전체 120칸의 요격 지점 평균/최소/최대, 5발 내역, 끊김점, 이전값은 `EFFECTIVE_INTERVALS.csv` 및 `ENVELOPE_TABLE_D.json`에 있다. 최소·최대 값 미측정 칸은 0개다. 500km 상한까지 통과한 칸은 끊김점이 없으며 이를 실패 누락으로 세지 않았다. C4는 완료·통과다.','',
  '## 5. 검수 C1–C4와 실행 시간','',
- table(['검수','결과','수치 / 제한'],[['C1','미통과',f'{domain_pass}/420; 원래 기준 414/420. DDG (a) 3개 exact 기준만 갱신, CG (b) 3개 유지'],['C2','PASS','UI88/88, 종료기300, 공통180, 자연RF28, 실제WebGL8; 최신 대비 성공→실패0'],['C3','PASS','무표적/전투 각각120초 truth 해시 동일, 게임 코어 byte 동일'],['C4','보류',f'120개 최소 확정 / {120-build["pendingCells"]}개 전체 구간 확정 / {build["pendingCells"]}개 최대구간 미측정; 이전0km 13개 최소 모두 기록']]),'',
+ table(['검수','결과','수치 / 제한'],[['C1','미통과',f'{domain_pass}/420; 원래 기준 414/420. DDG (a) 3개 exact 기준만 갱신, CG (b) 3개 유지'],['C2','PASS (코드 동등성으로 기존 비행 결과 유지)','UI88 새 실행, 기존 종료기300·공통180·자연RF28·WebGL8 결과 재사용; 신규 실패0'],['C3','PASS (새 실행)','무표적/전투 각각120초 truth 해시 동일, 게임 코어 byte 동일'],['C4','PASS',f'120개 전체 구간 확정 / {build["pendingCells"]}개 미측정; 이전0km 13개 최소·최대 모두 기록']]),'',
  table(['시험','최신 성공','CLEAN 성공','완전 반환값 차이','실행 초 (최신 / CLEAN)'],[[k,str(v['oldSuccess'])+'/'+str(v['shots']),str(v['newSuccess'])+'/'+str(v['shots']),v['exactResultChanges'],f"{v['elapsedS']['LATEST']:.2f} / {v['elapsedS']['CLEAN']:.2f}"]for k,v in c2.items()]),'',
  '실제 WebGL8발은 양쪽 모두 원래29/29 검사를 통과하고 발사/관측 샘플/최종 물리 반환값이 모두 동일하다. 기존 MR/ER 명중4발 유지, SM-6/ESSM 기존 비명중4발도 그대로다. “8발 검증”을 “8발 명중”으로 세지 않았다. 종료기300은240normal+36dual+12fault+8battery+4정식VLS이고 중복 합산하지 않았다. 자연RF28은 별도 제어된 ASM 경로다.','',
+ f'이 비행 회귀는 이번 190발에 중복 합산하지 않는다. 기존 회귀를 실행한 HTML SHA는 `{carry["previousHtmlSha256"]}`이며 새 산출물 SHA와 다르다. `evidence/regression-carryforward.json`으로 ENV_D 진단 표/accessor 블록 외 게임 실행 코드와 전체 UI/자산 bytes 동일함을 증명했다. 도메인/300/180/28/8 비행은 재실행하지 않고 그 결과를 보존했다. 이번에는 190발, 283개 함수 비교, UI88, DDG/CG 표 상태·API 독립성, 120초 무표적·전투를 새로 실행했다.','',
  table(['상태','양쪽 동일 SHA-256'],[['무표적120초',acceptance['C3']['idle']],['전투120초',acceptance['C3']['combat']]]),'',
  '전투 hash 시나리오(SM-6 100km/5km/접근250m/s/seed12002)의 기존 비명중/POST_CROSS 종료도 양쪽 그대로다. 이를 회복 명중으로 올려 세지 않는다.','',
- f'최소거리 추가 사격 벽시계 {m["elapsedS"]:.2f}초(2 workers). 역사 raid 7개 변형, 장기 raid 8쌍, part2 18발, 전체 도메인 15 suites, 두 HTML의 C2/C3를 별도 실행했다. 각 작업 실제 소요는 원시 결과의 `elapsedS`에 보존했다. 동시 실행 시간이 겹치므로 이를 직렬 총시간/실기 FPS로 해석하지 않는다.','',
+ f'최소거리 1,040발 벽시계 {followup["minimumElapsedS"]:.2f}초, 이번 후속 grid 190발 {followup["gridElapsedS"]:.2f}초(각2 workers). 역사 raid 7개 변형, 장기 raid 8쌍, part2 18발, 전체 도메인 15 suites의 앞선 증거는 보존했다. 각 작업 실제 소요는 원시 결과의 `elapsedS`에 있다. 동시 실행 시간이 겹치므로 이를 직렬 총시간/실기 FPS로 해석하지 않는다.','',
  '### 재현','',
- '```sh\nexport NODE_PATH=/workspace/aegis-performance-f/docs/performance/F/node_modules\nnode docs/cleanup/A/prepare.cjs\npython docs/cleanup/A/run_history.py\npython docs/cleanup/A/run_raid_studies.py\npython docs/cleanup/A/analyze_part1.py\nnode docs/cleanup/A/intervals.cjs\npython docs/cleanup/A/build.py\nnode docs/cleanup/A/verify_native.cjs\npython docs/cleanup/A/verify_delivery.py\npython docs/cleanup/A/report.py\n```','',
+ '```sh\nexport NODE_PATH=/workspace/aegis-performance-f/docs/performance/F/node_modules\nnode docs/cleanup/A/intervals.cjs --allow-missing-grid\npython docs/cleanup/A/verify_grid_followup.py\npython docs/cleanup/A/build.py\nnode docs/cleanup/A/verify_native.cjs\npython docs/cleanup/A/verify_regression_carryforward.py\npython docs/cleanup/A/verify_delivery.py\npython docs/cleanup/A/report.py\n```','',
  '브라우저 도구는 Chromium/Playwright 및 기존 저장소 테스트 의존성을 사용한다. 최소거리 cache는 기존 D2 engine/functions/seed와 동일한 것만 재사용한다. 추가 grid는 명시적 scope 승인 파일 없이는 실행할 수 없다. 상세 원시 증거와 스크립트는 REPORT ZIP에 포함한다.','']
 (H/'REPORT.md').write_text('\n'.join(out))
-save('STATUS.json',{'schema':'AEGIS_CLEAN_A_STATUS_1','state':'PARTIAL_REVIEW_REQUIRED','gameCodeChanged':False,'newLaunchRegressionsRecovered':3,'domainPass':domain_pass,'domainTotal':420,'approvedDDGBaselines':3,'unresolvedCGRegressions':3,'tableRows':120,'effectiveMinKnown':120,'pendingEffectiveMax':build['pendingCells'],'maximumAdditionalGridShots':190,'build':build,'acceptance':acceptance})
+save('STATUS.json',{'schema':'AEGIS_CLEAN_A_STATUS_1','state':'MEASUREMENT_COMPLETE_REGRESSION_REVIEW_REQUIRED','gameCodeChanged':False,'newLaunchRegressionsRecovered':3,'domainPass':domain_pass,'domainTotal':420,'approvedDDGBaselines':3,'unresolvedCGRegressions':3,'tableRows':120,'effectiveMinKnown':120,'pendingEffectiveMax':build['pendingCells'],'approvedMaximumAdditionalGridShots':190,'completedAdditionalGridShots':followup['additionalGridShots'],'remainingAdditionalGridShots':0,'build':build,'acceptance':acceptance})
 print(json.dumps({'domainPass':domain_pass,'C2':acceptance['C2']['pass'],'C3':acceptance['C3']['pass'],'C4':acceptance['C4']['pass']}))

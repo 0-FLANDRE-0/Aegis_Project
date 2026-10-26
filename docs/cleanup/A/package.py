@@ -5,11 +5,11 @@ H=Path(__file__).resolve().parent;R=H.parents[2]
 sha=lambda x:hashlib.sha256(x).hexdigest()
 html=R/'Aegis_SIM_v48_WIP_CLEAN_A.html';build=json.loads((H/'build.json').read_text())
 assert sha(html.read_bytes())==build['sha256']
-readme='CLEAN_A 보고서: docs/cleanup/A/REPORT.md\n상태: docs/cleanup/A/STATUS.md\n검수: docs/cleanup/A/ACCEPTANCE.json\n게임 HTML은 별도 HTML.zip입니다.\n전체 합격 보류: 도메인417/420, 최대 유효거리5칸 추가 grid 대기.\n'
+readme='CLEAN_A 보고서: docs/cleanup/A/REPORT.md\n상태: docs/cleanup/A/STATUS.md\n검수: docs/cleanup/A/ACCEPTANCE.json\n게임 HTML은 별도 HTML.zip입니다.\n유효구간120/120 완료(추가190발). 전체 회귀는 CG3건으로417/420이며 합격 보류.\n'
 def write(z,name,data):
  info=zipfile.ZipInfo(name,(2026,10,26,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o644<<16
  z.writestr(info,data,compresslevel=9)
-files=[p for p in H.rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.name not in ['FILES_SHA256.json','PACKAGES.json']]
+files=[p for p in H.rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.name not in ['FILES_SHA256.json','PACKAGES.json','remote-publication.json']]
 files.append(R/'docs/helicopter/F/verify_regression.py')
 manifest={str(p.relative_to(R)):{'bytes':p.stat().st_size,'sha256':sha(p.read_bytes())}for p in sorted(files)}
 (H/'FILES_SHA256.json').write_text(json.dumps(manifest,indent=2)+'\n')
