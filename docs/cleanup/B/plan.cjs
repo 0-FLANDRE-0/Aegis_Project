@@ -1,0 +1,18 @@
+// Preflight only: no calls to runCase or any simulation tick.
+const{fs,path,H,old,sha,grid,readCache,aggregate,baseCommit}=require('./cache.cjs');
+fs.mkdirSync(path.join(H,'results'),{recursive:true});fs.mkdirSync(path.join(H,'evidence'),{recursive:true});
+const start=performance.now(),rows=[];let estimatedCPU=0;
+for(const row of old.rows){const c=readCache(row),g=grid(row.maxRangeKm),missing=g.filter(r=>!c.points.has(r)),known=[...c.points.values()];let cpu=0;
+ for(const r of missing){const near=[...known].sort((a,b)=>Math.abs(a.rangeKm-r)-Math.abs(b.rangeKm-r)).slice(0,2);const ticks=near.reduce((s,q)=>s+q.shots.reduce((a,b)=>a+b.ticks,0),0)/near.length;cpu+=ticks*c.costPerTick;}
+ let refinementPoints=0;for(const r of g.filter(r=>r>30)){const prev=r-5;if((!c.points.has(r)||aggregate(c.points.get(r)).pass)&&(!c.points.has(prev)||!aggregate(c.points.get(prev)).pass))refinementPoints=Math.max(refinementPoints,[1,2,3,4].filter(d=>!c.points.has(r-d)).length);}
+ const refinementCPU=refinementPoints*5*0.6;estimatedCPU+=cpu+refinementCPU;
+ const broken=row.intervalBreakBoundary?.rangeKm??null;
+ rows.push({cellId:row.cellId,weapon:row.weapon,altM:row.altM,motion:row.motion,maxRangeKm:row.maxRangeKm,previousEffectiveMinKm:row.effectiveMinKm,previousEffectiveMaxKm:row.effectiveMaxKm,requiredGridPoints:g.length,reusedGridPoints:g.length-missing.length,missingGridKm:missing,missingShots:missing.length*5,missingAfterPriorBreakKm:missing.filter(r=>broken!=null&&r>broken),nearGapKm:missing.filter(r=>r<=30),refinementMaximumNewPoints:refinementPoints,estimatedCPUSeconds:cpu+refinementCPU,sourceHashes:c.sourceHashes});
+ console.log(JSON.stringify({cellId:row.cellId,missing:missing.length,postBreak:rows.at(-1).missingAfterPriorBreakKm.length}));
+}
+const workers=2,reserveFactor=1.5,baseShots=rows.reduce((s,r)=>s+r.missingShots,0),refineShots=rows.reduce((s,r)=>s+r.refinementMaximumNewPoints*5,0),expectedSeconds=estimatedCPU/workers*reserveFactor+60;
+const out={schema:'AEGIS_CLEAN_B_PREFLIGHT_1',baseCommit,baseGridShots:baseShots,refinementMaximumShots:refineShots,maximumExpectedShots:baseShots+refineShots,expectedSeconds,expectedHours:expectedSeconds/3600,workers,reserveFactor,allowed:expectedSeconds<=3*3600,estimationMethod:'Nearest same-cell cached flight tick counts × original D2 elapsed/tick + conservative 0.6 CPU sec/refinement shot; 2 workers, 1.5 reserve, 60 sec setup. No shots executed.',seeds:require('./cache.cjs').d2.seeds,rows,auditElapsedS:(performance.now()-start)/1000};
+fs.writeFileSync(path.join(H,'PLAN.json'),JSON.stringify(out,null,2)+'\n');
+const lines=['# CLEAN_B 추가 사격 사전 계획','',`기본 격자 추가 ${baseShots}발 + 경계 세분화 최대 ${refineShots}발 = 최대 ${baseShots+refineShots}발. 예상 ${(expectedSeconds/60).toFixed(1)}분, 2 workers. 3시간 제한 ${out.allowed?'이내':'초과 — 실행 금지'}.`,'','격자: 1~min(30, 바깥 최대거리) km는 1km, 이후35km부터 최대거리 이하 5km. 모든120칸의 필요한 격자를 감사한다. 선택 구간 첫점이30km를 넘으면 앞 실패점 사이 최대4점을1km로 보강하고 구간을 다시 구성한다.','',out.estimationMethod,'','| 기종 | 고도 m | 운동 | CLEAN_A 구간 | 새 기본 격자 발수 | 기존 끊김 뒤 새 점 |','|---|---:|---|---|---:|---:|'];
+for(const r of rows.filter(r=>r.missingShots||r.refinementMaximumNewPoints))lines.push(`| ${r.weapon} | ${r.altM} | ${r.motion} | ${r.previousEffectiveMinKm}~${r.previousEffectiveMaxKm} | ${r.missingShots} | ${r.missingAfterPriorBreakKm.length} |`);
+lines.push('','모든 거리 목록·기존 결과 해시는 PLAN.json에 기록. 재사용은 같은 함수/프로파일과5개 시드의 기존 결과만 허용. 새 사격·게임 계수 변경·격추 기준 완화는 이 계획에서 실행하지 않는다.','');fs.writeFileSync(path.join(H,'PLAN.md'),lines.join('\n'));console.log(JSON.stringify({baseShots,refineShots,expectedMinutes:expectedSeconds/60,allowed:out.allowed,affected:rows.filter(r=>r.missingShots).length,postBreak:rows.filter(r=>r.missingAfterPriorBreakKm.length).length}));

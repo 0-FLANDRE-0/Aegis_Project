@@ -60,8 +60,9 @@ def baseline(a):
     source = source.replace('exclude existing EW/network/tactical metadata, new attack settings and profiler', 'exclude only profiler, changed aviation schema, new H1/H2 radio configs and the exact completed-helicopter metadata labels; include full existing observer tracks/private RF RNG/queues/counters/unrelated ports and EW/network/tactical/maneuver/attack/team')
     source = source.replace('Ownship defense/maneuver utility is OFF by default. No allied peers or Harpoon launch in this paired regression; H3-on maneuver and native defense are verified separately.', 'Cold helicopters, defense/maneuver utility OFF. No allied peers or Harpoon launch in these six paired cases. Active aircraft are tested by the separate fixed-clock, altitude and native suites.')
     if approved:
-        # Update only the three reviewed DDG raid expectations. Every original
-        # assertion remains an exact comparison; CG failures are not rebased.
+        # Update only explicitly reviewed category-(a) raid expectations.
+        # CLEAN_A approves DDG; CLEAN_B also approves CG under the user's
+        # outcome-only policy. Every assertion remains an exact comparison.
         needle = "                rows.append({'ship':ship"
         assert source.count(needle) == 1
         update = '''                if scenario=='raid' and ship in CLEAN_A_APPROVED['entries']:
