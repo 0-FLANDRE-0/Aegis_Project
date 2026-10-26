@@ -6,8 +6,11 @@ new aviation/radio metadata and host profiler observations are excluded; existin
 port queues, counters, sources and tracks are retained.
 """
 import argparse
+import base64
+import gzip
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,6 +22,15 @@ from browser_g import launch, load_fleet
 
 
 def baseline(a):
+    approved = None
+    approved_path = getattr(a, 'approved_raid_baseline', None)
+    if approved_path:
+        approved = json.loads(approved_path.read_text())
+        assert approved['schema'] == 'AEGIS_CLEAN_A_APPROVED_RAID_BASELINES_1'
+        main = gzip.decompress(base64.b64decode(re.search(rb'data-c55-index="13">([^<]+)', a.html.read_bytes())[1]))
+        main = re.sub(rb'// ENV_D_DATA_BEGIN[\s\S]*?// ENV_D_DATA_END', b'', main)
+        assert hashlib.sha256(main).hexdigest() == approved['gameCoreWithoutEnvelopeSha256'], 'CLEAN_A baseline requires its explicitly reviewed game core'
+        assert all(v['classification'] == 'a' for v in approved['entries'].values())
     source_path = ROOT / 'docs/multiship/H4/regression_baseline.py'
     source = source_path.read_text()
     normalizer = r'''def physical(value):
@@ -47,7 +59,23 @@ def baseline(a):
     source = source.replace("abs(count_vls(pair['baseline'])-count_vls(pair['candidate']))<=1", "count_vls(pair['baseline'])==count_vls(pair['candidate'])")
     source = source.replace('exclude existing EW/network/tactical metadata, new attack settings and profiler', 'exclude only profiler, changed aviation schema, new H1/H2 radio configs and the exact completed-helicopter metadata labels; include full existing observer tracks/private RF RNG/queues/counters/unrelated ports and EW/network/tactical/maneuver/attack/team')
     source = source.replace('Ownship defense/maneuver utility is OFF by default. No allied peers or Harpoon launch in this paired regression; H3-on maneuver and native defense are verified separately.', 'Cold helicopters, defense/maneuver utility OFF. No allied peers or Harpoon launch in these six paired cases. Active aircraft are tested by the separate fixed-clock, altitude and native suites.')
-    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline'}
+    if approved:
+        # Update only the three reviewed DDG raid expectations. Every original
+        # assertion remains an exact comparison; CG failures are not rebased.
+        needle = "                rows.append({'ship':ship"
+        assert source.count(needle) == 1
+        update = '''                if scenario=='raid' and ship in CLEAN_A_APPROVED['entries']:
+                    ref=CLEAN_A_APPROVED['entries'][ship]
+                    assert physical_signature(pair['baseline'])==ref['old']['physical']
+                    assert physical(pair['baseline']['observers'])==ref['old']['observer']
+                    assert count_vls(pair['baseline'])==ref['old']['loadedVlsCells']
+                    observations['cleanABaselineUpdate']={'assertions':ref['assertions'],'oldHash':ref['oldHash'],'newHash':ref['newHash'],'reason':ref['reason'],'originalChecks':dict(checks)}
+                    checks['samePhysicalState']=physical_signature(pair['candidate'])==ref['expected']['physical']
+                    checks['raidInventoryDeltaBounded']=count_vls(pair['candidate'])==ref['expected']['loadedVlsCells']
+                    checks['sameExistingObserverState']=physical(pair['candidate']['observers'])==ref['expected']['observer']
+'''
+        source = source.replace(needle, update + needle, 1)
+    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved}
     exec(compile(source, str(source_path), 'exec'), scope)
     previous_argv = sys.argv
     sys.argv = [str(source_path), str(a.baseline), str(a.html), str(a.out)]
@@ -128,6 +156,7 @@ def main():
     p.add_argument('out', type=Path)
     p.add_argument('--clock-only', action='store_true')
     p.add_argument('--baseline-only', action='store_true')
+    p.add_argument('--approved-raid-baseline', type=Path, help='Explicit CLEAN_A category-(a) reference; guarded by reviewed game-core hash')
     a = p.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
     if a.clock_only:

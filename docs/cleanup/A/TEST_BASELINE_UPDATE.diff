@@ -1,0 +1,40 @@
+diff --git a/docs/helicopter/F/verify_regression.py b/docs/helicopter/F/verify_regression.py
+index 0aebabe..bcfbe59 100644
+--- a/docs/helicopter/F/verify_regression.py
++++ b/docs/helicopter/F/verify_regression.py
+@@ -8,0 +9,2 @@ import argparse
++import base64
++import gzip
+@@ -10,0 +13 @@ import json
++import re
+@@ -21,0 +25,9 @@ def baseline(a):
++    approved = None
++    approved_path = getattr(a, 'approved_raid_baseline', None)
++    if approved_path:
++        approved = json.loads(approved_path.read_text())
++        assert approved['schema'] == 'AEGIS_CLEAN_A_APPROVED_RAID_BASELINES_1'
++        main = gzip.decompress(base64.b64decode(re.search(rb'data-c55-index="13">([^<]+)', a.html.read_bytes())[1]))
++        main = re.sub(rb'// ENV_D_DATA_BEGIN[\s\S]*?// ENV_D_DATA_END', b'', main)
++        assert hashlib.sha256(main).hexdigest() == approved['gameCoreWithoutEnvelopeSha256'], 'CLEAN_A baseline requires its explicitly reviewed game core'
++        assert all(v['classification'] == 'a' for v in approved['entries'].values())
+@@ -50 +62,17 @@ def baseline(a):
+-    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline'}
++    if approved:
++        # Update only the three reviewed DDG raid expectations. Every original
++        # assertion remains an exact comparison; CG failures are not rebased.
++        needle = "                rows.append({'ship':ship"
++        assert source.count(needle) == 1
++        update = '''                if scenario=='raid' and ship in CLEAN_A_APPROVED['entries']:
++                    ref=CLEAN_A_APPROVED['entries'][ship]
++                    assert physical_signature(pair['baseline'])==ref['old']['physical']
++                    assert physical(pair['baseline']['observers'])==ref['old']['observer']
++                    assert count_vls(pair['baseline'])==ref['old']['loadedVlsCells']
++                    observations['cleanABaselineUpdate']={'assertions':ref['assertions'],'oldHash':ref['oldHash'],'newHash':ref['newHash'],'reason':ref['reason'],'originalChecks':dict(checks)}
++                    checks['samePhysicalState']=physical_signature(pair['candidate'])==ref['expected']['physical']
++                    checks['raidInventoryDeltaBounded']=count_vls(pair['candidate'])==ref['expected']['loadedVlsCells']
++                    checks['sameExistingObserverState']=physical(pair['candidate']['observers'])==ref['expected']['observer']
++'''
++        source = source.replace(needle, update + needle, 1)
++    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved}
+@@ -130,0 +159 @@ def main():
++    p.add_argument('--approved-raid-baseline', type=Path, help='Explicit CLEAN_A category-(a) reference; guarded by reviewed game-core hash')

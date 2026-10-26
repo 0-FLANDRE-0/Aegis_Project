@@ -1,0 +1,507 @@
+Burke IIA↔Sovremenny 혼동: [{"classId":"BURKE_IIA","other":"SOVREMENNY_956","allRows":54,"rate":0.024016203703703703,"observableRows":54,"observableRate":0.024016203703703703},{"classId":"SOVREMENNY_956","other":"BURKE_IIA","allRows":54,"rate":0.048900462962962965,"observableRows":54,"observableRate":0.048900462962962965}]
+AN/APS-153 ISAR 판별표 · SIM_TUNED · 실제 장비 성능 아님
+고도300m / Δθ 및 가상 측정 기반 Monte Carlo / SNR·수평선 미달 행은 분류의 가정 계산일 뿐 실제 결과 생성 없음
+선수/선미 전장 관측성 우선은 사용자 지정 단순화. 0°=선수, 90°=정횡. 결과는 식별/교전권한을 바꾸지 않음.
+행당 64회; 진단 전용 난수, 실시간 상태 불변
+{
+  "minRangeM": {
+    "value": 9300,
+    "source": "SIM_TUNED",
+    "reference": "APS153_MODE_TABLE_UNOFFICIAL"
+  },
+  "maxRangeM": {
+    "value": 296000,
+    "source": "SIM_TUNED",
+    "reference": "APS153_MODE_TABLE_UNOFFICIAL"
+  },
+  "rpm": {
+    "value": 0,
+    "source": "SIM_TUNED",
+    "reference": "APS153_MODE_TABLE_UNOFFICIAL"
+  },
+  "wavelengthM": {
+    "value": 0.032,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "rangeResolutionM": {
+    "value": 2,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "integrationS": {
+    "value": 16,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "sampleIntervalS": {
+    "value": 0.5,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "featureBins": {
+    "value": 12,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "contactMaxAgeS": {
+    "value": 30,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "selectionGateM": {
+    "value": 1800,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "associationSigma": {
+    "value": 3,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "targetGateM": {
+    "value": 1200,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "minSnr": {
+    "value": 1,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "snrQualityScale": {
+    "value": 12,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "resolutionQualityM": {
+    "value": 8,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "angularFloorRad": {
+    "value": 0.00001,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "lengthSigmaFloorM": {
+    "value": 2,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "heightSigmaFloorM": {
+    "value": 1.2,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "mastSigmaFloor01": {
+    "value": 0.025,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "aspectLengthErrorFraction": {
+    "value": 0.16,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "poorQualityLengthFraction": {
+    "value": 0.13,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "poorQualityHeightM": {
+    "value": 10,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "rfLengthSigmaM": {
+    "value": 3,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "rfHeightSigmaM": {
+    "value": 1.5,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "rfMastSigma01": {
+    "value": 0.025,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaRollDegPerM": {
+    "value": 0.8,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaPitchDegPerM": {
+    "value": 0.22,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaYawDegPerM": {
+    "value": 0.12,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaRollPeriodS": {
+    "value": 8,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaPitchPeriodS": {
+    "value": 6,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "seaYawPeriodS": {
+    "value": 11,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "clutterScale": {
+    "value": 1,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "pdSnrScale": {
+    "value": 3,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "minimumSamples": {
+    "value": 3,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "bufferCapacity": {
+    "value": 8,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "receiverCapacity": {
+    "value": 16,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "resultMaxAgeS": {
+    "value": 600,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "positionSpeedPriorMps": {
+    "value": 15,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "positionGateSigma": {
+    "value": 4,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "positionGateMaxM": {
+    "value": 8000,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "unknownWeight": {
+    "value": 0.12,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "scoreTemperature": {
+    "value": 1.4,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "libraryLengthSigmaM": {
+    "value": 4,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "libraryHeightSigmaM": {
+    "value": 2,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "libraryMastSigma01": {
+    "value": 0.04,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "diagnosticSamples": {
+    "value": 64,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "diagnosticSeed": {
+    "value": 153202,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  }
+}
+{
+  "labelWidthM": {
+    "value": 80,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "labelHeightM": {
+    "value": 12,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  },
+  "labelLiftM": {
+    "value": 20,
+    "source": "SIM_TUNED",
+    "reference": "GENERIC_RADAR_PRINCIPLE"
+  }
+}
+{
+  "USER_DESIGN_TARGET": {
+    "title": "사용자 감각 목표",
+    "status": "물리 근거 또는 공개 장비 제원 아님"
+  },
+  "APS147_DTIC": {
+    "title": "Shannon, History of U.S. Airborne and Shipboard Periscope Detection Radar Design and Development (2014), ADA618106",
+    "url": "https://apps.dtic.mil/sti/pdfs/ADA618106.pdf",
+    "status": "Bibliography verified; primary PDF not retrievable in this session; binary accumulation selected by user, not certified implementation"
+  },
+  "APS153_MODE_TABLE_UNOFFICIAL": {
+    "title": "AN/APS-147/153 radar study cards; user-supplied mode table",
+    "url": "https://quizlet.com/jp/376490050/anaps-147153-mmr-flash-cards/",
+    "status": "Unofficial; requested values are simulation settings"
+  },
+  "APS143_FAMILY_ANALOG": {
+    "title": "APS-143C(V)3/OceanEye manufacturer datasheet, family analogy only",
+    "url": "https://pdf.aeroexpo.online/pdf/telephonics-corporation/aps-143c-v-3-oceaneye/170712-22112.html",
+    "status": "Manufacturer datasheet mirror; does not establish APS-153 numeric performance"
+  },
+  "APS137_ANALOG": {
+    "title": "APS-137 analogy in ADA618106; 19NM/500ft/SS3 anchor supplied by user",
+    "url": "https://apps.dtic.mil/sti/pdfs/ADA618106.pdf",
+    "status": "Analogy, not APS-153 validation"
+  },
+  "GENERIC_RADAR_PRINCIPLE": {
+    "title": "Monostatic radar equation, Gaussian beam, sea-cell area, exponential power CFAR and binary M-of-N",
+    "url": "https://www.jhuapl.edu/Content/techdigest/pdf/V18-N01/18-01-Ousbourn.pdf",
+    "status": "Principles; coefficients and simplified distributions are SIM_TUNED"
+  }
+}
+함급 | aspect | Hs | km | 운동 | 정분류율 | 평균품질 | 주요혼동 | 제한
+BURKE_IIA | 0 | 0.1 | 15 | 직진 | 57.8% | 0.304 | SOVREMENNY_956 | NONE
+BURKE_IIA | 0 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 0.1 | 40 | 직진 | 62.5% | 0.304 | SOVREMENNY_956 | NONE
+BURKE_IIA | 0 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 0.1 | 90 | 직진 | 73.4% | 0.302 | SOVREMENNY_956 | NONE
+BURKE_IIA | 0 | 0.1 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 15 | 직진 | 100.0% | 0.797 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 40 | 직진 | 100.0% | 0.797 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 90 | 직진 | 100.0% | 0.791 | NONE | NONE
+BURKE_IIA | 0 | 0.9 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 0 | 3 | 15 | 직진 | 100.0% | 0.929 | NONE | NONE
+BURKE_IIA | 0 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 3 | 40 | 직진 | 100.0% | 0.929 | NONE | NONE
+BURKE_IIA | 0 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 0 | 3 | 90 | 직진 | 100.0% | 0.921 | NONE | NONE
+BURKE_IIA | 0 | 3 | 90 | 선회1°/s | 100.0% | 0.985 | NONE | NONE
+BURKE_IIA | 45 | 0.1 | 15 | 직진 | 76.6% | 0.511 | TICONDEROGA | NONE
+BURKE_IIA | 45 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 0.1 | 40 | 직진 | 75.0% | 0.511 | SOVREMENNY_956 | NONE
+BURKE_IIA | 45 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 0.1 | 90 | 직진 | 57.8% | 0.507 | SOVREMENNY_956 | NONE
+BURKE_IIA | 45 | 0.1 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 15 | 직진 | 100.0% | 0.904 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 40 | 직진 | 100.0% | 0.904 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 90 | 직진 | 100.0% | 0.896 | NONE | NONE
+BURKE_IIA | 45 | 0.9 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 45 | 3 | 15 | 직진 | 100.0% | 0.969 | NONE | NONE
+BURKE_IIA | 45 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 3 | 40 | 직진 | 100.0% | 0.969 | NONE | NONE
+BURKE_IIA | 45 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 45 | 3 | 90 | 직진 | 100.0% | 0.961 | NONE | NONE
+BURKE_IIA | 45 | 3 | 90 | 선회1°/s | 100.0% | 0.985 | NONE | NONE
+BURKE_IIA | 90 | 0.1 | 15 | 직진 | 79.7% | 0.585 | TICONDEROGA | NONE
+BURKE_IIA | 90 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 0.1 | 40 | 직진 | 79.7% | 0.585 | TICONDEROGA | NONE
+BURKE_IIA | 90 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 0.1 | 90 | 직진 | 78.1% | 0.580 | TICONDEROGA | NONE
+BURKE_IIA | 90 | 0.1 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 15 | 직진 | 100.0% | 0.927 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 40 | 직진 | 100.0% | 0.927 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 90 | 직진 | 100.0% | 0.919 | NONE | NONE
+BURKE_IIA | 90 | 0.9 | 90 | 선회1°/s | 100.0% | 0.984 | NONE | NONE
+BURKE_IIA | 90 | 3 | 15 | 직진 | 100.0% | 0.977 | NONE | NONE
+BURKE_IIA | 90 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 3 | 40 | 직진 | 100.0% | 0.977 | NONE | NONE
+BURKE_IIA | 90 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+BURKE_IIA | 90 | 3 | 90 | 직진 | 100.0% | 0.969 | NONE | NONE
+BURKE_IIA | 90 | 3 | 90 | 선회1°/s | 100.0% | 0.985 | NONE | NONE
+TICONDEROGA | 0 | 0.1 | 15 | 직진 | 65.6% | 0.304 | BURKE_IIA | NONE
+TICONDEROGA | 0 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 0.1 | 40 | 직진 | 68.8% | 0.304 | BURKE_IIA | NONE
+TICONDEROGA | 0 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 0.1 | 90 | 직진 | 76.6% | 0.302 | BURKE_IIA | NONE
+TICONDEROGA | 0 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 0 | 0.9 | 15 | 직진 | 98.4% | 0.797 | SOVREMENNY_956 | NONE
+TICONDEROGA | 0 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 0.9 | 40 | 직진 | 95.3% | 0.797 | SOVREMENNY_956 | NONE
+TICONDEROGA | 0 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 0.9 | 90 | 직진 | 100.0% | 0.792 | NONE | NONE
+TICONDEROGA | 0 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 0 | 3 | 15 | 직진 | 100.0% | 0.929 | NONE | NONE
+TICONDEROGA | 0 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 3 | 40 | 직진 | 100.0% | 0.929 | NONE | NONE
+TICONDEROGA | 0 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 0 | 3 | 90 | 직진 | 100.0% | 0.923 | NONE | NONE
+TICONDEROGA | 0 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 45 | 0.1 | 15 | 직진 | 65.6% | 0.511 | BURKE_IIA | NONE
+TICONDEROGA | 45 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 0.1 | 40 | 직진 | 60.9% | 0.511 | BURKE_IIA | NONE
+TICONDEROGA | 45 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 0.1 | 90 | 직진 | 60.9% | 0.508 | BURKE_IIA | NONE
+TICONDEROGA | 45 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 15 | 직진 | 100.0% | 0.904 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 40 | 직진 | 100.0% | 0.904 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 90 | 직진 | 100.0% | 0.898 | NONE | NONE
+TICONDEROGA | 45 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 45 | 3 | 15 | 직진 | 100.0% | 0.969 | NONE | NONE
+TICONDEROGA | 45 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 3 | 40 | 직진 | 100.0% | 0.969 | NONE | NONE
+TICONDEROGA | 45 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 45 | 3 | 90 | 직진 | 100.0% | 0.963 | NONE | NONE
+TICONDEROGA | 45 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 90 | 0.1 | 15 | 직진 | 78.1% | 0.585 | BURKE_IIA | NONE
+TICONDEROGA | 90 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 0.1 | 40 | 직진 | 67.2% | 0.585 | SOVREMENNY_956 | NONE
+TICONDEROGA | 90 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 0.1 | 90 | 직진 | 78.1% | 0.582 | SOVREMENNY_956 | NONE
+TICONDEROGA | 90 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 15 | 직진 | 100.0% | 0.927 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 40 | 직진 | 100.0% | 0.927 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 90 | 직진 | 100.0% | 0.921 | NONE | NONE
+TICONDEROGA | 90 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+TICONDEROGA | 90 | 3 | 15 | 직진 | 100.0% | 0.977 | NONE | NONE
+TICONDEROGA | 90 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 3 | 40 | 직진 | 100.0% | 0.977 | NONE | NONE
+TICONDEROGA | 90 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+TICONDEROGA | 90 | 3 | 90 | 직진 | 100.0% | 0.971 | NONE | NONE
+TICONDEROGA | 90 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.1 | 15 | 직진 | 98.4% | 0.304 | TICONDEROGA | NONE
+LARGE_MERCHANT | 0 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.1 | 40 | 직진 | 100.0% | 0.304 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.1 | 90 | 직진 | 96.9% | 0.302 | TICONDEROGA | NONE
+LARGE_MERCHANT | 0 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 15 | 직진 | 100.0% | 0.797 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 40 | 직진 | 100.0% | 0.797 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 90 | 직진 | 100.0% | 0.792 | NONE | NONE
+LARGE_MERCHANT | 0 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 15 | 직진 | 100.0% | 0.929 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 40 | 직진 | 100.0% | 0.929 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 90 | 직진 | 100.0% | 0.923 | NONE | NONE
+LARGE_MERCHANT | 0 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 15 | 직진 | 100.0% | 0.511 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 40 | 직진 | 100.0% | 0.511 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 90 | 직진 | 100.0% | 0.508 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 15 | 직진 | 100.0% | 0.904 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 40 | 직진 | 100.0% | 0.904 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 90 | 직진 | 100.0% | 0.898 | NONE | NONE
+LARGE_MERCHANT | 45 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 15 | 직진 | 100.0% | 0.969 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 40 | 직진 | 100.0% | 0.969 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 90 | 직진 | 100.0% | 0.963 | NONE | NONE
+LARGE_MERCHANT | 45 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 15 | 직진 | 100.0% | 0.585 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 40 | 직진 | 100.0% | 0.585 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 90 | 직진 | 100.0% | 0.582 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.1 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 15 | 직진 | 100.0% | 0.927 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 40 | 직진 | 100.0% | 0.927 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 90 | 직진 | 100.0% | 0.921 | NONE | NONE
+LARGE_MERCHANT | 90 | 0.9 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 15 | 직진 | 100.0% | 0.977 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 40 | 직진 | 100.0% | 0.977 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 90 | 직진 | 100.0% | 0.971 | NONE | NONE
+LARGE_MERCHANT | 90 | 3 | 90 | 선회1°/s | 100.0% | 0.987 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.1 | 15 | 직진 | 23.4% | 0.304 | BURKE_IIA | NONE
+SOVREMENNY_956 | 0 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.1 | 40 | 직진 | 17.2% | 0.304 | BURKE_IIA | NONE
+SOVREMENNY_956 | 0 | 0.1 | 40 | 선회1°/s | 100.0% | 0.992 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.1 | 90 | 직진 | 23.4% | 0.301 | BURKE_IIA | NONE
+SOVREMENNY_956 | 0 | 0.1 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.9 | 15 | 직진 | 100.0% | 0.797 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.9 | 40 | 직진 | 98.4% | 0.797 | TICONDEROGA | NONE
+SOVREMENNY_956 | 0 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.9 | 90 | 직진 | 100.0% | 0.789 | NONE | NONE
+SOVREMENNY_956 | 0 | 0.9 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 15 | 직진 | 100.0% | 0.929 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 40 | 직진 | 100.0% | 0.929 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 90 | 직진 | 100.0% | 0.919 | NONE | NONE
+SOVREMENNY_956 | 0 | 3 | 90 | 선회1°/s | 100.0% | 0.983 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.1 | 15 | 직진 | 59.4% | 0.511 | TICONDEROGA | NONE
+SOVREMENNY_956 | 45 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.1 | 40 | 직진 | 57.8% | 0.511 | TICONDEROGA | NONE
+SOVREMENNY_956 | 45 | 0.1 | 40 | 선회1°/s | 100.0% | 0.992 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.1 | 90 | 직진 | 50.0% | 0.506 | TICONDEROGA | NONE
+SOVREMENNY_956 | 45 | 0.1 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 15 | 직진 | 100.0% | 0.904 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 40 | 직진 | 100.0% | 0.904 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 90 | 직진 | 100.0% | 0.894 | NONE | NONE
+SOVREMENNY_956 | 45 | 0.9 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 15 | 직진 | 100.0% | 0.969 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 40 | 직진 | 100.0% | 0.969 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 90 | 직진 | 100.0% | 0.959 | NONE | NONE
+SOVREMENNY_956 | 45 | 3 | 90 | 선회1°/s | 100.0% | 0.983 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.1 | 15 | 직진 | 68.8% | 0.585 | BURKE_IIA | NONE
+SOVREMENNY_956 | 90 | 0.1 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.1 | 40 | 직진 | 59.4% | 0.585 | TICONDEROGA | NONE
+SOVREMENNY_956 | 90 | 0.1 | 40 | 선회1°/s | 100.0% | 0.992 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.1 | 90 | 직진 | 62.5% | 0.579 | TICONDEROGA | NONE
+SOVREMENNY_956 | 90 | 0.1 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 15 | 직진 | 100.0% | 0.927 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 40 | 직진 | 100.0% | 0.927 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 90 | 직진 | 100.0% | 0.917 | NONE | NONE
+SOVREMENNY_956 | 90 | 0.9 | 90 | 선회1°/s | 100.0% | 0.982 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 15 | 직진 | 100.0% | 0.977 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 15 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 40 | 직진 | 100.0% | 0.976 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 40 | 선회1°/s | 100.0% | 0.993 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 90 | 직진 | 100.0% | 0.967 | NONE | NONE
+SOVREMENNY_956 | 90 | 3 | 90 | 선회1°/s | 100.0% | 0.983 | NONE | NONE
