@@ -1,0 +1,17 @@
+{
+  "schema":"AEGIS_MAP_C_PRESENTATION_INPUTS_1",
+  "targetTruthReads":0,
+  "simulationWrites":0,
+  "sources":[
+    {"source":"pipPrepareChartFrameA detached observation frame","fields":["step","tracks[id]._chartVisible","tracks[id].x/y/vx/vy","network[id].positionM/velocityMps"],"purpose":"selected observed symbol, tag and hit geometry share one presentation point"},
+    {"source":"MAP_A observed records","fields":["key","kind","id","identity","label","ownLaunchObserved"],"purpose":"near-tie selection priority and repeat-tap cycle"},
+    {"source":"existing own-launch association evidence","fields":["tr._harpoonOwnC.confirmed"],"projection":"ownLaunchObserved boolean only; no Harpoon flight position or hidden trajectory"},
+    {"source":"MAP_B existing model","fields":["allowed","verdict","reason","d.rangeKm","selection.weapon/count","queue.remaining/count"],"purpose":"same verdict, warning and native release state; no new gate"},
+    {"source":"existing viewport/UI","fields":["AEGIS_VIEWPORT.twoD/threeD","PIP view rect/km/center","UI scale","own navigation position","active own entityId"],"purpose":"projection, clamp, fixed slot and layout; own metadata only"},
+    {"source":"existing simulation presentation clock","fields":["simStepCounter","SIM_FIXED_DT","simAccumulator","worldTimeScale"],"purpose":"observed-velocity extrapolation and paused display convergence"},
+    {"source":"ENVELOPE_TABLE_D","access":"unchanged MAP_B lookup/draw path","purpose":"same 120 rows, same lookup, geometry/colors/dashes/hatching"}
+  ],
+  "neverRead":["target truth coordinates","truthRef","enemy entity arrays","target profile for classification","private RF objects"],
+  "statePolicy":"UI selection/tag/cycle are transient; no game save schema change",
+  "releasePolicy":"original mapFireB node/listener -> original operator command queue -> fixed tick -> wip13cSelectVlsWeapon/wip13cFireSelectedVlsWeapon"
+}
