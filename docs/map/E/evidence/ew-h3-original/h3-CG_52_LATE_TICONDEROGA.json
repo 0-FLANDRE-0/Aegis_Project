@@ -1,0 +1,1800 @@
+{
+  "suite": "h3",
+  "ship": "CG_52_LATE_TICONDEROGA",
+  "same": true,
+  "sameChecks": true,
+  "baseline": {
+    "checks": {
+      "ownAndAllyDefaultOff": true,
+      "enemyIdentifiedMissionDefaultOn": true,
+      "ownerRootsIndependent": true,
+      "enabledAloneNeverFires": true,
+      "noImplicitFriendlyConsent": true,
+      "enemyOperatorDenied": true,
+      "explicitConsent": true,
+      "nativeDoorOpening": true,
+      "fixedTubePinned": true,
+      "exactTwoNativeRounds": true,
+      "noThirdRound": true,
+      "worldOwnsActualFlights": true,
+      "nativeBoosterAndIns": true,
+      "actualLaunchFixedTube": true,
+      "nativeOnePointFiveSecondInterval": true,
+      "noDlSnapshot": true,
+      "attackHasNoFlightPosition": true,
+      "noMidflightCueUpdates": true,
+      "REVOKE.immediateCancel": true,
+      "REVOKE.zeroRoundAtRelease": true,
+      "OFF.immediateCancel": true,
+      "OFF.zeroRoundAtRelease": true,
+      "MODE.immediateCancel": true,
+      "MODE.zeroRoundAtRelease": true,
+      "MASTER.immediateCancel": true,
+      "MASTER.zeroRoundAtRelease": true,
+      "FRIEND.zeroRoundAtRelease": true,
+      "NEUTRAL.zeroRoundAtRelease": true,
+      "STALE.zeroRoundAtRelease": true,
+      "ALIAS.zeroRoundAtRelease": true,
+      "LAUNCHER.zeroRoundAtRelease": true,
+      "EXPIRE.zeroRoundAtRelease": true,
+      "DEFENSE.zeroRoundAtRelease": true,
+      "UNKNOWN.noAttackConsent": true,
+      "UNKNOWN.noShot": true,
+      "ASSUMED_HOSTILE.noAttackConsent": true,
+      "ASSUMED_HOSTILE.noShot": true,
+      "TRAINING_TARGET.noAttackConsent": true,
+      "TRAINING_TARGET.noShot": true,
+      "FRIEND.noAttackConsent": true,
+      "FRIEND.noShot": true,
+      "NEUTRAL.noAttackConsent": true,
+      "NEUTRAL.noShot": true,
+      "STALE.denyMeasuredAuthority": true,
+      "COAST.denyMeasuredAuthority": true,
+      "OFFBOARD.denyMeasuredAuthority": true,
+      "BAD_COV.denyMeasuredAuthority": true,
+      "UNCONFIRMED.denyMeasuredAuthority": true,
+      "IFF.denyMeasuredAuthority": true,
+      "tooClose.nativeEnvelopeWithholds": true,
+      "outsideRange.nativeEnvelopeWithholds": true,
+      "uncertainLongRange.nativeEnvelopeWithholds": true,
+      "aiReservePreserved": true,
+      "manualWaypointPriority": true,
+      "FRIEND.searchBasketProtected": true,
+      "NEUTRAL.searchBasketProtected": true,
+      "protectedMidcourseCorridor": true,
+      "farProtectedShipAllowsAttack": true,
+      "newProtectedContactCancelsAtPhysicalRelease": true,
+      "capabilityTrackReferenceNotSerialized": true,
+      "forgedCapabilityDenied": true,
+      "genericAutomaticStillDenied": true,
+      "manualHarpoonStillWorks": true,
+      "enemyUnknownNoIdentityInference": true,
+      "enemyMeasuredHostileNativeAttack": true,
+      "enemyNoOperatorConsent": true,
+      "currentStrictSchema": false,
+      "settingsOnlySave": true,
+      "consentDeferred": true,
+      "invalidSaveAtomic0": true,
+      "invalidSaveAtomic1": true,
+      "invalidSaveAtomic2": true,
+      "invalidSaveAtomic3": true,
+      "invalidSaveAtomic4": true,
+      "invalidSaveAtomic5": true,
+      "invalidSaveAtomic6": true,
+      "invalidH2LegacyAtomic0": true,
+      "invalidH2LegacyAtomic1": true,
+      "invalidH2LegacyAtomic2": true,
+      "invalidH2LegacyAtomic3": true,
+      "invalidH2LegacyAtomic4": true,
+      "invalidH2LegacyAtomic5": true,
+      "importClearsConsentPlanCapabilities": true,
+      "importPreservesOnlyEnabled": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_H2_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_H1_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_G_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_F_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_B_1.noNewLegacyAttackPermission": true,
+      "NO_FLEET.noNewLegacyAttackPermission": true,
+      "invalidCommand.{\"enabled\":true,\"revoke\":true}": true,
+      "invalidCommand.{\"authorizeTrackId\":91,\"rounds\":3}": true,
+      "invalidCommand.{\"enabled\":\"true\"}": true,
+      "invalidCommand.null": true,
+      "detachedSnapshot": true,
+      "noTargetTruth": true,
+      "coreZero": true,
+      "faultZero": true
+    },
+    "trace": [
+      {
+        "name": "prepare",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "PREPARING",
+          "reason": "RELEASE_RECHECK_PENDING",
+          "lastStep": 24,
+          "evaluations": 1,
+          "selectedTrackId": 91,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 2,
+              "expiresInS": 119.98333333333333
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9654872270569147,
+              "ready": true,
+              "reason": null,
+              "tubeId": "MK141-A1",
+              "rangeKm": 10,
+              "predictionSigmaM": 160.79800993793424,
+              "routeLengthM": 10005.264573553797,
+              "flightTimeEstimateS": 34.61064808352753,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 24,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 2
+            },
+            {
+              "step": 24,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        }
+      },
+      {
+        "name": "twoRounds",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 276,
+          "evaluations": 22,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 24,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 2
+            },
+            {
+              "step": 24,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 34,
+              "action": "RELEASE",
+              "reason": "NATIVE_HARPOON",
+              "trackId": 91,
+              "tubeId": "MK141-A1",
+              "serial": 1
+            },
+            {
+              "step": 132,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A2"
+            },
+            {
+              "step": 142,
+              "action": "RELEASE",
+              "reason": "NATIVE_HARPOON",
+              "trackId": 91,
+              "tubeId": "MK141-A2",
+              "serial": 2
+            }
+          ]
+        }
+      },
+      {
+        "name": "REVOKE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 300,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 277,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 288,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 289,
+              "action": "CANCEL",
+              "reason": "CONSENT_REVOKED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:CONSENT_REVOKED"
+      },
+      {
+        "name": "OFF",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": false
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 324,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 301,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 312,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 313,
+              "action": "CANCEL",
+              "reason": "ATTACK_SWITCH_CHANGED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_SWITCH_CHANGED"
+      },
+      {
+        "name": "MODE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 348,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 325,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 336,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 337,
+              "action": "CANCEL",
+              "reason": "TACTICAL_CONTROL_YIELDED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:TACTICAL_CONTROL_YIELDED"
+      },
+      {
+        "name": "MASTER",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 372,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 349,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 360,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 361,
+              "action": "CANCEL",
+              "reason": "TACTICAL_CONTROL_YIELDED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:TACTICAL_CONTROL_YIELDED"
+      },
+      {
+        "name": "FRIEND",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 396,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 373,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 384,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:PROTECTED_IDENTITY"
+      },
+      {
+        "name": "NEUTRAL",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 420,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 397,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 408,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:PROTECTED_IDENTITY"
+      },
+      {
+        "name": "STALE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 444,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 421,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 432,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:LOCAL_SURFACE_TRACK_STALE"
+      },
+      {
+        "name": "ALIAS",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 468,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 445,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 456,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_CAPABILITY_REQUIRED"
+      },
+      {
+        "name": "LAUNCHER",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "MK141_LAUNCHER_DAMAGED",
+          "lastStep": 492,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "MK141_LAUNCHER_DAMAGED",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 469,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 480,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:MK141_LAUNCHER_DAMAGED"
+      },
+      {
+        "name": "EXPIRE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 516,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 493,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 504,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_CONSENT_EXPIRED"
+      },
+      {
+        "name": "DEFENSE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "AIR_DEFENSE_PRIORITY",
+          "lastStep": 540,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 517,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 528,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:AIR_DEFENSE_PRIORITY"
+      },
+      {
+        "name": "tooClose",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "lastStep": 684,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.59999999999998
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9776962279023509,
+              "ready": false,
+              "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 661,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "outsideRange",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "lastStep": 708,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.584839085045208,
+              "ready": false,
+              "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 685,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "uncertainLongRange",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+          "lastStep": 732,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.6419819421880651,
+              "ready": false,
+              "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 709,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "FRIEND.basket",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+          "lastStep": 804,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.59999999999998
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 781,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "NEUTRAL.basket",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+          "lastStep": 828,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 805,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      }
+    ],
+    "pass": false
+  },
+  "candidate": {
+    "checks": {
+      "ownAndAllyDefaultOff": true,
+      "enemyIdentifiedMissionDefaultOn": true,
+      "ownerRootsIndependent": true,
+      "enabledAloneNeverFires": true,
+      "noImplicitFriendlyConsent": true,
+      "enemyOperatorDenied": true,
+      "explicitConsent": true,
+      "nativeDoorOpening": true,
+      "fixedTubePinned": true,
+      "exactTwoNativeRounds": true,
+      "noThirdRound": true,
+      "worldOwnsActualFlights": true,
+      "nativeBoosterAndIns": true,
+      "actualLaunchFixedTube": true,
+      "nativeOnePointFiveSecondInterval": true,
+      "noDlSnapshot": true,
+      "attackHasNoFlightPosition": true,
+      "noMidflightCueUpdates": true,
+      "REVOKE.immediateCancel": true,
+      "REVOKE.zeroRoundAtRelease": true,
+      "OFF.immediateCancel": true,
+      "OFF.zeroRoundAtRelease": true,
+      "MODE.immediateCancel": true,
+      "MODE.zeroRoundAtRelease": true,
+      "MASTER.immediateCancel": true,
+      "MASTER.zeroRoundAtRelease": true,
+      "FRIEND.zeroRoundAtRelease": true,
+      "NEUTRAL.zeroRoundAtRelease": true,
+      "STALE.zeroRoundAtRelease": true,
+      "ALIAS.zeroRoundAtRelease": true,
+      "LAUNCHER.zeroRoundAtRelease": true,
+      "EXPIRE.zeroRoundAtRelease": true,
+      "DEFENSE.zeroRoundAtRelease": true,
+      "UNKNOWN.noAttackConsent": true,
+      "UNKNOWN.noShot": true,
+      "ASSUMED_HOSTILE.noAttackConsent": true,
+      "ASSUMED_HOSTILE.noShot": true,
+      "TRAINING_TARGET.noAttackConsent": true,
+      "TRAINING_TARGET.noShot": true,
+      "FRIEND.noAttackConsent": true,
+      "FRIEND.noShot": true,
+      "NEUTRAL.noAttackConsent": true,
+      "NEUTRAL.noShot": true,
+      "STALE.denyMeasuredAuthority": true,
+      "COAST.denyMeasuredAuthority": true,
+      "OFFBOARD.denyMeasuredAuthority": true,
+      "BAD_COV.denyMeasuredAuthority": true,
+      "UNCONFIRMED.denyMeasuredAuthority": true,
+      "IFF.denyMeasuredAuthority": true,
+      "tooClose.nativeEnvelopeWithholds": true,
+      "outsideRange.nativeEnvelopeWithholds": true,
+      "uncertainLongRange.nativeEnvelopeWithholds": true,
+      "aiReservePreserved": true,
+      "manualWaypointPriority": true,
+      "FRIEND.searchBasketProtected": true,
+      "NEUTRAL.searchBasketProtected": true,
+      "protectedMidcourseCorridor": true,
+      "farProtectedShipAllowsAttack": true,
+      "newProtectedContactCancelsAtPhysicalRelease": true,
+      "capabilityTrackReferenceNotSerialized": true,
+      "forgedCapabilityDenied": true,
+      "genericAutomaticStillDenied": true,
+      "manualHarpoonStillWorks": true,
+      "enemyUnknownNoIdentityInference": true,
+      "enemyMeasuredHostileNativeAttack": true,
+      "enemyNoOperatorConsent": true,
+      "currentStrictSchema": false,
+      "settingsOnlySave": true,
+      "consentDeferred": true,
+      "invalidSaveAtomic0": true,
+      "invalidSaveAtomic1": true,
+      "invalidSaveAtomic2": true,
+      "invalidSaveAtomic3": true,
+      "invalidSaveAtomic4": true,
+      "invalidSaveAtomic5": true,
+      "invalidSaveAtomic6": true,
+      "invalidH2LegacyAtomic0": true,
+      "invalidH2LegacyAtomic1": true,
+      "invalidH2LegacyAtomic2": true,
+      "invalidH2LegacyAtomic3": true,
+      "invalidH2LegacyAtomic4": true,
+      "invalidH2LegacyAtomic5": true,
+      "importClearsConsentPlanCapabilities": true,
+      "importPreservesOnlyEnabled": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_H2_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_H1_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_G_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_F_1.noNewLegacyAttackPermission": true,
+      "AEGIS_NAVAL_PHYSICAL_FLEET_B_1.noNewLegacyAttackPermission": true,
+      "NO_FLEET.noNewLegacyAttackPermission": true,
+      "invalidCommand.{\"enabled\":true,\"revoke\":true}": true,
+      "invalidCommand.{\"authorizeTrackId\":91,\"rounds\":3}": true,
+      "invalidCommand.{\"enabled\":\"true\"}": true,
+      "invalidCommand.null": true,
+      "detachedSnapshot": true,
+      "noTargetTruth": true,
+      "coreZero": true,
+      "faultZero": true
+    },
+    "trace": [
+      {
+        "name": "prepare",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "PREPARING",
+          "reason": "RELEASE_RECHECK_PENDING",
+          "lastStep": 24,
+          "evaluations": 1,
+          "selectedTrackId": 91,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 2,
+              "expiresInS": 119.98333333333333
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9654872270569147,
+              "ready": true,
+              "reason": null,
+              "tubeId": "MK141-A1",
+              "rangeKm": 10,
+              "predictionSigmaM": 160.79800993793424,
+              "routeLengthM": 10005.264573553797,
+              "flightTimeEstimateS": 34.61064808352753,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 24,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 2
+            },
+            {
+              "step": 24,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        }
+      },
+      {
+        "name": "twoRounds",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 276,
+          "evaluations": 22,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 24,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 2
+            },
+            {
+              "step": 24,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 34,
+              "action": "RELEASE",
+              "reason": "NATIVE_HARPOON",
+              "trackId": 91,
+              "tubeId": "MK141-A1",
+              "serial": 1
+            },
+            {
+              "step": 132,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A2"
+            },
+            {
+              "step": 142,
+              "action": "RELEASE",
+              "reason": "NATIVE_HARPOON",
+              "trackId": 91,
+              "tubeId": "MK141-A2",
+              "serial": 2
+            }
+          ]
+        }
+      },
+      {
+        "name": "REVOKE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 300,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 277,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 288,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 289,
+              "action": "CANCEL",
+              "reason": "CONSENT_REVOKED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:CONSENT_REVOKED"
+      },
+      {
+        "name": "OFF",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": false
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 324,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 301,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 312,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 313,
+              "action": "CANCEL",
+              "reason": "ATTACK_SWITCH_CHANGED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_SWITCH_CHANGED"
+      },
+      {
+        "name": "MODE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 348,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 325,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 336,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 337,
+              "action": "CANCEL",
+              "reason": "TACTICAL_CONTROL_YIELDED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:TACTICAL_CONTROL_YIELDED"
+      },
+      {
+        "name": "MASTER",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": false,
+          "status": "WAIT",
+          "reason": "ATTACK_AUTO_INACTIVE",
+          "lastStep": 372,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 349,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 360,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            },
+            {
+              "step": 361,
+              "action": "CANCEL",
+              "reason": "TACTICAL_CONTROL_YIELDED",
+              "trackId": 91
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:TACTICAL_CONTROL_YIELDED"
+      },
+      {
+        "name": "FRIEND",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 396,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 373,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 384,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:PROTECTED_IDENTITY"
+      },
+      {
+        "name": "NEUTRAL",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 420,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 397,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 408,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:PROTECTED_IDENTITY"
+      },
+      {
+        "name": "STALE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 444,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 421,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 432,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:LOCAL_SURFACE_TRACK_STALE"
+      },
+      {
+        "name": "ALIAS",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 468,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 445,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 456,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_CAPABILITY_REQUIRED"
+      },
+      {
+        "name": "LAUNCHER",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "MK141_LAUNCHER_DAMAGED",
+          "lastStep": 492,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "MK141_LAUNCHER_DAMAGED",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 469,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 480,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:MK141_LAUNCHER_DAMAGED"
+      },
+      {
+        "name": "EXPIRE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+          "lastStep": 516,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [],
+          "plans": [],
+          "log": [
+            {
+              "step": 493,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 504,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:ATTACK_CONSENT_EXPIRED"
+      },
+      {
+        "name": "DEFENSE",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "AIR_DEFENSE_PRIORITY",
+          "lastStep": 540,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.60000000000001
+            }
+          ],
+          "plans": [],
+          "log": [
+            {
+              "step": 517,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            },
+            {
+              "step": 528,
+              "action": "PREPARE",
+              "reason": "CONSENT_AND_PLAN_PASSED",
+              "trackId": 91,
+              "tubeId": "MK141-A1"
+            }
+          ]
+        },
+        "lastResult": "CANCELLED:AIR_DEFENSE_PRIORITY"
+      },
+      {
+        "name": "tooClose",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "lastStep": 684,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.59999999999998
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9776962279023509,
+              "ready": false,
+              "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 661,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "outsideRange",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "lastStep": 708,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.584839085045208,
+              "ready": false,
+              "reason": "SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 685,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "uncertainLongRange",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+          "lastStep": 732,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.6419819421880651,
+              "ready": false,
+              "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 709,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "FRIEND.basket",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+          "lastStep": 804,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.59999999999998
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 781,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "NEUTRAL.basket",
+        "snapshot": {
+          "entityId": "SHIP_CG52_OWN",
+          "settings": {
+            "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+            "enabled": true
+          },
+          "active": true,
+          "status": "WAIT",
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+          "lastStep": 828,
+          "evaluations": 2,
+          "selectedTrackId": null,
+          "consents": [
+            {
+              "trackId": 91,
+              "remaining": 1,
+              "expiresInS": 119.6
+            }
+          ],
+          "plans": [
+            {
+              "trackId": 91,
+              "score": 0.9562676564737794,
+              "ready": false,
+              "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH",
+              "tubeId": null,
+              "rangeKm": null,
+              "predictionSigmaM": null,
+              "truthUsed": false
+            }
+          ],
+          "log": [
+            {
+              "step": 805,
+              "action": "CONSENT",
+              "reason": "OPERATOR_AUTHORIZED",
+              "trackId": 91,
+              "rounds": 1
+            }
+          ]
+        }
+      }
+    ],
+    "pass": false
+  }
+}

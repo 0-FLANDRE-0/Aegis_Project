@@ -1,5 +1,7 @@
 # MAP_E 구현 전 보고
 
+> 이 문서는 최초 조사 기록이다. 2026-10-31 사용자 결정은 [DECISIONS.md](DECISIONS.md)에 반영했다. 현재 구현·검수 상태는 STATE.md를 따른다.
+
 - 기준: PR #57이 병합된 최신 main `7b9ca6e3e2d2dd26406b93c395d376f7f1b30c06`.
 - 기준 HTML: MAP_D SHA-256 `5be55bdc1390d79f7b74bbfa5f128af916ffecdcf28693d0524578646955f40f` 확인.
 - 작업 브랜치 `map-e`. 아직 게임 HTML/코드는 수정하지 않았다.
@@ -13,7 +15,7 @@
 | armSubVlsBtn | VLS 하위 페이지 이동 | 하단 무장 선택·발사 슬롯 | 지시 범위 |
 | armSubGunBtn | GUN 하위 페이지 이동 | 하단 5in 선택·MAP_D 태그 | 지시 범위 |
 | armSubEwBtn | EW 하위 페이지 이동 | EMCON/ECM 팝오버·기만체 팝업 | 지시 범위 |
-| lockBtn | 비 EMCON 정밀추적 / EMCON 방사 없는 지정 | 비 EMCON은 지도 정밀추적. EMCON 지정은 현재 대체 없음 | **질문 2** |
+| lockBtn | 비 EMCON 정밀추적 / EMCON 방사 없는 지정 | 비 EMCON은 지도 정밀추적. EMCON 지정은 현재 대체 없음 | 사용자 결정: 새 UI 유보·내부 기능 보존 |
 | autoEngBtn | AUTO TGT → autoEngageLock | UI 삭제, 함수 유지 | 명시적 제거 지시 |
 | engCtrlBtn | MAN/SEMI/AUTO 전환 | 하단 MAN 칩 메뉴 | 있음 |
 | trackIdentityBtn | 선택 트랙 ID 순환 | 지도 ID 변경 메뉴 | 있음 |
@@ -25,7 +27,7 @@
 | harpoonFireA | 하푼 발사 | MAP_D RGM-84 선택·발사 슬롯 | 있음 |
 | harpoonRouteE | 경로 편집 | MAP_D [경로], AIM 의존 제거 | 있음 |
 | harpoonControlsA 내부 출처 링크(id 없음) | Civorsky / CC BY 4.0 출처 | 같은 링크 노드를 DEBUG 출처 영역으로 이동, CREDITS.md 유지 | 이동 |
-| cg52GunSelect (CG만) | 함수/함미 포를 수동 선택 | MAP_D는 2문 자동이며 동일 기능이 아님 | **질문 1** |
+| cg52GunSelect (CG만) | 함수/함미 포를 수동 선택 | MAP_D는 2문 자동이며 동일 기능이 아님 | 사용자 승인: 개별 UI 폐기·자동 2문 유지 |
 | mainGunCueBtn | 선택 포 CUE | 5in 선택 후 수상 트랙 탭 | 있음(자동 마운트 경로) |
 | mainGunFireBtn | 선택 포 단발/보류 취소 | MAP_D 발사 슬롯 | 있음(자동 마운트 경로) |
 | mainGunContinuousBtn | 선택 포 연속 시작/중지 | MAP_D 연속/중지 | 있음(자동 마운트 경로) |
@@ -57,7 +59,7 @@ ARM 밖의 `modeAimBtn`은 창 목록 안에 있다. 이 탭 UI도 제거하되 
 1. `cg52GunSelect`: 선택한 한 포만 CUE/발사하는 레거시 흐름은 MAP_D의 자동 2문 흐름과 다르다. 자동 2문만 남기려면 수동 선택 UI 폐기를 명시해야 한다. 보존하려면 selector 하나만 옮겨서는 부족하고, 선택 포의 CUE/탄종/단발/연속 조작 묶음까지 DEBUG 등에 남겨야 한다.
 2. EMCON 중 수동 지정: `lockByCursor(id)`는 EMCON에서 selectedLockId만 지정하고 PD/방사를 시작하지 않는다. 반면 현재 `mapPrecisionReasonA`는 EMCON이면 정밀추적을 거부한다. 따라서 현재 지도 정밀추적만으로 이 기능을 대신할 수 없다. 정밀추적 금지는 유지한 채 별도 [방사 없는 지정]을 추가하거나, 이 레거시 UI 기능도 폐기한다는 결정이 필요하다.
 
-두 항목의 결정 전에는 ARM 제거를 구현하지 않는다.
+2026-10-31 결정 수신: CG 개별 조작 UI를 폐기하고 자동 2문을 유지한다. EMCON 방사 없는 지정은 내부 기능을 보존하고 새 UI 배치는 후속 작업으로 남긴다. 결정에 따라 ARM 제거를 진행했다.
 
 ## 2. NJ/DJ 승인 플래그의 기존 의미
 
