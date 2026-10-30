@@ -1,0 +1,38 @@
+{
+  "schema": "AEGIS_MAP_D_DATA_SOURCES_1",
+  "ownState": [
+    "ACTIVE_SHIP_PROFILE.weapons.harpoon / weapons.mainGun (installation, hardpoints, limits)",
+    "ACTIVE_SHIP_RUNTIME.weapons.harpoon (loaded tubes, pending, cooldown and own launch receipts)",
+    "ACTIVE_SHIP_RUNTIME.weapons.mainGun / gunMounts (public snapshot, solution, feed and native releaseGate)",
+    "aircraft.x/y, shipNav.heading and floodAttitudePreviewV1.snapshot (own navigation and attitude only)",
+    "Native own-ship equipment/survival health, module damage and maritime sea level at the launcher for launch safety",
+    "Current engagementControlMode for Harpoon manual authority; existing MANUAL operator consent for native Mk45 APIs",
+    "Existing own-force BDA/support assessment through wip121TargetSupportBlocked/wip118ControlState, plus observed track threatStatus"
+  ],
+  "observedOnly": [
+    "mapBObservedTrack(id) (existing observation whitelist)",
+    "mapObservedObjectsA() (existing displayable objects)",
+    "MAP_B selected target and MAP_A source surface",
+    "mapDObservedHarpoonTrack: same observed-field whitelist as mapBObservedTrack, plus observed sea-impact boolean. The internal native gate retains these observations even when display policy hides the file; screen drawing still uses MAP_A visible objects/last report only."
+  ],
+  "rangeData": [
+    "HARPOON_PROFILE_A.sim.minLaunchRangeKm / maxLaunchRangeKm",
+    "g.spec.fireControl.minRangeM / maxRangeM"
+  ],
+  "nativeCalls": [
+    "harpoonRequestFireA",
+    "harpoonRouteToggleE / harpoonRouteAddE / harpoonRouteProgramE",
+    "command / selectAmmo / requestFire / startContinuousFire / stopContinuousFire / clear",
+    "bunkerGunClearance / wip13b1GunClearance / releaseGate"
+  ],
+  "epochOnly": "ENGAGEMENT_RUNTIME.world.presentationEpoch (existing UI reset epoch; no entity lookup)",
+  "forbiddenTargetSources": {
+    "enemyMissiles": false,
+    "entityRegistry": false,
+    "targetPool": false,
+    "RF_PHYSICS": false,
+    "truthRef": false
+  },
+  "renderMutations": "Only presentation UI state/metrics/DOM/canvas; no launch, CUE, ammo change, movement or truth writes. The read-only gates operate on private observed/runtime copies for Harpoon. Gun snapshots and native clearance/releaseGate only.",
+  "operatorDispatch": "Map_D step executes at the beginning of the existing fixed tick, after explicit click queues a request; GUI render never dispatches weapons. Native tick preserves release timing. Native CUE/ammo/stop are operator click actions."
+}

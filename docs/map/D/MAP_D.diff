@@ -1,0 +1,329 @@
+--- MAP_C/main.decoded.js
++++ MAP_D/main.decoded.js
+@@ -63887,7 +63887,7 @@
+  #mapCycleHintC{position:fixed;z-index:40001;background:#102632ec;border:1px solid #4f6b79;padding:2px 4px;border-radius:2px;color:#e7eff3;font:9px/1.2 monospace;pointer-events:none;zoom:var(--ui-scale-a)}
+  `;document.head.append(css);
+  let hint,layoutKey='';const measure=document.createElement('canvas').getContext('2d');
+- function stabilizeInventory(){const inv=document.getElementById('uiInventoryA');if(!inv)return;for(const e of inv.children){const label=e.querySelector('span'),num=e.querySelector('strong');if(!label||!num)continue;const base=label.textContent.replace(/ ×[1-4]$/,''),ls=getComputedStyle(label),ns=getComputedStyle(num),es=getComputedStyle(e);measure.font=ls.font;const lw=measure.measureText(base+(e.dataset.weaponB?' ×4':'')).width;measure.font=ns.font;const nw=measure.measureText('88888').width;const pad=parseFloat(es.paddingLeft)+parseFloat(es.paddingRight)+parseFloat(es.borderLeftWidth||0)+parseFloat(es.borderRightWidth||0);e.style.setProperty('--ammo-width-c',Math.ceil(Math.max(lw,nw)+pad+1)+'px');}for(const[id,text,key]of[['uiEmconChipA','EMCON OFF','--emcon-width-c'],['uiModeChipA','SEMI','--mode-width-c']]){const e=document.getElementById(id);if(!e)continue;const c=getComputedStyle(e);measure.font=c.font;const w=measure.measureText(text).width+parseFloat(c.paddingLeft)+parseFloat(c.paddingRight)+parseFloat(c.borderLeftWidth)+parseFloat(c.borderRightWidth)+1;e.style.setProperty(key,Math.ceil(w)+'px');}}
++ function stabilizeInventory(){const inv=document.getElementById('uiInventoryA');if(!inv)return;for(const e of inv.children){const label=e.querySelector('span'),num=e.querySelector('strong');if(!label||!num)continue;const base=label.textContent.replace(/ ×[1-4]$/,''),ls=getComputedStyle(label),ns=getComputedStyle(num),es=getComputedStyle(e);measure.font=ls.font;const lw=measure.measureText(base+(e.dataset.weaponB&&!window.__MAP_D__?.handles(e.dataset.weaponB)?' ×4':'')).width;measure.font=ns.font;const nw=measure.measureText('88888').width;const pad=parseFloat(es.paddingLeft)+parseFloat(es.paddingRight)+parseFloat(es.borderLeftWidth||0)+parseFloat(es.borderRightWidth||0);e.style.setProperty('--ammo-width-c',Math.ceil(Math.max(lw,nw)+pad+1)+'px');}for(const[id,text,key]of[['uiEmconChipA','EMCON OFF','--emcon-width-c'],['uiModeChipA','SEMI','--mode-width-c']]){const e=document.getElementById(id);if(!e)continue;const c=getComputedStyle(e);measure.font=c.font;const w=measure.measureText(text).width+parseFloat(c.paddingLeft)+parseFloat(c.paddingRight)+parseFloat(c.borderLeftWidth)+parseFloat(c.borderRightWidth)+1;e.style.setProperty(key,Math.ceil(w)+'px');}}
+  function mount(){if(mounted)return;mounted=true;const host=document.getElementById('uiDesktopA'),bar=document.getElementById('uiStatusBarA');pane=document.getElementById('mapEngagementB');fire=document.getElementById('mapFireB');cancel=document.getElementById('mapCancelB');clock=document.querySelector('#uiDesktopA .ui-clock-a');
+   const top=make('div','map-time-row-c'),rates=make('div','map-time-row-c');top.append(document.getElementById('uiClockA'),document.getElementById('uiPauseA'));rates.append(...clock.querySelectorAll('.time-btn'));clock.id='mapTimeBlockC';clock.replaceChildren(top,rates);host.append(clock);
+   // Move the original FIRE button: its listener and native command closure stay intact.
+@@ -63924,7 +63924,7 @@
+   const below=r.y+r.h-a.y,above=a.y-r.y;if(vertical==='below'&&below<b.height+10-spec.flipMarginPx&&above>below+spec.flipMarginPx)vertical='above';else if(vertical==='above'&&above<b.height+10-spec.flipMarginPx&&below>above+spec.flipMarginPx)vertical='below';
+   const x=Math.max(r.x+edge,Math.min(r.x+r.w-b.width-edge,side==='right'?a.x+gap:a.x-gap-b.width)),y=Math.max(r.y+edge,Math.min(r.y+r.h-b.height-edge,vertical==='below'?a.y+10:a.y-10-b.height));pane.style.left='0px';pane.style.top='0px';pane.style.transform=`translate3d(${x/s}px,${y/s}px,0)`;pane.dataset.lostC=String(model?.reason==='트랙 소실');stats.tagMoves++;Object.assign(tagState,{key:active.key,surface:active.surface,anchor:{x:a.x,y:a.y},expected:{x,y},side,vertical,sourceRect:{...r},visible:true,world:{...p},lost:!!motion?.lost});
+  }
+- function setFireState(selection,model,queue){if(!mounted)return;slotDot.dataset.tone=!selection||!model?.d?'off':!model.allowed?'blocked':model.verdict==='유효'?'effective':'warning';fire.disabled=!model?.allowed||!!queue;fire.textContent=queue?`발사 중 ${queue.count-queue.remaining}/${queue.count}`:`발사 ×${selection?.count??'—'}`;}
++ function setFireState(selection,model,queue){if(window.__MAP_D__?.fireState(selection,model))return;if(!mounted)return;slotDot.dataset.tone=!selection||!model?.d?'off':!model.allowed?'blocked':model.verdict==='유효'?'effective':'warning';fire.disabled=!model?.allowed||!!queue;fire.textContent=queue?`발사 중 ${queue.count-queue.remaining}/${queue.count}`:`발사 ×${selection?.count??'—'}`;}
+  function labelBase(view){const r=view.rect,b=clock?.getBoundingClientRect();return b&&b.right>r.x+r.w-200&&b.left<r.x+r.w&&b.bottom>r.y?Math.max(r.y+16,b.bottom+8):r.y+16;}
+  function rankCandidates(rows,armed){const own=q=>q.kind==='MISSILE'||q.ownLaunchObserved===true,hostile=q=>['TRACK','NET','ESM'].includes(q.kind)&&['HOSTILE','ASSUMED_HOSTILE','UNKNOWN'].includes(q.identity??'UNKNOWN'),sorted=rows.filter(q=>!own(q)).sort((a,b)=>a.distancePx-b.distancePx||a.key.localeCompare(b.key)),out=[];while(sorted.length){const d=sorted[0].distancePx,group=[];while(sorted.length&&sorted[0].distancePx<=d+spec.nearTiePx)group.push(sorted.shift());if(armed)group.sort((a,b)=>Number(hostile(b))-Number(hostile(a))||a.distancePx-b.distancePx||a.key.localeCompare(b.key));out.push(...group);}return out.concat(rows.filter(own).sort((a,b)=>a.distancePx-b.distancePx||a.key.localeCompare(b.key)));}
+  function cycleFeedback(index,total,label,x,y,rect){if(!mounted)return;hint.textContent=`${index}/${total} · ${label}`;hint.hidden=total<2;if(hint.hidden)return;const s=scale(),b=hint.getBoundingClientRect();hint.style.left=Math.max(rect.x+4,Math.min(rect.x+rect.w-b.width-4,x+12))/s+'px';hint.style.top=Math.max(rect.y+4,Math.min(rect.y+rect.h-b.height-4,y-20))/s+'px';cycleUntil=performance.now()+spec.cycleWindowMs;}
+@@ -63933,6 +63933,232 @@
+ })();
+ 
+ // MAP_C_PRESENTATION_END
++// MAP_D_EXTENSION_BEGIN
++// Native gate bodies run against detached observation/inventory inputs only.
++// Native release checks must retain observed protection/BDA evidence even when
++// a file is hidden by display policy. This detached whitelist is used only by
++// the gate, never to draw a hidden contact or expose unobserved target data.
++function mapDObservedHarpoonTrack(id){
++ const t=tracks.get(Number(id));if(!t)return null;
++ // Explicit observation/evidence whitelist. No entity/truth/object reference is copied.
++ const keys=['trackId','trackUid','x','y','z','vx','vy','vz','classification','domain','classificationConfidence','classificationProbs','domainEvidence','confirmed','sensorDetected','sensorAge','sensorHits','sensorSource','memActive','reacquiring','_surfaceSensorContributorsWip13B9','_surfaceManeuverProbabilityWip13B10','_maneuverProbability','_surfaceExtentWip13B8','_surfaceExtentEstimateWip13B8','measurementSigmaM','kinematicQuality','lastUpdateSeen','ttl','isASM','_surfaceContributorsWip13B9','_surfaceMotionPriorWip13B1','_surfaceExtentWip13B1','_surfaceMotionWip13B1','trackQuality','fireControlQuality','rangeSigma','rangeSigmaM','posSigmaM','velSigmaMps','altSigmaM','azSigma','zSigma','confidence','identity','_operatorIdentity','threatStatus','engagementAuthority','_a3AuthorityReason','_a3StateRevision','_a3StateChangedStep','_lastMeasurementStep','_spyExpectedRevisitS','_lastPredictionStep','_kfStep','_kfX','_kfP','_harpoonOwnC','iffF','observationReportsC','surfaceContributorsWip13B9','surfaceMotionPriorWip13C','surfaceExtent','extent','targetSupport','bdaEvidence','identificationEvidence'];
++ const out={};for(const k of keys)if(t[k]!==undefined)out[k]=structuredClone(t[k]);out._wip11cObservedSeaImpact=!!t._wip11cObservedSeaImpact;out.trackId=Number(id);return out;
++}
++function mapDHarpoonPreview(trackId,options={},observed=mapDObservedHarpoonTrack(trackId)){
++ const r=structuredClone(ACTIVE_SHIP_RUNTIME.weapons.harpoon),tracks=new Map(observed?[[Number(trackId),structuredClone(observed)]]:[]),selectedLockId=Number(trackId);
++ const harpoonRuntimeA=()=>r;
++ // Same canonical transform as shipGameFrameV1, without its shared WeakMap cache.
++ const shipGameFrameV1=()=>createShipBodyFrameV1(floodAttitudePreviewV1.snapshot(),{x:worldToMeters(aircraft.x()),y:worldToMeters(aircraft.y()),z:OWN_ALT_M},shipNav.heading);
++ function harpoonGateA(trackId=selectedLockId,tubeId=harpoonRuntimeA().selectedTubeId,options={}){
++  if(!options.attackH3&&(options.routeProgram||harpoonRuntimeA().routeDraft.pointsM.length))return harpoonRouteGateE(trackId,tubeId,options);
++  const r=harpoonRuntimeA(),spec=harpoonTubeSpecA(tubeId),tube=r.tubes.find(t=>t.id===tubeId),tr=tracks.get(Number(trackId)),cfg=HARPOON_PROFILE_A.sim,
++    bad=(reason,extra={})=>({ok:false,reason,truthUsed:false,...extra});
++  if(!spec||!tube)return bad('MK141_NOT_INSTALLED');
++  if(!options.attackH3&&(options.automatic===true||options.mode==='AUTO'||options.mode==='SEMIAUTO'))return bad('MANUAL_SURFACE_AUTHORITY_REQUIRED');
++  const authority=options.attackH3?attackAuthorityH3(ACTIVE_SHIP_RUNTIME,tr,options.attackH3):surfaceMissileIdentityPolicyWip13C4(tr?._operatorIdentity,'MANUAL',false);
++  if(!tr)return bad('NO_TRACK');if(!authority.ok)return bad(authority.reason);
++  if(Number(tr.sensorAge)>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
++  const readiness=surfaceMissileTrackReadinessWip13C4(tr,{minRangeKm:cfg.minLaunchRangeKm,maxRangeKm:cfg.maxLaunchRangeKm,includeOffboardAgeF1:true});
++  if(!readiness.ok)return bad(readiness.reason);if(readiness.measurementAgeS>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
++  const P=tr._kfP,t=Math.max(0,(readiness.rangeKm*1000-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps),
++    sigma=2*Math.sqrt(Math.max(P[0]+t*(P[3]+P[18])+t*t*P[21],P[7]+t*(P[10]+P[25])+t*t*P[28],0)+80**2+(t*t*.04)**2);
++  if(!Number.isFinite(sigma)||sigma>cfg.acquisitionBasketM)return bad('INS_PREDICTION_BASKET_INSUFFICIENT',{predictionSigmaM:sigma});
++  if(!tube.loaded)return bad('TUBE_EMPTY');if(r.pending&&!options.actualRelease)return bad('RELEASE_PENDING');
++  if(r.releaseCooldownS>0&&!options.actualRelease)return bad('LAUNCHER_COOLDOWN');
++  if(shipEquipmentOfflineV1())return bad('SHIP_EQUIPMENT_OFFLINE');
++  if(getModuleDmg(spec.moduleName)>=75)return bad('MK141_LAUNCHER_DAMAGED');
++  const frame=shipGameFrameV1(),muzzle=frame.pointToWorld(spec.muzzle),axis=frame.vectorToWorld(spec.axis);
++  if(axis.z<.15||muzzle.z<=maritimeSeaLevelAtSimulationMetersWip13A3(muzzle.x,muzzle.y)+.7)return bad('LAUNCH_GEOMETRY_UNSAFE');
++  const result={ok:true,reason:null,trackId:Number(trackId),tubeId,predictionSigmaM:sigma,rangeKm:readiness.rangeKm,
++    memory:harpoonMemoryA(tr),muzzleM:muzzle,axis,authority,truthUsed:false};
++  if(options.attackH3){const safe=attackFinalGuardH3(ACTIVE_SHIP_RUNTIME,tr,options.attackH3,result);if(!safe.ok)return bad(safe.reason);}
++  return result;
++}
++function harpoonAutoTubeGateD(trackId=selectedLockId,options={}){
++  const r=harpoonRuntimeA(),bad=reason=>({ok:false,reason,tubeId:null,truthUsed:false,selectionMode:'AUTO'});
++  // Once a door starts opening, pin that exact tube. Release rechecks it independently.
++  if(r.pending)return {...bad('RELEASE_PENDING'),tubeId:r.pending.tubeId};
++  if(!r.tubes.length)return bad('MK141_NOT_INSTALLED');
++  const loaded=r.tubes.filter(t=>t.loaded);if(!loaded.length)return bad('TUBE_EMPTY');
++  // Preview tube eligibility during cooldown; the final gate still enforces cooldown.
++  // actualRelease bypasses only pending/cooldown, never identity, damage or geometry.
++  const gates=loaded.map(t=>harpoonGateA(trackId,t.id,{...options,actualRelease:true})),best=harpoonRankTubesD(gates);
++  if(!best)return bad(gates[0].reason);
++  return {...harpoonGateA(trackId,best.gate.tubeId,options),tubeId:best.gate.tubeId,
++    turnRad:best.turnRad,selectionMode:'AUTO'};
++}
++function harpoonRouteGateE(trackId,tubeId,options={}){
++  const r=harpoonRuntimeA(),spec=harpoonTubeSpecA(tubeId),tube=r.tubes.find(t=>t.id===tubeId),cfg=HARPOON_PROFILE_A.sim,
++    bad=reason=>({ok:false,reason,truthUsed:false});
++  if(!spec||!tube)return bad('MK141_NOT_INSTALLED');
++  if(options.automatic===true||options.mode==='AUTO'||options.mode==='SEMIAUTO')return bad('MANUAL_SURFACE_AUTHORITY_REQUIRED');
++  // Manual coordinate/search-area release: no invented radar contact or offboard estimate.
++  // A selected protected surface file still blocks release. The onboard seeker has no IFF.
++  const tr=tracks.get(Number(trackId));
++  if(tr&&tr._surfaceExtentEstimateWip13B8){const a=surfaceMissileIdentityPolicyWip13C4(tr._operatorIdentity,'MANUAL',false);if(!a.ok)return bad(a.reason);}
++  if(!tube.loaded)return bad('TUBE_EMPTY');if(r.pending&&!options.actualRelease)return bad('RELEASE_PENDING');
++  if(r.releaseCooldownS>0&&!options.actualRelease)return bad('LAUNCHER_COOLDOWN');
++  if(shipEquipmentOfflineV1())return bad('SHIP_EQUIPMENT_OFFLINE');if(getModuleDmg(spec.moduleName)>=75)return bad('MK141_LAUNCHER_DAMAGED');
++  const frame=shipGameFrameV1(),muzzle=frame.pointToWorld(spec.muzzle),axis=frame.vectorToWorld(spec.axis);
++  if(axis.z<.15||muzzle.z<=maritimeSeaLevelAtSimulationMetersWip13A3(muzzle.x,muzzle.y)+.7)return bad('LAUNCH_GEOMETRY_UNSAFE');
++  const checked=harpoonRouteProgramE((options.routeProgram??r.routeDraft).pointsM,muzzle),program=options.routeProgram??checked;
++  if(!checked)return bad('INVALID_WAYPOINT_ROUTE');if(checked.plannedLengthM>cfg.maxLaunchRangeKm*1000)return bad('ROUTE_EXCEEDS_140KM_BUDGET');
++  // Fixed geographic search box, not a long extrapolation of an uncertain moving track.
++  const memory=deepFreezeShipProfileV48Wip09({schema:'HARPOON_FROZEN_COORDINATE_CUE_E1',trackId:null,positionM:{...program.searchCenterM},
++    velocityMps:{x:0,y:0,z:0},covariance:Array(36).fill(0),stateEpoch:'RELEASE_FIXED_COORDINATE',stateAgeS:0,observationAgeS:0,
++    launchStep:simStepCounter,identity:'COORDINATE_SEARCH',truthUsed:false,updatesAfterRelease:false});
++  return {ok:true,reason:null,trackId:tr?.trackId??null,tubeId,rangeKm:program.plannedLengthM/1000,memory,routeProgram:program,
++    muzzleM:muzzle,axis,authority:{ok:true,mode:'MANUAL_COORDINATE_SEARCH'},truthUsed:false};
++}
++function surfaceMissileTrackReadinessWip13C4(tr,weaponPolicy){
++  const bad=(reason,extra={})=>({ok:false,reason,truthUsed:false,...extra});if(!tr)return bad('NO_TRACK');
++  if(!(tr.domain==='SURFACE'||tr.classification==='SURFACE'))return bad('NOT_SURFACE_TRACK');
++  if(tr.confirmed!==true||tr.sensorDetected===false||tr.memActive||tr.reacquiring||trackLifecycleState(tr)==='DROP')return bad('SURFACE_TRACK_NOT_CONFIRMED');
++  if(!tr._kfP||tr._kfP.length!==36||![tr.x,tr.y].every(Number.isFinite))return bad('SURFACE_TRACK_STATE_UNAVAILABLE');
++  if(tr.trackId!=null&&tracks.get(tr.trackId)===tr&&wip121TargetSupportBlocked(tr.trackId,tr))return bad('TRACK_SUPPORT_BLOCKED');
++  const contributors=surfaceSensorContributorSnapshotWip13B9(tr),ages=Object.values(contributors).map(q=>Number(q.ageS)).filter(Number.isFinite),measurementAgeS=weaponPolicy?.includeOffboardAgeF1&&tr.observationReportsC?Math.min(...ages,Math.max(0,Number(tr.sensorAge)||0)):(ages.length?Math.min(...ages):Math.max(0,Number(tr.sensorAge)||0)),limitS=SURFACE_MISSILE_ENGAGEMENT_PROFILE_V48_WIP13C4.fireControl.maxMeasurementAgeS;
++  if(measurementAgeS>limitS)return bad('SURFACE_TRACK_COAST_EXPIRED',{measurementAgeS,limitS});
++  const rangeKm=horizDistKm(aircraft.x(),aircraft.y(),tr.x,tr.y),minRangeKm=Number(weaponPolicy?.minRangeKm)||0,maxRangeKm=Number(weaponPolicy?.maxRangeKm)||Infinity;
++  if(rangeKm<minRangeKm||rangeKm>maxRangeKm)return bad('SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE',{rangeKm,minRangeKm,maxRangeKm});
++  return {ok:true,reason:null,measurementAgeS,rangeKm,contributors,truthUsed:false};
++}
++
++ try{return harpoonAutoTubeGateD(trackId,{mode:engagementControlMode,...options});}
++ catch(e){return {ok:false,reason:'PREVIEW_UNAVAILABLE',detail:String(e),truthUsed:false};}
++}
++function mapDHarpoonSetSearchPoint(xM,yM){return window.__MAP_D__.appendSearchPoint(xM,yM);}
++
++// MAP_D: operator input adapter. No target truth, missile flight feedback or new firing model.
++window.__MAP_D__=(()=>{
++ const handles=w=>w==='HARPOON'||w==='MK45',ammoNames={HE_127_SIM:'HE',SAP_127_SIM:'SAP'};
++ let mounted=false,dom={},menuCommit=null,menuWeapon=null,menuAmmo=null,hpQueue=null,gunOps=[],ownedCues=new Map(),lastOwner=null,lastEpoch=null,lastStep=-1,serial=0;
++ const log=[],metrics={cue:0,preview:0,hpRequests:0,hpReleased:0,gunRequests:0,continuousStarts:0,continuousStops:0};
++ const note=(action,reason,extra={})=>{log.push({step:simStepCounter,action,reason,...extra});if(log.length>64)log.shift();};
++ const scale=()=>window.__UI_A_SETTINGS__?.scale??1;
++ const own=()=>ACTIVE_SHIP_RUNTIME.entityId;
++ const selection=()=>window.__MAP_B__?.snapshot().selection;
++ const guns=()=>ACTIVE_SHIP_RUNTIME.weapons.gunMounts?[...ACTIVE_SHIP_RUNTIME.weapons.gunMounts].map(([id,g])=>({id,g})):ACTIVE_SHIP_RUNTIME.weapons.mainGun?[{id:ACTIVE_SHIP_PROFILE.weapons.mainGun.id??ACTIVE_SHIP_PROFILE.weapons.mainGun.hardpointId??'MAIN',g:ACTIVE_SHIP_RUNTIME.weapons.mainGun}]:[];
++ const isSurface=o=>o?.classification==='SURFACE'||o?.domain==='SURFACE';
++ const trackId=o=>o?.kind==='TRACK'?Number(o.id):o?.associatedTrackId==null?null:Number(o.associatedTrackId);
++ const reasonNames={NO_TRACK:'트랙 없음',NOT_SURFACE_TRACK:'수상 표적 전용',SURFACE_IDENTITY_NOT_AUTHORIZED:'식별 권한 없음',PROTECTED_IDENTITY:'아군·중립 표적 보호',MANUAL_SURFACE_AUTHORITY_REQUIRED:'수동 교전 권한 필요',AUTOMATIC_SURFACE_ENGAGEMENT_PROHIBITED:'자동 수상 교전 금지',SURFACE_TRACK_COAST_EXPIRED:'트랙 노후',SURFACE_TRACK_NOT_CONFIRMED:'수상 트랙 미확정',SURFACE_TRACK_STATE_UNAVAILABLE:'트랙 상태 부족',TRACK_SUPPORT_BLOCKED:'트랙 지원 중지',SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE:'사거리 조건 미충족',INS_PREDICTION_BASKET_INSUFFICIENT:'INS 예측 범위 초과',TUBE_EMPTY:'탄 없음',MK141_NOT_INSTALLED:'하푼 미장착',MK141_LAUNCHER_DAMAGED:'발사기 손상',RELEASE_PENDING:'발사관 개방 중',LAUNCHER_COOLDOWN:'발사 간격 대기',SHIP_EQUIPMENT_OFFLINE:'함 장비 운용 불가',LAUNCH_GEOMETRY_UNSAFE:'발사 자세 불안전',INVALID_WAYPOINT_ROUTE:'경로 조건 미충족',ROUTE_EXCEEDS_140KM_BUDGET:'경로 사거리 초과',NOT_EDITING:'경로 편집 필요',WAYPOINT_LIMIT:'경유점 한도',WAYPOINT_TOO_CLOSE:'경유점 간격 부족',INVALID_COORDINATE:'좌표 오류',MOUNT_ENVELOPE:'포 사계 밖',MOUNT_OCCLUDED:'함 구조물 차폐',TERRAIN_MASKED:'지형 차폐',GUN_OFFLINE:'함포 운용 불가',FIRE_CONTROL_TRACK_QUALITY_INSUFFICIENT:'사통 품질 부족',SURFACE_TRACK_NOT_READY:'수상 트랙 준비 안 됨',TRACK_NOT_READY:'트랙 준비 안 됨',FEED_CYCLING:'급탄 중',MAGAZINE_EMPTY:'포탄 없음',UNKNOWN_AMMUNITION:'지원하지 않는 탄종',CURRENT_SOLUTION_REQUIRED:'사격해 필요',STALE_FIRING_SOLUTION:'사격해 노후',NO_FIRING_SOLUTION:'사격해 없음',PREVIEW_UNAVAILABLE:'관문 확인 불가'};
++ const textReason=code=>reasonNames[code]??String(code??'');
++ function scope(){const id=own(),epoch=ENGAGEMENT_RUNTIME.world.presentationEpoch??0;if(lastOwner!==id||lastEpoch!==epoch||simStepCounter<lastStep){hpQueue=null;gunOps=[];ownedCues.clear();}lastOwner=id;lastEpoch=epoch;lastStep=simStepCounter;}
++ function ready(w){if(w==='HARPOON')return harpoonRuntimeA().tubes.filter(t=>t.loaded).length;if(w==='MK45')return guns().reduce((n,{g})=>n+Object.values(g.snapshot().magazine).reduce((a,b)=>a+b,0),0);return null;}
++ function clearOwned(reason='FIRE_CONTROL_CLEARED'){
++  for(const[id,c]of ownedCues){if(c.owner!==own())continue;const q=c.g.snapshot();if(q.commandTrackId===c.trackId)c.g.clear();else if(q.continuousFire.active&&q.continuousFire.trackId===c.trackId)c.g.stopContinuousFire(reason);}
++  ownedCues.clear();gunOps=gunOps.filter(q=>q.owner!==own());
++ }
++ function selectionChanging(prev,next){if(prev?.weapon==='MK45'&&(next?.weapon!=='MK45'||next?.fireMode!==prev.fireMode))clearOwned('OPERATOR_STOP');}
++ function cancelled(s){if(s?.weapon==='MK45')clearOwned('OPERATOR_STOP');}
++ function cue(o){
++  clearOwned('FIRE_CONTROL_COMMAND_CHANGED');const id=trackId(o),tr=id==null?null:mapBObservedTrack(id);if(!isSurface(tr))return;
++  for(const{id:key,g}of guns()){const a=g.snapshot().loadedAmmoId,q=g.command(id,a);ownedCues.set(key,{g,owner:own(),trackId:id});metrics.cue++;note('GUN_CUE',q.reason??null,{mount:key,trackId:id,ok:!!q.ok});}
++ }
++ function chosen(s,t,o){scope();if(s?.weapon==='MK45')cue(o);}
++ function applyGunAmmo(ammoId){
++  // Try a known rejecting feed first, so one cycling CG feed does not partially
++  // switch the other gun. The original selectAmmo decides every outcome.
++  const rows=guns().sort((a,b)=>Number(!b.g.spec.ammunition[ammoId])-Number(!a.g.spec.ammunition[ammoId])||b.g.snapshot().cycleRemainingS-a.g.snapshot().cycleRemainingS);
++  for(const{id,g}of rows){const q=g.selectAmmo(ammoId);if(!q.ok){note('AMMO_REJECT',q.reason,{mount:id});return q;}}
++  const s=selection(),key=window.__MAP_B__?.snapshot().target?.key,o=key?mapObservedObjectsA().find(o=>o.key===key):null;if(s?.weapon==='MK45'&&o)cue(o);return {ok:true,ammoId};
++ }
++ function menu(w,anchor,commit){
++  if(!handles(w))return false;menuWeapon=w;menuCommit=commit;const e=dom.chooser??document.getElementById('mapSalvoB');e.replaceChildren();e.classList.toggle('map-gun-menu-d',w==='MK45');
++  const add=(label,attrs,fn,disabled=false)=>{const b=document.createElement('button');b.textContent=label;for(const[k,v]of Object.entries(attrs))b.dataset[k]=v;b.disabled=disabled;b.addEventListener('click',fn);e.append(b);return b;};
++  if(w==='HARPOON')for(let n=1;n<=4;n++)add(n+'발',{salvoB:String(n)},()=>{if(ready(w)<n)return;menuCommit({weapon:w,count:n});},ready(w)<n);
++  else{
++   menuAmmo=ACTIVE_SHIP_RUNTIME.weapons.mainGun.snapshot().loadedAmmoId;
++   for(const[id,label]of Object.entries(ammoNames))add(label,{ammoD:id},()=>{const q=applyGunAmmo(id);dom.menuReason.textContent=q.ok?'':textReason(q.reason);if(q.ok){menuAmmo=id;for(const b of e.querySelectorAll('[data-ammo-d]'))b.setAttribute('aria-pressed',String(b.dataset.ammoD===id));window.__MAP_B__.refresh(true);}}).setAttribute('aria-pressed',String(menuAmmo===id));
++   for(const[mode,label]of [['SINGLE','단발'],['CONTINUOUS','연속']])add(label,{gunModeD:mode},()=>{menuCommit({weapon:w,count:1,ammoId:menuAmmo,fireMode:mode});});
++   const r=document.createElement('small');r.className='map-menu-reason-d';e.append(r);dom.menuReason=r;
++  }
++  e.hidden=false;place(e,anchor.getBoundingClientRect());return true;
++ }
++ function place(e,a){const r=WIP148_EXTERNAL_3D.active?AEGIS_VIEWPORT.threeD:AEGIS_VIEWPORT.twoD,s=scale(),b=e.getBoundingClientRect();e.style.left=Math.max(r.x+3,Math.min(r.x+r.w-b.width-3,a.left))/s+'px';e.style.top=Math.max(r.y+3,Math.min(r.y+r.h-b.height-3,a.top-b.height-8))/s+'px';}
++ function highlight(s){const h=document.querySelector('[data-weapon-b="HARPOON"]');if(h)h.querySelector('span').textContent='RGM-84';const e=document.querySelector('[data-weapon-b="MK45"]');if(e){e.querySelector('span').textContent='5in';e.title='Mk45'+(s?.weapon==='MK45'?' · '+(s.fireMode==='CONTINUOUS'?'연속':'단발'):' · 탄종/사격 방식');}}
++ function gunAssessment(o){
++  const id=trackId(o),tr=id==null?null:mapBObservedTrack(id),bad=reason=>({ok:false,allowed:false,tone:'blocked',reason,verdict:'사격 제한',rows:[],mountLabel:IS_BUNKER?'사계 없음':'1문'});
++  if(!o||o.lost)return bad(o?.lost?'트랙 소실':'NO_TRACK');if(o.kind==='ESM'||id==null)return bad('NO_TRACK');if(!isSurface(tr))return bad('NOT_SURFACE_TRACK');
++  const rows=guns().map(({id:key,g})=>{const q=g.snapshot(),sol=q.solution,desired=sol?.ok?shipGameAimWorldV1(sol.bodyAzRad,sol.bodyElevationRad):null,full=sol?.ok?{...sol,azimuthRad:desired.az,elevationRad:desired.el}:sol;
++   const clearance=sol?.ok?(IS_BUNKER?bunkerGunClearance(g.spec,sol.bodyAzRad,sol.bodyElevationRad,Math.min(300,sol.rangeM)):wip13b1GunClearance(g.spec,sol.bodyAzRad,sol.bodyElevationRad,Math.min(300,sol.rangeM))):{ok:false,reason:sol?.reason??'CURRENT_SOLUTION_REQUIRED'};
++   const cued=q.commandTrackId===id&&!!sol?.ok,eligible=cued&&clearance.ok,gate=eligible?g.releaseGate(id,full,{mode:'MANUAL'}):{ok:false,reason:clearance.reason},fcq=sol?.fireControlTrackQuality;
++   return{id:key,g,q,eligible,clearance,gate,fcq,refusal:!gate.ok?gate.reason:(q.magazine[q.loadedAmmoId]??0)<=0?'MAGAZINE_EMPTY':q.cycleRemainingS>1e-9?'FEED_CYCLING':null,canFire:eligible&&gate.ok&&(q.magazine[q.loadedAmmoId]??0)>0&&q.cycleRemainingS<=1e-9,forward:g.installation.hardpointId===ACTIVE_SHIP_PROFILE.weapons.mainGun.hardpointId};});
++  const eligible=rows.filter(r=>r.eligible),allowed=rows.some(r=>r.canFire),qualityReady=eligible.filter(r=>r.gate.ok),tone=!allowed?'blocked':qualityReady.some(r=>r.canFire&&r.fcq?.status==='FCQ_READY')?'effective':'warning',reason=allowed?null:rows.find(r=>r.eligible)?.refusal??rows[0]?.refusal??'NO_FIRING_SOLUTION';
++  return {ok:allowed,allowed,tone,reason,verdict:allowed?(tone==='effective'?'사통 준비':'사통 저하'):'사격 제한',rows,mountLabel:!IS_BUNKER?'1문':eligible.length===2?'2문':eligible.length===1?(eligible[0].forward?'함수만':'함미만'):'사계 없음'};
++ }
++ function calculate(s,t,o){
++  if(!handles(s?.weapon))return null;scope();const id=trackId(o),tr=id==null?null:mapBObservedTrack(id),d={o:o??t?.last??null,id,tr,lost:!!o?.lost,rangeKm:o&&Number.isFinite(o.x)?horizDistKm(aircraft.x(),aircraft.y(),o.x,o.y):null};
++  if(s.weapon==='HARPOON'){
++   const draft=harpoonRuntimeA().routeDraft,frozen=hpQueue?.routeProgram,path=draft.pointsM.length>0||!!frozen;
++   if(!path&&(!o||o.lost||o.kind==='ESM'||!tr)){const reason=o?.lost?'트랙 소실':o?.kind==='ESM'?'위치 정보 없음':'NO_TRACK';return {d,initial:!o,allowed:false,tone:'blocked',verdict:'발사 제한',reason,path:false};}
++   if(!path&&!isSurface(tr))return {d,allowed:false,tone:'blocked',verdict:'발사 제한',reason:'NOT_SURFACE_TRACK',path:false};
++   const gate=mapDHarpoonPreview(id,{mode:engagementControlMode,...(frozen?{routeProgram:frozen}:{})});metrics.preview++;return {d,gate,allowed:!!gate.ok,tone:gate.ok?'effective':'blocked',verdict:gate.ok?'유효':'발사 제한',reason:gate.reason??null,path,initial:!o,rangeKm:gate.rangeKm};
++  }
++  const a=gunAssessment(o),pending=a.rows.filter(r=>r.q.pendingSingleFire.active&&r.q.pendingSingleFire.trackId===id),continuous=a.rows.filter(r=>r.q.continuousFire.active&&r.q.continuousFire.trackId===id),queued=gunOps.some(q=>q.owner===own());
++  const canCancel=pending.length>0||continuous.length>0||queued,cycle=a.rows.filter(r=>r.eligible).map(r=>r.q.cycleRemainingS),cycleS=cycle.length?Math.min(...cycle):0;
++  return {...a,d,initial:!o,allowed:a.allowed||canCancel,pending,continuous,queued,cycleS,holdS:pending.length?Math.max(...pending.map(r=>r.q.pendingSingleFire.remainingS)):0,timeOfFlightS:a.rows.find(r=>r.eligible)?.q.solution?.timeOfFlightS??null};
++ }
++ function routeToggle(){if(inputMode!=='AIM')document.getElementById('modeAimBtn').click();const value=harpoonRouteToggleE();note('ROUTE_TOGGLE',null,{editing:value});window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return value;}
++ function appendSearchPoint(xM,yM){if(inputMode!=='AIM')document.getElementById('modeAimBtn').click();if(!harpoonRuntimeA().routeDraft.editing)harpoonRouteToggleE();const q=harpoonRouteAddE(metersToWorld(xM),metersToWorld(yM));window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return q;}
++ function fireClick(s,t,m){
++  if(!handles(s?.weapon))return false;scope();if(s.weapon==='HARPOON'){
++   if(hpQueue||!m?.allowed)return true;const points=harpoonRuntimeA().routeDraft.pointsM,program=points.length?harpoonRouteProgramE(points,{x:worldToMeters(aircraft.x()),y:worldToMeters(aircraft.y())}):null;if(points.length&&!program){note('HARPOON_REJECT','INVALID_WAYPOINT_ROUTE');return true;}
++   hpQueue={id:++serial,owner:own(),count:s.count,remaining:s.count,released:0,trackId:m.d?.id??null,routeProgram:program,awaiting:null,createdStep:simStepCounter};note('HARPOON_QUEUE',null,{count:s.count,trackId:hpQueue.trackId,path:!!program});
++  }else{
++   if(gunOps.some(q=>q.owner===own())){gunOps=[];note('GUN_QUEUE_CANCEL','OPERATOR_CANCEL');return true;}
++   if(!m?.allowed)return true;gunOps.push({owner:own(),trackId:m.d.id,mode:s.fireMode,action:m.continuous?.length?'STOP':m.pending?.length?'CANCEL':'FIRE',createdStep:simStepCounter});note('GUN_QUEUE',null,{trackId:m.d.id});
++  }window.__MAP_B__.refresh(true);return true;
++ }
++ function finishHp(reason){if(!hpQueue)return;note(reason?'HARPOON_STOP':'HARPOON_COMPLETE',reason,{released:hpQueue.released,remaining:hpQueue.remaining,id:hpQueue.id});hpQueue=null;}
++ function observeHp(){if(!hpQueue?.awaiting)return;const q=hpQueue,r=harpoonRuntimeA();if(r.pending)return;const found=r.launches.find(x=>x.id!==q.awaiting.previousId&&x.tubeId===q.awaiting.tubeId&&x.releaseStep>=q.awaiting.step);if(found){q.released++;q.remaining--;metrics.hpReleased++;note('HARPOON_RELEASED',null,{id:q.id,launchId:found.id,tubeId:found.tubeId,trackId:found.memory?.trackId??null});q.awaiting=null;if(q.remaining<=0)finishHp(null);}else finishHp(r.lastResult?.replace(/^CANCELLED:/,'')??'RELEASE_CANCELLED');}
++ function step(){
++  scope();observeHp();if(hpQueue&&!hpQueue.awaiting){const r=harpoonRuntimeA();if(!r.pending&&r.releaseCooldownS<=0){const q=hpQueue,options={mode:engagementControlMode,...(q.routeProgram?{routeProgram:q.routeProgram}:{})},result=harpoonRequestFireA(q.trackId,null,options);metrics.hpRequests++;note('HARPOON_REQUEST',result.reason??null,{id:q.id,ok:!!result.ok,tubeId:result.tubeId});if(result.ok)q.awaiting={tubeId:result.tubeId,previousId:r.launches.at(-1)?.id??null,step:simStepCounter};else finishHp(result.reason);}}
++  const ops=gunOps;gunOps=[];for(const op of ops){if(op.owner!==own())continue;
++   for(const{id,g}of guns()){const q=g.snapshot();let result;if(op.action==='STOP'){if(q.continuousFire.active&&q.continuousFire.trackId===op.trackId){result=g.stopContinuousFire('OPERATOR_STOP');metrics.continuousStops++;}}
++    else if(op.action==='CANCEL'){if(q.pendingSingleFire.active&&q.pendingSingleFire.trackId===op.trackId)result=g.requestFire(op.trackId,{mode:'MANUAL',ammoId:q.loadedAmmoId});}
++    else{const o=mapObservedObjectsA().find(o=>trackId(o)===op.trackId&&o.kind==='TRACK'),a=gunAssessment(o),row=a.rows.find(r=>r.id===id);if(!row?.eligible){note('GUN_WITHHELD',row?.clearance.reason??a.reason,{mount:id,trackId:op.trackId});continue;}
++     result=op.mode==='CONTINUOUS'?g.startContinuousFire(op.trackId,{mode:'MANUAL',ammoId:q.loadedAmmoId}):g.requestFire(op.trackId,{mode:'MANUAL',ammoId:q.loadedAmmoId});metrics.gunRequests++;if(op.mode==='CONTINUOUS'&&result.ok)metrics.continuousStarts++;
++    }if(result)note('GUN_COMMAND',result.reason??null,{mount:id,trackId:op.trackId,action:op.action,ok:!!result.ok,fired:!!result.projectileId||result.fired===true,queued:!!result.queued});
++   }
++  }
++ }
++ function afterTick(){observeHp();}
++ function fireState(s,m){if(!handles(s?.weapon)||!mounted)return false;const f=dom.fire;f.classList.add('map-fire-d');dom.slotDot.dataset.tone=!m||(!m.d?.o&&!m.path)?'off':m.tone??'blocked';
++  if(s.weapon==='HARPOON'){f.disabled=!!hpQueue||!m?.allowed;f.textContent=hpQueue?'발사 중 '+hpQueue.released+'/'+hpQueue.count:'발사 ×'+s.count+(m?.path?' · 경로':'');}
++  else{f.disabled=!m?.allowed;f.textContent=m?.queued?'요청 취소':m?.continuous?.length?'사격 중지':m?.pending?.length?'정렬 대기 '+m.holdS.toFixed(1)+'s':m?.cycleS>1e-9?m.cycleS.toFixed(1)+'s':s.fireMode==='CONTINUOUS'?'연속 사격':'발사';}
++  f.title=f.disabled?textReason(m?.reason):'';return true;
++ }
++ function render(s,t,m,ui){
++  if(!handles(s?.weapon)){if(mounted){dom.fire.classList.remove('map-fire-d');dom.routeChip.hidden=true;dom.routeActions.hidden=true;}return false;}
++  if(!mounted)return false;const o=m?.d?.o??t?.last,tone=m?.tone??'blocked';if(t&&o){ui.pane.hidden=false;ui.titleText.textContent=o.label+' · '+(o.identity??'UNKNOWN');ui.tagDot.dataset.tone=tone;
++   const range=Number.isFinite(m.d.rangeKm)?m.d.rangeKm.toFixed(m.d.rangeKm<10?1:0)+'km':'—';
++   ui.summary.textContent=s.weapon==='HARPOON'?'RGM-84×'+s.count+' · '+(m.path?'경로':m.verdict)+' · '+(Number.isFinite(m.rangeKm)?m.rangeKm.toFixed(1)+'km':range):'5in '+[...new Set(m.rows?.filter(r=>r.eligible).map(r=>ammoNames[r.q.loadedAmmoId]))].join('/')+' · '+m.mountLabel+' · TOF'+(m.timeOfFlightS?.toFixed(0)??'—')+'s · '+range;
++   ui.verdict.textContent=textReason(m.reason)||m.verdict;ui.verdict.dataset.tone=tone;ui.verdict.hidden=tone==='effective';
++  }else ui.pane.hidden=true;
++  dom.routeChip.hidden=s.weapon!=='HARPOON'||!!t;dom.routeActions.hidden=s.weapon!=='HARPOON'||!t;return true;
++ }
++ function layout(){if(!mounted)return;const s=selection(),r=harpoonRuntimeA(),z=scale(),active=harpoonRouteEditingE();dom.routeBtn.disabled=!!r.pending||!r.tubes.some(t=>t.loaded);dom.routeBtn.textContent=active?'경로 해제':'경로';dom.routeChipBtn.disabled=dom.routeBtn.disabled;dom.routeChipBtn.textContent=dom.routeBtn.textContent;
++  const bar=document.getElementById('uiStatusBarA').getBoundingClientRect(),f=dom.fire.getBoundingClientRect(),c=dom.routeChip.getBoundingClientRect(),v=AEGIS_VIEWPORT.layout;dom.routeChip.style.left=Math.max(v.x+4,Math.min(v.x+v.w-c.width-4,f.x))/z+'px';dom.routeChip.style.top=Math.max(v.y+4,bar.top-c.height-14)/z+'px';
++  dom.banner.hidden=!active;if(active){const view=WIP148_EXTERNAL_3D.active?window.__PIP_A__?.snapshot().visible?window.__PIP_A__.view().rect:null:AEGIS_VIEWPORT.twoD;if(view){dom.banner.style.visibility='visible';dom.banner.style.maxWidth=(view.w-8)/z+'px';dom.banner.textContent='하푼 경로 편집 중 · '+r.routeDraft.pointsM.length+'/'+HARPOON_PROFILE_A.sim.routeMaxPoints;const b=dom.banner.getBoundingClientRect();dom.banner.style.left=Math.max(view.x+4,view.cx-b.width/2)/z+'px';dom.banner.style.top=(view.y+4)/z+'px';}else dom.banner.style.visibility='hidden';}requestAnimationFrame(layout);
++ }
++ function draw(context,view,s,m){
++  if(!handles(s?.weapon))return false;const z=mapZoom,ownship=mapOwnShipA(),limits=s.weapon==='HARPOON'?[HARPOON_PROFILE_A.sim.minLaunchRangeKm,HARPOON_PROFILE_A.sim.maxLaunchRangeKm]:guns().map(r=>r.g.spec.fireControl).length?[guns()[0].g.spec.fireControl.minRangeM/1000,guns()[0].g.spec.fireControl.maxRangeM/1000]:[0,0],color=s.weapon==='HARPOON'?'#79d7ec':'#b8d9ff';
++  context.save();context.lineWidth=1/z;context.font=`${9/z}px monospace`;context.strokeStyle=context.fillStyle=color;
++  for(const[km,kind]of [[limits[0],'최소'],[limits[1],'최대']]){const radius=kmToWorld(km);context.setLineDash(kind==='최소'?[]:[7/z,4/z]);context.beginPath();context.arc(ownship.x,ownship.y,radius,0,2*Math.PI);context.stroke();const center=worldToScreen(ownship.x,ownship.y,view),r=view.rect,maxPx=Math.max(Math.hypot(center.x-r.x,center.y-r.y),Math.hypot(center.x-r.x-r.w,center.y-r.y-r.h));const text=(s.weapon==='HARPOON'?'RGM-84':'5in')+' '+kind+' '+km+'km';if(radius*z<maxPx)context.fillText(text,ownship.x+radius+3/z,ownship.y+(kind==='최대'?23:11)/z);else{const p=screenToWorld(r.x+r.w-8,window.__MAP_C__.labelBase(view)+(kind==='최대'?12:0),view);context.textAlign='right';context.fillText('→ '+text,p.x,p.y);context.textAlign='left';}}
++  if(s.weapon==='HARPOON'&&harpoonRuntimeA().routeDraft.pointsM.length){const p=harpoonRouteProgramE(harpoonRuntimeA().routeDraft.pointsM,{x:worldToMeters(ownship.x),y:worldToMeters(ownship.y)});if(p){const a=p.pointsM.at(-1),b=p.searchCenterM,x=metersToWorld(b.x),y=metersToWorld(b.y);context.setLineDash([3/z,3/z]);context.beginPath();context.moveTo(metersToWorld(a.x),metersToWorld(a.y));context.lineTo(x,y);context.stroke();context.setLineDash([]);context.strokeRect(x-4/z,y-4/z,8/z,8/z);context.fillText('탐색 중심',x+7/z,y-7/z);}}
++  context.restore();return true;
++ }
++ function mount(){mounted=true;dom={chooser:document.getElementById('mapSalvoB'),fire:document.getElementById('mapFireB'),slotDot:document.querySelector('#mapFireSlotC .map-status-dot-c')};const host=document.getElementById('uiDesktopA'),pane=document.getElementById('mapEngagementB');
++  const make=(tag,cls)=>{const e=document.createElement(tag);e.className=cls;return e;};dom.routeActions=make('div','map-route-actions-d');dom.routeBtn=make('button','');dom.routeBtn.id='mapRouteD';dom.routeBtn.textContent='경로';dom.routeBtn.addEventListener('click',routeToggle);dom.routeActions.append(dom.routeBtn);dom.routeActions.hidden=true;pane.append(dom.routeActions);
++  dom.routeChip=make('aside','map-pane-b map-route-chip-d');dom.routeChip.id='mapRouteChipD';dom.routeChipBtn=make('button','');dom.routeChipBtn.id='mapRouteChipButtonD';dom.routeChipBtn.textContent='경로';dom.routeChipBtn.addEventListener('click',routeToggle);dom.routeChip.append(dom.routeChipBtn);dom.routeChip.hidden=true;host.append(dom.routeChip);dom.banner=make('div','map-route-banner-d');dom.banner.id='mapRouteBannerD';dom.banner.hidden=true;host.append(dom.banner);
++  for(const event of['pointerdown','pointermove','pointerup','click','wheel','touchstart','touchmove','touchend','contextmenu'])dom.routeChip.addEventListener(event,e=>{e.stopPropagation();if(event==='contextmenu')e.preventDefault();},{passive:event.startsWith('touch')});
++  const css=document.createElement('style');css.textContent=`#mapSalvoB.map-gun-menu-d{display:grid;grid-template-columns:repeat(2,minmax(44px,1fr));gap:8px}#mapSalvoB.map-gun-menu-d[hidden]{display:none}#mapSalvoB .map-menu-reason-d{grid-column:1/-1;font:10px/1.3 monospace;color:#ffa653;white-space:normal;max-width:200px}#mapSalvoB [aria-pressed=true]{border-color:#f7d778}.map-route-actions-d{margin-top:3px}.map-route-actions-d[hidden]{display:none}#uiDesktopA #mapEngagementB .map-route-actions-d button{height:28px;min-height:28px;min-width:36px;padding:2px 5px;font:10px/1.2 monospace}.map-route-chip-d{position:fixed;zoom:var(--ui-scale-a);padding:0;z-index:40000}.map-route-chip-d button{min-height:28px}.map-route-banner-d{position:fixed;z-index:39999;zoom:var(--ui-scale-a);font:11px/1.3 monospace;color:#ffe1ad;background:#352815e8;border:1px solid #8d6e35;padding:3px 5px;box-sizing:border-box;pointer-events:none;white-space:normal}#uiDesktopA #mapFireB.map-fire-d{font-size:10px!important}#uiDesktopA.ui-compact-a #mapFireB.map-fire-d{font-size:9px!important}`;document.head.append(css);requestAnimationFrame(layout);
++  const native=simulateFixedTick;simulateFixedTick=function(dt){step();const value=native(dt);afterTick();return value;};
++ }
++ return Object.freeze({handles,ready,menu,highlight,selectionChanging,cancelled,chosen,calculate,render,fireState,fireClick,draw,mount,appendSearchPoint,snapshot(){const q=hpQueue;return {schema:'AEGIS_MAP_D_UI_1',queue:q?{id:q.id,count:q.count,remaining:q.remaining,released:q.released,trackId:q.trackId,path:!!q.routeProgram,routeProgram:q.routeProgram?structuredClone(q.routeProgram):null,awaiting:q.awaiting?{...q.awaiting}:null}:null,gunCommands:gunOps.map(q=>({...q})),metrics:{...metrics},log:log.map(q=>({...q})),route:{editing:harpoonRouteEditingE(),pointsM:structuredClone(harpoonRuntimeA().routeDraft.pointsM)},guns:guns().map(({id,g})=>({id,...g.snapshot()}))};}});
++})();
++
++// MAP_D_EXTENSION_END
+ // MAP_B_UI_BEGIN
+ // MAP_B: presentation state and operator command queue only. No target truth source.
+ function mapBObservedTrack(id){
+@@ -64250,7 +64476,7 @@
+ }
+ window.__MAP_B__=(()=>{
+  const host=document.getElementById('uiDesktopA'),bar=document.getElementById('uiStatusBarA'),inv=document.getElementById('uiInventoryA');
+- const labels={SM2:'SM-2MR',SM2ER:'SM-2ER',SM6:'SM-6',ESSM:'ESSM'},weapons=Object.keys(labels),byLabel=Object.fromEntries(weapons.map(k=>[labels[k],k]));
++ const labels={SM2:'SM-2MR',SM2ER:'SM-2ER',SM6:'SM-6',ESSM:'ESSM',HARPOON:'RGM-84',MK45:'5in'},weapons=Object.keys(labels),byLabel=Object.fromEntries(weapons.map(k=>[labels[k],k]));
+  const rows=ENVELOPE_TABLE_D.rows,altitudes=[...new Set(rows.map(r=>r.altM))].sort((a,b)=>a-b);
+  const style=document.createElement('style');style.textContent=`
+  #uiInventoryA{cursor:default}#uiInventoryA .map-ammo-b{background:none;color:inherit;border:1px solid transparent;border-radius:2px;padding:1px 3px;min-width:0;min-height:28px;font:inherit;position:relative}#uiInventoryA .map-ammo-b::after{content:'';position:absolute;inset:-4px 0;pointer-events:auto}#uiInventoryA .map-ammo-b:disabled{opacity:.35;cursor:default}#uiInventoryA .map-ammo-b[aria-pressed=true]{border-color:#f7d778;background:#514526}#uiInventoryA .map-ammo-b strong,#uiInventoryA .map-ammo-b span{display:block}
+@@ -64267,17 +64493,18 @@
+  function visibleRect(){return WIP148_EXTERNAL_3D.active?AEGIS_VIEWPORT.threeD:AEGIS_VIEWPORT.twoD;}
+  function place(e,x,y){const r=visibleRect(),s=scale(),b=e.getBoundingClientRect();e.style.left=(Math.max(r.x+3,Math.min(r.x+r.w-b.width-3,x)))/s+'px';e.style.top=(Math.max(r.y+3,Math.min(r.y+r.h-b.height-3,y)))/s+'px';}
+  function availability(w){return wip14a14VlsAvailability()[w];}
+- function ready(w){const a=availability(w);return typeof a==='number'?a:Number(a?.ready??a?.available??a?.count??0);}
++ function ready(w){if(window.__MAP_D__.handles(w))return window.__MAP_D__.ready(w);const a=availability(w);return typeof a==='number'?a:Number(a?.ready??a?.available??a?.count??0);}
+  function repaint(){revision++;window.__PIP_A__?.invalidate();lastAt=-Infinity;refresh();}
+- function highlight(){for(const e of inv.querySelectorAll('[data-weapon-b]')){const w=e.dataset.weaponB;e.setAttribute('aria-pressed',String(selection?.weapon===w));e.title=labels[w]+(selection?.weapon===w?' · '+selection.count+'발 선택':' · 발수 선택');const n=e.querySelector('span');if(n)n.textContent=labels[w]+(selection?.weapon===w?' ×'+selection.count:'');e.disabled=ready(w)<=0;}window.__MAP_C__?.stabilizeInventory();if(pending)for(const b of chooser.querySelectorAll('[data-salvo-b]'))b.disabled=ready(pending)<Number(b.dataset.salvoB);}
+- function inventoryRendered(){for(const e of [...inv.children]){const name=e.querySelector('span')?.textContent,w=byLabel[name];if(!w)continue;let b=e;if(e.tagName!=='BUTTON'){b=el('button','ui-ammo-a map-ammo-b');b.type='button';while(e.firstChild)b.append(e.firstChild);e.replaceWith(b);}b.dataset.weaponB=w;b.setAttribute('aria-label',labels[w]+' 발수 선택');}highlight();}
+- function clear(){selection=null;target=null;model=null;pending=null;chooser.hidden=pane.hidden=true;window.__MAP_A__?.setFiringTarget(null);highlight();repaint();}
+- function countMenu(w,anchor){pending=w;chooser.replaceChildren();for(let n=1;n<=4;n++){const b=el('button','',n===1?'단발':n+'발');b.dataset.salvoB=n;b.disabled=ready(w)<n;b.title=b.disabled?'준비 탄 부족':'';b.addEventListener('click',()=>{if(ready(w)<n)return;selection={weapon:w,count:n};pending=null;chooser.hidden=true;highlight();repaint();});chooser.append(b);}chooser.hidden=false;const a=anchor.getBoundingClientRect();place(chooser,a.left,a.top-chooser.getBoundingClientRect().height-5);}
++ function highlight(){for(const e of inv.querySelectorAll('[data-weapon-b]')){const w=e.dataset.weaponB;e.setAttribute('aria-pressed',String(selection?.weapon===w));e.title=labels[w]+(selection?.weapon===w?' · '+selection.count+'발 선택':' · 발수 선택');const n=e.querySelector('span');if(n)n.textContent=labels[w]+(selection?.weapon===w?' ×'+selection.count:'');e.disabled=ready(w)<=0;}window.__MAP_D__?.highlight(selection);window.__MAP_C__?.stabilizeInventory();if(pending)for(const b of chooser.querySelectorAll('[data-salvo-b]'))b.disabled=ready(pending)<Number(b.dataset.salvoB);}
++ function inventoryRendered(){for(const e of [...inv.children]){const name=e.querySelector('span')?.textContent,w=byLabel[name];if(!w)continue;const fontD=window.__MAP_D__.handles(w)?getComputedStyle(e).font:null;let b=e;if(e.tagName!=='BUTTON'){b=el('button','ui-ammo-a map-ammo-b');b.type='button';while(e.firstChild)b.append(e.firstChild);e.replaceWith(b);}if(fontD)b.style.font=fontD;b.dataset.weaponB=w;b.setAttribute('aria-label',labels[w]+' 발수 선택');}highlight();}
++ function clear(){window.__MAP_D__.cancelled(selection);selection=null;target=null;model=null;pending=null;chooser.hidden=pane.hidden=true;window.__MAP_A__?.setFiringTarget(null);highlight();repaint();}
++ function commitExtendedD(next){window.__MAP_D__.selectionChanging(selection,next);selection=next;pending=null;chooser.hidden=true;if(target)window.__MAP_D__.chosen(selection,target,trackView());highlight();repaint();}
++ function countMenu(w,anchor){pending=w;chooser.classList.remove('map-gun-menu-d');if(window.__MAP_D__.menu(w,anchor,commitExtendedD))return;chooser.replaceChildren();for(let n=1;n<=4;n++){const b=el('button','',n===1?'단발':n+'발');b.dataset.salvoB=n;b.disabled=ready(w)<n;b.title=b.disabled?'준비 탄 부족':'';b.addEventListener('click',()=>{if(ready(w)<n)return;window.__MAP_D__.selectionChanging(selection,{weapon:w,count:n});selection={weapon:w,count:n};pending=null;chooser.hidden=true;highlight();repaint();});chooser.append(b);}chooser.hidden=false;const a=anchor.getBoundingClientRect();place(chooser,a.left,a.top-chooser.getBoundingClientRect().height-5);}
+  inv.addEventListener('click',e=>{const b=e.target.closest('[data-weapon-b]');if(b){e.stopPropagation();if(b.disabled)return;if(selection?.weapon===b.dataset.weaponB){clear();return;}countMenu(b.dataset.weaponB,b);return;}if(e.target===inv)clear();else{window.__UI_A__.open('ARM');setControlDeckTabWip13C('ARM');}});
+  bar.addEventListener('click',e=>{if(e.target===bar||e.target.classList.contains('ui-bar-overview-a')||e.target.classList.contains('ui-bar-command-a'))clear();});
+  document.addEventListener('pointerdown',e=>{if(!chooser.hidden&&!chooser.contains(e.target)&&!inv.contains(e.target)){chooser.hidden=true;pending=null;}},{capture:true});
+- function choose(o,surface='MAIN'){if(!selection||!['TRACK','NET','ESM'].includes(o.kind))return false;target={key:o.key,kind:o.kind,id:o.id,associatedTrackId:o.associatedTrackId,surface,last:{...o}};window.__MAP_A__.setFiringTarget(o.key);pane.hidden=false;repaint();return true;}
+- function cancelTarget(){target=null;model=null;pane.hidden=true;window.__MAP_A__.setFiringTarget(null);repaint();}
++ function choose(o,surface='MAIN'){if(!selection||!['TRACK','NET','ESM'].includes(o.kind))return false;target={key:o.key,kind:o.kind,id:o.id,associatedTrackId:o.associatedTrackId,surface,last:{...o}};window.__MAP_A__.setFiringTarget(o.key);window.__MAP_D__.chosen(selection,target,o);pane.hidden=false;repaint();return true;}
++ function cancelTarget(){window.__MAP_D__.cancelled(selection);target=null;model=null;pane.hidden=true;window.__MAP_A__.setFiringTarget(null);repaint();}
+  cancel.addEventListener('click',cancelTarget);
+  function trackView(){if(!target)return null;const o=mapObservedObjectsA().find(o=>o.key===target.key);if(!o)return {...target.last,lost:true};target.last={...o};return o;}
+  function dataFor(o){if(!o||o.lost)return {o,lost:true};if(o.kind==='ESM')return {o,position:false};const id=o.kind==='TRACK'?o.id:o.associatedTrackId,tr=id!=null?mapBObservedTrack(id):null;
+@@ -64303,14 +64530,14 @@
+   const q=mapBNativePreview(d.tr,selection.weapon);metrics.lastNativePreview=q;return q;
+  }
+  function classify(range,row){if(range>row.maxRangeKm)return '사거리 밖';if((row.deadZones??[]).some(z=>range>=z.startKm&&range<=z.endKm))return '사각지대';if(range<row.effectiveMinKm)return '최소 사거리 안쪽';if(range<=row.effectiveMaxKm)return '유효';return '최대 사거리 구간';}
+- function calculate(){if(!selection)return null;if(!target)return {initial:true,sets:[{row:rows.find(r=>r.weapon===selection.weapon&&r.altM===30&&r.motion==='STATIONARY'),name:'저고도',dash:[3,4],color:'#79d7ec'},{row:rows.find(r=>r.weapon===selection.weapon&&r.altM===15000&&r.motion==='STATIONARY'),name:'고고도',dash:[11,5],color:'#ead18b'}]};
++ function calculate(){if(window.__MAP_D__.handles(selection?.weapon))return window.__MAP_D__.calculate(selection,target,trackView());if(!selection)return null;if(!target)return {initial:true,sets:[{row:rows.find(r=>r.weapon===selection.weapon&&r.altM===30&&r.motion==='STATIONARY'),name:'저고도',dash:[3,4],color:'#79d7ec'},{row:rows.find(r=>r.weapon===selection.weapon&&r.altM===15000&&r.motion==='STATIONARY'),name:'고고도',dash:[11,5],color:'#ead18b'}]};
+   const d=dataFor(trackView());if(d.lost)return {d,verdict:'판정 불가',reason:'트랙 소실',allowed:false};if(!d.position)return {d,verdict:'판정 불가',reason:'위치 정보 없음',allowed:false,initial:true};if(!d.velocity)return {d,verdict:'판정 불가',reason:d.reason??'속도 정보 없음',allowed:false};
+   const q=lookup(d,selection.weapon),v=classify(d.rangeKm,q.row),gate=nativeReason(d),belowEffective=d.rangeKm<q.row.effectiveMinKm,allowed=gate.ok&&v!=='사거리 밖';
+   const profile=wip119WeaponDescriptor(selection.weapon)?.profile,th={id:d.id,tr:d.forecastTrack??d.tr,dKm:d.rangeKm,vr:d.closingMps*3.6,alt:d.altM};let prediction=null;
+   if(profile){const t=hardKillKinematicInterceptEstimate(th,profile).interceptS,f=wip118FutureThreat(th,t,wip118TrackAcceleration(d.id));prediction={x:f.tr.x,y:f.tr.y,timeS:t};}
+   return {d,...q,verdict:v,gate,allowed,prediction,reason:!gate.ok?gate.reason:belowEffective?'측정 유효구간 미만 · 기존 발사 관문 통과':v==='사거리 밖'?'내장 최대 사거리 초과':v==='사각지대'?'측정 실패 구간':v==='유효'?'내장 유효 구간 · 정식 VLS 관문 통과':'최대 사거리 안 · 3/5 기준 밖'};
+  }
+- function refresh(force=false){const now=performance.now();if(refreshing||(!force&&now-lastAt<125))return;refreshing=true;try{lastAt=now;model=calculate();highlight();if(target&&selection){if(pane.hidden)pane.hidden=false;const d=model.d,o=d.o??target.last,tone=!model.allowed?'blocked':model.verdict==='유효'?'effective':'warning';titleText.textContent=o.label+' · '+(o.identity??'UNKNOWN');tagDot.dataset.tone=tone;
++ function refresh(force=false){const now=performance.now();if(refreshing||(!force&&now-lastAt<125))return;refreshing=true;try{lastAt=now;model=calculate();highlight();if(window.__MAP_D__.render(selection,target,model,{pane,titleText,tagDot,summary,verdict,reason})){window.__MAP_C__.setFireState(selection,model,queue);positionPane();return;}if(target&&selection){if(pane.hidden)pane.hidden=false;const d=model.d,o=d.o??target.last,tone=!model.allowed?'blocked':model.verdict==='유효'?'effective':'warning';titleText.textContent=o.label+' · '+(o.identity??'UNKNOWN');tagDot.dataset.tone=tone;
+    const distance=Number.isFinite(d.rangeKm)?(d.rangeKm<1?Math.round(d.rangeKm*1000)+'m':d.rangeKm.toFixed(d.rangeKm<10?1:0)+'km'):'—';summary.textContent=labels[selection.weapon]+'×'+selection.count+' · '+model.verdict+' · '+distance;
+    const displayed=({'사각지대':'사각지대 · 명중 확률 낮음','최대 사거리 구간':'최대 사거리 · 명중 확률 낮음','최소 사거리 안쪽':'최소 유효거리 안쪽 · 명중 확률 낮음'})[model.verdict]??model.verdict;verdict.textContent=tone==='blocked'?model.reason:displayed;verdict.dataset.tone=tone;verdict.hidden=tone==='effective';reason.textContent=queue?'연속 발사 중 · 남은 '+queue.remaining+'발':model.reason;fire.title=!model.allowed||queue?reason.textContent:'';
+   }window.__MAP_C__?.setFireState(selection,model,queue);positionPane();
+@@ -64330,8 +64557,8 @@
+   receipts.push({step:simStepCounter,weapon:q.weapon,trackId:d.id,launched:!!result?.launched||!!result?.ok,reason:result?.reason??null});if(receipts.length>64)receipts.shift();
+   const launched=!!result?.launched||!!result?.ok;if(launched){metrics.shots++;q.remaining--;q.lastStep=simStepCounter;}if(!launched||q.remaining<=0)queue=null;repaint();
+  }
+- fire.addEventListener('click',()=>{refresh(true);if(!model?.allowed||queue)return;metrics.salvos++;queue={...selection,remaining:selection.count,key:target.key,last:{...target.last},owner:ACTIVE_SHIP_RUNTIME.entityId,lastStep:simStepCounter};stepCommands();});
+- function draw(context,view){if(!selection||!model)return;const z=mapZoom,own=mapOwnShipA(),r=view.rect,origin=worldToScreen(own.x,own.y,view),maxPx=Math.max(Math.hypot(origin.x-r.x,origin.y-r.y),Math.hypot(origin.x-r.x-r.w,origin.y-r.y-r.h),Math.hypot(origin.x-r.x-r.w,origin.y-r.y),Math.hypot(origin.x-r.x,origin.y-r.y-r.h));metrics.draws[view.target??'MAIN']++;
++ fire.addEventListener('click',()=>{refresh(true);if(window.__MAP_D__.fireClick(selection,target,model))return;if(!model?.allowed||queue)return;metrics.salvos++;queue={...selection,remaining:selection.count,key:target.key,last:{...target.last},owner:ACTIVE_SHIP_RUNTIME.entityId,lastStep:simStepCounter};stepCommands();});
++ function draw(context,view){if(window.__MAP_D__.draw(context,view,selection,model))return;if(!selection||!model)return;const z=mapZoom,own=mapOwnShipA(),r=view.rect,origin=worldToScreen(own.x,own.y,view),maxPx=Math.max(Math.hypot(origin.x-r.x,origin.y-r.y),Math.hypot(origin.x-r.x-r.w,origin.y-r.y-r.h),Math.hypot(origin.x-r.x-r.w,origin.y-r.y),Math.hypot(origin.x-r.x,origin.y-r.y-r.h));metrics.draws[view.target??'MAIN']++;
+   const initial=()=>[{row:rows.find(q=>q.weapon===selection.weapon&&q.altM===30&&q.motion==='STATIONARY'),name:'저고도',dash:[3,4],color:'#79d7ec'},{row:rows.find(q=>q.weapon===selection.weapon&&q.altM===15000&&q.motion==='STATIONARY'),name:'고고도',dash:[11,5],color:'#ead18b'}];
+   const sets=model.row?[{row:model.row,name:'표적'+(model.estimated?' · 추정':''),dash:[7,4],color:'#f4cc7c'}]:model.initial?(model.sets??initial()):[];
+   context.save();context.lineWidth=1/z;context.font=`${9/z}px monospace`;
+@@ -64346,10 +64573,10 @@
+  document.getElementById('wip14a14QuickEngage3D')?.remove();
+  const nativeTick=simulateFixedTick;simulateFixedTick=function(dt){const result=nativeTick(dt);stepCommands();return result;};
+  function frame(){refresh();positionPane();requestAnimationFrame(frame);}requestAnimationFrame(frame);inventoryRendered();
+- return Object.freeze({pickObject:choose,inventoryRendered,draw,refresh,revision:()=>revision,snapshot(){return {schema:'AEGIS_MAP_B_UI_1',selection:selection?{...selection}:null,pending,target:target?{key:target.key,surface:target.surface}:null,model:model?{initial:!!model.initial,verdict:model.verdict,reason:model.reason,allowed:!!model.allowed,estimated:model.estimated,altitudeUnknown:model.altitudeUnknown,cellId:model.row?.cellId,rangeKm:model.d?.rangeKm,row:model.row?{maxRangeKm:model.row.maxRangeKm,effectiveMinKm:model.row.effectiveMinKm,effectiveMaxKm:model.row.effectiveMaxKm,deadZones:model.row.deadZones}:null,prediction:model.prediction}:null,queue:queue?{weapon:queue.weapon,remaining:queue.remaining}:null,receipts:receipts.map(q=>({...q})),metrics:structuredClone(metrics)};}});
++ return Object.freeze({pickObject:choose,inventoryRendered,draw,refresh,revision:()=>revision,snapshot(){return {schema:'AEGIS_MAP_B_UI_1',selection:selection?{...selection}:null,pending,target:target?{key:target.key,surface:target.surface}:null,model:model?{initial:!!model.initial,path:model.path,tone:model.tone,mountLabel:model.mountLabel,timeOfFlightS:model.timeOfFlightS,verdict:model.verdict,reason:model.reason,allowed:!!model.allowed,estimated:model.estimated,altitudeUnknown:model.altitudeUnknown,cellId:model.row?.cellId,rangeKm:model.d?.rangeKm,row:model.row?{maxRangeKm:model.row.maxRangeKm,effectiveMinKm:model.row.effectiveMinKm,effectiveMaxKm:model.row.effectiveMaxKm,deadZones:model.row.deadZones}:null,prediction:model.prediction}:null,queue:queue?{weapon:queue.weapon,remaining:queue.remaining}:null,receipts:receipts.map(q=>({...q})),metrics:structuredClone(metrics)};}});
+ })();
+ 
+ // MAP_B_UI_END
+-window.__MAP_C__.mount();
++window.__MAP_C__.mount();window.__MAP_D__.mount();
+   completeShipStartup();
+ })();
