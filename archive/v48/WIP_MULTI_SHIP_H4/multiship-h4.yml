@@ -1,0 +1,62 @@
+name: Multi Ship H4 measured team tactics (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_MULTI_SHIP_H4.html
+  AEGIS_BASELINE: archive/v48/WIP_MULTI_SHIP_H3/Aegis_SIM_v48_WIP_MULTI_SHIP_H3.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm ci --prefix docs/multiship/H4 --ignore-scripts --no-audit --no-fund
+          sha256sum -c SHA256SUMS_v48_WIP_MULTI_SHIP_H4.txt
+          sha256sum -c docs/multiship/H4/REPOSITORY_SUPPORT.sha256
+          python docs/multiship/H4/verify_static.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/H4/static
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-h4-static-${{ github.sha }}
+          path: artifacts/H4
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [team, intent-h4, ui-h4, natural-h4, attack, attack-guards, ui-h3, surface, clock, maneuver, guards, ui-h2, natural-h2, baseline, tactical, policy, ui-h1, cooperation, harpoon, camera, defense, natural-ew, native]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Run final original HTML
+        run: python docs/multiship/H4/run_suite.py '${{ matrix.suite }}' "$AEGIS_CANDIDATE" artifacts/H4/'${{ matrix.suite }}' --baseline "$AEGIS_BASELINE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-h4-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/H4
+          if-no-files-found: error

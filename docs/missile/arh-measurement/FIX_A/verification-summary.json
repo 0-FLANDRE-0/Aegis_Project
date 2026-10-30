@@ -1,0 +1,154 @@
+{
+  "schema": "AEGIS_ARH_MEASUREMENT_FIX_A_VERIFICATION_1",
+  "baseCommit": "ef38c738e2d2d3b262d36d3a2001d0e903c969bf",
+  "mainObserved": "cb70a637105ce00e7c0619270237cc35a83d39c2",
+  "baseHtml": {
+    "bytes": 18453184,
+    "sha256": "e42a2e05b8ff2096dfb334e7b9427cd2cd6da46d567083f06620ffdf35729ed7"
+  },
+  "finalHtml": {
+    "bytes": 18453432,
+    "sha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab"
+  },
+  "contracts": {
+    "pass": true,
+    "rows": 5,
+    "samplesPerNoiseCase": 20000,
+    "errors": [],
+    "final": [
+      {
+        "weapon": "SM6",
+        "checks": {
+          "absoluteAngleContract": true,
+          "boundaryContract": true,
+          "sigmaRContract": true,
+          "monteCarloWithin3Pct": true,
+          "stateAndRngInvariant": true,
+          "expectedVariantSemantics": true
+        },
+        "maxPointErrorDeg": 3.108624468950438e-14,
+        "maxBoresightErrorDeg": 1.987846675914698e-16,
+        "boundaryOutputsDeg": [
+          3.7999999999999674,
+          -3.7999999999999674
+        ],
+        "maxSigmaRelativeError": 3.522326313914259e-13,
+        "maxEmpiricalRelativeError": 0.006025089880615671
+      },
+      {
+        "weapon": "ESSM",
+        "checks": {
+          "absoluteAngleContract": true,
+          "boundaryContract": true,
+          "sigmaRContract": true,
+          "monteCarloWithin3Pct": true,
+          "stateAndRngInvariant": true,
+          "expectedVariantSemantics": true
+        },
+        "maxPointErrorDeg": 3.108624468950438e-14,
+        "maxBoresightErrorDeg": 5.963540027744094e-16,
+        "boundaryOutputsDeg": [
+          4.1999999999999424,
+          -4.1999999999999424
+        ],
+        "maxSigmaRelativeError": 2.580615551283052e-13,
+        "maxEmpiricalRelativeError": 0.006025089880614398
+      }
+    ]
+  },
+  "frozenFlight": {
+    "rows": 5,
+    "deterministic": true
+  },
+  "targeted": {
+    "shots": 10,
+    "successToFailure": 0,
+    "failureToSuccess": 2,
+    "errors": 0
+  },
+  "common180": {
+    "shots": 180,
+    "elapsedS": 60.224549302,
+    "counts": {
+      "before": {
+        "effects": 170,
+        "lethal": 170
+      },
+      "after": {
+        "effects": 170,
+        "lethal": 170
+      }
+    },
+    "changed": 0,
+    "successToFailure": [],
+    "failureToSuccess": [],
+    "lethalToNonlethal": [],
+    "nonlethalToLethal": []
+  },
+  "natural28": {
+    "changedCount": 28,
+    "successToFailure": [],
+    "failureToSuccess": [],
+    "errors": [],
+    "elapsedS": 25.043460003013024
+  },
+  "release300": {
+    "shots": 300,
+    "successToFailure": 0,
+    "failureToSuccess": 12,
+    "browserErrors": 0
+  },
+  "domain": {
+    "passed": 414,
+    "total": 420,
+    "knownFailures": [
+      "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+      "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+      "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+      "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+      "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+    ]
+  },
+  "ui": {
+    "passed": 88,
+    "total": 88,
+    "pass": true,
+    "errors": 0
+  },
+  "clock": {
+    "pass": true,
+    "checks": {
+      "False.oneEightSixteenExact": true,
+      "False.viewReadOnly": true,
+      "False.fixedTicks": true,
+      "False.64PhysicalExact": true,
+      "True.oneEightSixteenExact": true,
+      "True.viewReadOnly": true,
+      "True.fixedTicks": true,
+      "True.64PhysicalExact": true,
+      "damageApplied": true,
+      "core0": true,
+      "pageErrors0": true
+    },
+    "elapsedS": 150.8602213760023
+  },
+  "static": {
+    "pass": true,
+    "changedSymbols": [
+      "_arhV2MonopulseMeasurement"
+    ],
+    "allOtherMainSymbolsByteExact": true
+  },
+  "smoke": {
+    "pass": true,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "coreFailures": 0,
+    "rangeTableRecalculationRequired": true
+  },
+  "notRun": [
+    "Full ENV_D ~175,955-shot remeasurement",
+    "All operating conditions / real weapon performance certification"
+  ]
+}

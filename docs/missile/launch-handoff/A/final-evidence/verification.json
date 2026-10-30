@@ -1,0 +1,83 @@
+{
+  "schema": "AEGIS_LAUNCH_HANDOFF_A_VERIFICATION_1",
+  "launchMechanismChecksPass": true,
+  "allRegressionPass": false,
+  "releaseApproved": false,
+  "checks": {
+    "static": true,
+    "gates": true,
+    "core": true,
+    "equivalence": true,
+    "clock-view-damage": true,
+    "surface": true,
+    "log-immutability": true,
+    "final-smoke": true,
+    "ui88": true,
+    "webgl29": true,
+    "idle120": true,
+    "rootIsTestedProduct": true,
+    "priorSevenByteExact": true,
+    "common180NoNewFailure": true,
+    "naturalNoNewFailure": true,
+    "originalDomain420": false,
+    "originalRelease300NoNewFailure": false,
+    "extraBoundaryNoNewFailure": false
+  },
+  "baseCommit": "7d863699c596c30b0df5e34734f17fe11cadc21e",
+  "branch": "launch-handoff-a",
+  "htmlSha256": "e42a2e05b8ff2096dfb334e7b9427cd2cd6da46d567083f06620ffdf35729ed7",
+  "htmlBytes": 18453184,
+  "knownNewFailureShots": 3,
+  "distinctNewFailureConditions": 2,
+  "domain": {
+    "checks": 420,
+    "passed": 414,
+    "failed": 6,
+    "failedAssertions": [
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "DDG_119_LATE_FLIGHT_IIA/raid",
+        "assertion": "samePhysicalState",
+        "pass": false
+      },
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "DDG_119_LATE_FLIGHT_IIA/raid",
+        "assertion": "raidInventoryDeltaBounded",
+        "pass": false
+      },
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "DDG_119_LATE_FLIGHT_IIA/raid",
+        "assertion": "sameExistingObserverState",
+        "pass": false
+      },
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "CG_52_LATE_TICONDEROGA/raid",
+        "assertion": "samePhysicalState",
+        "pass": false
+      },
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "CG_52_LATE_TICONDEROGA/raid",
+        "assertion": "raidInventoryDeltaBounded",
+        "pass": false
+      },
+      {
+        "suite": "paired-baseline/baseline-comparison.json",
+        "case": "CG_52_LATE_TICONDEROGA/raid",
+        "assertion": "sameExistingObserverState",
+        "pass": false
+      }
+    ],
+    "originalAcceptancePass": false
+  },
+  "fullEnvelopeSweep": false,
+  "newRangeTable": false,
+  "priorRangeData": "HISTORICAL_ENV_D_RECALC_REQUIRED",
+  "actionsDispatched": false,
+  "mainMerged": false,
+  "newReleaseOrTag": false,
+  "reviewedAtKst": "2026-10-25T09:46:50.680511+09:00"
+}

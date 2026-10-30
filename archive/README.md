@@ -1,6 +1,12 @@
 # AEGIS 이전 작업본
 
-루트에는 현재 최신 안정판만 두며, 아래 파일은 내용 변경 없이 버전별 폴더에 보존한다. `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상이 아니다.
+루트에는 현재 최신 안정판과 최신 개발 WIP 세트를 두며, 아래 파일은 내용 변경 없이 버전별 폴더에 보존한다. `archive/` 내부 파일은 최신 소스 자동 선택 및 GitHub Actions 실행 대상이 아니다.
+
+PERF_C의 직전 PERF_B HTML/status/SHA/workflow는 `v48/WIP_PERF_B/`에 원래 bytes/blob으로 보존한다. PERF_B support/evidence는 `docs/performance/B/`에 유지하고 현재 검증/workflow는 `docs/performance/C/`다.
+
+당시 PERF_B의 직전 PERF_A HTML/status/SHA/workflow는 `v48/WIP_PERF_A/`에 원래 bytes/blob으로 보존한다. PERF_A support/evidence는 `docs/performance/A/`에 유지하고 당시 검증/workflow는 `docs/performance/B/`였다.
+
+당시 PERF_A의 직전 H4A HTML/status/SHA/workflow는 `v48/WIP_MULTI_SHIP_H4A/`에 원래 bytes/blob으로 보존한다. H4A support와 당시 evidence는 `docs/multiship/H4A/`에 유지하며, 당시 검증·workflow 기준은 `docs/performance/A/`였다.
 
 | 버전 | 주요 변경 | 최종 상태 | 후속 버전 |
 | --- | --- | --- | --- |
@@ -24,3 +30,23 @@
 
 - `Aegis_SIM_v37.1_WIPNN.html`
 - `AEGIS_PLAN_STATUS_v37.1_WIPNN.md`
+
+## WIP PERF_C 보존
+
+직전 verified PERF_C HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_C에 samebytes/blob으로 이동했다. 해당 historical scripts/records는 당시 경로와 조건을 보존하며 현재 root/support/workflow는 PERF_D다.
+
+## WIP PERF_D 보존
+
+직전 D HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_D에 samebytes/blob으로 이동했다. 이전 scripts/records는 당시 경로와 조건을 유지하며 현재 root/support/workflow는 PERF_E다.
+
+## WIP PERF_E 보존
+
+직전 E HTML/status/SHA/manual workflow 네 파일은 WIP_PERF_E에 samebytes/blob 보존. 현재root/support/workflow는 PERF_F다.
+
+## v48 WIP PERF_F 보존 — HELI_A 작업
+
+`v48/WIP_PERF_F/`에 PERF_F HTML, 상태, SHA 세트와 비활성 `performance-f.workflow.yml`을 같은 bytes/Git blob으로 이동했다. HTML SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, 15,709,299bytes. checksum은 이 폴더를 작업 디렉터리로 실행한다. F 지원 manifest는 F 당시 commit의 기록이며 현재 HELI_A의 문서·workflow manifest와 구분한다. stable v48와 선행 archive/증거는 수정하지 않는다.
+
+## v48 WIP HELI_A 보존 — HELI_B 피드백 수정
+
+`v48/WIP_HELI_A/`에 A HTML·상태·SHA와 비활성 helicopter-a.workflow.yml을 같은 bytes/Git blob으로 이동했다. HTML 16,035,793bytes, SHA35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477. 이 폴더에서 A checksum을 실행한다. A 지원/evidence는 당시 commit 기준이며 현재 B 변경 문서와 구분한다. stable와 source asset/기존 archive는 보존한다.

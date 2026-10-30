@@ -1,0 +1,5 @@
+"""Three glTF scenes share exact original geometry/material buffers."""
+import gzip,json,hashlib
+from pathlib import Path
+from extract_helicopter import glb
+p=Path(__file__).resolve().parent;doc=json.loads((p/'helicopter-options.gltf.json').read_text());pose=json.loads((p/'seahawk-render-a1.json').read_text());ids={n['extras']['sourceNode']:i for i,n in enumerate(doc['nodes'])if'extras'in n};doc['nodes'][0].pop('children');doc['scenes']=[{'name':name,'nodes':[ids[i]for i in group]}for name,group in pose['poses'].items()];doc['scene']=1;doc['scenes'].append({'name':'Source alternatives (overlap)','nodes':[ids[i]for i in ids if'children'in doc['nodes'][ids[i]]]});doc['asset']['extras']['extraction']+=' Three scene roots select folded/deployed/flight; default deployed. Source transforms retained; source unit scale unverified.';b=glb(doc,(p/'helicopter-options.bin').read_bytes());(p/'seahawk-poses-lossless.glb').write_bytes(b);print({'bytes':len(b),'gzipBytes':len(gzip.compress(b,9,mtime=0)),'sha256':hashlib.sha256(b).hexdigest()})

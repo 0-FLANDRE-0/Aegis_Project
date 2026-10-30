@@ -1,0 +1,119 @@
+{
+  "checks": {
+    "anchor": true,
+    "binaryPd": true,
+    "periInstrumentCap": true,
+    "longHorizon": true,
+    "stabilized": true,
+    "downBlind": true,
+    "falseAnchor": true,
+    "numericTags": true,
+    "LONGExhaustiveBinaryWindows": true,
+    "LONGFinalMissCanConfirm": true,
+    "SHORTExhaustiveBinaryWindows": true,
+    "SHORTFinalMissCanConfirm": true,
+    "PERIExhaustiveBinaryWindows": true,
+    "PERIFinalMissCanConfirm": true,
+    "formalContactCap": true,
+    "movingReceiverReindexes": true,
+    "unresolvedMerged": true,
+    "resolvedSplit": true,
+    "noAnonymousPoisonPropagation": true,
+    "LONGFalseBirthRate": true,
+    "LONGNoCandidateDrops": true,
+    "SHORTFalseBirthRate": true,
+    "SHORTNoCandidateDrops": true,
+    "PERIFalseBirthRate": true,
+    "PERINoCandidateDrops": true
+  },
+  "cal": {
+    "source": "SIM_TUNED",
+    "reference": "APS137_ANALOG",
+    "singleScanPd": 0.39308483281062956,
+    "alpha": 9.568529571635784,
+    "snr": 9.247642578845888,
+    "clutterRcsM2": 0.038631400736248045,
+    "referenceElevationGain": 0.47070370754905994,
+    "K": 45870055038317190000,
+    "snrReferenceRangeKm": 82.29667999683674,
+    "snrReferenceRcsM2": 1,
+    "longProcessingEfficiency": 0.18530739630932783,
+    "shortProcessingEfficiency": 1
+  },
+  "pfa": {
+    "LONG": 0.000011381820717031775,
+    "SHORT": 0.000004055830637546954,
+    "PERI": 0.00006989408231300982
+  },
+  "association": {
+    "LONG": 27.944068594525824,
+    "SHORT": 13.951694880967219,
+    "PERI": 42923.39110662772
+  },
+  "anchor": {
+    "instrumentM": 58999.804203064945,
+    "horizonM": 54914.771384464366,
+    "minimumM": 3696.8765194417842,
+    "blindM": 181.14654607431993,
+    "effectiveM": 54914.771384464366,
+    "factor": "HORIZON",
+    "pd50Km": 35.00000000000028,
+    "limiter": "SNR",
+    "falsePerHour": 0.9999999999999997
+  },
+  "high": {
+    "long": {
+      "instrumentM": 295984.79690686817,
+      "horizonM": 248227.86306134128,
+      "minimumM": 0,
+      "blindM": 3575.26077778263,
+      "effectiveM": 248227.86306134128,
+      "factor": "HORIZON",
+      "pd50Km": 248.22786306134128,
+      "limiter": "HORIZON",
+      "falsePerHour": 3.393432751635928
+    },
+    "peri": {
+      "instrumentM": 58923.67945062494,
+      "horizonM": 248227.86306134128,
+      "minimumM": 2165.6407827707717,
+      "blindM": 3575.26077778263,
+      "effectiveM": 58923.67945062494,
+      "factor": "INSTRUMENT",
+      "pd50Km": 58.923679450624945,
+      "limiter": "INSTRUMENT",
+      "falsePerHour": 1.1629807192581891
+    }
+  },
+  "table": "AN/APS-153(V) SIM_TUNED — 단일 주사 → 이진 M-of-N (9주사 에너지 누적 없음)\nANCHOR: 152m / 1m² / 높이1m / Hs0.9m / PERI 4-of-9: Pd50 35.000km (목표35km), 신규 오경보 1.000/h\n{\"source\":\"SIM_TUNED\",\"reference\":\"APS137_ANALOG\",\"singleScanPd\":0.39308483281062956,\"alpha\":9.568529571635784,\"snr\":9.247642578845888,\"clutterRcsM2\":0.038631400736248045,\"referenceElevationGain\":0.47070370754905994,\"K\":45870055038317190000,\"snrReferenceRangeKm\":82.29667999683674,\"snrReferenceRcsM2\":1,\"longProcessingEfficiency\":0.18530739630932783,\"shortProcessingEfficiency\":1,\"rawPfa\":{\"LONG\":0.000011381820717031775,\"SHORT\":0.000004055830637546954,\"PERI\":0.00006989408231300982},\"associationFactor\":{\"LONG\":27.944068594525824,\"SHORT\":13.951694880967219,\"PERI\":42923.39110662772}}\n확률은 임의의 완전한 주사 창 하나. 오경보는 신규 확정 접촉의 기대 발생률.\n수치는 독립 exponential-power CFAR / 이진 주사 모델의 계산값이며 실장비 성능이 아님.\nband=X [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceEvidence=0.9 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nairEvidence=0.06 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmissileEvidence=0.03 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbackgroundEvidence=0.04 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nqualityFloor=0.02 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseQuality=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseDopplerSigmaMps=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseDopplerSpreadMps=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnoiseVerticalExtentM=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngrazingFloorRad=0.0001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nprojectedCellCosineFloor=0.1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nazimuthBeamDeg=2.1 [SIM_TUNED; APS143_FAMILY_ANALOG]\nelevationBeamDeg=8 [SIM_TUNED; APS143_FAMILY_ANALOG]\nmaxDownlookDeg=40 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nstabilizationDeg=30 [SIM_TUNED; APS143_FAMILY_ANALOG]\nazimuthSigmaDeg=0.3 [SIM_TUNED; APS143_FAMILY_ANALOG]\nazimuthSigmaFloorDeg=0.025 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nrangeSigmaFloorM=0.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nnavigationSigmaM=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceSigmaM=8 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nelevationSigmaDeg=0.003 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndopplerSigmaMps=1.5 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceDopplerLimitMps=100 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaAzimuthCells=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaRangeCells=6 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxDistributedEchoes=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nhorizonCoefficient=4120 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfallbackHeightM=30 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsurfaceReferenceM=0 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\neffectiveEarthRadiusM=8487200 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nanchorAltitudeM=152 [SIM_TUNED; APS137_ANALOG]\nanchorHeightM=1 [SIM_TUNED; APS137_ANALOG]\nanchorRcsM2=1 [SIM_TUNED; APS137_ANALOG]\nanchorRangeM=35000 [SIM_TUNED; APS137_ANALOG]\nanchorHsM=0.9 [SIM_TUNED; APS137_ANALOG]\nanchorWindowPd=0.5 [SIM_TUNED; APS137_ANALOG]\nanchorFalseBirthsPerHour=1 [SIM_TUNED; APS137_ANALOG]\nsigma0Anchor=0.00001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nseaExponent=1.4 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngrazingExponent=0.85 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nclutterLeak01=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nsampledClutterFraction=0.02 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxContacts=200 [SIM_TUNED; APS143_FAMILY_ANALOG]\nmaxCandidates=40000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nassociationSigma=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngateRangeCells=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ngateAzimuthCells=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nvelocityGateMps=20 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportRatePerSecond=64 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportBurst=24 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nreportQueueReserve=8 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nmaxNewNoiseCellsPerTick=192 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbeamPhaseSamples=128 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nbeamSupportWidths=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nminimumGain=0.000001 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ncscFloorDeg=4 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ncscPeak=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticMediumRcsM2=180 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticMediumHeightM=15 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticDestroyerRcsM2=5000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticDestroyerHeightM=30 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfalseGateRadialBins=128 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nfalseGateCorrection=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticSeed=153137 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticWindows=100000 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\ndiagnosticRangeStepM=100 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.rpm=12 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.minM=463 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.maxM=296000 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nLONG.resolutionM=45 [SIM_TUNED; APS143_FAMILY_ANALOG]\nLONG.m=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.n=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nLONG.clutterFactor=1.7 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.rpm=108 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.minM=91 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.maxM=29600 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nSHORT.resolutionM=15 [SIM_TUNED; APS143_FAMILY_ANALOG]\nSHORT.m=2 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.n=3 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nSHORT.clutterFactor=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\nPERI.rpm=108 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.minM=3700 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.maxM=59000 [SIM_TUNED; APS153_MODE_TABLE_UNOFFICIAL]\nPERI.resolutionM=3 [SIM_TUNED; APS137_ANALOG]\nPERI.m=4 [SIM_TUNED; APS147_DTIC]\nPERI.n=9 [SIM_TUNED; APS147_DTIC]\nPERI.clutterFactor=1 [SIM_TUNED; GENERIC_RADAR_PRINCIPLE]\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 0.5 / SNR / 60 / 0.66 | 0.0 / SNR/BLIND / 60 / 0.66 | 0.0 / SNR/BLIND / 60 / 0.66\n150 | 0.0 / SNR/BLIND / 179 / 0.99 | 0.0 / SNR/BLIND / 179 / 0.99 | 0.0 / SNR/BLIND / 179 / 0.99\n300 | 0.0 / SNR/BLIND / 358 / 1.32 | 0.0 / SNR/BLIND / 358 / 1.32 | 0.0 / SNR/BLIND / 358 / 1.32\n600 | 0.0 / SNR/BLIND / 715 / 1.72 | 0.0 / SNR/BLIND / 715 / 1.72 | 0.0 / SNR/BLIND / 715 / 1.72\n1000 | 0.0 / SNR/BLIND / 1192 / 2.11 | 0.0 / SNR/BLIND / 1192 / 2.11 | 0.0 / SNR/BLIND / 1192 / 2.11\n3000 | 0.0 / SNR/BLIND / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 26.1 / SNR / 60 / 1.00 | 14.5 / SNR / 60 / 1.00 | 0.0 / SNR/BLIND / 60 / 1.00\n150 | 15.0 / SNR / 179 / 1.00 | 0.0 / SNR/BLIND / 179 / 1.00 | 0.0 / SNR/BLIND / 179 / 1.00\n300 | 0.5 / SNR / 358 / 0.98 | 0.0 / SNR/BLIND / 358 / 0.98 | 0.0 / SNR/BLIND / 358 / 0.98\n600 | 0.0 / SNR/BLIND / 715 / 0.96 | 0.0 / SNR/BLIND / 715 / 0.96 | 0.0 / SNR/BLIND / 715 / 0.96\n1000 | 0.0 / SNR/BLIND / 1192 / 0.94 | 0.0 / SNR/BLIND / 1192 / 0.94 | 0.0 / SNR/BLIND / 1192 / 0.94\n3000 | 0.0 / SNR/BLIND / 3575 / 0.85 | 0.0 / SNR/BLIND / 3575 / 0.85 | 0.0 / SNR/BLIND / 3575 / 0.85\n\n1m² 소형 (RCS 1m² / 높이 1m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 33.3 / HORIZON / 60 / 0.57 | 33.3 / HORIZON / 60 / 0.57 | 28.8 / SNR / 60 / 0.57\n150 | 37.4 / SNR / 179 / 0.99 | 35.0 / SNR / 179 / 0.99 | 15.2 / SNR / 179 / 0.99\n300 | 36.7 / SNR / 358 / 1.16 | 32.7 / SNR / 358 / 1.16 | 0.0 / SNR/BLIND / 358 / 1.16\n600 | 35.5 / SNR / 715 / 1.16 | 26.3 / SNR / 715 / 1.16 | 0.0 / SNR/BLIND / 715 / 1.16\n1000 | 33.6 / SNR / 1192 / 1.16 | 6.8 / SNR / 1192 / 1.16 | 0.0 / SNR/BLIND / 1192 / 1.16\n3000 | 0.0 / SNR/BLIND / 3575 / 1.16 | 0.0 / SNR/BLIND / 3575 / 1.16 | 0.0 / SNR/BLIND / 3575 / 1.16\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 45.1 / HORIZON / 60 / 0.66 | 45.1 / HORIZON / 60 / 0.66 | 45.1 / HORIZON / 60 / 0.66\n150 | 66.4 / HORIZON / 179 / 0.99 | 66.4 / HORIZON / 179 / 0.99 | 66.4 / HORIZON / 179 / 0.99\n300 | 87.3 / HORIZON / 358 / 1.32 | 87.3 / HORIZON / 358 / 1.32 | 74.8 / SNR / 358 / 1.32\n600 | 116.9 / HORIZON / 715 / 1.72 | 116.9 / HORIZON / 715 / 1.72 | 48.0 / SNR / 715 / 1.72\n1000 | 131.2 / SNR / 1192 / 2.11 | 114.8 / SNR / 1192 / 2.11 | 8.9 / SNR / 1192 / 2.11\n3000 | 122.8 / SNR / 3575 / 3.39 | 75.8 / SNR / 3575 / 3.39 | 0.0 / SNR/BLIND / 3575 / 3.39\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00\n150 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00\n300 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98\n600 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96\n1000 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94\n3000 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85\n\n중형 수상함급 (RCS 180m² / 높이 15m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 45.1 / HORIZON / 60 / 0.57 | 45.1 / HORIZON / 60 / 0.57 | 45.1 / HORIZON / 60 / 0.57\n150 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99\n300 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16\n600 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16\n1000 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16\n3000 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) LONG\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 51.7 / HORIZON / 60 / 0.66 | 51.7 / HORIZON / 60 / 0.66 | 51.7 / HORIZON / 60 / 0.66\n150 | 73.0 / HORIZON / 179 / 0.99 | 73.0 / HORIZON / 179 / 0.99 | 73.0 / HORIZON / 179 / 0.99\n300 | 93.9 / HORIZON / 358 / 1.32 | 93.9 / HORIZON / 358 / 1.32 | 93.9 / HORIZON / 358 / 1.32\n600 | 123.5 / HORIZON / 715 / 1.72 | 123.5 / HORIZON / 715 / 1.72 | 123.5 / HORIZON / 715 / 1.72\n1000 | 152.9 / HORIZON / 1192 / 2.11 | 152.9 / HORIZON / 1192 / 2.11 | 152.9 / HORIZON / 1192 / 2.11\n3000 | 248.2 / HORIZON / 3575 / 3.39 | 248.2 / HORIZON / 3575 / 3.39 | 248.2 / HORIZON / 3575 / 3.39\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) SHORT\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00 | 29.6 / SNR / 60 / 1.00\n150 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00 | 29.6 / INSTRUMENT / 179 / 1.00\n300 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98 | 29.6 / SNR / 358 / 0.98\n600 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96 | 29.6 / INSTRUMENT / 715 / 0.96\n1000 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94 | 29.6 / INSTRUMENT / 1192 / 0.94\n3000 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85 | 29.4 / INSTRUMENT / 3575 / 0.85\n\n구축함급 (RCS 5000m² / 높이 30m, SIM_TUNED) PERI\n고도 | 잔잔 | SS3 | 거침 : Pd50km / 제한 / 직하사각m / 신규오경보h\n50 | 51.7 / HORIZON / 60 / 0.57 | 51.7 / HORIZON / 60 / 0.57 | 51.7 / HORIZON / 60 / 0.57\n150 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99 | 59.0 / INSTRUMENT / 179 / 0.99\n300 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16 | 59.0 / SNR / 358 / 1.16\n600 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16 | 59.0 / SNR / 715 / 1.16\n1000 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16 | 59.0 / SNR / 1192 / 1.16\n3000 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16 | 58.9 / INSTRUMENT / 3575 / 1.16\n\nReferences\n{\n  \"APS147_DTIC\": {\n    \"title\": \"Shannon, History of U.S. Airborne and Shipboard Periscope Detection Radar Design and Development (2014), ADA618106\",\n    \"url\": \"https://apps.dtic.mil/sti/pdfs/ADA618106.pdf\",\n    \"status\": \"Bibliography verified; primary PDF not retrievable in this session; binary accumulation selected by user, not certified implementation\"\n  },\n  \"APS153_MODE_TABLE_UNOFFICIAL\": {\n    \"title\": \"AN/APS-147/153 radar study cards; user-supplied mode table\",\n    \"url\": \"https://quizlet.com/jp/376490050/anaps-147153-mmr-flash-cards/\",\n    \"status\": \"Unofficial; requested values are simulation settings\"\n  },\n  \"APS143_FAMILY_ANALOG\": {\n    \"title\": \"APS-143C(V)3/OceanEye manufacturer datasheet, family analogy only\",\n    \"url\": \"https://pdf.aeroexpo.online/pdf/telephonics-corporation/aps-143c-v-3-oceaneye/170712-22112.html\",\n    \"status\": \"Manufacturer datasheet mirror; does not establish APS-153 numeric performance\"\n  },\n  \"APS137_ANALOG\": {\n    \"title\": \"APS-137 analogy in ADA618106; 19NM/500ft/SS3 anchor supplied by user\",\n    \"url\": \"https://apps.dtic.mil/sti/pdfs/ADA618106.pdf\",\n    \"status\": \"Analogy, not APS-153 validation\"\n  },\n  \"GENERIC_RADAR_PRINCIPLE\": {\n    \"title\": \"Monostatic radar equation, Gaussian beam, sea-cell area, exponential power CFAR and binary M-of-N\",\n    \"url\": \"https://www.jhuapl.edu/Content/techdigest/pdf/V18-N01/18-01-Ousbourn.pdf\",\n    \"status\": \"Principles; coefficients and simplified distributions are SIM_TUNED\"\n  }\n}",
+  "falseMonteCarlo": [
+    {
+      "mode": "LONG",
+      "hours": 8,
+      "noise": 12724,
+      "births": 9,
+      "perHour": 1.125,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "SHORT",
+      "hours": 8,
+      "noise": 70454,
+      "births": 11,
+      "perHour": 1.375,
+      "candidates": 5,
+      "drops": 0
+    },
+    {
+      "mode": "PERI",
+      "hours": 8,
+      "noise": 9784283,
+      "births": 6,
+      "perHour": 0.75,
+      "candidates": 1654,
+      "drops": 0
+    }
+  ],
+  "pass": true
+}

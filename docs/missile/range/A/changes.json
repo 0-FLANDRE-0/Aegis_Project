@@ -1,0 +1,105 @@
+{
+  "changes": [
+    {
+      "registry": "SAM_LOFT_PROFILE_REGISTRY",
+      "weapon": "SM2ER",
+      "field": "nominalRmaxKm",
+      "old": 180,
+      "new": 360,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "이상 조건 설계 기준을 Rmax 추정식의 기준 배율로 사용"
+    },
+    {
+      "registry": "SAM_LOFT_PROFILE_REGISTRY",
+      "weapon": "SM2ER",
+      "field": "maxRmaxKm",
+      "old": 220,
+      "new": 360,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "같은 설계 기준을 Rmax 추정값의 상한으로 사용"
+    },
+    {
+      "registry": "SAM_LOFT_PROFILE_REGISTRY",
+      "weapon": "SM6",
+      "field": "nominalRmaxKm",
+      "old": 200,
+      "new": 450,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "이상 조건 설계 기준을 Rmax 추정식의 기준 배율로 사용"
+    },
+    {
+      "registry": "SAM_LOFT_PROFILE_REGISTRY",
+      "weapon": "SM6",
+      "field": "maxRmaxKm",
+      "old": 250,
+      "new": 450,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "같은 설계 기준을 Rmax 추정값의 상한으로 사용"
+    },
+    {
+      "registry": "SAM_LOFT_B4_PROFILES",
+      "weapon": "SM2ER",
+      "field": "rangeGoalKm",
+      "old": 240,
+      "new": 360,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "B4 계획·표시 목표를 같은 설계 기준으로 정렬"
+    },
+    {
+      "registry": "SAM_LOFT_B4_PROFILES",
+      "weapon": "SM2ER",
+      "field": "fullLoftKm",
+      "old": 240,
+      "new": 360,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "해당 설계 거리에서 기존 shelf 보간이 완전히 포화되도록 정렬"
+    },
+    {
+      "registry": "SAM_LOFT_B4_PROFILES",
+      "weapon": "SM6",
+      "field": "rangeGoalKm",
+      "old": 240,
+      "new": 450,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "B4 계획·표시 목표를 같은 설계 기준으로 정렬"
+    },
+    {
+      "registry": "SAM_LOFT_B4_PROFILES",
+      "weapon": "SM6",
+      "field": "fullLoftKm",
+      "old": 260,
+      "new": 450,
+      "unit": "km",
+      "tag": "SIM_TUNED",
+      "reference": "USER_DESIGN_TARGET_RANGE_A",
+      "rationale": "해당 설계 거리에서 기존 shelf 보간이 완전히 포화되도록 정렬"
+    }
+  ],
+  "derivedConsumers": [
+    "_samEstimateRmaxKm(profile,altM,vMps,tgtAltM): nominal scale / max clamp",
+    "_samBuildAdaptiveTrajectoryPlan: estimated rmax -> rFrac -> loft demand / launch blending",
+    "loftB4UpdatePlan: (r-startKm)/(fullLoftKm-startKm)",
+    "gameB4ReplanShelf: initial/live factors use same fullLoftKm denominator",
+    "loftB4DebugLabel: rangeGoalKm is displayed, no artificial flight expiration"
+  ],
+  "unchangedIndependentPlanningCeiling": {
+    "SM2ER.effectiveRangeKmGameplay": 260,
+    "SM6.effectiveRangeKmGameplay": 260,
+    "reason": "SAM_MISSILE_PROFILES의 별도 교전계획 관문이며 지정된 loft 설계 사거리에서 파생된 값이 아님. 발사 권한/AI 관문은 수정 범위 밖."
+  },
+  "nativeFunctionsChanged": 0
+}

@@ -1,0 +1,132 @@
+# CLEAN_B 추가 사격 사전 계획
+
+기본 격자 추가 17450발 + 경계 세분화 최대 425발 = 최대 17875발. 예상 35.7분, 2 workers. 3시간 제한 이내.
+
+격자: 1~min(30, 바깥 최대거리) km는 1km, 이후35km부터 최대거리 이하 5km. 모든120칸의 필요한 격자를 감사한다. 선택 구간 첫점이30km를 넘으면 앞 실패점 사이 최대4점을1km로 보강하고 구간을 다시 구성한다.
+
+Nearest same-cell cached flight tick counts × original D2 elapsed/tick + conservative 0.6 CPU sec/refinement shot; 2 workers, 1.5 reserve, 60 sec setup. No shots executed.
+
+| 기종 | 고도 m | 운동 | CLEAN_A 구간 | 새 기본 격자 발수 | 기존 끊김 뒤 새 점 |
+|---|---:|---|---|---:|---:|
+| SM2 | 30 | STATIONARY | 2~195 | 110 | 0 |
+| SM2 | 30 | INBOUND_250 | 4~300 | 110 | 2 |
+| SM2 | 30 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM2 | 30 | OUTBOUND_250 | 1~30 | 115 | 0 |
+| SM2 | 30 | CROSS_250 | 2~85 | 110 | 0 |
+| SM2 | 1000 | STATIONARY | 1~210 | 115 | 0 |
+| SM2 | 1000 | INBOUND_250 | 2~325 | 110 | 0 |
+| SM2 | 1000 | INBOUND_680 | 3~500 | 105 | 0 |
+| SM2 | 1000 | OUTBOUND_250 | 1~30 | 115 | 0 |
+| SM2 | 1000 | CROSS_250 | 1~100 | 115 | 0 |
+| SM2 | 5000 | STATIONARY | 1~225 | 115 | 0 |
+| SM2 | 5000 | INBOUND_250 | 1~340 | 115 | 0 |
+| SM2 | 5000 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM2 | 5000 | OUTBOUND_250 | 1~45 | 115 | 0 |
+| SM2 | 5000 | CROSS_250 | 1~170 | 115 | 0 |
+| SM2 | 10000 | STATIONARY | 1~245 | 115 | 0 |
+| SM2 | 10000 | INBOUND_250 | 1~355 | 115 | 0 |
+| SM2 | 10000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM2 | 10000 | OUTBOUND_250 | 1~60 | 115 | 0 |
+| SM2 | 10000 | CROSS_250 | 1~200 | 115 | 0 |
+| SM2 | 15000 | STATIONARY | 1~260 | 115 | 0 |
+| SM2 | 15000 | INBOUND_250 | 1~370 | 115 | 0 |
+| SM2 | 15000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM2 | 15000 | OUTBOUND_250 | 1~90 | 160 | 9 |
+| SM2 | 15000 | CROSS_250 | 1~220 | 115 | 0 |
+| SM2 | 20000 | STATIONARY | 1~260 | 115 | 0 |
+| SM2 | 20000 | INBOUND_250 | 1~355 | 115 | 0 |
+| SM2 | 20000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM2 | 20000 | OUTBOUND_250 | 1~160 | 115 | 0 |
+| SM2 | 20000 | CROSS_250 | 1~225 | 115 | 0 |
+| SM2ER | 30 | STATIONARY | 3~245 | 110 | 1 |
+| SM2ER | 30 | INBOUND_250 | 1~360 | 125 | 2 |
+| SM2ER | 30 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM2ER | 30 | OUTBOUND_250 | 1~35 | 115 | 0 |
+| SM2ER | 30 | CROSS_250 | 2~75 | 110 | 0 |
+| SM2ER | 1000 | STATIONARY | 1~270 | 115 | 0 |
+| SM2ER | 1000 | INBOUND_250 | 2~400 | 110 | 0 |
+| SM2ER | 1000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM2ER | 1000 | OUTBOUND_250 | 1~35 | 115 | 0 |
+| SM2ER | 1000 | CROSS_250 | 2~80 | 110 | 0 |
+| SM2ER | 5000 | STATIONARY | 1~295 | 115 | 0 |
+| SM2ER | 5000 | INBOUND_250 | 1~425 | 115 | 0 |
+| SM2ER | 5000 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM2ER | 5000 | OUTBOUND_250 | 1~55 | 115 | 0 |
+| SM2ER | 5000 | CROSS_250 | 1~240 | 115 | 0 |
+| SM2ER | 10000 | STATIONARY | 1~330 | 115 | 0 |
+| SM2ER | 10000 | INBOUND_250 | 1~460 | 115 | 0 |
+| SM2ER | 10000 | INBOUND_680 | 1~5 | 545 | 102 |
+| SM2ER | 10000 | OUTBOUND_250 | 1~65 | 115 | 0 |
+| SM2ER | 10000 | CROSS_250 | 1~280 | 115 | 0 |
+| SM2ER | 15000 | STATIONARY | 1~365 | 115 | 0 |
+| SM2ER | 15000 | INBOUND_250 | 1~500 | 115 | 0 |
+| SM2ER | 15000 | INBOUND_680 | 1~5 | 545 | 102 |
+| SM2ER | 15000 | OUTBOUND_250 | 1~105 | 220 | 21 |
+| SM2ER | 15000 | CROSS_250 | 1~315 | 115 | 0 |
+| SM2ER | 20000 | STATIONARY | 1~385 | 115 | 0 |
+| SM2ER | 20000 | INBOUND_250 | 1~500 | 115 | 0 |
+| SM2ER | 20000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM2ER | 20000 | OUTBOUND_250 | 1~255 | 115 | 0 |
+| SM2ER | 20000 | CROSS_250 | 1~335 | 120 | 1 |
+| SM6 | 30 | STATIONARY | 3~265 | 105 | 0 |
+| SM6 | 30 | INBOUND_250 | 1~380 | 115 | 0 |
+| SM6 | 30 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM6 | 30 | OUTBOUND_250 | 1~35 | 115 | 0 |
+| SM6 | 30 | CROSS_250 | 2~75 | 110 | 0 |
+| SM6 | 1000 | STATIONARY | 1~295 | 115 | 0 |
+| SM6 | 1000 | INBOUND_250 | 2~430 | 110 | 0 |
+| SM6 | 1000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM6 | 1000 | OUTBOUND_250 | 1~45 | 115 | 0 |
+| SM6 | 1000 | CROSS_250 | 2~80 | 110 | 0 |
+| SM6 | 5000 | STATIONARY | 1~325 | 115 | 0 |
+| SM6 | 5000 | INBOUND_250 | 1~460 | 115 | 0 |
+| SM6 | 5000 | INBOUND_680 | 1~1 | 550 | 107 |
+| SM6 | 5000 | OUTBOUND_250 | 1~55 | 115 | 0 |
+| SM6 | 5000 | CROSS_250 | 1~265 | 115 | 0 |
+| SM6 | 10000 | STATIONARY | 1~365 | 115 | 0 |
+| SM6 | 10000 | INBOUND_250 | 1~500 | 115 | 0 |
+| SM6 | 10000 | INBOUND_680 | 1~5 | 545 | 102 |
+| SM6 | 10000 | OUTBOUND_250 | 1~65 | 115 | 0 |
+| SM6 | 10000 | CROSS_250 | 1~310 | 115 | 0 |
+| SM6 | 15000 | STATIONARY | 1~405 | 115 | 0 |
+| SM6 | 15000 | INBOUND_250 | 1~500 | 115 | 0 |
+| SM6 | 15000 | INBOUND_680 | 1~5 | 545 | 102 |
+| SM6 | 15000 | OUTBOUND_250 | 1~110 | 245 | 26 |
+| SM6 | 15000 | CROSS_250 | 1~355 | 115 | 0 |
+| SM6 | 20000 | STATIONARY | 1~435 | 115 | 0 |
+| SM6 | 20000 | INBOUND_250 | 1~500 | 115 | 0 |
+| SM6 | 20000 | INBOUND_680 | 1~500 | 115 | 0 |
+| SM6 | 20000 | OUTBOUND_250 | 1~285 | 115 | 0 |
+| SM6 | 20000 | CROSS_250 | 1~395 | 115 | 0 |
+| ESSM | 30 | STATIONARY | 1~25 | 95 | 0 |
+| ESSM | 30 | INBOUND_250 | 1~30 | 155 | 8 |
+| ESSM | 30 | INBOUND_680 | 1~30 | 235 | 24 |
+| ESSM | 30 | OUTBOUND_250 | 1~10 | 35 | 0 |
+| ESSM | 30 | CROSS_250 | 1~15 | 55 | 0 |
+| ESSM | 1000 | STATIONARY | 1~25 | 90 | 0 |
+| ESSM | 1000 | INBOUND_250 | 2~95 | 110 | 0 |
+| ESSM | 1000 | INBOUND_680 | 4~175 | 100 | 0 |
+| ESSM | 1000 | OUTBOUND_250 | 1~10 | 40 | 0 |
+| ESSM | 1000 | CROSS_250 | 1~15 | 65 | 0 |
+| ESSM | 5000 | STATIONARY | 1~30 | 115 | 0 |
+| ESSM | 5000 | INBOUND_250 | 1~60 | 115 | 0 |
+| ESSM | 5000 | INBOUND_680 | 7~115 | 90 | 0 |
+| ESSM | 5000 | OUTBOUND_250 | 1~10 | 40 | 0 |
+| ESSM | 5000 | CROSS_250 | 1~20 | 70 | 0 |
+| ESSM | 10000 | STATIONARY | 2~25 | 90 | 0 |
+| ESSM | 10000 | INBOUND_250 | 1~1 | 140 | 25 |
+| ESSM | 10000 | INBOUND_680 | 14~65 | 60 | 0 |
+| ESSM | 10000 | OUTBOUND_250 | 1~15 | 55 | 0 |
+| ESSM | 10000 | CROSS_250 | 1~20 | 80 | 0 |
+| ESSM | 15000 | STATIONARY | 2~25 | 90 | 0 |
+| ESSM | 15000 | INBOUND_250 | 1~1 | 135 | 24 |
+| ESSM | 15000 | INBOUND_680 | 19~60 | 40 | 0 |
+| ESSM | 15000 | OUTBOUND_250 | 1~15 | 55 | 0 |
+| ESSM | 15000 | CROSS_250 | 1~20 | 80 | 0 |
+| ESSM | 20000 | STATIONARY | 2~25 | 85 | 0 |
+| ESSM | 20000 | INBOUND_250 | 10~35 | 80 | 0 |
+| ESSM | 20000 | INBOUND_680 | 24~50 | 20 | 0 |
+| ESSM | 20000 | OUTBOUND_250 | 1~15 | 55 | 0 |
+| ESSM | 20000 | CROSS_250 | 2~20 | 75 | 0 |
+
+모든 거리 목록·기존 결과 해시는 PLAN.json에 기록. 재사용은 같은 함수/프로파일과5개 시드의 기존 결과만 허용. 새 사격·게임 계수 변경·격추 기준 완화는 이 계획에서 실행하지 않는다.

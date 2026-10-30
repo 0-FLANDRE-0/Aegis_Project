@@ -1,0 +1,285 @@
+{
+  "elapsedS": 8.440090953001345,
+  "rows": [
+    {
+      "version": "current",
+      "kind": "domain",
+      "exitCode": 1,
+      "elapsedS": 3.767534484999487,
+      "command": [
+        "python",
+        "docs/pip/B/run_domain.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/domain",
+        "--parallel",
+        "2"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "domain-count",
+      "exitCode": 1,
+      "elapsedS": 0.025510450002911966,
+      "command": [
+        "python",
+        "docs/missile/range/A/collect_domain.py",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/domain",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/domain-acceptance.json"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "ui",
+      "exitCode": 1,
+      "elapsedS": 0.4810223370004678,
+      "command": [
+        "python",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,'docs/pip/B');import browser_backend;browser_backend.install();sys.argv=['docs/pip/B/verify_ui.py','/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html','/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/ui'];runpy.run_path(sys.argv[0],run_name='__main__')"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "domain",
+      "exitCode": 1,
+      "elapsedS": 3.6900726969979587,
+      "command": [
+        "python",
+        "docs/pip/B/run_domain.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/domain",
+        "--parallel",
+        "2"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "domain-count",
+      "exitCode": 1,
+      "elapsedS": 0.027629347001493443,
+      "command": [
+        "python",
+        "docs/missile/range/A/collect_domain.py",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/domain",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/domain-acceptance.json"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "ui",
+      "exitCode": 1,
+      "elapsedS": 0.4438923649940989,
+      "command": [
+        "python",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,'docs/pip/B');import browser_backend;browser_backend.install();sys.argv=['docs/pip/B/verify_ui.py','/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html','/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/ui'];runpy.run_path(sys.argv[0],run_name='__main__')"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "normals-release",
+      "exitCode": 1,
+      "elapsedS": 0.4920646629980183,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/normals-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/normal.json",
+        "--batch",
+        "8"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "dual-release",
+      "exitCode": 1,
+      "elapsedS": 0.5022448950039688,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/dual-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/dual.json",
+        "--batch",
+        "8"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "faults-release",
+      "exitCode": 1,
+      "elapsedS": 0.5112314240031992,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/faults-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/fault.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "battery-release",
+      "exitCode": 1,
+      "elapsedS": 0.5206610210007057,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/battery-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/battery.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "release-request-final",
+      "exitCode": 1,
+      "elapsedS": 0.5221128690027399,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/release-request-final.json",
+        "--cases",
+        "docs/missile/termination/A/cases/release-request.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "live-acceptance",
+      "exitCode": 1,
+      "elapsedS": 0.03526838900143048,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live_results.py",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current"
+      ]
+    },
+    {
+      "version": "current",
+      "kind": "observed-world",
+      "exitCode": 1,
+      "elapsedS": 0.502235551000922,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_observed_world.py",
+        "/tmp/aegis-env-d/repo/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/observed-world"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "normals-release",
+      "exitCode": 1,
+      "elapsedS": 0.5296736880045501,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/normals-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/normal.json",
+        "--batch",
+        "8"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "dual-release",
+      "exitCode": 1,
+      "elapsedS": 0.5298258330003591,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/dual-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/dual.json",
+        "--batch",
+        "8"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "faults-release",
+      "exitCode": 1,
+      "elapsedS": 0.5159971570028574,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/faults-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/fault.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "battery-release",
+      "exitCode": 1,
+      "elapsedS": 0.5342352290026611,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/battery-release.json",
+        "--cases",
+        "docs/missile/termination/A/cases/battery.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "release-request-final",
+      "exitCode": 1,
+      "elapsedS": 0.5029583149953396,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/release-request-final.json",
+        "--cases",
+        "docs/missile/termination/A/cases/release-request.json",
+        "--batch",
+        "4"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "live-acceptance",
+      "exitCode": 1,
+      "elapsedS": 0.04178358799981652,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_live_results.py",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery"
+      ]
+    },
+    {
+      "version": "recovery",
+      "kind": "observed-world",
+      "exitCode": 1,
+      "elapsedS": 0.5666230249989894,
+      "command": [
+        "python",
+        "docs/missile/termination/A/verify_observed_world.py",
+        "/tmp/aegis-env-d/repo/archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/recovery/observed-world"
+      ]
+    }
+  ]
+}

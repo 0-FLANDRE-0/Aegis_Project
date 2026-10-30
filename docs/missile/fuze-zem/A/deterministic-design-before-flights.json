@@ -1,0 +1,17 @@
+{
+  "frozenBeforeDeterministicFlightTests": true,
+  "specSource": "const SAM_FUZE_SIGNAL_SPEC_A=Object.freeze({\n    provenance:'SIM_TUNED',referenceSnrAtGate:1,minSnr:1,maxExcessSnr:32,\n    integrationExcessSnrSeconds:.004,coherentLookS:.0005,minValidS:.001,\n    rangeCellM:2,clutterNoiseRatio:1,memoryDecayS:.008,resetGapS:.050,\n    quadratureStepS:.00025,maxQuadratureSegments:4096\n  });",
+  "helpersSha256": "aa519c963b467953f5a8773f707b7c0417d3421334e46a91aaa009579668f0ec",
+  "usesPdAsThreshold": false,
+  "targetDetectionRng": false,
+  "clutterFalseBurstRng": "PRESERVED",
+  "rationale": {
+    "normalization": "SNR=1 at profile detector radius for legacy profile reference RCS, thermal-noise normalization",
+    "energy": "4ms at one excess SNR unit, 1ms minimum continuous evidence (two 0.5ms coherent looks)",
+    "rangeMigration": "2m cell / 0.5ms coherent look; physical SI displacement",
+    "decay": "8ms evidence memory; reset after 50ms absent signal",
+    "quadrature": "250us absolute simulation-time mesh with analytic sphere clipping; no future exposure"
+  },
+  "finalHelpersSha256": "7fe53c009f026c3a7e99567d8ee14c0c16cdeccf7739b3c0500767678b115654",
+  "preflightRevision": "Diagnostic labels only: distinguish range-out from beam-out; do not claim an in-range beam outside the swept gate. Physical numeric spec unchanged."
+}

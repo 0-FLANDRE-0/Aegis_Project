@@ -1,0 +1,15 @@
+/tmp/aegis-clean-a/repo/docs/cleanup/B/audit.cjs:5
+ for(const q of j.newDistances){if(c.points.has(q.rangeKm))throw Error('UNNECESSARY_NEW_FLIGHT');if(sha(JSON.stringify(q.shots))!==q.shotsSha256)throw Error('NEW_SHOT_HASH_MISMATCH');for(let i=0;i<5;i++){const s=q.shots[i],seed=d2.seeds[i];if(s.rngSeed!==seed.rngSeed||s.navigationSeed!==seed.navigationSeed||s.weapon!==row.weapon||s.altM!==row.altM||s.rangeKm!==q.rangeKm||s.targetLabel!==row.targetLabel||s.targetSpeedMps!==row.targetSpeedMps||(s.crossSpeedMps??0)!==(row.crossSpeedMps??0)||s.lethal!==['KILL','STRUCT_FAIL'].includes(s.samResult))throw Error('NEW_RESULT_CONTRACT_MISMATCH');}newShots+=5;c.points.set(q.rangeKm,q);}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ^
+
+Error: NEW_RESULT_CONTRACT_MISMATCH
+    at Object.<anonymous> (/tmp/aegis-clean-a/repo/docs/cleanup/B/audit.cjs:5:556)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+Node.js v24.19.0

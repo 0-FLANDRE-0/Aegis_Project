@@ -1,0 +1,10 @@
+// AFTER_ACTION_TRUTH diagnostic only. Never included in the product.
+// Read entity fields after the unmodified fixed tick; no RNG draws or commands.
+const cleanRaidNativeTickA=simulateFixedTick;
+const cleanRaidA={active:false,initialIds:[],targets:new Map(),sams:new Map(),end:null};
+function cleanRaidRememberA(){for(const t of enemyMissiles)cleanRaidA.targets.set(t.id,t);for(const m of missiles)cleanRaidA.sams.set(m.id,m);}
+function cleanRaidTargetA(t){return {id:t.id,label:t.label,initial:cleanRaidA.initialIds.includes(t.id),alive:!!t.alive,dead:!!t.dead,reason:t._deathReason??null,retirement:t._wip11cRetirementQueued??null,outcome:t._wip113Outcome??null,mission:{seeker:!!t._v1SeekerKilled,control:!!t._v1CtrlDamaged,structure:!!t._v1StructDamaged},phase:t.phase,x:t.x,y:t.y,z:t.z};}
+function cleanRaidSamA(m){return {id:m.id,weapon:m.weaponType??m._v1Profile?.id??null,targetId:m.assignedTargetId??null,dead:!!m.dead,reason:m._deathReason??null,lifeS:m.life,closestM:m._everClosest==null?null:m._everClosest*1000,handoffAtS:m._pitchoverCompleteAt??null,prox:!!m.proxDetonated};}
+function cleanRaidReadA(){return {tag:'AFTER_ACTION_TRUTH',tick:simStepCounter,timeS:simStepCounter*SIM_FIXED_DT,initialIds:[...cleanRaidA.initialIds],targets:[...cleanRaidA.targets.values()].map(cleanRaidTargetA),sams:[...cleanRaidA.sams.values()].map(cleanRaidSamA),history:JSON.parse(JSON.stringify(SIM_TEST_INTERCEPT_HISTORY)),ship:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A().ship};}
+simulateFixedTick=function(dt){if(cleanRaidA.active)cleanRaidRememberA();const q=cleanRaidNativeTickA(dt);if(cleanRaidA.active){cleanRaidRememberA();const initial=cleanRaidA.initialIds.map(id=>cleanRaidA.targets.get(id));if(!cleanRaidA.end&&initial.length===8&&initial.every(t=>t&&!t.alive)&&enemyMissiles.every(t=>!t.alive)){cleanRaidA.end={...cleanRaidReadA(),endReason:'INITIAL_RAID_RESOLVED_AND_NO_ACTIVE_ASM'};}}return q;};
+window.__CLEAN_RAID_A__={start(ids){cleanRaidA.initialIds=[...ids];cleanRaidA.active=true;cleanRaidRememberA();},read(){return {...cleanRaidReadA(),end:cleanRaidA.end};}};

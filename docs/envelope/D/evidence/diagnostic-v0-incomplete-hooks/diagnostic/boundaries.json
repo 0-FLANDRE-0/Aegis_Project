@@ -1,0 +1,358 @@
+{
+  "window": {
+    "code": "const window=SETTINGS;",
+    "reason": "detached primitive-only native tuning settings"
+  },
+  "simStepCounter": {
+    "code": "let simStepCounter=0;",
+    "reason": "private clock"
+  },
+  "SIM_SEED_BASE": {
+    "code": "let SIM_SEED_BASE=1831565813;",
+    "reason": "private native subsystem-stream/navigation derivation seed, set per shot independently from global Pk RNG state"
+  },
+  "SIM_RNG_STATE": {
+    "code": "let SIM_RNG_STATE=1831565813;",
+    "reason": "private RNG state"
+  },
+  "notify": {
+    "code": "function notify(){}",
+    "reason": "no UI writes"
+  },
+  "debugLog": {
+    "code": "function debugLog(){}",
+    "reason": "no live log writes"
+  },
+  "aircraft": {
+    "code": "const aircraft={x:()=>0,y:()=>0};",
+    "reason": "private stationary launch platform"
+  },
+  "ACTIVE_SHIP_RUNTIME": {
+    "code": "const ACTIVE_SHIP_RUNTIME=PRIVATE_SHIP;",
+    "reason": "private launch platform"
+  },
+  "tracks": {
+    "code": "const tracks=new Map();",
+    "reason": "private perfect-observation files"
+  },
+  "missiles": {
+    "code": "const missiles=[];",
+    "reason": "private model list; never inserted in game world"
+  },
+  "enemyMissiles": {
+    "code": "const enemyMissiles=[];",
+    "reason": "private target model"
+  },
+  "targetPool": {
+    "code": "const targetPool=[];",
+    "reason": "private constant-velocity target"
+  },
+  "selectedLockId": {
+    "code": "let selectedLockId=1;",
+    "reason": "private diagnostic designation"
+  },
+  "engagementControlMode": {
+    "code": "const engagementControlMode='MANUAL';",
+    "reason": "no live authority changes"
+  },
+  "emconActive": {
+    "code": "const emconActive=false;",
+    "reason": "ideal support; no live emission"
+  },
+  "shipNav": {
+    "code": "const shipNav={heading:0,speed:0,turnRate:0,positionWorld:{x:0,y:0}};",
+    "reason": "stationary sea-level platform"
+  },
+  "shipEquipmentOfflineV1": {
+    "code": "function shipEquipmentOfflineV1(){return false;}",
+    "reason": "ideal equipment"
+  },
+  "getShipDamageEffects": {
+    "code": "function getShipDamageEffects(){return {vlsAvailable:true,combatEff:1};}",
+    "reason": "ideal equipment"
+  },
+  "networkVlsGateG": {
+    "code": "function networkVlsGateG(){return {ok:true};}",
+    "reason": "launch permission excluded from flight diagnostic"
+  },
+  "shipGameVlsReadyV1": {
+    "code": "function shipGameVlsReadyV1(){return true;}",
+    "reason": "ideal launcher"
+  },
+  "trackEngagementGateA3": {
+    "code": "function trackEngagementGateA3(){return {ok:true};}",
+    "reason": "ideal designated target"
+  },
+  "trackIsFireControlQuality": {
+    "code": "function trackIsFireControlQuality(){return true;}",
+    "reason": "perfect continuous target information"
+  },
+  "wip148PeekVlsLaunchMeta": {
+    "code": "function wip148PeekVlsLaunchMeta(){return null;}",
+    "reason": "sea-level launch origin; native in-cell default path"
+  },
+  "consumeVlsCell": {
+    "code": "function consumeVlsCell(){return true;}",
+    "reason": "no live inventory consumption"
+  },
+  "tagWorldEntityOwnershipV48Wip11A": {
+    "code": "function tagWorldEntityOwnershipV48Wip11A(m){m.ownerEntityId='ENV_PRIVATE';}",
+    "reason": "private ownership only"
+  },
+  "weaponLinkB3Init": {
+    "code": "function weaponLinkB3Init(){}",
+    "reason": "ideal continuous measurements replace transport"
+  },
+  "weaponLinkB3Tick": {
+    "code": "function weaponLinkB3Tick(){}",
+    "reason": "ideal continuous measurements replace transport"
+  },
+  "weaponLinkB3Close": {
+    "code": "function weaponLinkB3Close(){}",
+    "reason": "no live link allocation"
+  },
+  "samB1GuidanceCueTrack": {
+    "code": "function samB1GuidanceCueTrack(){return tracks.get(1);}",
+    "reason": "perfect measured cue"
+  },
+  "getDlTargetStateV1": {
+    "code": "function getDlTargetStateV1(){return idealState('DL_TRACK');}",
+    "reason": "ideal continuous data supplied at sensor boundary"
+  },
+  "getSarhTargetStateV1": {
+    "code": "function getSarhTargetStateV1(){return idealState('SARH_RF_EKF');}",
+    "reason": "ideal SARH supplied at sensor boundary"
+  },
+  "getArhTargetStateV1": {
+    "code": "function getArhTargetStateV1(){return idealState('ARH_RF_EKF');}",
+    "reason": "ideal ARH supplied at sensor boundary"
+  },
+  "_v1StepSarhSensorV1": {
+    "code": "function _v1StepSarhSensorV1(){}",
+    "reason": "exclude RF errors/availability"
+  },
+  "updateArhSeekerV1": {
+    "code": "function updateArhSeekerV1(m){m._v1ArhState='TRACK';m.essmActiveSeeker=true;}",
+    "reason": "exclude RF acquisition uncertainty"
+  },
+  "truthObjectForTrackV27": {
+    "code": "function truthObjectForTrackV27(){return targetPool[0]??enemyMissiles[0];}",
+    "reason": "private target only for native fuze"
+  },
+  "trackIdForTruthV27": {
+    "code": "function trackIdForTruthV27(){return 1;}",
+    "reason": "private diagnostic association"
+  },
+  "retireTruthAssociationV27": {
+    "code": "function retireTruthAssociationV27(){}",
+    "reason": "no live association retirement"
+  },
+  "wip173RecordInterceptBurst": {
+    "code": "function wip173RecordInterceptBurst(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip121TargetSupportBlocked": {
+    "code": "function wip121TargetSupportBlocked(){return false;}",
+    "reason": "ideal support"
+  },
+  "wip121RestoreTargetSupportEligibility": {
+    "code": "function wip121RestoreTargetSupportEligibility(){}",
+    "reason": "no live track write"
+  },
+  "ACTIVE_SHIP_PROFILE": {
+    "code": "const ACTIVE_SHIP_PROFILE=PROFILE;",
+    "reason": "detached native platform profile"
+  },
+  "wip11cQueueAsmRetirement": {
+    "code": "function wip11cQueueAsmRetirement(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip11cRememberEngagementTrack": {
+    "code": "function wip11cRememberEngagementTrack(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip121RecordFriendlyInterceptEvent": {
+    "code": "function wip121RecordFriendlyInterceptEvent(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip12bRecordInterceptorTerminalEffect": {
+    "code": "function wip12bRecordInterceptorTerminalEffect(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "_wip106LogRamTerminal": {
+    "code": "function _wip106LogRamTerminal(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip14a2RecordSpeedDiagnostic": {
+    "code": "function wip14a2RecordSpeedDiagnostic(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "wip14a8RecordForceTrace": {
+    "code": "function wip14a8RecordForceTrace(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "toggleEmcon": {
+    "code": "function toggleEmcon(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "_wip75RecordGuidanceSample": {
+    "code": "function _wip75RecordGuidanceSample(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "_wip77RecordTrajectorySample": {
+    "code": "function _wip77RecordTrajectorySample(){}",
+    "reason": "diagnostic/effect/UI sink excluded; no flight result changed"
+  },
+  "surfaceSm2LiveReleaseGateWip13C5": {
+    "code": "function surfaceSm2LiveReleaseGateWip13C5(){throw Error(\"ENV_AIR_ONLY_BOUNDARY\");}",
+    "reason": "air-target-only diagnostic; fail closed if used"
+  },
+  "surfaceEssmLiveReleaseGateWip13C6": {
+    "code": "function surfaceEssmLiveReleaseGateWip13C6(){throw Error(\"ENV_AIR_ONLY_BOUNDARY\");}",
+    "reason": "air-target-only diagnostic; fail closed if used"
+  },
+  "allocateSARH": {
+    "code": "function allocateSARH(){for(const m of missiles){m.sarhAlive=true;m._illuminatorGuided=true;m._illuminatorId=0;m._illQuality=1;}}",
+    "reason": "ideal continuous illumination; no shipboard resource allocation"
+  },
+  "canRadarProvideDL": {
+    "code": "function canRadarProvideDL(){return true;}",
+    "reason": "ideal continuous uplink"
+  },
+  "wip199BindPhysicalVlsOrigin": {
+    "code": "function wip199BindPhysicalVlsOrigin(m,meta){if(meta)throw Error(\"ENV_A_SEA_LEVEL_ORIGIN_ONLY\");return false;}",
+    "reason": "sea-level origin required; no physical ship geometry"
+  },
+  "shipGameFrameV1": {
+    "code": "function shipGameFrameV1(){return {vectorToWorld:p=>({...p}),pointToWorld:p=>({...p}),pointToBody:p=>({...p}),vectorToBody:p=>({...p})};}",
+    "reason": "stationary unheeled sea-level platform input"
+  },
+  "shipGamePointStateV1": {
+    "code": "function shipGamePointStateV1(p){return {xM:p.x,yM:p.y,zM:p.z,vxMps:0,vyMps:0,vzMps:0};}",
+    "reason": "stationary platform point input"
+  },
+  "shipGameAnglesV1": {
+    "code": "function shipGameAnglesV1(p){return {az:Math.atan2(p.y,p.x),el:Math.atan2(p.z,Math.hypot(p.x,p.y))};}",
+    "reason": "platform geometry input only"
+  },
+  "simRandom": {
+    "code": "function simRandom(){SIM_RNG_STATE=_xorshift32(SIM_RNG_STATE);return (SIM_RNG_STATE>>>0)/4294967296;}",
+    "reason": "independent native xorshift stream"
+  },
+  "missileSerial": {
+    "code": "let missileSerial=1;",
+    "reason": "private missile numbering"
+  },
+  "SIM_TEST_WIP87_PK_TRACE": {
+    "code": "const SIM_TEST_WIP87_PK_TRACE=[];",
+    "reason": "private empty arrays; no live sensor/EW/diagnostic data"
+  },
+  "WIP143_TDD_EVENT_TRACE": {
+    "code": "const WIP143_TDD_EVENT_TRACE=[];",
+    "reason": "private empty arrays; no live sensor/EW/diagnostic data"
+  },
+  "chaffs": {
+    "code": "const chaffs=[];",
+    "reason": "private empty arrays; no live sensor/EW/diagnostic data"
+  },
+  "flares": {
+    "code": "const flares=[];",
+    "reason": "private empty arrays; no live sensor/EW/diagnostic data"
+  },
+  "terrainIslands": {
+    "code": "const terrainIslands=[];",
+    "reason": "open sea; no terrain mask"
+  },
+  "BATTLESPACE_DIAG_BYPASS": {
+    "code": "const BATTLESPACE_DIAG_BYPASS=true;",
+    "reason": "open sea diagnostic"
+  },
+  "physicalShipsB": {
+    "code": "function physicalShipsB(){return [];}",
+    "reason": "open sea; no live ship query"
+  },
+  "navalFuzeTargetD": {
+    "code": "function navalFuzeTargetD(){return null;}",
+    "reason": "only the private air target"
+  },
+  "surfaceMissileSweptContactWip13C5": {
+    "code": "function surfaceMissileSweptContactWip13C5(){throw Error(\"ENV_AIR_ONLY_BOUNDARY\");}",
+    "reason": "unused surface mode; fail closed"
+  },
+  "surfaceSm2CommitReservationWip13C5": {
+    "code": "function surfaceSm2CommitReservationWip13C5(){throw Error(\"ENV_AIR_ONLY_BOUNDARY\");}",
+    "reason": "unused surface mode; fail closed"
+  },
+  "surfaceSm2RollbackReservationWip13C5": {
+    "code": "function surfaceSm2RollbackReservationWip13C5(){throw Error(\"ENV_AIR_ONLY_BOUNDARY\");}",
+    "reason": "unused surface mode; fail closed"
+  },
+  "spg62ReplanReservations": {
+    "code": "function spg62ReplanReservations(){}",
+    "reason": "ideal illumination; exclude resource scheduler"
+  },
+  "allocateDatalinks": {
+    "code": "function allocateDatalinks(){for(const m of missiles)m.dlAlive=true;}",
+    "reason": "ideal continuous link"
+  },
+  "computeSarhIllumQ": {
+    "code": "function computeSarhIllumQ(){return 1;}",
+    "reason": "ideal continuous illumination"
+  },
+  "wip173PushVisualEvent": {
+    "code": "function wip173PushVisualEvent(){}",
+    "reason": "no live visual effects"
+  },
+  "trackDisplayLabelOr": {
+    "code": "function trackDisplayLabelOr(){return \"ENV_TARGET\";}",
+    "reason": "private label; no live tracks"
+  },
+  "trackDisplayLabelById": {
+    "code": "function trackDisplayLabelById(){return \"ENV_TARGET\";}",
+    "reason": "private label"
+  },
+  "ownX": {
+    "code": "const ownX=0;",
+    "reason": "unreached legacy branch input"
+  },
+  "ownY": {
+    "code": "const ownY=0;",
+    "reason": "unreached legacy branch input"
+  },
+  "WIP14A2_SPEED_DIAGNOSTICS": {
+    "code": "const WIP14A2_SPEED_DIAGNOSTICS={record(){},tick(){},enabled:false};",
+    "reason": "private disabled telemetry sink"
+  },
+  "BATTLESPACE_SEED": {
+    "code": "let BATTLESPACE_SEED=2047861954;",
+    "reason": "private scenario seed, set per shot; native SAM navigation also uses SIM_SEED_BASE"
+  },
+  "seaStateFactor": {
+    "code": "const seaStateFactor=1.0649859543133355;",
+    "reason": "fixed diagnostic fuze environment copied from the pinned baseline fixture; no live weather reads"
+  },
+  "GUIDANCE_TEST_MODE": {
+    "code": "const GUIDANCE_TEST_MODE='OFF';",
+    "reason": "native default guidance; no legacy comparison alternation"
+  },
+  "selectedMslType": {
+    "code": "const selectedMslType='SARH';",
+    "reason": "native baseline release setting"
+  },
+  "lockCursor": {
+    "code": "const lockCursor={x:0,y:0};",
+    "reason": "unused cursor fallback in a designated private shot"
+  },
+  "lastErrorMsg": {
+    "code": "let lastErrorMsg='';",
+    "reason": "private numerical diagnostic text"
+  },
+  "wip118ControlState": {
+    "code": "const wip118ControlState={assessments:new Map(),accel:new Map()};",
+    "reason": "private empty combat scheduler state; ideal target support"
+  },
+  "enemyMslSerial": {
+    "code": "let enemyMslSerial=1;",
+    "reason": "private actual ASM constructor serial"
+  }
+}

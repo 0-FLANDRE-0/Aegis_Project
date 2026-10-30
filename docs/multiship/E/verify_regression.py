@@ -1,0 +1,25 @@
+"""Retained D manual-port tests explicitly configure enemy defense HOLD.
+
+Test-side mode changes follow each valid import/observer setup; production source
+has no test flag, mode swap, monkeypatch or disabled controller. Historical D
+test files stay byte-identical. E AUTO is verified separately by real natural runs.
+"""
+import argparse,importlib.util,re,sys
+from pathlib import Path
+HERE=Path(__file__).resolve().parent;D=HERE.parent/'D'
+def main():
+ p=argparse.ArgumentParser();p.add_argument('suite',choices=['weapons','effectors','battle','native']);p.add_argument('html',type=Path);p.add_argument('out',type=Path);a=p.parse_args();sys.path.insert(0,str(D))
+ spec=importlib.util.spec_from_file_location('retained_d_'+a.suite,D/('verify_'+a.suite+'.py'));module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+ hold="d.defenseCommandE('SHIP_SCENARIO_ENEMY_A',{mode:'HOLD'});"
+ if a.suite=='native':
+  original_boot=module.support.boot
+  def retained_boot(*args,**kwargs):
+   page=original_boot(*args,**kwargs);page.evaluate("window.__NAVAL_SIM_DIAG__.defenseCommandE('SHIP_SCENARIO_ENEMY_A',{mode:'HOLD'})");return page
+  module.support.boot=retained_boot
+ for name,value in list(vars(module).items()):
+  if isinstance(value,str)and ('__NAVAL_SIM_DIAG__' in value or 'd.importOperationalStateV48Wip11A' in value):
+   value=re.sub(r'(d\.importOperationalStateV48Wip11A\(\w+\);)',lambda m:m[0]+hold,value)
+   value=re.sub(r'(d\.observerCommandC\([^;\n]+\);)',lambda m:m[0]+hold,value)
+   setattr(module,name,value)
+ sys.argv=[str(D/('verify_'+a.suite+'.py')),str(a.html),str(a.out)];module.main()
+if __name__=='__main__':main()

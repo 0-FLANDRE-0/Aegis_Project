@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/tmp/aegis-env-d/repo/docs/missile/termination/A/verify_live_results.py", line 22, in <module>
+    r={'pass':all(checks.values()),'checks':checks,'records':records,'inputs':{n:hashlib.sha256((d/n).read_bytes()).hexdigest()for n in['normals-release.json','dual-release.json','faults-release.json','battery-release.json','release-request-final.json','validation-release.json','static.json']},'batteryTestMethod':'native flight then test-only clock checkpoint, no flight/fuze/propulsion function replacement'};(d/'live-acceptance.json').write_text(json.dumps(r,indent=2));print(json.dumps(r));raise SystemExit(0 if r['pass']else 1)
+                                                                                                ^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/validation-release.json'

@@ -1,0 +1,81 @@
+:root{--ui-scale-a:1;--ui-status-height-a:40px}
+#uiDesktopA{position:fixed;inset:0;z-index:900;pointer-events:none;font:11px/1.4 var(--mono,monospace);color:#b9d1d9}
+#uiDesktopA *{box-sizing:border-box}
+.ui-windows-layer-a{position:absolute;inset:0;z-index:1;pointer-events:none}
+#uiDesktopA [hidden]{display:none!important}
+#uiDesktopA button,#uiDesktopA select,#uiDesktopA input,.ui-settings-a button,.ui-settings-a select{font:11px/1.3 var(--mono,monospace);color:#d0e3e8;background:#10232f;border:1px solid #41606e;border-radius:3px;cursor:pointer;min-height:36px;padding:3px 7px;white-space:normal}
+#uiDesktopA button:hover,.ui-settings-a button:hover{background:#203d4a;border-color:#89c6d1}
+#uiDesktopA button:focus-visible{outline:2px solid #a9e5e2;outline-offset:1px}
+#uiDesktopA button:disabled{opacity:.45;cursor:default}
+#uiDesktopA button,#uiDesktopA input,#uiDesktopA select{font-size:11px!important}
+#uiDesktopA .active{border-color:#70baa4;color:#c4ffe3}
+.ui-status-a,.ui-window-a,.ui-widget-a,.ui-list-a,.ui-bearing-a,.ui-scale-surface-a{zoom:var(--ui-scale-a)}
+.ui-status-a{position:fixed;bottom:0;left:0;right:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2px 8px;padding:2px max(5px,env(safe-area-inset-right)) max(2px,env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left));background:#06131d;border-top:1px solid #5b7881;pointer-events:auto;z-index:999;min-height:36px}
+#uiDesktopA #uiShipA{white-space:pre-line;font-size:10px!important;text-align:left;line-height:1.15;flex:0 1 auto;min-width:100px;max-width:230px;background:transparent;border:0;padding:1px 3px}
+#uiDesktopA #uiInventoryA{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 9px;min-width:0;flex:1 1 240px;padding:0;border:0;background:transparent}
+.ui-ammo-a{display:flex;flex-direction:column;text-align:center;white-space:nowrap;font-size:10px;line-height:1.2;flex:0 0 auto;color:#a6c3cd}
+.ui-ammo-a strong{font-weight:600;color:#edf4f1}
+.ui-clock-a,.ui-chips-a,.ui-bar-actions-a{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.ui-clock-text-a{font-size:10px;min-width:52px}
+#uiDesktopA .ui-clock-a{gap:8px;padding:4px 0}
+#uiDesktopA .ui-clock-a button{padding:2px 5px;min-width:28px;min-height:28px;font-size:11px;position:relative}
+#uiDesktopA .ui-clock-a button:before{content:'';position:absolute;inset:-4px}
+#uiDesktopA .ui-chips-a button,#uiDesktopA .ui-bar-actions-a button{position:relative;font-size:11px;padding:2px 5px;min-height:36px}
+.ui-window-a{position:fixed;display:flex;flex-direction:column;pointer-events:auto;background:rgba(7,21,31,var(--window-opacity-a,1));border:1px solid #56717f;border-radius:4px;box-shadow:0 8px 24px #0008;overflow:visible}
+.ui-title-a{height:38px;min-height:38px;display:flex;align-items:center;padding:0 3px 0 8px;background:#142936;border-bottom:1px solid #3e5b69;touch-action:none;cursor:move;user-select:none;gap:1px}
+.ui-window-name-a{flex:1;min-width:0;font-size:11px;white-space:nowrap;overflow:hidden}
+.ui-window-a[data-focus="true"]>.ui-title-a{background:#204353;color:#d7f2f1}
+#uiDesktopA .ui-title-a button{width:36px;min-width:36px;height:36px;min-height:36px;padding:0;background:transparent;border-color:transparent;font-size:16px!important}
+.ui-body-a{min-height:0;min-width:0;flex:1;overflow:auto;overscroll-behavior:contain;padding:8px;scrollbar-width:thin}
+.ui-window-a.collapsed .ui-body-a,.ui-window-a.collapsed .ui-resize-a{display:none}
+.ui-window-menu-a{position:absolute;right:3px;top:36px;padding:7px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;width:210px;background:#0b202d;border:1px solid #7194a0;z-index:10;box-shadow:0 5px 12px #0009}
+.ui-resize-a{position:absolute;bottom:0;right:0;width:18px;height:18px;cursor:nwse-resize;touch-action:none;background:linear-gradient(135deg,transparent 55%,#7594a1 56%,transparent 64%,#7594a1 65%,transparent 73%)}
+#uiDesktopA .control-deck-page{display:grid!important;grid-template-columns:minmax(0,1fr)!important;max-height:none!important;min-height:0!important;overflow:visible!important;gap:10px;padding:0;pointer-events:auto}
+#uiDesktopA .control-deck-page *{font-size:11px!important;line-height:1.4}
+#uiDesktopA .control-deck-section{min-width:0;max-height:none;padding:5px;border-bottom:1px solid #25414e;background:transparent}
+#uiDesktopA .control-deck-heading{font-size:11px!important;color:#7ba7b8;letter-spacing:.05em;margin-bottom:6px}
+#uiDesktopA .control-deck-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important}
+#uiDesktopA .control-deck-subtabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;position:sticky;top:-8px;z-index:1;background:#0a202b;padding:3px 0}
+#uiDesktopA #controlDeckArmPage .arm-section{display:none!important}
+#uiDesktopA #controlDeckArmPage[data-arm-subtab="TARGET"] [data-arm-group="TARGET"],#uiDesktopA #controlDeckArmPage[data-arm-subtab="VLS"] [data-arm-group="VLS"],#uiDesktopA #controlDeckArmPage[data-arm-subtab="GUN"] [data-arm-group="GUN"],#uiDesktopA #controlDeckArmPage[data-arm-subtab="EW"] [data-arm-group="EW"]{display:block!important}
+#uiDesktopA .ui-danger-a{min-height:40px!important;min-width:40px!important;margin:4px 0!important}
+#uiDesktopA .ctrl-group{display:flex;align-items:center;gap:8px;padding:3px 0}
+#uiDesktopA .ctrl-btn{width:36px;min-height:36px}
+#uiDesktopA .control-deck-note{white-space:normal;overflow-wrap:anywhere}
+#uiDesktopA #uiWindowA-AIR .ui-body-a{overflow:hidden}
+#uiDesktopA #controlDeckAirPage{height:100%!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr)!important;align-items:stretch!important}
+#uiDesktopA #airControlsB,#uiDesktopA #airListB{min-height:0!important;height:100%!important;max-height:100%!important;overflow:auto!important;overscroll-behavior:contain}
+#uiDesktopA #airAircraftA{min-height:120px!important;max-height:360px!important;overflow-y:auto!important}
+#uiDesktopA #airRadarModesF{display:flex;flex-wrap:wrap;gap:4px}
+#uiDesktopA #controlDeckFleetPage input,#uiDesktopA #controlDeckFleetPage select{width:100%}
+#uiDesktopA .ui-widget-a{position:fixed!important;display:flex!important;flex-wrap:wrap;justify-content:center;align-content:start;gap:8px!important;max-width:none!important;padding:4px 8px 7px;pointer-events:auto;right:auto!important;bottom:auto!important;background:#081925f5;border:1px solid #698693;border-radius:4px;z-index:980}
+.ui-widget-handle-a{width:100%;height:18px;cursor:move;touch-action:none;user-select:none;font-size:11px;text-align:left;color:#91b1bf}
+#uiDesktopA #external3DQuickState{display:block!important;width:100%;font-size:11px;line-height:1.1;text-align:center;white-space:nowrap}
+#uiDesktopA .ui-widget-a button{font-size:11px!important;min-height:40px!important;padding:3px 6px!important;flex:1;margin:0!important}
+#uiDesktopA #external3DMiniCic{position:static!important;width:100%!important;height:100%!important;padding:0!important;border:0!important;pointer-events:auto!important;min-height:0}
+#uiDesktopA #uiWindowA-CIC .ui-body-a{overflow:hidden;padding:4px;display:flex}
+#uiDesktopA #external3DMiniCicCanvas{width:100%!important;height:calc(100% - 22px)!important;min-height:0;touch-action:none}
+#uiDesktopA .external3d-mini-cic-title{height:22px;font-size:11px}
+.ui-list-a{position:fixed;right:4px;bottom:40px;max-width:calc(100vw / var(--ui-scale-a) - 8px);width:350px;padding:8px;display:flex;flex-direction:column;gap:8px;overflow:auto;pointer-events:auto;background:#0c202ef5;border:1px solid #678a99;z-index:1100;overscroll-behavior:contain}
+.ui-list-row-a{display:flex;justify-content:space-between;gap:8px;margin:4px 0}
+.ui-presets-a{display:flex;flex-wrap:wrap;gap:5px}
+#uiDesktopA .control-deck-tabs{display:flex;flex-wrap:wrap;gap:4px;max-width:none}
+.ui-settings-a{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0;font:11px var(--mono,monospace)}
+.ui-settings-a label{display:flex;align-items:center;gap:4px;min-height:36px}
+#aegisShipSelectionOverlay>section,dialog{zoom:var(--ui-scale-a);max-width:calc(100vw / var(--ui-scale-a) - 24px)}
+.ui-bearing-a{position:fixed;top:6px;left:50%;transform:translateX(-50%);padding:3px 8px;overflow:hidden;white-space:pre;text-align:center;background:#071925bb;border:1px solid #526f7d;pointer-events:none;font:11px/1.4 var(--mono,monospace);color:#d1e4e6;z-index:905}
+#external3DView .c14-topbar{justify-content:space-between}
+#external3DReadout{margin-left:auto;margin-top:34px;font-size:11px!important;max-width:180px!important}
+#external3DMissileStatus{font-size:11px!important;bottom:calc(150px + var(--ui-status-height-a))!important;min-width:0!important;max-width:260px!important}
+#hud{font-size:11px!important;max-width:min(360px,80vw)}
+#external3dBtn{font-size:11px!important;min-height:36px}
+#external3DTerminalSummary,#uiDesktopA #compassHud,.toast,#debugPanel,#debugPanel *{font-size:11px!important}
+dialog button,dialog select,dialog input,#armsPanelClose,#debugClose,#aegisShipSelectionOverlay button,#aegisShipSelectionOverlay select{min-height:36px}
+.external3d-btn{font-size:11px!important;min-height:36px!important}
+#external3DView .external3d-help{display:none}
+#external3DView .c15-flyout,#external3DView .c15-flyout *,dialog *,#damageControlPanelV1 *,#damageFloodPanelV1 *{font-size:11px!important}
+#damageControlPanelV1 button,#damageFloodPanelV1 button{min-height:36px}
+@media(max-width:700px){.ui-status-a{justify-content:center;gap:2px 5px}#external3DReadout{max-width:120px!important}}
+
+/* Override the legacy two-ID 9px flood-toggle density rule. */
+#uiDesktopA #damageFloodToggleV1{font-size:11px!important;min-height:36px!important}

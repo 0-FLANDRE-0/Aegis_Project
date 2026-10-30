@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/tmp/aegis-env-d/repo/docs/missile/termination/A/verify_live_results.py", line 5, in <module>
+    read=lambda n:json.loads((d/n).read_text());normal=read('normals-release.json');dual=read('dual-release.json');fault=read('faults-release.json');battery=read('battery-release.json');static=read('static.json')
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-env-d/repo/docs/missile/termination/A/verify_live_results.py", line 5, in <lambda>
+    read=lambda n:json.loads((d/n).read_text());normal=read('normals-release.json');dual=read('dual-release.json');fault=read('faults-release.json');battery=read('battery-release.json');static=read('static.json')
+                             ^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/aegis-env-d/repo/docs/envelope/D/evidence/reg-k/current/normals-release.json'

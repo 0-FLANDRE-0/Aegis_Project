@@ -1,0 +1,109 @@
+{
+  "schema": "AEGIS_HELI_D_VERIFICATION",
+  "pass": true,
+  "html": "Aegis_SIM_v48_WIP_HELI_D.html",
+  "htmlSha256": "843c86ac5de6f99ee3b9c24dcf425a79e5c0a55a11f0bc1cdec7c7c1546b25ac",
+  "mainSha256": "cfb6fa9a79d95cee17c68e99682d8476e851b848cb97208b48840f982100bb07",
+  "htmlBytes": 16058953,
+  "baselineCommit": "370d924a7bba5fa739498b9cd9e220e07abde823",
+  "baselineHtmlSha256": "65c1f2ec7deb4bc4740a0477754edd210a6c09bacbefad41e93a3ae9675e6ff6",
+  "sourceGateCommits": {
+    "A": "856475f",
+    "B": "13c9b15",
+    "C": "de0e611"
+  },
+  "suites": [
+    {
+      "suite": "static",
+      "passed": 54,
+      "total": 54,
+      "artifact": "docs/helicopter/E/evidence/stage-c/static/static.json",
+      "artifactSha256": "c19d12bb0423d4a4da40efebf98531174bb60185fa398d87fca16fdfc89c5ea4"
+    },
+    {
+      "suite": "stage_a",
+      "passed": 39,
+      "total": 39,
+      "artifact": "docs/helicopter/E/evidence/final/stage-a/stage-a.json",
+      "artifactSha256": "0252f692f6bce40d48af401ffcc6fdc75a3828ad7839b18f5d2804c55bce3807"
+    },
+    {
+      "suite": "stage_b",
+      "passed": 54,
+      "total": 54,
+      "artifact": "docs/helicopter/E/evidence/final/stage-b/stage-b.json",
+      "artifactSha256": "06ac59c00cf6bcea60330d1c7c597780829efe1d6cd257fd5cdefa0986c65d0a"
+    },
+    {
+      "suite": "stage_c",
+      "passed": 42,
+      "total": 42,
+      "artifact": "docs/helicopter/E/evidence/stage-c/native/stage-c.json",
+      "artifactSha256": "e0b989b945febfbe1441ec8426101034ee7cded23d5388c36b240f7889b45ddb"
+    },
+    {
+      "suite": "transport",
+      "passed": 32,
+      "total": 32,
+      "artifact": "docs/helicopter/E/evidence/stage-c/transport/transport-unit.json",
+      "artifactSha256": "f4414d0d1ee0ef46841ad492f6ea3169070a0008895cee19748888cf623e4ded"
+    },
+    {
+      "suite": "codec",
+      "passed": 29,
+      "total": 29,
+      "artifact": "docs/helicopter/E/evidence/final/codec/codec.json",
+      "artifactSha256": "faccecbab52ef8ab1b663bc29ea53be07bb5faec9b29c36cf2812e2bc82a2ad6"
+    },
+    {
+      "suite": "ui",
+      "passed": 92,
+      "total": 92,
+      "artifact": "docs/helicopter/E/evidence/final/ui/ui.json",
+      "artifactSha256": "6d70d4c87b67078d264f2e9fdbecab3d5c1bd51e2926d35fbafa684b28297861"
+    },
+    {
+      "suite": "visual",
+      "passed": 16,
+      "total": 16,
+      "artifact": "docs/helicopter/E/evidence/final/visual/visual.json",
+      "artifactSha256": "612376160d8b13611980d03e89366f17a8902f1976db3c8bdb44d4d791ce71cb"
+    },
+    {
+      "suite": "regression",
+      "passed": 56,
+      "total": 56,
+      "artifact": "docs/helicopter/E/evidence/final/regression/regression.json",
+      "artifactSha256": "7118ad489fdd64e1dc7130dcee04051f5a380b26ee10c721dc2c95b3d1233c80"
+    }
+  ],
+  "passed": 414,
+  "total": 414,
+  "changedPackedAssets": [
+    13
+  ],
+  "addedBytes": 17416,
+  "addedPercent": 0.10856815029632136,
+  "runtime": {
+    "python": "3.12.14",
+    "node": "24.19.0",
+    "playwright": "1.62.0",
+    "numpy": "2.3.5",
+    "chromium": "151.0.7922.173",
+    "graphics": "SwiftShader"
+  },
+  "limitations": [
+    "Identification and engagement permission only; actual helicopter hit/damage/destruction deferred.",
+    "APS-like band/power/range/errors and Hawklink limits are SIM_TUNED assumptions, not actual classified performance.",
+    "Surface-only mode rejects representative AIR/ASM by measured observables; no perfect truth-based rejection of ambiguous physical echoes.",
+    "Own-navigation hull blanking also suppresses unresolved contacts inside its capped uncertainty footprint.",
+    "Chromium/SwiftShader and desktop/touch viewport emulation, not phone hardware or hardware FPS.",
+    "Transport unit suite uses the actual extracted port/module with controlled platform fixtures; native C uses three complete browser scenarios.",
+    "Historical A111/B105/C128 gates and previous HELI_C248 are not added again to this final same-HTML count.",
+    "No helicopter Link16 extension, FLIR/ISAR/ESM/sonar, weapon, fuel, recovery or rotor aerodynamics."
+  ],
+  "emconPolicy": "Radar EMCON does not inhibit Hawklink. Communications EMCON for both Hawklink and Link 16 is deferred.",
+  "actionsDispatched": false,
+  "prCreated": false,
+  "merged": false
+}

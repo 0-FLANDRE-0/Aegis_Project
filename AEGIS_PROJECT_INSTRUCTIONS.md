@@ -165,13 +165,24 @@
 7. HTML과 상태 문서의 SHA-256
 8. README의 현재 기준·다음 단계, 이 문서의 현재 인계 기준, 최신 상태 문서와 체크섬을 같은 반영 작업에서 함께 갱신
 
-### 7.1 GitHub 업로드 분담
+### 7.1 GitHub 직접 업로드 및 확인
 
-- 대용량 시뮬레이터 HTML은 ChatGPT가 GitHub API의 Base64/blob 업로드로 직접 전송하지 않는다.
-- ChatGPT는 기준 `main`과 권한을 확인하고 작업 브랜치를 먼저 만든 뒤, 완성된 HTML 파일명·크기·SHA-256과 다운로드 파일을 사용자에게 전달한다.
-- 사용자가 그 HTML을 지정 브랜치에 직접 업로드하면 ChatGPT가 원격 파일의 SHA-256과 브랜치 기준을 확인한다.
-- 확인 후 ChatGPT는 상태 문서, 체크섬, README, 본 지침, 테스트, workflow 등 작은 파일만 해당 브랜치에 반영하고 PR을 만든다.
-- 사용자가 대용량 HTML의 직접 업로드를 명시적으로 다시 요청하지 않는 한 이 분담을 바꾸지 않는다.
+- 2026-10-10 사용자 승인에 따라 Codex는 **대용량 원본 HTML을 포함한 프로젝트 파일을 직접 GitHub에 업로드하고 원격 확인까지 수행한다.** HTML 직접 업로드를 위해 사용자에게 다시 승인이나 수동 업로드를 요청하지 않는다.
+- 기준 `main`, 저장소 권한과 작업 브랜치의 현재 head를 확인한 뒤 검증이 끝난 파일을 작업 브랜치에 반영한다. 사용자의 새 commit을 보존하며 fast-forward 또는 expected-head 검사로 반영한다.
+- 원본 HTML bytes를 그대로 업로드한다. Git push 또는 사용 가능한 GitHub API/blob 방식을 사용할 수 있다. 전송 크기·도구 제한은 적합한 방법으로 처리하며 HTML을 잘라 보내거나 전송용 대체 파일로 바꾸지 않는다.
+- 같은 버전의 HTML·상태·SHA·README·본 지침·지원 파일·검사·workflow를 일관되게 반영한다. 이전 버전은 동일 bytes/blob으로 archive에 보존한다. 이미 사용자가 올린 HTML이 검증본과 일치하면 그 blob을 재사용한다.
+- 업로드 후 원격 파일을 다시 읽어 크기·SHA-256·Git blob 및 commit 기준을 대조한다. 로컬 업로드 성공만으로 원격 검증 완료라고 보고하지 않는다. 완성 HTML의 파일명·크기·SHA와 다운로드 또는 원격 파일 링크를 남긴다.
+- PR과 같은 파일의 CI를 진행하고 실제 결과와 남은 범위를 보고한다. 병합은 해당 작업에 대한 사용자 요청을 따른다. 사용자가 직접 올리는 방식도 선택할 수 있지만 필수 작업 분담으로 요구하지 않는다.
+
+
+### 7.2 다운로드 전달 형식 (2026-10-20 사용자 지정)
+
+- 완성 파일은 로컬 작업 경로 대신 **GitHub 직접 다운로드 링크**로 전달한다. 가능하면 검증한 commit을 고정한다.
+- GitHub raw HTML은 브라우저에서 코드로 표시될 수 있으므로 이를 강제 다운로드 링크라고 안내하지 않는다. 실행 다운로드는 **완성 HTML 하나만 담은 ZIP**으로 제공하고, 원본 HTML도 저장소에 별도로 유지한다.
+- 다음 기능 완료본부터는 **실행용 ZIP과 리포트 ZIP을 분리**한다. 리포트 ZIP에는 보고서·검증 결과/로그·스크린샷·재현 자료·파일 목록/체크섬을 묶고 실행 HTML은 넣지 않는다.
+- 직전 PIP_A의 전달 보완은 실행용 ZIP만 제공했다. 사용자가 현재 리포트 ZIP은 생략하고 다음 완료본부터 적용하도록 지정했다.
+- ZIP은 CRC, 수록 파일 목록, 압축 해제 후 원본 bytes/SHA-256 일치와 원격 전체 readback을 확인한다. 다운로드 포장만 바뀌면 시뮬레이션 재검증으로 표기하지 않는다.
+- 실행용/리포트 ZIP과 해당 체크섬도 다음 버전의 archive 세트에 함께 보존한다.
 
 ## 8. 현재 인계 기준
 
@@ -186,7 +197,414 @@
 - surface SM-2ER/SM-6의 MANUAL-only 정책, FRIEND/NEUTRAL/UNKNOWN 보호, truth boundary, fixed-step 결정성 계약을 유지한다.
 - Nulka/soft-kill의 비공개 성능 수치와 terminal glide/재장전 등 명시된 값은 `SIM_TUNED` 게임 추상화이며 실제 군용 장비 성능값으로 취급하지 않는다.
 
-### 최신 개발 기준 HARPOON E — 경유점/최종 통과 ARH
+### 최신 시험 후보 — 고각 발사 인계 LAUNCH_HANDOFF_A (회귀 승인 보류)
+
+- `fuze-zem-a@7d86369` 최신 DZT 위 별도 `launch-handoff-a`. [HTML](Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_LAUNCH_HANDOFF_A.md), [보고서](docs/missile/launch-handoff/A/REPORT.md), [계약](docs/missile/launch-handoff/A/MODEL.md), [diff](docs/missile/launch-handoff/A/game-change.diff), [재현](docs/missile/launch-handoff/A/REPRODUCE.md).
+- [실행 HTML 하나 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/launch-handoff-a/Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/launch-handoff-a/Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A_REPORT.zip?download=1).
+- 공중 Standard의 절대 수평각 gate를 예정3D 경로 대비 준비 판정으로 수정. 안전 이격·자세·속도·받음각·하류 좌표기저·최소시간 유지, deadline 강제 해제 없음. ESSM/대수상·D/Z/T·PN/APN/Kappa/B4·추진/공력/G·시커/신관/Pk·RNG/UI/저장은 보존했다.
+- 지정 고각10발0→10KILL, 정상 대조10/10 유지. 공통180발159→170효과/lethal·신규실패0, 자연RF21→24/28lethal·신규실패0. 실제함수/private10조건 오차0·최종281함수 해시동일, 실제 전체월드/WebGL8발, UI88PASS.
+- **전체 승인 보류:** 추가 SM-6 100m/20km 1발 + 기존240km/5km 접근250m/s 종료기OFF/ON2발, 총3발 성공→실패. 기존420회귀414PASS/6FAIL(DDG/CG raid exact-state). 로그/원인 분리 보존, 계수 자동 조정 없음. 전면 안정판으로 사용하지 않는다.
+- HTML18,453,184bytes / SHA `e42a2e05b8ff2096dfb334e7b9427cd2cd6da46d567083f06620ffdf35729ed7`. 직전 전달7파일 byte/blob동일 archive. 전체ENV_D 재측정 없음·내장표HISTORICAL/재계산필요. main/기존브랜치 병합, 새PR/Actions dispatch, release/tag생성 없음.
+
+### 직전 시험 후보 — 결정론적 SAM 신관 · ZEM · 관측 종료 FUZE_ZEM_A
+
+- `reg-k-env-d@058273c` 위 별도 `fuze-zem-a`. [HTML](archive/v48/WIP_FUZE_ZEM_A/Aegis_SIM_v48_WIP_FUZE_ZEM_A.html), [상태](archive/v48/WIP_FUZE_ZEM_A/AEGIS_PLAN_STATUS_v48_WIP_FUZE_ZEM_A.md), [보고서](docs/missile/fuze-zem/A/REPORT.md), [모델](docs/missile/fuze-zem/A/MODEL.md), [분리 diff](docs/missile/fuze-zem/A/changes/), [재현](docs/missile/fuze-zem/A/REPRODUCE.md).
+- [실행 HTML 하나 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/fuze-zem-a/Aegis_SIM_v48_WIP_FUZE_ZEM_A_REPORT.zip?download=1). 실행 HTML과 보고서 포장은 분리했다.
+- 재추첨 F는 기존 성공16건 신규 실패로 승인하지 않았다. 최종 D는 고정/재추첨 draw 대신 기종별 빔·RCS·거리·상대속도·해면 배경잡음의 정규화 신호와 시간 누적으로 탐지한다. 수치는 SIM_TUNED이며 D 비행 시험 전 고정했다. 해면 클러터 조기 기폭·피해/Pk·항법/센서 난수는 보존했다.
+- 공통180발: BASE138효과/137lethal → D159/158, 최종 DZT159/159. 신규 실패0, F의16손실 회복·20회복 유지. ZEM 부호와 TRACK 종료는 독립 비교 뒤 결합했다. 기존 정상/대체지원/RF/배터리/VLS 300발씩(BASE/DZT) 신규 실패0. 기존420+UI88 PASS.
+- 자연RF, 실제 자연탐지/LOCK/VLS/전체fixed tick/WebGL 8+8발, 실제 함수/private8조건 오차0, 120초 무표적·지정전투 hash 동일. 신호 적분기30/60/120Hz 최대 탐지시각 차이14.716ns. 전체 엔진의 dt 불변성을 의미하지 않는다.
+- B4/Kappa/TGO90·PN/APN·추진/항력/질량/기동한계·사거리·배터리·기존 CPA/처리 지연·파편/Pk·UI/저장 유지. 고고도 근거리 miss/phase 역전은 조사만, 자연RF의 보수적 복귀 guard로 LOW_SPEED까지 남는 일부 사례는 한계로 기록했다.
+- 전체 ENV_D 재측정 없음. 내장120칸은 HISTORICAL이며 `__ENV_D__.status()`가 match=false / recalculationRequired=true. 원본 ENV_D 전달7파일 동일 bytes/blob archive. 기존 브랜치/main 병합, PR 생성, Actions dispatch 없음.
+
+### 직전 시험 후보 — REG_K + ENV_D
+
+- `kappa-pip-los-a` / `80b6514` 위 별도 `reg-k-env-d`. [HTML](archive/v48/WIP_ENV_D/Aegis_SIM_v48_WIP_ENV_D.html), [상태](archive/v48/WIP_ENV_D/AEGIS_PLAN_STATUS_v48_WIP_ENV_D.md), [SHA](archive/v48/WIP_ENV_D/SHA256SUMS_v48_WIP_ENV_D.txt), [전체 보고서](docs/envelope/D/REPORT.md), [재현](docs/envelope/D/README.md).
+- [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/reg-k-env-d/Aegis_SIM_v48_WIP_ENV_D_REPORT.zip?download=1).
+- 게임 실행 코드·B4·Kappa·설계 사거리·추진/항력/질량/시커/신관/배터리/종료기/UI/저장 스키마 변경0. 내장 ENVELOPE_TABLE_D와 읽기 전용 상태 API만 추가했다. 지도·발사·AI 소비자 없음.
+- 기존420+UI88 및 종료기/실제WebGL 검수 수집 완료. RANGE_RECOVERY_A 대비 성공→실패0건·실패→성공2건. 무표적120초 hash 동일, 변경된 전투120초는 별도 기록했다.
+- 실제 ASM Kh-35U 기준120칸 + Kh-32 보조6칸, 거리당5개 독립 시드. 바깥/안쪽 거리와 요격점 평균/최소/최대, 경계 반복,10Hz 궤적, 해면 충돌 목록을 보존했다. 완전한 전수 측정은1회다.
+- `__ENV_D__.status()`로 새120칸 계산표/프로파일/함수 해시를 확인한다. 기존 ENV_C는 과거 AIR+구 유도 결과로 보존했다. 미완성 콜백을 발견한 초기 부분 시도는 폐기 자료로 구분했다.
+- 원본 18,433,996bytes / SHA `7d442b1fb254033b8bf281737c9c3d69745107d538e65fdbf6483acf809ce8a3`. 기존 KAPPA 전달7파일은 같은 bytes/blob으로 archive했다. 기존 브랜치/main 병합, 새PR, Actions 실행 없음.
+
+### 직전 시험 후보 — KAPPA_PIP_LOS_A (회귀·측정 전 기록)
+
+- `range-loft-recovery-a`의 `5af4726` 위 별도 `kappa-pip-los-a`. [HTML](archive/v48/WIP_KAPPA_PIP_LOS_A/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html), [상태](archive/v48/WIP_KAPPA_PIP_LOS_A/AEGIS_PLAN_STATUS_v48_WIP_KAPPA_PIP_LOS_A.md), [SHA](archive/v48/WIP_KAPPA_PIP_LOS_A/SHA256SUMS_v48_WIP_KAPPA_PIP_LOS_A.txt), [보고서](docs/missile/kappa/A/REPORT.md), [실행 diff](docs/missile/kappa/A/game-change.diff).
+- [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/kappa-pip-los-a/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A_REPORT.zip?download=1).
+- 종말 수평방향2복사본만 관측 PIP의 dx/dy로 수정했다. B4·설계/RMAX/fullLoft·추진/항력/질량/시커/신관/배터리/종료기/해면판정/UI 및 TGO90초 유지.
+- 14조건 A/B×2에서 지정 해면충돌4건 모두 명중, 정상6건 유지, 횡단2/4→4/4. 기존 성공8건 유지·신규실패0. 원시 반복 비트동일, 실제월드/진단28쌍25,529샘플 오차0. 이는14조건의 제한 합격이다.
+- 실행 소스에서 진단 캡슐과 함수 해시를 재생성했다. native 불일치0, 현재 사거리표는 rows0/profileHashnull/envelopeMeasured=false. ENV_C/RECOVERY_A 보고서에는 구 유도 코드의 과거 결과임을 표시했고 기존 데이터는 유지했다.
+- 전체96/500km스윕, 새최대거리, 비기본정책, 전체420+UI88/자연센서 종합검사는 실행하지 않았다. 원본 RANGE_RECOVERY_A 전달세트7파일 같은 bytes/blob archive, 기존브랜치/main 병합·새PR·Actions 실행 없음.
+
+### 직전 시험 후보 — RANGE_RECOVERY_A (구 유도 코드)
+
+- `range-loft-recovery-a`: RANGE_A의 fullLoftKm만 ER360→240 / SM-6 450→260. 설계목표360/450·RMAX·추진/항력/Kappa/신관/배터리/종료기/UI 유지.
+- [HTML](archive/v48/WIP_RANGE_RECOVERY_A/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A.html), [상태](archive/v48/WIP_RANGE_RECOVERY_A/AEGIS_PLAN_STATUS_v48_WIP_RANGE_RECOVERY_A.md), [SHA](archive/v48/WIP_RANGE_RECOVERY_A/SHA256SUMS_v48_WIP_RANGE_RECOVERY_A.txt), [제한 시험 보고](docs/missile/range/RECOVERY_A/REPORT.md), [검증](docs/missile/range/RECOVERY_A/evidence/verification.json).
+- [실행 HTML ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-loft-recovery-a/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-loft-recovery-a/Aegis_SIM_v48_WIP_RANGE_RECOVERY_A_REPORT.zip?download=1).
+- 정지6조건 0/6→6/6 회복, 접근300m/s는6/6 유지. 장거리 이탈150m/s는 기준판/정렬판/후보 모두0/6. 추가60km 이탈확인은 기준판6/6, 정렬판/후보5/6으로 ER60km/1km 해면충돌이 남았다. 전체 복구 완료로 판정하지 않는다.
+- 본시험54조건+확인18조건 각각2회 비트동일. 실제월드/사본72조건 궤적 오차0, 진단의 월드/RNG/틱 변화0. 정적 byte 비교와 기존 종료기6fixture 통과. 전체96스윕/새최대거리/420+UI88전체회귀는 실행하지 않았다.
+- 기존 ENV_C표는 보존했고 후보에서는 ‘재계산 필요’ 경고가 켜진다. 기존 RANGE_A 세트는 같은 bytes/blob으로 archive했다. main·기존브랜치 병합/새PR/Actions 실행 없음. 별도 시험 산출물과 원격전체 readback 기록을 남긴다.
+
+### 직전 개발 기준 — 설계 사거리 정렬 WIP RANGE_A + ENV_C
+
+- ALL4_TERM `9a6838a` 위 `range-a-env-c`. [실행ZIP(HTML1개)](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-a-env-c/Aegis_SIM_v48_WIP_RANGE_A_HTML.zip?download=1) · [리포트ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/range-a-env-c/Aegis_SIM_v48_WIP_RANGE_A_REPORT.zip?download=1).
+- [HTML](archive/v48/WIP_RANGE_A/Aegis_SIM_v48_WIP_RANGE_A.html), [상태](archive/v48/WIP_RANGE_A/AEGIS_PLAN_STATUS_v48_WIP_RANGE_A.md), [SHA](archive/v48/WIP_RANGE_A/SHA256SUMS_v48_WIP_RANGE_A.txt), [0단계/8값/목표 부족/전체검수](docs/missile/range/A/REPORT.md), [ENV_C전체표·전후 비교·120궤적](docs/envelope/C/REPORT.md).
+- ER/SM-6 설계8숫자만360/450km로 정렬했다. 정지 표적 고도1/10/20km 최대는ER136/135/241, SM-6 135/132/286km로 줄었다. 목표에 억지로 맞추지 않고 WIP 결과로 남긴다. 3,884명명 함수/추진/항력/유도/신관/배터리/종료기 보존, MR/ESSM 변경0.
+- 0단계/정렬후6조건/전체ENV_C 각각2회 비트 동일. 전체96조합/120궤적, 각 26,714사격. 실제요격점 거리·1km 전역상한 탐색, 계산표 해시 내장. 표를 지도/발사권한/AI에 연결하지 않았다.
+- 기존420회귀+UI88+종료기16 통과. 정상240발OFF/ON 각85명중, 기존83명중 보존+2회복, 조기종료0. 자연탐지/전체월드/WebGL8발 통과. 게임/사본 6,806샘플 오차0, 무표적120초truth/RNG hash 동일, 전투는8값복원으로 인과 확인.
+- SM-6 100km/5km 접근250m/s seed12002 해면 충돌은OFF3/ON3 모두명중으로 회복. 저고도 이탈3+횡단18조사는수정0이며 횡단11건도해면충돌했다. [조사](docs/envelope/C/results/LOW_ALT_INVESTIGATION.md).
+- 원본 18,283,304bytes / SHA `8f504eb45c19c34e473d0d04f08180afde95a9c72b5ec935ec0204bd9d7246b5`. ALL4_TERM8파일 동일 bytes/blob archive, ENV_A/B 및 기존 종료기 자료 변경0. 실행/리포트ZIP 분리·전체 원격readback 영수증은발행후추가한다. Actions/PR/main·이전브랜치 병합 없음.
+
+### 직전 개발 기준 — 누적 Dynamic B4 ALL4 + 관측 기반 종료 WIP ALL4_TERM
+
+- [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/missile-b4-termination/Aegis_SIM_v48_WIP_ALL4_TERM_REPORT.zip?download=1).
+- [HTML](archive/v48/WIP_ALL4_TERM/Aegis_SIM_v48_WIP_ALL4_TERM.html), [상태](archive/v48/WIP_ALL4_TERM/AEGIS_PLAN_STATUS_v48_WIP_ALL4_TERM.md), [SHA](archive/v48/WIP_ALL4_TERM/SHA256SUMS_v48_WIP_ALL4_TERM.txt), [실제 게임·종료 검수](docs/missile/termination/A/REPORT.md), [ENV_B 전후 사거리·궤적](docs/envelope/B/REPORT.md), [재현](docs/missile/termination/A/README.md).
+- 최신 PIP_B `294bbb0` 위 `missile-b4-termination`. 4종 B4를 자함/NPC에 적용, 중복 이식 방지. 원안의 SARH/DL 대체 유도 중 조기 종료와 임의 65초 교차 시계를 종료기에서 보완했다. 실제 표적 좌표를 종료 판단에 넣지 않는다. B4 코드·수치 및 기존 신관/추진/항력/시커/Kappa 계산 보존, SM-6 게임 배터리만480초.
+- 240발 ON/OFF + 대체 지원36발에서 기존 명중99건/조기 종료0. 실제 RF 소실·재획득·미획득, 배터리8건/정식VLS4건 및 자연 SPY트랙/전체fixed tick/WebGL8발 검사 통과. 기존 관련 회귀420/420 + UI88/88. 세부 조건·초기 실패·한계는 보고서를 따른다.
+- ENV_B는 96조합/120궤적, 독립2회 각각11,458사격·46,068,182bytes 동일. 실제 게임/분리 경로5,894샘플 오차0, Chromium 사거리경계151건 일치. ENV_A 구판 자료는 변경하지 않았다. 표는 아직 지도/교전 권한에 연결하지 않는다.
+- **알려진 결과 변화:** SM-6 100km/5km/접근250m/s/seed12002는 B4 후 종료기OFF도 비명중 후 SEA_IMPACT (구판명중,3회재현). 요청한 B4 수치를 유지하며 조기 종료와 분리 기록한다. 전면 안정판 승격 없음.
+- 원본18,278,162bytes, SHA `c6e10449c54b8b99aa2a51e2b7b1d3c020d15e36986c05f5941a172b90d15800`. 이전 전달세트8개 동일 bytes/blob archive. 원본/두 ZIP 직접 업로드·독립 원격 readback, Actions dispatch/PR/main·이전브랜치 병합 없음. 다음은 알려진 B4 결과 검토와 MAP_B다.
+
+### 이전 개발 기준 — PiP·정보 정리 WIP PIP_B + ENV_A
+
+- [실행 다운로드 — HTML 1개 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_HTML.zip?download=1) · [리포트 ZIP](https://github.com/0-FLANDRE-0/Aegis_Project/raw/refs/heads/pip-b-env-a/Aegis_SIM_v48_WIP_PIP_B_REPORT.zip?download=1). 실행 ZIP을 풀어 HTML을 연다. 리포트에는 검증·그림·10Hz CSV·계산표·원시 결과·재현 소스·체크섬을 넣고 실행 HTML은 제외한다.
+- [실행 HTML](archive/v48/WIP_PIP_B/Aegis_SIM_v48_WIP_PIP_B.html), [상태](archive/v48/WIP_PIP_B/AEGIS_PLAN_STATUS_v48_WIP_PIP_B.md), [SHA](archive/v48/WIP_PIP_B/SHA256SUMS_v48_WIP_PIP_B.txt), [P1–P5·스크린샷](docs/pip/B/REPORT.md), [ENV_A·그래프·사거리 표](docs/envelope/A/REPORT.md), [재현](docs/pip/B/README.md). PIP_A `662eb14` 위 `pip-b-env-a`.
+- 제목줄 아래 전체를 PiP 지도로 사용한다. 기존 중심/전환 버튼 노드와 리스너는 제목 메뉴로 이동하고 빈 바다 메뉴에도 연결했다. 락온 카드 본문은 일반 창으로 옮겨8Hz 갱신, 닫기 억제/다음 락 재개방을 제공한다. 정보/메뉴/후보/제목11px, 일반 버튼28px+36px hit, 위험 조작40px를 유지한다.
+- SYS의 2D 센서 빔 표시 기본 OFF. 트랙/ESM/항로점/섬/3D 센서는 보존한다. 자함의 청록 원은 world 단위 항적선 두께가 확대되던 표시 오류였으며 화면1.5px로 수정했다. 실제 원인 분리·확대율별 검사를 보고서에 기록했다.
+- ENV_A는 변경하지 않은 게임 비행·유도·로프트·신관241개 함수의 독립 진단이다.4종의96개 최대 거리 조합/120개 궤적·10Hz CSV와 표를 내장한다. 실제 장비 성능 비교는 없으며 시작 시 계산하지 않는다.300km는 검사 상한이다. 표 안쪽에도 실패 구간이 있으므로 지도/발사 판단에 아직 연결하지 않는다.
+- 표시·기존 회귀1358/1358건(35 suites), ENV_A25/25건(5 suites) PASS. 120초 상태 해시 동일, 전체 진단2회44,221,270bytes 동일, 최종 브라우저156개 사거리 경계 일치. 실제 게임/독립 경로362샘플 오차0. 세부 후보/런타임 차이와 검증 환경은 보고서에 기록한다.
+- 원본18,265,254bytes(+204,315), SHA `ad6ed26d8011fd1bcab80c66eac06a63c748e52b471eb622ef38a2ad26498a55`. 모델/저장/고정tick/센서/권한 보존, PIP_A6개 전달 파일 동일 bytes/blob archive. 검수 합계와 환경 한계는 연결된 최종 보고서·영수증에 기록한다.
+- GitHub Actions는 수동 workflow만 준비하며 실행하지 않는다. main/기존 브랜치 병합·새 PR 없음. 다음은 MAP_B 사격 지정/무장 플라이아웃/작은 발사 버튼/하푼 모드 전환이다.3D PiP와 실제 폰 GPU/펜 검증은 후속이다.
+
+### 직전 개발 기준 — 조작 가능한 지도 PiP WIP PIP_A
+
+- [실행 HTML](archive/v48/WIP_PIP_A/Aegis_SIM_v48_WIP_PIP_A.html), [상태](archive/v48/WIP_PIP_A/AEGIS_PLAN_STATUS_v48_WIP_PIP_A.md), [SHA](archive/v48/WIP_PIP_A/SHA256SUMS_v48_WIP_PIP_A.txt), [A–J·스크린샷](docs/pip/A/REPORT.md), [재현](docs/pip/A/README.md), [그리기 감사](docs/pip/A/RENDER_AUDIT.md). MAP_A `c1297b6` 위 `pip-a`.
+- 같은 관측 트랙·MAP_A 선택/통제/계획을 쓰는 실제 2D PiP. 별도 거리/중심/추적, 팬/휠/핀치·메뉴·항로점·하푼 계획과 주화면 전환. 기본 40km/4Hz, SYS 2/4/10Hz, 최소 창200×160·반경0.1km, m 표시.
+- 후보 [확대]는 전부 보임 우선의 최대 확대. 40px 미만이면 분리 불가/주화면 전환, 목록 유지. ESM 처음40px 판정 제외. 기존 간이 지도는 DEAD_LEGACY로 원문 보존하고 숨겨진 메인2D 페인트는0회다.
+- **1271/1271 assertions /32 suites PASS, 페이지 오류0**. MAP_A 런타임994건과 새 핀 기준 정적48건, PiP 입력/순수성/기하/120초/실제3D 검증. PiP ON/OFF 및 기준·수정·pause/resume120초 해시 동일. 물리·센서·판정·발사 권한·게임 저장/모델 보존.
+- 원본18,060,939bytes (+13,323), SHA `76c77b5c80835f87654c8aa39cd6a82c1ad66de8bc408ebad675997157024847`. 최소 PiP100m 간격42.84~47.88px. 소프트웨어 WebGL 전후 평균1275.60→1039.96ms(18.47% 감소); 실폰 FPS가 아니며 낮은 전체FPS에서는 PiP도 같은 RAF 상한을 받는다.
+- MAP_A 네 파일 동일 bytes/blob archive. 전체 원본 업로드·독립 readback은 docs/pip/A/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음. 다음은 MAP_B 사격 지정/무장 플라이아웃/작은 발사 버튼/하푼 모드 전환과 임시 커서 연결 제거. 3D PiP·실폰 GPU/펜 하드웨어는 후속.
+
+### 직전 개발 기준 — 지도 조작 WIP MAP_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_MAP_A/Aegis_SIM_v48_WIP_MAP_A.html), [상태](archive/v48/WIP_MAP_A/AEGIS_PLAN_STATUS_v48_WIP_MAP_A.md), [SHA](archive/v48/WIP_MAP_A/SHA256SUMS_v48_WIP_MAP_A.txt), [A–P·스크린샷](docs/map/A/REPORT.md), [재현](docs/map/A/README.md), [출처 감사](docs/map/A/OBSERVATION_AUDIT.md). UI_A1 `0452e10` 위 `map-a`.
+- 조회/통제/현재 도구/사격 지정 예약 슬롯 분리,20px 객체 탭·겹침 후보·우클릭/550ms/펜 메뉴,정보창·통제/마지막 WP 취소와 연속 방위 테이프. SYS에서 기존 입력으로 전환 가능하며 원본 pointerup은 byte-exact다.
+- **1042/1042 assertions /27 suites PASS, 페이지 오류0**. 200회 조회/메뉴 명령 변화0,120초 해시 동일,3개 지도 크기/DPR2.8125·36개 UI 조합·기존 native 회귀420건 확인. 식별 번호 불변/저장 시 트랙·식별 초기화(기존 정책),하푼 계획 Undo 후 발사된 memory/route/INS 변화0,no-arg LOCK/EMCON 회귀 포함.
+- 무DL 하푼은 현재 위치 비공개,자함 발사 시각/지정 트랙/고정 계획만 표시한다. 시뮬·센서·물리·판정·발사 권한·게임 저장 스키마·모델을 보존한다. 모바일100% 바 세로42.84px·가로24px 유지.
+- 원본18,047,616bytes (+17,772), SHA `68c13d352c3e80ab8bae1e08138ee42284c426f7fb7cce24e9d64941b34362b5`. UI_A1 네 파일 동일 bytes/blob archive. 원본 전체 업로드·독립 원격 readback은 docs/map/A/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 다음은 MAP_B 사격 지정 UI/무장 플라이아웃/작은 발사 버튼/하푼 모드 전환과 임시 커서 연결 제거다.3D 미니 CIC 입력·실폰 GPU/FPS/펜 하드웨어는 미검증이다.
+
+### 직전 개발 기준 — 모바일 UI WIP UI_A1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_UI_A1/Aegis_SIM_v48_WIP_UI_A1.html), [상태](archive/v48/WIP_UI_A1/AEGIS_PLAN_STATUS_v48_WIP_UI_A1.md), [SHA](archive/v48/WIP_UI_A1/SHA256SUMS_v48_WIP_UI_A1.txt), [수치·스크린샷](docs/ui/A1/REPORT.md), [재현](docs/ui/A1/README.md). UI_A `30428d6` 위 `ui-a1`.
+- 모바일 상태 바는 기본100%에서 세로42.84px·가로24px다. 모든 재고를 유지하고 창 목록/추가를 아이콘으로 압축했다. 창10px 글자·작은 기본 크기, 탭 전면화·제목줄 이동·겹침과 순서 저장을 제공한다. FIRE/LOCK 40px 보호 크기는 유지한다.
+- EMCON은 바로 전환한다. 교전 칩은 위쪽에 수동/반자동/자동 팝업을 표시하고 기존 canonical 조작 함수를 호출한다. 시뮬·센서·판정·발사 권한·게임 저장·모델은 유지한다.
+- **456/456 assertions /4 suites PASS, 페이지 오류0**. 36 화면/배율/함종 조합, 실제 창 조작·입력 격리·저장, native 탭 조작·위젯 발사 비교,120초 상태·pause/resume 동일. UI_A의1144건은 당시 기록이며 이번 합계에 넣지 않는다.
+- 원본18,029,844bytes (+6,522), SHA `fd7079e9154e8778f7f5a340e6102c8843930b9865d4dc1135714c4847cdc3b8`. UI_A 네 파일 동일 bytes/blob archive. 원본 전체 업로드·독립 원격 readback 기록은 docs/ui/A1/remote-publication.json. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 확대UI는 내용에 맞춰 높이가 늘어난다. 배치schema2는 예전 배치를 새 프리셋으로 시작하며 UI 크기 설정은 보존한다. 실폰 GPU/FPS 미측정, HUD/SPY·손상 창 편입/ARM 분리/지도 PIP는 UI_B.
+
+### 직전 개발 기준 — UI WIP UI_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_UI_A/Aegis_SIM_v48_WIP_UI_A.html), [상태](archive/v48/WIP_UI_A/AEGIS_PLAN_STATUS_v48_WIP_UI_A.md), [SHA](archive/v48/WIP_UI_A/SHA256SUMS_v48_WIP_UI_A.txt), [검수·스크린샷](docs/ui/A/REPORT.md), [재현](docs/ui/A/README.md). VP_A `3afd0fc` 위 `ui-a`.
+- 공용 하단 상태 바·창 6종·공용 교전 위젯·3D 방위 테이프, DOM 전용 UI 85/100/115/130%와 전체화면·가로 고정 설정. 기존 컨트롤은 같은 노드를 이동하며 센서·판정·발사 권한·게임 저장·모델을 보존한다.
+- **1144/1144 assertions / 24 suites PASS, 페이지 오류0**. DDG/CG × 9크기 × 3배율 54조합. 원래 127개 노드 연결·중복 id 0, 기존 420건 전체와 120초 상태·pause/resume 동일성 확인.
+- 원본18,023,322bytes (+20,368), SHA `a4b6825df6c28eb8f0747f73ec9469c90f277f96eb23e55be67298a6a1cab8e4`. VP_A 네 파일은 동일 bytes/blob archive. 전체 HTML 직접 업로드·원격 전체 readback. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+- 좁은 화면은 재고 생략·가로 스크롤 없이 표시하므로 상태 바가 2줄을 넘는다. SHIP/손상·침수 창 편입, ARM 분리와 실제 지도 PIP는 UI_B. 실폰 GPU/FPS는 미측정.
+
+### 직전 개발 기준 — 화면 WIP VP_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html), [상태](archive/v48/WIP_VP_A/AEGIS_PLAN_STATUS_v48_WIP_VP_A.md), [SHA](archive/v48/WIP_VP_A/SHA256SUMS_v48_WIP_VP_A.txt), [전체 보고](docs/viewport/A/README.md), [A–I 검수](docs/viewport/A/VERIFICATION.md). SOV_A `c7d498d` 위 `viewport-a`.
+- AEGIS_VIEWPORT로 visible rect/version 통합. 2D 거리 km 유지·공통 입력 변환, 3D 짧은 변52°·viewOffset·정규화 팬, 카탈로그38°. outer CSS와 시뮬/센서/ROE/저장/물리는 보존한다.
+- **567/567 assertions /19 suites PASS, 페이지 오류0**. 7크기, 30회/0.097432s 연타, 200ms 이후 panel reflow, 실제 VV/전체화면/터치·DPR, native120초 상태 해시 동일, 기존 헬기/APS/ISAR/하푼/EMCON/손상 회귀 확인.
+- 원본18,002,954bytes (+4,506), SHA `432de9b88566d6198da0a21856ab85d1febda8106fcd28f6d8f13fd8801e67b9`. SOV_A 네 파일을 같은 bytes/blob으로 archive한다. 원본 직접 업로드·원격 전체 bytes 대조. Actions/main·선행 브랜치 병합/새 PR 없음.
+- [UI 위치/도크 조사](docs/viewport/A/UI_LAYOUT_REPORT.md), [모바일 coarse](docs/viewport/A/UI_LAYOUT_COARSE_REPORT.md), [604컨트롤+42패널 분류](docs/viewport/A/UI_CLASSIFICATION.tsv), [SOV 자함화](docs/viewport/A/SOV_PLAYER_READINESS.md), [파랑 응답](docs/viewport/A/WAVE_RESPONSE_REPORT.md). 조사 두 기능은 미구현 유지. 기존 좁은 화면 UI 겹침/잘림은 다음 도크 단계, 실폰 GPU/FPS는 미측정.
+
+### 직전 개발 기준 — 소브레멘니 WIP SOV_A (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_SOV_A/Aegis_SIM_v48_WIP_SOV_A.html), [상태](archive/v48/WIP_SOV_A/AEGIS_PLAN_STATUS_v48_WIP_SOV_A.md), [SHA](archive/v48/WIP_SOV_A/SHA256SUMS_v48_WIP_SOV_A.txt), [운용·출처](docs/sovremenny/A/README.md), [검증](docs/sovremenny/A/evidence/verification-summary.json). HELI_F2 `570e5a3` 위 `sovremenny-hull-a`.
+- Project 956은 적·중립 NPC 전용이며 FLEET NAV만 가능하다. 센서/무장/전자전/Ka-27/자함 선택은 없다. 원본 수선 Z0·7,940t·32kt와 오프라인 단면/외피/비활성 장착점, 공통 물리·손상·침수·저장·3D·ISAR를 연결했다.
+- 157/157 PASS /6 suites, 페이지 오류0. 30km 실제 헬기 LONG/PERI→Hawklink→EMCON 하푼 명중, 통제된 격리 상실→LOST, 손상 중 저장/거부 원자성, 모바일 UI/소프트웨어 WebGL,1/8/16/64× 및 기존 양함종 회귀를 확인했다.
+- 원본 17998448bytes / SHA `1e2125e49ae0720d45f2457474753ed948324241aecf69120f5c7694ea733b28`. 실제49k 삼각형·81배치, 실폰 FPS 미측정. 내부·재질·RCS·CG/GM·응답은 SIM_TUNED다.
+- HELI_F2 네 파일을 같은 bytes/blob으로 archive하며 기존 소스/자산/stable을 보존한다. 전체 HTML 직접 업로드·독립 원격 readback. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F2 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_F2/Aegis_SIM_v48_WIP_HELI_F2.html), [상태](archive/v48/WIP_HELI_F2/AEGIS_PLAN_STATUS_v48_WIP_HELI_F2.md), [SHA](archive/v48/WIP_HELI_F2/SHA256SUMS_v48_WIP_HELI_F2.txt), [운용](docs/helicopter/L/README.md), [검증](docs/helicopter/L/evidence/verification-summary.json). 별도0번 `1b26a0f` 뒤 `helicopter-isar-f2`.
+- AIR ISAR→지도 트랙: 공통 RF 물리→잡음 특징→함급 후보. 고정 방위16초, 탐색/M-of-N 정지, 종료/취소 후 직전 모드·한 주사 전환. 실제 표적 ID/프로파일로 분류하지 않는다.
+- ISAR 판독만 버퍼 예외. 수신은 식별/트랙 나이를 바꾸지 않고 운용자 식별 때 근거를 복사한다. 로그 ISAR 후보/신뢰도/경과시간·launchEmcon, 종료 AFTER_ACTION_TRUTH. 기존 F1·무DL·EMCON 통신 독립·함선/헬기 모델 보존.
+- 실제 CG LONG40km→ISAR→HOSTILE→무방사 지정→하푼→중립 상선 피격, 실제 DDG/CG RF, 모바일/3D/배율/기존 전투 포함227/227 PASS /8 suites, 오류0. 진단은 SIM_TUNED이며 실제 장비 성능 아님.
+- 원본16,099,946bytes,0번 대비18,178bytes 증가.0번 네 파일과 A–K/stable 보존·직접 업로드·독립 readback. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F2_0 (0번 단독 당시 기록)
+
+- [0번 단독 실행 HTML](archive/v48/WIP_HELI_F2_0/Aegis_SIM_v48_WIP_HELI_F2_0.html), [상태](archive/v48/WIP_HELI_F2_0/AEGIS_PLAN_STATUS_v48_WIP_HELI_F2_0.md), [SHA](archive/v48/WIP_HELI_F2_0/SHA256SUMS_v48_WIP_HELI_F2_0.txt), [운용](docs/helicopter/K/README.md), [검증](docs/helicopter/K/evidence/verification-summary.json). CG_B `273c36f` 위 `helicopter-emcon-f2-0`.
+- EMCON 중 ARM LOCK은 표시 트랙을 지정하고 SPY mode=TWS/pdTracking=false를 유지한다. ON은 PD만 종료·지정 유지, OFF는 기존 SPY 섹터 안이면 PD. MODE/진단/network 전환에서도 같다.
+- 하푼 UI를 지정 직후 갱신하고 기존 F1 관문/무DL·Hawklink 독립·VLS/3D AUTO/AUTO TGT/SPG/AUTO 차단을 유지한다. 로그 launchEmcon은 실제 커밋 시점의 함 상태다.
+- 실제 CG 헬기→Hawklink→ARM 지정→SPY 물리 방사원/빔 작업0→하푼→launchEmcon=true, 모바일/데스크톱 및 기존 전투 포함124/124 PASS /4 suites, 오류0.
+- 원본16,081,768bytes, CG_B 대비1,788bytes 증가. 기존 파일/과거 소스 보존·직접 업로드·독립 readback. **0번 별도 보고 뒤 ISAR1번 이후 진행**이며 이 HTML에는 ISAR가 없다. Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_CG_B (당시 기록)
+
+- [수정 실행 HTML](archive/v48/WIP_HELI_CG_B/Aegis_SIM_v48_WIP_HELI_CG_B.html), [상태](archive/v48/WIP_HELI_CG_B/AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_B.md), [SHA](archive/v48/WIP_HELI_CG_B/SHA256SUMS_v48_WIP_HELI_CG_B.txt), [운용](docs/helicopter/J/README.md), [검증](docs/helicopter/J/evidence/verification-summary.json). HELI_CG_A `3ce88eb` 위 `helicopter-cg-b`.
+- **A의 후벽 전체 개구·상부 접힘 문은 형상 판단 오류였다.** B는 원본 좌현 문/해치/창1456삼각형을 측방 이동하고 우현 벽·세로 패널·상부 창/플랫폼·관제 구조물을 복원·보존한다. 원본 모델 치수/문 이동량·내부는 SIM_TUNED다.
+- 두 기는 나란히 격납하고 좁은 좌현 출구를 공유한다. H2 단독 요청은 H1 통로 이탈까지 대기하며, H1을 무단 출격시키지 않는다. 기존120초/한 패드/DDG 두 문·출격/비행·센서·Hawklink·IFF·OTH 정책은 유지한다.
+- CG J1 저장: 유효 I1만 migration, 공중 기체 보존/주문된 지상 기체 재대기. DDG E1 유지. 닫힌 후방75ray 원본 일치/열림 중 우현 보존/202포즈 무간섭/실제 OTH 포함227/227 PASS /8 suites, 오류0.
+- 원본16,079,980bytes, A 대비1,644bytes 증가. A 네 파일과 과거 A–I/stable 보존, 전체 원본 직접 업로드·독립 readback. Actions dispatch/main·기존 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_CG_A (형상 교정 전 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html), [상태](archive/v48/WIP_HELI_CG_A/AEGIS_PLAN_STATUS_v48_WIP_HELI_CG_A.md), [SHA](archive/v48/WIP_HELI_CG_A/SHA256SUMS_v48_WIP_HELI_CG_A.txt), [운용·재현](docs/helicopter/I/README.md), [검증](docs/helicopter/I/evidence/verification-summary.json). HELI_F1 `bd0e88a` 위 `helicopter-cg-a`.
+- CG: **하나의 공용 격납고·단일 출입구·두 주기 위치**. DDG: 기존 좌우 독립 문/출격 경로 보존. 시설 프로파일과 기체 slot/door index를 분리하고120초 준비/하나의 공용 패드를 같은 시스템으로 운용한다. CG 문 기구·내부 치수는 SIM_TUNED다.
+- CG 기존 겹친 후벽·개구 부속을 제거하고 절차적 내부/상부 접힘 문을 추가했다. 원본 모델/텍스처는 재사용하며 새 시각 내부를 피해·침수 구획 재저작으로 취급하지 않는다.
+- DDG E1 저장 유지/CG I1 단일 문 저장, 이전 CG 빈 재고는 두 격납 기체로만 migration. 기존 SI/fixed60Hz/read-only 렌더/IFF·Hawklink·F1 OTH 권한/무DL 정책 유지.
+- 206/206 PASS /8 suites, 오류0. 양쪽 출격 순서/202포즈 무간섭/실제 CG 헬기→APS→Hawklink→순수OFFBOARD 수동 하푼 발사/DDG 및 전투 회귀를 확인했다. 원본16,078,336bytes, F1 대비2,614bytes 증가.
+- 전체 원본 직접 업로드·독립 readback, F1 네 파일 동일 bytes/blob archive. stable/과거 A–H 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 없음. 착함/연료/타함 항공 AI/헬기 무장 등은 후속.
+
+### 직전 개발 기준 — 헬기 WIP HELI_F1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_F1/Aegis_SIM_v48_WIP_HELI_F1.html), [상태](archive/v48/WIP_HELI_F1/AEGIS_PLAN_STATUS_v48_WIP_HELI_F1.md), [SHA](archive/v48/WIP_HELI_F1/SHA256SUMS_v48_WIP_HELI_F1.txt), [운용·재현](docs/helicopter/H/README.md), [검증](docs/helicopter/H/evidence/verification-summary.json). HELI_E1 `69a5e38` 위 `helicopter-harpoon-f1`.
+- 순수 offboard 수동 하푼을 트랙 품질·10초·2σ 바스켓으로 판단한다. active/foreign native·자동 발사관·FLEET wrapper에 일관 적용하며 기존 식별/수동 권한·AI local 조건·사거리·손상·좌표/경로를 보존한다.
+- 식별 근거 LOCAL_SENSOR/OPERATOR_ONLY/ISAR 예약과 DEBUG 교전 로그64건. 실제 종료 대상 범주는 AFTER_ACTION_TRUTH 사후 기록만 사용하며 전술·센서·AI는 읽지 않는다. 발사 뒤 DL/업데이트 없음.
+- 사용자 결정에 따라 CG-52 헬기는 다음 단계다. 현재 DDG 헬기/CG 하푼 분리는 유지한다. 실제 APS 보고를 CG 수신기에 진단 재생했으며 플레이 전단 공유를 추가한 것은 아니다.
+- 원본16,075,722bytes, E1 대비1,500bytes 증가. 209/209 PASS /7 suites, 오류0. 전체 원본 직접 업로드·독립 readback, E1 네 파일 동일 bytes/blob archive. stable/과거 소스·자산 보존, Actions dispatch/main·이전 브랜치 병합/새 PR 없음.
+
+### 직전 개발 기준 — 헬기 WIP HELI_E1 (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_E1/Aegis_SIM_v48_WIP_HELI_E1.html), [상태](archive/v48/WIP_HELI_E1/AEGIS_PLAN_STATUS_v48_WIP_HELI_E1.md), [SHA](archive/v48/WIP_HELI_E1/SHA256SUMS_v48_WIP_HELI_E1.txt), [계산·재현](docs/helicopter/G/README.md), [수정 전후 표](docs/helicopter/G/evidence/final/comparison/performance-comparison.md), [검증](docs/helicopter/G/evidence/verification-summary.json). HELI_E ff3eceb 위 `helicopter-radar-e1`이다.
+- 빔 체류 내 PRF×체류시간 펄스 수와 주파수 민첩성의 부분 상관 이득을 클러터에만 적용한다. 신호·열잡음 추가 배율 없이 PERI 앵커를 다시 맞춘다. 주사 간 이진 M-of-N은 그대로다. 모두 SIM_TUNED다.
+- SHORT 소형152m·SS3의12.5km, LONG 소형25m·잔잔3km 이하, LONG 중형3000m·Hs3m의50km, PERI35km를 함께 맞췄다. 계기거리 limiter와 전체288조건 전후 표를 제공한다.
+- 원본16,074,222bytes, E 대비2,277bytes 증가. 최종152/152 PASS /6 suites. 실제 RF·펄스 이득 무중복·오경보·배속·기존 양함종 전투를 확인했다. 구체적인 수치와 한계는 상태/증거를 따른다.
+- 전체 원본 직접 업로드/독립 readback, E 네 파일 동일 bytes/blob archive, stable/이전 소스·자산 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 생성은 하지 않는다.
+
+### 직전 개발 기준 — 헬기 WIP HELI_E (당시 기록)
+
+- [실행 HTML](archive/v48/WIP_HELI_E/Aegis_SIM_v48_WIP_HELI_E.html), [상태](archive/v48/WIP_HELI_E/AEGIS_PLAN_STATUS_v48_WIP_HELI_E.md), [SHA](archive/v48/WIP_HELI_E/SHA256SUMS_v48_WIP_HELI_E.txt), [조작·계산·재현](docs/helicopter/F/README.md), [검증](docs/helicopter/F/evidence/verification-summary.json). HELI_D e64f7af 위 `helicopter-radar-e`다.
+- 단일 주사 검출 → PERI4-of-9 / LONG·SHORT2-of-3을 적용했다. 모드·빔·해면·CFAR·병합·익명 공분산·200접촉·Hawklink queue 보호와 E1 migration을 사용한다. 수치는 모두 SIM_TUNED이며 analog/reference를 구분한다.
+- AIR 모드, 지도 별도 링, 3D AN/APS-153 쐐기·잔상·직하 사각, DEBUG 성능표를 제공한다. 기존 비행·고도·경로·CAMERA·IFF·EMCON 독립·무장 권한을 유지한다.
+- 원본16,071,945bytes, D 대비12,992bytes 증가. 최종355/355 PASS /9 suites, 양함종 전투와1/8/16/64× 일치. 앵커와 오경보 결과·시험 범위·한계는 상태와 증거를 따른다.
+- 원본 전체 직접 업로드와 독립 GitHub readback, D 네 파일의 동일 bytes/blob archive, stable/과거 소스·자산 보존. Actions dispatch/main·이전 브랜치 병합/새 PR 생성은 하지 않는다. 다음은 OTH 표적지시·공유 정책의 별도 결정이다.
+
+### 직전 개발 기준 HELI_D — 피탐·IFF·수상 탐색·Hawklink (당시 기록)
+
+- 현재 작업본은 `Aegis_SIM_v48_WIP_HELI_D.html`, HELI_C head `370d924a7bba5fa739498b9cd9e220e07abde823` 위 `helicopter-sensors`다. [상태](archive/v48/WIP_HELI_D/AEGIS_PLAN_STATUS_v48_WIP_HELI_D.md), [SHA](archive/v48/WIP_HELI_D/SHA256SUMS_v48_WIP_HELI_D.txt), [계약](docs/helicopter/E/README.md), [최종 검증](docs/helicopter/E/evidence/verification-summary.json)을 따른다.
+- 사용자가 HELI_C의 센서 격리를 이번 A→B→C 범위에서 해제했다. [구현 전 충돌 보고와 결정](docs/helicopter/E/CONFLICTS.md)을 따른다. A/B/C 별도 게이트와 source commit을 보존하고 과거 단계 수를 최종 검사 수에 중복 합산하지 않는다.
+- 비행 헬기만 물리 RF/CIWS 입력에 등록한다. IFF ON 기본값과 잡음 거리·방위·고각으로 연관한 만료형 아군 증거를 사용한다. truth ID로 식별/보호하지 않는다. OFF는 기존 UNKNOWN/ROE 규칙이며 즉시 적성이 아니다. 이번 검증은 식별·교전 허용 판정까지, 실제 헬기 피격·격추는 후속이다.
+- 수상 탐색 레이더는 기본 OFF, 공통 RF 경로를 재사용한다. APS-153급 밴드·출력·거리·오차와 새 링크 설정은 모두 SIM_TUNED다. 익명 위치·3×3 SI 공분산·도메인 증거·측정 시각만 전송한다. 공중 탐색/FLIR/ISAR/ESM/소나/무장/연료/회수/로터 공력은 추가하지 않는다.
+- **현재 EMCON은 레이더 통제이며 Hawklink에는 적용하지 않는다.** 기존 Link 16도 그대로다. 통신 EMCON은 차후 Link 16과 Hawklink에 함께 적용할 별도 정책이다. 모함 장비/LOS/최대 거리 단절은 queue drain 전에 평가하며 대기·신규 보고를 버리고 재전송하지 않는다. 검증의 EMCON 단절 시나리오는 LOS/최대 거리 초과 단절로 교체한다.
+- 순수 공유 트랙 발사 금지를 유지한다. ARM 하푼 트랙 발사의 현지 관측 누락을 보완하고, 실제 현지 관측이 신선한 혼합 파일과 기존 좌표 검색은 보존한다. 외부 보고는 현지 관측 시각을 갱신하지 않는다. Hawklink 전용 트랙의 Link 16 전단 공유는 추가하지 않는다.
+- 기존 120초 준비/두 기 대기열/고도/경로/함선 추종/로터/격납고/바퀴/CAMERA, SI/fixed60Hz/read-only 렌더와 공유 자산을 유지한다. AIR 보기 버튼은 재추가하지 않는다. AIR 센서/링크, 지도 수평선, 3D SENSORS HELO RADAR를 표시한다. D1 저장에는 IFF/레이더 설정만 추가하며 센서/링크 이력은 reset한다.
+- generic 표적에 기본 컨테이너선 RCS가 잘못 적용되던 누락 조건을 수정했다. 명시된 함정/표적 프로파일의 기존 특성은 보존하며 좁은 수정과 회귀 증거를 기록한다. 그 외 기존 kernel 변경은 검토한 접점으로 제한한다.
+- §7.1 full original 업로드/독립 원격 readback을 수행한다. C 네 파일은 `archive/v48/WIP_HELI_C/`에 same bytes/blob, stable와 과거 자산/source/evidence는 유지한다. Actions 사용 불가 조건으로 수동 workflow만 준비한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다.
+
+### 직전 개발 기준 HELI_C — 출구·착륙장치·AIR·고도 (당시 기록)
+
+- 당시 작업본은 `Aegis_SIM_v48_WIP_HELI_C.html`, HELI_B head `b4052e7113c8808bf89be43a21cba2d078bdb22c` 위 `helicopter-c`다. [상태](archive/v48/WIP_HELI_C/AEGIS_PLAN_STATUS_v48_WIP_HELI_C.md), [SHA](archive/v48/WIP_HELI_C/SHA256SUMS_v48_WIP_HELI_C.txt), [계약](docs/helicopter/D/README.md), [최종 검증](docs/helicopter/D/evidence/verification-summary.json)을 따른다.
+- 이번 피드백: 실제 함정 출구/갑판에 따른 기수 간섭, 이륙 뒤 꼬리 바퀴 중복, AIR 축소, 출격·대기 취소 통합, AIR 헬기/모함 보기만 삭제. CAMERA H1/H2 추적은 유지한다.
+- 사용자가 고도 설정을 이번 범위로 명시했다. 이전50m 고정/고도 UI 제외 지침을 이 범위에서 대체한다. 기본50m, 기체별25–3,962.4m MSL/대표값·직접 입력/고정 스텝 상승·하강과 C1 저장을 사용한다. 최대 공개 근거/추상화는 `docs/helicopter/D/altitude-spec.md`를 따른다.
+- SI/fixed60Hz/read-only 렌더, 공유 모델/로터/LOD,120초 준비/대기열/경로/함선 추종을 유지한다. 센서/IFF/offboard/무장/연료/회수/회전익 공력은 이번에도 제외한다.
+- 과거 B264/A198/F1817을 새 검사 수에 더하지 않는다. native/software GPU 및 mobile viewport 검사를 hardware/실제 휴대폰 FPS로 표현하지 않는다. 최종 HTML 크기/SHA/통과 수와 source commit은 상태/증거를 따른다.
+- §7.1 full original 업로드/독립 원격 readback을 수행한다. B 네 파일은 `archive/v48/WIP_HELI_B/`에 same bytes/blob. stable/이전 자산/source/evidence를 보존한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다.
+
+### 직전 개발 기준 HELI_B — 로터·격납고·경로 피드백
+
+- `Aegis_SIM_v48_WIP_HELI_B.html`, 16,037,621bytes, SHA `e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3`. [상태](AEGIS_PLAN_STATUS_v48_WIP_HELI_B.md), [SHA](SHA256SUMS_v48_WIP_HELI_B.txt), [계약](docs/helicopter/C/README.md), [최종 검증](docs/helicopter/C/evidence/verification-summary.json). A head15dfc8c 위 `helicopter-b`이며 packed13의 aviation 모듈만 변경한다.
+- 실제 source 축/회전 주체와 metric rigid spin, 문 뒤 HULL 외판, 양쪽 외측/정렬/벽 밖 곡선 턴/뒤쪽 정지 지점을 수정했다. AIR 왼쪽 조작·오른쪽 여백/스크롤 목록, 다중 경로·UNDO·선회 감속·약410m 함선 따라가기와 CAMERA H1/H2를 추가했다. 최종 사용자 선택은 따라가기다.
+- source 등록값/시각/새 control tuning은 SIM_TUNED, 공개 제원은 이전 사용자값이다. SI/fixed60Hz/read-only renderer, ShipRuntime/world ownership과 기존 질량 proxy를 유지한다. 센서/IFF/targetPool/offboard/무장/연료/회수/고도 UI/aero는 다음 단계다.
+- 새 save B1 codec는 실제 A 비행을 migration하며 pose/velocity/heading을 보존한다. input preflight 이전에 writes를 하지 않는다. 상태/route/index/localYaw의 소유권과 재현은 C 모듈/README를 따른다.
+- 최종264검사/11suites 및 tested SHA를 보고한다. 과거A198/F1817을 새로 통과했다고 표현하지 않는다. native/뷰포트는 hardware FPS가 아니다. 이번 HTML 증가는 A 대비1,828bytes다.
+- §7.1 original 직접 upload/독립 원격 readback을 수행한다. main/선행 branch 병합·새 PR·Actions dispatch는 하지 않는다. A 네 파일은 `archive/v48/WIP_HELI_A/`에 same bytes/blob. 현재 support/workflow/checksum은 B이고 과거A/B asset manifest는 당시 commit 기록이다.
+
+### 직전 개발 기준 HELI_A — 2기 출격·질점 이동 (당시 기록)
+
+- 현재 HTML은 `Aegis_SIM_v48_WIP_HELI_A.html`, 16,035,793bytes, SHA `35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477`. [상태](archive/v48/WIP_HELI_A/AEGIS_PLAN_STATUS_v48_WIP_HELI_A.md), [SHA](archive/v48/WIP_HELI_A/SHA256SUMS_v48_WIP_HELI_A.txt), [계약·조작·재현](docs/helicopter/B/README.md), [최종 증거](docs/helicopter/B/evidence/verification-summary.json)를 따른다. PERF_F 게임과 asset A를 기준으로 `helicopter-a`에서 진행한다.
+- 사용자 확정 범위는 MH-60R 제원 제한 질점/상태기계다. 모든 항공 운동은 SI와 SIM_FIXED_DT(1/60)를 사용한다. 3D는 read-only이며 source geometry 측정 hardpoint를 오프라인 등록한다. 레이더 truth→sensor/targetPool/configureOffboardSourceC에는 연결하지 않는다. 센서/IFF/무장/연료/로터 공력/회수/고도 UI는 구현하지 않는다.
+- 자함 DDG-119만 2기 운용한다. HANGAR_OPEN10/TRAVERSE20/SPREAD30/START45/PRE_LAUNCH_CHECK10/LIFT_HOVER5초. LIFT 마지막까지 ship-local, DEPART에 월드 분리·함 속도 상속, 좌현 이탈·50m MSL 이동. 갑판 실제 clearance 이후 다음 기체가 시작한다. RECOVERY는 상태 자리만 있다.
+- 새 항공 상태·명령·저장 codec는 ShipRuntime.aviation/world.helicopters 아래다. AIR 조작·snapshot·render 조회를 센서/IFF 진실로 사용하지 않는다. 기존 AIRCRAFT 질량 proxy 이동/분리는 원래 8.5t 노드를 사용하며 추가 질량·연료 소모를 만들지 않는다.
+- 최종 파일의 실제 검증 집계/조건을 보고한다. F의 과거 1817/38suites를 새 HELI_A 검사에 합산하지 않는다. native는 SwiftShader, mobile은 viewport/touch emulation이며 hardware/phone FPS로 과장하지 않는다.
+- §7.1에 따라 전체 원본 직접 업로드/독립 원격 blob readback을 수행한다. 사용자의 Actions 사용 불가 조건으로 수동 workflow만 준비하고 dispatch/새 PR/main·선행 branch 병합은 하지 않는다. F 원본·상태·SHA·workflow는 `archive/v48/WIP_PERF_F/`에 같은 bytes/blob으로 보존한다. 현재 support/checksum/workflow는 HELI_A이고 F/A의 과거 manifest는 당시 commit 기준 기록이다.
+
+### 모델 검사 기준 — 헬기 v01 (당시 asset 기록)
+
+- 별도 `helicopter-model-a` 브랜치에서 사용자 DDG-118 GLB의 SH-60 정적 격납/전개/비행 부품을 추출했다. [미리보기](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_INSPECTOR_v01.html), [상태](docs/helicopter/A/AEGIS_HELICOPTER_MODEL_STATUS_v01.md), [계약·재현·한계](docs/helicopter/A/README.md), [SHA](docs/helicopter/A/SHA256SUMS.txt).
+- 공통 geometry/material 공유·텍스처0, lossless GLB 591,920bytes, Q16/SNORM16 압축223,419bytes, 게임 HTML 내 모델/로더 추가301,239bytes (+1.9176%). 구조14/native13/최종scene·UI24 검사와 정적 문법PASS. 디코더는 표시 전용이며 렌더러가 물리·센서·교전 상태를 소유하지 않는다.
+- 게임 HTML/상태/체크섬, PERF_F/이전 검사·workflow는 보존한다. 모델 검사기는 §1의 별도 버전 규칙을 따르므로 새 시뮬레이터 WIP 또는 archive 이동은 없다. 이전 PERF_F 지원 checksum은 당시 PERF_F commit의 기록이고, 새 asset branch 문서 변경은 모델 SHA manifest에 포함한다. Actions/새 PR/병합을 실행하지 않는다.
+- source 이름만으로 MH-60R 등 형식을 확정하지 않으며 source unit→meter 축척과 로터/꼬리 동적 animation은 미검증이다. 다음은 축척·회전축·갑판/격납고 배치·LOD, 이후 별도 항공 profile/runtime·비행·센서·초수평선 탐지·정보공유다.
+
+### 직전 개발 기준 PERF_F — 최종 최적화 검증 (당시 기록)
+
+- 현재 [HTML](archive/v48/WIP_PERF_F/Aegis_SIM_v48_WIP_PERF_F.html), 15,709,299bytes, SHA `4571ed015469a48a0cc3ab96b4ee4e3d72c05257d2943a88fdd39272292583d5`, main `e9eb7d600d01e6d271b4dcf99e98b5e65dd09bbfe58f0ef29955affc343b398c`. PERF_E final `bd8962011a16cfeb4158670d3e562a92e0a52ff4` 위 performance-f. 현재 support/workflow/checksum은 F, 이전 문장은 당시 기록이다.
+- complete anchor 공개 이후에만 remaining quick work를 최신 피격으로 선점한다. unpublished opening은 보호하고 live/original buffers를 유지한다. 안정된 입력의 최종 형상·현재6ms budget·physics/피해/sensors/AI/RNG/fixed60/120/20Hz/actual release와 이전 캐시/모델/연기 결과는 보존한다. packed13 표시용 scheduler와 texture disposal만 수정한다.
+- 최종 원본 1817/1817PASS/38suites, 오류0. [상태](archive/v48/WIP_PERF_F/AEGIS_PLAN_STATUS_v48_WIP_PERF_F.md), [SHA](archive/v48/WIP_PERF_F/SHA256SUMS_v48_WIP_PERF_F.txt), [계약](docs/performance/F/README.md), [성능/한계](docs/performance/F/PERFORMANCE.md), [검증](docs/performance/F/evidence/verification-summary.json).
+- 기존 전체 회귀와 연속3회 cut/queue, 양함종 각각120simulated seconds/7200ticks의 세 함정 overload exact state/RNG,8회nativeGPU smoke/Kh32 epoch와pending-cut 외부 함정owner replacement/disposal 검증. 전체 회귀/카메라 종료 후 native second-hit submit4쌍 직렬 AB/BA. 제어된 detached scar/diagnostic tracks이며 자연 다발 피격·실제 수시간 soak·hardware/phone FPS는 미실행이다. 누적CPU는 E 당시기록을 참조하며 새 F측정으로 표현하지 않는다.
+- E 네 파일 samebytes/blob archive, stable와 이전 증거 유지. §7.1 full original 직접 upload/독립 remote readback. Actions dispatch/main·선행 branch merge/새 PR 없음.
+- 계획한 최종 최적화 검증 범위 완료. 다음은 헬기/초수평선 탐지 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_E — 최적화5단계 (당시 기록)
+
+- 현재 v48_WIP_PERF_E, HTML 15,709,083bytes SHA `0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5`, main `0f57e35ae2efe55a9ac9c1e5af54650d8eb574e1faf1672e2fef1b84931f617d`. PERF_D final `b4b58dcf61cff18674ec58f5798a2a15ca178ae9` 위 performance-e. 현재 support/workflow/checksum은 E이고 이전 단계 문장은 당시 기록이다.
+- 등록 CG/DDG quick job은 각 mesh의 ordered holes를 유지하며 모든 actual scar anchor를 먼저 완성해 함께 공개한다. 주변 작업은 계속한다. unprocessed 이전 live geometry/originals를 조기 복원·dispose하지 않으며 incremental 입력을 보존한다. final publish는 attached anchor buffers를 재사용한다. finally는 미공개 버퍼만, reset/import/retirement는 기존 lifecycle로 live cuts를 회수한다. legacy 비등록 모델은 기존 공개 경로다. LOD proxy는 같은 draw 전에 opening revision을 확인한다.
+- 동일 split plane distance를 인접 edge에서 재사용하고 triangle bound의3배열을 제거한다. plane 순서/epsilon/정점/법선/색상·산술과 최종 attrs/index/groups/bounds/bindings를 보존한다.
+- smoke shader/sort/pool/time/RNG를 유지하고 exact Float32 dirty range만 전송한다. pending ranges는 native onUpload 또는 r140 consumed-range 확인 이후에만 해제한다. 여러 flush/숨김/재등장/축소된 tail/camera/origin/ULP/signed0/reset과 WebGL2 GPU bytes exact를 검증한다.
+- packed13만 변경, 나머지 packed/model/envelope bytes와 physical damage/flight/sensors/AI/actual release/fixed60/120/20Hz/PERF_A/B/C caches 보존. 최종 원본 1735/1735PASS/35suites, 오류0. 누적 host CPU16쌍·native cut8쌍·RAF8쌍 직렬, 조건/한계/증거는 E docs를 따른다. generator shape fixture를 native latency로, host/SwiftShader submission을 hardware/phone FPS로 표현하지 않는다. 최초 H4A→D static-overlap timing은 제외/보존한다.
+- 이전 D 네 파일 samebytes/blob archive, stablev48/이전 증거 유지. §7.1 승인 full original upload/독립 readback. Actions dispatch/main·선행 branch 병합/새 PR 없음. 다음은 다수 피격/장시간/자원 회수 최종 점검 이후 헬기 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_D — 최적화4단계 (당시 기록)
+
+- 현재 v48_WIP_PERF_D, HTML 15,707,799bytes SHA `bd3bc97089cd0085c1990b5460fd4b8d6f5c9bcf794e1f520a42bc9c2aa95c2e`, main `7212a596022d0aa7f7294633eff41015e03cb6f217d7150bcdd025c04e7d3b31`. PERF_C final `5ddd05ce9358e9a23c11d26030bff05c6f18fa1d` 위 performance-d. 현행 support/workflow/checksum은 PERF_D, 아래 이전 단계는 당시 기록이다.
+- source sectional envelope의 기존 rounded-key/last-value/order/sort/convex 결과를 유지하면서 임시 배열을 줄인다. 변형 radial edge는 동일 scalar 산술이다. packed2/13만 변경하고 등록 모델·삼각형·envelope source bytes를 유지한다.
+- 완성된 quick opening/fold snapshot을 atomic publish한 후 동일 generator로 scorch/outline을 완성한다. detail은 기존 동작. live geometry ownership을 publish 시 이전하며 cancellation finally는 미공개 작업만 dispose한다. reset/import/owner retirement가 기존 수명주기로 live geometry를 회수한다. presenter-only _damageOpeningRevisionPerfD는 snapshot/authority에 저장하지 않는다.
+- 자함 quick은 다른 owner 이후 기존6ms allowance의 unused share를 빌린다. total allowance/다른 owner shares/detail slice/fixed60/120/20Hz 및 physics/damage/RNG/release/PERF_A/B/C caches를 보존한다. 기존 cooperative step overshoot 가능성은 남아 있다.
+- 최종 원본 1660/1660PASS/33suites, 오류0. 두 함종 geometry quick/detail/sealed bytes/index/groups/bounds/bindings와 cancel/reset, layout3,072/convex384 사례 exact. 전체 기존 회귀·six strict ownship 조건·density16쌍·native latency4쌍 state/RNG exact. 증거의 fixture와 실제 native RAF latency를 구별하고 host CPU/SwiftShader submission을 phone/hardwareGPU FPS로 표현하지 않는다.
+- 이전 PERF_C 네 파일 samebytes/blob archive, stablev48 보존. §7.1 승인으로 full original 직접 upload/readback. Actions dispatch/CI PASS/main·선행 branch 병합/새PR 생성 없음. 다음은 실제3D/효과 최적화·최종 재측정, 그 뒤 헬기/초수평선 → RGM-109E Block Va다.
+
+### 직전 개발 기준 PERF_C — 최적화3단계 (당시 기록)
+
+- 현재 세트 v48_WIP_PERF_C, HTML 15,707,171bytes SHA `5f8fb9ed69a960c4eef4c15ab22271c82c9b59a095a9ec8a959689ecba9acffd`, main `015c4cf9f83c9f6bd595ce61583e214bbd12c8248fad15bacdc87fa10f0c7358`. PERF_B final `d26e94194d52f0040f4d3d388b9bbce49460b440` 위 performance-c. 현행 support/workflow/checksum은 PERF_C, 아래 PERF_B 이하는 당시 기록이다.
+- SPY 공통 대공 NIS의 prediction/Jacobian/공분산 투영·동일 오차 역행렬만 캐시한다. 트랙 객체별 WeakMap last1, 상태6·공분산36·센서 위치/속도6·오차4 exact 비교로 in-place/same-tick 변경도 즉시 반영한다. 측정 innovation은 매번 현재값, native 산술·행렬/NIS 합산 순서를 유지한다.
+- 캐시는 파생값·snapshot 비저장이며 truth/권한/시간 기반 cache가 아니다. native EKF 예측/갱신·수상 연관·plot 생성/난수·focused/global 배정/게이트·actual release source와 fixed60/120/20Hz·물리/피해/EW/AI/Harpoon DL0·PERF_A/B 최적화를 유지한다.
+- 최종 원본 직접 1603/1603PASS/31suites/15captures, 오류0. NIS231차등/전체 입력 제자리 변화·오차·signed zero/invalid·갱신/거부·게이트 경계, 두 함종 core, strict CG/DDG6조건/직렬16쌍 상태/RNG/entity exact와 기존 native/browser/세 owner1/8/16/64를 확인했다. 집계/SHA/조건/한계는 PERF_C evidence를 따른다.
+- PERF_B 네 원본 samebytes/blob·stablev48/assets0~12 보존. §7.1 승인에 따라 full original 직접 upload/readback, Actions dispatch/CI PASS/main·선행PR 병합/새PR 생성 없음. 다음은 피격 envelope → 실제 render·최종 재측정이며 이후 헬기/초수평선 → RGM-109E Block Va다. host CPU를 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 PERF_B — 최적화2단계 (당시 기록)
+
+- 현재 세트 v48_WIP_PERF_B, HTML 15,706,015bytes SHA `292622e556192d3c954917437709a0f1e4489e1636cd6263a4b7737832013faf`, main `6577a3e216f0bec2ae7aeefb7e79524c33ee52c564de94dfb3763ad3cb24a977`. PERF_A final `4b42aacd4271ce790b47b981b9a58dc960e5d5c5` 위 performance-b. 현행 support/workflow/checksum은 PERF_B, 아래 PERF_A 이하는 당시 기록이다.
+- 두 native lexical planner의 build-local ctx에서 같은 threat/delay forecast와 SPG 기하 점수를 재사용하고 unused track metadata 복사를 생략한다. 다음 판단의 현재 sensor/pose/damage/firecontrol과 매회 current reservation 충돌 검사는 유지한다. 실제 발사에 이 cache를 넘기지 않으며 권한/FRIEND/NEUTRAL/HOLD/EMCON/damage/capability/FCS/예비탄 재검사를 유지한다.
+- owner별 body frame은 heading/heel/trim/draft/origin xyz 전부 Object.is exact일 때만 재사용한다. current snapshot/항법 읽기·canonical constructor/invalid 예외를 유지하고 same-tick 변화도 즉시 반영한다. 캐시는 파생값·snapshot 비저장, fixed60/120/20Hz·RNG·무장·피해·EW·AI·Harpoon DL0와 PERF_A 최적화를 유지한다.
+- 새 원본 직접 1534/1534PASS/30suites/15captures, 오류0. planner96제어사례, exact frame transitions/두 함종 core, CG/DDG6조건·직렬16쌍 상태/RNG·entity exact와 기존26 H4A browser suites/native 방어/피해/UI·세 owner1/8/16/64를 확인했다. counts/SHA/조건/한계는 PERF_B evidence를 따른다.
+- PERF_A 네 원본 samebytes/blob과 stablev48/assets0~12 보존. §7.1 직접 원본 upload/readback 승인 유지, Actions dispatch/CI PASS/main·선행PR 병합/새PR 생성 없음. 다음은 SPY 관측 연관 → 피격 envelope → 실제 render·최종 재측정이며 이후 헬기/초수평선 → RGM-109E Block Va다. host CPU를 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 PERF_A — 최적화1단계 (당시 기록)
+
+- 현재 세트 `v48_WIP_PERF_A`, HTML 15,704,207bytes SHA `13a9de64d918efd053ead648cb312a691688691ccbfa72fe50fefd72054ae6ad`, main `c43d9287e066bd56132d57d3a2cb2b4b37bee05e008f59432a61f82ae41d64e1`. H4A final `b97925cb5fb27d4dad26d62db78520641ee70857` 위 `performance-a`. 현행 support/workflow/checksum은 PERF_A, 아래 H4A 이하 내용은 당시 기록이다.
+- 불변 등록 hitbox system→고유 module name만 WeakMap으로 색인하고 현재 owner damage를 매번 읽는다. 자함 기존 함수/가변 geometry scan을 유지한다. EW IJ band 검사를 pod geometry 이전으로 이동하며 지원 band 계산·정책은 유지한다.
+- Kh32 기존 도색 texture/canvas를 view/THREE/실제 paint 입력별로 공유한다. geometry/material/plume은 개별이고 body geometry lease는 idempotent, 마지막 참조에서만 texture.dispose 및 entry 제거다. live/MAIN wreck/도감·import/reset/native render를 검사했다. 닫힌 도감은 기존 current model1개를 보관한다. 두 캐시는 파생 데이터이며 snapshot/전투 상태를 소유하지 않는다.
+- 새 원본 직접 1483/1483PASS/29suites/15captures, 오류0. H4A26 browser suites, 두 함종 selftests/72 EW조건,64모델 source texture1개·pixel/geometry parity,6ownship strict state/RNG와3owner1/8/16/64배속exact,별도직렬16쌍을 확인했다. counts/SHA/조건/범위는 PERF_A evidence를 따른다.
+- H4A 네 원본 samebytes/blob과 stablev48/assets0~12를 보존한다. §7.1 full original upload/readback 승인 유지; Actions 미실행/CI PASS 주장 없음; main/선행PR 병합·새PR 생성 없음. 다음은 planner/SPG·SPY·피격 envelope·실제 render 최적화이며 이후 헬기/초수평선 → RGM-109E Block Va를 유지한다. CPU 관측을 휴대폰/실제GPU FPS로 표현하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H4A — 독립 근접 자위·측정 기반 채프 (당시 기록)
+
+- 현재 세트 `v48_WIP_MULTI_SHIP_H4A`, HTML 15,702,263bytes SHA `3d7ad7dffb7fd060b903cbb150662cfda62a28be66f784fcbb41d4eb26bc985a`, main `b9f2ae3e1f53d88df36dab03e52dcde4cdb2ddd9fc8043b6456f732e63948d77`. H4 final `b74a2c733352230a0799446cfdb6730b2bb87421` 위 `multiship-defense-h4a`, PR base H4. 현행 support/workflow/checksum은 H4A다. 아래 H4 이하 기록은 당시 기준이다.
+- 기존 CMS+local RF 경로를 유지하고 confirmed fresh local RF·접근 지속·미사일 운동학·자함 CPA/품질/사각/구동/전원/탄약 조건을 통과한 독립 `LOCAL_SELF_DEFENCE_H4A`만 추가한다. 실제 발사에 동일 owner/mount/pending/file 객체와 freshness/FRIEND·NEUTRAL/own-fire/효과 보호/HOLD/EMCON/손상 재검사가 있다. generic AUTO 포트 개방·CMS 적성 파일 생성·SAM 권한 확대가 아니다.
+- EW는 detached own local RF 거리/접근/오차와 passive ACTIVE_SEEKER 방위의 unique association만 기존 채프 정책에 전달한다. same-mount multiple/many-to-one/multiple-emitter 모호성은 보류, ESM bearing-only range/TTC 추측 금지. reserve/interval/살보/발사 geometry·EA/눌카를 유지한다.
+- 자함 nativeCIWS/CG Phalanx-only·DDG장비·radar RF/search/CMS분류·Harpoon 무DL/INS/ARH·비행/피해·H4팀/H3공격/H2기동/H1유틸리티/G공유/60·120·20Hz를 보존한다. H4 저장 schema 그대로, 새 local pending는 기존 transient 수명주기를 따른다.
+- 최종 원본 직접 1484/1484PASS,27suites와 검사/보고/capture SHA·조건은 H4A evidence를 따른다. freshCG8km actualHarpoon에서 CMS ASM0·채프4/Phalanx95발·실제 DIRECT_BREAKUP/잔해, HOLD0, DDG기존방어, baseline-admitted 뒤8개 late actual-release 차단,1/8/16/64배속exact 및 H4전체회귀를 확인했다. DIAGNOSTIC_ONLY probe의 phase 조정은 실제 권한·센서·명중을 변경하는 운용 기능이 아니다.
+- H4 네 원본 samebytes/blob archive와 stable v48/assets0~12를 보존한다. §7.1 직접 upload/readback 승인 유지, Actions dispatch/main·선행 PR 병합 미실행이며 계정 제한 자동 smoke를 CI PASS로 쓰지 않는다. 후속2큰단계 헬기/초수평선 탐지 → RGM-109E Block Va다. 대표 조건 밖 요격률·오격 방지/remoteFCS/실제 doctrine/FPS 인증을 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H4 — 함대 전술·합동 기동 (당시 기록)
+
+- 현재 개발 세트 `v48_WIP_MULTI_SHIP_H4`, HTML 15,697,218 bytes, SHA `602371dfd5be5147c2e04dd4078e3216ca4f47e8ce4e7b0092bd861c3d9a5132`, main `451a717f0dbc97c289990eda7bf4864703c5a8832b81b0d4af4f53d3f6c56416`. H3 final `af1eade2d418b215720a68a5b902aae0d9387203` 위 branch `multiship-tactical-h4`, PR base `multiship-tactical-h3`, 현행 support/workflow/checksum은 H4다. 아래 이전 기준은 당시 기록이다.
+- canonical `ShipRuntime.combatSystem.teamH4`가 owner-local team 설정·지연 메시지·수신 항법·전형·배정·접수·자위 근거를 소유한다. 자함/아군 teamOFF, 적함은 friendly transport에 가입하지 않는다. 원래 PLAYER 선도함/ALLY 역할 유지, FLEET selected owner 설정이며 NAV/ARM/CIC/기존3D 교전은 원래 자함이다.
+- H4 전용2Hz/18틱 지연/2초 fresh packet은 기존 G 가용성/LOS/radio 경계를 지킨다. G contract를 바꾸지 않고 shareTracksOFF는 항법만 허용한다. field/time/sequence/replay/SPD covariance/caps 전체를 write 전에 검사한다. sender 자기 항법·측정 bid·native 실제 발사 접수만 전송하고 world targetID/peer FCS/탄체 위치·시커·생존/BDA는 금지한다.
+- formation은 받은 SELF 항법에 대한 종렬/좌우·1/2/4km desired slot, H2 공통 baseline과 타/기관 명령만 쓴다. 현지 대공 방어/수동NAV·지도/MANUAL/HOLD/masterOFF/기동OFF 우선, 단절/OFF는 반환한다. heading/speed/position 직접 write·순간 배치·간격 보장이 없다.4후보×6자세와 기존교통16+수신선도함1·chart guard로 bounded다.
+- 수상전 담당 분담은 fresh 현지 적성 SURFACE·owner AUTO/H1/H3와 각 owner의 별도 동의가 필요하다. 받은 bid를6D측정으로 보수적으로 연관하고 모호하면 보류한다. native bid preview는 요청/발사 없이 exact capability를 finally 복원하며 수동 pending를 빌리지 않는다. primary lease/native release 재검사·임무 전환2.4초 대기·측정 접수2발 뒤90초 보류를 지킨다. 접수는 sender/serial dedup, 동의 소진/lease/heartbeat 만료 뒤 유지하고 BDA가 아니다. 연결이 없거나 못 받은 정보의 보편적 중복 방지는 아니다. teamOFF와 attackOFF는 별도다.
+- 별도 SELF_DEFENSE는 반복된 현지 승인 incoming ASM·fresh confirmed SURFACE의 유일한 near-origin 운동학 근거30초만 적성으로 사용하고 operator identity를 바꾸지 않는다. 아군/중립/IFF/G 보호·late weapon FRIEND 우선, alias/expiry/reset/import 승계 없음. friendly 기본IDENTIFIED_ONLY/새enemy SELF_DEFENSE, 아군 별도 발사 동의 유지. IFF 무응답·ESM-only·received HOSTILE·faction·발사원 미관측 첫 공격은 계속 보류한다.
+- tight own-hull FRIEND TRACK relay만 자기 항법으로 처리하는 H3 보호 오류 수정을 허용했다. 다른 local file/SELF/NEUTRAL·주변/큰 오차·stale 보고는 보호한다. Harpoon ARH에 IFF를 추가한 것이 아니며 DL0/nativeINS→ARH·RF/physics/damage/effects·CG RAM0/DDG Harpoon0/고정 셀·60/120/20Hz/owner 해상효과·3D는 보존한다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H4_1`, team `AEGIS_TEAM_TACTICS_H4_1` schema/enabled/mission/formation/spacingM/surfaceRoe만 strict all-owner detached preflight. 현재 missing/type/extra는 zero writes 거부하며 H3/H2/H1/G/F/B/no-fleet은 teamOFF·IDENTIFIED_ONLY migration, pending legacyenemy도 동일하다. 메시지/배정/접수/근거는 deferred이며 import/reset/deploy/retire에서 비우고 H2 operator baseline을 저장한다.
+- 최종 원본 직접 1403/1403 PASS,24suites 및 검사/보고/capture SHA와 조건은 H4 evidence/verification-summary.json을 따른다. 역사/draft 수치 합산 금지. H3 네 원본을 same bytes/blob archive로 보존하고 stablev48/assets0~12를 유지한다. §7.1에 따라 원본/support 직접 upload·독립 readback, Actions dispatch/main·선행 PR 병합은 하지 않으며 자동 작업 미실행을 CI PASS로 표시하지 않는다.
+- 이후2큰 단계는 헬기/초수평선 탐지 → 사용자 지정 RGM-109E Block Va다. 임의 다수 함대/자유 ROE/모든 발사원 획득·오격/충돌 방지/실제 doctrine/휴대폰 FPS 인증을 완료로 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H3 — owner 관측 기반 대수상 공격 AI (당시 기록)
+
+- 현재 개발 세트 `v48_WIP_MULTI_SHIP_H3`, HTML 15,683,482 bytes, SHA `0a9626535c209d8ad4e5a9b5262bd826d8ede8df928562534ba6c44b5673d178`, main SHA `904116a4d73455b5a12d4c800afea30fac9e05415d81c0f1c16ce3f37cba38f4`. H2 final `59fad37cc170c760c1659b916febc168021a31b4` 위 `multiship-tactical-h3`, PR base `multiship-tactical-h2`, 현행 support/workflow/checksum은 H3다. 아래 이전 기준은 당시 기록이다.
+- canonical root `ShipRuntime.combatSystem.attackH3`, 설정/제한 동의/계획/capability/접수 이력 owner-local. 자함/아군OFF, enemyON. H1 전술 ON + owner AUTO, fresh 현지 SURFACE/명시 HOSTILE + 별도1/2발120초 동의를 요구한다. 적함은 mission 권한이어도 현지 HOSTILE만 허용한다. UNKNOWN/IFF 무응답·shared/ESM-only를 적성/FCS/발사 권한으로 만들지 않는다.
+- 5Hz bounded command phase, 파일96/후보16/protected64/log64, 예비2발·enemy90초 살보 재평가·선회120도 상한은 SIM-TUNE이다. 등록 CG departure geometry·native gate·CV route/chart·관측/수신 protected 경로/search basket 검사. actual release 재검사가 최종이다. 정확한 capability 객체만 새 H3 권한이며 generic AUTO/SEMIAUTO, coordinate search와 다른 surface weapons의 MANUAL-only를 완화하지 않는다.
+- FLEET 공격 ON/OFF/1~2발 동의/철회는 selected friendly owner에만 작용한다. ON만으로 발사하지 않고 새 동의/ON/OFF는 이전 동의를 지운다. 철회/OFF/MANUAL/HOLD/masterOFF는 준비를 취소한다. 수동 Harpoon/waypoint가 우선하고 actual release만 동의량을 차감한다. 번호/alias는 동의를 승계하지 않는다.
+- H3 AI는 비행 Harpoon world state/시커/생존/명중/BDA truth나 peer private FCS를 읽지 않는다. DL0, launch frozen INS cue→독립 ARH 및 native RF/physical/damage/effects는 유지한다. 실제 물리는 기존60/120/20Hz, heading/speed/position 직접 writes나 render physics/RNG가 없다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H3_1`, attack `AEGIS_SURFACE_ATTACK_H3_1` schema/enabled만 strict detached preflight로 저장한다. 현재 attack missing/type/extra는 zero writes 거부, H2 기존 필수 tactical/maneuver/network도 유지한다. H2/H1/G/F/B/no-fleet의 새 공격 권한은 명시 OFF migration하며 pending deployment에도 적용한다. 동의/계획/capability/log는 deferred, import/reset/deploy/retire에서 비운다.
+- 최종 원본 직접 1198/1198 PASS와 조건은 H3 evidence/verification-summary.json을 따른다. 역사/폐기 draft 수치를 합산하지 않는다. 원본 직접 GitHub 업로드는 §7.1 standing authorization을 사용하고 Actions dispatch·main/선행 PR 병합은 실행하지 않는다. automatic smoke blocked를 CI PASS로 표기하지 않는다.
+- 후속3큰 단계: H4 팀 전술/합동 기동, 헬기/초수평선 탐지, RGM-109E Block Va. ARH 자체 IFF/보편적 오격 방지·미식별 적성 추론/장거리 offboard firing 완료를 주장하지 않는다.
+
+### 직전 개발 기준 MULTI SHIP H2 — owner 관측 기반 기동 AI
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H2`, HTML 15,675,514 bytes, SHA `522f48fe0707c2e6393068b66b76ec99a4d8dfa68bfab025fe9399b2bbc557b1`, main SHA `80ecfe1be494132521b6f6e1327647f50608c92da98fef235f541ed657926865`다. H1 head `43021f9693dc0500b5f2def531ec5d0d9e17bf0b` 위 `multiship-tactical-h2`, PR base `multiship-tactical-h1`, 최신 support/workflow/checksum은 H2다.
+- `ShipRuntime.combatSystem.maneuverH2`가 설정·유틸리티 후보·임시 항법 소유권을 소유한다. 자함 기본OFF·외함 기본ON이며 H1 전술 AI ON + owner AUTO에서 실행한다. 현지 승인 fresh AIR 측정과 자기 장비/조종 상태·native SPG/CIWS 사각만 사용한다. shared/ESM-only는 H1 readiness이며 기동 목표/현지 FCS/살상 권한이 아니다.
+- 5Hz fixed command phase,8후보/위협8/교통16/예측 자세6/log64 상한, 첫 판단 즉시·3초 유지/.04 margin·긴급12초는 SIM-TUNE이다. 고정 mission heading으로 목표 누적을 막고 native 기관 단계·타각 명령만 내린다. heading/speed/position을 직접 쓰지 않는다. 실제 chart/신선한 SURFACE 측정·수신 SELF 항법으로 위험 후보를 제외하되 전 해역 충돌 회피를 주장하지 않는다.
+- NAV 타각/기관·지도 route와 FLEET 항법은 owner별 지속 manualNav hold다. ON/OFF로 이를 지우지 않고 기동 AI 재개만 명시 인계한다. 기동 재개는 레이더/EW hold를 보존하며 H1 운용 재개는 항법 hold를 해제하지 않는다. MANUAL/SEMIAUTO/HOLD/masterOFF/기동OFF/offline은 임시 orders를 반환한다. 조용한4초 뒤 native RECOVER하고 요청 항법으로 복귀한다. freshness와 실제 선회 시간이 더해진다.
+- fleet `AEGIS_NAVAL_PHYSICAL_FLEET_H2_1`/설정 `AEGIS_MANEUVER_UTILITY_H2_1` enabled/manualNav bool·native 기관 metadata를 전 owner detached preflight한다. current wrong/missing/extra fields는 zero writes로 거부한다. H1/G/F/B/no-fleet만 명시 migration하고 기존 manual flags를 항법 hold로 승계한다. `maneuverGoalsScoresAndCommandOwnership`은 deferred이며 reset/import/deployment/retire에서 비운다. save는 임시 AI orders 대신 요청 baseline과 실제 물리 상태를 내보낸다.
+- 최종 원본 직접 **883/883 PASS**, 모든 tested SHA/조건/한계는 H2 evidence다. superseded draft/실패한 fixture/역사 수는 합산하지 않는다. H1 HTML/status/SHA/workflow4파일 same bytes/blob을 archive에 보존하고 stable v48·원본 models/profiles·native 물리/유도/damage/RF·60/120/20Hz·방어 gate·Harpoon INS/ARH/DL0·CG RAM0를 유지한다.
+- §7.1 승인에 따라 원본 HTML/support를 직접 업로드·독립 readback한다. main/선행 branch는 새 병합 지시 없이 병합하지 않는다. Actions는 dispatch하지 않고 수동 workflow만 준비한다. 다음은 H3 별도 ROE/승인 대수상 공격, 이후 팀 기동/헬기/CEC·RGM-109E Block Va다.
+
+### 직전 개발 기준 MULTI SHIP H1 — owner 유틸리티 방어 AI
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_H1`, HTML 15,669,638 bytes, SHA `e683e23f3bb832bac29bde05def2c46ce3acdbfe114cea37ce2156ec90db5058`, main SHA `302352d3dfe47e83fc38d057b002fe46a2e3b12656567dde214561cc28c17105`다. G head `d902d24486918c23d43e3067be16ab03fbaedde2` 위 `multiship-tactical-h1`, support/검사는 `docs/multiship/H1/`, 현재 workflow/support manifest는 H1이다.
+- `ShipRuntime.combatSystem.tacticalH1`이 settings/utility/우선 파일/임시 radar·EW 기준값을 소유한다. 자함 기본 OFF·외함 기본 ON이며 해당 owner native AUTO에서만 실행한다. 기존 MANUAL/SEMIAUTO/HOLD 권한을 바꾸지 않는다. FLEET 전술 AI ON/OFF는 수동 권한을 보존하며 AI 운용 재개만 manualRadar/manualEw를 명시 해제한다. 적함에 운용자 FLEET 명령은 금지한다. NAV·ARM·CIC·기존3D는 원래 자함, 선택 owner 조작은 FLEET이라는 G 계약을 유지한다.
+- 승인된 fresh 현지 AIR 위협의 측정 KF·접근 시간/속도/품질·미대응, 자기 native 예비탄 이상 재고·SPG 채널·전투/레이더 손상만 점수 입력이다. WATCH/CONSERVE/DEFEND/SATURATED/DEGRADED 비교·2초 유지/.08 margin·긴급12초, 최대96 priority/64 log는 SIM-TUNE이다. native5Hz에서 동일 simStep 평가를 한 번으로 제한하고 RNG/wall clock/상대 truth·생존/시커/peer private FCS는 읽지 않는다.
+- utility 순서는 native 자원 배분과 실제 AUTO 추천에 모두 적용한다. 승인 현지 위협3개 이상·선택 SAM pool<2×위협·접근25초 초과·속도600m/s 미만만 native2→1발 살보로 배분한다. 급박/고속·진행 중 pending·NEZ/사각·재고·BDA/reengagement·근접방어·G 보호/lease·실제 release gate는 native를 유지한다.
+- 신선한 현지 위협/anonymous ACTIVE_SEEKER ESM/실제 전달 shared THREAT는 readiness만 올린다. 현지 FCS 없이 lethal authority·거리·적성 식별을 만들지 않는다. manual/group 우선권이 없을 때만 개별 radar/EW baseline을 저장해 탐색 방사와 기존 soft-kill AUTO/EA 허용을 임시 적용하며 조용해지면 복귀한다. 그룹 명령 baseline capture 전에 AI 임시 레이더를 반환한다. group lease expiry/link loss 뒤도 요청된 개별 기준값을 보존한다. H1은 항법/route 명령을 쓰지 않는다.
+- `AEGIS_NAVAL_PHYSICAL_FLEET_H1_1`과 `AEGIS_UTILITY_TACTICAL_H1_1` settings bool3개를 전 owner detached preflight한다. invalid/missing/extra H1 fields는 zero authoritative writes로 거부하고 G/F/B/no-fleet만 명시 migration한다. `utilityDecisionsPrioritiesAndEffectOwnership`은 deferred다. reset/import/deployment/retire에서 transient를 비우며 임시 AI radar/EW 대신 요청 baseline을 export한다. foreign defense AUTO/HOLD의 E 초기화 계약도 보존한다.
+- final SHA 검증/상태/evidence만 완료 판정에 쓴다. superseded draft/test fixture 결과는 합산하지 않는다. G HTML/status/SHA/workflow 네 파일을 same bytes/blob으로 `archive/v48/WIP_MULTI_SHIP_G/`에 이동한다. stable v48·assets0~12·native 물리/비행/damage/RF·60/120/20Hz·Harpoon INS/ARH/DL0·CG RAM0는 보존한다.
+- §7.1 승인에 따라 원본 HTML/support를 직접 업로드하고 독립 remote tree/raw-byte readback한다. main/선행 branch/PR을 새 요청 없이 병합하지 않는다. GitHub Actions는 사용자 조건으로 미실행, workflow_dispatch만 준비한다. 다음 H2는 관측 기반 기동과 수동 항법 우선권, H3는 별도 ROE/승인 대수상 공격이다. 헬기/CEC/팀 기동·RGM-109E Block Va는 후속이다.
+
+### 직전 개발 기준 MULTI SHIP G — FLEET 조작·관측 공유·공동 방어
+
+- 현재 개발 세트는 `v48_WIP_MULTI_SHIP_G`, HTML 15,664,301 bytes, SHA `7ffded6480e74e0f9ab6259c2c8a9e4dfd81ad70bb2434d8dcfd711db2e7bda7`, main `a6f5a22de6ca0a4daac033dd05c3a2c03f8b5aeaeb5f97c0b6e8c4c7f2c1911f`다. F head `e4a1ceb6700f1d891e1c11aee0f9519b8ccde9c5` 위 `multiship-network-g`, support는 `docs/multiship/G/`를 따른다.
+- FLEET은 새로운 정식 운용 탭이다. `ENGAGEMENT_RUNTIME.fleetOperatorG`는 UI 명령 목적지만, `ShipRuntime.combatSystem.operatorG`는 해당 owner의 현지 표적 선택/명령 결과만 소유한다. 자함·아군 함정의 native 항법/관제/식별/발사 포트로 전달하며 적함 조종·global profile/runtime/PLAYER role 교환은 하지 않는다. NAV·ARM·CIC·기존3D 교전 버튼은 원래 자함 기준이다. 선택 자체는 simulation authority가 없고 reset/import/deployment에서 UI 선택과 target transient를 비운다.
+- 수동 발사는 fresh confirmed 현지 파일과 HOSTILE/TRAINING_TARGET 식별만 허용한다. 공유 FRIEND/NEUTRAL·stale/UNKNOWN·AUTO 수동 포트는 보류한다. native 발사 간격·사통/사각·재고/손상 재검증을 유지한다. 함포 마운트와 Harpoon 설치 유무도 owner profile에서 따르며 CG RAM0/Harpoon8·DDG Harpoon0을 보존한다.
+- 네트워크는 friendly 인증 self 항법/오차와 실제 local KF 관측/공분산/시각/분류·식별만 전송한다. 2Hz/.3s delay/2s fresh/12s coast, bounded receiver 파일과 보수적 covariance intersection은 SIM-TUNE이다. 공유 정정은 detached CIC 표시용이며 canonical EKF/FCS에 원격 파일을 쓰지 않는다. 현지 승인과 전달된 bid/lease에 한정한 SAM 담당 분담, 긴급 방어/단절 복귀가 있고 CEC 사통·Harpoon DL은 없다.
+- 그룹 EMCON은 각 함정의 개별 기준값을 보존하는 지연 lease다. 링크 무선은 레이더 침묵과 구분하며 단절 시 개별 운용으로 복귀한다. bool/enum 설정을 fleet G_1 strict preflight 후 복원하고 F/B 저장은 명시 migration만 한다. peer/report/lease/group runtime은 저장하지 않는다.
+- Harpoon 오인 완화는 발사 승인과 이전 레이더 추적의 위치/속도 오차·기동 여유/시각만 읽는다. 최초 연관은 기존 발사 회랑을 유지하고 이후 notch/turn/alias 재획득은8초 이내, 모호하면 UNKNOWN/자동교전 보류다. 표시 coast4초와 DL0, 미사일 actual INS/seeker/truth 비접근을 유지한다.
+- 3D 아군함 보기 버튼의 pointer-events와 실제 native 입력을 고치고 focus/reset/retire에 레이블을 동기화했다. 실제 pointer/touch와 RAF 이후 camera world position/함정 중심/복귀를 확인한다. render는 physics/RNG를 진행하지 않는다.
+- final SHA 검사와 원격 검증은 G evidence/상태/SHA를 따른다. superseded 테스트 SHA를 final로 바꾸지 않는다. 원본 F 네 파일은 same bytes/blob으로 `archive/v48/WIP_MULTI_SHIP_F/`에 보존한다. stable v48과 원본 모델 assets0~12, 60/120/20Hz/물리·비행 커널을 유지한다. §7.1에 따라 원본을 직접 upload/readback하고 Actions는 사용 불가로 dispatch하지 않는다. main/선행 PR을 임의 병합하지 않는다.
+- 다음 H는 현지 관측 기반 방어 태세·기동/공격 전술 AI다. 헬기/CEC·RGM-109E Block Va는 후속이다. DDG 실제 EW antenna 등록과 IFF 재인증 한계는 F 그대로이며 별도 문서로 추적한다.
+
+### 직전 개발 기준 MULTI SHIP F — 배치 분리·receiver 전자전·함정 해상효과
+
+- 현재 개발 HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_F`, HTML 15,638,513 bytes, SHA `438c4ea21c7c762243728092dcee269d12334af4c8265163300eb9b9b03f29d7`, main `cbed31af60addb8a757225251783df462336c449730975d1a5d836fc7c487b16`. E head `bdcf8d1724a72587f9d42e4b1cf70ba4cbe57ef6` 위 `multiship-ew-f`이며 지원·검증은 `docs/multiship/F/`를 따른다. stable v48과 original profiles/models/physics kernels는 보존한다.
+- 출항 전 near ALLY/far ENEMY(10~30km)·각 radar EMCON·hulk·항공기 선택. role/faction을 sensor truth identity로 바꾸지 않는다. 일반3D focus는 아군만이며 진단 적 focus는 DIAGNOSTIC_ONLY다.
+- `ShipRuntime.ew.executionF`와 47개 원본 owner soft-kill closure로 ESM/SLQ-32·Nulka/SRBOC 실행을 분리했다. anonymous receiver plot은 방위/sigma/세기/품질/대역/계열/시각만 받고 truth ID/좌표를 거부한다. noise/replay는 실제 수신 전력/빔·대역·장비/지형/기상에서 합성하고 기존 seeker/echo frontend로 적용한다. 기존 대역 I/J/X이며 SPY S-band에 임의 적용하지 않는다. 기본 외함 AUTO는 자기 측정 cue만 사용하고 자원/탄약/질량은 owner-local이다.
+- 초기 EMCON은 탐색 레이더 침묵이다. 방어 ECM·수동ESM과 구분한다. IFF 측정은 기존 fresh SURFACE 트랙의 FRIEND/WITHHELD 보호용이다. network/CEC/전술 공격·기동 AI는 아직 없다. Harpoon DL0·INS→ARH와 CG 양현 Phalanx/RAM0을 유지한다.
+- 자함의 원본 ocean shader/kernel을 그대로 보존하고 외함 함수파2+항적/선미 포말3개를 owner geometry/world history로 표시한다. 효과는 60초/255점 bounded, physics/RNG feedback0이며 import/reset/retire 때 owner layer/material/geometry를 폐기한다.
+- F strict snapshot은 두 fleet owner/role/faction/profile·EW bools·seed·soft-kill 재고를 preflight하고 실패 시 무변경 거부한다. legacy A/E/B는 명시 migration만 한다. 설정/재고는 복원하되 contacts/기법 timeline·flight/track/예약은 transient다.
+- 최종 직접 593/593 PASS: 세 척1/8/16/64×1536 ticks exact·두 함종 natural Kh-35U EW/시커·실제3D 피격/복원·기존 defense/무장/Harpoon 검증. ESM 난수를 격리했으므로 E의 shared combat RNG epoch와 raid 순서는 같다고 주장하지 않는다. paired fixture의 CG VLS1셀 delta를 기록했다.
+- CG는 등록된 SLQ-32 양현 위치/손상, DDG는 원본 EW antenna registry 부재로 legacy RF 기준점과 CDC/발전기/offline 가용성을 사용한다. DDG 실제 antenna 등록과 IFF 재인증·운용자 해제는 후속 보완이다. RF/IFF/ECCM 값은 SIM-TUNE, SwiftShader는 하드웨어 FPS 인증이 아니다.
+- E HTML/status/SHA/workflow는 same bytes로 `archive/v48/WIP_MULTI_SHIP_E/`에 보존한다. §7.1 직접 upload/readback을 수행한다. 사용자가 Actions 불가를 명시했으므로 이번 마감은 로컬 직접 검사이며 workflow는 수동 준비·미실행이다. main/선행 PR을 새 요청 없이 병합하지 않는다. 다음은 measured friendly network/정정/EMCON 기반이며 Tomahawk 미래 대상은 RGM-109E Block Va다.
+
+### 직전 개발 기준 MULTI SHIP E — 방어 AUTO/BDA·출항 전 항공기 설정
+
+- HTML/status/SHA 토큰은 `v48_WIP_MULTI_SHIP_E`, HTML 15,609,329 bytes, SHA `d1aa4b1876bea2739aec17f6f2c4e421e5ecef9957aa28113fab14d4117d0af2`, decoded main SHA `446f96c11279970cda4d9e5542137dad96ba86ee155f3f503cbf83fa51f2c105`. 지원/검사는 `docs/multiship/E/`, 현재 workflow/manifest는 E다.
+- D head `c6da52b960b447d8b4eadb6cac904b9c0ebff730` 위에서 원본 AUTO/BDA/alias 67개 함수를 기존 owner closure에 결속했다. immutable profile/원본 모델·stable v48·공통 world1회·60/120/20Hz를 유지한다. 실제 발사 직전에도 관측/식별·권한·사각·장비·재고를 재검사한다.
+- 적함은 기본 방어 AUTO이며 기존 measured hostile-intent와 보호 identity/ROE를 사용한다. effect/후속 coherent observation/alias 지원 이관은 owner-local이다. 실제 alive/truth로 격추를 확정하지 않는다. 독립 C55 확인 관측으로 RAM/Phalanx를 연속 실행한다. CG에 SeaRAM을 추가하지 않는다.
+- 출항 전 적 항공기 ON/OFF는 두 UI에서 동기화되고 `AEGIS_DEPLOYMENT_MULTI_SHIP_E_1`로 저장한다. legacy A_1은 ON으로 명시 migration한다. OFF는 정상 초기/주기/reset/새 해역 스폰을 막고 시계·스폰 난수를 소비하지 않는다. 전투 transient/BDA/진행 살보는 저장 복원하지 않는다.
+- 실탄 Harpoon 시험에서 DDG는 자동 ESSM을 발사했으나 해당 seed에서 접촉도 발생했다. CG의 저고도 접근은 확인된 ASM 관측이 없어 발사0이며, 별도의 자연 20m Kh-35U에서는 실제 Phalanx 방어를 확인한다. 센서 검출과 격추율 보장은 없다. EW/공격·기동/헬기는 후속이며 Harpoon DL=0을 유지한다.
+- D HTML/status/SHA/workflow는 같은 bytes로 `archive/v48/WIP_MULTI_SHIP_D/`에 보존한다. §7.1에 따라 `multiship-defense-e` 원본 HTML 업로드/readback·D 위 PR/최신 head CI를 수행한다. main/A/B/C/D 병합은 새 요청 없이 실행하지 않는다. 최종 결과는 E 상태/evidence와 PR checks를 따른다.
+
+### 직전 개발 기준 MULTI SHIP D — owner 무장·실물 접촉/shadow
+
+- D 원본 HTML SHA `babac7fba08e4d59628c25245b1c657a87516f6774f6ec505c2314b1e3c1bf6e`, 15,575,097 bytes. PR #48은 C 위 미병합이며 D original status/evidence를 archive/지원에 보존한다. D의 active enemyAI 미구현 설명은 당시 기록이다.
+
+### 직전 개발 기준 MULTI SHIP C — 함정별 관측·외부 관측 포트
+
+- 이번 범위는 4단계다. HTML/status/SHA는 `v48_WIP_MULTI_SHIP_C`, 지원은 `docs/multiship/C/`, HTML 15,344,725 bytes, SHA `e306f755cad27cd32aef4ad2dff6c108ee56511cc9909f0609434558f0865363`, main SHA `d68eca1dbe2b3b6c491ba4f9d2de9c5ccbcb34221ee7d3f02631fd897925094e`.
+- 기준 B head `ae94326caea7cd0329233f381933cdc240bedb47`·B HTML SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`. B 세트/workflow를 동일 bytes로 archive에 보존한다. 현재 workflow/manifest는 C, 역사 B 자료는 그대로다. stable v48과 원본 assets/profile/module revision은 유지한다.
+- 자함은 기존 canonical scheduler/TrackStore, 비자함은 runtime-owned observer와 독립 RNG/scan/rotor/track을 사용한다. 공유 RF/측정/EKF에 명시 receiver를 전달한다. ACTIVE/global profile 교환 없이 fixed tick마다 각 owner 한 번, 공통 세계 한 번 진행한다.
+- 함종 face normal·sensor suite·budget·지평선/지형/원본 CG 사각·해면 clutter·손상/EMCON을 반영한 익명 plot만 연관한다. 식별/자동권한은 별개이며 자함 CIC는 자함 관측만 읽는다. 진단 truth/가상 높은 receiver를 실제 센서나 AI 입력으로 연결하지 않는다.
+- 외부 관측 포트는 source/sequence/measuredAt/추정 위치/SPD 공분산/domain evidence와 지연·링크 상태만 받는다. truth field·재전송/반복 fix·오래된/미래 시각을 검증하고 measured age를 유지한다. 헬기 모델/비행/센서는 아직 없다. Harpoon은 DL=0이며 발사 후 탄 정보를 이 포트로 받지 않는다.
+- 저장에는 offboardLinksAndReports를 deferred로 명시한다. 정상 reset/import/retire는 combat transient를 비우며 잘못된 import는 zero mutation이다. 실제 owner radar 회전각을 renderer가 읽으며 화면은 시뮬레이션을 진행하지 않는다.
+- 5단계 실제 탄 source/target routing·양방향 무장, 6단계 receiver별 EW, 7단계 관측 기반 AI는 후속 범위다. 일반 seeker에 naval reflector를 켤 때 실제 contact routing도 함께 검증한다. 60/120/20 Hz는 유지한다. SwiftShader native 관측은 실제 mobile FPS가 아니다.
+- 7.1에 따라 `multiship-sensors-c`에 원본 HTML/support를 직접 업로드/readback하고 B branch 위에 PR/CI를 만든다. 새 병합 지시가 없으므로 A/B/C는 임의 병합하지 않는다. 최종 판정/원격 증거는 최신 상태와 C evidence/GitHub checks를 따른다.
+
+### 직전 개발 기준 MULTI SHIP B — 실제 함정 물리·피해·표시
+
+- 이번 범위는 다함정 3단계다. HTML `Aegis_SIM_v48_WIP_MULTI_SHIP_B.html`, 상태/SHA 같은 토큰, 지원 `docs/multiship/B/`를 따른다. HTML 15,328,273 bytes, SHA `1165c72aecf59fe42b38ac46b9ef8cde771e61dc8673e45d06c4c027565c2946`, main SHA `2d20d1927a47443aaaadc084faae07e21b6009baae4d78e055f600ecd143319c`.
+- 기준 A head `3fab03782abb313cd3ece1bbfe254cdb77981231`, A HTML SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`. A 세트/workflow를 `archive/v48/WIP_MULTI_SHIP_A/`에 같은 bytes로 보존한다. A 당시 support manifest는 역사 자료다. current workflow/manifest는 B다. stable v48과 packed asset records 0~12, 함종/무장 revision을 유지한다.
+- 선택한 적함은 출항 때 PHYSICAL_ACTIVE가 되어 world navalShips에 연결한다. 함정별 navigation/flood/survival/control/interior/crew/mass/dynamics/wave/rescue를 shared owner API로 진행한다. 원본 DDG/CG builder를 함정별 root/material/job과 사용하며 global profile swap·render 물리 적분·상대 truth CIC 주입은 없다.
+- deploymentState NONE/PENDING/ACTIVE를 구분하며 초기 선택 단계에도 정상 export/preflight가 된다. fleet state는 독립 detached 준비 후 복원하고 잘못된 입력은 zero mutation으로 거부한다. 저장의 fire/DC/structural timeline·body rates·combat transient 제외와 legacy/PENDING 새 배치를 명시한다.
+- 함체 접촉은 profile footprint/질량 기반 비탄성 충격과 bounded SIM-TUNE 개구다. 좌초 정지는 대상 owner만 적용한다. 60 Hz tick/120 Hz 침수·힘/20 Hz hydro, world weather 한 번, 독립 전투 RNG를 보존한다.
+- 4단계 센서/트랙 observer 분리, 5단계 실제 탄 source/target routing·양방향 무장, 6단계 receiver별 EW/CIC, 7단계 관측 기반 AI는 미완료다. B의 physical probe/native 구멍 검사는 자연 미사일 명중·적 AI·mobile FPS 인증이 아니다. 공개 UI는 배치/카메라와 기존 자함 운용이다.
+- 7.1에 따라 Codex가 원본 HTML과 지원을 직접 push/readback한다. B branch는 `multiship-physics-b`이며 미병합 A PR #45 위에 연결한다. 이번 B 병합 요청은 없으므로 A/B를 임의 병합하지 않는다. 실제 최종 검증/PR/CI 상태는 B 상태·evidence와 GitHub 기록을 따른다.
+
+### 직전 개발 기준 MULTI SHIP A — 독립 상태·출항 전 배치 설정
+
+- 이번 승인 범위는 다함정 작업의 1~2단계다. HTML은 `Aegis_SIM_v48_WIP_MULTI_SHIP_A.html`, 상태/SHA는 같은 토큰이며 지원은 `docs/multiship/A/`다. HTML 15,314,629 bytes, SHA `704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685`, main SHA `8cb35bd169cb6de69270297bf33222bec337055da19f64519936917c267089c8`.
+- 기준은 PR #44 병합 main `cb70a637105ce00e7c0619270237cc35a83d39c2`의 Harpoon E다. E HTML/status/SHA와 당시 workflow는 `archive/v48/WIP_HARPOON_E/`에 same bytes로 이동하며 E의 profile/module revision과 전투 모델은 바꾸지 않는다. stable v48도 같은 bytes다.
+- 표적함 HULK/NONE, 적함 준비 null/DDG/CG를 초기 함선 선택과 VLS 편성에서 지정·출항 확정한다. 기본은 HULK/적함 없음이다. NONE은 실제 기본 표적 생성·reset에 반영한다. 출항 후 변경 금지다.
+- `createPreparedShipRuntimeA`는 불변 프로필·공통 생성 함수로 독립 core 모델·재고·센서/FCS/EW 준비 버퍼를 만든다. 가변 상태 복사나 함종 전역 swap을 사용하지 않는다. 명시적 runtime getter·살아 있는 context binding·가변 객체 소유권 guard를 사용하며 기존 자함 alias/UI를 유지한다.
+- 적함은 STATE_BOUND_INACTIVE다. registered 2와 simulated 1을 구분하고 world/weather/ordnance·기존 ownship loop를 함정 수만큼 실행하지 않는다. 적함의 실제 model/world 배치·physics tick·observer measurement·무장 routing·EW·AI는 3~8단계다. 미연결 적함 함포 command/solve/fire/step은 명시적으로 거부한다. rescue는 provision만 준비하고 world/controller 연결을 3단계로 미룬다.
+- 불변 피해 등록은 pinned E에서 함종별로 캡처한 기존 hitbox/material/ID다. geometry/revision 변경 시 재등록과 baseline 비교가 필요하다. 자함의 기존 hitbox 생성 경로를 유지한다.
+- 운용 저장은 deployment codec을 포함한다. 옛 배치 누락은 HULK/적함 없음으로 명시 migration한다. 모든 codec 검사 후 detached 준비/적용하며 거부는 world·상태·난수 zero-mutation이다. 적함 transient/비행/EW timeline 복원으로 취급하지 않는다. 상세 의존성과 검사 범위는 `docs/multiship/A/DEPENDENCIES.md`와 최신 상태를 따른다.
+- 원격 브랜치 `multiship-runtime-a`의 사용자 HTML 업로드 commit `28dfc4fcefb22e8c0989617b2212e37d096c05d6`은 기준 main을 parent로 가지며 로컬 검증본과 byte-identical이다. 이 revision은 지원 파일·기존 E blob archive 이동·직접 업로드 규칙을 포함한다. 7.1은 사용자 승인으로 원본 HTML 직접 업로드/원격 확인을 허용하도록 바꿨다. PR과 같은 bytes CI의 실제 결과는 GitHub 기록을 따른다. 최신 workflow/manifest는 Multi Ship A이며 archived E는 역사 기록이다.
+- 후속 착수는 3단계의 실제 두 함정 물리·피해·표시다. 4단계 observer truth boundary와 5~7단계 양방향 요격·공격/EW/AI 완료 전에는 적함 교전이 구현되었다고 표시하지 않는다. 실제 mobile FPS/heap/GPU 측정은 소프트웨어 WebGL 결과와 구분한다.
+
+### 직전 병합 기준 HARPOON E — 경유점/최종 통과 ARH
 
 - 최신 E HTML 15,285,590 bytes, SHA `ad68f7a5e37ac066d8f3a70db0fc2aaa7e2611047112d4053c4380b94db8d842`, main SHA `11cf8d757821b8601da5a3a50153666e48524ea31a33de1a88d7a11a72794067`. status/SHA/README/지원 E가 같은 인계다.
 - HARPOON FIRE 아래 지정/해제 native click, 최대8 CIC 점·NAV/락온 분리·drag/pinch 점 추가0. 해제는 초안 clear/cursor 복귀. 마지막 점은 탐색 시작이며 final leg 전방8km/반경4km fixed search area다. route shot은 MANUAL 좌표 계획, 보호 수상 file/자동교전 금지. 경유점 없는 관측 track memory shot을 보존한다.

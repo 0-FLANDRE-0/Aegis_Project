@@ -1,0 +1,66 @@
+name: Performance D damage envelope and mesh publication (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_PERF_D.html
+  AEGIS_BASELINE: archive/v48/WIP_PERF_C/Aegis_SIM_v48_WIP_PERF_C.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          npm ci --prefix docs/performance/D --ignore-scripts --no-audit --no-fund
+          sha256sum -c SHA256SUMS_v48_WIP_PERF_D.txt
+          sha256sum -c docs/performance/D/REPOSITORY_SUPPORT.sha256
+          python docs/performance/D/verify_static.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/PERF_D/static
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-d-static-${{ github.sha }}
+          path: artifacts/PERF_D
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [team, intent-h4, ui-h4, natural-h4, attack, attack-guards, ui-h3, surface, clock, maneuver, guards, ui-h2, natural-h2, baseline, tactical, policy, ui-h1, cooperation, harpoon, camera, defense, natural-ew, native, harpoon-defense, closein, clock-defense, semantics, resources, planner, radar, damage, envelope]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --prefix docs/performance/D --ignore-scripts --no-audit --no-fund
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Run final original HTML
+        run: python docs/performance/D/run_suite.py '${{ matrix.suite }}' "$AEGIS_CANDIDATE" artifacts/PERF_D/'${{ matrix.suite }}' --baseline "$AEGIS_BASELINE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-d-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/PERF_D
+          if-no-files-found: error

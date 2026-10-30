@@ -1,0 +1,435 @@
+{
+  "sha256": "0b59340c2db16d33a6fefe810d8bbf27f96ff189ad8a8166139578b50f2051b5",
+  "checks": {
+    "noIffAbsenceInference": true,
+    "identifiedOnlyNeverInfers": true,
+    "AMBIGUOUS.withholdsIdentityAndConsent": true,
+    "FRIEND_SURFACE.withholdsIdentityAndConsent": true,
+    "NEUTRAL_SURFACE.withholdsIdentityAndConsent": true,
+    "FRIEND_WEAPON.withholdsIdentityAndConsent": true,
+    "IFF_WEAPON.withholdsIdentityAndConsent": true,
+    "STALE_WEAPON.withholdsIdentityAndConsent": true,
+    "OFFBOARD_WEAPON.withholdsIdentityAndConsent": true,
+    "BAD_COVARIANCE.withholdsIdentityAndConsent": true,
+    "NOT_CLOSING.withholdsIdentityAndConsent": true,
+    "NOT_ASM.withholdsIdentityAndConsent": true,
+    "INBOUND_FAR_FROM_ORIGIN.withholdsIdentityAndConsent": true,
+    "noSingleHitHostilePromotion": true,
+    "sustainedLocalOriginEvidence": true,
+    "operatorIdentityUnchanged": true,
+    "explicitFriendlyConsentStillRequired": true,
+    "evidencedSurfaceCanReceiveConsent": true,
+    "nativeAttackAfterEvidenceAndConsent": true,
+    "noAutoOperatorIdRewrite": true,
+    "lateFriendlyWeaponRevokesIntent": true,
+    "aliasNoIntentInheritance": true,
+    "intentExpiresWithoutNewEvidence": true,
+    "roeOffClearsAuthority": true,
+    "enemyObservationsCanReturnFire": true,
+    "enemyNeverJoinsFriendlyTeam": true,
+    "intentNotSavedOrRestored": true,
+    "noTruthOrDl": true,
+    "coreZero": true,
+    "noFault": true
+  },
+  "trace": [
+    {
+      "name": "intentAndConsent",
+      "team": {
+        "schema": "AEGIS_TEAM_TACTICS_H4_1",
+        "truthUsed": false,
+        "remoteFireControl": false,
+        "ordnanceDatalink": false,
+        "policy": {
+          "schema": "AEGIS_TEAM_TACTICS_H4_1",
+          "packet": "AEGIS_TEAM_PACKET_H4_1",
+          "periodTicks": 12,
+          "sendTicks": 30,
+          "latencyTicks": 18,
+          "freshS": 2,
+          "leaseS": 1.8,
+          "waitS": 2.4,
+          "salvoHoldS": 90,
+          "maxFiles": 96,
+          "maxBids": 16,
+          "maxQueue": 16,
+          "maxReceipts": 8,
+          "maxLog": 64,
+          "intentHoldS": 30
+        },
+        "ships": [
+          {
+            "entityId": "SHIP_CG52_OWN",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "SELF_DEFENSE"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF_OR_LINK_OFF",
+            "evaluations": 7,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [],
+            "intents": [
+              {
+                "trackId": 91,
+                "weaponTrackId": 92,
+                "evidence": "LOCAL_WEAPON_ORIGIN_AND_INBOUND",
+                "untilS": 51
+              }
+            ],
+            "log": [
+              {
+                "step": 1182,
+                "action": "COMMAND",
+                "reason": "OPERATOR_TEAM_CHANGED"
+              },
+              {
+                "step": 1236,
+                "action": "INTENT",
+                "reason": "OBSERVED_SELF_DEFENSE_ORIGIN",
+                "trackId": 91,
+                "weaponTrackId": 92
+              }
+            ]
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ALLY_F",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "IDENTIFIED_ONLY"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF_OR_LINK_OFF",
+            "evaluations": 7,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [],
+            "intents": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ENEMY_A",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "SELF_DEFENSE"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF_OR_LINK_OFF",
+            "evaluations": 7,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [],
+            "intents": [],
+            "log": []
+          }
+        ]
+      },
+      "attack": {
+        "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+        "truthUsed": false,
+        "remoteFireControl": false,
+        "dataLink": false,
+        "ships": [
+          {
+            "entityId": "SHIP_CG52_OWN",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": true
+            },
+            "active": true,
+            "status": "WAIT",
+            "reason": "NEW_ATTACK_CONSENT",
+            "lastStep": 1260,
+            "evaluations": 7,
+            "selectedTrackId": null,
+            "consents": [
+              {
+                "trackId": 91,
+                "remaining": 1,
+                "expiresInS": 120
+              }
+            ],
+            "plans": [],
+            "log": [
+              {
+                "step": 1266,
+                "action": "CONSENT",
+                "reason": "OPERATOR_AUTHORIZED",
+                "trackId": 91,
+                "rounds": 1
+              }
+            ]
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ALLY_F",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": false
+            },
+            "active": false,
+            "status": "WAIT",
+            "reason": "ATTACK_AUTO_INACTIVE",
+            "lastStep": 1260,
+            "evaluations": 7,
+            "selectedTrackId": null,
+            "consents": [],
+            "plans": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ENEMY_A",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": true
+            },
+            "active": true,
+            "status": "WAIT",
+            "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+            "lastStep": 1260,
+            "evaluations": 7,
+            "selectedTrackId": null,
+            "consents": [],
+            "plans": [],
+            "log": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "enemyIntentNativeAttack",
+      "team": {
+        "schema": "AEGIS_TEAM_TACTICS_H4_1",
+        "truthUsed": false,
+        "remoteFireControl": false,
+        "ordnanceDatalink": false,
+        "policy": {
+          "schema": "AEGIS_TEAM_TACTICS_H4_1",
+          "packet": "AEGIS_TEAM_PACKET_H4_1",
+          "periodTicks": 12,
+          "sendTicks": 30,
+          "latencyTicks": 18,
+          "freshS": 2,
+          "leaseS": 1.8,
+          "waitS": 2.4,
+          "salvoHoldS": 90,
+          "maxFiles": 96,
+          "maxBids": 16,
+          "maxQueue": 16,
+          "maxReceipts": 8,
+          "maxLog": 64,
+          "intentHoldS": 30
+        },
+        "ships": [
+          {
+            "entityId": "SHIP_CG52_OWN",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "IDENTIFIED_ONLY"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF_OR_LINK_OFF",
+            "evaluations": 16,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [],
+            "intents": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ALLY_F",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "IDENTIFIED_ONLY"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF_OR_LINK_OFF",
+            "evaluations": 16,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [],
+            "intents": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ENEMY_A",
+            "settings": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "enabled": false,
+              "mission": "ESCORT",
+              "formation": "LINE_ASTERN",
+              "spacingM": 2000,
+              "surfaceRoe": "SELF_DEFENSE"
+            },
+            "active": false,
+            "role": "INDEPENDENT",
+            "reason": "TEAM_OFF",
+            "evaluations": 16,
+            "queued": 0,
+            "peers": [],
+            "formation": null,
+            "leases": [],
+            "receipts": [
+              {
+                "serial": 1,
+                "releasedAtS": 63.96666666666667
+              }
+            ],
+            "intents": [
+              {
+                "trackId": 91,
+                "weaponTrackId": 92,
+                "evidence": "LOCAL_WEAPON_ORIGIN_AND_INBOUND",
+                "untilS": 95.6
+              }
+            ],
+            "log": [
+              {
+                "step": 3816,
+                "action": "INTENT",
+                "reason": "OBSERVED_SELF_DEFENSE_ORIGIN",
+                "trackId": 91,
+                "weaponTrackId": 92
+              },
+              {
+                "step": 3838,
+                "action": "RELEASE_RECEIPT",
+                "reason": "NO_DL_NO_BDA",
+                "trackId": 91
+              }
+            ]
+          }
+        ]
+      },
+      "attack": {
+        "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+        "truthUsed": false,
+        "remoteFireControl": false,
+        "dataLink": false,
+        "ships": [
+          {
+            "entityId": "SHIP_CG52_OWN",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": false
+            },
+            "active": false,
+            "status": "WAIT",
+            "reason": "ATTACK_AUTO_INACTIVE",
+            "lastStep": 3936,
+            "evaluations": 16,
+            "selectedTrackId": null,
+            "consents": [],
+            "plans": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ALLY_F",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": false
+            },
+            "active": false,
+            "status": "WAIT",
+            "reason": "ATTACK_AUTO_INACTIVE",
+            "lastStep": 3936,
+            "evaluations": 16,
+            "selectedTrackId": null,
+            "consents": [],
+            "plans": [],
+            "log": []
+          },
+          {
+            "entityId": "SHIP_SCENARIO_ENEMY_A",
+            "settings": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "enabled": true
+            },
+            "active": true,
+            "status": "PREPARING",
+            "reason": "RELEASE_RECHECK_PENDING",
+            "lastStep": 3936,
+            "evaluations": 16,
+            "selectedTrackId": 91,
+            "consents": [],
+            "plans": [
+              {
+                "trackId": 91,
+                "score": 0.9655978762737345,
+                "ready": true,
+                "reason": null,
+                "tubeId": "MK141-B4",
+                "rangeKm": 10.011667134235253,
+                "predictionSigmaM": 160.31219541881399,
+                "routeLengthM": 10686.853693638712,
+                "flightTimeEstimateS": 34.378201095062636,
+                "truthUsed": false
+              }
+            ],
+            "log": [
+              {
+                "step": 3828,
+                "action": "PREPARE",
+                "reason": "CONSENT_AND_PLAN_PASSED",
+                "trackId": 91,
+                "tubeId": "MK141-B2"
+              },
+              {
+                "step": 3838,
+                "action": "RELEASE",
+                "reason": "NATIVE_HARPOON",
+                "trackId": 91,
+                "tubeId": "MK141-B2",
+                "serial": 2
+              },
+              {
+                "step": 3936,
+                "action": "PREPARE",
+                "reason": "CONSENT_AND_PLAN_PASSED",
+                "trackId": 91,
+                "tubeId": "MK141-B4"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "pass": true,
+  "errors": []
+}

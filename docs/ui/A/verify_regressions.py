@@ -1,0 +1,75 @@
+"""VP_A business assertions unchanged; navigate new containers for pointer tests."""
+import argparse,importlib.util,json,sys,subprocess,concurrent.futures,base64
+from pathlib import Path
+R=Path(__file__).resolve().parents[3]
+spec=importlib.util.spec_from_file_location('vp_reg',R/'docs/viewport/A/verify_regressions.py');vp=importlib.util.module_from_spec(spec);spec.loader.exec_module(vp)
+def install_navigation():
+ from playwright.sync_api import Locator,Page
+ sys.path.insert(0,str(R/'docs/helicopter/H'));import browser,browser_g
+ def foreground_loader(original):
+  def load(*args,**kw):
+   p=original(*args,**kw);p.evaluate('async()=>{if(window.__UI_A__&&document.fullscreenElement)await document.exitFullscreen()}');p.bring_to_front();p.wait_for_timeout(200);return p
+  return load
+ browser.load_fleet=foreground_loader(browser.load_fleet);browser_g.load_fleet=foreground_loader(browser_g.load_fleet)
+ # Capture the already rendered surface directly. Playwright's extra animation-
+ # frame/font stabilization can time out under simultaneous SwiftShader runs.
+ # This is a read-only capture, with no clock/render/DOM mutation.
+ def screenshot(self,**kw):
+  session=self.context.new_cdp_session(self)
+  try:data=base64.b64decode(session.send('Page.captureScreenshot',{'format':'png','fromSurface':True,'captureBeyondViewport':False})['data'])
+  finally:session.detach()
+  if kw.get('path'):Path(kw['path']).write_bytes(data)
+  return data
+ Page.screenshot=screenshot
+ original=Locator.click
+ def click(self,*args,**kwargs):
+  info={};reopen_air=False
+  try:
+   info=self.evaluate('e=>({id:e.id,tab:e.dataset.tab,arm:e.closest("[data-arm-group]")?.dataset.armGroup,window:e.closest(".ui-window-a")?.id})',timeout=2000)
+   if info.get('arm'):self.page.evaluate('g=>__NAVAL_SIM_DIAG__.wip13c3SetArmSubtab(g)',info['arm'])
+   if info.get('id')=='c':
+    reopen_air=self.page.evaluate("()=>{if(!window.__UI_A__)return false;const was=__UI_A__.snapshot().windows.AIR.open;for(const id of ['NAV','AIR','CIC'])__UI_A__.close(id);return was;}")
+   if info.get('id','').startswith(('c14','c15')):self.page.evaluate("()=>{if(window.__UI_A__)for(const id of ['NAV','ARM','AIR','DEBUG','FLEET','CIC'])__UI_A__.close(id)}")
+   if info.get('tab'):self.page.evaluate("()=>{const e=document.getElementById('uiWindowListA');if(e)e.hidden=false;}")
+   elif info.get('window'):self.page.evaluate("id=>{if(window.__UI_A__){const s=__UI_A__.snapshot().windows[id];__UI_A__.open(id);if(s.collapsed)__UI_A__.dock(id,'');}}",info['window'].replace('uiWindowA-',''))
+  except Exception:pass
+  result=original(self,*args,**kwargs)
+  if reopen_air:self.page.evaluate('__UI_A__.open("AIR")')
+  if info.get('tab'):self.page.evaluate("()=>{const e=document.getElementById('uiWindowListA');if(e)e.hidden=true;}")
+  return result
+ Locator.click=click
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);ap.add_argument('--only',choices=vp.SUITES);ap.add_argument('--start-at',choices=vp.SUITES);ap.add_argument('--parallel',type=int,default=1);a=ap.parse_args()
+ if a.only:
+  install_navigation()
+  if a.only in ['isar-ui','sov-visual']:
+   original_read=Path.read_text
+   def read(self,*x,**y):
+    s=original_read(self,*x,**y)
+    if self==R/vp.SUITES['isar-ui']:
+     s=s.replace('<=281', "<=x.locator('#uiWindowA-AIR .ui-body-a').evaluate('e=>e.clientHeight')+1")
+     s=s.replace("x.locator('#c').click(position=xy)","xy=x.evaluate('t=>__VIEWPORT_A__.worldToScreen(t.x*.0038,t.y*.0038)',tr['positionM']);x.locator('#c').click(position=xy)")
+     s=s.replace("x.mouse.click(xy['x'],xy['y'])","x.evaluate('window.__UI_A__?.close(\"AIR\")');x.mouse.click(xy['x'],xy['y'])")
+     s=s.replace("x.wait_for_timeout(300);checks[prefix+'progressText']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('50%')\",polling=50,timeout=15000);checks[prefix+'progressText']")
+     s=s.replace("x.wait_for_timeout(300);checks[prefix+'resultSummary']", "x.wait_for_function(\"document.getElementById('airIsarStatusF2').textContent.includes('전장')\",polling=50,timeout=15000);checks[prefix+'resultSummary']")
+    if self==R/vp.SUITES['sov-visual']:s=s.replace('timeout=90000','timeout=180000,polling=50')
+    return s
+   Path.read_text=read
+  return vp.adapted(a.only,a.html,a.out)
+ a.out.mkdir(parents=True,exist_ok=True);rows=[]
+ if a.parallel>1:
+  def run(name):
+   with (a.out/(name+'.log')).open('w')as log:p=subprocess.run([sys.executable,__file__,str(a.html),str(a.out/name),'--only',name],cwd=R,stdout=log,stderr=subprocess.STDOUT)
+   return {'suite':name,'exitCode':p.returncode}
+  with concurrent.futures.ThreadPoolExecutor(max_workers=min(4,a.parallel))as pool:
+   for future in concurrent.futures.as_completed([pool.submit(run,name)for name in vp.SUITES]):rows.append(future.result());print(rows[-1],flush=True);(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n')
+  if any(r['exitCode']for r in rows):raise SystemExit(1)
+ else:
+  start=not a.start_at
+  for name in vp.SUITES:
+   if name==a.start_at:start=True
+   if not start:continue
+   print('RUN '+name,flush=True);p=subprocess.run([sys.executable,__file__,str(a.html),str(a.out/name),'--only',name],cwd=R);rows.append({'suite':name,'exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n')
+   if p.returncode:raise SystemExit(p.returncode)
+ p=subprocess.run([sys.executable,'docs/helicopter/F/verify_regression.py',str((R/'Aegis_SIM_v48_WIP_VP_A.html')if(R/'Aegis_SIM_v48_WIP_VP_A.html').exists()else(R/'archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html')),str(a.html),str(a.out/'paired-baseline'),'--baseline-only'],cwd=R);rows.append({'suite':'paired-baseline','exitCode':p.returncode});(a.out/'progress.json').write_text(json.dumps(rows,indent=2)+'\n');raise SystemExit(p.returncode)
+if __name__=='__main__':main()

@@ -1,0 +1,46 @@
+--- CURRENT/live-game.js
++++ PATCHED/live-game.js
+@@ -9498,17 +9498,16 @@
+     const pip={x:targetState.posM.x+targetState.velMps.x*tgo,
+                y:targetState.posM.y+targetState.velMps.y*tgo,
+                // WIP86: observation-derived vertical acceleration only. Clamp to a physical prediction envelope.
+                z:clamp(targetState.posM.z+targetState.velMps.z*tgo+.5*_w86az*tgo*tgo,0,60000)};
+     const dx=pip.x-mPos.x,dy=pip.y-mPos.y,dz=pip.z-mPos.z,rgoM=Math.max(1,Math.hypot(dx,dy,dz));
+     const speed=Math.max(80,Math.hypot(mVel.x,mVel.y,mVel.z));
+-    // First experimental terminal-vector policy: level, head-on horizontal direction.
+-    // This matches the ADD sea-skimmer geometry (gamma_f≈0) and keeps the high-diver adaptation minimal.
+-    let hx=-targetState.velMps.x,hy=-targetState.velMps.y;
+-    let hm=Math.hypot(hx,hy);
+-    if(hm<1){hx=dx;hy=dy;hm=Math.max(1,Math.hypot(hx,hy));}
++    // Game terminal-vector heading follows the observed/estimated PIP LOS.
++    // Do not automatically reverse a retreating/crossing target's heading.
++    let hx=dx,hy=dy;
++    let hm=Math.max(1,Math.hypot(hx,hy));
+     hx/=hm;hy/=hm;
+     let gammaF=0;
+     const policy=String(m._wip79KappaTerminalPolicy??window.WIP79_KAPPA_TERMINAL_POLICY??'PIP_LOS');
+     if(policy==='PIP_LOS')gammaF=Math.atan2(dz,Math.max(1,Math.hypot(dx,dy)));
+     else if(policy==='TARGET_GAMMA_OPPOSE_H'){
+       gammaF=Math.atan2(-targetState.velMps.z,Math.max(1,Math.hypot(targetState.velMps.x,targetState.velMps.y)));
+@@ -43748,17 +43747,16 @@
+     const pip={x:targetState.posM.x+targetState.velMps.x*tgo,
+                y:targetState.posM.y+targetState.velMps.y*tgo,
+                // WIP86: observation-derived vertical acceleration only. Clamp to a physical prediction envelope.
+                z:clamp(targetState.posM.z+targetState.velMps.z*tgo+.5*_w86az*tgo*tgo,0,60000)};
+     const dx=pip.x-mPos.x,dy=pip.y-mPos.y,dz=pip.z-mPos.z,rgoM=Math.max(1,Math.hypot(dx,dy,dz));
+     const speed=Math.max(80,Math.hypot(mVel.x,mVel.y,mVel.z));
+-    // First experimental terminal-vector policy: level, head-on horizontal direction.
+-    // This matches the ADD sea-skimmer geometry (gamma_f≈0) and keeps the high-diver adaptation minimal.
+-    let hx=-targetState.velMps.x,hy=-targetState.velMps.y;
+-    let hm=Math.hypot(hx,hy);
+-    if(hm<1){hx=dx;hy=dy;hm=Math.max(1,Math.hypot(hx,hy));}
++    // Game terminal-vector heading follows the observed/estimated PIP LOS.
++    // Do not automatically reverse a retreating/crossing target's heading.
++    let hx=dx,hy=dy;
++    let hm=Math.max(1,Math.hypot(hx,hy));
+     hx/=hm;hy/=hm;
+     let gammaF=0;
+     const policy=String(m._wip79KappaTerminalPolicy??window.WIP79_KAPPA_TERMINAL_POLICY??'PIP_LOS');
+     if(policy==='PIP_LOS')gammaF=Math.atan2(dz,Math.max(1,Math.hypot(dx,dy)));
+     else if(policy==='TARGET_GAMMA_OPPOSE_H'){
+       gammaF=Math.atan2(-targetState.velMps.z,Math.max(1,Math.hypot(targetState.velMps.x,targetState.velMps.y)));

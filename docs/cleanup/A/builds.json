@@ -1,0 +1,131 @@
+{
+  "baseCommit": "837539645b663e8653caa7aac037e6857efe5a2d",
+  "versions": {
+    "KAPPA": {
+      "file": "archive/v48/WIP_KAPPA_PIP_LOS_A/Aegis_SIM_v48_WIP_KAPPA_PIP_LOS_A.html",
+      "htmlSha256": "b81e2f3fbf45eeaa750e7d6edea59c2c024ed0128eaf6a0b695c9ea2bd84e58e",
+      "mainSha256": "1a634aa6de90e23d2c0612914045e5352387f6277bae7baa9d7187b0e6cd2818"
+    },
+    "DZT": {
+      "file": "archive/v48/WIP_FUZE_ZEM_A/Aegis_SIM_v48_WIP_FUZE_ZEM_A.html",
+      "htmlSha256": "edc159fa347d721d61d80228e2512665f22da0adb4f02fdf4e2dbe82789e0c9c",
+      "mainSha256": "d10d606e73f4b6ac31dd20918678ef2a192bc1f91e61ad227e5c57f8899d8686"
+    },
+    "HANDOFF": {
+      "file": "Aegis_SIM_v48_WIP_LAUNCH_HANDOFF_A.html",
+      "htmlSha256": "e42a2e05b8ff2096dfb334e7b9427cd2cd6da46d567083f06620ffdf35729ed7",
+      "mainSha256": "8731bf3a41ae5a30c499b1da6ed2157bfb758d1c35268999faef4e3cb903a3e8"
+    },
+    "ARH": {
+      "file": "Aegis_SIM_v48_WIP_ARH_MEASUREMENT_FIX_A.html",
+      "htmlSha256": "900be4a2d146ecf33eff67f1719134b9a93eb58c3dc79fbc9b6a6cc813c3cfab",
+      "mainSha256": "8ebb77d4c7ab713ac545f0c59f5a3727fcb44628d91542305cca192056b3b4c6"
+    },
+    "VERTICAL": {
+      "file": "Aegis_SIM_v48_WIP_NEAR_VERTICAL_PATH_FIX_A.html",
+      "htmlSha256": "eb1f5cebbfe991732b2855df625030b0691ff7cdd8047e9a01cc2711010b6e5f",
+      "mainSha256": "814b469a692776ad2dbd7f10c4a87617cae1cf440f5a844bc215ee8890d3c471"
+    },
+    "LATEST": {
+      "file": "Aegis_SIM_v48_WIP_ENV_D_REMEASURE_A.html",
+      "htmlSha256": "b846bd92a01f405fda82bafa08a5758925106d9827615d9dd06553134648c8db",
+      "mainSha256": "3b0f8a28257f7551d1d44dadd951da8f0d1c59dec4ddcaa21d4e0f31eaaa9360"
+    },
+    "VP": {
+      "file": "archive/v48/WIP_VP_A/Aegis_SIM_v48_WIP_VP_A.html",
+      "htmlSha256": "432de9b88566d6198da0a21856ab85d1febda8106fcd28f6d8f13fd8801e67b9",
+      "mainSha256": "2bac512bd53747c0eba999cdc3faf22c4a48328b7adf41203376d3191b0bce41"
+    },
+    "REVERT_LAUNCH_ONLY": {
+      "file": "/tmp/aegis-clean-a/variants/HANDOFF_REVERT_LAUNCH_ONLY.html",
+      "htmlSha256": "21ce0a5d67bb32dec5536b94c16795669eac5113bc9e04de425a72ab2807fdbe",
+      "diagnosticOnly": true,
+      "revertedFunction": "updateMissileBodyB3",
+      "retainedUnusedHelper": true
+    }
+  },
+  "comparisons": [
+    {
+      "before": "KAPPA",
+      "after": "DZT",
+      "changed": [
+        {
+          "name": "surfaceMissileSweptContactWip13C5",
+          "beforeSha256": "16145b8f016d60df3714c1eab60fc20e29bf49e141a3647f6dd2227797d56799",
+          "afterSha256": "3c4b1fdddb3e5869edcd4c577faabe3d66a0dcfe9e4883e5dbf49bf99ddb4fce"
+        },
+        {
+          "name": "computeZEMCorrectionV1",
+          "beforeSha256": "5a5261fc04cbec774e4b05d483789f045573cad16180649ebf8b5f5d7f43cfaa",
+          "afterSha256": "ff5b3a9d2f2f8f01064172df67ce6d06deeaeebebbc188567536bc5a14b602b1"
+        },
+        {
+          "name": "gameFlightTerminationEvaluateV48",
+          "beforeSha256": "fc8442a2a73c8fa353b59caaf794de979a930caa47923b3f8b690f6f5e609b6f",
+          "afterSha256": "b52c6bdfd47edc8d37b26b77b51c3b818bc91aa62c331d03c007f2890f9d3a90"
+        },
+        {
+          "name": "gameFlightTerminationTickV48",
+          "beforeSha256": "66715d17c7b34f7c7a150a953b1afa55709718ac525f9ab8f8cd099ecc15ac0b",
+          "afterSha256": "4bb7bb2571589615cf09cab7ddd124d4095e197df89fe26cebfba25f29f24009"
+        },
+        {
+          "name": "updateMissileBodyB3",
+          "beforeSha256": "4624178bbec5bd8da436589985a8339060b8149887259e7e750d4c456183662b",
+          "afterSha256": "691e14549ced416d7f201a706c064d328ae4efe07eede685656743d5b10bee6f"
+        }
+      ],
+      "added": [
+        "samFuzeSignalAppliesA",
+        "samFuzeSignalBeginA",
+        "samFuzeSignalPowerA",
+        "samFuzeSignalSweepA",
+        "gameTrackedPassEvidenceA"
+      ]
+    },
+    {
+      "before": "DZT",
+      "after": "HANDOFF",
+      "changed": [
+        {
+          "name": "updateMissileBodyB3",
+          "beforeSha256": "691e14549ced416d7f201a706c064d328ae4efe07eede685656743d5b10bee6f",
+          "afterSha256": "ed94c9c270d0739ccaad07fa123a0c465dcd5e49d881ef360781fa6d224626e7"
+        }
+      ],
+      "added": [
+        "samLaunchHandoffGateA"
+      ]
+    },
+    {
+      "before": "HANDOFF",
+      "after": "ARH",
+      "changed": [
+        {
+          "name": "_arhV2MonopulseMeasurement",
+          "beforeSha256": "9b206aa5727f5bffc11513f0bea56e0d82615352689454b0c3144fd57368579a",
+          "afterSha256": "3a1dce5e1da60f98d7dfcdfad1f2d435c8e4ca049c359d89f3cb0f162fe8f687"
+        }
+      ],
+      "added": []
+    },
+    {
+      "before": "ARH",
+      "after": "VERTICAL",
+      "changed": [
+        {
+          "name": "_wip79KappaPipState",
+          "beforeSha256": "554775f6c4fcc3335170c9c3304a8f81940cf0d718889c74a2a75536cd32e480",
+          "afterSha256": "19caa5ad7c13e1362fcde9fbff47e1017ffbf3ae0f30296db943bc12cbbfea4e"
+        }
+      ],
+      "added": []
+    },
+    {
+      "before": "VERTICAL",
+      "after": "LATEST",
+      "changed": [],
+      "added": []
+    }
+  ]
+}

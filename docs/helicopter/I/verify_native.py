@@ -1,0 +1,41 @@
+"""Native fixed-step operations, DDG parity, old CG migration and one-door codec."""
+import argparse,json,hashlib,sys
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT/'docs/helicopter/H'))
+from browser import load_fleet,launch
+FLIGHT=r'''order=>{const a=__HELO__,d=__NAVAL_SIM_DIAG__,s=a.snapshot(),ids=s.aircraft.map(h=>h.id),checks={},rows=[];d.setTerrainDiagBypass(true);d.setEmcon(true);d.wip13a3SetManualWeather({hsM:.1,windSpeedMps:0,precipitation01:0});
+ checks.supported=s.supported&&s.aircraft.length===2;checks.stowedDefault=s.aircraft.every(h=>h.state==='HANGARED'&&h.onboard&&!h.visible&&h.radarMode==='STBY'&&h.iffOn);checks.doorsProfile=s.doors.length===(s.facility?.doorCount??2);
+ const commands=order.map(i=>a.command(ids[i],'LAUNCH'));let peakGround=0,firstDepartS=null,secondStartS=null,doorComplete=false,secondSawOpen=false;
+ for(let sec=1;sec<=260;sec++){d.stepTicks(60);const q=a.snapshot();peakGround=Math.max(peakGround,q.aircraft.filter(h=>['HANGAR_OPEN','TRAVERSE','SPREAD','START','PRE_LAUNCH_CHECK','LIFT_HOVER'].includes(h.state)).length);if(firstDepartS===null&&!q.aircraft[order[0]].onboard)firstDepartS=sec;if(secondStartS===null&&q.aircraft[order[1]].visible)secondStartS=sec;
+ if(q.aircraft[order[0]].state==='TRAVERSE')doorComplete=q.doors[0]>.999;if(q.aircraft[order[1]].state==='TRAVERSE'&&q.doors.length===1)secondSawOpen=q.doors[0]>.999;
+ if(sec%5===0||[10,30,60,105,115,120].includes(sec))rows.push({timeS:sec,aircraft:q.aircraft,doors:q.doors,deckOwnerId:q.deckOwnerId});}
+ const q=a.snapshot();checks.commands=commands.every(c=>c.ok);checks.oneSharedPad=peakGround===1;checks.firstPreparation120=firstDepartS===120;checks.secondWaitsForPhysicalDeparture=secondStartS>firstDepartS;checks.bothAirborne=q.aircraft.every(h=>!h.onboard&&h.positionM.z===50);checks.rotorsComplete=q.aircraft.every(h=>h.rotor01===1&&h.blades01===1&&h.tail01===1);checks.firstDoorFullyOpenBeforeTow=doorComplete;checks.secondDoorSharedReopens=q.doors.length!==1||secondSawOpen;checks.doorsClosedFinally=q.doors.every(v=>v===0);checks.core=!__CORE_SELFTEST_FAILURES__.length;return {checks,rows,initial:s,final:q,firstDepartS,secondStartS};}'''
+CODEC=r'''legacy=>{const a=__HELO__,d=__NAVAL_SIM_DIAG__,checks={},text=JSON.stringify(legacy);const v=d.validateOperationalStateV48Wip11B(legacy);checks.legacyValid=v.ok;checks.preflightInputPure=text===JSON.stringify(legacy);d.importOperationalStateV48Wip11A(legacy);const migrated=d.exportOperationalStateV48Wip11A(),isCg=migrated.profileId==='CG_52_LATE_TICONDEROGA'||a.snapshot().facility.doorCount===1;
+ checks.legacyPolicy=isCg?migrated.ship.aviation.schema==='AEGIS_HELO_SAVE_I1'&&a.snapshot().aircraft.every(h=>h.state==='HANGARED'):JSON.stringify(migrated.ship.aviation.aircraft)===JSON.stringify(legacy.ship.aviation.aircraft);
+ const ids=a.snapshot().aircraft.map(h=>h.id);if(isCg){a.command(ids[0],'LAUNCH');a.command(ids[1],'LAUNCH');d.setEmcon(true);d.stepTicks(1000);}const save=d.exportOperationalStateV48Wip11A(),before=JSON.stringify(save.ship.aviation.aircraft);checks.currentValid=d.validateOperationalStateV48Wip11B(save).ok;d.importOperationalStateV48Wip11A(save);checks.aircraftRoundTrip=before===JSON.stringify(d.exportOperationalStateV48Wip11A().ship.aviation.aircraft);
+ const bad=structuredClone(save);bad.ship.aviation.launch.doors.push(.2);const state=JSON.stringify(d.exportOperationalStateV48Wip11A()),invalid=d.validateOperationalStateV48Wip11B(bad);let threw=false;try{d.importOperationalStateV48Wip11A(bad)}catch{threw=true;}checks.invalidDoorCountAtomic=!invalid.ok&&threw&&state===JSON.stringify(d.exportOperationalStateV48Wip11A());
+ const snap=a.snapshot();snap.facility.deckXM=999;snap.doors[0]=999;checks.snapshotDetached=a.snapshot().facility.deckXM!==999&&a.snapshot().doors[0]!==999;
+ d.resetEntireSessionV48Wip11A();checks.lifecycleResets=a.snapshot().aircraft.every(h=>h.state==='HANGARED'&&!h.visible)&&a.snapshot().doors.every(v=>v===0);checks.core=!__CORE_SELFTEST_FAILURES__.length;return {checks,legacyValidation:v,schema:migrated.ship.aviation.schema,currentSchema:save.ship.aviation.schema};}'''
+CLOCK=r'''scale=>{const a=__HELO__,d=__NAVAL_SIM_DIAG__;d.setTerrainDiagBypass(true);d.setEmcon(true);d.wip13a3SetManualWeather({hsM:.1,windSpeedMps:0,precipitation01:0});for(const h of a.snapshot().aircraft)a.command(h.id,'LAUNCH');const run=d.runFramesToTicks(60,scale,15360);return {run,snapshot:a.snapshot(),rng:__HARPOON_DIAG_A__.snapshot().rng,core:__CORE_SELFTEST_FAILURES__};}'''
+def main():
+ p=argparse.ArgumentParser();p.add_argument('baseline',type=Path);p.add_argument('html',type=Path);p.add_argument('out',type=Path);a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True);raw=a.html.read_bytes();old=a.baseline.read_bytes();errors=[];records={};checks={}
+ with sync_playwright()as pw:
+  b=launch(pw)
+  def page(data,own):
+   x=load_fleet(b,data,own=own,errors=errors);x.evaluate('window.requestAnimationFrame=()=>0');return x
+  for profile in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
+   x=page(old,profile);legacy=x.evaluate("()=>{const a=__HELO__;if(a.snapshot().supported){a.command(a.snapshot().aircraft[0].id,'LAUNCH');__NAVAL_SIM_DIAG__.stepTicks(1900);}return __NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A();}");x.close();x=page(raw,profile);r=x.evaluate(CODEC,legacy);x.close();records[profile+'.codec']=r;checks.update({profile+'.codec.'+k:v for k,v in r['checks'].items()})
+  for profile,order in [('DDG_119_LATE_FLIGHT_IIA',[0,1]),('CG_52_LATE_TICONDEROGA',[0,1]),('CG_52_LATE_TICONDEROGA',[1,0])]:
+   x=page(raw,profile);r=x.evaluate(FLIGHT,order);x.close();name=profile+'.'+str(order);records[name]=r;checks.update({name+'.'+k:v for k,v in r['checks'].items()})
+   if profile.startswith('DDG'):
+    x=page(old,profile);before=x.evaluate(FLIGHT,order);x.close();# F1 snapshots have no new facility property.
+    def flight_sig(r):return [{k:v for k,v in row.items()}for row in r['rows']]
+    checks['DDG.completeFlightExact']=flight_sig(before)==flight_sig(r);records['DDG.baselineFlight']=before
+  clocks=[]
+  for scale in [1,8,16,64]:
+   x=page(raw,'CG_52_LATE_TICONDEROGA');clocks.append(x.evaluate(CLOCK,scale));x.close()
+  for i,scale in enumerate([1,8,16,64]):checks[f'clock{scale}.exact']=clocks[i]['snapshot']==clocks[0]['snapshot']and clocks[i]['rng']==clocks[0]['rng'];checks[f'clock{scale}.fullFixedTicks']=clocks[i]['run']['steps']==15360;checks[f'clock{scale}.core']=not clocks[i]['core']
+  records['clocks']=clocks;b.close()
+ out={'pass':all(checks.values())and not errors,'checks':checks,'records':records,'errors':errors,'htmlSha256':hashlib.sha256(raw).hexdigest(),'baselineSha256':hashlib.sha256(old).hexdigest()};(a.out/'native.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n');print(json.dumps({'pass':out['pass'],'checks':len(checks),'failed':[k for k,v in checks.items()if not v],'errors':errors}));raise SystemExit(0 if out['pass']else 1)
+if __name__=='__main__':main()

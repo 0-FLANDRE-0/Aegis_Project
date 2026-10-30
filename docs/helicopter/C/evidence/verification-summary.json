@@ -1,0 +1,111 @@
+{
+  "schema": "AEGIS_HELI_B_VERIFICATION",
+  "pass": true,
+  "totalChecks": 264,
+  "suites": [
+    {
+      "suite": "static",
+      "checks": 56,
+      "pass": true,
+      "record": "static.json"
+    },
+    {
+      "suite": "motion",
+      "checks": 35,
+      "pass": true,
+      "record": "motion.json"
+    },
+    {
+      "suite": "runtime",
+      "checks": 44,
+      "pass": true,
+      "record": "runtime.json"
+    },
+    {
+      "suite": "extensions",
+      "checks": 27,
+      "pass": true,
+      "record": "extensions.json"
+    },
+    {
+      "suite": "ui",
+      "checks": 30,
+      "pass": true,
+      "record": "ui.json"
+    },
+    {
+      "suite": "native",
+      "checks": 17,
+      "pass": true,
+      "record": "native.json"
+    },
+    {
+      "suite": "legacy",
+      "checks": 10,
+      "pass": true,
+      "record": "legacy.json"
+    },
+    {
+      "suite": "clock",
+      "checks": 5,
+      "pass": true,
+      "record": "clock.json"
+    },
+    {
+      "suite": "clearance",
+      "checks": 8,
+      "pass": true,
+      "record": "clearance.json"
+    },
+    {
+      "suite": "rig-source",
+      "checks": 2,
+      "pass": true,
+      "record": "rig-source.json"
+    },
+    {
+      "suite": "baseline",
+      "checks": 30,
+      "pass": true,
+      "record": "baseline-comparison.json"
+    }
+  ],
+  "html": {
+    "path": "Aegis_SIM_v48_WIP_HELI_B.html",
+    "bytes": 16037621,
+    "sha256": "e4da7d69b3a4fb70583b336f5659a9f4956b63ed85bcf4fbf9e763ebf30017c3",
+    "mainSha256": "324c39dd6e78a2976527e66e1e0bc80684b118c182d77b4f62106f7aace46636"
+  },
+  "baselineSha256": "35dbbb64f3067768494c9c6b08d3dc7f02d53cc223f80f4fc7f4970dcb871477",
+  "baseCommit": "15dfc8c1fd60a1e15ddc524e5144724e9381a92b",
+  "addedBytes": 1828,
+  "increasePercent": 0.011399498609142685,
+  "sourceModules": {
+    "motion.js": "286fcd62030ba2bccf545019e078d600bd945337f5fe4bc67a267e7c49527685",
+    "runtime.js": "98675f474a59548ad98367432aa12a00a34b7c090755157f40f849840a5d57a5",
+    "ui.js": "9dc13ad1147e727bd4e6238a0585d21847b92a43d82a16983e68d4febd00553d",
+    "render.js": "ca53be00abc01e106c95529d191247b35eefefb3f85c532c56e0118211abef15",
+    "rig.json": "9dfbae4523405f318a6a0da0e346bd6f69b0f5f181ca812a68354cc06f77aa69",
+    "build.py": "6d70b6dbeaca0f1aecd666347974310d2e8cea4026fa27c8662a519bab9e1233"
+  },
+  "conditions": {
+    "runtime": "Original full fixed-step path, two launch phases/queue, routes/UNDO, moving and turning mother ship, codec/zero-write guards, 50m MSL.",
+    "native": "Real Three/SwiftShader; source folded envelope, rigidity/axis/radius over five angles, static gearbox, blur planes, raycast clear portals both slots, CAMERA H2, shared lease and reset. Detached render snapshots only.",
+    "clearance": "Independent immutable source folded triangles, both 401 poses, actual 21 full-fixed-step poses per slot, portal intersections and lower-airframe deck envelope. Minimum horizontal margin .3698m/header .2919m.",
+    "clock": "1/8/16/64,16000ticks; background RAF suppressed only by fixture before boot to equalize first tick; two shipside helicopters with routes/follow and turning parent. Original HTML unchanged.",
+    "ui": "1000x760 and390x844 touch/viewport; left controls/right scroll list and blank space, route/undo/follow, native button bindings.",
+    "legacy": "Actual HELI_A airborne operational export, pose/velocity/heading preserved; malformed Boolean rejected before writes.",
+    "baseline": "HELI_A versus HELI_B, DDG/CG x idle/8Kh32 AUTO/damaged, cold helicopters; exact physics/damage/ammunition/combat RNG, exclude only aviation and profiler.",
+    "source": "Axis centres/normals/radii remeasured from immutable HLA1; old packed0..12 and embedded model bytes exact; all non-aviation authorities preserved."
+  },
+  "limits": [
+    "Own DDG-119 two helicopters; generic SH-60 visual, MH-60R movement profile",
+    "No sensors/IFF/offboard registration, weapons, fuel burn, recovery or altitude UI",
+    "Point mass/state machine; no rotor aerodynamics or helo combat collision",
+    "Software WebGL/touch emulation; no phone hardware FPS or long-duration performance claim",
+    "Historical HELI_A198 and PERF_F1817 not counted as rerun on HELI_B"
+  ],
+  "actionsDispatched": false,
+  "prCreated": false,
+  "merged": false
+}

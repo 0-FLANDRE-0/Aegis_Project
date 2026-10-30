@@ -1,0 +1,2517 @@
+{
+  "schema": "HARPOON_E_CLOCK_VERIFICATION",
+  "source": "Aegis_SIM_v48_WIP_MULTI_SHIP_A.html",
+  "sha256": "704d072429de73de843357235f665474f1827faf4db2328a2822cc23e8fa6685",
+  "seed": "0x6d2b79f5",
+  "ticksPerCase": 3072,
+  "checks": {
+    "eachScalePassesFinalWaypointAndStartsSearch": true,
+    "fullAccumulatorAutoSelectionReleaseExactAt1_8_16_64": true,
+    "allScalesReleaseExactlyOneChosenTube": true,
+    "allScalesCoreAndPageErrorsZero": true
+  },
+  "details": [
+    {
+      "scale": 1,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": null,
+        "tubeId": "MK141-A3",
+        "rangeKm": 18.00298283602827,
+        "memory": {
+          "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+          "trackId": null,
+          "positionM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "covariance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stateEpoch": "RELEASE_FIXED_COORDINATE",
+          "stateAgeS": 0,
+          "observationAgeS": 0,
+          "launchStep": 0,
+          "identity": "COORDINATE_SEARCH",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "routeProgram": {
+          "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+          "pointsM": [
+            {
+              "x": 4000,
+              "y": 0
+            },
+            {
+              "x": 8000,
+              "y": 0
+            }
+          ],
+          "startM": {
+            "x": -2.1276955040186167,
+            "y": 82.73750308427736
+          },
+          "searchCenterM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "routeLengthM": 8002.98283602827,
+          "plannedLengthM": 18002.98283602827,
+          "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+          "dataLink": false,
+          "updatesAfterRelease": false,
+          "truthUsed": false
+        },
+        "muzzleM": {
+          "x": -2.1276955040186167,
+          "y": 82.73750308427736,
+          "z": 8.078141041857405
+        },
+        "axis": {
+          "x": 0.8338846212201103,
+          "y": -0.010656982830966414,
+          "z": 0.5518359060531792
+        },
+        "authority": {
+          "ok": true,
+          "mode": "MANUAL_COORDINATE_SEARCH"
+        },
+        "truthUsed": false,
+        "turnRad": 0.007891205475992535,
+        "selectionMode": "AUTO"
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A3"
+      },
+      "run": {
+        "steps": 3072,
+        "frames": 3072,
+        "simStepCounter": 3072,
+        "simAccumulator": 0
+      },
+      "missiles": [
+        {
+          "id": 1,
+          "entityClass": "WORLD_ORDNANCE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "weaponKey": "HARPOON",
+          "label": "RGM-84D",
+          "alive": true,
+          "ageS": 51.03333333333172,
+          "phase": "INS_SEARCH",
+          "positionM": {
+            "x": 13254.586402931014,
+            "y": -1.561840925947538,
+            "z": 15.029322088165916
+          },
+          "velocityMps": {
+            "x": 288.95328387969226,
+            "y": -0.03852786615977592,
+            "z": 0.13455556365872043
+          },
+          "navPositionM": {
+            "x": 13250.387425185594,
+            "y": 0.14030120496630735,
+            "z": 15.029322088165916
+          },
+          "ins": {
+            "velocityMps": {
+              "x": 288.8610817103248,
+              "y": -0.007010835094831795,
+              "z": 0.13455556365872043
+            },
+            "yawRad": -4.609348886575049e-05,
+            "pitchRad": 0.00046566542151831524,
+            "accelBiasMps2": {
+              "x": -0.0003867192770317844,
+              "y": -0.00010221644081073267,
+              "z": 0
+            },
+            "gyroBiasRadS": 1.709519520935319e-06,
+            "samples": 3062,
+            "source": "INTEGRATED_IMU_NO_DL"
+          },
+          "radarAltitudeM": 15.843275144833486,
+          "speedMps": 288.95331777720463,
+          "yawRad": -0.0001333359684103641,
+          "pitchRad": 0.00046566542151768196,
+          "launchAxis": {
+            "x": 0.833864481381313,
+            "y": -0.01073635432399366,
+            "z": 0.55186479991616
+          },
+          "launchPositionM": {
+            "x": -4.05838702434832,
+            "y": 82.76119499439477,
+            "z": 6.487011407722827
+          },
+          "launchMuzzleM": {
+            "x": -2.127990749950581,
+            "y": 82.73634033413472,
+            "z": 7.764578419528737
+          },
+          "launchRearM": {
+            "x": -6.364196736806761,
+            "y": 82.79088325984965,
+            "z": 4.960989801067147
+          },
+          "tubeId": "MK141-A3",
+          "carrierVelocityMps": {
+            "x": -0.0029874535538976232,
+            "y": -0.011311214259421831,
+            "z": 0.11479886525810556
+          },
+          "canisterSpeedMps": 24.463382699207532,
+          "route": {
+            "program": {
+              "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+              "pointsM": [
+                {
+                  "x": 4000,
+                  "y": 0
+                },
+                {
+                  "x": 8000,
+                  "y": 0
+                }
+              ],
+              "startM": {
+                "x": -2.1276955040186167,
+                "y": 82.73750308427736
+              },
+              "searchCenterM": {
+                "x": 16000,
+                "y": 0,
+                "z": 0
+              },
+              "routeLengthM": 8002.98283602827,
+              "plannedLengthM": 18002.98283602827,
+              "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+              "dataLink": false,
+              "updatesAfterRelease": false,
+              "truthUsed": false
+            },
+            "index": 2,
+            "completed": true,
+            "passes": [
+              {
+                "index": 0,
+                "ageS": 17.700000000000276,
+                "insPositionM": {
+                  "x": 3800.267333594304,
+                  "y": 4.468588183280814
+                },
+                "method": "INS_FLYBY_CAPTURE"
+              },
+              {
+                "index": 1,
+                "ageS": 32.84999999999942,
+                "insPositionM": {
+                  "x": 8002.557121634963,
+                  "y": 0.020532738602063547
+                },
+                "method": "INS_PLANE_CROSSING"
+              }
+            ],
+            "previousInsM": {
+              "x": 8002.557121634963,
+              "y": 0.020532738602063547
+            },
+            "completedAgeS": 32.84999999999942
+          },
+          "memory": {
+            "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+            "trackId": null,
+            "positionM": {
+              "x": 16000,
+              "y": 0,
+              "z": 0
+            },
+            "velocityMps": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "covariance": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "stateEpoch": "RELEASE_FIXED_COORDINATE",
+            "stateAgeS": 0,
+            "observationAgeS": 0,
+            "launchStep": 10,
+            "identity": "COORDINATE_SEARCH",
+            "truthUsed": false,
+            "updatesAfterRelease": false
+          },
+          "massKg": 529.2337500000098,
+          "fuelKg": 99.23375000000979,
+          "boosterAttached": false,
+          "wingDeploy01": 1,
+          "tailDeploy01": 1,
+          "tailCommandRad": -8.875851842304882e-06,
+          "thrustN": 2333.5180142102427,
+          "pathM": 13335.772838925224,
+          "tubeCleared": true,
+          "fuzeArmed": true,
+          "rng": 240149202,
+          "seeker": {
+            "active": true,
+            "mode": "SEARCH",
+            "timerS": -2.525757381022231e-15,
+            "azRelRad": -0.6021385919380434,
+            "elRelRad": -0.0062479389753942165,
+            "scanDirection": 1,
+            "scanReversals": 8,
+            "scanBoundsRad": [
+              -0.7853981633974483,
+              0.785393232368647
+            ],
+            "candidate": null,
+            "lock": null,
+            "lockCount": 0,
+            "missedS": 18.200000000000248,
+            "lastObservations": [
+              {
+                "rangeM": 1927.6769189345162,
+                "bearingRad": -0.6021400693604875,
+                "elevationRad": -0.008264281354969642,
+                "radialMps": -238.0980526100941,
+                "verticalExtentM": 0.9055933896179986,
+                "rangeExtentM": 39.30485982097599,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 4564.368368408381,
+                "noiseScale": 0.05127436369054355
+              },
+              {
+                "rangeM": 3690.9262612371617,
+                "bearingRad": -0.6021375032913241,
+                "elevationRad": -0.004402059653336567,
+                "radialMps": -238.09197893061057,
+                "verticalExtentM": 0.7034092613955674,
+                "rangeExtentM": 35.50224959977697,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2669.0199098587887,
+                "noiseScale": 0.06705246008449796
+              },
+              {
+                "rangeM": 2479.1265487019405,
+                "bearingRad": -0.6021690243416273,
+                "elevationRad": -0.006447317935697473,
+                "radialMps": -238.13844233605516,
+                "verticalExtentM": 1.060782523465775,
+                "rangeExtentM": 35.89850929899838,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2644.680720096517,
+                "noiseScale": 0.06736029778629914
+              },
+              {
+                "rangeM": 2753.4544391449685,
+                "bearingRad": -0.6021588556689927,
+                "elevationRad": -0.0060769953519074354,
+                "radialMps": -238.15457582673343,
+                "verticalExtentM": 0.789060048618065,
+                "rangeExtentM": 38.4895398111524,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2453.730343511191,
+                "noiseScale": 0.06993220246455649
+              },
+              {
+                "rangeM": 2755.3391634927802,
+                "bearingRad": -0.724904730768678,
+                "elevationRad": -0.0057942161716004114,
+                "radialMps": -216.29841547362915,
+                "verticalExtentM": 0.791036182893786,
+                "rangeExtentM": 29.888461428815532,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 889.1078991307833,
+                "noiseScale": 0.11617518926726417
+              },
+              {
+                "rangeM": 3030.0185581683854,
+                "bearingRad": -0.6020770932038886,
+                "elevationRad": -0.005844324211971708,
+                "radialMps": -237.9611100578329,
+                "verticalExtentM": 1.9987067283506008,
+                "rangeExtentM": 34.36128867000366,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 725.953203733055,
+                "noiseScale": 0.12856901300279489
+              },
+              {
+                "rangeM": 5040.7372092242,
+                "bearingRad": -0.6021074745753054,
+                "elevationRad": -0.003227958017203673,
+                "radialMps": -238.03127580232342,
+                "verticalExtentM": 1.469583518739932,
+                "rangeExtentM": 33.50207151416415,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 658.9862380885363,
+                "noiseScale": 0.13494364923791696
+              },
+              {
+                "rangeM": 2753.1818174606437,
+                "bearingRad": -0.4792903419474861,
+                "elevationRad": -0.006156925025179407,
+                "radialMps": -256.5395399835927,
+                "verticalExtentM": 1.6795570963773674,
+                "rangeExtentM": 32.6762765394231,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 237.85217328183933,
+                "noiseScale": 0.2246141236415319
+              },
+              {
+                "rangeM": 3030.2972245779574,
+                "bearingRad": -0.47924286830695095,
+                "elevationRad": -0.005850034203581007,
+                "radialMps": -256.3549474314661,
+                "verticalExtentM": 2.200830950790648,
+                "rangeExtentM": 35.967364142683174,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.88005032161234,
+                "noiseScale": 0.29289552278551917
+              },
+              {
+                "rangeM": 2472.2908644513336,
+                "bearingRad": -0.7250537975111939,
+                "elevationRad": -0.006575488362446281,
+                "radialMps": -216.2601164593064,
+                "verticalExtentM": 1.0485880388087936,
+                "rangeExtentM": 34.67765897692055,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.0108746232998,
+                "noiseScale": 0.29380977128975855
+              },
+              {
+                "rangeM": 1924.1478935696884,
+                "bearingRad": -0.47957413552057915,
+                "elevationRad": -0.008827538061018545,
+                "radialMps": -256.5567573333282,
+                "verticalExtentM": 0.5409573664111065,
+                "rangeExtentM": 36.65587703007709,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 137.34555364245412,
+                "noiseScale": 0.29558563271827243
+              },
+              {
+                "rangeM": 2477.995714337026,
+                "bearingRad": -0.47935132539180714,
+                "elevationRad": -0.006548795962916304,
+                "radialMps": -256.0229664840843,
+                "verticalExtentM": 1.494482561745254,
+                "rangeExtentM": 35.05393234976495,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 83.30732768165103,
+                "noiseScale": 0.3795325437879016
+              },
+              {
+                "rangeM": 1932.7149167901666,
+                "bearingRad": -0.7250218472572385,
+                "elevationRad": -0.008278462961565957,
+                "radialMps": -216.5118109188251,
+                "verticalExtentM": 0.9392088374417225,
+                "rangeExtentM": 33.99960244897155,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 73.95652335398694,
+                "noiseScale": 0.4028119810133529
+              },
+              {
+                "rangeM": 5045.195308350453,
+                "bearingRad": -0.47936646827356455,
+                "elevationRad": -0.0037376731588977573,
+                "radialMps": -256.57547034251115,
+                "verticalExtentM": 1.0170905849718823,
+                "rangeExtentM": 33.185443221255134,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 55.8570059639602,
+                "noiseScale": 0.4635021964358748
+              },
+              {
+                "rangeM": 3687.660451540732,
+                "bearingRad": -0.7243125412444122,
+                "elevationRad": -0.004450958389768693,
+                "radialMps": -216.53839512139086,
+                "verticalExtentM": 1.4487651414843645,
+                "rangeExtentM": 35.18512933778219,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 44.75128465872548,
+                "noiseScale": 0.5178307896531604
+              },
+              {
+                "rangeM": 5041.208642863637,
+                "bearingRad": -0.7245417901050217,
+                "elevationRad": -0.003619981705758211,
+                "radialMps": -216.00934656697123,
+                "verticalExtentM": 0.90125869593472,
+                "rangeExtentM": 35.10491463522669,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 36.25506849920681,
+                "noiseScale": 0.5753157426726169
+              },
+              {
+                "rangeM": 3024.9705033715973,
+                "bearingRad": -0.7242318541402408,
+                "elevationRad": -0.006102058483244005,
+                "radialMps": -217.29553617238304,
+                "verticalExtentM": 1.5692478293119558,
+                "rangeExtentM": 35.29166209582668,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 29.732999300486224,
+                "noiseScale": 0.6352888933508423
+              },
+              {
+                "rangeM": 3688.528923501367,
+                "bearingRad": -0.479254056349264,
+                "elevationRad": -0.004493306431896771,
+                "radialMps": -256.50386185691605,
+                "verticalExtentM": 0.6520312957336176,
+                "rangeExtentM": 34.216155824951066,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 20.300779138809045,
+                "noiseScale": 0.768836990128414
+              }
+            ],
+            "observations": 2582
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 320.53292988534605,
+                "y": 78.39989555801111,
+                "z": 158.22541067057364
+              },
+              "speedMps": 225.0661829618908
+            },
+            {
+              "ageS": 17.700000000000276,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 0
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 1
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "FINAL_WAYPOINT_SEARCH_ENABLED"
+            }
+          ],
+          "outcome": null,
+          "rcsM2": 0.06,
+          "x": 50.36742833113785,
+          "y": -0.005934995518600644,
+          "z": 15.029322088165916,
+          "vx": 1.0980224787428305,
+          "vy": -0.00014640589140714849,
+          "vz": 0.13455556365872043,
+          "normalAccelerationMps2": 9.280312860719427,
+          "clearAgeS": 0.3333333333333333
+        }
+      ],
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-A3",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": true
+          }
+        ]
+      },
+      "worldRng": 2841510302,
+      "core": []
+    },
+    {
+      "scale": 8,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": null,
+        "tubeId": "MK141-A3",
+        "rangeKm": 18.00298283602827,
+        "memory": {
+          "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+          "trackId": null,
+          "positionM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "covariance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stateEpoch": "RELEASE_FIXED_COORDINATE",
+          "stateAgeS": 0,
+          "observationAgeS": 0,
+          "launchStep": 0,
+          "identity": "COORDINATE_SEARCH",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "routeProgram": {
+          "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+          "pointsM": [
+            {
+              "x": 4000,
+              "y": 0
+            },
+            {
+              "x": 8000,
+              "y": 0
+            }
+          ],
+          "startM": {
+            "x": -2.1276955040186167,
+            "y": 82.73750308427736
+          },
+          "searchCenterM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "routeLengthM": 8002.98283602827,
+          "plannedLengthM": 18002.98283602827,
+          "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+          "dataLink": false,
+          "updatesAfterRelease": false,
+          "truthUsed": false
+        },
+        "muzzleM": {
+          "x": -2.1276955040186167,
+          "y": 82.73750308427736,
+          "z": 8.078141041857405
+        },
+        "axis": {
+          "x": 0.8338846212201103,
+          "y": -0.010656982830966414,
+          "z": 0.5518359060531792
+        },
+        "authority": {
+          "ok": true,
+          "mode": "MANUAL_COORDINATE_SEARCH"
+        },
+        "truthUsed": false,
+        "turnRad": 0.007891205475992535,
+        "selectionMode": "AUTO"
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A3"
+      },
+      "run": {
+        "steps": 3072,
+        "frames": 384,
+        "simStepCounter": 3072,
+        "simAccumulator": 1.0651202142497596e-14
+      },
+      "missiles": [
+        {
+          "id": 1,
+          "entityClass": "WORLD_ORDNANCE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "weaponKey": "HARPOON",
+          "label": "RGM-84D",
+          "alive": true,
+          "ageS": 51.03333333333172,
+          "phase": "INS_SEARCH",
+          "positionM": {
+            "x": 13254.586402931014,
+            "y": -1.561840925947538,
+            "z": 15.029322088165916
+          },
+          "velocityMps": {
+            "x": 288.95328387969226,
+            "y": -0.03852786615977592,
+            "z": 0.13455556365872043
+          },
+          "navPositionM": {
+            "x": 13250.387425185594,
+            "y": 0.14030120496630735,
+            "z": 15.029322088165916
+          },
+          "ins": {
+            "velocityMps": {
+              "x": 288.8610817103248,
+              "y": -0.007010835094831795,
+              "z": 0.13455556365872043
+            },
+            "yawRad": -4.609348886575049e-05,
+            "pitchRad": 0.00046566542151831524,
+            "accelBiasMps2": {
+              "x": -0.0003867192770317844,
+              "y": -0.00010221644081073267,
+              "z": 0
+            },
+            "gyroBiasRadS": 1.709519520935319e-06,
+            "samples": 3062,
+            "source": "INTEGRATED_IMU_NO_DL"
+          },
+          "radarAltitudeM": 15.843275144833486,
+          "speedMps": 288.95331777720463,
+          "yawRad": -0.0001333359684103641,
+          "pitchRad": 0.00046566542151768196,
+          "launchAxis": {
+            "x": 0.833864481381313,
+            "y": -0.01073635432399366,
+            "z": 0.55186479991616
+          },
+          "launchPositionM": {
+            "x": -4.05838702434832,
+            "y": 82.76119499439477,
+            "z": 6.487011407722827
+          },
+          "launchMuzzleM": {
+            "x": -2.127990749950581,
+            "y": 82.73634033413472,
+            "z": 7.764578419528737
+          },
+          "launchRearM": {
+            "x": -6.364196736806761,
+            "y": 82.79088325984965,
+            "z": 4.960989801067147
+          },
+          "tubeId": "MK141-A3",
+          "carrierVelocityMps": {
+            "x": -0.0029874535538976232,
+            "y": -0.011311214259421831,
+            "z": 0.11479886525810556
+          },
+          "canisterSpeedMps": 24.463382699207532,
+          "route": {
+            "program": {
+              "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+              "pointsM": [
+                {
+                  "x": 4000,
+                  "y": 0
+                },
+                {
+                  "x": 8000,
+                  "y": 0
+                }
+              ],
+              "startM": {
+                "x": -2.1276955040186167,
+                "y": 82.73750308427736
+              },
+              "searchCenterM": {
+                "x": 16000,
+                "y": 0,
+                "z": 0
+              },
+              "routeLengthM": 8002.98283602827,
+              "plannedLengthM": 18002.98283602827,
+              "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+              "dataLink": false,
+              "updatesAfterRelease": false,
+              "truthUsed": false
+            },
+            "index": 2,
+            "completed": true,
+            "passes": [
+              {
+                "index": 0,
+                "ageS": 17.700000000000276,
+                "insPositionM": {
+                  "x": 3800.267333594304,
+                  "y": 4.468588183280814
+                },
+                "method": "INS_FLYBY_CAPTURE"
+              },
+              {
+                "index": 1,
+                "ageS": 32.84999999999942,
+                "insPositionM": {
+                  "x": 8002.557121634963,
+                  "y": 0.020532738602063547
+                },
+                "method": "INS_PLANE_CROSSING"
+              }
+            ],
+            "previousInsM": {
+              "x": 8002.557121634963,
+              "y": 0.020532738602063547
+            },
+            "completedAgeS": 32.84999999999942
+          },
+          "memory": {
+            "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+            "trackId": null,
+            "positionM": {
+              "x": 16000,
+              "y": 0,
+              "z": 0
+            },
+            "velocityMps": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "covariance": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "stateEpoch": "RELEASE_FIXED_COORDINATE",
+            "stateAgeS": 0,
+            "observationAgeS": 0,
+            "launchStep": 10,
+            "identity": "COORDINATE_SEARCH",
+            "truthUsed": false,
+            "updatesAfterRelease": false
+          },
+          "massKg": 529.2337500000098,
+          "fuelKg": 99.23375000000979,
+          "boosterAttached": false,
+          "wingDeploy01": 1,
+          "tailDeploy01": 1,
+          "tailCommandRad": -8.875851842304882e-06,
+          "thrustN": 2333.5180142102427,
+          "pathM": 13335.772838925224,
+          "tubeCleared": true,
+          "fuzeArmed": true,
+          "rng": 240149202,
+          "seeker": {
+            "active": true,
+            "mode": "SEARCH",
+            "timerS": -2.525757381022231e-15,
+            "azRelRad": -0.6021385919380434,
+            "elRelRad": -0.0062479389753942165,
+            "scanDirection": 1,
+            "scanReversals": 8,
+            "scanBoundsRad": [
+              -0.7853981633974483,
+              0.785393232368647
+            ],
+            "candidate": null,
+            "lock": null,
+            "lockCount": 0,
+            "missedS": 18.200000000000248,
+            "lastObservations": [
+              {
+                "rangeM": 1927.6769189345162,
+                "bearingRad": -0.6021400693604875,
+                "elevationRad": -0.008264281354969642,
+                "radialMps": -238.0980526100941,
+                "verticalExtentM": 0.9055933896179986,
+                "rangeExtentM": 39.30485982097599,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 4564.368368408381,
+                "noiseScale": 0.05127436369054355
+              },
+              {
+                "rangeM": 3690.9262612371617,
+                "bearingRad": -0.6021375032913241,
+                "elevationRad": -0.004402059653336567,
+                "radialMps": -238.09197893061057,
+                "verticalExtentM": 0.7034092613955674,
+                "rangeExtentM": 35.50224959977697,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2669.0199098587887,
+                "noiseScale": 0.06705246008449796
+              },
+              {
+                "rangeM": 2479.1265487019405,
+                "bearingRad": -0.6021690243416273,
+                "elevationRad": -0.006447317935697473,
+                "radialMps": -238.13844233605516,
+                "verticalExtentM": 1.060782523465775,
+                "rangeExtentM": 35.89850929899838,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2644.680720096517,
+                "noiseScale": 0.06736029778629914
+              },
+              {
+                "rangeM": 2753.4544391449685,
+                "bearingRad": -0.6021588556689927,
+                "elevationRad": -0.0060769953519074354,
+                "radialMps": -238.15457582673343,
+                "verticalExtentM": 0.789060048618065,
+                "rangeExtentM": 38.4895398111524,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2453.730343511191,
+                "noiseScale": 0.06993220246455649
+              },
+              {
+                "rangeM": 2755.3391634927802,
+                "bearingRad": -0.724904730768678,
+                "elevationRad": -0.0057942161716004114,
+                "radialMps": -216.29841547362915,
+                "verticalExtentM": 0.791036182893786,
+                "rangeExtentM": 29.888461428815532,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 889.1078991307833,
+                "noiseScale": 0.11617518926726417
+              },
+              {
+                "rangeM": 3030.0185581683854,
+                "bearingRad": -0.6020770932038886,
+                "elevationRad": -0.005844324211971708,
+                "radialMps": -237.9611100578329,
+                "verticalExtentM": 1.9987067283506008,
+                "rangeExtentM": 34.36128867000366,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 725.953203733055,
+                "noiseScale": 0.12856901300279489
+              },
+              {
+                "rangeM": 5040.7372092242,
+                "bearingRad": -0.6021074745753054,
+                "elevationRad": -0.003227958017203673,
+                "radialMps": -238.03127580232342,
+                "verticalExtentM": 1.469583518739932,
+                "rangeExtentM": 33.50207151416415,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 658.9862380885363,
+                "noiseScale": 0.13494364923791696
+              },
+              {
+                "rangeM": 2753.1818174606437,
+                "bearingRad": -0.4792903419474861,
+                "elevationRad": -0.006156925025179407,
+                "radialMps": -256.5395399835927,
+                "verticalExtentM": 1.6795570963773674,
+                "rangeExtentM": 32.6762765394231,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 237.85217328183933,
+                "noiseScale": 0.2246141236415319
+              },
+              {
+                "rangeM": 3030.2972245779574,
+                "bearingRad": -0.47924286830695095,
+                "elevationRad": -0.005850034203581007,
+                "radialMps": -256.3549474314661,
+                "verticalExtentM": 2.200830950790648,
+                "rangeExtentM": 35.967364142683174,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.88005032161234,
+                "noiseScale": 0.29289552278551917
+              },
+              {
+                "rangeM": 2472.2908644513336,
+                "bearingRad": -0.7250537975111939,
+                "elevationRad": -0.006575488362446281,
+                "radialMps": -216.2601164593064,
+                "verticalExtentM": 1.0485880388087936,
+                "rangeExtentM": 34.67765897692055,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.0108746232998,
+                "noiseScale": 0.29380977128975855
+              },
+              {
+                "rangeM": 1924.1478935696884,
+                "bearingRad": -0.47957413552057915,
+                "elevationRad": -0.008827538061018545,
+                "radialMps": -256.5567573333282,
+                "verticalExtentM": 0.5409573664111065,
+                "rangeExtentM": 36.65587703007709,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 137.34555364245412,
+                "noiseScale": 0.29558563271827243
+              },
+              {
+                "rangeM": 2477.995714337026,
+                "bearingRad": -0.47935132539180714,
+                "elevationRad": -0.006548795962916304,
+                "radialMps": -256.0229664840843,
+                "verticalExtentM": 1.494482561745254,
+                "rangeExtentM": 35.05393234976495,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 83.30732768165103,
+                "noiseScale": 0.3795325437879016
+              },
+              {
+                "rangeM": 1932.7149167901666,
+                "bearingRad": -0.7250218472572385,
+                "elevationRad": -0.008278462961565957,
+                "radialMps": -216.5118109188251,
+                "verticalExtentM": 0.9392088374417225,
+                "rangeExtentM": 33.99960244897155,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 73.95652335398694,
+                "noiseScale": 0.4028119810133529
+              },
+              {
+                "rangeM": 5045.195308350453,
+                "bearingRad": -0.47936646827356455,
+                "elevationRad": -0.0037376731588977573,
+                "radialMps": -256.57547034251115,
+                "verticalExtentM": 1.0170905849718823,
+                "rangeExtentM": 33.185443221255134,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 55.8570059639602,
+                "noiseScale": 0.4635021964358748
+              },
+              {
+                "rangeM": 3687.660451540732,
+                "bearingRad": -0.7243125412444122,
+                "elevationRad": -0.004450958389768693,
+                "radialMps": -216.53839512139086,
+                "verticalExtentM": 1.4487651414843645,
+                "rangeExtentM": 35.18512933778219,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 44.75128465872548,
+                "noiseScale": 0.5178307896531604
+              },
+              {
+                "rangeM": 5041.208642863637,
+                "bearingRad": -0.7245417901050217,
+                "elevationRad": -0.003619981705758211,
+                "radialMps": -216.00934656697123,
+                "verticalExtentM": 0.90125869593472,
+                "rangeExtentM": 35.10491463522669,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 36.25506849920681,
+                "noiseScale": 0.5753157426726169
+              },
+              {
+                "rangeM": 3024.9705033715973,
+                "bearingRad": -0.7242318541402408,
+                "elevationRad": -0.006102058483244005,
+                "radialMps": -217.29553617238304,
+                "verticalExtentM": 1.5692478293119558,
+                "rangeExtentM": 35.29166209582668,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 29.732999300486224,
+                "noiseScale": 0.6352888933508423
+              },
+              {
+                "rangeM": 3688.528923501367,
+                "bearingRad": -0.479254056349264,
+                "elevationRad": -0.004493306431896771,
+                "radialMps": -256.50386185691605,
+                "verticalExtentM": 0.6520312957336176,
+                "rangeExtentM": 34.216155824951066,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 20.300779138809045,
+                "noiseScale": 0.768836990128414
+              }
+            ],
+            "observations": 2582
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 320.53292988534605,
+                "y": 78.39989555801111,
+                "z": 158.22541067057364
+              },
+              "speedMps": 225.0661829618908
+            },
+            {
+              "ageS": 17.700000000000276,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 0
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 1
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "FINAL_WAYPOINT_SEARCH_ENABLED"
+            }
+          ],
+          "outcome": null,
+          "rcsM2": 0.06,
+          "x": 50.36742833113785,
+          "y": -0.005934995518600644,
+          "z": 15.029322088165916,
+          "vx": 1.0980224787428305,
+          "vy": -0.00014640589140714849,
+          "vz": 0.13455556365872043,
+          "normalAccelerationMps2": 9.280312860719427,
+          "clearAgeS": 0.3333333333333333
+        }
+      ],
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-A3",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": true
+          }
+        ]
+      },
+      "worldRng": 2841510302,
+      "core": []
+    },
+    {
+      "scale": 16,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": null,
+        "tubeId": "MK141-A3",
+        "rangeKm": 18.00298283602827,
+        "memory": {
+          "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+          "trackId": null,
+          "positionM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "covariance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stateEpoch": "RELEASE_FIXED_COORDINATE",
+          "stateAgeS": 0,
+          "observationAgeS": 0,
+          "launchStep": 0,
+          "identity": "COORDINATE_SEARCH",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "routeProgram": {
+          "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+          "pointsM": [
+            {
+              "x": 4000,
+              "y": 0
+            },
+            {
+              "x": 8000,
+              "y": 0
+            }
+          ],
+          "startM": {
+            "x": -2.1276955040186167,
+            "y": 82.73750308427736
+          },
+          "searchCenterM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "routeLengthM": 8002.98283602827,
+          "plannedLengthM": 18002.98283602827,
+          "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+          "dataLink": false,
+          "updatesAfterRelease": false,
+          "truthUsed": false
+        },
+        "muzzleM": {
+          "x": -2.1276955040186167,
+          "y": 82.73750308427736,
+          "z": 8.078141041857405
+        },
+        "axis": {
+          "x": 0.8338846212201103,
+          "y": -0.010656982830966414,
+          "z": 0.5518359060531792
+        },
+        "authority": {
+          "ok": true,
+          "mode": "MANUAL_COORDINATE_SEARCH"
+        },
+        "truthUsed": false,
+        "turnRad": 0.007891205475992535,
+        "selectionMode": "AUTO"
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A3"
+      },
+      "run": {
+        "steps": 3072,
+        "frames": 192,
+        "simStepCounter": 3072,
+        "simAccumulator": 1.0651202142497596e-14
+      },
+      "missiles": [
+        {
+          "id": 1,
+          "entityClass": "WORLD_ORDNANCE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "weaponKey": "HARPOON",
+          "label": "RGM-84D",
+          "alive": true,
+          "ageS": 51.03333333333172,
+          "phase": "INS_SEARCH",
+          "positionM": {
+            "x": 13254.586402931014,
+            "y": -1.561840925947538,
+            "z": 15.029322088165916
+          },
+          "velocityMps": {
+            "x": 288.95328387969226,
+            "y": -0.03852786615977592,
+            "z": 0.13455556365872043
+          },
+          "navPositionM": {
+            "x": 13250.387425185594,
+            "y": 0.14030120496630735,
+            "z": 15.029322088165916
+          },
+          "ins": {
+            "velocityMps": {
+              "x": 288.8610817103248,
+              "y": -0.007010835094831795,
+              "z": 0.13455556365872043
+            },
+            "yawRad": -4.609348886575049e-05,
+            "pitchRad": 0.00046566542151831524,
+            "accelBiasMps2": {
+              "x": -0.0003867192770317844,
+              "y": -0.00010221644081073267,
+              "z": 0
+            },
+            "gyroBiasRadS": 1.709519520935319e-06,
+            "samples": 3062,
+            "source": "INTEGRATED_IMU_NO_DL"
+          },
+          "radarAltitudeM": 15.843275144833486,
+          "speedMps": 288.95331777720463,
+          "yawRad": -0.0001333359684103641,
+          "pitchRad": 0.00046566542151768196,
+          "launchAxis": {
+            "x": 0.833864481381313,
+            "y": -0.01073635432399366,
+            "z": 0.55186479991616
+          },
+          "launchPositionM": {
+            "x": -4.05838702434832,
+            "y": 82.76119499439477,
+            "z": 6.487011407722827
+          },
+          "launchMuzzleM": {
+            "x": -2.127990749950581,
+            "y": 82.73634033413472,
+            "z": 7.764578419528737
+          },
+          "launchRearM": {
+            "x": -6.364196736806761,
+            "y": 82.79088325984965,
+            "z": 4.960989801067147
+          },
+          "tubeId": "MK141-A3",
+          "carrierVelocityMps": {
+            "x": -0.0029874535538976232,
+            "y": -0.011311214259421831,
+            "z": 0.11479886525810556
+          },
+          "canisterSpeedMps": 24.463382699207532,
+          "route": {
+            "program": {
+              "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+              "pointsM": [
+                {
+                  "x": 4000,
+                  "y": 0
+                },
+                {
+                  "x": 8000,
+                  "y": 0
+                }
+              ],
+              "startM": {
+                "x": -2.1276955040186167,
+                "y": 82.73750308427736
+              },
+              "searchCenterM": {
+                "x": 16000,
+                "y": 0,
+                "z": 0
+              },
+              "routeLengthM": 8002.98283602827,
+              "plannedLengthM": 18002.98283602827,
+              "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+              "dataLink": false,
+              "updatesAfterRelease": false,
+              "truthUsed": false
+            },
+            "index": 2,
+            "completed": true,
+            "passes": [
+              {
+                "index": 0,
+                "ageS": 17.700000000000276,
+                "insPositionM": {
+                  "x": 3800.267333594304,
+                  "y": 4.468588183280814
+                },
+                "method": "INS_FLYBY_CAPTURE"
+              },
+              {
+                "index": 1,
+                "ageS": 32.84999999999942,
+                "insPositionM": {
+                  "x": 8002.557121634963,
+                  "y": 0.020532738602063547
+                },
+                "method": "INS_PLANE_CROSSING"
+              }
+            ],
+            "previousInsM": {
+              "x": 8002.557121634963,
+              "y": 0.020532738602063547
+            },
+            "completedAgeS": 32.84999999999942
+          },
+          "memory": {
+            "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+            "trackId": null,
+            "positionM": {
+              "x": 16000,
+              "y": 0,
+              "z": 0
+            },
+            "velocityMps": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "covariance": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "stateEpoch": "RELEASE_FIXED_COORDINATE",
+            "stateAgeS": 0,
+            "observationAgeS": 0,
+            "launchStep": 10,
+            "identity": "COORDINATE_SEARCH",
+            "truthUsed": false,
+            "updatesAfterRelease": false
+          },
+          "massKg": 529.2337500000098,
+          "fuelKg": 99.23375000000979,
+          "boosterAttached": false,
+          "wingDeploy01": 1,
+          "tailDeploy01": 1,
+          "tailCommandRad": -8.875851842304882e-06,
+          "thrustN": 2333.5180142102427,
+          "pathM": 13335.772838925224,
+          "tubeCleared": true,
+          "fuzeArmed": true,
+          "rng": 240149202,
+          "seeker": {
+            "active": true,
+            "mode": "SEARCH",
+            "timerS": -2.525757381022231e-15,
+            "azRelRad": -0.6021385919380434,
+            "elRelRad": -0.0062479389753942165,
+            "scanDirection": 1,
+            "scanReversals": 8,
+            "scanBoundsRad": [
+              -0.7853981633974483,
+              0.785393232368647
+            ],
+            "candidate": null,
+            "lock": null,
+            "lockCount": 0,
+            "missedS": 18.200000000000248,
+            "lastObservations": [
+              {
+                "rangeM": 1927.6769189345162,
+                "bearingRad": -0.6021400693604875,
+                "elevationRad": -0.008264281354969642,
+                "radialMps": -238.0980526100941,
+                "verticalExtentM": 0.9055933896179986,
+                "rangeExtentM": 39.30485982097599,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 4564.368368408381,
+                "noiseScale": 0.05127436369054355
+              },
+              {
+                "rangeM": 3690.9262612371617,
+                "bearingRad": -0.6021375032913241,
+                "elevationRad": -0.004402059653336567,
+                "radialMps": -238.09197893061057,
+                "verticalExtentM": 0.7034092613955674,
+                "rangeExtentM": 35.50224959977697,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2669.0199098587887,
+                "noiseScale": 0.06705246008449796
+              },
+              {
+                "rangeM": 2479.1265487019405,
+                "bearingRad": -0.6021690243416273,
+                "elevationRad": -0.006447317935697473,
+                "radialMps": -238.13844233605516,
+                "verticalExtentM": 1.060782523465775,
+                "rangeExtentM": 35.89850929899838,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2644.680720096517,
+                "noiseScale": 0.06736029778629914
+              },
+              {
+                "rangeM": 2753.4544391449685,
+                "bearingRad": -0.6021588556689927,
+                "elevationRad": -0.0060769953519074354,
+                "radialMps": -238.15457582673343,
+                "verticalExtentM": 0.789060048618065,
+                "rangeExtentM": 38.4895398111524,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2453.730343511191,
+                "noiseScale": 0.06993220246455649
+              },
+              {
+                "rangeM": 2755.3391634927802,
+                "bearingRad": -0.724904730768678,
+                "elevationRad": -0.0057942161716004114,
+                "radialMps": -216.29841547362915,
+                "verticalExtentM": 0.791036182893786,
+                "rangeExtentM": 29.888461428815532,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 889.1078991307833,
+                "noiseScale": 0.11617518926726417
+              },
+              {
+                "rangeM": 3030.0185581683854,
+                "bearingRad": -0.6020770932038886,
+                "elevationRad": -0.005844324211971708,
+                "radialMps": -237.9611100578329,
+                "verticalExtentM": 1.9987067283506008,
+                "rangeExtentM": 34.36128867000366,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 725.953203733055,
+                "noiseScale": 0.12856901300279489
+              },
+              {
+                "rangeM": 5040.7372092242,
+                "bearingRad": -0.6021074745753054,
+                "elevationRad": -0.003227958017203673,
+                "radialMps": -238.03127580232342,
+                "verticalExtentM": 1.469583518739932,
+                "rangeExtentM": 33.50207151416415,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 658.9862380885363,
+                "noiseScale": 0.13494364923791696
+              },
+              {
+                "rangeM": 2753.1818174606437,
+                "bearingRad": -0.4792903419474861,
+                "elevationRad": -0.006156925025179407,
+                "radialMps": -256.5395399835927,
+                "verticalExtentM": 1.6795570963773674,
+                "rangeExtentM": 32.6762765394231,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 237.85217328183933,
+                "noiseScale": 0.2246141236415319
+              },
+              {
+                "rangeM": 3030.2972245779574,
+                "bearingRad": -0.47924286830695095,
+                "elevationRad": -0.005850034203581007,
+                "radialMps": -256.3549474314661,
+                "verticalExtentM": 2.200830950790648,
+                "rangeExtentM": 35.967364142683174,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.88005032161234,
+                "noiseScale": 0.29289552278551917
+              },
+              {
+                "rangeM": 2472.2908644513336,
+                "bearingRad": -0.7250537975111939,
+                "elevationRad": -0.006575488362446281,
+                "radialMps": -216.2601164593064,
+                "verticalExtentM": 1.0485880388087936,
+                "rangeExtentM": 34.67765897692055,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.0108746232998,
+                "noiseScale": 0.29380977128975855
+              },
+              {
+                "rangeM": 1924.1478935696884,
+                "bearingRad": -0.47957413552057915,
+                "elevationRad": -0.008827538061018545,
+                "radialMps": -256.5567573333282,
+                "verticalExtentM": 0.5409573664111065,
+                "rangeExtentM": 36.65587703007709,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 137.34555364245412,
+                "noiseScale": 0.29558563271827243
+              },
+              {
+                "rangeM": 2477.995714337026,
+                "bearingRad": -0.47935132539180714,
+                "elevationRad": -0.006548795962916304,
+                "radialMps": -256.0229664840843,
+                "verticalExtentM": 1.494482561745254,
+                "rangeExtentM": 35.05393234976495,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 83.30732768165103,
+                "noiseScale": 0.3795325437879016
+              },
+              {
+                "rangeM": 1932.7149167901666,
+                "bearingRad": -0.7250218472572385,
+                "elevationRad": -0.008278462961565957,
+                "radialMps": -216.5118109188251,
+                "verticalExtentM": 0.9392088374417225,
+                "rangeExtentM": 33.99960244897155,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 73.95652335398694,
+                "noiseScale": 0.4028119810133529
+              },
+              {
+                "rangeM": 5045.195308350453,
+                "bearingRad": -0.47936646827356455,
+                "elevationRad": -0.0037376731588977573,
+                "radialMps": -256.57547034251115,
+                "verticalExtentM": 1.0170905849718823,
+                "rangeExtentM": 33.185443221255134,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 55.8570059639602,
+                "noiseScale": 0.4635021964358748
+              },
+              {
+                "rangeM": 3687.660451540732,
+                "bearingRad": -0.7243125412444122,
+                "elevationRad": -0.004450958389768693,
+                "radialMps": -216.53839512139086,
+                "verticalExtentM": 1.4487651414843645,
+                "rangeExtentM": 35.18512933778219,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 44.75128465872548,
+                "noiseScale": 0.5178307896531604
+              },
+              {
+                "rangeM": 5041.208642863637,
+                "bearingRad": -0.7245417901050217,
+                "elevationRad": -0.003619981705758211,
+                "radialMps": -216.00934656697123,
+                "verticalExtentM": 0.90125869593472,
+                "rangeExtentM": 35.10491463522669,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 36.25506849920681,
+                "noiseScale": 0.5753157426726169
+              },
+              {
+                "rangeM": 3024.9705033715973,
+                "bearingRad": -0.7242318541402408,
+                "elevationRad": -0.006102058483244005,
+                "radialMps": -217.29553617238304,
+                "verticalExtentM": 1.5692478293119558,
+                "rangeExtentM": 35.29166209582668,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 29.732999300486224,
+                "noiseScale": 0.6352888933508423
+              },
+              {
+                "rangeM": 3688.528923501367,
+                "bearingRad": -0.479254056349264,
+                "elevationRad": -0.004493306431896771,
+                "radialMps": -256.50386185691605,
+                "verticalExtentM": 0.6520312957336176,
+                "rangeExtentM": 34.216155824951066,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 20.300779138809045,
+                "noiseScale": 0.768836990128414
+              }
+            ],
+            "observations": 2582
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 320.53292988534605,
+                "y": 78.39989555801111,
+                "z": 158.22541067057364
+              },
+              "speedMps": 225.0661829618908
+            },
+            {
+              "ageS": 17.700000000000276,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 0
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 1
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "FINAL_WAYPOINT_SEARCH_ENABLED"
+            }
+          ],
+          "outcome": null,
+          "rcsM2": 0.06,
+          "x": 50.36742833113785,
+          "y": -0.005934995518600644,
+          "z": 15.029322088165916,
+          "vx": 1.0980224787428305,
+          "vy": -0.00014640589140714849,
+          "vz": 0.13455556365872043,
+          "normalAccelerationMps2": 9.280312860719427,
+          "clearAgeS": 0.3333333333333333
+        }
+      ],
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-A3",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": true
+          }
+        ]
+      },
+      "worldRng": 2841510302,
+      "core": []
+    },
+    {
+      "scale": 64,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "trackId": null,
+        "tubeId": "MK141-A3",
+        "rangeKm": 18.00298283602827,
+        "memory": {
+          "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+          "trackId": null,
+          "positionM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "covariance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "stateEpoch": "RELEASE_FIXED_COORDINATE",
+          "stateAgeS": 0,
+          "observationAgeS": 0,
+          "launchStep": 0,
+          "identity": "COORDINATE_SEARCH",
+          "truthUsed": false,
+          "updatesAfterRelease": false
+        },
+        "routeProgram": {
+          "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+          "pointsM": [
+            {
+              "x": 4000,
+              "y": 0
+            },
+            {
+              "x": 8000,
+              "y": 0
+            }
+          ],
+          "startM": {
+            "x": -2.1276955040186167,
+            "y": 82.73750308427736
+          },
+          "searchCenterM": {
+            "x": 16000,
+            "y": 0,
+            "z": 0
+          },
+          "routeLengthM": 8002.98283602827,
+          "plannedLengthM": 18002.98283602827,
+          "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+          "dataLink": false,
+          "updatesAfterRelease": false,
+          "truthUsed": false
+        },
+        "muzzleM": {
+          "x": -2.1276955040186167,
+          "y": 82.73750308427736,
+          "z": 8.078141041857405
+        },
+        "axis": {
+          "x": 0.8338846212201103,
+          "y": -0.010656982830966414,
+          "z": 0.5518359060531792
+        },
+        "authority": {
+          "ok": true,
+          "mode": "MANUAL_COORDINATE_SEARCH"
+        },
+        "truthUsed": false,
+        "turnRad": 0.007891205475992535,
+        "selectionMode": "AUTO"
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A3"
+      },
+      "run": {
+        "steps": 3072,
+        "frames": 48,
+        "simStepCounter": 3072,
+        "simAccumulator": 0
+      },
+      "missiles": [
+        {
+          "id": 1,
+          "entityClass": "WORLD_ORDNANCE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "weaponKey": "HARPOON",
+          "label": "RGM-84D",
+          "alive": true,
+          "ageS": 51.03333333333172,
+          "phase": "INS_SEARCH",
+          "positionM": {
+            "x": 13254.586402931014,
+            "y": -1.561840925947538,
+            "z": 15.029322088165916
+          },
+          "velocityMps": {
+            "x": 288.95328387969226,
+            "y": -0.03852786615977592,
+            "z": 0.13455556365872043
+          },
+          "navPositionM": {
+            "x": 13250.387425185594,
+            "y": 0.14030120496630735,
+            "z": 15.029322088165916
+          },
+          "ins": {
+            "velocityMps": {
+              "x": 288.8610817103248,
+              "y": -0.007010835094831795,
+              "z": 0.13455556365872043
+            },
+            "yawRad": -4.609348886575049e-05,
+            "pitchRad": 0.00046566542151831524,
+            "accelBiasMps2": {
+              "x": -0.0003867192770317844,
+              "y": -0.00010221644081073267,
+              "z": 0
+            },
+            "gyroBiasRadS": 1.709519520935319e-06,
+            "samples": 3062,
+            "source": "INTEGRATED_IMU_NO_DL"
+          },
+          "radarAltitudeM": 15.843275144833486,
+          "speedMps": 288.95331777720463,
+          "yawRad": -0.0001333359684103641,
+          "pitchRad": 0.00046566542151768196,
+          "launchAxis": {
+            "x": 0.833864481381313,
+            "y": -0.01073635432399366,
+            "z": 0.55186479991616
+          },
+          "launchPositionM": {
+            "x": -4.05838702434832,
+            "y": 82.76119499439477,
+            "z": 6.487011407722827
+          },
+          "launchMuzzleM": {
+            "x": -2.127990749950581,
+            "y": 82.73634033413472,
+            "z": 7.764578419528737
+          },
+          "launchRearM": {
+            "x": -6.364196736806761,
+            "y": 82.79088325984965,
+            "z": 4.960989801067147
+          },
+          "tubeId": "MK141-A3",
+          "carrierVelocityMps": {
+            "x": -0.0029874535538976232,
+            "y": -0.011311214259421831,
+            "z": 0.11479886525810556
+          },
+          "canisterSpeedMps": 24.463382699207532,
+          "route": {
+            "program": {
+              "schema": "HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1",
+              "pointsM": [
+                {
+                  "x": 4000,
+                  "y": 0
+                },
+                {
+                  "x": 8000,
+                  "y": 0
+                }
+              ],
+              "startM": {
+                "x": -2.1276955040186167,
+                "y": 82.73750308427736
+              },
+              "searchCenterM": {
+                "x": 16000,
+                "y": 0,
+                "z": 0
+              },
+              "routeLengthM": 8002.98283602827,
+              "plannedLengthM": 18002.98283602827,
+              "seekerActivation": "AFTER_FINAL_INS_WAYPOINT_PLANE",
+              "dataLink": false,
+              "updatesAfterRelease": false,
+              "truthUsed": false
+            },
+            "index": 2,
+            "completed": true,
+            "passes": [
+              {
+                "index": 0,
+                "ageS": 17.700000000000276,
+                "insPositionM": {
+                  "x": 3800.267333594304,
+                  "y": 4.468588183280814
+                },
+                "method": "INS_FLYBY_CAPTURE"
+              },
+              {
+                "index": 1,
+                "ageS": 32.84999999999942,
+                "insPositionM": {
+                  "x": 8002.557121634963,
+                  "y": 0.020532738602063547
+                },
+                "method": "INS_PLANE_CROSSING"
+              }
+            ],
+            "previousInsM": {
+              "x": 8002.557121634963,
+              "y": 0.020532738602063547
+            },
+            "completedAgeS": 32.84999999999942
+          },
+          "memory": {
+            "schema": "HARPOON_FROZEN_COORDINATE_CUE_E1",
+            "trackId": null,
+            "positionM": {
+              "x": 16000,
+              "y": 0,
+              "z": 0
+            },
+            "velocityMps": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "covariance": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "stateEpoch": "RELEASE_FIXED_COORDINATE",
+            "stateAgeS": 0,
+            "observationAgeS": 0,
+            "launchStep": 10,
+            "identity": "COORDINATE_SEARCH",
+            "truthUsed": false,
+            "updatesAfterRelease": false
+          },
+          "massKg": 529.2337500000098,
+          "fuelKg": 99.23375000000979,
+          "boosterAttached": false,
+          "wingDeploy01": 1,
+          "tailDeploy01": 1,
+          "tailCommandRad": -8.875851842304882e-06,
+          "thrustN": 2333.5180142102427,
+          "pathM": 13335.772838925224,
+          "tubeCleared": true,
+          "fuzeArmed": true,
+          "rng": 240149202,
+          "seeker": {
+            "active": true,
+            "mode": "SEARCH",
+            "timerS": -2.525757381022231e-15,
+            "azRelRad": -0.6021385919380434,
+            "elRelRad": -0.0062479389753942165,
+            "scanDirection": 1,
+            "scanReversals": 8,
+            "scanBoundsRad": [
+              -0.7853981633974483,
+              0.785393232368647
+            ],
+            "candidate": null,
+            "lock": null,
+            "lockCount": 0,
+            "missedS": 18.200000000000248,
+            "lastObservations": [
+              {
+                "rangeM": 1927.6769189345162,
+                "bearingRad": -0.6021400693604875,
+                "elevationRad": -0.008264281354969642,
+                "radialMps": -238.0980526100941,
+                "verticalExtentM": 0.9055933896179986,
+                "rangeExtentM": 39.30485982097599,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 4564.368368408381,
+                "noiseScale": 0.05127436369054355
+              },
+              {
+                "rangeM": 3690.9262612371617,
+                "bearingRad": -0.6021375032913241,
+                "elevationRad": -0.004402059653336567,
+                "radialMps": -238.09197893061057,
+                "verticalExtentM": 0.7034092613955674,
+                "rangeExtentM": 35.50224959977697,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2669.0199098587887,
+                "noiseScale": 0.06705246008449796
+              },
+              {
+                "rangeM": 2479.1265487019405,
+                "bearingRad": -0.6021690243416273,
+                "elevationRad": -0.006447317935697473,
+                "radialMps": -238.13844233605516,
+                "verticalExtentM": 1.060782523465775,
+                "rangeExtentM": 35.89850929899838,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2644.680720096517,
+                "noiseScale": 0.06736029778629914
+              },
+              {
+                "rangeM": 2753.4544391449685,
+                "bearingRad": -0.6021588556689927,
+                "elevationRad": -0.0060769953519074354,
+                "radialMps": -238.15457582673343,
+                "verticalExtentM": 0.789060048618065,
+                "rangeExtentM": 38.4895398111524,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 2453.730343511191,
+                "noiseScale": 0.06993220246455649
+              },
+              {
+                "rangeM": 2755.3391634927802,
+                "bearingRad": -0.724904730768678,
+                "elevationRad": -0.0057942161716004114,
+                "radialMps": -216.29841547362915,
+                "verticalExtentM": 0.791036182893786,
+                "rangeExtentM": 29.888461428815532,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 889.1078991307833,
+                "noiseScale": 0.11617518926726417
+              },
+              {
+                "rangeM": 3030.0185581683854,
+                "bearingRad": -0.6020770932038886,
+                "elevationRad": -0.005844324211971708,
+                "radialMps": -237.9611100578329,
+                "verticalExtentM": 1.9987067283506008,
+                "rangeExtentM": 34.36128867000366,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 725.953203733055,
+                "noiseScale": 0.12856901300279489
+              },
+              {
+                "rangeM": 5040.7372092242,
+                "bearingRad": -0.6021074745753054,
+                "elevationRad": -0.003227958017203673,
+                "radialMps": -238.03127580232342,
+                "verticalExtentM": 1.469583518739932,
+                "rangeExtentM": 33.50207151416415,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 658.9862380885363,
+                "noiseScale": 0.13494364923791696
+              },
+              {
+                "rangeM": 2753.1818174606437,
+                "bearingRad": -0.4792903419474861,
+                "elevationRad": -0.006156925025179407,
+                "radialMps": -256.5395399835927,
+                "verticalExtentM": 1.6795570963773674,
+                "rangeExtentM": 32.6762765394231,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 237.85217328183933,
+                "noiseScale": 0.2246141236415319
+              },
+              {
+                "rangeM": 3030.2972245779574,
+                "bearingRad": -0.47924286830695095,
+                "elevationRad": -0.005850034203581007,
+                "radialMps": -256.3549474314661,
+                "verticalExtentM": 2.200830950790648,
+                "rangeExtentM": 35.967364142683174,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.88005032161234,
+                "noiseScale": 0.29289552278551917
+              },
+              {
+                "rangeM": 2472.2908644513336,
+                "bearingRad": -0.7250537975111939,
+                "elevationRad": -0.006575488362446281,
+                "radialMps": -216.2601164593064,
+                "verticalExtentM": 1.0485880388087936,
+                "rangeExtentM": 34.67765897692055,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 139.0108746232998,
+                "noiseScale": 0.29380977128975855
+              },
+              {
+                "rangeM": 1924.1478935696884,
+                "bearingRad": -0.47957413552057915,
+                "elevationRad": -0.008827538061018545,
+                "radialMps": -256.5567573333282,
+                "verticalExtentM": 0.5409573664111065,
+                "rangeExtentM": 36.65587703007709,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 137.34555364245412,
+                "noiseScale": 0.29558563271827243
+              },
+              {
+                "rangeM": 2477.995714337026,
+                "bearingRad": -0.47935132539180714,
+                "elevationRad": -0.006548795962916304,
+                "radialMps": -256.0229664840843,
+                "verticalExtentM": 1.494482561745254,
+                "rangeExtentM": 35.05393234976495,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 83.30732768165103,
+                "noiseScale": 0.3795325437879016
+              },
+              {
+                "rangeM": 1932.7149167901666,
+                "bearingRad": -0.7250218472572385,
+                "elevationRad": -0.008278462961565957,
+                "radialMps": -216.5118109188251,
+                "verticalExtentM": 0.9392088374417225,
+                "rangeExtentM": 33.99960244897155,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 73.95652335398694,
+                "noiseScale": 0.4028119810133529
+              },
+              {
+                "rangeM": 5045.195308350453,
+                "bearingRad": -0.47936646827356455,
+                "elevationRad": -0.0037376731588977573,
+                "radialMps": -256.57547034251115,
+                "verticalExtentM": 1.0170905849718823,
+                "rangeExtentM": 33.185443221255134,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 55.8570059639602,
+                "noiseScale": 0.4635021964358748
+              },
+              {
+                "rangeM": 3687.660451540732,
+                "bearingRad": -0.7243125412444122,
+                "elevationRad": -0.004450958389768693,
+                "radialMps": -216.53839512139086,
+                "verticalExtentM": 1.4487651414843645,
+                "rangeExtentM": 35.18512933778219,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 44.75128465872548,
+                "noiseScale": 0.5178307896531604
+              },
+              {
+                "rangeM": 5041.208642863637,
+                "bearingRad": -0.7245417901050217,
+                "elevationRad": -0.003619981705758211,
+                "radialMps": -216.00934656697123,
+                "verticalExtentM": 0.90125869593472,
+                "rangeExtentM": 35.10491463522669,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 36.25506849920681,
+                "noiseScale": 0.5753157426726169
+              },
+              {
+                "rangeM": 3024.9705033715973,
+                "bearingRad": -0.7242318541402408,
+                "elevationRad": -0.006102058483244005,
+                "radialMps": -217.29553617238304,
+                "verticalExtentM": 1.5692478293119558,
+                "rangeExtentM": 35.29166209582668,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 29.732999300486224,
+                "noiseScale": 0.6352888933508423
+              },
+              {
+                "rangeM": 3688.528923501367,
+                "bearingRad": -0.479254056349264,
+                "elevationRad": -0.004493306431896771,
+                "radialMps": -256.50386185691605,
+                "verticalExtentM": 0.6520312957336176,
+                "rangeExtentM": 34.216155824951066,
+                "dopplerSpreadMps": 3.065386839243092,
+                "snr": 20.300779138809045,
+                "noiseScale": 0.768836990128414
+              }
+            ],
+            "observations": 2582
+          },
+          "history": [
+            {
+              "ageS": 0.3333333333333333,
+              "event": "CANISTER_CLEARED"
+            },
+            {
+              "ageS": 3.1999999999999935,
+              "event": "BOOSTER_SEPARATED",
+              "positionM": {
+                "x": 320.53292988534605,
+                "y": 78.39989555801111,
+                "z": 158.22541067057364
+              },
+              "speedMps": 225.0661829618908
+            },
+            {
+              "ageS": 17.700000000000276,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 0
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "INS_WAYPOINT_PASSED",
+              "index": 1
+            },
+            {
+              "ageS": 32.84999999999942,
+              "event": "FINAL_WAYPOINT_SEARCH_ENABLED"
+            }
+          ],
+          "outcome": null,
+          "rcsM2": 0.06,
+          "x": 50.36742833113785,
+          "y": -0.005934995518600644,
+          "z": 15.029322088165916,
+          "vx": 1.0980224787428305,
+          "vy": -0.00014640589140714849,
+          "vz": 0.13455556365872043,
+          "normalAccelerationMps2": 9.280312860719427,
+          "clearAgeS": 0.3333333333333333
+        }
+      ],
+      "inventory": {
+        "schema": "MK141_INVENTORY_A1",
+        "selectedTubeId": "MK141-A3",
+        "tubes": [
+          {
+            "id": "MK141-A1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-A3",
+            "loaded": false
+          },
+          {
+            "id": "MK141-A4",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B1",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B2",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B3",
+            "loaded": true
+          },
+          {
+            "id": "MK141-B4",
+            "loaded": true
+          }
+        ]
+      },
+      "worldRng": 2841510302,
+      "core": []
+    }
+  ],
+  "errors": [],
+  "pass": true
+}

@@ -1,0 +1,4 @@
+const fs=require('fs'),path=require('path'),zlib=require('zlib'),{create,seeds,sourceFor}=require('../../missile/launch-handoff/A/engine.cjs'),{cells}=require('../../missile/fuze-zem/A/cases.cjs');
+const file=path.resolve(process.argv[2]),tag=process.argv[3],H=__dirname,out=path.join(H,'evidence/c2',tag);fs.mkdirSync(out,{recursive:true});const e=create(file),rows=[],start=performance.now();
+for(const c of cells)for(let i=0;i<5;i++){const condition={...c,...seeds[i],samples:false,trace:false},result=e.runCase(condition);rows.push({id:c.cellId+'_S'+(i+1),condition,result});}
+const p={rows,product:sourceFor(file).product,elapsedS:(performance.now()-start)/1000};fs.writeFileSync(path.join(out,'common.json.gz'),zlib.gzipSync(JSON.stringify(p),{level:9,mtime:0}));console.log(JSON.stringify({shots:rows.length,effects:rows.filter(x=>x.result.success).length,lethal:rows.filter(x=>x.result.lethal).length,elapsedS:p.elapsedS}));

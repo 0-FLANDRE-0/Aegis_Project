@@ -1,0 +1,89 @@
+{
+  "schema": "AEGIS_ARH_MEASUREMENT_CONTRACT_A",
+  "scope": "Captured live function; synthetic single-point inputs and default angular configuration. Not a flight rerun or active-SM6-profile test.",
+  "measurementFunctionSha256": "9b206aa5727f5bffc11513f0bea56e0d82615352689454b0c3144fd57368579a",
+  "pointAngles": [
+    {
+      "inputDeg": -0.5,
+      "returnedDeg": -0.06541791991485944
+    },
+    {
+      "inputDeg": -0.1,
+      "returnedDeg": -0.013086101955777864
+    },
+    {
+      "inputDeg": 0,
+      "returnedDeg": 0
+    },
+    {
+      "inputDeg": 0.1,
+      "returnedDeg": 0.013086101955777864
+    },
+    {
+      "inputDeg": 0.5,
+      "returnedDeg": 0.06541791991485944
+    }
+  ],
+  "fixedPoint": [
+    {
+      "targetDeg": 0,
+      "boresightDeg": -0.5,
+      "returnedDeg": -0.4345820800851406
+    },
+    {
+      "targetDeg": 0,
+      "boresightDeg": -0.1,
+      "returnedDeg": -0.08691389804422213
+    },
+    {
+      "targetDeg": 0,
+      "boresightDeg": 0,
+      "returnedDeg": 0
+    },
+    {
+      "targetDeg": 0,
+      "boresightDeg": 0.1,
+      "returnedDeg": 0.08691389804422213
+    },
+    {
+      "targetDeg": 0,
+      "boresightDeg": 0.5,
+      "returnedDeg": 0.4345820800851406
+    }
+  ],
+  "noise": {
+    "samples": 20000,
+    "meanDeg": -0.00016118582734860764,
+    "empiricalSigmaDeg": 0.10058255384914778,
+    "generatedSigmaDeg": 0.10045551966122361,
+    "reportedSigmaDeg": 0.02
+  },
+  "moreGlint": {
+    "samples": 20000,
+    "meanDeg": -0.00027671337235796807,
+    "empiricalSigmaDeg": 0.1726736037144161,
+    "generatedSigmaDeg": 0.1724555196612236,
+    "reportedSigmaDeg": 0.02
+  },
+  "tests": [
+    {
+      "name": "NOISELESS_POINT_BEARING_IDENTITY",
+      "pass": false
+    },
+    {
+      "name": "FIXED_POINT_UNBIASED_WHEN_BORESIGHT_MOVES",
+      "pass": false
+    },
+    {
+      "name": "DECLARED_SIGMA_COVERS_GENERATED_ANGLE_NOISE",
+      "pass": false
+    },
+    {
+      "name": "REPORTED_SIGMA_TRACKS_GENERATOR_NOISE_CHANGE",
+      "pass": false
+    }
+  ],
+  "passed": 0,
+  "failed": 4,
+  "productFilesChanged": 0
+}

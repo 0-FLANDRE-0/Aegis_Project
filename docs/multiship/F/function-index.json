@@ -1,0 +1,622 @@
+{
+  "skProfile15B": {
+    "start": 82347,
+    "end": 82419,
+    "sha256": "a35bedbc72b1e259bd2cb8dd9c634377c5bd8d7f224b134ee3dc589d628e656a",
+    "refs": [
+      "ACTIVE_SHIP_PROFILE"
+    ]
+  },
+  "skRuntime15B": {
+    "start": 82999,
+    "end": 83112,
+    "sha256": "d18bfb7203f486b77f17d75cd0e8d218ef32dd81a2d3a01b02e91844f954ec7b",
+    "refs": [
+      "ACTIVE_SHIP_RUNTIME"
+    ]
+  },
+  "skLayout15B": {
+    "start": 83113,
+    "end": 83214,
+    "sha256": "293adb4f5412fbf9f5e46a7dc040f1e8ea9d35080547643e81b9829b796fd0b9",
+    "refs": [
+      "ACTIVE_SHIP_PROFILE"
+    ]
+  },
+  "skSpec15B": {
+    "start": 83215,
+    "end": 83289,
+    "sha256": "f027ef20ec9f0b96ac67f2c487e7a6af9dda0cc94a6cc50b3a5057e98b9df07d",
+    "refs": [
+      "skProfile15B"
+    ]
+  },
+  "skPauseReason15B": {
+    "start": 83480,
+    "end": 83706,
+    "sha256": "7a833dd71964f76a239d91067c97b4bdeddc11afef4971f03a19d33b3d116198",
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "getModuleDmg"
+    ]
+  },
+  "skTryReload15B": {
+    "start": 83707,
+    "end": 84312,
+    "sha256": "d09bf1306951ba2a0f0bb8a02db1a87bfe78dd64199701b161ac4c8a570f0a8d",
+    "refs": [
+      "skRuntime15B",
+      "skLayout15B",
+      "skPauseReason15B",
+      "Math",
+      "SIM_FIXED_DT",
+      "simStepCounter",
+      "shipMassMarkWeaponsV32"
+    ]
+  },
+  "skUpdateReload15B": {
+    "start": 84313,
+    "end": 85151,
+    "sha256": "ca86f2becf73900f21950a0d682aa638f4bad67007f0b2ee6b71500654e8f132",
+    "refs": [
+      "skRuntime15B",
+      "simStepCounter",
+      "skLayout15B",
+      "skTryReload15B",
+      "skPauseReason15B",
+      "Math",
+      "Error",
+      "skNewReload15B",
+      "shipMassMarkWeaponsV32"
+    ]
+  },
+  "skLogisticsSnapshot15B": {
+    "start": 85152,
+    "end": 85887,
+    "sha256": "41443e0eb5ba28c472472a4cfc5bd9ac6a44ec597dcfbbe5fd735351d159852c",
+    "refs": [
+      "skRuntime15B",
+      "skCount15B",
+      "skAllocated15B",
+      "skLayout15B",
+      "skSpec15B",
+      "JSON",
+      "SIM_FIXED_DT"
+    ]
+  },
+  "skExport15B": {
+    "start": 98510,
+    "end": 99189,
+    "sha256": "4d0e1552764c918bb47066f49b9c22eb2d1763c87ec3d67d7b4804b60f6b415a",
+    "refs": [
+      "skRuntime15B",
+      "skLayout15B"
+    ]
+  },
+  "skValidate15B": {
+    "start": 99190,
+    "end": 101840,
+    "sha256": "94861fadd604b501948468e541110d913aded816d1d6038a46697ddea4381689",
+    "refs": [
+      "operationalErrorV48Wip11B",
+      "skLayout15B",
+      "skSpec15B",
+      "Number",
+      "Array",
+      "Math",
+      "SIM_FIXED_DT",
+      "JSON"
+    ]
+  },
+  "skRestore15B": {
+    "start": 101841,
+    "end": 102362,
+    "sha256": "05e627e8f9056bcc1c598d9a4dd84f533c242009dc51c02e91bb9db21920d511",
+    "refs": [
+      "skRuntime15B",
+      "Object",
+      "simStepCounter",
+      "shipMassMarkWeaponsV32",
+      "updateMk36ButtonLabel",
+      "updateNulkaUi15B"
+    ]
+  },
+  "nulkaMuzzle15B": {
+    "start": 86955,
+    "end": 87428,
+    "sha256": "b89a633131b76d6cca0d4077f4894389d1a6114a1fb9578cb2396ff3ab7fd7bf",
+    "refs": [
+      "skLayout15B",
+      "mk36AddLocalWip15A",
+      "shipGamePointStateV1",
+      "shipGameFrameV1",
+      "Number"
+    ]
+  },
+  "nulkaCueError15B": {
+    "start": 87429,
+    "end": 88256,
+    "sha256": "d435af472bff567dd64e7bbdedee39d65f9b261f4e9a8bd23c1725385ef3f7bd",
+    "refs": [
+      "skSpec15B",
+      "Number",
+      "tracks"
+    ]
+  },
+  "nulkaSelectLauncher15B": {
+    "start": 88257,
+    "end": 88814,
+    "sha256": "221b4a79175c283e41487c21b7b90194e4360c7c52f9191923583625bc826f61",
+    "refs": [
+      "Number",
+      "shipEquipmentOfflineV1",
+      "skRuntime15B",
+      "skLayout15B",
+      "Infinity",
+      "skNextTube15B",
+      "skPauseReason15B",
+      "shipGameFrameV1",
+      "Math",
+      "angNorm"
+    ]
+  },
+  "nulkaBuildPlan15B": {
+    "start": 88815,
+    "end": 89734,
+    "sha256": "46bb65a30b3877428af6dcaa4616a5f687287deb7e982c827d3a7969f8b3cf73",
+    "refs": [
+      "nulkaCueError15B",
+      "skLayout15B",
+      "nulkaMuzzle15B",
+      "skNextTube15B",
+      "shipGameFrameV1",
+      "Math",
+      "String",
+      "Number",
+      "worldSpeedToMps",
+      "shipNav"
+    ]
+  },
+  "nulkaFire15B": {
+    "start": 89735,
+    "end": 91891,
+    "sha256": "ad0ca298785b8a26a46245f16c6c215f5cc8845a565f207bff5bb18a4335e82a",
+    "refs": [
+      "skRuntime15B",
+      "skSpec15B",
+      "notify",
+      "shipEquipmentOfflineV1",
+      "nulkaCueError15B",
+      "nulkaEntities15B",
+      "nulkaSelectLauncher15B",
+      "skLayout15B",
+      "skNextTube15B",
+      "skPauseReason15B",
+      "nulkaBuildPlan15B",
+      "ACTIVE_SHIP_RUNTIME",
+      "simStepCounter",
+      "deepFreezeShipProfileV48Wip09",
+      "metersToWorld",
+      "mpsToWorldSpeed",
+      "JSON",
+      "skTryReload15B",
+      "shipMassMarkWeaponsV32",
+      "updateNulkaUi15B",
+      "skCount15B"
+    ]
+  },
+  "nulkaAuto15B": {
+    "start": 95352,
+    "end": 96441,
+    "sha256": "64f4e787d4f647bd35f240d0619681a0343714e618ac33747ca75e6de8bccaf9",
+    "refs": [
+      "skRuntime15B",
+      "skSpec15B",
+      "Math",
+      "SIM_FIXED_DT",
+      "softKillAutoDoctrine",
+      "simStepCounter",
+      "softKillThreatState",
+      "nulkaCueError15B",
+      "String",
+      "softKillResponseIdentity",
+      "angNorm",
+      "deg",
+      "nulkaFire15B",
+      "Object"
+    ]
+  },
+  "mk36LayoutWip15A": {
+    "start": 105981,
+    "end": 106063,
+    "sha256": "2a07afe92622d54440310a780808ef91e1bfb56daa6c1e99b58372ba010bee08",
+    "refs": [
+      "ACTIVE_SHIP_PROFILE"
+    ]
+  },
+  "mk36MountWip15A": {
+    "start": 106064,
+    "end": 106155,
+    "sha256": "3436e224fe160f5125b51d091f23d19791dc9e87194be890e3af179ad27e4d18",
+    "refs": [
+      "mk36LayoutWip15A"
+    ]
+  },
+  "mk36NextTubeWip15A": {
+    "start": 106230,
+    "end": 106494,
+    "sha256": "24fa589c9466906664b90132b102815d69697344af934598a3ee42e8b7c9dd0b",
+    "refs": [
+      "Number"
+    ]
+  },
+  "mk36LauncherAvailableWip15A": {
+    "start": 106495,
+    "end": 106962,
+    "sha256": "d7b6c36efe4d35d08d1b3c411aaca927ee4fda4db6f5a9085fb2a454624fc579",
+    "refs": [
+      "mk36LauncherState",
+      "mk36NextTubeWip15A",
+      "mk36MountWip15A",
+      "getModuleDmg"
+    ]
+  },
+  "mk36TubeSectorWip15A": {
+    "start": 107468,
+    "end": 107759,
+    "sha256": "d6340398dca8e546d9e9512a6a567f1c0515f478c2c645736c6ec2fbf9dfcb1f",
+    "refs": [
+      "Number",
+      "Math"
+    ]
+  },
+  "mk36LauncherBearing": {
+    "start": 2110756,
+    "end": 2110987,
+    "sha256": "636447762b69d6b684443f920cce33f4c32a5f9d1cc144db8154df4e2c73fe93",
+    "refs": [
+      "mk36NextTubeWip15A",
+      "mk36MountWip15A",
+      "NaN",
+      "shipGameFrameV1",
+      "Math"
+    ]
+  },
+  "mk36SelectLauncher": {
+    "start": 2110990,
+    "end": 2111675,
+    "sha256": "e079525e743d4d15ab8b1397f9debe86eb89caef943231c9c821954a7d7dd0ec",
+    "refs": [
+      "Number",
+      "shipEquipmentOfflineV1",
+      "Infinity",
+      "mk36LauncherState",
+      "mk36LauncherAvailableWip15A",
+      "mk36MountWip15A",
+      "mk36NextTubeWip15A",
+      "mk36TubeSectorWip15A",
+      "Math",
+      "angNorm",
+      "mk36LauncherBearing"
+    ]
+  },
+  "mk36LoadedRounds": {
+    "start": 2087652,
+    "end": 2087734,
+    "sha256": "47bf030668979892eb6d0b2f2dbaef7a8517d2b522d63dd9fccd7b9d7efeef17",
+    "refs": [
+      "mk36LauncherState"
+    ]
+  },
+  "mk36MuzzleStateWip15A": {
+    "start": 106963,
+    "end": 107467,
+    "sha256": "836f3320c8e13c3f8f3cd91b4f8cf8b9e7b98c992a4b5b4df46686fcfe1f18c9",
+    "refs": [
+      "mk36MountWip15A",
+      "mk36AddLocalWip15A",
+      "shipGamePointStateV1",
+      "shipGameFrameV1",
+      "shipGameAnglesV1",
+      "Number"
+    ]
+  },
+  "mk36FireRound": {
+    "start": 2111678,
+    "end": 2113304,
+    "sha256": "49bd48b5ecb6c09c23391519507d5d73f8d9089ff0b3174f6bd5d472fe3c0342",
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "Number",
+      "mk36LauncherAvailableWip15A",
+      "mk36NextTubeWip15A",
+      "mk36MountWip15A",
+      "mk36TubeSectorWip15A",
+      "mk36MuzzleStateWip15A",
+      "MK36_SRBOC",
+      "rand",
+      "MK36_RUNTIME_WIP15A",
+      "metersToWorld",
+      "mpsToWorldSpeed",
+      "simStepCounter",
+      "ownChaffCartridges",
+      "skTryReload15B",
+      "shipMassMarkWeaponsV32",
+      "updateMk36ButtonLabel"
+    ]
+  },
+  "bloomMk214Cloud": {
+    "start": 2113307,
+    "end": 2114726,
+    "sha256": "97103c856f353db4fb03278e9e0015525391728ae7968c3c0669b0dea9f46a17",
+    "refs": [
+      "maritimeEnvironmentSnapshotWip13A3",
+      "angNorm",
+      "rand",
+      "deg",
+      "clamp",
+      "MK36_SRBOC",
+      "worldSpeedToMps",
+      "Math",
+      "ownChaffs",
+      "MK36_RUNTIME_WIP15A",
+      "mpsToWorldSpeed"
+    ]
+  },
+  "deployOwnChaffForThreat": {
+    "start": 2114729,
+    "end": 2115861,
+    "sha256": "dd18405813750ef1ea83a5a105e670be93797771303db0631b905cfccea1c70f",
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "notify",
+      "MK36_RUNTIME_WIP15A",
+      "mk36LoadedRounds",
+      "shipNav",
+      "mk36LastCue",
+      "simStepCounter",
+      "softKillThreatKey",
+      "MK36_SRBOC",
+      "mk36SelectLauncher",
+      "mk36FireRound",
+      "updateMk36ButtonLabel"
+    ]
+  },
+  "updateSoftKillThreatManager": {
+    "start": 2090012,
+    "end": 2094677,
+    "sha256": "0fc3ec461ecdd86ab08b7696a6484e1a599f8afe1c5149301489d305c0628d65",
+    "refs": [
+      "aircraft",
+      "tracks",
+      "trackIsDisplayable",
+      "wip118ControlState",
+      "trackKinematicThreatCue",
+      "worldToMeters",
+      "OWN_ALT_M",
+      "Math",
+      "trackCovarianceMetrics",
+      "clamp",
+      "esmContacts",
+      "SOFT_KILL_COORD",
+      "angNorm",
+      "String",
+      "Set",
+      "Map",
+      "softKillThreatState",
+      "simStepCounter"
+    ]
+  },
+  "softKillThreatKey": {
+    "start": 2089381,
+    "end": 2089434,
+    "sha256": "6d58a27f18b5c2a287827657d6f8ba323b336adf4b576c90060392ed48d0cd98",
+    "refs": []
+  },
+  "softKillPrimaryThreat": {
+    "start": 2094680,
+    "end": 2094757,
+    "sha256": "c7020f83e42681f144f62adf49c471cd9a6b919186eadd3910ef445cc4447dcd",
+    "refs": [
+      "softKillThreatState"
+    ]
+  },
+  "softKillResponseIdentity": {
+    "start": 2095186,
+    "end": 2095400,
+    "sha256": "0c8feb47e84330d13206b56937668b3fa7e8437ba962f561e0eb475c7d20d3b7",
+    "refs": []
+  },
+  "softKillThreatByKey": {
+    "start": 2095403,
+    "end": 2095519,
+    "sha256": "50296d02ea4b05143e6b32c807a32123b40d9065cb08744f7eb50d6fb4acba03",
+    "refs": [
+      "softKillThreatState"
+    ]
+  },
+  "softKillEaThreatWeight": {
+    "start": 2095522,
+    "end": 2095984,
+    "sha256": "b5304fd4143d13c57131be6de15298adfeefcb251c91ba7cca945c6a739ea2ab",
+    "refs": [
+      "Math",
+      "Number",
+      "clamp"
+    ]
+  },
+  "rebuildSoftKillEaAssignments": {
+    "start": 2095987,
+    "end": 2097319,
+    "sha256": "e2945b2c32be08cba7f1ebc5a664bc73122f72d9c43c5182916799806b815918",
+    "refs": [
+      "softKillThreatState",
+      "SOFT_KILL_DOCTRINE",
+      "softKillEaThreatWeight",
+      "String",
+      "softKillDoctrineState",
+      "Set",
+      "Object",
+      "Number"
+    ]
+  },
+  "advanceSoftKillEaSchedule": {
+    "start": 2097322,
+    "end": 2098112,
+    "sha256": "ecccf45c75a5235bd0efe104ad5f34d3a1e20995bbd6967832b1142c195cb411",
+    "refs": [
+      "softKillDoctrineState",
+      "Math",
+      "String"
+    ]
+  },
+  "softKillEaActiveThreat": {
+    "start": 2098115,
+    "end": 2098317,
+    "sha256": "5a3c0059912ca7370dccd011630f1e8a7b5898e8fed74063db73e244482328f9",
+    "refs": [
+      "softKillAutoDoctrine",
+      "softKillThreatByKey",
+      "softKillDoctrineState",
+      "softKillPrimaryThreat"
+    ]
+  },
+  "softKillDoctrineChaffCandidate": {
+    "start": 2098320,
+    "end": 2100698,
+    "sha256": "578b2589f656112447e34096267c7150341a7bf7d895b8d84345a2e2432adf4b",
+    "refs": [
+      "simStepCounter",
+      "softKillDoctrineState",
+      "SIM_FIXED_DT",
+      "SOFT_KILL_DOCTRINE",
+      "MK36_RUNTIME_WIP15A",
+      "mk36LoadedRounds",
+      "MK36_SRBOC",
+      "softKillThreatState",
+      "Number",
+      "softKillResponseIdentity",
+      "clamp",
+      "String"
+    ]
+  },
+  "softKillDoctrineCleanupResponses": {
+    "start": 2100701,
+    "end": 2101015,
+    "sha256": "1fed3631a9b172ef38fce95f3e7b0467c2fcb25beef8b9c6b7bc14791ba17555",
+    "refs": [
+      "Math",
+      "SOFT_KILL_DOCTRINE",
+      "SIM_FIXED_DT",
+      "Object",
+      "softKillDoctrineState",
+      "simStepCounter"
+    ]
+  },
+  "updateSoftKillDoctrine": {
+    "start": 2101018,
+    "end": 2102500,
+    "sha256": "444db00df340374a0890a2ec2c64bbf009b7fb4c54b65c7a2fa28540ee06cc23",
+    "refs": [
+      "softKillAutoDoctrine",
+      "softKillDoctrineState",
+      "simStepCounter",
+      "rebuildSoftKillEaAssignments",
+      "Math",
+      "Number",
+      "SIM_FIXED_DT",
+      "SOFT_KILL_DOCTRINE",
+      "advanceSoftKillEaSchedule",
+      "softKillDoctrineCleanupResponses",
+      "softKillDoctrineChaffCandidate",
+      "deployOwnChaffForThreat",
+      "nulkaAuto15B"
+    ]
+  },
+  "softKillDoctrineAuditSnapshot": {
+    "start": 2102503,
+    "end": 2103337,
+    "sha256": "8f6397beed578412527e15caba5aea323c44ebf0b9ed1f967e9b56efaf1af499",
+    "refs": [
+      "softKillAutoDoctrine",
+      "softKillDoctrineState",
+      "Object"
+    ]
+  },
+  "slq32EaEmitterModeForThreat": {
+    "start": 2104883,
+    "end": 2105289,
+    "sha256": "5cc937c5e6e1ed571769ccec10e257db05adeaef4a14655a03c2bcef2c23aa9a",
+    "refs": [
+      "esmContacts",
+      "SOFT_KILL_COORD",
+      "String"
+    ]
+  },
+  "slq32EaTargetForCurrentThreat": {
+    "start": 2105292,
+    "end": 2108089,
+    "sha256": "36ed6022a38d8ce1b195ade82b58674450efdc4f4d9d33a07ffa27abeeba8503",
+    "refs": [
+      "noiseJamActive",
+      "deceptJamActive",
+      "softKillEaActiveThreat",
+      "jammerAutoTrack",
+      "SLQ32_EA_ALLOC",
+      "slq32EaEmitterModeForThreat",
+      "Number",
+      "Math",
+      "clamp",
+      "lerp"
+    ]
+  },
+  "updateSlq32EaAllocator": {
+    "start": 2108092,
+    "end": 2109410,
+    "sha256": "f3d9054053bf96939748d5edf49e987741175c98c512ad89f9effd3e7ee418ae",
+    "refs": [
+      "shipEquipmentOfflineV1",
+      "slq32EaState",
+      "Math",
+      "Number",
+      "slq32EaTargetForCurrentThreat",
+      "clamp",
+      "SIM_FIXED_DT",
+      "SLQ32_EA_ALLOC",
+      "noiseJamActive",
+      "lerp",
+      "deceptJamActive",
+      "simStepCounter",
+      "updateSlq32EaButtonLabels"
+    ]
+  },
+  "slq32EaEffectiveShare": {
+    "start": 2104644,
+    "end": 2104880,
+    "sha256": "9c2446851a1e47187addf4df6a4446977ae5bec2bf7fe6366c89a628b0e19a71",
+    "refs": [
+      "noiseJamActive",
+      "clamp",
+      "slq32EaState",
+      "deceptJamActive"
+    ]
+  },
+  "updateJammerBearing": {
+    "start": 2116136,
+    "end": 2116573,
+    "sha256": "00abd117681a81b7a49653d8aeb04f4a15a22dc5c1b2f96e1ce2a6c1fe3bc97d",
+    "refs": [
+      "noiseJamActive",
+      "deceptJamActive",
+      "jammerAutoTrack",
+      "softKillEaActiveThreat",
+      "angNorm",
+      "jammerBearing",
+      "deg",
+      "softKillAutoDoctrine",
+      "SOFT_KILL_DOCTRINE",
+      "SOFT_KILL_COORD",
+      "clamp"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+[eval]:1
+(crypto=>{{const f=require("fs"),c=require("crypto");process.stdout.write(c.createHash("sha256").update(JSON.stringify(JSON.parse(f.readFileSync(0,"utf8"))))).digest("hex"))}})(require('node:crypto'))
+                                                                                                                                                                            ^
+Expected ';', '}' or <eof>
+
+SyntaxError: Unexpected token ')'
+    at makeContextifyScript (node:internal/vm:194:14)
+    at compileScript (node:internal/process/execution:388:10)
+    at evalTypeScript (node:internal/process/execution:260:22)
+    at node:internal/main/eval_string:71:3
+
+Node.js v24.19.0
+Traceback (most recent call last):
+  File "/tmp/aegis-launch-handoff-a/repo/docs/envelope/D2/build.py", line 16, in <module>
+    profileHash=subprocess.check_output(['node','-e','const f=require("fs"),c=require("crypto");process.stdout.write(c.createHash("sha256").update(JSON.stringify(JSON.parse(f.readFileSync(0,"utf8"))))).digest("hex"))'],input=json.dumps(fingerprint).encode()).decode()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['node', '-e', 'const f=require("fs"),c=require("crypto");process.stdout.write(c.createHash("sha256").update(JSON.stringify(JSON.parse(f.readFileSync(0,"utf8"))))).digest("hex"))']' returned non-zero exit status 1.

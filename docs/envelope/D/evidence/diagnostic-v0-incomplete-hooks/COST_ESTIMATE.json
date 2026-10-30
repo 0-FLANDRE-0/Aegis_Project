@@ -1,0 +1,35 @@
+{
+  "schema": "AEGIS_ENV_D_PRE_EXECUTION_COST_1",
+  "timestampUtc": "2026-10-24T00:04:41.968840+00:00",
+  "pilotShots": 80,
+  "pilotMeanCpuS": 0.254803125,
+  "pilotByWeaponCpuS": {
+    "SM2": 0.3677604,
+    "SM2ER": 0.282217,
+    "SM6": 0.2113725,
+    "ESSM": 0.1578626
+  },
+  "workers": 4,
+  "coresQuota": 4,
+  "cpuReserveFactor": 1.25,
+  "planningSource": "HISTORICAL ENV_C upper-search sizes; not current performance values",
+  "expectedMainShotsByWeapon": {
+    "SM2": 44812,
+    "SM2ER": 42731,
+    "SM6": 42894,
+    "ESSM": 71281
+  },
+  "expectedMainShots": 201718,
+  "expectedAuxiliaryShots": 10086,
+  "maximumBoundaryReplayShots": 2520,
+  "trajectoryAndReplaySlots": 186,
+  "expectedShotsTotal": 214510,
+  "expectedHours": 4.524145073993055,
+  "reducedExpectedShots": 73307,
+  "reducedExpectedHours": 1.5080483579976849,
+  "reducedScope": "exclude 1km/10km altitude, outer resolution2km; not selected",
+  "sixHourRule": "FULL_ALLOWED_BY_EXPECTED_COST",
+  "reuseFlightAcrossSeeds": false,
+  "exhaustiveAbsoluteUpperBoundShots": 315186,
+  "uncertainty": "New Kappa + real ASM damage + seed-dependent flights can alter search work. Upper bound is not the expected work. Full run is resumable per cell and is not automatically repeated."
+}

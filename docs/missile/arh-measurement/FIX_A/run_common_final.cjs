@@ -1,0 +1,18 @@
+const{Worker,isMainThread,parentPort,workerData}=require('worker_threads'),fs=require('fs'),path=require('path'),zlib=require('zlib');
+const H=__dirname,R=path.resolve(H,'../../../..'),enginePath=path.join(R,'docs/missile/launch-handoff/A/engine.cjs');
+if(!isMainThread){const{create}=require(enginePath),engine=create(workerData.file),out=[];for(const j of workerData.jobs)out.push({...j,result:engine.runCase(j.condition)});parentPort.postMessage(out);}
+else(async()=>{
+ const{cells}=require(path.join(R,'docs/missile/fuze-zem/A/cases.cjs')),{seeds,sourceFor}=require(enginePath),build=JSON.parse(fs.readFileSync(path.join(H,'build.json'))),file=build.variants.AU.file,jobs=[];
+ for(const c of cells)for(let i=0;i<5;i++)jobs.push({id:c.cellId+'_S'+(i+1),condition:{...c,...seeds[i],samples:false,trace:false}});
+ const historical=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(R,'docs/missile/launch-handoff/A/final-results/common.json.gz'))));
+ const before=new Map(historical.rows.filter(x=>x.variant==='HANDOFF').map(x=>[x.id,x.result]));
+ const groups=Array.from({length:3},()=>[]);jobs.forEach((j,i)=>groups[i%groups.length].push(j));const start=performance.now();
+ const rows=(await Promise.all(groups.map(j=>new Promise((resolve,reject)=>{const w=new Worker(__filename,{workerData:{jobs:j,file}});w.on('error',reject);w.on('message',r=>{resolve(r);w.terminate();});})))).flat();
+ const changed=rows.filter(x=>JSON.stringify(before.get(x.id))!==JSON.stringify(x.result)).map(x=>({id:x.id,condition:x.condition,before:before.get(x.id),after:x.result}));
+ const successToFailure=changed.filter(x=>x.before?.success&&!x.after?.success),failureToSuccess=changed.filter(x=>!x.before?.success&&x.after?.success);
+ const lethalToNonlethal=changed.filter(x=>x.before?.lethal&&!x.after?.lethal),nonlethalToLethal=changed.filter(x=>!x.before?.lethal&&x.after?.lethal);
+ const out={schema:'AEGIS_ARH_MEASUREMENT_FIX_A_COMMON_180_1',product:sourceFor(file).product,shots:rows.length,elapsedS:(performance.now()-start)/1000,rows,changed,successToFailure,failureToSuccess,lethalToNonlethal,nonlethalToLethal,
+  counts:{before:{effects:[...before.values()].filter(x=>x.success).length,lethal:[...before.values()].filter(x=>x.lethal).length},after:{effects:rows.filter(x=>x.result.success).length,lethal:rows.filter(x=>x.result.lethal).length}}};
+ fs.writeFileSync(path.join(H,'common-180.json.gz'),zlib.gzipSync(JSON.stringify(out),{level:9,mtime:0}));
+ const summary={shots:out.shots,elapsedS:out.elapsedS,counts:out.counts,changed:changed.length,successToFailure:successToFailure.map(x=>x.id),failureToSuccess:failureToSuccess.map(x=>x.id),lethalToNonlethal:lethalToNonlethal.map(x=>x.id),nonlethalToLethal:nonlethalToLethal.map(x=>x.id)};fs.writeFileSync(path.join(H,'common-180-summary.json'),JSON.stringify(summary,null,2)+'\n');console.log(JSON.stringify(summary,null,2));if(successToFailure.length)process.exitCode=1;
+})().catch(e=>{console.error(e);process.exitCode=1;});

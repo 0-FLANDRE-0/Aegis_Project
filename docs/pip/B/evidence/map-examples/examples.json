@@ -1,0 +1,227 @@
+{
+  "pass": true,
+  "checks": {
+    "example.nativeRadarSources": true,
+    "example.emconActiveBlocked": true,
+    "example.linkH1": true,
+    "pen.chordedMoveMenu": true,
+    "pen.noCommands": true,
+    "missile.statusFields": true,
+    "core": true,
+    "pageErrors": true
+  },
+  "records": {
+    "radar": {
+      "schema": "AEGIS_MAP_A_UI_1",
+      "presentationOnly": true,
+      "enabled": true,
+      "inputSurface": "MAIN",
+      "controlPlatform": null,
+      "lookupTarget": "TRACK:300000001",
+      "currentTool": "NONE",
+      "firingDesignatedTarget": null,
+      "info": {
+        "header": "SUR T1\nSURFACE · UNKNOWN\n마지막 갱신 0.1초 전 · 품질 0.98",
+        "sections": [
+          {
+            "name": "융합된 관측 추정",
+            "text": "위치 추정/항법 (m): 355, -456 · 고도 8"
+          },
+          {
+            "name": "자체 레이더",
+            "text": "SPQ9B · 0.8s 전 · 거리 σ 13.0m · 방위 σ 0.09°\nBRIDGEMASTER_E · 1.8s 전 · 거리 σ 28.0m · 방위 σ 0.75°\nSPY1DV · 0.1s 전 · 거리 σ 17.0m · 방위 σ 0.03°"
+          },
+          {
+            "name": "식별 근거",
+            "text": "LOCAL_SENSOR"
+          }
+        ]
+      },
+      "object": {
+        "key": "TRACK:300000001",
+        "kind": "TRACK",
+        "id": 300000001,
+        "label": "SUR T1",
+        "x": 1.3487835172183193,
+        "y": -1.7346205118622273,
+        "z": 8,
+        "classification": "SURFACE",
+        "identity": "UNKNOWN",
+        "operatorIdentity": "UNKNOWN",
+        "quality": 0.982501688754623,
+        "measuredAtS": 19.883333333333333,
+        "source": "SPY1DV_SURFACE_REACQUIRE",
+        "local": [
+          {
+            "name": "SPQ9B",
+            "measuredAtS": 19.216666666666665,
+            "rangeSigmaM": 13.003251219258033,
+            "azSigmaDeg": 0.08502125797207176,
+            "updates": 40
+          },
+          {
+            "name": "BRIDGEMASTER_E",
+            "measuredAtS": 18.21666666666667,
+            "rangeSigmaM": 28.007002626094227,
+            "azSigmaDeg": 0.7501875703418096,
+            "updates": 20
+          },
+          {
+            "name": "SPY1DV",
+            "measuredAtS": 19.866666666666667,
+            "rangeSigmaM": 17.004251594414352,
+            "azSigmaDeg": 0.03200800300125054,
+            "updates": 64
+          }
+        ],
+        "remote": [],
+        "isar": null,
+        "iff": null,
+        "identificationEvidence": "LOCAL_SENSOR",
+        "emcon": false
+      },
+      "menuOpen": false,
+      "candidatesOpen": false,
+      "candidateLabels": [
+        "TRACK · SUR T1",
+        "OWN · CG-52"
+      ],
+      "counts": {
+        "ship": 0,
+        "helo": 0,
+        "harpoon": 0,
+        "precision": 0,
+        "identity": 0,
+        "undo": 0
+      },
+      "measurement": null
+    },
+    "link": {
+      "schema": "AEGIS_MAP_A_UI_1",
+      "presentationOnly": true,
+      "enabled": true,
+      "inputSurface": "MAIN",
+      "controlPlatform": null,
+      "lookupTarget": "TRACK:300000003",
+      "currentTool": "NONE",
+      "firingDesignatedTarget": null,
+      "info": {
+        "header": "SUR T3\nSURFACE · UNKNOWN\n마지막 갱신 3.0초 전 · 품질 0.84",
+        "sections": [
+          {
+            "name": "융합된 관측 추정",
+            "text": "위치 추정/항법 (m): -12000, -14000 · 고도 8"
+          },
+          {
+            "name": "자체 레이더",
+            "text": "EMCON — 능동 관측 없음"
+          },
+          {
+            "name": "데이터링크",
+            "text": "H1 · 측정 20.0s (3.0s 전)\n수신 20.4s · 보고 #903"
+          },
+          {
+            "name": "식별 근거",
+            "text": "OPERATOR_ONLY"
+          }
+        ]
+      },
+      "object": {
+        "key": "TRACK:300000003",
+        "kind": "TRACK",
+        "id": 300000003,
+        "label": "SUR T3",
+        "x": -45.599999999999994,
+        "y": -53.199999999999996,
+        "z": 8,
+        "classification": "SURFACE",
+        "identity": "UNKNOWN",
+        "operatorIdentity": "UNKNOWN",
+        "quality": 0.8400251796878379,
+        "measuredAtS": 20.050000000000004,
+        "source": "OFFBOARD_C",
+        "local": [],
+        "remote": [
+          {
+            "sourceId": "H1",
+            "measuredAtS": 20.03333333333333,
+            "receivedAtS": 20.433333333333334,
+            "sequence": 903
+          }
+        ],
+        "isar": null,
+        "iff": null,
+        "identificationEvidence": "OPERATOR_ONLY",
+        "emcon": true
+      },
+      "menuOpen": false,
+      "candidatesOpen": false,
+      "candidateLabels": [
+        "TRACK · SUR T1",
+        "OWN · CG-52"
+      ],
+      "counts": {
+        "ship": 0,
+        "helo": 0,
+        "harpoon": 0,
+        "precision": 0,
+        "identity": 0,
+        "undo": 0
+      },
+      "measurement": null
+    },
+    "esm": {
+      "schema": "AEGIS_MAP_A_UI_1",
+      "presentationOnly": true,
+      "enabled": true,
+      "inputSurface": "MAIN",
+      "controlPlatform": null,
+      "lookupTarget": "ESM:600000001",
+      "currentTool": "NONE",
+      "firingDesignatedTarget": null,
+      "info": {
+        "header": "ESM 600000001\n방위 접촉 · UNKNOWN\n마지막 갱신 0.0초 전",
+        "sections": [
+          {
+            "name": "ESM · 0.0s",
+            "text": "방위 34.7° ±0.6°\n거리: 알 수 없음\n대역: S · 방사체 계열: SEARCH_RADAR\n신뢰도: 1.00"
+          }
+        ]
+      },
+      "object": {
+        "key": "ESM:600000001",
+        "kind": "ESM",
+        "id": 600000001,
+        "label": "ESM 600000001",
+        "identity": "UNKNOWN",
+        "classification": "방위 접촉",
+        "bearingRad": -0.964856161903981,
+        "bearingSigmaDeg": 0.6000023297530293,
+        "band": "S",
+        "emitterClass": "SEARCH_RADAR",
+        "type": "SHIP SEARCH RADAR",
+        "confidence": 0.9999995685642538,
+        "measuredAtS": 23.016666666666666,
+        "source": "ESM"
+      },
+      "menuOpen": false,
+      "candidatesOpen": false,
+      "candidateLabels": [
+        "ESM · ESM 600000001",
+        "ESM · ESM 600000002",
+        "ESM · ESM 600000003"
+      ],
+      "counts": {
+        "ship": 0,
+        "helo": 0,
+        "harpoon": 0,
+        "precision": 0,
+        "identity": 0,
+        "undo": 0
+      },
+      "measurement": null
+    }
+  },
+  "errors": [],
+  "htmlSha256": "682696986da56e19d34ef8aceb1e8fc9895b0db01ad0fd95f824279c8a757152"
+}

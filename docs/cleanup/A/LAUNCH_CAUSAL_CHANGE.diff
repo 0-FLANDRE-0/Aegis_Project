@@ -1,0 +1,31 @@
+--- DZT/updateMissileBodyB3
++++ HANDOFF/updateMissileBodyB3
+@@ -429,19 +429,24 @@
+       // much faster than the flight path, so the old gate could release the launch controller with
+       // 15-25deg of residual velocity-vector error. Full PN then demanded an abrupt opposite-G pull,
+       // causing an AoA departure / sea dive. Keep forward-commit until the velocity vector itself is
+-      // inside the launch corridor. SM-2 keeps its proven WIP56 gate unchanged.
++      // inside the launch corridor. LAUNCH_HANDOFF_A extends relative corridor readiness to air Standard; surface/ESSM remain separate.
+       const velPitchErr=Math.abs((m.velPitch??0)-cor.desiredPitch);
+       const velHdg=Math.atan2(vHy,vHx),velHdgErr=Math.abs(angNorm(cor.bearing-velHdg));
+       const vectorAligned=!isESSM||(velPitchErr<=deg(9)&&velHdgErr<=deg(12));
+       const surfaceVectorAligned=surfaceLaunchVectorAlignedWip13C6(m,isESSM,velPitchErr,velHdgErr,cfg);
+       // WIP60: ESSM hand-off is relative to the 3-D intercept corridor, not an absolute 'must be near level'
+       // pitch. A +55deg high-angle shot is valid if its BODY and velocity vector are actually aligned there.
+-      const pitchEnvelopeReady=isESSM?vectorAligned:Math.abs(m.velPitch??0)<=cfg.maxVelExit;
+-      const velocityReady=forwardMps>=cfg.minForwardMps&&vectorAligned&&surfaceVectorAligned&&pitchEnvelopeReady;
++      // LAUNCH_HANDOFF_A: air Standard uses the intended 3-D corridor.
++      // ESSM and surface mode retain their existing vector/clearance contract.
++      const airStandard=m.guidanceCore==='v1'&&!isESSM&&!surfaceMissileRuntimeWip13C6(m)&&['SM2MR_BLKIIIA_SIM','SM2ER_BLKIV_SIM','SM6_BLKIA_SIM'].includes(m._v1Profile?.id);
++      const airHandoff=airStandard?samLaunchHandoffGateA(m,cfg,cor,_b1Own,mslAlt):null;
++      if(airHandoff)m._launchHandoffA=airHandoff;
++      const pitchEnvelopeReady=isESSM?vectorAligned:airHandoff?airHandoff.corridorAligned:Math.abs(m.velPitch??0)<=cfg.maxVelExit;
++      const velocityReady=airHandoff?airHandoff.velocityReady:forwardMps>=cfg.minForwardMps&&vectorAligned&&surfaceVectorAligned&&pitchEnvelopeReady;
+       const clearanceReady=mslAlt>=cfg.exitAltM;
+       const minTimeDone=m.pitchoverTimer>=cfg.pitMinS;
+       const deadlineExceeded=m.pitchoverTimer>=cfg.pitMaxS;
+-      m._pitchoverGate={attitudeReady,velocityReady,vectorAligned:vectorAligned&&surfaceVectorAligned,velPitchErr,velHdgErr,clearanceReady,minTimeDone,deadlineExceeded,hdgErr,pitchErr,forwardMps};
++      m._pitchoverGate={attitudeReady,velocityReady,vectorAligned:airHandoff?airHandoff.corridorAligned:vectorAligned&&surfaceVectorAligned,velPitchErr,velHdgErr,clearanceReady,minTimeDone,deadlineExceeded,hdgErr,pitchErr,forwardMps,pitchEnvelopeReady,airHandoff};
+       if(deadlineExceeded&&!m._pitchoverDeadlineWarned){m._pitchoverDeadlineWarned=true;debugLog(`v1: E${m.id} FORWARD-COMMIT deadline exceeded — launch controller retains authority`);}
+       if(minTimeDone&&attitudeReady&&velocityReady&&clearanceReady){
+         m.pitchoverPhase=false;

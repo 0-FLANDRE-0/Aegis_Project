@@ -1,0 +1,1 @@
+function worldToScreen(x,y){const v=AEGIS_VIEWPORT.twoD,z=vpUpdateMapZoomA();return {x:v.cx+(x-aircraft.x()-camOffset.x)*z,y:v.cy+(y-aircraft.y()-camOffset.y)*z};}

@@ -1,0 +1,83 @@
+name: Multi Ship C observers and offboard measurement port
+on:
+  pull_request:
+    paths:
+      - 'Aegis_SIM_v48_WIP_MULTI_SHIP_C.html'
+      - 'AEGIS_PLAN_STATUS_v48_WIP_MULTI_SHIP_C.md'
+      - 'SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt'
+      - 'docs/multiship/C/**'
+      - '.github/workflows/multiship-c.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  AEGIS_CANDIDATE: Aegis_SIM_v48_WIP_MULTI_SHIP_C.html
+  AEGIS_BASELINE: archive/v48/WIP_MULTI_SHIP_B/Aegis_SIM_v48_WIP_MULTI_SHIP_B.html
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          sha256sum -c SHA256SUMS_v48_WIP_MULTI_SHIP_C.txt
+          sha256sum -c docs/multiship/C/REPOSITORY_SUPPORT.sha256
+          python docs/multiship/C/verify_static.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/multiship/static
+          python docs/harpoon/E/verify_guidance.py "$AEGIS_CANDIDATE" artifacts/multiship/guidance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-c-static-${{ github.sha }}
+          path: artifacts/multiship
+  browser:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [observers, propagation, clock, baseline, native, physical-native, departure, routes, knowledge, ddg]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r docs/bunkerhill/K/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Use installed Chromium
+        run: |
+          python - <<'PY'
+          import os
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as pw:
+              with open(os.environ['GITHUB_ENV'], 'a') as out:
+                  out.write('AEGIS_CHROMIUM_EXECUTABLE=' + pw.chromium.executable_path + '\n')
+          PY
+      - name: Run final artifact fixtures
+        run: |
+          if [ "${{ matrix.suite }}" = baseline ]; then
+            python docs/multiship/A/verify_baseline.py "$AEGIS_BASELINE" "$AEGIS_CANDIDATE" artifacts/multiship/baseline
+          elif [ "${{ matrix.suite }}" = physical-native ]; then
+            python docs/multiship/C/verify_physical_native.py archive/v48/WIP_MULTI_SHIP_A/Aegis_SIM_v48_WIP_MULTI_SHIP_A.html "$AEGIS_CANDIDATE" artifacts/multiship/physical-native
+          elif [ "${{ matrix.suite }}" = departure ]; then
+            python docs/multiship/B/verify_departure.py "$AEGIS_CANDIDATE" artifacts/multiship/departure
+          elif [ "${{ matrix.suite }}" = ddg ]; then
+            mkdir -p artifacts/multiship/ddg
+            python docs/ship-startup/A/tests/runtime.py "$AEGIS_CANDIDATE" > artifacts/multiship/ddg/runtime.json
+          elif [ "${{ matrix.suite }}" = routes ] || [ "${{ matrix.suite }}" = knowledge ]; then
+            python docs/harpoon/E/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
+          else
+            python docs/multiship/C/verify_${{ matrix.suite }}.py "$AEGIS_CANDIDATE" artifacts/multiship/${{ matrix.suite }}
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multiship-c-${{ matrix.suite }}-${{ github.sha }}
+          path: artifacts/multiship
+          if-no-files-found: error

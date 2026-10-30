@@ -1,0 +1,10 @@
+"""Explicit public Worker API run with the live game paused, hash before/after."""
+import argparse,hashlib,json,sys
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
+ap=argparse.ArgumentParser();ap.add_argument('html',type=Path);ap.add_argument('out',type=Path);a=ap.parse_args();a.out.mkdir(parents=True,exist_ok=True);errors=[];raw=a.html.read_bytes()
+with sync_playwright()as pw:
+ b=launch(pw);p=load_fleet(b,raw,own='DDG_119_LATE_FLIGHT_IIA',errors=errors);p.wait_for_timeout(500);p.expose_function('envProgress',lambda q:print(q['weapon']if 'weapon'in q else q.get('part'),q.get('completed'),flush=True)if q.get('completed',0)%6==0 else None)
+ result=p.evaluate('''async()=>{const hash=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(n=>n.toString(16).padStart(2,'0')).join(''),state=()=>JSON.stringify({tick:__NAVAL_SIM_DIAG__.snapshot(),operation:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A(),mutation:__NAVAL_SIM_DIAG__.operationalImportMutationFingerprintV48Wip11B(),helos:__HELO__.snapshot(),world:__AEGIS_ENGAGEMENT_RUNTIME__.world},(k,v)=>v instanceof Map?[...v]:v instanceof Set?[...v]:v),before=state(),start=performance.now(),out=await __ENV_A__.run({onProgress:q=>window.envProgress(q)}),after=state();return {beforeHash:await hash(before),afterHash:await hash(after),resultHash:await hash(JSON.stringify(out)),profileHash:out.profileHash,rows:out.table.length,trajectories:out.trajectories.length,calls:out.calls,elapsedMs:performance.now()-start,worldUnchanged:before===after};}''');b.close()
+ checks={'E2.fullPublicWorkerRunLeavesWorldRngTickUnchanged':result['worldUnchanged'],'E4.publicRunComplete':result['rows']==96 and result['trajectories']==120,'pageErrors':not errors};out={'pass':all(checks.values()),'checks':checks,'records':result,'errors':errors,'htmlSha256':hashlib.sha256(raw).hexdigest()};(a.out/'full-worker.json').write_text(json.dumps(out,indent=2));print(json.dumps(out));raise SystemExit(0 if out['pass']else 1)

@@ -1,0 +1,80 @@
+{
+  "schema": "AEGIS_GAME_TERM_TESTS_V48",
+  "pass": true,
+  "count": 9,
+  "outcomes": [
+    {
+      "name": "six-direct-evaluator-fixtures",
+      "pass": true,
+      "fixtures": [
+        {
+          "name": "track-lost-after-expected-cross",
+          "pass": true,
+          "at8": null,
+          "at12": "TERMINAL_MISS_POST_CROSS"
+        },
+        {
+          "name": "track-reacquired-no-premature-exit",
+          "pass": true
+        },
+        {
+          "name": "arh-never-acquires-search-expires",
+          "pass": true
+        },
+        {
+          "name": "physical-fuze-outcome-blocks-miss-exit",
+          "pass": true
+        },
+        {
+          "name": "sarh-not-misclassified-as-arh-search",
+          "pass": true
+        },
+        {
+          "name": "no-early-post-cross-termination",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "name": "live-hook-intentional-miss-after-last-seeker-track",
+      "pass": true,
+      "reason": "TERMINAL_MISS_POST_CROSS",
+      "at": 12
+    },
+    {
+      "name": "live-hook-reacquisition-prevents-early-termination",
+      "pass": true
+    },
+    {
+      "name": "live-hook-no-acquisition",
+      "pass": true,
+      "reason": "TERMINAL_SEARCH_NO_ACQUISITION"
+    },
+    {
+      "name": "sarh-loss-using-observed-rf-not-truth",
+      "pass": true
+    },
+    {
+      "name": "physical-fuze-detonation-blocks-miss",
+      "pass": true
+    },
+    {
+      "name": "runtime-ab-toggle-disables-termination",
+      "pass": true
+    },
+    {
+      "name": "sm6-game-battery-480-not-450",
+      "pass": true
+    },
+    {
+      "name": "termination-controller-has-no-game-truth-source",
+      "pass": true,
+      "forbiddenFound": []
+    }
+  ],
+  "logs": [
+    "GAME_TERM: 11 ESSM_BLK2_SIM TERMINAL_MISS_POST_CROSS life=12.00",
+    "GAME_TERM: 11 SM6_BLKIA_SIM TERMINAL_SEARCH_NO_ACQUISITION life=12.20",
+    "GAME_TERM: 11 SM2ER_BLKIV_SIM TERMINAL_MISS_POST_CROSS life=12.00"
+  ]
+}

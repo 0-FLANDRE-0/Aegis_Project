@@ -1,0 +1,522 @@
+{
+  "checks": {
+    "physicalRegistration": true,
+    "measuredIffResponse": true,
+    "autoWeaponGuard": true,
+    "offExpiresFriendlyEvidence": true,
+    "offUnknownByExistingPolicy": true,
+    "onRestoresMeasuredFriend": true,
+    "core": true
+  },
+  "on": {
+    "schema": "AEGIS_HELO_SENSOR_STAGE_A_DIAG_E1",
+    "diagnosticOnly": true,
+    "constants": {
+      "rcsBaseM2": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "rcsBroadsideM2": {
+        "value": 5,
+        "source": "SIM_TUNED"
+      },
+      "extentRangeM": {
+        "value": 7.5,
+        "source": "SIM_TUNED"
+      },
+      "extentCrossM": {
+        "value": 4,
+        "source": "SIM_TUNED"
+      },
+      "extentVerticalM": {
+        "value": 2.5,
+        "source": "SIM_TUNED"
+      },
+      "dopplerSpreadMps": {
+        "value": 6,
+        "source": "SIM_TUNED"
+      },
+      "iffRevisitS": {
+        "value": 0.5,
+        "source": "SIM_TUNED"
+      },
+      "iffHoldS": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffMaxRangeM": {
+        "value": 150000,
+        "source": "SIM_TUNED"
+      },
+      "iffMinLos": {
+        "value": 0.05,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeSigmaM": {
+        "value": 20,
+        "source": "SIM_TUNED"
+      },
+      "iffBearingSigmaDeg": {
+        "value": 0.18,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationSigmaDeg": {
+        "value": 0.2,
+        "source": "SIM_TUNED"
+      },
+      "iffGateSigma": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateFloorM": {
+        "value": 80,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateMaxM": {
+        "value": 1600,
+        "source": "SIM_TUNED"
+      },
+      "iffAngleGateFloorDeg": {
+        "value": 0.6,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationGateFloorDeg": {
+        "value": 1.2,
+        "source": "SIM_TUNED"
+      },
+      "iffTrackFreshS": {
+        "value": 2,
+        "source": "SIM_TUNED"
+      }
+    },
+    "physicalAirborneCount": 1,
+    "ciwsSourceCount": 1,
+    "aircraftAiPoolCount": 0,
+    "ships": [
+      {
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "iff": {
+          "responses": 40,
+          "associated": 39,
+          "expired": 1,
+          "lastReply": {
+            "bearing": 0.006503796463688261,
+            "elevationRad": 0.0029105652486779983,
+            "rangeM": 3987.111210030664,
+            "rangeSigmaM": 20,
+            "bearingSigmaDeg": 0.18,
+            "elevationSigmaDeg": 0.2,
+            "authenticatedFriendly": true,
+            "measuredAtS": 19.5
+          }
+        },
+        "tracks": [
+          {
+            "trackId": 300000001,
+            "iff": {
+              "authenticatedFriendly": true,
+              "measuredAtS": 19.5,
+              "source": "AIR_IFF_E",
+              "expiresAtS": 22.5
+            },
+            "operatorIdentity": "UNKNOWN",
+            "identity": "FRIEND"
+          },
+          {
+            "trackId": 300000002,
+            "iff": {
+              "authenticatedFriendly": true,
+              "measuredAtS": 18,
+              "source": "AIR_IFF_E",
+              "expiresAtS": 21
+            },
+            "operatorIdentity": "UNKNOWN",
+            "identity": "FRIEND"
+          }
+        ]
+      }
+    ]
+  },
+  "off": {
+    "schema": "AEGIS_HELO_SENSOR_STAGE_A_DIAG_E1",
+    "diagnosticOnly": true,
+    "constants": {
+      "rcsBaseM2": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "rcsBroadsideM2": {
+        "value": 5,
+        "source": "SIM_TUNED"
+      },
+      "extentRangeM": {
+        "value": 7.5,
+        "source": "SIM_TUNED"
+      },
+      "extentCrossM": {
+        "value": 4,
+        "source": "SIM_TUNED"
+      },
+      "extentVerticalM": {
+        "value": 2.5,
+        "source": "SIM_TUNED"
+      },
+      "dopplerSpreadMps": {
+        "value": 6,
+        "source": "SIM_TUNED"
+      },
+      "iffRevisitS": {
+        "value": 0.5,
+        "source": "SIM_TUNED"
+      },
+      "iffHoldS": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffMaxRangeM": {
+        "value": 150000,
+        "source": "SIM_TUNED"
+      },
+      "iffMinLos": {
+        "value": 0.05,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeSigmaM": {
+        "value": 20,
+        "source": "SIM_TUNED"
+      },
+      "iffBearingSigmaDeg": {
+        "value": 0.18,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationSigmaDeg": {
+        "value": 0.2,
+        "source": "SIM_TUNED"
+      },
+      "iffGateSigma": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateFloorM": {
+        "value": 80,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateMaxM": {
+        "value": 1600,
+        "source": "SIM_TUNED"
+      },
+      "iffAngleGateFloorDeg": {
+        "value": 0.6,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationGateFloorDeg": {
+        "value": 1.2,
+        "source": "SIM_TUNED"
+      },
+      "iffTrackFreshS": {
+        "value": 2,
+        "source": "SIM_TUNED"
+      }
+    },
+    "physicalAirborneCount": 1,
+    "ciwsSourceCount": 1,
+    "aircraftAiPoolCount": 0,
+    "ships": [
+      {
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "iff": {
+          "responses": 40,
+          "associated": 39,
+          "expired": 3,
+          "lastReply": {
+            "bearing": 0.006503796463688261,
+            "elevationRad": 0.0029105652486779983,
+            "rangeM": 3987.111210030664,
+            "rangeSigmaM": 20,
+            "bearingSigmaDeg": 0.18,
+            "elevationSigmaDeg": 0.2,
+            "authenticatedFriendly": true,
+            "measuredAtS": 19.5
+          }
+        },
+        "tracks": []
+      }
+    ]
+  },
+  "tracks": [
+    {
+      "trackId": 300000001,
+      "trackNumber": 1,
+      "positionM": {
+        "x": 4008.1443586073533,
+        "y": 10.813727491122684,
+        "z": 8.000000000000023
+      },
+      "velocityMps": {
+        "x": -0.23364700682621514,
+        "y": 2.91244474611438,
+        "z": 8.760333120390986e-18
+      },
+      "covariance": [
+        10.6826211271792,
+        0.03863615776591346,
+        6.88344293442456e-18,
+        0.7736168863040798,
+        0.0022907062081835993,
+        -6.565175904036561e-22,
+        0.03863615776591346,
+        3.8913306678883144,
+        3.56184213606851e-20,
+        0.0018924128107376075,
+        0.431325172573179,
+        1.5800041417748122e-24,
+        6.88344293442456e-18,
+        3.56184213606851e-20,
+        47.78820016530574,
+        -7.433722011733801e-20,
+        1.358006540010301e-21,
+        0.06677999654742306,
+        0.7736168863040798,
+        0.0018924128107376075,
+        -7.433722011733801e-20,
+        0.12209693105140455,
+        0.00014509261818686686,
+        -2.4375610685696133e-22,
+        0.0022907062081835993,
+        0.431325172573179,
+        1.358006540010301e-21,
+        0.00014509261818686686,
+        0.09504663102001154,
+        -3.1864239588692845e-25,
+        -6.565175904036561e-22,
+        1.5800041417748122e-24,
+        0.06677999654742306,
+        -2.4375610685696133e-22,
+        -3.1864239588692845e-25,
+        0.1347685699204136
+      ],
+      "classification": "SURFACE",
+      "identity": "UNKNOWN",
+      "threatStatus": "MONITOR",
+      "engagementAuthority": "WITHHELD",
+      "confirmed": true,
+      "sensorAgeS": 0.4833333333333333,
+      "source": "SPQ9B_SURFACE_PRECISION",
+      "lifecycle": "FIRM",
+      "contributors": {},
+      "offboard": null
+    },
+    {
+      "trackId": 300000002,
+      "trackNumber": 2,
+      "positionM": {
+        "x": 3994.823416161436,
+        "y": 28.085060808210827,
+        "z": 33.990156790705406
+      },
+      "velocityMps": {
+        "x": 0.06509284113925516,
+        "y": 0.05860751859348912,
+        "z": 0.02466641305772488
+      },
+      "covariance": [
+        12.509610405633651,
+        0.07436986876686637,
+        0.08504524622735748,
+        1.790584317789965,
+        0.0010848170119748186,
+        0.0008007896328232334,
+        0.07436986876686637,
+        2.0675781167270304,
+        0.0006051346065594844,
+        -0.001645863829025626,
+        1.9954989682983841,
+        4.723470067791834e-06,
+        0.08504524622735748,
+        0.0006051346065594844,
+        2.4919395994828974,
+        -0.003182316824008617,
+        -1.4814826749974772e-06,
+        1.7575936309991738,
+        1.790584317789965,
+        -0.001645863829025626,
+        -0.003182316824008617,
+        2.8153879463346643,
+        -0.010508881311299643,
+        -0.009166469721556846,
+        0.0010848170119748186,
+        1.9954989682983841,
+        -1.4814826749974772e-06,
+        -0.010508881311299643,
+        4.240213832427688,
+        -6.629855399074584e-05,
+        0.0008007896328232334,
+        4.723470067791834e-06,
+        1.7575936309991738,
+        -0.009166469721556846,
+        -6.629855399074584e-05,
+        2.6596424810924315
+      ],
+      "classification": "UNKNOWN",
+      "identity": "UNKNOWN",
+      "threatStatus": "MONITOR",
+      "engagementAuthority": "WITHHELD",
+      "confirmed": true,
+      "sensorAgeS": 0.05,
+      "source": "SPY1DV_TRACK_REVISIT",
+      "lifecycle": "FIRM",
+      "contributors": {},
+      "offboard": null
+    }
+  ],
+  "restored": {
+    "schema": "AEGIS_HELO_SENSOR_STAGE_A_DIAG_E1",
+    "diagnosticOnly": true,
+    "constants": {
+      "rcsBaseM2": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "rcsBroadsideM2": {
+        "value": 5,
+        "source": "SIM_TUNED"
+      },
+      "extentRangeM": {
+        "value": 7.5,
+        "source": "SIM_TUNED"
+      },
+      "extentCrossM": {
+        "value": 4,
+        "source": "SIM_TUNED"
+      },
+      "extentVerticalM": {
+        "value": 2.5,
+        "source": "SIM_TUNED"
+      },
+      "dopplerSpreadMps": {
+        "value": 6,
+        "source": "SIM_TUNED"
+      },
+      "iffRevisitS": {
+        "value": 0.5,
+        "source": "SIM_TUNED"
+      },
+      "iffHoldS": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffMaxRangeM": {
+        "value": 150000,
+        "source": "SIM_TUNED"
+      },
+      "iffMinLos": {
+        "value": 0.05,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeSigmaM": {
+        "value": 20,
+        "source": "SIM_TUNED"
+      },
+      "iffBearingSigmaDeg": {
+        "value": 0.18,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationSigmaDeg": {
+        "value": 0.2,
+        "source": "SIM_TUNED"
+      },
+      "iffGateSigma": {
+        "value": 3,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateFloorM": {
+        "value": 80,
+        "source": "SIM_TUNED"
+      },
+      "iffRangeGateMaxM": {
+        "value": 1600,
+        "source": "SIM_TUNED"
+      },
+      "iffAngleGateFloorDeg": {
+        "value": 0.6,
+        "source": "SIM_TUNED"
+      },
+      "iffElevationGateFloorDeg": {
+        "value": 1.2,
+        "source": "SIM_TUNED"
+      },
+      "iffTrackFreshS": {
+        "value": 2,
+        "source": "SIM_TUNED"
+      }
+    },
+    "physicalAirborneCount": 1,
+    "ciwsSourceCount": 1,
+    "aircraftAiPoolCount": 0,
+    "ships": [
+      {
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "iff": {
+          "responses": 50,
+          "associated": 49,
+          "expired": 3,
+          "lastReply": {
+            "bearing": 0.0034313053312367003,
+            "elevationRad": 0.0031947158142550396,
+            "rangeM": 4008.434941406518,
+            "rangeSigmaM": 20,
+            "bearingSigmaDeg": 0.18,
+            "elevationSigmaDeg": 0.2,
+            "authenticatedFriendly": true,
+            "measuredAtS": 34.5
+          }
+        },
+        "tracks": [
+          {
+            "trackId": 300000001,
+            "iff": {
+              "authenticatedFriendly": true,
+              "measuredAtS": 34.5,
+              "source": "AIR_IFF_E",
+              "expiresAtS": 37.5
+            },
+            "operatorIdentity": "UNKNOWN",
+            "identity": "FRIEND"
+          }
+        ]
+      }
+    ]
+  },
+  "guard": {
+    "ok": true,
+    "calls": [],
+    "counterfactual": {
+      "identity": "UNKNOWN",
+      "threatStatus": "MONITOR",
+      "authority": "WITHHELD",
+      "reason": "IDENTITY_UNKNOWN"
+    },
+    "ciws": [
+      {
+        "mountId": 1,
+        "matched": true,
+        "protectedIdentity": "FRIEND",
+        "decision": "PROTECTED_FRIEND",
+        "releaseAllowed": false
+      },
+      {
+        "mountId": 2,
+        "matched": true,
+        "protectedIdentity": "FRIEND",
+        "decision": "PROTECTED_FRIEND",
+        "releaseAllowed": false
+      }
+    ],
+    "inventoryAndOrdnanceUnchanged": true,
+    "operatorIdentity": "UNKNOWN",
+    "identity": "FRIEND"
+  },
+  "errors": [],
+  "htmlSha256": "9d1d29137f27149817582694d8cf86f1b75af4e4ee69082b5cc00e0981a72c89",
+  "pass": true
+}

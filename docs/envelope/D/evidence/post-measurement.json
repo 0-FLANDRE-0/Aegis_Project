@@ -1,0 +1,179 @@
+{
+  "events": [
+    {
+      "stage": "WAITING_FOR_EXISTING_SWEEP",
+      "elapsedS": 1.581996912136674e-06
+    },
+    {
+      "stage": "FULL_SWEEP_COMPLETE",
+      "elapsedS": 15760.953726328007,
+      "calls": 175955,
+      "measurementElapsedS": 17956.605426123002
+    },
+    {
+      "stage": "followup",
+      "elapsedS": 15760.954119582006,
+      "status": "RUNNING",
+      "command": [
+        "taskset",
+        "-c",
+        "0-3",
+        "node",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/finish_measurement.cjs"
+      ]
+    },
+    {
+      "stage": "followup",
+      "elapsedS": 16005.976399293999,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "build",
+      "elapsedS": 16005.976627458993,
+      "status": "RUNNING",
+      "command": [
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/build.py"
+      ]
+    },
+    {
+      "stage": "build",
+      "elapsedS": 16007.773807259,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "base-syntax",
+      "elapsedS": 16007.842527368994,
+      "status": "RUNNING",
+      "command": [
+        "node",
+        "--check",
+        "/tmp/aegis-env-d/base-delivery-main.js"
+      ]
+    },
+    {
+      "stage": "base-syntax",
+      "elapsedS": 16008.044657923005,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "candidate-syntax",
+      "elapsedS": 16008.132748788994,
+      "status": "RUNNING",
+      "command": [
+        "node",
+        "--check",
+        "/tmp/aegis-env-d/candidate-delivery-main.js"
+      ]
+    },
+    {
+      "stage": "candidate-syntax",
+      "elapsedS": 16008.379255886,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "scope",
+      "elapsedS": 16008.379529569997,
+      "status": "RUNNING",
+      "command": [
+        "node",
+        "/tmp/aegis-env-d/repo/docs/performance/F/verify_scope.cjs",
+        "/tmp/aegis-env-d/base-delivery-main.js",
+        "/tmp/aegis-env-d/candidate-delivery-main.js"
+      ]
+    },
+    {
+      "stage": "scope",
+      "elapsedS": 16011.256888138,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "delivery-verification",
+      "elapsedS": 16011.257205105998,
+      "status": "RUNNING",
+      "command": [
+        "taskset",
+        "-c",
+        "0-3",
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/verify_delivery.py"
+      ]
+    },
+    {
+      "stage": "delivery-verification",
+      "elapsedS": 16059.23155081,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "report",
+      "elapsedS": 16059.231821580004,
+      "status": "RUNNING",
+      "command": [
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/report.py"
+      ]
+    },
+    {
+      "stage": "report",
+      "elapsedS": 16075.872769833004,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "verification",
+      "elapsedS": 16075.873177058005,
+      "status": "RUNNING",
+      "command": [
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/verify_results.py"
+      ]
+    },
+    {
+      "stage": "verification",
+      "elapsedS": 16081.398916763006,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "archive",
+      "elapsedS": 16081.399280191996,
+      "status": "RUNNING",
+      "command": [
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/archive_delivery.py"
+      ]
+    },
+    {
+      "stage": "archive",
+      "elapsedS": 16082.575572037997,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "package",
+      "elapsedS": 16082.575958863003,
+      "status": "RUNNING",
+      "command": [
+        "python",
+        "/tmp/aegis-env-d/repo/docs/envelope/D/package.py"
+      ]
+    },
+    {
+      "stage": "package",
+      "elapsedS": 16092.350544974004,
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "stage": "LOCAL_DELIVERY_READY",
+      "elapsedS": 16092.350808992996,
+      "uploadStarted": false
+    }
+  ]
+}

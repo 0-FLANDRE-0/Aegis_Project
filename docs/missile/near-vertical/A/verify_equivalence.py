@@ -1,0 +1,19 @@
+"""Live browser lexical functions versus the private copy extracted from the same final HTML."""
+from pathlib import Path
+import gc,gzip,hashlib,json,sys,time
+from playwright.sync_api import sync_playwright
+H=Path(__file__).resolve().parent;R=H.parents[3];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'))
+from browser_tools import launch,load_fleet,instrument
+p=json.loads((H/'equivalence-fixture.json').read_text());file=Path(json.loads((H/'build.json').read_text())['variants']['FINAL']['file']);cases=[
+ {'weapon':'SM6','rangeKm':.1,'altM':20000,'targetSpeedMps':0,'crossSpeedMps':0,'rngSeed':1831565813,'navigationSeed':2047861954,'samples':True,'trace':False},
+ {'weapon':'SM6','rangeKm':5,'altM':20000,'targetSpeedMps':0,'crossSpeedMps':0,'rngSeed':305419896,'navigationSeed':2654435769,'samples':True,'trace':False},
+ {'weapon':'SM2ER','rangeKm':30,'altM':5000,'targetSpeedMps':250,'crossSpeedMps':0,'rngSeed':1831565813,'navigationSeed':2047861954,'samples':True,'trace':False},
+ {'weapon':'SM6','rangeKm':240,'altM':5000,'targetSpeedMps':250,'crossSpeedMps':0,'rngSeed':12001,'navigationSeed':2047861954,'samples':True,'trace':False},
+];checks={};errors=[];rows=[];start=time.perf_counter();state="()=>JSON.stringify({tick:__NAVAL_SIM_DIAG__.snapshot(),rng:__HARPOON_DIAG_A__.snapshot().rng,operation:__NAVAL_SIM_DIAG__.exportOperationalStateV48Wip11A(),world:__AEGIS_ENGAGEMENT_RUNTIME__.world},(k,v)=>v instanceof Map?[...v]:v instanceof Set?[...v]:v)"
+with sync_playwright()as pw:
+ b=launch(pw);raw=file.read_bytes();assert hashlib.sha256(raw).hexdigest()==p['product']['htmlSha256'];page=load_fleet(b,instrument(raw,p['helper']),own='DDG_119_LATE_FLIGHT_IIA',errors=errors);page.set_default_timeout(240000);texts=page.evaluate('__LH_NATIVE_FUNCTION_TEXT__');hashes={n:hashlib.sha256(s.encode()).hexdigest()for n,s in texts.items()};checks['everyNativeFunctionExact']=hashes==p['functionHashes'];page.evaluate('q=>window.__LH_PRIVATE__=new Function("DATA","SETTINGS","PROFILE","PRIVATE_SHIP",q.source)(q.input.data,q.input.settings,{}, {entityId:"ENV_PRIVATE",navigation:{heading:0,speed:0,positionWorld:{x:0,y:0}},weapons:{}})',p)
+ detail=H/'equivalence';detail.mkdir(exist_ok=True)
+ for i,c in enumerate(cases):
+  before=page.evaluate(state);a=page.evaluate('c=>JSON.parse(JSON.stringify(__LH_PRIVATE__.runCase(c)))',c);checks[f'privateIsolation.{i}']=before==page.evaluate(state);q=page.evaluate('c=>JSON.parse(JSON.stringify(__LH_NATIVE_A__.runCase(c)))',c);keys=['timeS','xM','yM','altitudeM','speedMps'];dif={k:max((abs(x[k]-y[k])for x,y in zip(a['samples'],q['samples'])),default=0)for k in keys};checks[f'sampleCount.{i}']=len(a['samples'])==len(q['samples']);checks[f'trajectory.{i}']=not any(dif.values());checks[f'wholeReturn.{i}']=a==q;ah=hashlib.sha256(json.dumps(a,sort_keys=True,separators=(',',':')).encode()).hexdigest();qh=hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest();(detail/f'{i}.json.gz').write_bytes(gzip.compress(json.dumps({'condition':c,'native':q,'privateSha256':ah,'nativeSha256':qh,'wholeReturnEqual':a==q},separators=(',',':')).encode(),9,mtime=0));rows.append({'condition':c,'maxError':dif,'reason':q['reason'],'closestM':q['closestM'],'privateSha256':ah,'nativeSha256':qh});print(i,q['reason'],q['closestM'],dif,a==q,flush=True);del a,q;gc.collect();cdp=page.context.new_cdp_session(page);cdp.send('HeapProfiler.collectGarbage');cdp.detach()
+ page.close();b.close()
+checks['pageErrors0']=not errors;out={'schema':'AEGIS_NEAR_VERTICAL_PATH_FIX_A_EQUIVALENCE_1','pass':all(checks.values()),'checks':checks,'errors':errors,'elapsedS':time.perf_counter()-start,'product':p['product'],'conditions':rows};(H/'equivalence.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'pass':out['pass'],'failed':[k for k,v in checks.items()if not v],'elapsedS':out['elapsedS']},indent=2));raise SystemExit(0 if out['pass']else 1)

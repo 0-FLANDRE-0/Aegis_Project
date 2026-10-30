@@ -1,0 +1,466 @@
+[
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const SHIP_PROFILE_REGISTRY=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 2094,
+    "excerpt": "const SHIP_PROFILE_REGISTRY=Object.freeze({[SOVREMENNY_956_PROFILE.id]:SOVREMENNY_956_PROFILE,[DDG_119_LATE_FLIGHT_IIA_PROFILE.id]:DDG_119_LATE_FLIGHT_IIA_PROFILE,[CG_52_LATE_TICONDEROGA_PROFILE.id]:CG_52_LATE_TICONDEROGA_PROFILE});"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const SHIP_STARTUP_CATALOG=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3072,
+    "excerpt": "const SHIP_STARTUP_CATALOG=Object.freeze(Object.values(SHIP_PROFILE_REGISTRY).filter(p=>!p.capabilities?.npcOnly).map(p=>Object.freeze({"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "if(p.capabilities?.npcOnly)return false",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3080,
+    "excerpt": "  const p=SHIP_PROFILE_REGISTRY[profileId];if(p.capabilities?.npcOnly)return false;"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const IS_BUNKER=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3103,
+    "excerpt": "const IS_BUNKER=ACTIVE_SHIP_PROFILE.id==='CG_52_LATE_TICONDEROGA';"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const ACTIVE_SHIP_PROFILE=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3101,
+    "excerpt": "const ACTIVE_SHIP_PROFILE=await chooseShipBeforeInitialization();"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "EW context의 ACTIVE_SHIP_RUNTIME 지역 별칭",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 2344,
+    "excerpt": "  const ACTIVE_SHIP_RUNTIME=owner,ACTIVE_SHIP_PROFILE=resolveShipProfile(owner.profileId),shipNav=owner.navigation,"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "function createPreparedShipRuntimeA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 13885,
+    "excerpt": "function createPreparedShipRuntimeA(profile,options={}){"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "function createProfileVlsInventory",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 20452,
+    "excerpt": "function createProfileVlsInventory(profile){if(sovHullA(profile))return {fwd:[],aft:[]};"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "r.weapons.selectedGunId=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 6194,
+    "excerpt": " r.weapons.selectedGunId=q.selectedGunId;r.weapons.mainGun=sovHullA(r)?sovDisabledGunA():r.weapons.gunMounts.get(q.selectedGunId);"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "r.weapons.selectedGunId=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 13901,
+    "excerpt": "  r.weapons.gunMounts=new Map(installations.map(inst=>[inst.id,guardedPreparedGunA(r,inst)]));r.weapons.selectedGunId=sovHullA(profile)?null:profile.weapons.mainGun.id;r.weapons.mainGun=sovHullA(profile)?sovDisabledGunA():r.weapons.gunMounts.get(r.weapons.selectedGunId);"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "r.combatSystem.sensors=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 13890,
+    "excerpt": "  r.combatSystem.sensors={model:resolveSensorSuite(profile.sensors.modelId),runtime:{radar:createShipRadarStateA(),spyScheduler:createShipSpySchedulerStateA(),spq9b:{model:resolveSensorSuite(profile.sensors.modelId).spq9b},bridgeMasterE:{model:resolveSensorSuite(profile.sensors.modelId).bridgeMasterE}},execution:'DEFERRED_STAGE_4'};"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "r.combatSystem.sensors=",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 20503,
+    "excerpt": "  if(kind==='sensors')r.combatSystem.sensors=value;"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 25411,
+    "excerpt": "  const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.sensors.modelId];"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "const HELO_FACILITY_PROFILES_I",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 101,
+    "excerpt": "const HELO_FACILITY_PROFILES_I=Object.freeze({DDG_119_LATE_FLIGHT_IIA:HELO_DDG_FACILITY_I,CG_52_LATE_TICONDEROGA:HELO_CG_FACILITY_I});"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "function heloFacilityA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 102,
+    "excerpt": "function heloFacilityA(profileId=ACTIVE_SHIP_RUNTIME.profileId){return HELO_FACILITY_PROFILES_I[profileId]??null;}"
+  },
+  {
+    "category": "PROFILE/STARTUP",
+    "query": "function sovNoEquipmentA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 1880,
+    "excerpt": "function sovNoEquipmentA(r){return sovHullA(r);}"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function exportOperationalState()",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 49455,
+    "excerpt": "  function exportOperationalState(){"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function operationalValidationContextV48Wip11B",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 49459,
+    "excerpt": "  function operationalValidationContextV48Wip11B(){"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function validateOperationalEnvelopeV48Wip11B",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 49463,
+    "excerpt": "  function validateOperationalEnvelopeV48Wip11B(src,_ctx,errors){"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function validateOperationalWeaponsV48Wip11B",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 49482,
+    "excerpt": "  function validateOperationalWeaponsV48Wip11B(src,ctx,errors){"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function preparePhysicalShipB",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 13666,
+    "excerpt": "function preparePhysicalShipB(r){"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function geometryForShipProfileA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 13851,
+    "excerpt": "function geometryForShipProfileA(profile){if(sovHullA(profile))return sovGeometryA(profile);"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function getDamageFloodV1",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 6253,
+    "excerpt": "  function getDamageFloodV1(){return owner.flooding;}"
+  },
+  {
+    "category": "SAVE/DAMAGE",
+    "query": "function getShipInteriorTopologyV48Wip06",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 6255,
+    "excerpt": "  function getShipInteriorTopologyV48Wip06(){return owner.interior;}"
+  },
+  {
+    "category": "WAVE",
+    "query": "waveResponse:{",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 1914,
+    "excerpt": " p.hydrostatics={...p.hydrostatics,rudderAreaM2:14,waveResponse:{source:'SIM_TUNED',heave:.55,roll:.18,pitch:.18},initialGMM:1.25,thrustPerKg:.19,powerPerKg:5.1,engineResponseS:24,rollDamping:.25,source:'SIM_TUNED',effectiveBuoyancyScale:C.effectiveBuoyancyScale};"
+  },
+  {
+    "category": "WAVE",
+    "query": "function sovWaveForcingA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 2058,
+    "excerpt": "function sovWaveForcingA(n,cfg){const f=SOVREMENNY_956_PROFILE.hydrostatics.waveResponse,x=worldToMeters(n.positionWorld.x),y=worldToMeters(n.positionWorld.y),c=Math.cos(n.heading),s=Math.sin(n.heading),sample=(a,b)=>maritimeSeaLevelAtSimulationMetersWip13A3(x+a*c-b*s,y+a*s+b*c),l=cfg.lengthM*.25,w=cfg.beamM*.4;return {heightM:sample(0,0)*f.heave,rollSlope:(sample(0,w)-sample(0,-w))/(2*w)*f.roll,pitchSlope:(sample(l,0)-sample(-l,0))/(2*l)*f.pitch};}"
+  },
+  {
+    "category": "WAVE",
+    "query": "waveForce=sovHullA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32552,
+    "excerpt": "    loading=load(summary);const mass=loading.massKg,cg=loading.cg,waveForce=sovHullA(shipProfile)?sovWaveForcingA(ownerNavigation(),cfg):null;"
+  },
+  {
+    "category": "WAVE",
+    "query": "rollRate+=(-buoyancy",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32575,
+    "excerpt": "      rollRate+=(-buoyancy*transverse+rollMoment+(waveForce?weight*gm0*waveForce.rollSlope:0)-rollDamp*rollRate)/ir*h;"
+  },
+  {
+    "category": "WAVE",
+    "query": "trimRate+=(-buoyancy",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32576,
+    "excerpt": "      trimRate+=(-buoyancy*longitudinal+(waveForce?rho*g*b.iyM4*waveForce.pitchSlope:0)-pitchDamp*trimRate)/ip*h;"
+  },
+  {
+    "category": "WAVE",
+    "query": "draftRate+=(weight",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32577,
+    "excerpt": "      draftRate+=(weight-buoyancy-(waveForce?rho*g*b.waterplaneM2*waveForce.heightM:0)-heaveDamp*draftRate)/heaveMass*h;"
+  },
+  {
+    "category": "WAVE",
+    "query": "function getShipDynamicsV15",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32591,
+    "excerpt": "function getShipDynamicsV15(runtime=ACTIVE_SHIP_RUNTIME){if(runtime!==ACTIVE_SHIP_RUNTIME){if(!runtime.context)throw Error(\"SHIP_CONTEXT_UNBOUND\");return runtime.dynamics;}"
+  },
+  {
+    "category": "WAVE",
+    "query": "applyShipBodyFrame(st){",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 57836,
+    "excerpt": "    applyShipBodyFrame(st){"
+  },
+  {
+    "category": "WAVE",
+    "query": "syncFloodAttitudePreview(st){",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 57841,
+    "excerpt": "    syncFloodAttitudePreview(st){"
+  },
+  {
+    "category": "WAVE",
+    "query": "function apsPhysicalHeightF",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 4080,
+    "excerpt": "function apsPhysicalHeightF(ref){const t=ref._truthObject;let z;"
+  },
+  {
+    "category": "WAVE",
+    "query": "function createShipBodyFrameV1",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32261,
+    "excerpt": "function createShipBodyFrameV1(pose={},originM={x:0,y:0,z:0},headingRad=0){"
+  },
+  {
+    "category": "UI",
+    "query": "const WIP13C_CONTROL_DECK_CONTRACT",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 598,
+    "excerpt": "const WIP13C_CONTROL_DECK_CONTRACT=Object.freeze({"
+  },
+  {
+    "category": "UI",
+    "query": "function lockByCursor",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 37975,
+    "excerpt": "  function lockByCursor(){"
+  },
+  {
+    "category": "UI",
+    "query": "function setControlDeckTabWip13C",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 648,
+    "excerpt": "function setControlDeckTabWip13C(tab){"
+  },
+  {
+    "category": "UI",
+    "query": "function wip125RenderLoadoutUi",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 29192,
+    "excerpt": "  function wip125RenderLoadoutUi(){"
+  },
+  {
+    "category": "UI",
+    "query": "function wip125Render",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 29192,
+    "excerpt": "  function wip125RenderLoadoutUi(){"
+  },
+  {
+    "category": "UI",
+    "query": "function updateModeButtonLabel",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 12725,
+    "excerpt": "function updateModeButtonLabel(){}"
+  },
+  {
+    "category": "UI",
+    "query": "function drawRadar",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 49613,
+    "excerpt": "  function drawRadar(){"
+  },
+  {
+    "category": "UI",
+    "query": "function drawMapScaleBar",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 47833,
+    "excerpt": "  function drawMapScaleBar(c){"
+  },
+  {
+    "category": "UI",
+    "query": "function drawShipDetail",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 50573,
+    "excerpt": "  function drawShipDetail(){"
+  },
+  {
+    "category": "UI",
+    "query": "const topH = H * 0.48",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 50582,
+    "excerpt": "    const topH = H * 0.48;"
+  },
+  {
+    "category": "UI",
+    "query": "function c14BindCameraGestures",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 61461,
+    "excerpt": "function c14BindCameraGestures(view){"
+  },
+  {
+    "category": "UI",
+    "query": "new T.PerspectiveCamera(38",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 59218,
+    "excerpt": "      if(this.ready)return;const T=window.THREE;WIP148_EXTERNAL_3D.THREE=T;this.scene=new T.Scene();this.scene.background=new T.Color(0x071017);this.camera=new T.PerspectiveCamera(38,1,.03,220);this.renderer=new T.WebGLRenderer({canvas:this.canvas,antialias:true});this.renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.05;"
+  },
+  {
+    "category": "UI",
+    "query": "wip200MissileCatalog",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 29204,
+    "excerpt": "    root.innerHTML=`<div style=\"position:relative;width:min(720px,96vw);max-height:94vh;overflow:auto;background:rgba(2,13,22,.98);border:1px solid rgba(100,210,255,.42);border-radius:8px;padding:14px;box-shadow:0 0 40px rgba(0,0,0,.65)\"><button id=\"wip200MissileCatalogBtn\" type=\"button\" style=\"position:absolute;right:14px;top:12px;padding:6px 10px;border:1px solid rgba(130,215,255,.58);background:rgba(12,54,76,.92);color:rgba(205,240,255,.98);font:bold 10px monospace;border-radius:4px;cursor:pointer\">미사일 도감 / 3D</button><div style=\"font:bold 16px monospace;color:rgba(140,225,255,.96);margin-bottom:5px;padding-right:125px\">출항 전 VLS 편성</div><div style=\"color:rgba(190,210,220,.68);margin-bottom:10px\">출항 후 변경 불가 · 클릭/드래그로 셀 칠하기</div><div style=\"display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px\"><button data-preset=\"STANDARD\">표준 방공</button><button data-preset=\"LONG\">장거리 중시</button><button data-preset=\"CLOSE\">근거리 중시</button><button data-preset=\"DISTRIBUTED\">분산 배치</button><button data-preset=\"ER_TEST\">ER 시험 편성</button><button data-preset=\"SM6_TEST\">SM-6 시험 편성</button></div><div style=\"display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px\"><button data-paint=\"SM2\">SM-2MR</button><but"
+  },
+  {
+    "category": "UI",
+    "query": "function networkUpdateUiG",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 5184,
+    "excerpt": "function networkUpdateUiG(){"
+  },
+  {
+    "category": "UI",
+    "query": "function fleetUpdateUiG",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 5165,
+    "excerpt": "function fleetUpdateUiG(force=false){"
+  },
+  {
+    "category": "UI",
+    "query": "function heloMountUiA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 364,
+    "excerpt": "function heloMountUiA(){"
+  },
+  {
+    "category": "UI",
+    "query": "function harpoonBindUIA",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 55423,
+    "excerpt": "function harpoonBindUIA(){"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "const ACTIVE_SHIP_RUNTIME=ACTIVE_SHIP_SESSION.runtime",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3777,
+    "excerpt": "const ACTIVE_SHIP_RUNTIME=ACTIVE_SHIP_SESSION.runtime;"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "function createPlayerShipSession",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 3770,
+    "excerpt": "function createPlayerShipSession(profile,options={}){if(sovHullA(profile))throw Error('NPC_ONLY_PROFILE');"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 25411,
+    "excerpt": "  const SENSOR_MODEL=SHIP_SENSOR_MODEL_REGISTRY_V48_WIP09[ACTIVE_SHIP_PROFILE.sensors.modelId];"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "const SHIP_INTERIOR_BUILDER_REGISTRY",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32040,
+    "excerpt": "const SHIP_INTERIOR_BUILDER_REGISTRY_V48_WIP09=Object.freeze({WIP06_FUNCTIONAL_INTERIOR_CLEAR_HANGARS_R3:createShipInteriorTopologyV48Wip06,CG52_FUNCTIONAL_INTERIOR_V1:createBunkerInterior});"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "function getShipInteriorTopologyV48Wip06(runtime",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32041,
+    "excerpt": "function getShipInteriorTopologyV48Wip06(runtime=ACTIVE_SHIP_RUNTIME){if(runtime!==ACTIVE_SHIP_RUNTIME){if(!runtime.context)throw Error(\"SHIP_CONTEXT_UNBOUND\");return runtime.interior;}"
+  },
+  {
+    "category": "PLAYER_CANONICAL",
+    "query": "function getShipDynamicsV15(runtime",
+    "file": "Aegis_SIM_v48_WIP_VP_A.html",
+    "packedRecord": "c55-game-main",
+    "line": 32591,
+    "excerpt": "function getShipDynamicsV15(runtime=ACTIVE_SHIP_RUNTIME){if(runtime!==ACTIVE_SHIP_RUNTIME){if(!runtime.context)throw Error(\"SHIP_CONTEXT_UNBOUND\");return runtime.dynamics;}"
+  }
+]

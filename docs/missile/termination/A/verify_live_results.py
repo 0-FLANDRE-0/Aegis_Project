@@ -1,0 +1,22 @@
+"""Release gate: actual whole-game comparison and native RF fault regressions."""
+import argparse,collections,hashlib,json
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('directory',type=Path);a=p.parse_args();d=a.directory
+read=lambda n:json.loads((d/n).read_text());normal=read('normals-release.json');dual=read('dual-release.json');fault=read('faults-release.json');battery=read('battery-release.json');static=read('static.json')
+checks={};pairs=list(zip(normal['results'][::2],normal['results'][1::2]));dp=list(zip(dual['results'][::2],dual['results'][1::2]))
+checks['normal240Complete']=len(normal['results'])==240
+checks['normalIdenticalScenes']=all(all(x[k]==y[k]for k in['weapon','rangeKm','altM','seed'])and not x['enabled']and y['enabled']for x,y in pairs)
+checks['noPrematureTermination']=all(not x['success']or y['success']for x,y in pairs)
+checks['normalHitsUsePreservedNativeFuze']=all(not x['success']or y['success']and y['reason']=='PROX_DETONATION_AIRCRAFT'and y['fuzeMissM']is not None and not y['final'].get('reason','').startswith('TERMINAL_')for x,y in pairs)
+checks['dual36Complete']=len(dual['results'])==36
+checks['dualSupportNoPrematureTermination']=all(not x['success']or y['success']for x,y in dp)
+checks['loss4ObservationClock']=all(x['reason']=='TERMINAL_MISS_POST_CROSS'and x['final']['term']['predictedCrossS']+2.5<=x['flightTimeS']+1e-7 and x['final']['term']['lastGoodS']+2.5<=x['flightTimeS']+1e-7 for x in fault['results']if x['scenario']=='LOSS')and sum(x['scenario']=='LOSS'for x in fault['results'])==4
+checks['reacquire4NativeIntercepts']=sum(x['scenario']=='REACQUIRE'and x['reacquired']and x['success']and x['reason']=='PROX_DETONATION_AIRCRAFT'for x in fault['results'])==4
+checks['neverAcquire2UnsupportedArhExpire']=sum(x['scenario']=='NO_ACQUISITION'and x['weapon']in['ESSM','SM6']and x['reason']=='TERMINAL_SEARCH_NO_ACQUISITION'and x['flightTimeS']-max(x['final']['term']['firstActiveS'],x['final']['term'].get('lastSupportS',0))>=12-1e-7 for x in fault['results'])==2
+checks['sarhNeverAcquireNoArhRule']=all(x['reason']!='TERMINAL_SEARCH_NO_ACQUISITION'for x in fault['results']if x['scenario']=='NO_ACQUISITION'and x['weapon']in['SM2','SM2ER'])
+life={'SM2':380,'SM2ER':430,'SM6':480,'ESSM':185};checks['battery8BothABStates']=len(battery['results'])==8 and all(x['reason']=='BATTERY_EXHAUSTED'and life[x['weapon']]<=x['flightTimeS']<=life[x['weapon']]+1/60+1e-6 for x in battery['results'])
+checks['sm6LivesPast450']=all(any(450<s['lifeS']<480 and not s['dead']for s in x['samples'])for x in battery['results']if x['weapon']=='SM6')
+request=read('release-request-final.json');checks['nativeVlsRequest4Intercepts']=len(request['results'])==4 and all(x['success']and x['releaseRequest']and x['releaseRecord']for x in request['results']);checks['batteryRemainingField0']=all(x['final']['batteryRemainingS']==0 for x in battery['results']);
+checks['pageErrors0']=all(not x['errors']for x in[normal,dual,fault,battery]);checks['staticAudit']=static['pass']
+records={'normalHitMaxTimeDifferenceS':max(abs(x['flightTimeS']-y['flightTimeS'])for x,y in pairs if x['success']and y['success']),'normalHitMaxFuzeDistanceDifferenceM':max(abs(x['fuzeMissM']-y['fuzeMissM'])for x,y in pairs if x['success']and y['success']),'normalPairs':len(pairs),'normalNativeHitsOff':sum(x['success']for x,y in pairs),'normalNativeHitsOn':sum(y['success']for x,y in pairs),'normalPrematureCount':sum(x['success']and not y['success']for x,y in pairs),'dualPairs':len(dp),'dualHitsOff':sum(x['success']for x,y in dp),'dualHitsOn':sum(y['success']for x,y in dp),'dualPrematureCount':sum(x['success']and not y['success']for x,y in dp),'normalByWeapon':{w:{'pairs':sum(x['weapon']==w for x,y in pairs),'hits':sum(y['success']for x,y in pairs if x['weapon']==w),'premature':sum(x['success']and not y['success']for x,y in pairs if x['weapon']==w)}for w in life}}
+r={'pass':all(checks.values()),'checks':checks,'records':records,'inputs':{n:hashlib.sha256((d/n).read_bytes()).hexdigest()for n in['normals-release.json','dual-release.json','faults-release.json','battery-release.json','release-request-final.json','validation-release.json','static.json']},'batteryTestMethod':'native flight then test-only clock checkpoint, no flight/fuze/propulsion function replacement'};(d/'live-acceptance.json').write_text(json.dumps(r,indent=2));print(json.dumps(r));raise SystemExit(0 if r['pass']else 1)

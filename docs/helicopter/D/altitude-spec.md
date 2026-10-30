@@ -1,0 +1,11 @@
+# MH-60R altitude control (HELI C)
+
+The public altitude bound is **13,000 ft = 3,962.4 m**, tagged `PUBLIC_SPEC`. The source is the [U.S. Pacific Fleet / U.S. 7th Fleet Public Affairs release, 10 March 2014](https://www.cpf.navy.mil/Newsroom/News/Article/2750444/uss-kidd-joins-uss-pinckney-in-flight-mh370-search-effort/). Its subject is USS Kidd and USS Pinckney and it explicitly identifies the helicopters as MH-60R before reporting their ceiling. The page was opened and its supporting passage checked on 15 October 2026.
+
+This is a published broad ceiling, not a condition-specific flight performance guarantee. The game uses it as the selectable **MSL** upper bound, a `SIM_TUNED` interpretation. Atmospheric pressure, temperature, density altitude, engine power, weight, fuel, and rotor aerodynamic limits remain outside this point-mass implementation. Therefore a constant 3.5 m/s climb all the way to this bound is a simulation convenience, not a real-world performance claim. The lower selectable bound of 25 m, default 50 m, and operating climb/descent rate of 3.5 m/s remain `SIM_TUNED`.
+
+The commonly copied 12,000 ft figure was not used: the Wikipedia specification section checked during research is explicitly for SH-60B. The museum and secondary summaries also disagree in conversions or variant scope. No leaked manuals or non-public material were used.
+
+`SET_ALTITUDE {altitudeM}` changes the selected aircraft’s navigation intent only. Its physical altitude advances exclusively in fixed 1/60-second simulation steps, including while holding or following the ship. Ground phases retain their deck-relative height and LIFT_HOVER retains its +5 m rise. The existing aft-deck departure proceeds laterally to port while climbing toward the selected MSL altitude. Each aircraft retains its own setpoint, including before launch.
+
+C1 saves include `targetAltitudeM` and allow physical altitude between levels while climbing or descending. B1 saves migrate with a 50 m default, preserving their stored pose, velocity, heading, and routes. A1 saves retain their existing B migration before this default is added. Invalid types, bounds, schema extensions, inconsistent point altitudes, or physically impossible airborne altitudes reject import before live-state writes.
