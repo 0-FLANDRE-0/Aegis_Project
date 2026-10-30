@@ -1,0 +1,332 @@
+{
+  "ids": [
+    "armSubTargetBtn",
+    "armSubVlsBtn",
+    "armSubGunBtn",
+    "armSubEwBtn",
+    "lockBtn",
+    "autoEngBtn",
+    "engCtrlBtn",
+    "trackIdentityBtn",
+    "fireBtn",
+    "harpoonFireA",
+    "harpoonRouteE",
+    "mainGunCueBtn",
+    "mainGunFireBtn",
+    "mainGunContinuousBtn",
+    "mainGunAmmoBtn",
+    "emconBtn",
+    "chaffBtn",
+    "nulka15bBtn",
+    "softKillAutoBtn",
+    "noiseJamBtn",
+    "deceptJamBtn",
+    "missileSelectSm2Btn",
+    "missileSelectSm2ErBtn",
+    "missileSelectSm6Btn",
+    "missileSelectEssmBtn",
+    "armsBtn",
+    "cg52GunSelect",
+    "modeAimBtn"
+  ],
+  "functions": [
+    {
+      "name": "updateNulkaUi15B",
+      "line": 1486,
+      "bytes": 777,
+      "ids": [
+        "nulka15bBtn"
+      ]
+    },
+    {
+      "name": "networkSetRadarG",
+      "line": 5162,
+      "bytes": 326,
+      "ids": [
+        "emconBtn"
+      ]
+    },
+    {
+      "name": "emconDesignationSnapshotF2",
+      "line": 28395,
+      "bytes": 508,
+      "ids": [
+        "lockBtn"
+      ]
+    },
+    {
+      "name": "toggleEmcon",
+      "line": 28398,
+      "bytes": 664,
+      "ids": [
+        "emconBtn"
+      ]
+    },
+    {
+      "name": "updateMk36ButtonLabel",
+      "line": 28695,
+      "bytes": 758,
+      "ids": [
+        "chaffBtn"
+      ]
+    },
+    {
+      "name": "updateSoftKillAutoButtonLabel",
+      "line": 28956,
+      "bytes": 345,
+      "ids": [
+        "softKillAutoBtn"
+      ]
+    },
+    {
+      "name": "updateSlq32EaButtonLabels",
+      "line": 29059,
+      "bytes": 643,
+      "ids": [
+        "noiseJamBtn",
+        "deceptJamBtn"
+      ]
+    },
+    {
+      "name": "updateModeButtonLabel",
+      "line": 38285,
+      "bytes": 448,
+      "ids": [
+        "lockBtn"
+      ]
+    },
+    {
+      "name": "updateEngagementControlButtonLabel",
+      "line": 49536,
+      "bytes": 393,
+      "ids": [
+        "engCtrlBtn"
+      ]
+    },
+    {
+      "name": "updateTrackIdentityButtonLabelA3",
+      "line": 49539,
+      "bytes": 558,
+      "ids": [
+        "trackIdentityBtn"
+      ]
+    },
+    {
+      "name": "wip13b5UpdateGunButtonLabels",
+      "line": 49566,
+      "bytes": 2220,
+      "ids": [
+        "mainGunCueBtn",
+        "mainGunFireBtn",
+        "mainGunContinuousBtn",
+        "mainGunAmmoBtn"
+      ]
+    },
+    {
+      "name": "wip14a14Refresh3dQuickControls",
+      "line": 49605,
+      "bytes": 827,
+      "ids": [
+        "lockBtn"
+      ]
+    },
+    {
+      "name": "wip13cUpdateMissileControlLabels",
+      "line": 49612,
+      "bytes": 1778,
+      "ids": [
+        "fireBtn",
+        "missileSelectSm2Btn",
+        "missileSelectSm2ErBtn",
+        "missileSelectSm6Btn",
+        "missileSelectEssmBtn"
+      ]
+    },
+    {
+      "name": "harpoonRouteEditingE",
+      "line": 55661,
+      "bytes": 124,
+      "ids": [
+        "harpoonRouteE"
+      ]
+    },
+    {
+      "name": "harpoonRouteAddE",
+      "line": 55668,
+      "bytes": 758,
+      "ids": [
+        "harpoonRouteE"
+      ]
+    },
+    {
+      "name": "harpoonUpdateUIA",
+      "line": 56071,
+      "bytes": 1707,
+      "ids": [
+        "harpoonFireA",
+        "harpoonRouteE"
+      ]
+    },
+    {
+      "name": "harpoonBindUIA",
+      "line": 56087,
+      "bytes": 320,
+      "ids": [
+        "harpoonFireA",
+        "harpoonRouteE"
+      ]
+    },
+    {
+      "name": "wip14a14UiSnapshot",
+      "line": 61094,
+      "bytes": 485,
+      "ids": [
+        "lockBtn"
+      ]
+    },
+    {
+      "name": "bunkerRestoreGunInventory",
+      "line": 63257,
+      "bytes": 433,
+      "ids": [
+        "cg52GunSelect"
+      ]
+    },
+    {
+      "name": "harpoonRouteUndoMapA",
+      "line": 63589,
+      "bytes": 219,
+      "ids": [
+        "harpoonRouteE"
+      ]
+    }
+  ],
+  "selected": {
+    "nulkaAuto15B": {
+      "start": 178681,
+      "end": 179770,
+      "code": "function nulkaAuto15B(){\n const r=skRuntime15B('NULKA'),p=skSpec15B('NULKA'),period=Math.max(1,Math.round(1/p.autoCheckHz/SIM_FIXED_DT));\n if(!softKillAutoDoctrine||simStepCounter-r.lastAutoCheckStep<period)return;r.lastAutoCheckStep=simStepCounter;\n if((simStepCounter-r.lastAutoStep)*SIM_FIXED_DT<p.autoIntervalS)return;\n for(const th of softKillThreatState.threats){\n  if(nulkaCueError15B(th))continue;const key=String(softKillResponseIdentity(th)??th.key??'');\n  const last=r.responses[key];if(last&&(simStepCounter-last.step)*SIM_FIXED_DT<p.autoSameCueIntervalS)continue;\n  // Coverage is only a launch-time spatial/time budget, NOT knowledge of an enemy seeker's lock.\n  if(r.history.some(h=>(simStepCounter-h.step)*SIM_FIXED_DT<p.autoSameCueIntervalS&&Math.abs(angNorm(h.bearing-th.bearing))<deg(p.autoCoverageDeg)))continue;\n  const fired=nulkaFire15B(th,{automatic:true});if(fired.ok){r.lastAutoStep=simStepCounter;r.responses[key]={step:simStepCounter};break;}\n }\n for(const [k,v]of Object.entries(r.responses))if((simStepCounter-v.step)*SIM_FIXED_DT>180)delete r.responses[k];\n}",
+      "line": 1401,
+      "type": "function"
+    },
+    "nulkaFire15B": {
+      "start": 172923,
+      "end": 175220,
+      "code": "function nulkaFire15B(th,opts={}){\n const r=skRuntime15B('NULKA'),p=skSpec15B('NULKA'),fail=reason=>{if(!opts.automatic)notify('NULKA — '+reason);return {ok:false,reason};};\n if(shipEquipmentOfflineV1())return fail('SHIP_OFFLINE');const error=nulkaCueError15B(th);if(error)return fail(error);\n if(r.cooldownS>1e-9)return fail('LAUNCH_CYCLE');if(nulkaEntities15B().filter(q=>q.ownerEntityId===ACTIVE_SHIP_RUNTIME.entityId).length>=p.maxActiveEntities)return fail('DECOY_CAP');\n const l=opts.launcherId?r.launchers.find(q=>q.id===opts.launcherId):nulkaSelectLauncher15B(th.bearing);\n const h=skLayout15B('NULKA').launchers.find(q=>q.id===l?.id);\n if(!l||!h||skNextTube15B(l)<0||l.reload.allocatedRounds||skPauseReason15B(l,h))return fail('NO_READY_CANISTER');\n const built=nulkaBuildPlan15B(th,l);if(!built.ok)return fail(built.reason);const {muzzle:m,plan}=built,serial=r.serial++;\n const q={ownerEntityId:ACTIVE_SHIP_RUNTIME.entityId,profileId:ACTIVE_SHIP_RUNTIME.profileId,id:`NULKA:${ACTIVE_SHIP_RUNTIME.id??ACTIVE_SHIP_RUNTIME.entityId??'OWN'}:${serial}`,serial,kind:'NULKA',launcherId:l.id,tubeId:m.tubeId,\n  launchStep:simStepCounter,ageS:0,alive:true,payloadActive:true,motorActive:true,phase:'LAUNCH_CLEAR',phaseHistory:[{phase:'LAUNCH_CLEAR',ageS:0}],\n  plan:deepFreezeShipProfileV48Wip09(plan),x:metersToWorld(m.origin.xM),y:metersToWorld(m.origin.yM),z:m.origin.zM,\n  vx:mpsToWorldSpeed(m.origin.vxMps+m.axis.x*p.initialExitSpeedMps),vy:mpsToWorldSpeed(m.origin.vyMps+m.axis.y*p.initialExitSpeedMps),vz:m.origin.vzMps+m.axis.z*p.initialExitSpeedMps,\n  bodyAxis:{...m.axis},nav:null,rfGain01:1,terminalReason:null};\n nulkaEntities15B().push(q);l.tubes[m.tube].loaded=false;l.nextTube=(m.tube+1)%l.tubes.length;\n r.logistics.expendedRounds++;r.cooldownS=p.cooldownSeconds;r.lastLaunch={id:q.id,step:simStepCounter,launcherId:l.id,tubeId:m.tubeId,muzzle:JSON.parse(JSON.stringify(m)),cueKey:plan.cueKey};\n r.history.push({id:q.id,step:simStepCounter,bearing:th.bearing,cueKey:plan.cueKey});if(r.history.length>64)r.history.shift();\n skTryReload15B('NULKA',l);shipMassMarkWeaponsV32('NULKA_FIRE');updateNulkaUi15B();\n if(!opts.quiet)notify(`NULKA — ${l.label} ${m.tubeId} / 장전 ${skCount15B(r)} · 예비 ${r.logistics.reserveRounds}`);\n return {ok:true,id:q.id,launcherId:l.id,tubeId:m.tubeId};\n}",
+      "line": 1344,
+      "type": "function"
+    },
+    "nulkaCueError15B": {
+      "start": 170617,
+      "end": 171444,
+      "code": "function nulkaCueError15B(th){\n const p=skSpec15B('NULKA');if(!th||!Number.isFinite(th.bearing))return 'NO_VALID_ASM_BEARING';\n if(!Number.isFinite(th.freshnessS)||th.freshnessS<0||th.freshnessS>p.cueMaxAgeS)return 'STALE_BEARING';\n if(!Number.isFinite(th.bearingSigmaDeg)||th.bearingSigmaDeg<0||th.bearingSigmaDeg>p.cueMaxSigmaDeg)return 'BEARING_QUALITY';\n if(!Number.isFinite(th.activeSeekerConfidence)||!Number.isFinite(th.missileLikeConfidence)||th.activeSeekerConfidence<p.minActiveConfidence||th.missileLikeConfidence<p.minMissileConfidence)return 'NO_ACTIVE_SEEKER_EVIDENCE';\n if(th.trackId!=null){const tr=tracks.get(th.trackId);if(!tr)return 'TRACK_LOST';\n  if(['FRIEND','NEUTRAL'].includes(tr.identity)||['KILL_ASSESSMENT','DESTROYED','HARMLESS'].includes(tr.threatStatus))return 'TRACK_NOT_THREAT';}\n return null;\n}",
+      "line": 1315,
+      "type": "function"
+    },
+    "skLogisticsSnapshot15B": {
+      "start": 168318,
+      "end": 169053,
+      "code": "function skLogisticsSnapshot15B(k){\n const r=skRuntime15B(k),loaded=skCount15B(r),allocated=skAllocated15B(r),capacity=skLayout15B(k).launchers.reduce((n,l)=>n+l.tubes.length,0);\n return {loaded,capacity,reserveRounds:r.logistics.reserveRounds,allocatedRounds:allocated,onboardRounds:loaded+allocated+r.logistics.reserveRounds,\n  expendedRounds:r.logistics.expendedRounds,initialRounds:capacity+skSpec15B(k).reserveRounds,reloadSeconds:r.logistics.reloadSeconds,\n  conserved:loaded+allocated+r.logistics.reserveRounds+r.logistics.expendedRounds===capacity+skSpec15B(k).reserveRounds,\n  launchers:r.launchers.map(l=>({id:l.id,loaded:l.rounds,...JSON.parse(JSON.stringify(l.reload)),remainingS:l.reload.remainingTicks*SIM_FIXED_DT}))};\n}",
+      "line": 1288,
+      "type": "function"
+    },
+    "deployOwnChaff": {
+      "start": 2609223,
+      "end": 2609326,
+      "code": "function deployOwnChaff(){ return deployOwnChaffForThreat(softKillPrimaryThreat(),{automatic:false}); }",
+      "line": 29152,
+      "type": "function"
+    },
+    "deployOwnChaffForThreat": {
+      "start": 2608088,
+      "end": 2609220,
+      "code": "function deployOwnChaffForThreat(threat,opts={}){\n    if(shipEquipmentOfflineV1()){if(!opts.automatic)notify('채프 발사 차단 · 장비 정지');return 0;}\n    const automatic=!!opts.automatic;\n    if(MK36_RUNTIME_WIP15A.cooldownS>0){ if(!automatic)notify(`Mk 36 SRBOC 대기 ${(MK36_RUNTIME_WIP15A.cooldownS).toFixed(1)}s`); return 0; }\n    if(mk36LoadedRounds()<=0){ if(!automatic)notify('Mk 36 SRBOC — 발사관 탄약 없음'); return 0; }\n    const threatBearing=threat?.bearing ?? shipNav.heading;\n    mk36LastCue={step:simStepCounter,key:softKillThreatKey(threat),source:automatic?'AUTO_DOCTRINE':(threat?.source??'MANUAL_FALLBACK'),bearing:threatBearing,responseId:opts.responseId??null};\n    let fired=0;\n    for(let i=0;i<MK36_SRBOC.salvoRounds;i++){\n      const l=mk36SelectLauncher(threatBearing); if(!l) break;\n      if(mk36FireRound(l,threatBearing,i)) fired++;\n    }\n    if(!fired){if(!automatic)notify('Mk 36 SRBOC — 사용 가능한 발사관 없음');return 0;}\n    MK36_RUNTIME_WIP15A.cooldownS=MK36_SRBOC.salvoCooldownS; updateMk36ButtonLabel();\n    notify(`${automatic?'AUTO ':''}Mk 36 SRBOC — Mk 214 ${fired}발 발사 / 잔탄 ${mk36LoadedRounds()}`);\n    return fired;\n  }",
+      "line": 29135,
+      "type": "function"
+    },
+    "updateSoftKillDoctrine": {
+      "start": 2594124,
+      "end": 2595606,
+      "code": "function updateSoftKillDoctrine(dt){\n    if(!softKillAutoDoctrine){\n      softKillDoctrineState.eaAssignments=[];softKillDoctrineState.activeEaKey=null;softKillDoctrineState.schedulerAgeS=0;\n      softKillDoctrineState.lastStep=simStepCounter;return softKillDoctrineState;\n    }\n    rebuildSoftKillEaAssignments();\n    softKillDoctrineState.schedulerAgeS+=Math.max(0,Number(dt)||0);\n    const frame=Math.max(SIM_FIXED_DT,SOFT_KILL_DOCTRINE.eaSchedulerFrameS);\n    while(softKillDoctrineState.schedulerAgeS+1e-12>=frame){\n      softKillDoctrineState.schedulerAgeS-=frame;advanceSoftKillEaSchedule();\n    }\n    if(!softKillDoctrineState.activeEaKey && softKillDoctrineState.eaAssignments.length) advanceSoftKillEaSchedule();\n    softKillDoctrineCleanupResponses();\n    const cand=softKillDoctrineChaffCandidate();\n    if(cand){\n      const fired=deployOwnChaffForThreat(cand.th,{automatic:true,responseId:cand.rid});\n      if(fired>0){\n        cand.rec.salvos=(cand.rec.salvos??0)+1;cand.rec.lastFiredStep=simStepCounter;cand.rec.lastRangeKm=cand.th.rangeKm??null;cand.rec.lastTtcS=cand.th.ttcS??null;\n        softKillDoctrineState.lastAutoChaffStep=simStepCounter;\n        softKillDoctrineState.lastAutoChaff={step:simStepCounter,key:cand.th.key,responseId:cand.rid,rangeKm:cand.th.rangeKm??null,ttcS:cand.th.ttcS??null,fired};\n      }\n    }\n    nulkaAuto15B();\n    softKillDoctrineState.lastStep=simStepCounter;softKillDoctrineState.revision++;\n    return softKillDoctrineState;\n  }",
+      "line": 28924,
+      "type": "function"
+    },
+    "setSoftKillAutoDoctrine": {
+      "start": 2596794,
+      "end": 2597104,
+      "code": "function setSoftKillAutoDoctrine(on){\n    softKillAutoDoctrine=!!on;\n    if(softKillAutoDoctrine && !noiseJamActive && !deceptJamActive){noiseJamActive=true;deceptJamActive=true;}\n    resetSoftKillDoctrineState();updateSlq32EaButtonLabels();updateSoftKillAutoButtonLabel();\n    return softKillAutoDoctrine;\n  }",
+      "line": 28962,
+      "type": "function"
+    },
+    "notify": {
+      "start": 1672027,
+      "end": 1672603,
+      "code": "function notify(msg){\n    const safeMsg=sanitizeEngagementDisplayText(msg);\n    // Player-visible debug/toast stream uses the same sanitized presentation boundary.\n    debugLog(safeMsg);\n    const el = document.createElement('div');\n    el.className = 'toast';\n    el.textContent = safeMsg;\n    toastWrap.prepend(el);\n    requestAnimationFrame(()=> el.classList.add('show'));\n    setTimeout(()=> {\n      el.classList.remove('show');\n      setTimeout(()=> el.remove(), 220);\n    }, 2200);\n    while(toastWrap.children.length > 4){\n      toastWrap.lastChild?.remove();\n    }\n  }",
+      "line": 21175,
+      "type": "function"
+    },
+    "harpoonUpdateUIA": {
+      "start": 5765903,
+      "end": 5767610,
+      "code": "function harpoonUpdateUIA(){\n  const host=document.getElementById('harpoonControlsA');if(!host)return;const r=harpoonRuntimeA();host.hidden=!r.tubes.length;if(!r.tubes.length)return;\n  const gate=harpoonAutoTubeGateD(),label=document.getElementById('harpoonTubeA');\n  if(gate.tubeId)r.selectedTubeId=gate.tubeId;\n  label.textContent='AUTO · '+(gate.tubeId?gate.tubeId.replace('MK141-',''):gate.reason==='TUBE_EMPTY'?'소진':'대기');\n  label.title='장전·손상·안전 조건과 입력 경로/관측 표적 방향으로 자동 선택'+(gate.reason?' · '+gate.reason:'');\n  const button=document.getElementById('harpoonFireA');button.disabled=!gate.ok;\n  button.textContent='HARPOON '+r.tubes.filter(t=>t.loaded).length+'/8'+(r.pending?' · OPENING':' · FIRE');\n  const route=document.getElementById('harpoonRouteE'),note=document.getElementById('harpoonRouteNoteE'),draft=r.routeDraft;\n  route.disabled=!!r.pending||!r.tubes.some(t=>t.loaded);route.textContent=draft.editing?'웨이포인트 해제':'웨이포인트 지정';route.setAttribute('aria-pressed',String(draft.editing));\n  note.textContent=draft.pointsM.length?'H-WP '+draft.pointsM.length+'/8 · '+(gate.rangeKm?gate.rangeKm.toFixed(1)+' km 계획':'경로 검사: '+gate.reason)+' · 마지막 점 통과 후 전방 탐색':\n    (draft.editing?'CIC 탭으로 경유점 추가 · 간격 2 km 이상 · 마지막 점 = 탐색 시작':'경유점 없이 관측 표적 발사 · 경유점 지정 시 좌표 탐색 발사');\n  const picture=harpoonOperatorPictureC(),status=document.getElementById('harpoonStatusA');\n  status.textContent=picture.launches.length?picture.launches.slice(-4).map(q=>'H'+q.id+' · NO DL · '+(q.trackId==null?'미관측':q.source+' T'+q.trackId+' ('+q.measurementAgeS.toFixed(1)+'s)')).join(' / '):(gate.ok?'RGM-84D · INS → ARH · NO DL · READY':gate.reason);\n  status.title='RGM-84D Block 1C · 공개 제원 / SIM-TUNED 비행·경로·탐색기 · Mk 141 전용';\n}",
+      "line": 56071,
+      "type": "function"
+    },
+    "wip13b5UpdateGunButtonLabels": {
+      "start": 4426443,
+      "end": 4428663,
+      "code": "function wip13b5UpdateGunButtonLabels(){\n    const q=ACTIVE_SHIP_RUNTIME.weapons.mainGun?.snapshot(),cue=document.getElementById('mainGunCueBtn'),fire=document.getElementById('mainGunFireBtn'),continuous=document.getElementById('mainGunContinuousBtn'),ammo=document.getElementById('mainGunAmmoBtn');if(!q)return;\n    if(ammo)ammo.textContent=q.loadedAmmoId==='SAP_127_SIM'?`127 SAP · ${q.magazine.SAP_127_SIM}`:`127 HE · ${q.magazine.HE_127_SIM}`;\n    const fcq=q.solution?.fireControlTrackQuality,fcqBlocked=!!fcq&&!fcq.firePermitted,fcqShort=fcq?.status==='FCQ_DEGRADED'?'DEG':(fcq?.status==='FCQ_READY'?'RDY':'LOW');\n    if(cue){cue.textContent=q.commandTrackId==null?'MK45 CUE':`MK45 ${q.status}`;const w=q.solution?.effectiveImpactWindow;cue.title=w?`Composite FCQ ${fcq?`${Math.round(fcq.quality01*100)}% ${fcq.status}`:'--'} · 예측 σ ${fcq?`${fcq.predictedImpactSigmaM.cross.toFixed(1)}/${fcq.predictedImpactSigmaM.along.toFixed(1)}m`:'--'} · 익명 사격창 ±${w.crossHalfM.toFixed(0)}m / +${w.verticalUpM.toFixed(0)}m -${w.verticalDownM.toFixed(0)}m`:'선택 수상트랙 함포 사격해 계산';}\n    if(fire){const pending=!!q.pendingSingleFire?.active,solutionReady=!!q.solution?.ok&&q.commandTrackId!=null;fire.textContent=q.cycleRemainingS>0?`MK45 ${q.cycleRemainingS.toFixed(1)}s`:(pending?`MK45 HOLD ${q.pendingSingleFire.remainingS.toFixed(1)}s`:(fcqBlocked?'MK45 FCQ LOW':`MK45 FIRE${fcq?.status==='FCQ_DEGRADED'?' · DEG':''}`));fire.disabled=q.cycleRemainingS>0||q.continuousFire.active||(!pending&&!solutionReady)||(!pending&&fcqBlocked)||q.status==='OFFLINE';fire.style.background=pending?'rgba(158,92,8,.86)':(fcq?.status==='FCQ_DEGRADED'?'rgba(128,82,8,.55)':'');fire.title=fcq?`Composite FCQ ${Math.round(fcq.quality01*100)}% · ${fcqShort} · σ/표적비 ${fcq.uncertaintyRatio.toFixed(2)}`:'HOSTILE/TRAINING_TARGET 수동 권한으로 1발 발사';}\n    if(continuous){continuous.textContent=q.continuousFire.active?`CONT STOP · ${q.continuousFire.roundsFired}`:(fcqBlocked?'CONT FCQ LOW':'MK45 CONT');continuous.disabled=q.status==='OFFLINE'||(!q.continuousFire.active&&fcqBlocked);continuous.style.background=q.continuousFire.active?'rgba(120,20,8,.82)':(fcq?.status==='FCQ_DEGRADED'?'rgba(128,82,8,.55)':'');}\n    wip13cUpdateMissileControlLabels();\n  }",
+      "line": 49566,
+      "type": "function"
+    },
+    "updateModeButtonLabel": {
+      "start": 3621578,
+      "end": 3622026,
+      "code": "function updateModeButtonLabel(){\n    const modeBtn = document.getElementById('modeBtn'),lockBtn=document.getElementById('lockBtn');\n    if(lockBtn){lockBtn.textContent=emconActive?'지정 (EMCON · 방사 없음)':'LOCK';lockBtn.title=emconActive?'수동 표적 지정 · SPY 방사/정밀추적 없음':'SPY 정밀추적 지정';}\n    if(!modeBtn) return;\n    modeBtn.textContent =\n      radar.mode === 'TWS'\n        ? `MODE: SEARCH`\n        : (radar.pdTracking ? `MODE: TRACK` : `MODE: SEARCH`);\n  }",
+      "line": 38285,
+      "type": "function"
+    },
+    "wip13cSelectVlsWeapon": {
+      "start": 4433631,
+      "end": 4434135,
+      "code": "function wip13cSelectVlsWeapon(type){\n    const t=String(type).toUpperCase(),id=t==='ESSM'?'ESSM':(t==='SM6'?'SM6':(t==='SM2ER'?'SM2ER':'SM2')),q=wip14a14VlsAvailability()[id];\n    if(!q?.available){notify(`VLS 무장 선택 불가: ${wip14a14WeaponShortLabel(id)} 발사 가능 탄 없음`);wip13cUpdateMissileControlLabels();return selectedVlsWeaponWip13C;}\n    selectedVlsWeaponWip13C=id;wip13cUpdateMissileControlLabels();notify(`VLS 무장 선택: ${wip14a14WeaponShortLabel(id)} · 가용 ${q.ready}`);return selectedVlsWeaponWip13C;\n  }",
+      "line": 49624,
+      "type": "function"
+    },
+    "wip13cControlDeckStateSnapshot": {
+      "start": 91151,
+      "end": 91949,
+      "code": "function wip13cControlDeckStateSnapshot(){\n  const gun=ACTIVE_SHIP_RUNTIME?.weapons?.mainGun?.snapshot?.()??null;\n  return {selectedLockId,lockCursor:{nx:lockCursor.nx,ny:lockCursor.ny,x:lockCursor.x,y:lockCursor.y},routePoints:routePoints.map(q=>({x:q.x,y:q.y})),activeWpIdx,\n    shipNav:{heading:shipNav.heading,speed:shipNav.speed,targetSpeedKt:shipNav.targetSpeedKt,rudder:shipNav.rudder,targetRudder:shipNav.targetRudder},\n    ecm:{emconActive,softKillAutoDoctrine,noiseJamActive,deceptJamActive},selectedVlsWeaponWip13C,\n    gun:gun?{commandTrackId:gun.commandTrackId,status:gun.status,continuousFire:gun.continuousFire,pendingSingleFire:gun.pendingSingleFire,loadedAmmoId:gun.loadedAmmoId}:null,\n    counts:{missiles:missiles.length,enemyMissiles:enemyMissiles.length,tracks:tracks.size}};\n}",
+      "line": 843,
+      "type": "function"
+    },
+    "resetSoftKillDoctrineState": {
+      "start": 2587924,
+      "end": 2588289,
+      "code": "function resetSoftKillDoctrineState(){\n    softKillDoctrineState={eaAssignments:[],activeEaKey:null,eaCredits:{},schedulerAgeS:0,schedulerFrameIndex:0,\n      responses:{},lastAutoChaffStep:-1e9,lastAutoChaff:null,revision:(softKillDoctrineState?.revision??0)+1,lastStep:(typeof simStepCounter==='number'?simStepCounter:-1)};\n    updateSoftKillAutoButtonLabel();\n  }",
+      "line": 28822,
+      "type": "function"
+    },
+    "mk36SelectLauncher": {
+      "start": 2604096,
+      "end": 2604781,
+      "code": "function mk36SelectLauncher(threatBearing){\n    if(!Number.isFinite(threatBearing)||shipEquipmentOfflineV1())return null;\n    // Same nearest-bearing selection idea as B4, now applied to real available bores.\n    // Equal-bearing ties have stable profile order; there is no hidden swivel/spread offset.\n    let best=null,bestError=Infinity;\n    for(const l of mk36LauncherState){\n      if(!mk36LauncherAvailableWip15A(l))continue;\n      const h=mk36MountWip15A(l.id),t=h.tubes[mk36NextTubeWip15A(l)];if(!mk36TubeSectorWip15A(h,t))continue;\n      const e=Math.abs(angNorm(threatBearing-mk36LauncherBearing(l)));\n      if(e<bestError-1e-9){best=l;bestError=e;}\n    }\n    return best;\n  }",
+      "line": 29080,
+      "type": "function"
+    },
+    "mapPrecisionReasonA": {
+      "start": 17735616,
+      "end": 17736040,
+      "code": "function mapPrecisionReasonA(o){if(!o)return '선택 없음';if(emconActive)return 'EMCON';if(o.kind==='ESM')return '위치 없음(방위만)';if(o.kind!=='TRACK')return '로컬 트랙 없음(공유만)';const tr=tracks.get(o.id);if(!tr||!mapTrackVisibleA(tr))return '트랙 소실';if(shipEquipmentOfflineV1())return '함 장비 오프라인';if(!Object.values(getSPY1DVFaceStatus()).some(Boolean))return 'SPY 레이더 오프라인';if(!isInRadarSector(tr.x,tr.y,tr.z))return 'SPY 섹터 밖';return '';}",
+      "line": 63587,
+      "type": "function"
+    },
+    "mapPrecisionCommandA": {
+      "start": 17736041,
+      "end": 17736404,
+      "code": "function mapPrecisionCommandA(o){const reason=mapPrecisionReasonA(o);if(reason)return {ok:false,reason};lockCursor.x=o.x;lockCursor.y=o.y;lockCursor.nx=clamp((o.x-aircraft.x())/Math.max(1e-9,lockCursor.rx),-1,1);lockCursor.ny=clamp((o.y-aircraft.y())/Math.max(1e-9,lockCursor.ry),-1,1);lockByCursor(o.id);return {ok:selectedLockId===o.id,trackId:selectedLockId};}",
+      "line": 63588,
+      "type": "function"
+    }
+  }
+}
