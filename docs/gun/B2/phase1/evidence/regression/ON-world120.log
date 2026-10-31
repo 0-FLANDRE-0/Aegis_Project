@@ -1,0 +1,7 @@
+{'mode': 'idle', 'ticks': 7200, 'truthSha256': 'fb1fac63054a72db26cce4b4f4781288a7f07a28465ce5ac2aa5597760adffbc', 'expected': 'fb1fac63054a72db26cce4b4f4781288a7f07a28465ce5ac2aa5597760adffbc', 'same': True, 'core': []}
+{'mode': 'combat', 'ticks': 7200, 'truthSha256': 'f546c836e56feac2e8823e2bfd9e27e32bf392d71c6aeeb36640f549e7fff078', 'expected': 'b7d28c54e141aff3cd3353b5ee6f02ee2fe633f825c5c5814f79b9c83779e8f1', 'same': False, 'core': []}
+Traceback (most recent call last):
+  File "/tmp/aegis-gun-b2/repo/docs/map/E/verify_delivery_world.py", line 23, in <module>
+    out={'pass':all(r['same']and not r['core']for r in records)and not errors,'records':records,'errors':errors,'htmlSha256':hashlib.sha256(raw).hexdigest(),'elapsedS':time.perf_counter()-start};(H/'evidence/delivery-world120.json').write_text(json.dumps(out,indent=2)+'\n');assert out['pass']
+                                                                                                                                                                                                                                                                                          ~~~^^^^^^^^
+AssertionError

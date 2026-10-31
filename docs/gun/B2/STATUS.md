@@ -1,13 +1,17 @@
 # GUN_B2 상태
 
-**AIR_ORIGIN_A 병합 main으로 rebase 완료 · 60회 재진단 및 Phase 1 착수 보고 완료**
+**Phase 1 구현·측정 완료 · gun-b2 PR 검토용**
 
-DDG/CG × 표적 1기 × 0°/90° ×15시드. native 4조건/90° 반복 2조건 통과.
-제품은 병합된 AIR_ORIGIN_A 그대로이며 B2 새 기능은 아직 구현하지 않았다.
-**별도 검토: DDG90 seed419023은 HP100→3.6027, 실제 피격 0→1. 추가 native 2회로 확인했고 계수·피해 RNG를 바꾸지 않았다.**
+현재 관측 기반 발사 정합, 독립 산포, AIR 대칭 포인팅, 5인치 전용 신호 누적 신관·파편 띠를 승인 순서 1→5로 구현했다. OFF 기준은 AIR_ORIGIN_A(4c519…)다.
 
-기대값 추가 갱신 0. main 추가 병합·release/tag 생성 없음.
+필수 자연 탐지 행렬 960회, 단발 거리 측정 1440시도/1400발, 16,459m 최종 앵커 400발을 완료했다. 상세 검수·원시 실패·재사용 범위는 [최종 보고](phase1/REPORT.md)에 있다. 기존 승인 5건 외 기대값·허용치 갱신은 없다.
 
-[현재 착수 보고](PHASE1_START.md) · [재진단 규약](post-origin/PROTOCOL.md) · [전후 통계](post-origin/evidence/summary.json)
+**검토 사항:** 기존 같은 60회 대비 HP 악화 29회, 새 ON 동작 차이 24항목, 근거리 MFF 효과가 낮은 구간, 외측 .05 하강점을 찾지 못한 ≥9km 검열 링 제안이다. 전체 전투 결과 개선이나 모든 원시 검사의 통과를 주장하지 않는다. 피해 RNG/Pk 계수를 맞추지 않았다. main 병합/release/tag는 하지 않는다.
 
-[과거 Phase0](PHASE0.md)와 2,400회/19,163발 원시 자료는 그대로 보존했다. 과거 PHASE0 체크섬·ZIP은 당시 커밋의 자료다. 현재 재진단 체크섬은 post-origin/CHECKSUMS.sha256에 따로 기록한다.
+- [보고서](phase1/REPORT.md) · [변경 결과 분류](phase1/DIFFERENCES.md)
+- [수치·계산 방식](phase1/PARAMETERS.md) · [시험 규약](phase1/PROTOCOL.md)
+- [체크섬](phase1/CHECKSUMS.sha256) · [패키지 영수증](phase1/PACKAGE_RECEIPT.json)
+- [기존 원점 복구 후 재진단/착수 보고](PHASE1_START.md) — 당시 상태를 그대로 보존
+- [과거 Phase0](PHASE0.md) — 현재 제품 상태가 아님
+
+원격 readback 영수증은 산출물 push 후 후속 커밋의 phase1/REMOTE_READBACK.json에 남긴다.

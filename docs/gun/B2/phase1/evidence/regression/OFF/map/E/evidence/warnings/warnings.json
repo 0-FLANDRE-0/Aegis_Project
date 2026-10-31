@@ -1,0 +1,815 @@
+{
+  "pass": true,
+  "checks": {
+    "1400.deadzone.warningEnabled": true,
+    "1400.deadzone.orange": true,
+    "1400.deadzone.nativeShot": true,
+    "1400.maximum.warningEnabled": true,
+    "1400.maximum.orange": true,
+    "1400.maximum.nativeShot": true,
+    "1400.below-effective.warningEnabled": true,
+    "1400.below-effective.orange": true,
+    "1400.below-effective.nativeShot": true,
+    "1400.nativePhysicalMinStillBlocked": true,
+    "1400.effectiveGreen": true,
+    "832.deadzone.warningEnabled": true,
+    "832.deadzone.orange": true,
+    "832.deadzone.nativeShot": true,
+    "832.maximum.warningEnabled": true,
+    "832.maximum.orange": true,
+    "832.maximum.nativeShot": true,
+    "832.below-effective.warningEnabled": true,
+    "832.below-effective.orange": true,
+    "832.below-effective.nativeShot": true,
+    "832.nativePhysicalMinStillBlocked": true,
+    "832.effectiveGreen": true,
+    "pageErrors0": true
+  },
+  "records": [
+    {
+      "size": [
+        1400,
+        900
+      ],
+      "scenario": "deadzone",
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 3,
+        "altM": 30,
+        "targetSpeedMps": 680
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000001",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "사각지대",
+          "reason": "측정 유효구간 미만 · 기존 발사 관문 통과",
+          "allowed": true,
+          "estimated": false,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_INBOUND_680",
+          "rangeKm": 2.9999999999999996,
+          "row": {
+            "maxRangeKm": 500,
+            "effectiveMinKm": 6,
+            "effectiveMaxKm": 490,
+            "deadZones": [
+              {
+                "startKm": 2,
+                "endKm": 5,
+                "gridPointCount": 4,
+                "sampleDistancesKm": [
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "representativeFailureReason": "SEA_IMPACT",
+                "failureReasonCounts": {
+                  "SEA_IMPACT": 15,
+                  "TERMINAL_MISS_TRACKED_DIVERGENCE": 5
+                },
+                "leftPassKm": 1,
+                "rightPassKm": 6
+              }
+            ]
+          },
+          "prediction": {
+            "x": 7.044943820224717,
+            "y": -5.333405610668696e-16,
+            "timeS": 1.685393258426966
+          }
+        },
+        "queue": null,
+        "receipts": [],
+        "metrics": {
+          "draws": {
+            "MAIN": 14,
+            "PIP": 0
+          },
+          "salvos": 0,
+          "shots": 0,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "사각지대 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM2",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": {
+            "targetId": 300000001,
+            "startT": 0,
+            "endT": 2.435393258426966,
+            "terminalStartT": 0,
+            "predictedCpaT": 1.685393258426966,
+            "weapon": "SM2",
+            "illId": 0
+          }
+        }
+      ],
+      "flight": {
+        "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+        "nativeFlight": true,
+        "missileId": 1,
+        "weapon": "SM2",
+        "reason": "TERMINAL_MISS_POST_CROSS",
+        "flightTimeS": 9.300000000000042,
+        "detonated": false,
+        "closestM": 495.0501302406886,
+        "targetAlive": false,
+        "targetOutcome": "NORMAL_HIT"
+      }
+    },
+    {
+      "size": [
+        1400,
+        900
+      ],
+      "scenario": "maximum",
+      "condition": {
+        "weapon": "SM6",
+        "rangeKm": 296,
+        "altM": 1000,
+        "targetSpeedMps": 0
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM6",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000002",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최대 사거리 구간",
+          "reason": "최대 사거리 안 · 3/5 기준 밖",
+          "allowed": true,
+          "estimated": true,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM6_1000_STATIONARY",
+          "rangeKm": 296,
+          "row": {
+            "maxRangeKm": 297,
+            "effectiveMinKm": 1,
+            "effectiveMaxKm": 295,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 1124.8,
+            "y": 0,
+            "timeS": 246.66666666666666
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 52,
+            "PIP": 0
+          },
+          "salvos": 1,
+          "shots": 1,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "최대 사거리 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM6",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": null
+        }
+      ],
+      "flight": {
+        "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+        "nativeFlight": true,
+        "missileId": 1,
+        "weapon": "SM6",
+        "reason": "TERMINAL_SEARCH_NO_ACQUISITION",
+        "flightTimeS": 477.26666666656126,
+        "detonated": false,
+        "closestM": 22835.42466538562,
+        "targetAlive": false,
+        "targetOutcome": null
+      }
+    },
+    {
+      "size": [
+        1400,
+        900
+      ],
+      "scenario": "below-effective",
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 1,
+        "altM": 30,
+        "targetSpeedMps": 0
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000003",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최소 사거리 안쪽",
+          "reason": "측정 유효구간 미만 · 기존 발사 관문 통과",
+          "allowed": true,
+          "estimated": false,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_STATIONARY",
+          "rangeKm": 1,
+          "row": {
+            "maxRangeKm": 203,
+            "effectiveMinKm": 2,
+            "effectiveMaxKm": 195,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 3.8,
+            "y": 0,
+            "timeS": 0.9090909090909091
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM6",
+            "trackId": 300000002,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 91,
+            "PIP": 0
+          },
+          "salvos": 2,
+          "shots": 2,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "최소 유효거리 안쪽 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM2",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": {
+            "targetId": 300000003,
+            "startT": 0,
+            "endT": 1.6590909090909092,
+            "terminalStartT": 0,
+            "predictedCpaT": 0.9090909090909091,
+            "weapon": "SM2",
+            "illId": 0
+          }
+        }
+      ],
+      "flight": {
+        "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+        "nativeFlight": true,
+        "missileId": 1,
+        "weapon": "SM2",
+        "reason": "SEA_IMPACT",
+        "flightTimeS": 25.416666666666504,
+        "detonated": false,
+        "closestM": 601.5103497820901,
+        "targetAlive": false,
+        "targetOutcome": "NORMAL_MISS"
+      }
+    },
+    {
+      "scenario": "native-surface-minimum",
+      "size": [
+        1400,
+        900
+      ],
+      "ui": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:114000",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최소 사거리 안쪽",
+          "reason": "⚠ SM-2MR Block IIIA 대수상 발사 차단 — SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "allowed": false,
+          "estimated": true,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_STATIONARY",
+          "rangeKm": 0.01,
+          "row": {
+            "maxRangeKm": 203,
+            "effectiveMinKm": 2,
+            "effectiveMaxKm": 195,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 0.038,
+            "y": 0,
+            "timeS": 0.00909090909090909
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM6",
+            "trackId": 300000002,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000003,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 120,
+            "PIP": 0
+          },
+          "salvos": 3,
+          "shots": 3,
+          "lastNativePreview": {
+            "ok": false,
+            "reason": "⚠ SM-2MR Block IIIA 대수상 발사 차단 — SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE"
+          }
+        }
+      }
+    },
+    {
+      "size": [
+        832,
+        384
+      ],
+      "scenario": "deadzone",
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 3,
+        "altM": 30,
+        "targetSpeedMps": 680
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000001",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "사각지대",
+          "reason": "측정 유효구간 미만 · 기존 발사 관문 통과",
+          "allowed": true,
+          "estimated": false,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_INBOUND_680",
+          "rangeKm": 2.9999999999999996,
+          "row": {
+            "maxRangeKm": 500,
+            "effectiveMinKm": 6,
+            "effectiveMaxKm": 490,
+            "deadZones": [
+              {
+                "startKm": 2,
+                "endKm": 5,
+                "gridPointCount": 4,
+                "sampleDistancesKm": [
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "representativeFailureReason": "SEA_IMPACT",
+                "failureReasonCounts": {
+                  "SEA_IMPACT": 15,
+                  "TERMINAL_MISS_TRACKED_DIVERGENCE": 5
+                },
+                "leftPassKm": 1,
+                "rightPassKm": 6
+              }
+            ]
+          },
+          "prediction": {
+            "x": 7.044943820224717,
+            "y": -5.333405610668696e-16,
+            "timeS": 1.685393258426966
+          }
+        },
+        "queue": null,
+        "receipts": [],
+        "metrics": {
+          "draws": {
+            "MAIN": 28,
+            "PIP": 0
+          },
+          "salvos": 0,
+          "shots": 0,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "사각지대 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM2",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": {
+            "targetId": 300000001,
+            "startT": 0,
+            "endT": 2.435393258426966,
+            "terminalStartT": 0,
+            "predictedCpaT": 1.685393258426966,
+            "weapon": "SM2",
+            "illId": 0
+          }
+        }
+      ],
+      "flight": null
+    },
+    {
+      "size": [
+        832,
+        384
+      ],
+      "scenario": "maximum",
+      "condition": {
+        "weapon": "SM6",
+        "rangeKm": 296,
+        "altM": 1000,
+        "targetSpeedMps": 0
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM6",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000002",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최대 사거리 구간",
+          "reason": "최대 사거리 안 · 3/5 기준 밖",
+          "allowed": true,
+          "estimated": false,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM6_1000_STATIONARY",
+          "rangeKm": 296,
+          "row": {
+            "maxRangeKm": 297,
+            "effectiveMinKm": 1,
+            "effectiveMaxKm": 295,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 1124.8,
+            "y": 0,
+            "timeS": 246.66666666666666
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 79,
+            "PIP": 0
+          },
+          "salvos": 1,
+          "shots": 1,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "최대 사거리 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM6",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": null
+        }
+      ],
+      "flight": null
+    },
+    {
+      "size": [
+        832,
+        384
+      ],
+      "scenario": "below-effective",
+      "condition": {
+        "weapon": "SM2",
+        "rangeKm": 1,
+        "altM": 30,
+        "targetSpeedMps": 0
+      },
+      "before": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:300000003",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최소 사거리 안쪽",
+          "reason": "측정 유효구간 미만 · 기존 발사 관문 통과",
+          "allowed": true,
+          "estimated": false,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_STATIONARY",
+          "rangeKm": 1,
+          "row": {
+            "maxRangeKm": 203,
+            "effectiveMinKm": 2,
+            "effectiveMaxKm": 195,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 3.8,
+            "y": 0,
+            "timeS": 0.9090909090909091
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM6",
+            "trackId": 300000002,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 126,
+            "PIP": 0
+          },
+          "salvos": 2,
+          "shots": 2,
+          "lastNativePreview": {
+            "ok": true,
+            "reason": ""
+          }
+        }
+      },
+      "label": "최소 유효거리 안쪽 · 명중 확률 낮음",
+      "tone": "warning",
+      "release": [
+        {
+          "step": 0,
+          "timeS": 0,
+          "weapon": "SM2",
+          "missileId": 1,
+          "mode": "MANUAL",
+          "intervalTicks": 48,
+          "section": null,
+          "spgReservation": {
+            "targetId": 300000003,
+            "startT": 0,
+            "endT": 1.6590909090909092,
+            "terminalStartT": 0,
+            "predictedCpaT": 0.9090909090909091,
+            "weapon": "SM2",
+            "illId": 0
+          }
+        }
+      ],
+      "flight": null
+    },
+    {
+      "scenario": "native-surface-minimum",
+      "size": [
+        832,
+        384
+      ],
+      "ui": {
+        "schema": "AEGIS_MAP_B_UI_1",
+        "selection": {
+          "weapon": "SM2",
+          "count": 1
+        },
+        "pending": null,
+        "target": {
+          "key": "TRACK:114000",
+          "surface": "MAIN"
+        },
+        "model": {
+          "initial": false,
+          "path": null,
+          "tone": null,
+          "mountLabel": null,
+          "timeOfFlightS": null,
+          "verdict": "최소 사거리 안쪽",
+          "reason": "⚠ SM-2MR Block IIIA 대수상 발사 차단 — SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE",
+          "allowed": false,
+          "estimated": true,
+          "altitudeUnknown": false,
+          "cellId": "Kh-35U_SM2_30_STATIONARY",
+          "rangeKm": 0.01,
+          "row": {
+            "maxRangeKm": 203,
+            "effectiveMinKm": 2,
+            "effectiveMaxKm": 195,
+            "deadZones": []
+          },
+          "prediction": {
+            "x": 0.038,
+            "y": 0,
+            "timeS": 0.00909090909090909
+          }
+        },
+        "queue": null,
+        "receipts": [
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000001,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM6",
+            "trackId": 300000002,
+            "launched": true,
+            "reason": null
+          },
+          {
+            "step": 0,
+            "weapon": "SM2",
+            "trackId": 300000003,
+            "launched": true,
+            "reason": null
+          }
+        ],
+        "metrics": {
+          "draws": {
+            "MAIN": 159,
+            "PIP": 0
+          },
+          "salvos": 3,
+          "shots": 3,
+          "lastNativePreview": {
+            "ok": false,
+            "reason": "⚠ SM-2MR Block IIIA 대수상 발사 차단 — SURFACE_TARGET_OUTSIDE_WEAPON_ENVELOPE"
+          }
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "htmlSha256": "925178b5b06bcd81304f6b98da4436fda4fd85eaf7ea8de3813a981981f0da71"
+}

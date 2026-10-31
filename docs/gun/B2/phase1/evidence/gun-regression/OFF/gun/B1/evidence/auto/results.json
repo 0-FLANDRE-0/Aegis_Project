@@ -1,0 +1,4329 @@
+{
+  "checks": {
+    "DD.G6.ttc": true,
+    "DD.G6.mffNativeFeed": true,
+    "DD.G6.manualPriority": true,
+    "DD.G6.resume": true,
+    "DD.G6.off": true,
+    "DD.G6.mode.MANUAL": true,
+    "DD.G6.mode.SEMIAUTO": true,
+    "DD.G6.mode.AUTO": true,
+    "G3.clutterAltitudeTrend": true,
+    "G3.ET": true,
+    "CG.G6.ttc": true,
+    "CG.G6.mffNativeFeed": true,
+    "CG.G6.manualPriority": true,
+    "CG.G6.resume": true,
+    "CG.G6.off": true,
+    "CG.G6.independentMounts": true,
+    "CG.G6.emptyStops": true,
+    "CG.G6.mode.MANUAL": true,
+    "CG.G6.mode.SEMIAUTO": true,
+    "CG.G6.mode.AUTO": true,
+    "pageErrors0": true
+  },
+  "records": {
+    "DD": {
+      "initial": {
+        "enabled": true,
+        "rangeM": 9000,
+        "mounts": [
+          {
+            "id": "MAIN",
+            "owned": true,
+            "targetId": 114001,
+            "reason": null,
+            "nextStep": 60
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "kind": "AUTO_SWITCH",
+            "enabled": false
+          },
+          {
+            "step": 0,
+            "kind": "AUTO_SWITCH",
+            "enabled": true
+          },
+          {
+            "step": 0,
+            "kind": "AUTO_CUE",
+            "mount": "MAIN",
+            "trackId": 114001,
+            "ttcS": 17.857142857142858
+          }
+        ]
+      },
+      "a": 114000,
+      "b": 114001,
+      "guns": [
+        {
+          "id": "MAIN",
+          "spec": {
+            "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+            "schemaVersion": 8,
+            "id": "MK45_MOD4_MK160_SURFACE_V1",
+            "family": "Mk 45 Mod 4 / Mk 160",
+            "role": "LIVE_SURFACE_GUNFIRE",
+            "sourceBasis": {
+              "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+              "references": [
+                "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                "https://www.tpub.com/gunners/232.htm"
+              ],
+              "aerodynamics": "SIM_TUNED_POINT_MASS",
+              "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+              "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+              "exactMk160Logic": "PUBLIC_UNKNOWN",
+              "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+              "gunB1": "SIM_TUNED_GAME_ONLY"
+            },
+            "mount": {
+              "caliberM": 0.127,
+              "barrelCalibers": 62,
+              "trunnionOffsetM": {
+                "x": 0.91,
+                "y": 0,
+                "z": 0
+              },
+              "exposedBarrelM": 6.206,
+              "stowBodyAzRad": 0,
+              "trainMinRad": -2.9670597283903604,
+              "trainMaxRad": 2.9670597283903604,
+              "elevationMinRad": -0.2617993877991494,
+              "elevationMaxRad": 1.1344640137963142,
+              "trainRateRadS": 0.5235987755982988,
+              "trainAccelRadS2": 0.6632251157578452,
+              "elevationRateRadS": 0.3490658503988659,
+              "elevationAccelRadS2": 0.5410520681182421
+            },
+            "ammunition": {
+              "HE_127_SIM": {
+                "id": "HE_127_SIM",
+                "label": "127 mm HE (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE"
+              },
+              "SAP_127_SIM": {
+                "id": "SAP_127_SIM",
+                "label": "127 mm SAP (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_SAP"
+              },
+              "MFF_127_SIM": {
+                "id": "MFF_127_SIM",
+                "label": "127 HE-MFP",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE",
+                "fuzeMode": "AIR",
+                "fuzeProfile": "MK419_GAME_AIR_B1",
+                "explosiveMassKg": 3.7,
+                "provenance": "SIM_TUNED_GAME_ONLY"
+              }
+            },
+            "feed": {
+              "publishedRateRpm": 20,
+              "cycleIntervalS": 3,
+              "initialLoadedAmmoId": "HE_127_SIM",
+              "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+            },
+            "magazine": {
+              "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+              "initialRounds": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "capacityRounds": 600
+            },
+            "fireControl": {
+              "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+              "trackDomain": "SURFACE",
+              "sensorInputs": [
+                "SPY1DV_SURFACE_TRACK",
+                "BRIDGEMASTER_E_ARPA",
+                "SPQ9B_SURFACE_PRECISION"
+              ],
+              "manualIdentities": [
+                "HOSTILE",
+                "TRAINING_TARGET"
+              ],
+              "automaticSurfaceRelease": false,
+              "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+              "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+              "singleFireConsentHoldS": 6,
+              "minRangeM": 800,
+              "maxRangeM": 24000,
+              "maxSolvePosSigmaM": 260,
+              "maxSolveVelocitySigmaMps": 14,
+              "maxTrackCoastAgeS": 18,
+              "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+              "solutionRefreshIntervalS": 1,
+              "maxReleaseSolutionAgeS": 1.2,
+              "defaultAimHeightM": 5,
+              "aimHeightReference": "MEAN_WATERLINE",
+              "maxPointingMissM": 1.5,
+              "releaseAimMargin01": 0.78,
+              "fireControlTrackQuality": {
+                "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                "readyRatioMax": 0.65,
+                "degradedRatioMax": 1.65,
+                "minFireQuality01": 0.3,
+                "maneuverSigmaBaseMps2": 0.01,
+                "maneuverSigmaMaxMps2": 0.16,
+                "coastAccelGrowthMps2PerS": 0.012,
+                "maxManeuverSigmaMps2": 0.42,
+                "rangeExtentFactor": 0.55,
+                "fallbackAlongHalfM": 18,
+                "minAlongHalfM": 8,
+                "maxAlongHalfM": 70,
+                "contributorFreshS": {
+                  "SPQ9B": 3,
+                  "SPY1DV": 4.5,
+                  "BRIDGEMASTER_E": 4.5
+                },
+                "systematicFloor": {
+                  "SPQ9B": {
+                    "positionCrossM": 2.5,
+                    "positionAlongM": 4,
+                    "velocityCrossMps": 0.12,
+                    "velocityAlongMps": 0.18
+                  },
+                  "SPY1DV": {
+                    "positionCrossM": 6,
+                    "positionAlongM": 10,
+                    "velocityCrossMps": 0.22,
+                    "velocityAlongMps": 0.32
+                  },
+                  "BRIDGEMASTER_E": {
+                    "positionCrossM": 12,
+                    "positionAlongM": 18,
+                    "velocityCrossMps": 0.45,
+                    "velocityAlongMps": 0.6
+                  },
+                  "COAST": {
+                    "positionCrossM": 18,
+                    "positionAlongM": 24,
+                    "velocityCrossMps": 0.75,
+                    "velocityAlongMps": 1
+                  }
+                }
+              },
+              "impactWindow": {
+                "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                "fallbackCrossHalfM": 20,
+                "minCrossHalfM": 6,
+                "maxCrossHalfM": 50,
+                "crossExtentFactor": 0.4,
+                "fallbackVerticalUpM": 7.5,
+                "minVerticalUpM": 5,
+                "maxVerticalUpM": 12,
+                "verticalExtentFactor": 0.58,
+                "fallbackVerticalDownM": 5.5,
+                "minVerticalDownM": 4,
+                "maxVerticalDownM": 8,
+                "verticalDownBaseM": 3.5,
+                "verticalDownExtentFactor": 0.18,
+                "maxExtentAgeS": 6
+              },
+              "integrationStepS": 0.016666666666666666,
+              "maxFlightTimeS": 80
+            },
+            "damage": {
+              "systemId": "MK45",
+              "disabledDamagePct": 70,
+              "minimumDriveFactor": 0.18
+            },
+            "terminalAdapter": {
+              "status": "LIVE_WIP13B6",
+              "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            }
+          },
+          "q": {
+            "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+            "moduleId": "MK45_MOD4_MK160_SURFACE_V1",
+            "hardpointId": "mk45",
+            "hardwareHealth01": 1,
+            "bodyAzRad": 0,
+            "elevationRad": 0,
+            "azRateRadS": 0,
+            "elevationRateRadS": 0,
+            "commandTrackId": 114001,
+            "status": "SLEWING",
+            "revision": 5,
+            "loadedAmmoId": "MFF_127_SIM",
+            "cycleRemainingS": 0,
+            "solutionRefreshRemainingS": 1,
+            "magazine": {
+              "HE_127_SIM": 180,
+              "SAP_127_SIM": 240,
+              "MFF_127_SIM": 180
+            },
+            "shotsFired": 0,
+            "lastFire": null,
+            "pendingSingleFire": {
+              "active": false,
+              "trackId": null,
+              "ammoId": null,
+              "requestedStep": null,
+              "expiresStep": null,
+              "lastAttemptReason": null,
+              "stopReason": "RESET",
+              "releasedStep": null,
+              "remainingS": 0
+            },
+            "continuousFire": {
+              "active": true,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "startedStep": 0,
+              "roundsFired": 0,
+              "lastAttemptReason": null,
+              "stopReason": null
+            },
+            "pointing": {
+              "ok": false,
+              "predictedMissM": 3626.4458494250875,
+              "crossMissM": -3624.0951224298724,
+              "verticalMissM": -130.5528337205009,
+              "limitM": 13.670413442096383,
+              "crossLimitM": 20,
+              "verticalLimitM": 5.5,
+              "normalizedMiss": 266.1655629767819,
+              "impactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "pointingErrorDeg": 90.8819032968704
+            },
+            "solution": {
+              "airDomain": true,
+              "targetAltitudeM": 30,
+              "azimuthRad": 1.5861983775625887,
+              "elevationRad": 0.035917498322259496,
+              "verticalSlopeMPerRad": 3634.7975170529103,
+              "ok": true,
+              "reason": null,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "rangeM": 3626.8642214453434,
+              "timeOfFlightS": 4.9054730652602885,
+              "bodyAzRad": 1.5861983775625887,
+              "bodyElevationRad": 0.035917498322259496,
+              "bodyDemandStep": null,
+              "sensorSource": "TEST",
+              "velocitySource": null,
+              "trackCovariance": {
+                "posSigmaM": 4,
+                "posMinorSigmaM": 4,
+                "ellipseAngleRad": 0,
+                "altSigmaM": 4,
+                "vxSigmaMps": 1,
+                "vySigmaMps": 1,
+                "vzSigmaMps": 1,
+                "velSigmaMps": 1,
+                "zSigmaM": 4,
+                "matrix6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              "sensorContributors": null,
+              "observedTargetExtent": null,
+              "effectiveImpactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "fireControlTrackQuality": {
+                "ok": true,
+                "ageS": 0,
+                "positionSigmaM": 4,
+                "velocitySigmaMps": 1,
+                "covariance": {
+                  "posSigmaM": 4,
+                  "posMinorSigmaM": 4,
+                  "ellipseAngleRad": 0,
+                  "altSigmaM": 4,
+                  "vxSigmaMps": 1,
+                  "vySigmaMps": 1,
+                  "vzSigmaMps": 1,
+                  "velSigmaMps": 1
+                },
+                "sigmaZ": 4,
+                "sigmaVz": 1,
+                "covariance6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "source": "TEST",
+                "targetState": {
+                  "xM": 3.061616997868383e-13,
+                  "yM": 5000,
+                  "zM": 30,
+                  "vxMps": 1.7145055188062946e-14,
+                  "vyMps": -280,
+                  "vzMps": 0,
+                  "covariance6x6": [
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                "status": "FCQ_READY",
+                "firePermitted": true,
+                "timeOfFlightS": 4.9054730652602885,
+                "predictedImpactSigmaM": {
+                  "cross": 6.329586557903618
+                },
+                "truthUsed": false
+              },
+              "computedStep": 0,
+              "ageS": 0,
+              "truthUsed": false
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            }
+          }
+        }
+      ],
+      "manual": {
+        "cue": {
+          "schema": "AEGIS_GUN_BALLISTIC_SOLUTION_V48_WIP13B1",
+          "ok": true,
+          "reason": null,
+          "ammoId": "HE_127_SIM",
+          "rangeM": 5000.287716681911,
+          "azimuthRad": 1.5824090333940521,
+          "elevationRad": 0.043479701085571185,
+          "verticalSlopeMPerRad": 5013.130410885339,
+          "timeOfFlightS": 7.06426911158247,
+          "predictedAimPointM": {
+            "x": 3.061616997868383e-13,
+            "y": 5000,
+            "z": 5
+          },
+          "terminalSpeedMps": 611.2587092000741,
+          "terminalFlightPathDeg": -3.1616069451113127,
+          "missResidualM": 0.0012279301603736422,
+          "missVectorM": {
+            "x": -0.001227841914847576,
+            "y": -1.3172288163332269e-05,
+            "z": 6.572801778403914e-06
+          },
+          "model": "DETERMINISTIC_3DOF_POINT_MASS",
+          "solverMode": "COLD_BRACKET_CONTINUATION",
+          "trackId": 114002,
+          "bodyAzRad": 1.5824090333940521,
+          "bodyElevationRad": 0.043479701085571185,
+          "sensorSource": "SPQ9B_SURFACE_PRECISION",
+          "velocitySource": "TRACK_EKF_FUSED",
+          "trackCovariance": {
+            "posSigmaM": 4,
+            "posMinorSigmaM": 4,
+            "vxSigmaMps": 0.18,
+            "vySigmaMps": 0.18,
+            "velSigmaMps": 1.2
+          },
+          "sensorContributors": {
+            "SPQ9B": {
+              "source": "SPQ9B_SURFACE_PRECISION",
+              "lastStep": 0,
+              "updates": 20,
+              "rangeSigmaM": 8,
+              "azSigmaDeg": 0.035,
+              "radialVelSigmaMps": 0.55,
+              "ageS": 0
+            }
+          },
+          "observedTargetExtent": {
+            "schema": "AEGIS_ANONYMOUS_SURFACE_EXTENT_V48_WIP13B8",
+            "projectedHalfWidthM": 85,
+            "rangeHalfExtentM": 95,
+            "verticalHalfExtentM": 15,
+            "sigmaM": 3,
+            "confidence01": 0.95,
+            "samples": 20,
+            "ageS": 0,
+            "precisionAgeS": 0,
+            "source": "SPQ9B_SURFACE_PRECISION",
+            "anonymousMeasurement": true
+          },
+          "computedStep": 0,
+          "truthUsed": false,
+          "clearance": {
+            "ok": true,
+            "reason": null,
+            "obstruction": null,
+            "distanceM": null
+          },
+          "fireControlTrackQuality": {
+            "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+            "status": "FCQ_READY",
+            "quality01": 0.9881911794734107,
+            "firePermitted": true,
+            "reason": null,
+            "policy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+            "bestContributor": "SPQ9B",
+            "contributorAgesS": {
+              "SPQ9B": 0
+            },
+            "sensorConfidence01": 0.9875,
+            "measurementAgeS": 0,
+            "solutionAgeS": 0,
+            "timeOfFlightS": 7.06426911158247,
+            "predictionHorizonS": 7.06426911158247,
+            "maneuverProbability": 0,
+            "maneuverSigmaMps2": 0.01,
+            "predictedImpactSigmaM": {
+              "cross": 4.964651287479895,
+              "along": 5.9410464206006015
+            },
+            "effectiveTargetHalfExtentM": {
+              "cross": 33.3,
+              "along": 50.53750000000001
+            },
+            "uncertaintyRatio": 0.1490886272516485,
+            "thresholds": {
+              "readyRatioMax": 0.65,
+              "degradedRatioMax": 1.65,
+              "minFireQuality01": 0.3
+            },
+            "truthUsed": false
+          }
+        },
+        "manual": {
+          "ok": true,
+          "active": true,
+          "trackId": 114002,
+          "ammoId": "HE_127_SIM",
+          "authorization": "OPERATOR_TOGGLE_SAME_TRACK_ONLY"
+        },
+        "first": {
+          "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+          "moduleId": "MK45_MOD4_MK160_SURFACE_V1",
+          "hardpointId": "mk45",
+          "hardwareHealth01": 1,
+          "bodyAzRad": 0,
+          "elevationRad": 0,
+          "azRateRadS": 0,
+          "elevationRateRadS": 0,
+          "commandTrackId": 114002,
+          "status": "SLEWING",
+          "revision": 11,
+          "loadedAmmoId": "HE_127_SIM",
+          "cycleRemainingS": 0,
+          "solutionRefreshRemainingS": 1,
+          "magazine": {
+            "HE_127_SIM": 180,
+            "SAP_127_SIM": 240,
+            "MFF_127_SIM": 180
+          },
+          "shotsFired": 0,
+          "lastFire": null,
+          "pendingSingleFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "requestedStep": null,
+            "expiresStep": null,
+            "lastAttemptReason": null,
+            "stopReason": "RESET",
+            "releasedStep": null,
+            "remainingS": 0
+          },
+          "continuousFire": {
+            "active": true,
+            "trackId": 114002,
+            "ammoId": "HE_127_SIM",
+            "startedStep": 0,
+            "roundsFired": 0,
+            "lastAttemptReason": null,
+            "stopReason": null
+          },
+          "pointing": {
+            "ok": false,
+            "predictedMissM": 4999.978490237692,
+            "crossMissM": -4995.225143912232,
+            "verticalMissM": -217.9694117682812,
+            "limitM": 28.3353487125201,
+            "crossLimitM": 33.3,
+            "verticalLimitM": 6.164999999999999,
+            "normalizedMiss": 179.79999813838324,
+            "impactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT",
+              "crossHalfM": 33.3,
+              "verticalUpM": 8.639999999999999,
+              "verticalDownM": 6.164999999999999,
+              "extentConfidence01": 0.95,
+              "extentAgeS": 0,
+              "extentSource": "SPQ9B_SURFACE_PRECISION",
+              "truthUsed": false
+            },
+            "pointingErrorDeg": 90.66473022222225
+          },
+          "solution": {
+            "ok": true,
+            "reason": null,
+            "trackId": 114002,
+            "ammoId": "HE_127_SIM",
+            "rangeM": 5000.287716681911,
+            "timeOfFlightS": 7.06426911158247,
+            "bodyAzRad": 1.5824090333940521,
+            "bodyElevationRad": 0.043479701085571185,
+            "bodyDemandStep": null,
+            "sensorSource": "SPQ9B_SURFACE_PRECISION",
+            "velocitySource": "TRACK_EKF_FUSED",
+            "trackCovariance": {
+              "posSigmaM": 4,
+              "posMinorSigmaM": 4,
+              "vxSigmaMps": 0.18,
+              "vySigmaMps": 0.18,
+              "velSigmaMps": 1.2
+            },
+            "sensorContributors": {
+              "SPQ9B": {
+                "source": "SPQ9B_SURFACE_PRECISION",
+                "lastStep": 0,
+                "updates": 20,
+                "rangeSigmaM": 8,
+                "azSigmaDeg": 0.035,
+                "radialVelSigmaMps": 0.55,
+                "ageS": 0
+              }
+            },
+            "observedTargetExtent": {
+              "schema": "AEGIS_ANONYMOUS_SURFACE_EXTENT_V48_WIP13B8",
+              "projectedHalfWidthM": 85,
+              "rangeHalfExtentM": 95,
+              "verticalHalfExtentM": 15,
+              "sigmaM": 3,
+              "confidence01": 0.95,
+              "samples": 20,
+              "ageS": 0,
+              "precisionAgeS": 0,
+              "source": "SPQ9B_SURFACE_PRECISION",
+              "anonymousMeasurement": true
+            },
+            "effectiveImpactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT",
+              "crossHalfM": 33.3,
+              "verticalUpM": 8.639999999999999,
+              "verticalDownM": 6.164999999999999,
+              "extentConfidence01": 0.95,
+              "extentAgeS": 0,
+              "extentSource": "SPQ9B_SURFACE_PRECISION",
+              "truthUsed": false
+            },
+            "fireControlTrackQuality": {
+              "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+              "status": "FCQ_READY",
+              "quality01": 0.9463316339038094,
+              "firePermitted": true,
+              "reason": null,
+              "policy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+              "bestContributor": "SPQ9B",
+              "contributorAgesS": {
+                "SPQ9B": 1
+              },
+              "sensorConfidence01": 0.7075746691916169,
+              "measurementAgeS": 1,
+              "solutionAgeS": 1,
+              "timeOfFlightS": 7.06426911158247,
+              "predictionHorizonS": 8.064269111582469,
+              "maneuverProbability": 0,
+              "maneuverSigmaMps2": 0.01,
+              "predictedImpactSigmaM": {
+                "cross": 5.039766707231517,
+                "along": 6.026593757404893
+              },
+              "effectiveTargetHalfExtentM": {
+                "cross": 33.3,
+                "along": 50.53750000000001
+              },
+              "uncertaintyRatio": 0.15134434556250803,
+              "thresholds": {
+                "readyRatioMax": 0.65,
+                "degradedRatioMax": 1.65,
+                "minFireQuality01": 0.3
+              },
+              "truthUsed": false
+            },
+            "computedStep": 0,
+            "ageS": 1,
+            "truthUsed": false
+          },
+          "phaseLimits": {
+            "projectileSpawn": true,
+            "damageApplication": true,
+            "magazineConsumption": true
+          }
+        },
+        "auto": {
+          "enabled": true,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "MAIN",
+              "owned": false,
+              "targetId": 114001,
+              "reason": "MANUAL_PRIORITY",
+              "nextStep": 60
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "MAIN",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            }
+          ]
+        },
+        "other": []
+      },
+      "resumed": {
+        "first": {
+          "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+          "moduleId": "MK45_MOD4_MK160_SURFACE_V1",
+          "hardpointId": "mk45",
+          "hardwareHealth01": 1,
+          "bodyAzRad": 0,
+          "elevationRad": 0,
+          "azRateRadS": 0,
+          "elevationRateRadS": 0,
+          "commandTrackId": 114001,
+          "status": "SLEWING",
+          "revision": 16,
+          "loadedAmmoId": "MFF_127_SIM",
+          "cycleRemainingS": 0,
+          "solutionRefreshRemainingS": 1,
+          "magazine": {
+            "HE_127_SIM": 180,
+            "SAP_127_SIM": 240,
+            "MFF_127_SIM": 180
+          },
+          "shotsFired": 0,
+          "lastFire": null,
+          "pendingSingleFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "requestedStep": null,
+            "expiresStep": null,
+            "lastAttemptReason": null,
+            "stopReason": "RESET",
+            "releasedStep": null,
+            "remainingS": 0
+          },
+          "continuousFire": {
+            "active": true,
+            "trackId": 114001,
+            "ammoId": "MFF_127_SIM",
+            "startedStep": 120,
+            "roundsFired": 0,
+            "lastAttemptReason": null,
+            "stopReason": null
+          },
+          "pointing": {
+            "ok": false,
+            "predictedMissM": 3626.4458494250875,
+            "crossMissM": -3624.0951224298724,
+            "verticalMissM": -130.5528337205009,
+            "limitM": 13.670413442096383,
+            "crossLimitM": 20,
+            "verticalLimitM": 5.5,
+            "normalizedMiss": 266.1655629767819,
+            "impactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+              "crossHalfM": 20,
+              "verticalUpM": 7.5,
+              "verticalDownM": 5.5,
+              "extentConfidence01": 0,
+              "extentAgeS": null,
+              "extentSource": null,
+              "truthUsed": false
+            },
+            "pointingErrorDeg": 90.8819032968704
+          },
+          "solution": {
+            "airDomain": true,
+            "targetAltitudeM": 30,
+            "azimuthRad": 1.5861983775625887,
+            "elevationRad": 0.035917498322259496,
+            "verticalSlopeMPerRad": 3634.7975170529103,
+            "ok": true,
+            "reason": null,
+            "trackId": 114001,
+            "ammoId": "MFF_127_SIM",
+            "rangeM": 3626.8642214453434,
+            "timeOfFlightS": 4.9054730652602885,
+            "bodyAzRad": 1.5861983775625887,
+            "bodyElevationRad": 0.035917498322259496,
+            "bodyDemandStep": null,
+            "sensorSource": "TEST",
+            "velocitySource": null,
+            "trackCovariance": {
+              "posSigmaM": 4,
+              "posMinorSigmaM": 4,
+              "ellipseAngleRad": 0,
+              "altSigmaM": 4,
+              "vxSigmaMps": 1,
+              "vySigmaMps": 1,
+              "vzSigmaMps": 1,
+              "velSigmaMps": 1,
+              "zSigmaM": 4,
+              "matrix6x6": [
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "sensorContributors": null,
+            "observedTargetExtent": null,
+            "effectiveImpactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+              "crossHalfM": 20,
+              "verticalUpM": 7.5,
+              "verticalDownM": 5.5,
+              "extentConfidence01": 0,
+              "extentAgeS": null,
+              "extentSource": null,
+              "truthUsed": false
+            },
+            "fireControlTrackQuality": {
+              "ok": true,
+              "ageS": 0,
+              "positionSigmaM": 4,
+              "velocitySigmaMps": 1,
+              "covariance": {
+                "posSigmaM": 4,
+                "posMinorSigmaM": 4,
+                "ellipseAngleRad": 0,
+                "altSigmaM": 4,
+                "vxSigmaMps": 1,
+                "vySigmaMps": 1,
+                "vzSigmaMps": 1,
+                "velSigmaMps": 1
+              },
+              "sigmaZ": 4,
+              "sigmaVz": 1,
+              "covariance6x6": [
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "source": "TEST",
+              "targetState": {
+                "xM": 3.061616997868383e-13,
+                "yM": 5000,
+                "zM": 30,
+                "vxMps": 1.7145055188062946e-14,
+                "vyMps": -280,
+                "vzMps": 0,
+                "covariance6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              "status": "FCQ_READY",
+              "firePermitted": true,
+              "timeOfFlightS": 4.9054730652602885,
+              "predictedImpactSigmaM": {
+                "cross": 6.329586557903618
+              },
+              "truthUsed": false
+            },
+            "computedStep": 120,
+            "ageS": 0,
+            "truthUsed": false
+          },
+          "phaseLimits": {
+            "projectileSpawn": true,
+            "damageApplication": true,
+            "magazineConsumption": true
+          }
+        },
+        "auto": {
+          "enabled": true,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "MAIN",
+              "owned": true,
+              "targetId": 114001,
+              "reason": null,
+              "nextStep": 180
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "MAIN",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "MAIN",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            }
+          ]
+        }
+      },
+      "off": {
+        "guns": [
+          {
+            "id": "MAIN",
+            "spec": {
+              "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+              "schemaVersion": 8,
+              "id": "MK45_MOD4_MK160_SURFACE_V1",
+              "family": "Mk 45 Mod 4 / Mk 160",
+              "role": "LIVE_SURFACE_GUNFIRE",
+              "sourceBasis": {
+                "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+                "references": [
+                  "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                  "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                  "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                  "https://www.tpub.com/gunners/232.htm"
+                ],
+                "aerodynamics": "SIM_TUNED_POINT_MASS",
+                "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+                "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+                "exactMk160Logic": "PUBLIC_UNKNOWN",
+                "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+                "gunB1": "SIM_TUNED_GAME_ONLY"
+              },
+              "mount": {
+                "caliberM": 0.127,
+                "barrelCalibers": 62,
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 0
+                },
+                "exposedBarrelM": 6.206,
+                "stowBodyAzRad": 0,
+                "trainMinRad": -2.9670597283903604,
+                "trainMaxRad": 2.9670597283903604,
+                "elevationMinRad": -0.2617993877991494,
+                "elevationMaxRad": 1.1344640137963142,
+                "trainRateRadS": 0.5235987755982988,
+                "trainAccelRadS2": 0.6632251157578452,
+                "elevationRateRadS": 0.3490658503988659,
+                "elevationAccelRadS2": 0.5410520681182421
+              },
+              "ammunition": {
+                "HE_127_SIM": {
+                  "id": "HE_127_SIM",
+                  "label": "127 mm HE (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE"
+                },
+                "SAP_127_SIM": {
+                  "id": "SAP_127_SIM",
+                  "label": "127 mm SAP (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_SAP"
+                },
+                "MFF_127_SIM": {
+                  "id": "MFF_127_SIM",
+                  "label": "127 HE-MFP",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE",
+                  "fuzeMode": "AIR",
+                  "fuzeProfile": "MK419_GAME_AIR_B1",
+                  "explosiveMassKg": 3.7,
+                  "provenance": "SIM_TUNED_GAME_ONLY"
+                }
+              },
+              "feed": {
+                "publishedRateRpm": 20,
+                "cycleIntervalS": 3,
+                "initialLoadedAmmoId": "HE_127_SIM",
+                "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+              },
+              "magazine": {
+                "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+                "initialRounds": {
+                  "HE_127_SIM": 180,
+                  "SAP_127_SIM": 240,
+                  "MFF_127_SIM": 180
+                },
+                "capacityRounds": 600
+              },
+              "fireControl": {
+                "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+                "trackDomain": "SURFACE",
+                "sensorInputs": [
+                  "SPY1DV_SURFACE_TRACK",
+                  "BRIDGEMASTER_E_ARPA",
+                  "SPQ9B_SURFACE_PRECISION"
+                ],
+                "manualIdentities": [
+                  "HOSTILE",
+                  "TRAINING_TARGET"
+                ],
+                "automaticSurfaceRelease": false,
+                "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+                "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+                "singleFireConsentHoldS": 6,
+                "minRangeM": 800,
+                "maxRangeM": 24000,
+                "maxSolvePosSigmaM": 260,
+                "maxSolveVelocitySigmaMps": 14,
+                "maxTrackCoastAgeS": 18,
+                "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+                "solutionRefreshIntervalS": 1,
+                "maxReleaseSolutionAgeS": 1.2,
+                "defaultAimHeightM": 5,
+                "aimHeightReference": "MEAN_WATERLINE",
+                "maxPointingMissM": 1.5,
+                "releaseAimMargin01": 0.78,
+                "fireControlTrackQuality": {
+                  "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                  "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                  "readyRatioMax": 0.65,
+                  "degradedRatioMax": 1.65,
+                  "minFireQuality01": 0.3,
+                  "maneuverSigmaBaseMps2": 0.01,
+                  "maneuverSigmaMaxMps2": 0.16,
+                  "coastAccelGrowthMps2PerS": 0.012,
+                  "maxManeuverSigmaMps2": 0.42,
+                  "rangeExtentFactor": 0.55,
+                  "fallbackAlongHalfM": 18,
+                  "minAlongHalfM": 8,
+                  "maxAlongHalfM": 70,
+                  "contributorFreshS": {
+                    "SPQ9B": 3,
+                    "SPY1DV": 4.5,
+                    "BRIDGEMASTER_E": 4.5
+                  },
+                  "systematicFloor": {
+                    "SPQ9B": {
+                      "positionCrossM": 2.5,
+                      "positionAlongM": 4,
+                      "velocityCrossMps": 0.12,
+                      "velocityAlongMps": 0.18
+                    },
+                    "SPY1DV": {
+                      "positionCrossM": 6,
+                      "positionAlongM": 10,
+                      "velocityCrossMps": 0.22,
+                      "velocityAlongMps": 0.32
+                    },
+                    "BRIDGEMASTER_E": {
+                      "positionCrossM": 12,
+                      "positionAlongM": 18,
+                      "velocityCrossMps": 0.45,
+                      "velocityAlongMps": 0.6
+                    },
+                    "COAST": {
+                      "positionCrossM": 18,
+                      "positionAlongM": 24,
+                      "velocityCrossMps": 0.75,
+                      "velocityAlongMps": 1
+                    }
+                  }
+                },
+                "impactWindow": {
+                  "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                  "fallbackCrossHalfM": 20,
+                  "minCrossHalfM": 6,
+                  "maxCrossHalfM": 50,
+                  "crossExtentFactor": 0.4,
+                  "fallbackVerticalUpM": 7.5,
+                  "minVerticalUpM": 5,
+                  "maxVerticalUpM": 12,
+                  "verticalExtentFactor": 0.58,
+                  "fallbackVerticalDownM": 5.5,
+                  "minVerticalDownM": 4,
+                  "maxVerticalDownM": 8,
+                  "verticalDownBaseM": 3.5,
+                  "verticalDownExtentFactor": 0.18,
+                  "maxExtentAgeS": 6
+                },
+                "integrationStepS": 0.016666666666666666,
+                "maxFlightTimeS": 80
+              },
+              "damage": {
+                "systemId": "MK45",
+                "disabledDamagePct": 70,
+                "minimumDriveFactor": 0.18
+              },
+              "terminalAdapter": {
+                "status": "LIVE_WIP13B6",
+                "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+              },
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              }
+            },
+            "q": {
+              "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+              "moduleId": "MK45_MOD4_MK160_SURFACE_V1",
+              "hardpointId": "mk45",
+              "hardwareHealth01": 1,
+              "bodyAzRad": 0,
+              "elevationRad": 0,
+              "azRateRadS": 0,
+              "elevationRateRadS": 0,
+              "commandTrackId": null,
+              "status": "STOWED",
+              "revision": 18,
+              "loadedAmmoId": "MFF_127_SIM",
+              "cycleRemainingS": 0,
+              "solutionRefreshRemainingS": 0,
+              "magazine": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "shotsFired": 0,
+              "lastFire": null,
+              "pendingSingleFire": {
+                "active": false,
+                "trackId": null,
+                "ammoId": null,
+                "requestedStep": null,
+                "expiresStep": null,
+                "lastAttemptReason": null,
+                "stopReason": "RESET",
+                "releasedStep": null,
+                "remainingS": 0
+              },
+              "continuousFire": {
+                "active": false,
+                "trackId": 114001,
+                "ammoId": "MFF_127_SIM",
+                "startedStep": 120,
+                "roundsFired": 0,
+                "lastAttemptReason": null,
+                "stopReason": "FIRE_CONTROL_CLEARED"
+              },
+              "pointing": null,
+              "solution": null,
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              }
+            }
+          }
+        ],
+        "auto": {
+          "enabled": false,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "MAIN",
+              "owned": false,
+              "targetId": 114001,
+              "reason": "AUTO_OFF",
+              "nextStep": 120
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "MAIN",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "MAIN",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            }
+          ]
+        }
+      }
+    },
+    "fuzeMore": {
+      "5": 11,
+      "30": 1,
+      "100": 0,
+      "et": {
+        "t": 0.19999999999999996,
+        "reason": "MFF_ET_BACKUP"
+      }
+    },
+    "CG": {
+      "initial": {
+        "enabled": true,
+        "rangeM": 9000,
+        "mounts": [
+          {
+            "id": "mk45f",
+            "owned": true,
+            "targetId": 114001,
+            "reason": null,
+            "nextStep": 60
+          },
+          {
+            "id": "mk45a",
+            "owned": true,
+            "targetId": 114001,
+            "reason": null,
+            "nextStep": 60
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "kind": "AUTO_SWITCH",
+            "enabled": false
+          },
+          {
+            "step": 0,
+            "kind": "AUTO_SWITCH",
+            "enabled": true
+          },
+          {
+            "step": 0,
+            "kind": "AUTO_CUE",
+            "mount": "mk45f",
+            "trackId": 114001,
+            "ttcS": 17.857142857142858
+          },
+          {
+            "step": 0,
+            "kind": "AUTO_CUE",
+            "mount": "mk45a",
+            "trackId": 114001,
+            "ttcS": 17.857142857142858
+          }
+        ]
+      },
+      "a": 114000,
+      "b": 114001,
+      "guns": [
+        {
+          "id": "mk45f",
+          "spec": {
+            "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+            "schemaVersion": 8,
+            "id": "MK45_MOD4_CG52_MK160_V1",
+            "family": "Mk 45 Mod 4 / Mk 160",
+            "role": "LIVE_SURFACE_GUNFIRE",
+            "sourceBasis": {
+              "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+              "references": [
+                "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                "https://www.tpub.com/gunners/232.htm"
+              ],
+              "aerodynamics": "SIM_TUNED_POINT_MASS",
+              "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+              "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+              "exactMk160Logic": "PUBLIC_UNKNOWN",
+              "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+              "gunB1": "SIM_TUNED_GAME_ONLY"
+            },
+            "mount": {
+              "caliberM": 0.127,
+              "barrelCalibers": 62,
+              "trunnionOffsetM": {
+                "x": 0.91,
+                "y": 0,
+                "z": 2.87
+              },
+              "exposedBarrelM": 6.206,
+              "stowBodyAzRad": 0,
+              "trainMinRad": -2.9670597283903604,
+              "trainMaxRad": 2.9670597283903604,
+              "elevationMinRad": -0.2617993877991494,
+              "elevationMaxRad": 1.1344640137963142,
+              "trainRateRadS": 0.5235987755982988,
+              "trainAccelRadS2": 0.6632251157578452,
+              "elevationRateRadS": 0.3490658503988659,
+              "elevationAccelRadS2": 0.5410520681182421
+            },
+            "ammunition": {
+              "HE_127_SIM": {
+                "id": "HE_127_SIM",
+                "label": "127 mm HE (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE"
+              },
+              "SAP_127_SIM": {
+                "id": "SAP_127_SIM",
+                "label": "127 mm SAP (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_SAP"
+              },
+              "MFF_127_SIM": {
+                "id": "MFF_127_SIM",
+                "label": "127 HE-MFP",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE",
+                "fuzeMode": "AIR",
+                "fuzeProfile": "MK419_GAME_AIR_B1",
+                "explosiveMassKg": 3.7,
+                "provenance": "SIM_TUNED_GAME_ONLY"
+              }
+            },
+            "feed": {
+              "publishedRateRpm": 20,
+              "cycleIntervalS": 3,
+              "initialLoadedAmmoId": "HE_127_SIM",
+              "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+            },
+            "magazine": {
+              "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+              "initialRounds": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "capacityRounds": 600
+            },
+            "fireControl": {
+              "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+              "trackDomain": "SURFACE",
+              "sensorInputs": [
+                "SPY1DV_SURFACE_TRACK",
+                "BRIDGEMASTER_E_ARPA",
+                "SPQ9B_SURFACE_PRECISION"
+              ],
+              "manualIdentities": [
+                "HOSTILE",
+                "TRAINING_TARGET"
+              ],
+              "automaticSurfaceRelease": false,
+              "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+              "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+              "singleFireConsentHoldS": 6,
+              "minRangeM": 800,
+              "maxRangeM": 24000,
+              "maxSolvePosSigmaM": 260,
+              "maxSolveVelocitySigmaMps": 14,
+              "maxTrackCoastAgeS": 18,
+              "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+              "solutionRefreshIntervalS": 1,
+              "maxReleaseSolutionAgeS": 1.2,
+              "defaultAimHeightM": 5,
+              "aimHeightReference": "MEAN_WATERLINE",
+              "maxPointingMissM": 1.5,
+              "releaseAimMargin01": 0.78,
+              "fireControlTrackQuality": {
+                "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                "readyRatioMax": 0.65,
+                "degradedRatioMax": 1.65,
+                "minFireQuality01": 0.3,
+                "maneuverSigmaBaseMps2": 0.01,
+                "maneuverSigmaMaxMps2": 0.16,
+                "coastAccelGrowthMps2PerS": 0.012,
+                "maxManeuverSigmaMps2": 0.42,
+                "rangeExtentFactor": 0.55,
+                "fallbackAlongHalfM": 18,
+                "minAlongHalfM": 8,
+                "maxAlongHalfM": 70,
+                "contributorFreshS": {
+                  "SPQ9B": 3,
+                  "SPY1DV": 4.5,
+                  "BRIDGEMASTER_E": 4.5
+                },
+                "systematicFloor": {
+                  "SPQ9B": {
+                    "positionCrossM": 2.5,
+                    "positionAlongM": 4,
+                    "velocityCrossMps": 0.12,
+                    "velocityAlongMps": 0.18
+                  },
+                  "SPY1DV": {
+                    "positionCrossM": 6,
+                    "positionAlongM": 10,
+                    "velocityCrossMps": 0.22,
+                    "velocityAlongMps": 0.32
+                  },
+                  "BRIDGEMASTER_E": {
+                    "positionCrossM": 12,
+                    "positionAlongM": 18,
+                    "velocityCrossMps": 0.45,
+                    "velocityAlongMps": 0.6
+                  },
+                  "COAST": {
+                    "positionCrossM": 18,
+                    "positionAlongM": 24,
+                    "velocityCrossMps": 0.75,
+                    "velocityAlongMps": 1
+                  }
+                }
+              },
+              "impactWindow": {
+                "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                "fallbackCrossHalfM": 20,
+                "minCrossHalfM": 6,
+                "maxCrossHalfM": 50,
+                "crossExtentFactor": 0.4,
+                "fallbackVerticalUpM": 7.5,
+                "minVerticalUpM": 5,
+                "maxVerticalUpM": 12,
+                "verticalExtentFactor": 0.58,
+                "fallbackVerticalDownM": 5.5,
+                "minVerticalDownM": 4,
+                "maxVerticalDownM": 8,
+                "verticalDownBaseM": 3.5,
+                "verticalDownExtentFactor": 0.18,
+                "maxExtentAgeS": 6
+              },
+              "integrationStepS": 0.016666666666666666,
+              "maxFlightTimeS": 80
+            },
+            "damage": {
+              "systemId": "MK45",
+              "disabledDamagePct": 70,
+              "minimumDriveFactor": 0.18,
+              "moduleName": "Mk45"
+            },
+            "terminalAdapter": {
+              "status": "LIVE_WIP13B6",
+              "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            },
+            "installation": {
+              "id": "mk45f",
+              "builderId": "PROFILE_GUN_MODULE_WIP13B8",
+              "moduleId": "MK45_MOD4_CG52_MK160_V1",
+              "hardpointId": "mk45",
+              "neutralAzRad": 0,
+              "geometryMask": true,
+              "moduleName": "Mk45",
+              "trunnionOffsetM": {
+                "x": 0.91,
+                "y": 0,
+                "z": 2.87
+              },
+              "exposedBarrelM": 6.206,
+              "sourceNode": "mk45f_yaw"
+            }
+          },
+          "q": {
+            "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+            "moduleId": "MK45_MOD4_CG52_MK160_V1",
+            "hardpointId": "mk45",
+            "hardwareHealth01": 1,
+            "bodyAzRad": 0,
+            "elevationRad": 0,
+            "azRateRadS": 0,
+            "elevationRateRadS": 0,
+            "commandTrackId": 114001,
+            "status": "SLEWING",
+            "revision": 5,
+            "loadedAmmoId": "MFF_127_SIM",
+            "cycleRemainingS": 0,
+            "solutionRefreshRemainingS": 1,
+            "magazine": {
+              "HE_127_SIM": 180,
+              "SAP_127_SIM": 240,
+              "MFF_127_SIM": 180
+            },
+            "shotsFired": 0,
+            "lastFire": null,
+            "pendingSingleFire": {
+              "active": false,
+              "trackId": null,
+              "ammoId": null,
+              "requestedStep": null,
+              "expiresStep": null,
+              "lastAttemptReason": null,
+              "stopReason": "RESET",
+              "releasedStep": null,
+              "remainingS": 0
+            },
+            "continuousFire": {
+              "active": true,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "startedStep": 0,
+              "roundsFired": 0,
+              "lastAttemptReason": null,
+              "stopReason": null
+            },
+            "pointing": {
+              "ok": false,
+              "predictedMissM": 3626.4723555544283,
+              "crossMissM": -3624.1905129759875,
+              "verticalMissM": -128.62686832593116,
+              "limitM": 13.67048985168713,
+              "crossLimitM": 20,
+              "verticalLimitM": 5.5,
+              "normalizedMiss": 266.14003737058016,
+              "impactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "pointingErrorDeg": 90.90222297385988
+            },
+            "solution": {
+              "airDomain": true,
+              "targetAltitudeM": 30,
+              "azimuthRad": 1.5865529537603198,
+              "elevationRad": 0.03538728835993616,
+              "verticalSlopeMPerRad": 3634.8325708831794,
+              "ok": true,
+              "reason": null,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "rangeM": 3626.9111319703475,
+              "timeOfFlightS": 4.905374472718226,
+              "bodyAzRad": 1.5865529537603198,
+              "bodyElevationRad": 0.03538728835993615,
+              "bodyDemandStep": null,
+              "sensorSource": "TEST",
+              "velocitySource": null,
+              "trackCovariance": {
+                "posSigmaM": 4,
+                "posMinorSigmaM": 4,
+                "ellipseAngleRad": 0,
+                "altSigmaM": 4,
+                "vxSigmaMps": 1,
+                "vySigmaMps": 1,
+                "vzSigmaMps": 1,
+                "velSigmaMps": 1,
+                "zSigmaM": 4,
+                "matrix6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              "sensorContributors": null,
+              "observedTargetExtent": null,
+              "effectiveImpactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "fireControlTrackQuality": {
+                "ok": true,
+                "ageS": 0,
+                "positionSigmaM": 4,
+                "velocitySigmaMps": 1,
+                "covariance": {
+                  "posSigmaM": 4,
+                  "posMinorSigmaM": 4,
+                  "ellipseAngleRad": 0,
+                  "altSigmaM": 4,
+                  "vxSigmaMps": 1,
+                  "vySigmaMps": 1,
+                  "vzSigmaMps": 1,
+                  "velSigmaMps": 1
+                },
+                "sigmaZ": 4,
+                "sigmaVz": 1,
+                "covariance6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "source": "TEST",
+                "targetState": {
+                  "xM": 3.061616997868383e-13,
+                  "yM": 5000,
+                  "zM": 30,
+                  "vxMps": 1.7145055188062946e-14,
+                  "vyMps": -280,
+                  "vzMps": 0,
+                  "covariance6x6": [
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                "status": "FCQ_READY",
+                "firePermitted": true,
+                "timeOfFlightS": 4.905374472718226,
+                "predictedImpactSigmaM": {
+                  "cross": 6.32951014831287
+                },
+                "truthUsed": false
+              },
+              "computedStep": 0,
+              "ageS": 0,
+              "truthUsed": false
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            }
+          }
+        },
+        {
+          "id": "mk45a",
+          "spec": {
+            "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+            "schemaVersion": 8,
+            "id": "MK45_MOD4_CG52_MK160_V1",
+            "family": "Mk 45 Mod 4 / Mk 160",
+            "role": "LIVE_SURFACE_GUNFIRE",
+            "sourceBasis": {
+              "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+              "references": [
+                "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                "https://www.tpub.com/gunners/232.htm"
+              ],
+              "aerodynamics": "SIM_TUNED_POINT_MASS",
+              "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+              "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+              "exactMk160Logic": "PUBLIC_UNKNOWN",
+              "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+              "gunB1": "SIM_TUNED_GAME_ONLY"
+            },
+            "mount": {
+              "caliberM": 0.127,
+              "barrelCalibers": 62,
+              "trunnionOffsetM": {
+                "x": 0.91,
+                "y": 0,
+                "z": 2.87
+              },
+              "exposedBarrelM": 6.206,
+              "stowBodyAzRad": 3.141592653589793,
+              "trainMinRad": 0.17453292519943275,
+              "trainMaxRad": 6.1086523819801535,
+              "elevationMinRad": -0.2617993877991494,
+              "elevationMaxRad": 1.1344640137963142,
+              "trainRateRadS": 0.5235987755982988,
+              "trainAccelRadS2": 0.6632251157578452,
+              "elevationRateRadS": 0.3490658503988659,
+              "elevationAccelRadS2": 0.5410520681182421
+            },
+            "ammunition": {
+              "HE_127_SIM": {
+                "id": "HE_127_SIM",
+                "label": "127 mm HE (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE"
+              },
+              "SAP_127_SIM": {
+                "id": "SAP_127_SIM",
+                "label": "127 mm SAP (conventional)",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_SAP"
+              },
+              "MFF_127_SIM": {
+                "id": "MFF_127_SIM",
+                "label": "127 HE-MFP",
+                "massKg": 31.75,
+                "diameterM": 0.127,
+                "muzzleVelocityMps": 823,
+                "dragAreaM2": 0.012667686977437443,
+                "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                "terminalProjectileSpecId": "TEST_127_HE",
+                "fuzeMode": "AIR",
+                "fuzeProfile": "MK419_GAME_AIR_B1",
+                "explosiveMassKg": 3.7,
+                "provenance": "SIM_TUNED_GAME_ONLY"
+              }
+            },
+            "feed": {
+              "publishedRateRpm": 20,
+              "cycleIntervalS": 3,
+              "initialLoadedAmmoId": "HE_127_SIM",
+              "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+            },
+            "magazine": {
+              "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+              "initialRounds": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "capacityRounds": 600
+            },
+            "fireControl": {
+              "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+              "trackDomain": "SURFACE",
+              "sensorInputs": [
+                "SPY1DV_SURFACE_TRACK",
+                "BRIDGEMASTER_E_ARPA",
+                "SPQ9B_SURFACE_PRECISION"
+              ],
+              "manualIdentities": [
+                "HOSTILE",
+                "TRAINING_TARGET"
+              ],
+              "automaticSurfaceRelease": false,
+              "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+              "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+              "singleFireConsentHoldS": 6,
+              "minRangeM": 800,
+              "maxRangeM": 24000,
+              "maxSolvePosSigmaM": 260,
+              "maxSolveVelocitySigmaMps": 14,
+              "maxTrackCoastAgeS": 18,
+              "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+              "solutionRefreshIntervalS": 1,
+              "maxReleaseSolutionAgeS": 1.2,
+              "defaultAimHeightM": 5,
+              "aimHeightReference": "MEAN_WATERLINE",
+              "maxPointingMissM": 1.5,
+              "releaseAimMargin01": 0.78,
+              "fireControlTrackQuality": {
+                "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                "readyRatioMax": 0.65,
+                "degradedRatioMax": 1.65,
+                "minFireQuality01": 0.3,
+                "maneuverSigmaBaseMps2": 0.01,
+                "maneuverSigmaMaxMps2": 0.16,
+                "coastAccelGrowthMps2PerS": 0.012,
+                "maxManeuverSigmaMps2": 0.42,
+                "rangeExtentFactor": 0.55,
+                "fallbackAlongHalfM": 18,
+                "minAlongHalfM": 8,
+                "maxAlongHalfM": 70,
+                "contributorFreshS": {
+                  "SPQ9B": 3,
+                  "SPY1DV": 4.5,
+                  "BRIDGEMASTER_E": 4.5
+                },
+                "systematicFloor": {
+                  "SPQ9B": {
+                    "positionCrossM": 2.5,
+                    "positionAlongM": 4,
+                    "velocityCrossMps": 0.12,
+                    "velocityAlongMps": 0.18
+                  },
+                  "SPY1DV": {
+                    "positionCrossM": 6,
+                    "positionAlongM": 10,
+                    "velocityCrossMps": 0.22,
+                    "velocityAlongMps": 0.32
+                  },
+                  "BRIDGEMASTER_E": {
+                    "positionCrossM": 12,
+                    "positionAlongM": 18,
+                    "velocityCrossMps": 0.45,
+                    "velocityAlongMps": 0.6
+                  },
+                  "COAST": {
+                    "positionCrossM": 18,
+                    "positionAlongM": 24,
+                    "velocityCrossMps": 0.75,
+                    "velocityAlongMps": 1
+                  }
+                }
+              },
+              "impactWindow": {
+                "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                "fallbackCrossHalfM": 20,
+                "minCrossHalfM": 6,
+                "maxCrossHalfM": 50,
+                "crossExtentFactor": 0.4,
+                "fallbackVerticalUpM": 7.5,
+                "minVerticalUpM": 5,
+                "maxVerticalUpM": 12,
+                "verticalExtentFactor": 0.58,
+                "fallbackVerticalDownM": 5.5,
+                "minVerticalDownM": 4,
+                "maxVerticalDownM": 8,
+                "verticalDownBaseM": 3.5,
+                "verticalDownExtentFactor": 0.18,
+                "maxExtentAgeS": 6
+              },
+              "integrationStepS": 0.016666666666666666,
+              "maxFlightTimeS": 80
+            },
+            "damage": {
+              "systemId": "MK45",
+              "disabledDamagePct": 70,
+              "minimumDriveFactor": 0.18,
+              "moduleName": "Mk45(후방)"
+            },
+            "terminalAdapter": {
+              "status": "LIVE_WIP13B6",
+              "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            },
+            "installation": {
+              "id": "mk45a",
+              "builderId": "PROFILE_GUN_MODULE_WIP13B8",
+              "moduleId": "MK45_MOD4_CG52_MK160_V1",
+              "hardpointId": "mk45Aft",
+              "neutralAzRad": 3.141592653589793,
+              "geometryMask": true,
+              "moduleName": "Mk45(후방)",
+              "trunnionOffsetM": {
+                "x": 0.91,
+                "y": 0,
+                "z": 2.87
+              },
+              "exposedBarrelM": 6.206,
+              "sourceNode": "mk45a_yaw"
+            }
+          },
+          "q": {
+            "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+            "moduleId": "MK45_MOD4_CG52_MK160_V1",
+            "hardpointId": "mk45Aft",
+            "hardwareHealth01": 1,
+            "bodyAzRad": 3.141592653589793,
+            "elevationRad": 0,
+            "azRateRadS": 0,
+            "elevationRateRadS": 0,
+            "commandTrackId": 114001,
+            "status": "SLEWING",
+            "revision": 5,
+            "loadedAmmoId": "MFF_127_SIM",
+            "cycleRemainingS": 0,
+            "solutionRefreshRemainingS": 1,
+            "magazine": {
+              "HE_127_SIM": 180,
+              "SAP_127_SIM": 240,
+              "MFF_127_SIM": 180
+            },
+            "shotsFired": 0,
+            "lastFire": null,
+            "pendingSingleFire": {
+              "active": false,
+              "trackId": null,
+              "ammoId": null,
+              "requestedStep": null,
+              "expiresStep": null,
+              "lastAttemptReason": null,
+              "stopReason": "RESET",
+              "releasedStep": null,
+              "remainingS": 0
+            },
+            "continuousFire": {
+              "active": true,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "startedStep": 0,
+              "roundsFired": 0,
+              "lastAttemptReason": null,
+              "stopReason": null
+            },
+            "pointing": {
+              "ok": false,
+              "predictedMissM": 3626.4349407718933,
+              "crossMissM": 3624.0232169131878,
+              "verticalMissM": -132.23502911647844,
+              "limitM": 13.670148081113226,
+              "crossLimitM": 20,
+              "verticalLimitM": 5.5,
+              "normalizedMiss": 266.19290016212443,
+              "impactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "pointingErrorDeg": 91.13440068682266
+            },
+            "solution": {
+              "airDomain": true,
+              "targetAltitudeM": 30,
+              "azimuthRad": 1.550984189974658,
+              "elevationRad": 0.03637834230789231,
+              "verticalSlopeMPerRad": 3634.993260476026,
+              "ok": true,
+              "reason": null,
+              "trackId": 114001,
+              "ammoId": "MFF_127_SIM",
+              "rangeM": 3627.1343661811175,
+              "timeOfFlightS": 4.905815458721882,
+              "bodyAzRad": 1.550984189974658,
+              "bodyElevationRad": 0.03637834230789231,
+              "bodyDemandStep": null,
+              "sensorSource": "TEST",
+              "velocitySource": null,
+              "trackCovariance": {
+                "posSigmaM": 4,
+                "posMinorSigmaM": 4,
+                "ellipseAngleRad": 0,
+                "altSigmaM": 4,
+                "vxSigmaMps": 1,
+                "vySigmaMps": 1,
+                "vzSigmaMps": 1,
+                "velSigmaMps": 1,
+                "zSigmaM": 4,
+                "matrix6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              "sensorContributors": null,
+              "observedTargetExtent": null,
+              "effectiveImpactWindow": {
+                "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                "crossHalfM": 20,
+                "verticalUpM": 7.5,
+                "verticalDownM": 5.5,
+                "extentConfidence01": 0,
+                "extentAgeS": null,
+                "extentSource": null,
+                "truthUsed": false
+              },
+              "fireControlTrackQuality": {
+                "ok": true,
+                "ageS": 0,
+                "positionSigmaM": 4,
+                "velocitySigmaMps": 1,
+                "covariance": {
+                  "posSigmaM": 4,
+                  "posMinorSigmaM": 4,
+                  "ellipseAngleRad": 0,
+                  "altSigmaM": 4,
+                  "vxSigmaMps": 1,
+                  "vySigmaMps": 1,
+                  "vzSigmaMps": 1,
+                  "velSigmaMps": 1
+                },
+                "sigmaZ": 4,
+                "sigmaVz": 1,
+                "covariance6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ],
+                "source": "TEST",
+                "targetState": {
+                  "xM": 3.061616997868383e-13,
+                  "yM": 5000,
+                  "zM": 30,
+                  "vxMps": 1.7145055188062946e-14,
+                  "vyMps": -280,
+                  "vzMps": 0,
+                  "covariance6x6": [
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                "status": "FCQ_READY",
+                "firePermitted": true,
+                "timeOfFlightS": 4.905815458721882,
+                "predictedImpactSigmaM": {
+                  "cross": 6.329851918886775
+                },
+                "truthUsed": false
+              },
+              "computedStep": 0,
+              "ageS": 0,
+              "truthUsed": false
+            },
+            "phaseLimits": {
+              "projectileSpawn": true,
+              "damageApplication": true,
+              "magazineConsumption": true
+            }
+          }
+        }
+      ],
+      "manual": {
+        "cue": {
+          "schema": "AEGIS_GUN_BALLISTIC_SOLUTION_V48_WIP13B1",
+          "ok": true,
+          "reason": null,
+          "ammoId": "HE_127_SIM",
+          "rangeM": 5000.301721232626,
+          "azimuthRad": 1.5826659638102516,
+          "elevationRad": 0.04309398718752913,
+          "verticalSlopeMPerRad": 5013.166552843839,
+          "timeOfFlightS": 7.064019833407947,
+          "predictedAimPointM": {
+            "x": 3.061616997868383e-13,
+            "y": 5000,
+            "z": 5
+          },
+          "terminalSpeedMps": 611.301094858469,
+          "terminalFlightPathDeg": -3.183419730361513,
+          "missResidualM": 0.0012265518632189193,
+          "missVectorM": {
+            "x": -0.0012264601898955385,
+            "y": -1.3473888429871295e-05,
+            "z": 6.582560123646886e-06
+          },
+          "model": "DETERMINISTIC_3DOF_POINT_MASS",
+          "solverMode": "COLD_BRACKET_CONTINUATION",
+          "trackId": 114002,
+          "bodyAzRad": 1.5826659638102516,
+          "bodyElevationRad": 0.043093987187529124,
+          "sensorSource": "SPQ9B_SURFACE_PRECISION",
+          "velocitySource": "TRACK_EKF_FUSED",
+          "trackCovariance": {
+            "posSigmaM": 4,
+            "posMinorSigmaM": 4,
+            "vxSigmaMps": 0.18,
+            "vySigmaMps": 0.18,
+            "velSigmaMps": 1.2
+          },
+          "sensorContributors": {
+            "SPQ9B": {
+              "source": "SPQ9B_SURFACE_PRECISION",
+              "lastStep": 0,
+              "updates": 20,
+              "rangeSigmaM": 8,
+              "azSigmaDeg": 0.035,
+              "radialVelSigmaMps": 0.55,
+              "ageS": 0
+            }
+          },
+          "observedTargetExtent": {
+            "schema": "AEGIS_ANONYMOUS_SURFACE_EXTENT_V48_WIP13B8",
+            "projectedHalfWidthM": 85,
+            "rangeHalfExtentM": 95,
+            "verticalHalfExtentM": 15,
+            "sigmaM": 3,
+            "confidence01": 0.95,
+            "samples": 20,
+            "ageS": 0,
+            "precisionAgeS": 0,
+            "source": "SPQ9B_SURFACE_PRECISION",
+            "anonymousMeasurement": true
+          },
+          "computedStep": 0,
+          "truthUsed": false,
+          "clearance": {
+            "ok": true,
+            "reason": null,
+            "obstruction": null,
+            "distanceM": null,
+            "mountId": "mk45f",
+            "originM": {
+              "x": 54.009184883945316,
+              "y": 0.9099358965839149,
+              "z": 11.91177
+            }
+          },
+          "fireControlTrackQuality": {
+            "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+            "status": "FCQ_READY",
+            "quality01": 0.9881912490947978,
+            "firePermitted": true,
+            "reason": null,
+            "policy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+            "bestContributor": "SPQ9B",
+            "contributorAgesS": {
+              "SPQ9B": 0
+            },
+            "sensorConfidence01": 0.9875,
+            "measurementAgeS": 0,
+            "solutionAgeS": 0,
+            "timeOfFlightS": 7.064019833407947,
+            "predictionHorizonS": 7.064019833407947,
+            "maneuverProbability": 0,
+            "maneuverSigmaMps2": 0.01,
+            "predictedImpactSigmaM": {
+              "cross": 4.964633802720679,
+              "along": 5.94102647417421
+            },
+            "effectiveTargetHalfExtentM": {
+              "cross": 33.3,
+              "along": 50.53750000000001
+            },
+            "uncertaintyRatio": 0.1490881021838042,
+            "thresholds": {
+              "readyRatioMax": 0.65,
+              "degradedRatioMax": 1.65,
+              "minFireQuality01": 0.3
+            },
+            "truthUsed": false
+          }
+        },
+        "manual": {
+          "ok": true,
+          "active": true,
+          "trackId": 114002,
+          "ammoId": "HE_127_SIM",
+          "authorization": "OPERATOR_TOGGLE_SAME_TRACK_ONLY"
+        },
+        "first": {
+          "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+          "moduleId": "MK45_MOD4_CG52_MK160_V1",
+          "hardpointId": "mk45",
+          "hardwareHealth01": 1,
+          "bodyAzRad": 0,
+          "elevationRad": 0,
+          "azRateRadS": 0,
+          "elevationRateRadS": 0,
+          "commandTrackId": 114002,
+          "status": "SLEWING",
+          "revision": 11,
+          "loadedAmmoId": "HE_127_SIM",
+          "cycleRemainingS": 0,
+          "solutionRefreshRemainingS": 1,
+          "magazine": {
+            "HE_127_SIM": 180,
+            "SAP_127_SIM": 240,
+            "MFF_127_SIM": 180
+          },
+          "shotsFired": 0,
+          "lastFire": null,
+          "pendingSingleFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "requestedStep": null,
+            "expiresStep": null,
+            "lastAttemptReason": null,
+            "stopReason": "RESET",
+            "releasedStep": null,
+            "remainingS": 0
+          },
+          "continuousFire": {
+            "active": true,
+            "trackId": 114002,
+            "ammoId": "HE_127_SIM",
+            "startedStep": 0,
+            "roundsFired": 0,
+            "lastAttemptReason": null,
+            "stopReason": null
+          },
+          "pointing": {
+            "ok": false,
+            "predictedMissM": 4999.9769343343805,
+            "crossMissM": -4995.307519430283,
+            "verticalMissM": -216.03733519720197,
+            "limitM": 28.335366197279317,
+            "crossLimitM": 33.3,
+            "verticalLimitM": 6.164999999999999,
+            "normalizedMiss": 179.74137946582846,
+            "impactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT",
+              "crossHalfM": 33.3,
+              "verticalUpM": 8.639999999999999,
+              "verticalDownM": 6.164999999999999,
+              "extentConfidence01": 0.95,
+              "extentAgeS": 0,
+              "extentSource": "SPQ9B_SURFACE_PRECISION",
+              "truthUsed": false
+            },
+            "pointingErrorDeg": 90.67944868787092
+          },
+          "solution": {
+            "ok": true,
+            "reason": null,
+            "trackId": 114002,
+            "ammoId": "HE_127_SIM",
+            "rangeM": 5000.301721232626,
+            "timeOfFlightS": 7.064019833407947,
+            "bodyAzRad": 1.5826659638102516,
+            "bodyElevationRad": 0.043093987187529124,
+            "bodyDemandStep": null,
+            "sensorSource": "SPQ9B_SURFACE_PRECISION",
+            "velocitySource": "TRACK_EKF_FUSED",
+            "trackCovariance": {
+              "posSigmaM": 4,
+              "posMinorSigmaM": 4,
+              "vxSigmaMps": 0.18,
+              "vySigmaMps": 0.18,
+              "velSigmaMps": 1.2
+            },
+            "sensorContributors": {
+              "SPQ9B": {
+                "source": "SPQ9B_SURFACE_PRECISION",
+                "lastStep": 0,
+                "updates": 20,
+                "rangeSigmaM": 8,
+                "azSigmaDeg": 0.035,
+                "radialVelSigmaMps": 0.55,
+                "ageS": 0
+              }
+            },
+            "observedTargetExtent": {
+              "schema": "AEGIS_ANONYMOUS_SURFACE_EXTENT_V48_WIP13B8",
+              "projectedHalfWidthM": 85,
+              "rangeHalfExtentM": 95,
+              "verticalHalfExtentM": 15,
+              "sigmaM": 3,
+              "confidence01": 0.95,
+              "samples": 20,
+              "ageS": 0,
+              "precisionAgeS": 0,
+              "source": "SPQ9B_SURFACE_PRECISION",
+              "anonymousMeasurement": true
+            },
+            "effectiveImpactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT",
+              "crossHalfM": 33.3,
+              "verticalUpM": 8.639999999999999,
+              "verticalDownM": 6.164999999999999,
+              "extentConfidence01": 0.95,
+              "extentAgeS": 0,
+              "extentSource": "SPQ9B_SURFACE_PRECISION",
+              "truthUsed": false
+            },
+            "fireControlTrackQuality": {
+              "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+              "status": "FCQ_READY",
+              "quality01": 0.9463317111820553,
+              "firePermitted": true,
+              "reason": null,
+              "policy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+              "bestContributor": "SPQ9B",
+              "contributorAgesS": {
+                "SPQ9B": 1
+              },
+              "sensorConfidence01": 0.7075746691916169,
+              "measurementAgeS": 1,
+              "solutionAgeS": 1,
+              "timeOfFlightS": 7.064019833407947,
+              "predictionHorizonS": 8.064019833407947,
+              "maneuverProbability": 0,
+              "maneuverSigmaMps2": 0.01,
+              "predictedImpactSigmaM": {
+                "cross": 5.0397467431072425,
+                "along": 6.026571058270599
+              },
+              "effectiveTargetHalfExtentM": {
+                "cross": 33.3,
+                "along": 50.53750000000001
+              },
+              "uncertaintyRatio": 0.15134374603925654,
+              "thresholds": {
+                "readyRatioMax": 0.65,
+                "degradedRatioMax": 1.65,
+                "minFireQuality01": 0.3
+              },
+              "truthUsed": false
+            },
+            "computedStep": 0,
+            "ageS": 1,
+            "truthUsed": false
+          },
+          "phaseLimits": {
+            "projectileSpawn": true,
+            "damageApplication": true,
+            "magazineConsumption": true
+          }
+        },
+        "auto": {
+          "enabled": true,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "mk45f",
+              "owned": false,
+              "targetId": 114001,
+              "reason": "MANUAL_PRIORITY",
+              "nextStep": 60
+            },
+            {
+              "id": "mk45a",
+              "owned": true,
+              "targetId": 114001,
+              "reason": null,
+              "nextStep": 120
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45a",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            }
+          ]
+        },
+        "other": [
+          {
+            "id": "mk45a",
+            "spec": {
+              "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+              "schemaVersion": 8,
+              "id": "MK45_MOD4_CG52_MK160_V1",
+              "family": "Mk 45 Mod 4 / Mk 160",
+              "role": "LIVE_SURFACE_GUNFIRE",
+              "sourceBasis": {
+                "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+                "references": [
+                  "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                  "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                  "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                  "https://www.tpub.com/gunners/232.htm"
+                ],
+                "aerodynamics": "SIM_TUNED_POINT_MASS",
+                "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+                "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+                "exactMk160Logic": "PUBLIC_UNKNOWN",
+                "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+                "gunB1": "SIM_TUNED_GAME_ONLY"
+              },
+              "mount": {
+                "caliberM": 0.127,
+                "barrelCalibers": 62,
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "stowBodyAzRad": 3.141592653589793,
+                "trainMinRad": 0.17453292519943275,
+                "trainMaxRad": 6.1086523819801535,
+                "elevationMinRad": -0.2617993877991494,
+                "elevationMaxRad": 1.1344640137963142,
+                "trainRateRadS": 0.5235987755982988,
+                "trainAccelRadS2": 0.6632251157578452,
+                "elevationRateRadS": 0.3490658503988659,
+                "elevationAccelRadS2": 0.5410520681182421
+              },
+              "ammunition": {
+                "HE_127_SIM": {
+                  "id": "HE_127_SIM",
+                  "label": "127 mm HE (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE"
+                },
+                "SAP_127_SIM": {
+                  "id": "SAP_127_SIM",
+                  "label": "127 mm SAP (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_SAP"
+                },
+                "MFF_127_SIM": {
+                  "id": "MFF_127_SIM",
+                  "label": "127 HE-MFP",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE",
+                  "fuzeMode": "AIR",
+                  "fuzeProfile": "MK419_GAME_AIR_B1",
+                  "explosiveMassKg": 3.7,
+                  "provenance": "SIM_TUNED_GAME_ONLY"
+                }
+              },
+              "feed": {
+                "publishedRateRpm": 20,
+                "cycleIntervalS": 3,
+                "initialLoadedAmmoId": "HE_127_SIM",
+                "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+              },
+              "magazine": {
+                "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+                "initialRounds": {
+                  "HE_127_SIM": 180,
+                  "SAP_127_SIM": 240,
+                  "MFF_127_SIM": 180
+                },
+                "capacityRounds": 600
+              },
+              "fireControl": {
+                "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+                "trackDomain": "SURFACE",
+                "sensorInputs": [
+                  "SPY1DV_SURFACE_TRACK",
+                  "BRIDGEMASTER_E_ARPA",
+                  "SPQ9B_SURFACE_PRECISION"
+                ],
+                "manualIdentities": [
+                  "HOSTILE",
+                  "TRAINING_TARGET"
+                ],
+                "automaticSurfaceRelease": false,
+                "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+                "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+                "singleFireConsentHoldS": 6,
+                "minRangeM": 800,
+                "maxRangeM": 24000,
+                "maxSolvePosSigmaM": 260,
+                "maxSolveVelocitySigmaMps": 14,
+                "maxTrackCoastAgeS": 18,
+                "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+                "solutionRefreshIntervalS": 1,
+                "maxReleaseSolutionAgeS": 1.2,
+                "defaultAimHeightM": 5,
+                "aimHeightReference": "MEAN_WATERLINE",
+                "maxPointingMissM": 1.5,
+                "releaseAimMargin01": 0.78,
+                "fireControlTrackQuality": {
+                  "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                  "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                  "readyRatioMax": 0.65,
+                  "degradedRatioMax": 1.65,
+                  "minFireQuality01": 0.3,
+                  "maneuverSigmaBaseMps2": 0.01,
+                  "maneuverSigmaMaxMps2": 0.16,
+                  "coastAccelGrowthMps2PerS": 0.012,
+                  "maxManeuverSigmaMps2": 0.42,
+                  "rangeExtentFactor": 0.55,
+                  "fallbackAlongHalfM": 18,
+                  "minAlongHalfM": 8,
+                  "maxAlongHalfM": 70,
+                  "contributorFreshS": {
+                    "SPQ9B": 3,
+                    "SPY1DV": 4.5,
+                    "BRIDGEMASTER_E": 4.5
+                  },
+                  "systematicFloor": {
+                    "SPQ9B": {
+                      "positionCrossM": 2.5,
+                      "positionAlongM": 4,
+                      "velocityCrossMps": 0.12,
+                      "velocityAlongMps": 0.18
+                    },
+                    "SPY1DV": {
+                      "positionCrossM": 6,
+                      "positionAlongM": 10,
+                      "velocityCrossMps": 0.22,
+                      "velocityAlongMps": 0.32
+                    },
+                    "BRIDGEMASTER_E": {
+                      "positionCrossM": 12,
+                      "positionAlongM": 18,
+                      "velocityCrossMps": 0.45,
+                      "velocityAlongMps": 0.6
+                    },
+                    "COAST": {
+                      "positionCrossM": 18,
+                      "positionAlongM": 24,
+                      "velocityCrossMps": 0.75,
+                      "velocityAlongMps": 1
+                    }
+                  }
+                },
+                "impactWindow": {
+                  "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                  "fallbackCrossHalfM": 20,
+                  "minCrossHalfM": 6,
+                  "maxCrossHalfM": 50,
+                  "crossExtentFactor": 0.4,
+                  "fallbackVerticalUpM": 7.5,
+                  "minVerticalUpM": 5,
+                  "maxVerticalUpM": 12,
+                  "verticalExtentFactor": 0.58,
+                  "fallbackVerticalDownM": 5.5,
+                  "minVerticalDownM": 4,
+                  "maxVerticalDownM": 8,
+                  "verticalDownBaseM": 3.5,
+                  "verticalDownExtentFactor": 0.18,
+                  "maxExtentAgeS": 6
+                },
+                "integrationStepS": 0.016666666666666666,
+                "maxFlightTimeS": 80
+              },
+              "damage": {
+                "systemId": "MK45",
+                "disabledDamagePct": 70,
+                "minimumDriveFactor": 0.18,
+                "moduleName": "Mk45(후방)"
+              },
+              "terminalAdapter": {
+                "status": "LIVE_WIP13B6",
+                "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+              },
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              },
+              "installation": {
+                "id": "mk45a",
+                "builderId": "PROFILE_GUN_MODULE_WIP13B8",
+                "moduleId": "MK45_MOD4_CG52_MK160_V1",
+                "hardpointId": "mk45Aft",
+                "neutralAzRad": 3.141592653589793,
+                "geometryMask": true,
+                "moduleName": "Mk45(후방)",
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "sourceNode": "mk45a_yaw"
+              }
+            },
+            "q": {
+              "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+              "moduleId": "MK45_MOD4_CG52_MK160_V1",
+              "hardpointId": "mk45Aft",
+              "hardwareHealth01": 1,
+              "bodyAzRad": 3.141592653589793,
+              "elevationRad": 0,
+              "azRateRadS": 0,
+              "elevationRateRadS": 0,
+              "commandTrackId": 114001,
+              "status": "SLEWING",
+              "revision": 5,
+              "loadedAmmoId": "MFF_127_SIM",
+              "cycleRemainingS": 0,
+              "solutionRefreshRemainingS": 1,
+              "magazine": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "shotsFired": 0,
+              "lastFire": null,
+              "pendingSingleFire": {
+                "active": false,
+                "trackId": null,
+                "ammoId": null,
+                "requestedStep": null,
+                "expiresStep": null,
+                "lastAttemptReason": null,
+                "stopReason": "RESET",
+                "releasedStep": null,
+                "remainingS": 0
+              },
+              "continuousFire": {
+                "active": true,
+                "trackId": 114001,
+                "ammoId": "MFF_127_SIM",
+                "startedStep": 0,
+                "roundsFired": 0,
+                "lastAttemptReason": null,
+                "stopReason": null
+              },
+              "pointing": {
+                "ok": false,
+                "predictedMissM": 3626.4349407718933,
+                "crossMissM": 3624.0232169131878,
+                "verticalMissM": -132.23502911647844,
+                "limitM": 13.670148081113226,
+                "crossLimitM": 20,
+                "verticalLimitM": 5.5,
+                "normalizedMiss": 266.19290016212443,
+                "impactWindow": {
+                  "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                  "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                  "crossHalfM": 20,
+                  "verticalUpM": 7.5,
+                  "verticalDownM": 5.5,
+                  "extentConfidence01": 0,
+                  "extentAgeS": null,
+                  "extentSource": null,
+                  "truthUsed": false
+                },
+                "pointingErrorDeg": 91.13440068682266
+              },
+              "solution": {
+                "airDomain": true,
+                "targetAltitudeM": 30,
+                "azimuthRad": 1.550984189974658,
+                "elevationRad": 0.03637834230789231,
+                "verticalSlopeMPerRad": 3634.993260476026,
+                "ok": true,
+                "reason": null,
+                "trackId": 114001,
+                "ammoId": "MFF_127_SIM",
+                "rangeM": 3627.1343661811175,
+                "timeOfFlightS": 4.905815458721882,
+                "bodyAzRad": 1.550984189974658,
+                "bodyElevationRad": 0.03637834230789231,
+                "bodyDemandStep": null,
+                "sensorSource": "TEST",
+                "velocitySource": null,
+                "trackCovariance": {
+                  "posSigmaM": 4,
+                  "posMinorSigmaM": 4,
+                  "ellipseAngleRad": 0,
+                  "altSigmaM": 4,
+                  "vxSigmaMps": 1,
+                  "vySigmaMps": 1,
+                  "vzSigmaMps": 1,
+                  "velSigmaMps": 1,
+                  "zSigmaM": 4,
+                  "matrix6x6": [
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                "sensorContributors": null,
+                "observedTargetExtent": null,
+                "effectiveImpactWindow": {
+                  "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+                  "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+                  "crossHalfM": 20,
+                  "verticalUpM": 7.5,
+                  "verticalDownM": 5.5,
+                  "extentConfidence01": 0,
+                  "extentAgeS": null,
+                  "extentSource": null,
+                  "truthUsed": false
+                },
+                "fireControlTrackQuality": {
+                  "ok": true,
+                  "ageS": 1,
+                  "positionSigmaM": 4,
+                  "velocitySigmaMps": 1,
+                  "covariance": {
+                    "posSigmaM": 4,
+                    "posMinorSigmaM": 4,
+                    "ellipseAngleRad": 0,
+                    "altSigmaM": 4,
+                    "vxSigmaMps": 1,
+                    "vySigmaMps": 1,
+                    "vzSigmaMps": 1,
+                    "velSigmaMps": 1
+                  },
+                  "sigmaZ": 4,
+                  "sigmaVz": 1,
+                  "covariance6x6": [
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    16,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1
+                  ],
+                  "source": "TEST",
+                  "targetState": {
+                    "xM": 3.061616997868383e-13,
+                    "yM": 5000,
+                    "zM": 30,
+                    "vxMps": 1.7145055188062946e-14,
+                    "vyMps": -280,
+                    "vzMps": 0,
+                    "covariance6x6": [
+                      16,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      16,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      16,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      1
+                    ]
+                  },
+                  "status": "FCQ_READY",
+                  "firePermitted": true,
+                  "timeOfFlightS": 4.905815458721882,
+                  "predictedImpactSigmaM": {
+                    "cross": 6.329851918886775
+                  },
+                  "truthUsed": false
+                },
+                "computedStep": 0,
+                "ageS": 1,
+                "truthUsed": false
+              },
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              }
+            }
+          }
+        ]
+      },
+      "resumed": {
+        "first": {
+          "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+          "moduleId": "MK45_MOD4_CG52_MK160_V1",
+          "hardpointId": "mk45",
+          "hardwareHealth01": 1,
+          "bodyAzRad": 0,
+          "elevationRad": 0,
+          "azRateRadS": 0,
+          "elevationRateRadS": 0,
+          "commandTrackId": 114001,
+          "status": "SLEWING",
+          "revision": 16,
+          "loadedAmmoId": "MFF_127_SIM",
+          "cycleRemainingS": 0,
+          "solutionRefreshRemainingS": 1,
+          "magazine": {
+            "HE_127_SIM": 180,
+            "SAP_127_SIM": 240,
+            "MFF_127_SIM": 180
+          },
+          "shotsFired": 0,
+          "lastFire": null,
+          "pendingSingleFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "requestedStep": null,
+            "expiresStep": null,
+            "lastAttemptReason": null,
+            "stopReason": "RESET",
+            "releasedStep": null,
+            "remainingS": 0
+          },
+          "continuousFire": {
+            "active": true,
+            "trackId": 114001,
+            "ammoId": "MFF_127_SIM",
+            "startedStep": 120,
+            "roundsFired": 0,
+            "lastAttemptReason": null,
+            "stopReason": null
+          },
+          "pointing": {
+            "ok": false,
+            "predictedMissM": 3626.4723555544283,
+            "crossMissM": -3624.1905129759875,
+            "verticalMissM": -128.62686832593116,
+            "limitM": 13.67048985168713,
+            "crossLimitM": 20,
+            "verticalLimitM": 5.5,
+            "normalizedMiss": 266.14003737058016,
+            "impactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+              "crossHalfM": 20,
+              "verticalUpM": 7.5,
+              "verticalDownM": 5.5,
+              "extentConfidence01": 0,
+              "extentAgeS": null,
+              "extentSource": null,
+              "truthUsed": false
+            },
+            "pointingErrorDeg": 90.90222297385988
+          },
+          "solution": {
+            "airDomain": true,
+            "targetAltitudeM": 30,
+            "azimuthRad": 1.5865529537603198,
+            "elevationRad": 0.03538728835993616,
+            "verticalSlopeMPerRad": 3634.8325708831794,
+            "ok": true,
+            "reason": null,
+            "trackId": 114001,
+            "ammoId": "MFF_127_SIM",
+            "rangeM": 3626.9111319703475,
+            "timeOfFlightS": 4.905374472718226,
+            "bodyAzRad": 1.5865529537603198,
+            "bodyElevationRad": 0.03538728835993615,
+            "bodyDemandStep": null,
+            "sensorSource": "TEST",
+            "velocitySource": null,
+            "trackCovariance": {
+              "posSigmaM": 4,
+              "posMinorSigmaM": 4,
+              "ellipseAngleRad": 0,
+              "altSigmaM": 4,
+              "vxSigmaMps": 1,
+              "vySigmaMps": 1,
+              "vzSigmaMps": 1,
+              "velSigmaMps": 1,
+              "zSigmaM": 4,
+              "matrix6x6": [
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "sensorContributors": null,
+            "observedTargetExtent": null,
+            "effectiveImpactWindow": {
+              "schema": "AEGIS_GUN_EFFECTIVE_IMPACT_WINDOW_V48_WIP13B8",
+              "basis": "CONSERVATIVE_ANONYMOUS_FALLBACK",
+              "crossHalfM": 20,
+              "verticalUpM": 7.5,
+              "verticalDownM": 5.5,
+              "extentConfidence01": 0,
+              "extentAgeS": null,
+              "extentSource": null,
+              "truthUsed": false
+            },
+            "fireControlTrackQuality": {
+              "ok": true,
+              "ageS": 0,
+              "positionSigmaM": 4,
+              "velocitySigmaMps": 1,
+              "covariance": {
+                "posSigmaM": 4,
+                "posMinorSigmaM": 4,
+                "ellipseAngleRad": 0,
+                "altSigmaM": 4,
+                "vxSigmaMps": 1,
+                "vySigmaMps": 1,
+                "vzSigmaMps": 1,
+                "velSigmaMps": 1
+              },
+              "sigmaZ": 4,
+              "sigmaVz": 1,
+              "covariance6x6": [
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "source": "TEST",
+              "targetState": {
+                "xM": 3.061616997868383e-13,
+                "yM": 5000,
+                "zM": 30,
+                "vxMps": 1.7145055188062946e-14,
+                "vyMps": -280,
+                "vzMps": 0,
+                "covariance6x6": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              },
+              "status": "FCQ_READY",
+              "firePermitted": true,
+              "timeOfFlightS": 4.905374472718226,
+              "predictedImpactSigmaM": {
+                "cross": 6.32951014831287
+              },
+              "truthUsed": false
+            },
+            "computedStep": 120,
+            "ageS": 0,
+            "truthUsed": false
+          },
+          "phaseLimits": {
+            "projectileSpawn": true,
+            "damageApplication": true,
+            "magazineConsumption": true
+          }
+        },
+        "auto": {
+          "enabled": true,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "mk45f",
+              "owned": true,
+              "targetId": 114001,
+              "reason": null,
+              "nextStep": 180
+            },
+            {
+              "id": "mk45a",
+              "owned": true,
+              "targetId": 114001,
+              "reason": null,
+              "nextStep": 180
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45a",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            }
+          ]
+        }
+      },
+      "off": {
+        "guns": [
+          {
+            "id": "mk45f",
+            "spec": {
+              "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+              "schemaVersion": 8,
+              "id": "MK45_MOD4_CG52_MK160_V1",
+              "family": "Mk 45 Mod 4 / Mk 160",
+              "role": "LIVE_SURFACE_GUNFIRE",
+              "sourceBasis": {
+                "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+                "references": [
+                  "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                  "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                  "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                  "https://www.tpub.com/gunners/232.htm"
+                ],
+                "aerodynamics": "SIM_TUNED_POINT_MASS",
+                "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+                "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+                "exactMk160Logic": "PUBLIC_UNKNOWN",
+                "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+                "gunB1": "SIM_TUNED_GAME_ONLY"
+              },
+              "mount": {
+                "caliberM": 0.127,
+                "barrelCalibers": 62,
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "stowBodyAzRad": 0,
+                "trainMinRad": -2.9670597283903604,
+                "trainMaxRad": 2.9670597283903604,
+                "elevationMinRad": -0.2617993877991494,
+                "elevationMaxRad": 1.1344640137963142,
+                "trainRateRadS": 0.5235987755982988,
+                "trainAccelRadS2": 0.6632251157578452,
+                "elevationRateRadS": 0.3490658503988659,
+                "elevationAccelRadS2": 0.5410520681182421
+              },
+              "ammunition": {
+                "HE_127_SIM": {
+                  "id": "HE_127_SIM",
+                  "label": "127 mm HE (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE"
+                },
+                "SAP_127_SIM": {
+                  "id": "SAP_127_SIM",
+                  "label": "127 mm SAP (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_SAP"
+                },
+                "MFF_127_SIM": {
+                  "id": "MFF_127_SIM",
+                  "label": "127 HE-MFP",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE",
+                  "fuzeMode": "AIR",
+                  "fuzeProfile": "MK419_GAME_AIR_B1",
+                  "explosiveMassKg": 3.7,
+                  "provenance": "SIM_TUNED_GAME_ONLY"
+                }
+              },
+              "feed": {
+                "publishedRateRpm": 20,
+                "cycleIntervalS": 3,
+                "initialLoadedAmmoId": "HE_127_SIM",
+                "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+              },
+              "magazine": {
+                "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+                "initialRounds": {
+                  "HE_127_SIM": 180,
+                  "SAP_127_SIM": 240,
+                  "MFF_127_SIM": 180
+                },
+                "capacityRounds": 600
+              },
+              "fireControl": {
+                "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+                "trackDomain": "SURFACE",
+                "sensorInputs": [
+                  "SPY1DV_SURFACE_TRACK",
+                  "BRIDGEMASTER_E_ARPA",
+                  "SPQ9B_SURFACE_PRECISION"
+                ],
+                "manualIdentities": [
+                  "HOSTILE",
+                  "TRAINING_TARGET"
+                ],
+                "automaticSurfaceRelease": false,
+                "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+                "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+                "singleFireConsentHoldS": 6,
+                "minRangeM": 800,
+                "maxRangeM": 24000,
+                "maxSolvePosSigmaM": 260,
+                "maxSolveVelocitySigmaMps": 14,
+                "maxTrackCoastAgeS": 18,
+                "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+                "solutionRefreshIntervalS": 1,
+                "maxReleaseSolutionAgeS": 1.2,
+                "defaultAimHeightM": 5,
+                "aimHeightReference": "MEAN_WATERLINE",
+                "maxPointingMissM": 1.5,
+                "releaseAimMargin01": 0.78,
+                "fireControlTrackQuality": {
+                  "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                  "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                  "readyRatioMax": 0.65,
+                  "degradedRatioMax": 1.65,
+                  "minFireQuality01": 0.3,
+                  "maneuverSigmaBaseMps2": 0.01,
+                  "maneuverSigmaMaxMps2": 0.16,
+                  "coastAccelGrowthMps2PerS": 0.012,
+                  "maxManeuverSigmaMps2": 0.42,
+                  "rangeExtentFactor": 0.55,
+                  "fallbackAlongHalfM": 18,
+                  "minAlongHalfM": 8,
+                  "maxAlongHalfM": 70,
+                  "contributorFreshS": {
+                    "SPQ9B": 3,
+                    "SPY1DV": 4.5,
+                    "BRIDGEMASTER_E": 4.5
+                  },
+                  "systematicFloor": {
+                    "SPQ9B": {
+                      "positionCrossM": 2.5,
+                      "positionAlongM": 4,
+                      "velocityCrossMps": 0.12,
+                      "velocityAlongMps": 0.18
+                    },
+                    "SPY1DV": {
+                      "positionCrossM": 6,
+                      "positionAlongM": 10,
+                      "velocityCrossMps": 0.22,
+                      "velocityAlongMps": 0.32
+                    },
+                    "BRIDGEMASTER_E": {
+                      "positionCrossM": 12,
+                      "positionAlongM": 18,
+                      "velocityCrossMps": 0.45,
+                      "velocityAlongMps": 0.6
+                    },
+                    "COAST": {
+                      "positionCrossM": 18,
+                      "positionAlongM": 24,
+                      "velocityCrossMps": 0.75,
+                      "velocityAlongMps": 1
+                    }
+                  }
+                },
+                "impactWindow": {
+                  "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                  "fallbackCrossHalfM": 20,
+                  "minCrossHalfM": 6,
+                  "maxCrossHalfM": 50,
+                  "crossExtentFactor": 0.4,
+                  "fallbackVerticalUpM": 7.5,
+                  "minVerticalUpM": 5,
+                  "maxVerticalUpM": 12,
+                  "verticalExtentFactor": 0.58,
+                  "fallbackVerticalDownM": 5.5,
+                  "minVerticalDownM": 4,
+                  "maxVerticalDownM": 8,
+                  "verticalDownBaseM": 3.5,
+                  "verticalDownExtentFactor": 0.18,
+                  "maxExtentAgeS": 6
+                },
+                "integrationStepS": 0.016666666666666666,
+                "maxFlightTimeS": 80
+              },
+              "damage": {
+                "systemId": "MK45",
+                "disabledDamagePct": 70,
+                "minimumDriveFactor": 0.18,
+                "moduleName": "Mk45"
+              },
+              "terminalAdapter": {
+                "status": "LIVE_WIP13B6",
+                "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+              },
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              },
+              "installation": {
+                "id": "mk45f",
+                "builderId": "PROFILE_GUN_MODULE_WIP13B8",
+                "moduleId": "MK45_MOD4_CG52_MK160_V1",
+                "hardpointId": "mk45",
+                "neutralAzRad": 0,
+                "geometryMask": true,
+                "moduleName": "Mk45",
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "sourceNode": "mk45f_yaw"
+              }
+            },
+            "q": {
+              "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+              "moduleId": "MK45_MOD4_CG52_MK160_V1",
+              "hardpointId": "mk45",
+              "hardwareHealth01": 1,
+              "bodyAzRad": 0,
+              "elevationRad": 0,
+              "azRateRadS": 0,
+              "elevationRateRadS": 0,
+              "commandTrackId": null,
+              "status": "STOWED",
+              "revision": 18,
+              "loadedAmmoId": "MFF_127_SIM",
+              "cycleRemainingS": 0,
+              "solutionRefreshRemainingS": 0,
+              "magazine": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "shotsFired": 0,
+              "lastFire": null,
+              "pendingSingleFire": {
+                "active": false,
+                "trackId": null,
+                "ammoId": null,
+                "requestedStep": null,
+                "expiresStep": null,
+                "lastAttemptReason": null,
+                "stopReason": "RESET",
+                "releasedStep": null,
+                "remainingS": 0
+              },
+              "continuousFire": {
+                "active": false,
+                "trackId": 114001,
+                "ammoId": "MFF_127_SIM",
+                "startedStep": 120,
+                "roundsFired": 0,
+                "lastAttemptReason": null,
+                "stopReason": "FIRE_CONTROL_CLEARED"
+              },
+              "pointing": null,
+              "solution": null,
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              }
+            }
+          },
+          {
+            "id": "mk45a",
+            "spec": {
+              "schema": "AEGIS_SHIP_GUN_MODULE_V48_WIP13B11",
+              "schemaVersion": 8,
+              "id": "MK45_MOD4_CG52_MK160_V1",
+              "family": "Mk 45 Mod 4 / Mk 160",
+              "role": "LIVE_SURFACE_GUNFIRE",
+              "sourceBasis": {
+                "mountPerformance": "BAE_MK45_MOD4_PUBLIC_PRODUCT_DATA_2025",
+                "references": [
+                  "https://www.baesystems.com/en-us/product/mk-45-mod-4-naval-gun-system",
+                  "https://www.baesystems.com/dam/jcr:5666df32-8b63-495e-bf42-b88e7bdd1d88/BAE_Digital_USL_Landscape_Mk%2045%20Mod%204%20Naval%20Gun%20System_2025.pdf",
+                  "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2166776/anspq-9b-radar-set/",
+                  "https://www.tpub.com/gunners/232.htm"
+                ],
+                "aerodynamics": "SIM_TUNED_POINT_MASS",
+                "dispersion": "DETERMINISTIC_BASELINE_NO_RANDOM_CEP",
+                "fireControlQuality": "SIM_TUNED_PUBLIC_ARCHITECTURE_INFERENCE",
+                "exactMk160Logic": "PUBLIC_UNKNOWN",
+                "cgMount": "USNI_2008_CRUISER_UPDATES__NAVY_MK45_FACT_FILE_CG52_MOD4",
+                "gunB1": "SIM_TUNED_GAME_ONLY"
+              },
+              "mount": {
+                "caliberM": 0.127,
+                "barrelCalibers": 62,
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "stowBodyAzRad": 3.141592653589793,
+                "trainMinRad": 0.17453292519943275,
+                "trainMaxRad": 6.1086523819801535,
+                "elevationMinRad": -0.2617993877991494,
+                "elevationMaxRad": 1.1344640137963142,
+                "trainRateRadS": 0.5235987755982988,
+                "trainAccelRadS2": 0.6632251157578452,
+                "elevationRateRadS": 0.3490658503988659,
+                "elevationAccelRadS2": 0.5410520681182421
+              },
+              "ammunition": {
+                "HE_127_SIM": {
+                  "id": "HE_127_SIM",
+                  "label": "127 mm HE (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE"
+                },
+                "SAP_127_SIM": {
+                  "id": "SAP_127_SIM",
+                  "label": "127 mm SAP (conventional)",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_SAP"
+                },
+                "MFF_127_SIM": {
+                  "id": "MFF_127_SIM",
+                  "label": "127 HE-MFP",
+                  "massKg": 31.75,
+                  "diameterM": 0.127,
+                  "muzzleVelocityMps": 823,
+                  "dragAreaM2": 0.012667686977437443,
+                  "dragModelId": "WIP13B1_127MM_SIM_TUNED",
+                  "terminalProjectileSpecId": "TEST_127_HE",
+                  "fuzeMode": "AIR",
+                  "fuzeProfile": "MK419_GAME_AIR_B1",
+                  "explosiveMassKg": 3.7,
+                  "provenance": "SIM_TUNED_GAME_ONLY"
+                }
+              },
+              "feed": {
+                "publishedRateRpm": 20,
+                "cycleIntervalS": 3,
+                "initialLoadedAmmoId": "HE_127_SIM",
+                "selectionPolicy": "MANUAL_BETWEEN_ROUNDS"
+              },
+              "magazine": {
+                "basis": "SIM_TUNED_WITHIN_EXISTING_PROFILE_ORDNANCE_ALLOWANCE",
+                "initialRounds": {
+                  "HE_127_SIM": 180,
+                  "SAP_127_SIM": 240,
+                  "MFF_127_SIM": 180
+                },
+                "capacityRounds": 600
+              },
+              "fireControl": {
+                "builderId": "MK160_SURFACE_GFCS_WIP13B1",
+                "trackDomain": "SURFACE",
+                "sensorInputs": [
+                  "SPY1DV_SURFACE_TRACK",
+                  "BRIDGEMASTER_E_ARPA",
+                  "SPQ9B_SURFACE_PRECISION"
+                ],
+                "manualIdentities": [
+                  "HOSTILE",
+                  "TRAINING_TARGET"
+                ],
+                "automaticSurfaceRelease": false,
+                "continuousFireAuthority": "OPERATOR_TOGGLE_SAME_TRACK_ONLY",
+                "singleFireConsentAuthority": "OPERATOR_TRIGGER_SAME_TRACK_ONLY",
+                "singleFireConsentHoldS": 6,
+                "minRangeM": 800,
+                "maxRangeM": 24000,
+                "maxSolvePosSigmaM": 260,
+                "maxSolveVelocitySigmaMps": 14,
+                "maxTrackCoastAgeS": 18,
+                "releasePolicy": "COMPOSITE_FIRE_CONTROL_TRACK_QUALITY",
+                "solutionRefreshIntervalS": 1,
+                "maxReleaseSolutionAgeS": 1.2,
+                "defaultAimHeightM": 5,
+                "aimHeightReference": "MEAN_WATERLINE",
+                "maxPointingMissM": 1.5,
+                "releaseAimMargin01": 0.78,
+                "fireControlTrackQuality": {
+                  "schema": "AEGIS_COMPOSITE_SURFACE_FCQ_V48_WIP13B10",
+                  "basis": "PREDICTED_IMPACT_COVARIANCE_NORMALIZED_BY_ANONYMOUS_EXTENT",
+                  "readyRatioMax": 0.65,
+                  "degradedRatioMax": 1.65,
+                  "minFireQuality01": 0.3,
+                  "maneuverSigmaBaseMps2": 0.01,
+                  "maneuverSigmaMaxMps2": 0.16,
+                  "coastAccelGrowthMps2PerS": 0.012,
+                  "maxManeuverSigmaMps2": 0.42,
+                  "rangeExtentFactor": 0.55,
+                  "fallbackAlongHalfM": 18,
+                  "minAlongHalfM": 8,
+                  "maxAlongHalfM": 70,
+                  "contributorFreshS": {
+                    "SPQ9B": 3,
+                    "SPY1DV": 4.5,
+                    "BRIDGEMASTER_E": 4.5
+                  },
+                  "systematicFloor": {
+                    "SPQ9B": {
+                      "positionCrossM": 2.5,
+                      "positionAlongM": 4,
+                      "velocityCrossMps": 0.12,
+                      "velocityAlongMps": 0.18
+                    },
+                    "SPY1DV": {
+                      "positionCrossM": 6,
+                      "positionAlongM": 10,
+                      "velocityCrossMps": 0.22,
+                      "velocityAlongMps": 0.32
+                    },
+                    "BRIDGEMASTER_E": {
+                      "positionCrossM": 12,
+                      "positionAlongM": 18,
+                      "velocityCrossMps": 0.45,
+                      "velocityAlongMps": 0.6
+                    },
+                    "COAST": {
+                      "positionCrossM": 18,
+                      "positionAlongM": 24,
+                      "velocityCrossMps": 0.75,
+                      "velocityAlongMps": 1
+                    }
+                  }
+                },
+                "impactWindow": {
+                  "basis": "ANONYMOUS_RADAR_OBSERVED_PROJECTED_EXTENT_SIM_TUNED",
+                  "fallbackCrossHalfM": 20,
+                  "minCrossHalfM": 6,
+                  "maxCrossHalfM": 50,
+                  "crossExtentFactor": 0.4,
+                  "fallbackVerticalUpM": 7.5,
+                  "minVerticalUpM": 5,
+                  "maxVerticalUpM": 12,
+                  "verticalExtentFactor": 0.58,
+                  "fallbackVerticalDownM": 5.5,
+                  "minVerticalDownM": 4,
+                  "maxVerticalDownM": 8,
+                  "verticalDownBaseM": 3.5,
+                  "verticalDownExtentFactor": 0.18,
+                  "maxExtentAgeS": 6
+                },
+                "integrationStepS": 0.016666666666666666,
+                "maxFlightTimeS": 80
+              },
+              "damage": {
+                "systemId": "MK45",
+                "disabledDamagePct": 70,
+                "minimumDriveFactor": 0.18,
+                "moduleName": "Mk45(후방)"
+              },
+              "terminalAdapter": {
+                "status": "LIVE_WIP13B6",
+                "consumer": "WIP12F_GENERIC_TERMINAL_TO_SURFACE_TARGET_DAMAGE_PACKET"
+              },
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              },
+              "installation": {
+                "id": "mk45a",
+                "builderId": "PROFILE_GUN_MODULE_WIP13B8",
+                "moduleId": "MK45_MOD4_CG52_MK160_V1",
+                "hardpointId": "mk45Aft",
+                "neutralAzRad": 3.141592653589793,
+                "geometryMask": true,
+                "moduleName": "Mk45(후방)",
+                "trunnionOffsetM": {
+                  "x": 0.91,
+                  "y": 0,
+                  "z": 2.87
+                },
+                "exposedBarrelM": 6.206,
+                "sourceNode": "mk45a_yaw"
+              }
+            },
+            "q": {
+              "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+              "moduleId": "MK45_MOD4_CG52_MK160_V1",
+              "hardpointId": "mk45Aft",
+              "hardwareHealth01": 1,
+              "bodyAzRad": 3.141592653589793,
+              "elevationRad": 0,
+              "azRateRadS": 0,
+              "elevationRateRadS": 0,
+              "commandTrackId": null,
+              "status": "STOWED",
+              "revision": 7,
+              "loadedAmmoId": "MFF_127_SIM",
+              "cycleRemainingS": 0,
+              "solutionRefreshRemainingS": 0,
+              "magazine": {
+                "HE_127_SIM": 180,
+                "SAP_127_SIM": 240,
+                "MFF_127_SIM": 180
+              },
+              "shotsFired": 0,
+              "lastFire": null,
+              "pendingSingleFire": {
+                "active": false,
+                "trackId": null,
+                "ammoId": null,
+                "requestedStep": null,
+                "expiresStep": null,
+                "lastAttemptReason": null,
+                "stopReason": "RESET",
+                "releasedStep": null,
+                "remainingS": 0
+              },
+              "continuousFire": {
+                "active": false,
+                "trackId": 114001,
+                "ammoId": "MFF_127_SIM",
+                "startedStep": 0,
+                "roundsFired": 0,
+                "lastAttemptReason": null,
+                "stopReason": "FIRE_CONTROL_CLEARED"
+              },
+              "pointing": null,
+              "solution": null,
+              "phaseLimits": {
+                "projectileSpawn": true,
+                "damageApplication": true,
+                "magazineConsumption": true
+              }
+            }
+          }
+        ],
+        "auto": {
+          "enabled": false,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "mk45f",
+              "owned": false,
+              "targetId": 114001,
+              "reason": "AUTO_OFF",
+              "nextStep": 120
+            },
+            {
+              "id": "mk45a",
+              "owned": false,
+              "targetId": 114001,
+              "reason": "AUTO_OFF",
+              "nextStep": 120
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45a",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            }
+          ]
+        }
+      },
+      "empty": {
+        "gun": {
+          "schema": "AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11",
+          "moduleId": "MK45_MOD4_CG52_MK160_V1",
+          "hardpointId": "mk45",
+          "hardwareHealth01": 1,
+          "bodyAzRad": 0,
+          "elevationRad": 0,
+          "azRateRadS": 0,
+          "elevationRateRadS": 0,
+          "commandTrackId": null,
+          "status": "STOWED",
+          "revision": 20,
+          "loadedAmmoId": "MFF_127_SIM",
+          "cycleRemainingS": 0,
+          "solutionRefreshRemainingS": 0,
+          "magazine": {
+            "HE_127_SIM": 180,
+            "SAP_127_SIM": 240,
+            "MFF_127_SIM": 0
+          },
+          "shotsFired": 0,
+          "lastFire": null,
+          "pendingSingleFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "requestedStep": null,
+            "expiresStep": null,
+            "lastAttemptReason": null,
+            "stopReason": "RESET",
+            "releasedStep": null,
+            "remainingS": 0
+          },
+          "continuousFire": {
+            "active": false,
+            "trackId": null,
+            "ammoId": null,
+            "startedStep": null,
+            "roundsFired": 0,
+            "lastAttemptReason": null,
+            "stopReason": "RESET"
+          },
+          "pointing": null,
+          "solution": null,
+          "phaseLimits": {
+            "projectileSpawn": true,
+            "damageApplication": true,
+            "magazineConsumption": true
+          }
+        },
+        "auto": {
+          "enabled": true,
+          "rangeM": 9000,
+          "mounts": [
+            {
+              "id": "mk45f",
+              "owned": false,
+              "targetId": null,
+              "reason": "MFF_EMPTY",
+              "nextStep": 180
+            },
+            {
+              "id": "mk45a",
+              "owned": true,
+              "targetId": 114001,
+              "reason": null,
+              "nextStep": 180
+            }
+          ],
+          "log": [
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 0,
+              "kind": "AUTO_CUE",
+              "mount": "mk45a",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "mk45f",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_SWITCH",
+              "enabled": false
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_SWITCH",
+              "enabled": true
+            },
+            {
+              "step": 120,
+              "kind": "AUTO_CUE",
+              "mount": "mk45a",
+              "trackId": 114001,
+              "ttcS": 17.857142857142858
+            }
+          ]
+        }
+      }
+    }
+  },
+  "errors": [],
+  "pass": true,
+  "elapsedS": 76.35446747099923,
+  "htmlSha256": "925178b5b06bcd81304f6b98da4436fda4fd85eaf7ea8de3813a981981f0da71"
+}

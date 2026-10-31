@@ -1,0 +1,10 @@
+{
+  "originalFile": "docs/gun/B1/verify_native.py",
+  "originalSourceSha256": "ba0f8e65f8b33f171d15b66ee6e0226c72fc1b3c6676fe2bd5c0057f260b003c",
+  "privateReplacementDiff": {
+    "R/'Aegis_SIM_v48_WIP_GUN_B1.html'": "R/'Aegis_SIM_v48_WIP_GUN_B2.html'",
+    "q['event']['reason']=='MFF_PROXIMITY'and abs(q['event']['t']-.5)<1e-12": "q['event'] is not None and q['event']['reason']=='MFF_PROXIMITY'and abs(q['event']['t']-.5)<1e-12",
+    "__GB_TEST__.shellProbe({kind:\"SAM\"}).event.triggerKind": "__GB_TEST__.shellProbe({kind:\"SAM\"}).event?.triggerKind"
+  },
+  "assertionMeaning": "Absent event remains failure; no expectation/tolerance relaxed. Reaches remaining CG and burst assertions after original null dereference."
+}

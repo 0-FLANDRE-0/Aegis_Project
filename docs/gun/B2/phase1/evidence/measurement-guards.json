@@ -1,0 +1,34 @@
+{
+  "pass": true,
+  "checks": {
+    "allFourRejectedBeforeWrite": true,
+    "productUnchanged": true
+  },
+  "rows": [
+    {
+      "name": "runtime",
+      "rejected": true,
+      "noOutput": true,
+      "log": "Traceback (most recent call last):\n  File \"/dev/shm/b2-guard-qslqif63/guard-build.py\", line 48, in <module>\n    assert table['runtimeTemplateSha256']==sha((P/'runtime.js').read_bytes()),'GUN_B2_RANGE_REMEASUREMENT_REQUIRED:RUNTIME'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: GUN_B2_RANGE_REMEASUREMENT_REQUIRED:RUNTIME\n"
+    },
+    {
+      "name": "dispersion",
+      "rejected": true,
+      "noOutput": true,
+      "log": "Traceback (most recent call last):\n  File \"/dev/shm/b2-guard-e7x8bmnm/guard-build.py\", line 49, in <module>\n    assert table['dispersionConstantsSha256']==sha((P/'dispersion-constants.json').read_bytes()),'GUN_B2_RANGE_REMEASUREMENT_REQUIRED:DISPERSION'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: GUN_B2_RANGE_REMEASUREMENT_REQUIRED:DISPERSION\n"
+    },
+    {
+      "name": "compiled-spec",
+      "rejected": true,
+      "noOutput": true,
+      "log": "Traceback (most recent call last):\n  File \"/dev/shm/b2-guard-k_9hfrpb/guard-build.py\", line 51, in <module>\n    assert sha(spec_text.encode())==table['compiledGunSpecSha256'],'GUN_B2_RANGE_REMEASUREMENT_REQUIRED:COMPILED_SPEC'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: GUN_B2_RANGE_REMEASUREMENT_REQUIRED:COMPILED_SPEC\n"
+    },
+    {
+      "name": "native-function",
+      "rejected": true,
+      "noOutput": true,
+      "log": "Traceback (most recent call last):\n  File \"/dev/shm/b2-guard-emrysoip/guard-build.py\", line 55, in <module>\n    functions=list(re.finditer(r'^function '+re.escape(name)+r'\\([\\s\\S]*?'+closing,s,re.M));assert functions and sha(functions[-1].group().encode())==value,'GUN_B2_RANGE_REMEASUREMENT_REQUIRED:'+name\n                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: GUN_B2_RANGE_REMEASUREMENT_REQUIRED:gunB2ShellEvent\n"
+    }
+  ],
+  "htmlSha256": "925178b5b06bcd81304f6b98da4436fda4fd85eaf7ea8de3813a981981f0da71"
+}

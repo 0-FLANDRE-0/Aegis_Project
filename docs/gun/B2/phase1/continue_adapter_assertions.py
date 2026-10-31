@@ -1,0 +1,4 @@
+"""Record FALSE for absent beam event; preserve original ON crash unchanged."""
+from pathlib import Path
+import sys
+P=Path(__file__).resolve().parent;R=P.parents[3];f=R/'docs/gun/B1/verify_physical_adapter.py';source=f.read_text();source=source.replace("R/'Aegis_SIM_v48_WIP_GUN_B1.html'","R/'Aegis_SIM_v48_WIP_GUN_B2.html'");source=source.replace("q['event']['reason']=='MFF_PROXIMITY'","q['event'] is not None and q['event']['reason']=='MFF_PROXIMITY'",1);source=source.replace("q['journal'][-1]['termination']['basis']=='AFTER_ACTION_TRUTH'","q['journal'][-1]['termination'] is not None and q['journal'][-1]['termination']['basis']=='AFTER_ACTION_TRUTH'",1);source=source.replace("E=H/'evidence/physical-adapter'","E=H/'evidence/physical-adapter-continuation'");sys.argv=[str(f)];exec(compile(source,str(f)+'::NULL_SAFE_RECORD_FALSE','exec'),{'__file__':str(f),'__name__':'__main__'})
