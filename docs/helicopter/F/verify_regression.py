@@ -23,6 +23,12 @@ from browser_g import launch, load_fleet
 
 def baseline(a):
     approved = None
+    air_approved = None
+    if getattr(a, 'approved_air_origin_baselines', None):
+        assert not getattr(a, 'approved_raid_baseline', None), 'Choose one explicit baseline approval'
+        sys.path.insert(0, str(ROOT / 'docs/radar/air-origin/A'))
+        from approved_expectations import load_approval, apply_pair
+        air_approved = load_approval(a.approved_air_origin_baselines, a.html.read_bytes())
     approved_path = getattr(a, 'approved_raid_baseline', None)
     if approved_path:
         approved = json.loads(approved_path.read_text())
@@ -76,7 +82,12 @@ def baseline(a):
                     checks['sameExistingObserverState']=physical(pair['candidate']['observers'])==ref['expected']['observer']
 '''
         source = source.replace(needle, update + needle, 1)
-    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved}
+    if air_approved:
+        needle = "                rows.append({'ship':ship"
+        assert source.count(needle) == 1
+        source = source.replace(needle, "                apply_air_origin_pair(AIR_ORIGIN_APPROVED,ship,scenario,pair,checks,observations,physical)\n" + needle, 1)
+    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved,
+             'AIR_ORIGIN_APPROVED': air_approved, 'apply_air_origin_pair': apply_pair if air_approved else None}
     exec(compile(source, str(source_path), 'exec'), scope)
     previous_argv = sys.argv
     sys.argv = [str(source_path), str(a.baseline), str(a.html), str(a.out)]
@@ -158,6 +169,7 @@ def main():
     p.add_argument('--clock-only', action='store_true')
     p.add_argument('--baseline-only', action='store_true')
     p.add_argument('--approved-raid-baseline', type=Path, help='Explicit CLEAN_A category-(a) reference; guarded by reviewed game-core hash')
+    p.add_argument('--approved-air-origin-baselines', type=Path, help='Only five explicitly approved AIR_ORIGIN_A expectations, guarded by exact HTML/core hashes')
     a = p.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
     if a.clock_only:

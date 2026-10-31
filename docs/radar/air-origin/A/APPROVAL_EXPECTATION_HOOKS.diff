@@ -1,0 +1,45 @@
+diff --git a/docs/helicopter/F/verify_regression.py b/docs/helicopter/F/verify_regression.py
+index ac231fd..03bee23 100644
+--- a/docs/helicopter/F/verify_regression.py
++++ b/docs/helicopter/F/verify_regression.py
+@@ -25,0 +26,6 @@ def baseline(a):
++    air_approved = None
++    if getattr(a, 'approved_air_origin_baselines', None):
++        assert not getattr(a, 'approved_raid_baseline', None), 'Choose one explicit baseline approval'
++        sys.path.insert(0, str(ROOT / 'docs/radar/air-origin/A'))
++        from approved_expectations import load_approval, apply_pair
++        air_approved = load_approval(a.approved_air_origin_baselines, a.html.read_bytes())
+@@ -79 +85,6 @@ def baseline(a):
+-    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved}
++    if air_approved:
++        needle = "                rows.append({'ship':ship"
++        assert source.count(needle) == 1
++        source = source.replace(needle, "                apply_air_origin_pair(AIR_ORIGIN_APPROVED,ship,scenario,pair,checks,observations,physical)\n" + needle, 1)
++    scope = {'__file__': str(source_path), '__name__': '_helo_d_baseline', 'CLEAN_A_APPROVED': approved,
++             'AIR_ORIGIN_APPROVED': air_approved, 'apply_air_origin_pair': apply_pair if air_approved else None}
+@@ -160,0 +172 @@ def main():
++    p.add_argument('--approved-air-origin-baselines', type=Path, help='Only five explicitly approved AIR_ORIGIN_A expectations, guarded by exact HTML/core hashes')
+diff --git a/docs/map/E/verify_delivery_world.py b/docs/map/E/verify_delivery_world.py
+index 245a819..bd90d3f 100644
+--- a/docs/map/E/verify_delivery_world.py
++++ b/docs/map/E/verify_delivery_world.py
+@@ -7,0 +8,5 @@ expected={'idle':'fb1fac63054a72db26cce4b4f4781288a7f07a28465ce5ac2aa5597760adff
++import argparse
++parser=argparse.ArgumentParser();parser.add_argument('--approved-air-origin-baselines',type=Path);args=parser.parse_args()
++if args.approved_air_origin_baselines:
++ sys.path.insert(0,str(R/'docs/radar/air-origin/A'));from approved_expectations import load_approval,world_expectations
++ expected=world_expectations(load_approval(args.approved_air_origin_baselines,raw),expected)
+diff --git a/docs/radar/air-origin/A/run_regressions.py b/docs/radar/air-origin/A/run_regressions.py
+index 02981f8..87b2133 100644
+--- a/docs/radar/air-origin/A/run_regressions.py
++++ b/docs/radar/air-origin/A/run_regressions.py
+@@ -4,0 +5 @@ B=Path(__file__).resolve().parent;R=B.parents[3];E=B/'evidence';E.mkdir(exist_ok
++if (B/'approved-expectations.json').exists():E=E/'approval/full-regression';E.mkdir(parents=True,exist_ok=True)
+@@ -8,0 +10 @@ for tag,html in [('MAIN','Aegis_SIM_v48_WIP_GUN_B1.html'),('AIR_ORIGIN_A','Aegis
++ approval=B/'approved-expectations.json';approved_args=['--approved-air-origin-baselines',str(approval)]if tag=='AIR_ORIGIN_A'and approval.exists()else[]
+@@ -13 +15 @@ for tag,html in [('MAIN','Aegis_SIM_v48_WIP_GUN_B1.html'),('AIR_ORIGIN_A','Aegis
+- jobs.extend([(tag+'-paired42',[sys.executable,str(R/'docs/helicopter/F/verify_regression.py'),str(R/'Aegis_SIM_v48_WIP_GUN_B1.html'),str(R/html),str(out/'paired42'),'--baseline-only'],env),
++ jobs.extend([(tag+'-paired42',[sys.executable,str(R/'docs/helicopter/F/verify_regression.py'),str(R/'Aegis_SIM_v48_WIP_GUN_B1.html'),str(R/html),str(out/'paired42'),'--baseline-only']+approved_args,env),
+@@ -16 +18 @@ for tag,html in [('MAIN','Aegis_SIM_v48_WIP_GUN_B1.html'),('AIR_ORIGIN_A','Aegis
+- (tag+'-world120',[sys.executable,str(R/'docs/map/E/verify_delivery_world.py')],env),
++ (tag+'-world120',[sys.executable,str(R/'docs/map/E/verify_delivery_world.py')]+approved_args,env),
