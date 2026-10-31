@@ -1,0 +1,14 @@
+"""Fresh game window; batch the SAME native predeparture DOM events.
+
+This avoids repeated Playwright two-RAF actionability waits. No game function,
+clock, coefficient, handler or startup selection is replaced. Adoption requires
+exact comparison against the original load_fleet helper.
+"""
+def load_fast(browser,body,own='CG_52_LATE_TICONDEROGA',width=1000,height=760,errors=None):
+ p=browser.new_page(viewport={'width':width,'height':height});p.on('pageerror',lambda e:errors.append(str(e))if errors is not None else None)
+ p.add_init_script('window.__NAVAL_SIM_SEED__=1831565813;');p.route('https://aegis.test/**',lambda r:r.fulfill(body=body,content_type='text/html'));p.goto('https://aegis.test/helo-f1?view3d=0',timeout=90000)
+ p.wait_for_selector('#aegisShipConfirmBtn',timeout=90000)
+ p.evaluate('''own=>{const c=[...document.querySelectorAll('[data-deployment-a]')].find(e=>e.getClientRects().length);const choose=(el,v)=>{el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));};for(const[s,v]of [['[data-ally-choice]','NONE'],['[data-enemy-choice]','NONE'],['[data-target-choice]','NONE'],['[data-enemy-aircraft-choice]','OFF']])choose(c.querySelector(s),v);choose(document.getElementById('aegisShipSelect'),own);document.getElementById('aegisShipConfirmBtn').click();}''',own)
+ p.wait_for_function('window.C55Packaging?.ready&&window.__WIP125_DIAG__',timeout=120000)
+ p.evaluate("()=>{document.getElementById('wip125DepartBtn').click();__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);}")
+ return p

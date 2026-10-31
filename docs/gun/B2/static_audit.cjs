@@ -1,0 +1,16 @@
+// Product bytes are unchanged. The diagnostic source is never written to HTML.
+const path=require('path'),fs=require('fs'),crypto=require('crypto');
+const {load}=require('../../missile/launch-handoff/A/source.cjs');
+const R=path.resolve(__dirname,'../../..'),B=__dirname,q=load(path.join(R,'Aegis_SIM_v48_WIP_GUN_B1.html'));
+const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const expected='c9ec99f0b04e24127cc494833b8b1de24492a7ef0c00c2ee1432dba131f83ccc';
+const fingerprint=JSON.parse(fs.readFileSync(path.join(R,'docs/cleanup/B/fingerprint.json')));
+const hashes=Object.fromEntries(Object.keys(fingerprint.nativeSourceHashes).map(n=>[n,sha(q.symbols.get(n).code)]));
+const changed=Object.keys(hashes).filter(n=>hashes[n]!==fingerprint.nativeSourceHashes[n]);
+const base=load(path.join(R,'Aegis_SIM_v48_WIP_MAP_E.html'));
+const env=s=>s.match(/\/\/ ENV_D_DATA_BEGIN[\s\S]*?\/\/ ENV_D_DATA_END/)[0];
+const names=['spawnMainGunProjectileWip13B3','gunB1ArmShell','createProfileGunModuleWip13B3','gunB1SolveAirTrack','wip13b1SolveTrackState','wip13b6GunPointingAssessment','wip13b8GunEffectiveImpactWindow','gunB1ShellEvent','gunB1FragmentationPk','_wip88FragmentationPk','_wip99FragmentArrivalGeometry','_wip75ResetCase','applyPreparedOperationalStateV48Wip11B','createShipDynamicsV15','spySurfaceOriginWip13B9','spyCollectUnifiedEchoPlotsWip13B13','shipboardRadarEchoToAirPlotWip13B13','trackRadarPrediction','trackEkfUpdateRadar','trackSyncLegacyFromEkf'];
+const symbols=Object.fromEntries(names.map(n=>{const s=q.symbols.get(n);return[n,{sha256:sha(s.code),unpackedMainLine:s.line,bytes:Buffer.byteLength(s.code)}];}));
+const out={schema:'AEGIS_GUN_B2_PHASE0_STATIC_AUDIT_1',productHtmlSha256:sha(q.raw),gameMainSha256:sha(q.source),nativeFunctionCount:Object.keys(hashes).length,changedNativeFunctions:changed,nativeSourceHashes:hashes,envelopeBlockSha256:sha(env(q.source)),envelopeByteIdenticalToB1Parent:env(q.source)===env(base.source),diagnosticFlagsShipped:['__G2D__','PHASE0_DIAGNOSTIC_ONLY','diagnosticMargin01'].filter(x=>q.source.includes(x)),symbols,reviewerFindings:{dispersion:'Spawn uses exact aim vector × nominal muzzle velocity; no random angle/MV draw.',solutionRefresh:'One-second refresh and 1.2-second release age; body reprojection does not repropagate target.',airWindow:'Surface fallback 20/+7.5/-5.5; effective cross budget also subtracts uncertainty, with 1.5m floor.',proximity:'Per-tick swept minimum <=25m; can burst at tick endpoint before global closest passage, not exact whole-flight CPA.',fragmentBand:'Band half-angle affects area/density, but no actual offset-direction membership test.',wave:'waveForce=sovHullA(shipProfile)?sovWaveForcingA(...):null. DDG/CG can still show initial equilibrium/list/trim movement.',testIsolation:'Importer copies telegraph/shaft/pitch MANEUVER_NAV_KEYS only if maneuver.enabled; G7 page reuse is not complete world reset.'}};
+out.pass=out.productHtmlSha256===expected&&out.nativeFunctionCount===281&&!changed.length&&out.envelopeByteIdenticalToB1Parent&&!out.diagnosticFlagsShipped.length;
+fs.writeFileSync(path.join(B,'evidence/static-audit.json'),JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify({pass:out.pass,native:out.nativeFunctionCount,changed,product:out.productHtmlSha256,envBlockSha256:out.envelopeBlockSha256}));process.exitCode=out.pass?0:1;
