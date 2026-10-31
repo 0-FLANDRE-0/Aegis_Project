@@ -1,0 +1,114 @@
+from pathlib import Path
+import json,datetime
+H=Path(__file__).resolve().parent;load=lambda p:json.loads((H/p).read_text());a=load('evidence/acceptance.json');assert a['readyForReview'];b=load('build.json');fx=load('evidence/effects/summary.json');m=load('evidence/mod4/results.json');n=load('evidence/native/results.json');auto=load('evidence/auto/results.json');cg=load('evidence/cg-differences-summary.json');mu=max(r['errorM']for rows in m['records'].values()for r in rows);err=max(r['errorM']for ship in ['DD','CG']for case in n['records'][ship+'.ballistics']for r in case['rows']if 'errorM'in r)
+s=f'''# GUN_B1 결과 보고서
+
+새 기능 검증을 완료했다. **원래 도메인 exact-state 비교는 {a['counts']['domain']['passed']}/420이며 CG 3건은 동결 기대값을 갱신하지 않고 차이로 남겼다.** 아래 결과·원인을 확인한 뒤 사용자가 기준값 갱신 여부를 결정할 수 있다. main 병합·release·tag·CI 변경은 하지 않는다.
+
+## 1. 기준과 변경
+
+- 기준: `map-e` `{b['baseCommit']}` / PR #58. 작업 시작 때 PR은 열려 있었으며 main에 병합되지 않았다.
+- 기준 HTML: `f825ccffbdf617f9f1154f131db484ac6682e91fceedcb9e33e2686f5255514b`.
+- 산출물: `{b['output']}` / **{b['sha256']}**, {b['bytes']:,} bytes. 기준보다 {b['bytes']-22051136:,} bytes 증가.
+- 브랜치: `gun-b1`, PR 대상은 `map-e`. 승인 email 사용. ZIP을 별도 전달하고 artifact commit의 원격 byte/SHA/CRC를 readback한다.
+
+CG52의 두 문을 기존 Mod4 성능으로 바꾸었다. 823m/s, 0.8~24km, 62구경이며 CG 설치·중립각·사계·클리어런스·600발×2를 유지한다. Mod2 정의는 남겼다. 기존 `CG52_2021_MK45_MOD2_PHOTO_CAPTION__5IN54_PUBLIC` 근거는 후기 CG52 구성 근거로 대체됐으며 문자열/역사적 모듈 자체는 삭제하지 않았다. 공개 확인 범위는 [SOURCES.md](SOURCES.md).
+
+DDG의 기존 `buildMk45`를 CG에도 사용하고 원래 둥근 포 조립체를 숨겼다. CG hardpoint는 포탑 바닥, DDG hardpoint는 이미 높은 축 기준이므로 Z 오프셋은 기존 생성기 기준 `10.92−8.05=2.87m`로 환산했다. XY 오프셋 (.91,0), 노출 포신 6.206m. 물리는 등록 hardpoint/모듈을 쓰며 렌더 메시를 물리에 되먹이지 않는다. 별도 3D Warehouse 원본 파일은 추가하지 않았다.
+
+탄약은 문당 HE360/SAP240에서 **HE180/SAP240/MFF180**으로 분할했다. `MFF_127_SIM` / `127 HE-MFP`의 질량·지름·항력·823m/s는 기존 HE와 같다. 탄종 선택과 3초 발사/급탄 사이클은 native 함수를 쓴다. 원래 `selectAmmo`는 cycling 중 선택을 거부하며 별도의 추가 급탄 시간은 없으므로 새 지연을 만들지 않았다.
+
+## 2. 대공 사통·신관·자율 방어
+
+공중 래퍼는 관측 트랙의 xyz/vxyz/6×6 공분산을 전달하며 기존 `wip13b1SolveTrackState`를 호출한다. 계산기는 위치/속도를 소비하고 새 래퍼가 3D 불확실성 품질을 평가한다. 수상 사격해·준비도·품질·권한/관문 함수는 byte 동일이다. 수동은 보호 FRIEND/NEUTRAL을 거부하고 자동은 미사일형 + 기존 IFF/네트워크/자함 무장 보호와 관측 BDA를 검사한다. UI와 선정은 물리 표적 위치를 읽지 않는다. 전체 입력 목록은 [data-sources.json](data-sources.json).
+
+MFF는 관측 TOF로 장입하고 430m 안전거리 이후 물리 공중 객체와 상대 swept-CPA를 계산한다. 25m 근접 작동, TOF+0.2s ET 보조, 시간 적분식 저고도 클러터 노출 예산을 쓴다. 신관용 독립 시드 스트림은 전역 RNG를 소비하지 않는다. 파편/Pk는 기존 피해 RNG를 그대로 쓴다. SAM 신관의 결정론적 탐지 모델에는 손대지 않았다. 새 수치는 모두 **SIM_TUNED 게임 설정**이며 실제 Mk187/MK419 성능이나 명중률 목표가 아니다. 전체 수치/초기 선택 근거는 [PREIMPLEMENTATION.md](PREIMPLEMENTATION.md), [spec.js](spec.js).
+
+물리 신관은 적 ASM, 항공기/드론, 자함·NPC SAM/RAM, 하푼, airborne 헬기를 조회한다. 아군 요격탄도 작동 대상이다. native tick에서 포탄보다 먼저 이동하는 AIR/하푼/NPC 탄은 현재 속도로 swept 구간 시작점을 환산하고, 이후 이동하는 ASM/자함 SAM/RAM/헬기는 현재 시작점을 쓴다. 엔티티 상태는 변경하지 않는다. 헬기의 실제 피격/격추는 기존 합의대로 후속이며 `DEFERRED_HELO_DAMAGE`로 남긴다.
+
+파편은 기존 `_wip88FragmentationPk`의 **파라미터 선택자만 바꾼 private 복사본**과 기존 Gurney/fragment-arrival 계산을 쓴다. 원본과 복사본의 산술 본문이 동일함을 확인했다. ASM은 `applyInterceptResult`→native retirement/wreckage/log 경로, 연출은 `SHELL_AIRBURST`다. 기존 일반 공중 객체는 기존 생존 플래그/association retirement를 사용하며 새 component 피해 체계를 만들지 않았다.
+
+마운트 자율 방어는 기본 ON, 함별 transient이며 로드 후 ON이다. MAN/SEMI/AUTO·SAM 교리·EMCON과 독립이다. 매 native 해 갱신주기(1s)에 9km 안 관측 미사일형 중 유효 해를 가진 최소 TTC를 선택한다(1s 히스테리시스). native MFF 선택·연속 사격을 사용하고 MFF 소진 시 멈춘다. 운용자 사격은 마운트별로 우선하며 자율 급탄 중 인계 요청은 기존 사이클이 끝날 때 native 사격 관문으로 처리한다. 단순 조회는 자율 사격을 중단시키지 않는다. CG에서 비참여 포는 자동 방어를 유지한다. NPC 함포 대공 AI는 추가하지 않았다.
+
+## 3. G1–G8 검수
+
+| 항목 | 결과/수치 | 증거 |
+|---|---|---|
+| G1 | 두 문 Mod4, 600발×2. 실제 탄 발사 원점↔생성 메시 포구 최대 **{mu:.9f}m**, ≤0.1m | native/36, mod4/6 조건·12포구, PC/폰 캡처 |
+| G2 | DDG/CG, 10/30/500m × 정지/280m/s 12해 수렴. 예측↔탄도 적분 최대 **{err:.6f}m**. 고각 한계 및 native 구조 가림 거부 확인 | native/results.json, geometry.json |
+| G3 | 안전거리 전 미작동, 상대 이동 crossing t=0.5·miss=0, 아군 SAM 작동, ET +0.2s, 시드 재현 | native, auto, geometry |
+| G3 클러터 | 10,000개 동일 시드에서 고도 5/30/100m 오작동 **11/1/0**, 고도 상승 시 감소. 실제 신관 확률 주장 아님 | auto/results.json |
+| G4 | native ASM retirement·격추/손상 경로·SHELL_AIRBURST. SAM 파편 원본/비행281 byte 동일, 종료기300 개별 결과 동일 | static.json, native, termination-comparison.json |
+| G5 | MAIN/PiP, PC/폰, READY/DEGRADED/거부, 비MFF 경고, 단발/연속, CG 자동2문, 보호 ID 거부 | ui, ui-handoff, native |
+| G6 | TTC·MFF 전환·3초 사이클·수동 우선/복귀·CG 독립·OFF·소진·3교전모드 통과 | auto/21, ui-handoff/24, G7 |
+| G7 | **960회**, 32조건 각30회, ON/OFF 비교. 목표 명중률/기준 없음 | effects/summary.json, trials.csv, summary.csv, effects.svg |
+| G8 | 832×384 / 1400×900, MAIN/PiP 메뉴·태그·라벨 안쪽. 하단 바 박스 변화 **0px** | ui/76, label/4 |
+
+범위는 실제 headless Chromium/SwiftShader WebGL이며 실제 휴대폰 하드웨어 FPS 검사가 아니다. 작은 6mm 포구 차이는 장식 bore 끝이다. 구조 가림 검사는 native 직접 스캔(사계 밖 각도 포함)이고 공중 래퍼의 mount-envelope 거부는 별도 검증이다.
+
+## 4. 기존 회귀와 유지한 차이
+
+자동 대공을 테스트 구성에서 OFF로 하고 원래 단언을 실행했다. 14 도메인 suite 378/378, paired 비교 39/42로 총 **417/420**이다. 세 CG `samePhysicalState` 외 전투 RNG·선체 손상/고정 배치·VLS 잔량·기존 observer·offboard·fault 검사는 통과했다.
+
+| CG 경우 | HP | 침수 m³(전/후 동일) | VLS 전/후 | CIWS 전/후 | 함포 발사 전/후 | 최대 원시 수치 차이(필드별 단위) |
+|---|---|---:|---|---|---|---:|
+'''
+for q in cg:s+=f"| {q['scenario']} | {q['old']['hp']}→{q['new']['hp']} | {q['new']['waterM3']:.12g} | {q['old']['vlsRemaining']}→{q['new']['vlsRemaining']} | {q['old']['ciwsRounds']}→{q['new']['ciwsRounds']} | {q['old']['gunShots']}→{q['new']['gunShots']} | {q['maxAbsoluteFloatingPointDifference']:.3g} |\n"
+s+='''
+표의 idle 최대 차이는 부력 N 단위이며 상세 경로/단위는 원시 diff를 확인한다.
+
+모듈 ID와 문당 HE360→180/MFF180의 명시 변경 외에는 탄약 질량 노드 분할로 생긴 IEEE-754 합산 차이다. 총 질량은 동일하고 cg.x 차이는 약 8.88e-16m다. 이를 숨기려고 물리 수식/허용치/승인 raid entries를 바꾸지 않았다. 상세 경로별 차이는 `physical-differences.json`, 집계는 `cg-differences-summary.json`, 독립 복사 계산은 `mass-split.json`이다. **기대값 갱신은 사용자 승인 대기**다.
+
+EW 동작 94개는 통과했고 H3 195개의 전체 원시 결과는 동일하다. EW 원시 저장 비교 두 건은 요청된 Mod4 ID/HE-MFF 배분 차이(24/28 경로)로 false이며 원래 결과를 남겼다. 허용 경로/전후 값만 복사본에서 역변환하면 그 외 전체 JSON이 동일함을 별도로 확인했다(`ew-inventory-differences.json`). EW 기대값은 갱신하지 않았다.
+
+기존 UI의 “AIR 무조건 수상 아님”과 “CG 22km” 단언은 이번 요구와 충돌한다. 원래 실패 보고를 남긴 뒤 그 두 기대를 이관한 검사도 따로 실행했다. legacy AIR 진단 트랙에는 native EKF 초기화를 명시하고, 누락 KF 거부와 기본 σ=80을 별도로 assert해 첫 preview의 초기화 순서 차이를 제거했다. 제품 수치나 허용치를 바꾸지 않았다. 부하 중 애니메이션 샘플/그림 동기화 실패도 보존하고 같은 원본 단언을 자원 분리 후 재실행했다. 수치/시간 허용치를 완화하지 않았다. [TEST_MIGRATIONS.md](TEST_MIGRATIONS.md).
+
+| 회귀 | 최종 통과/검사 수 |
+|---|---|
+'''
+for key in ['UI88','MAPB91','warnings','extra','C135','motion73','rules45','rings33','DOM13','Dnative','Dui213','Dedges145','EUI','Enative','Epolicy','EW94','H3_195']:
+ q=a['counts'][key];s+=f"| {key} | {q['passed']}/{q['total']} |\n"
+s+='''| 종료기 | 300발 각 발 조건·전체 결과 MAP_E 동일 |
+| 자연 탐지→LOCK→정식 VLS→실제 WebGL | 8발 궤적·결과 차이 0, 기존 명중4/비명중4 보존 |
+| world120 | 무표적/전투 7200 ticks, 두 truth hash MAP_E 동일 |
+| 보존 | 비행281, ENV_D 블록/120행, 수상 사통·solver·clearance, NPC 전자전/무장 kernel, 질량 함수 byte 동일 |
+
+MAP_E 재검사는 UI/native를 합친 실제 287개 단언으로 실행했다. 표의 UI277/native11은 공통 pageErrors0 한 개를 공유하는 범위별 분류이며, 새 실행이나 추가 단언으로 세지 않았다. 원본 combined 결과도 보존한다.
+
+실행 SHA를 최종 SHA로 덮어쓰지 않았다. G7 측정 중간 후보는 최종 후보에서 역변환하면 정확히 재구성되며, 추가 변경이 활성화되지 않는 조건을 코드와 16쌍 full-world 결과/RNG로 검증했다. 정적 동등성 조건 아래 재사용한 증거의 실제 SHA와 경로는 `execution-manifest.json`, 정책은 [REUSE_POLICY.md](REUSE_POLICY.md)에 있다. 원래 실패 원시 기록도 ZIP에 포함한다. 신규 필수 캡처와 WebGL8 캡처는 원본 PNG로 담고, 이전 suite에서 반복 생성한 legacy PNG는 파일별 해시 목록만 남겨 보고서 중복을 줄인다. 모든 수치·로그·단언/실행 도구는 포함한다.
+
+## 5. 효과 측정
+
+DDG/CG × 정면/측면 × 1~4발 × 30개 고정 시드(419010~419039) × OFF/ON. native Kh-35U 비행, 전체 fixed tick, 실제 관측 기반 FCS. SAM 교리는 MANUAL, 기존 CIWS는 유지. 초기 11km에서 추가 미사일마다 0.3km·방위3° 간격, 고도10m. 각 회 시작 전 작전 초기 상태로 탄약/손상을 복원했다. 위협이 전부 퇴역하면 종료하며 최대50s다.
+
+“진입 전”은 native Phalanx의 3km 경계에 한 번도 들어오지 않은 위협이다. DDG SeaRAM은 9.6km에서 먼저 교전할 수 있으므로 모든 진입 전 격추와 MFF 기여를 분리했다. 아래는 MFF 기여, 함 피격은 native 이벤트 수이며 고유 미사일 수와 같다고 가정하지 않는다. `hpPositiveAtEnd`는 HP>0만 의미하며 장기 침수/침몰 생존성 평가가 아니다. close-in 사용량은 DDG에서 20mm 발수+RAM 미사일 수를 합한 재고 단위, CG에서는 20mm 발수다.
+
+| 함 | 방위 | 동시 ASM | 각 OFF/ON 회수 | MFF 진입전 격추 OFF→ON | 평균 5in 탄수 OFF→ON | 함 피격 이벤트 OFF→ON |
+|---|---:|---:|---:|---:|---:|---:|
+'''
+for ship in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
+ for bearing in [0,90]:
+  for count in range(1,5):
+   q=[r for r in fx['summary']if r['ship']==ship and r['bearing']==bearing and r['count']==count];off=next(r for r in q if not r['autoAA']);on=next(r for r in q if r['autoAA']);s+=f"| {ship[:2]} | {bearing}° | {count} | 30/30 | {off['gunPreCiwsKills']}→{on['gunPreCiwsKills']} | {off['meanGunRounds']:.2f}→{on['meanGunRounds']:.2f} | {off['shipHits']}→{on['shipHits']} |\n"
+s+='\n![효과 측정](evidence/effects/effects.svg)\n\n전체 개별 결과·close-in 소모·최종 HP·퇴역 원인·각 발사/폭발 로그는 JSONL/CSV에 보존했다. 결과를 맞추는 계수 조정은 하지 않았다. 실행 비용은 호스트 병렬 작업과 UI 우선순위의 영향을 받는다. 각 worker 실제 실행 시간(초): '+', '.join(f"{r['elapsedS']:.1f}"for r in fx['execution'])+'.\n'
+s+='''
+## 6. 저장·운용·후속
+
+저장 schema/필드 추가 0. 구 CG/fleet 명시 재고는 남은 HE의 floor(HE/2)만 MFF로 옮기며 HE+MFF·SAP·shotsFired를 보존한다. 이미 MFF가 있으면 재분할하지 않는다. 알려진 옛 CG Mod2 ID만 해당 설치의 Mod4로 옮긴다. DDG 자함 함포 잔량은 원래 작전 저장에 없으므로 기존 초기화 정책을 유지한다. 자동 대공 스위치는 저장하지 않으며 로드 후 ON이다.
+
+운용은 하단 5in→탄종 HE/SAP/MFF→단발/연속→관측 공중 트랙 탭→기존 발사 슬롯이다. 기본 자동 대공은 별도 모드 설정 없이 동작하고 5in 메뉴에서 끌 수 있다. 자동 사격 중 수동 표적을 조회하는 것만으로 방어가 중단되지 않으며 FIRE 시 native 인계/사이클을 따른다.
+
+GUN_B2 대공 유효 구간/링 측정, NPC 대공 함포 AI, 헬기 실제 피해, HOB/추가 탄종, 새 EMCON 비방사 지정 GUI, 더 세밀한 포탑 모델은 후속이다. 9km 링은 SIM 자동 선정 범위이며 측정된 대공 유효거리로 표시하지 않는다.
+
+## 7. 파일과 검증
+
+- `GUN_B1.diff`: 압축 해제한 실제 게임 JS의 변경 diff(동일 ENV_D는 축약).
+- `build.py`/source files, `PRODUCT_FREEZE.json`: 재빌드/소스 고정 확인.
+- `evidence/acceptance.json`: 원래 실패를 포함한 수치와 review readiness.
+- `CHECKSUMS.sha256`, `downloads/GUN_B1_SHA256SUMS.txt`: 게임/보고서/패키지 해시.
+- HTML ZIP에는 게임 HTML만, REPORT ZIP에는 오프라인 REPORT.html·스크린샷·그래프·원시 결과·시험/빌드 도구를 담는다. 전체 회귀 재실행에는 저장소 공통 도구가 필요하다.
+- artifact commit을 push한 뒤 원격 6파일 byte/SHA, 두 ZIP CRC와 내부 파일을 다시 읽어 확인한다. 자기 해시 순환을 피하려고 원격 영수증은 별도 후속 커밋에 둔다.
+'''
+(H/'REPORT.md').write_text(s)
+(H/'STATUS.md').write_text(f'''# GUN_B1 상태\n\n- 기준 map-e: {b['baseCommit']} (PR58 미병합 상태에서 시작).\n- 산출물: {b['output']} / SHA-256 {b['sha256']}.\n- 새 기능 검증 완료, G7 960회 완료. 원래 도메인 {a['counts']['domain']['passed']}/420: CG exact-state 3건 차이 유지, 기대값 미갱신/사용자 승인 대기.\n- 종료기300 개별 결과·WebGL8 궤적/결과·world120 두 해시는 MAP_E 동일. native281/ENV_D120행 byte 동일.\n- AIR/range 단언 이관과 부하 중 UI 실패/분리 재실행은 TEST_MIGRATIONS.md 및 원시 증거 참조.\n- 실제 실행 SHA 유지, 조건부 재사용은 REUSE_POLICY.md와 execution-manifest.json 참조.\n- main 병합/release/tag/CI 변경 없음. PR만 열고 사용자 검토를 기다린다.\n- 상세 REPORT.md / evidence/acceptance.json / 원격 영수증 remote-readback.json.\n''')
+print('Report and status written')

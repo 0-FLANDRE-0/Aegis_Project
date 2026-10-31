@@ -1,0 +1,923 @@
+[
+  {
+    "ship": "DDG_119_LATE_FLIGHT_IIA",
+    "scenario": "idle",
+    "reference": "paired historic VP_A",
+    "differences": [],
+    "checks": {
+      "samePhysicalState": true,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": true,
+      "physicalStateExact": true,
+      "oldRng": 3169036119,
+      "newRng": 3169036119,
+      "loadedVlsBeforeAfter": [
+        96,
+        96
+      ]
+    }
+  },
+  {
+    "ship": "DDG_119_LATE_FLIGHT_IIA",
+    "scenario": "raid",
+    "reference": "MAP_E approved raid",
+    "differences": [],
+    "checks": {
+      "samePhysicalState": true,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": false,
+      "physicalStateExact": false,
+      "oldRng": 2134102897,
+      "newRng": 2134102897,
+      "loadedVlsBeforeAfter": [
+        91,
+        90
+      ],
+      "cleanABaselineUpdate": {
+        "assertions": [
+          "samePhysicalState",
+          "raidInventoryDeltaBounded",
+          "sameExistingObserverState"
+        ],
+        "oldHash": "c2af74ca4c0f47ac3897824039e5912819fbef7d1460b4f501b42b0c1c4c2e6a",
+        "newHash": "2c7dfd5e810b8af7ebd7bd0036250516a22dc036d728431a18ae0a068648f579",
+        "reason": "Native outcomes/damage/survival/weapon expenditure non-worse versus both Kappa and DZT; exact state changes are caused by the launch-handoff correction.",
+        "originalChecks": {
+          "samePhysicalState": false,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": false,
+          "sameExistingObserverState": false,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    }
+  },
+  {
+    "ship": "DDG_119_LATE_FLIGHT_IIA",
+    "scenario": "damaged",
+    "reference": "paired historic VP_A",
+    "differences": [],
+    "checks": {
+      "samePhysicalState": true,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": true,
+      "physicalStateExact": true,
+      "oldRng": 260457076,
+      "newRng": 260457076,
+      "loadedVlsBeforeAfter": [
+        96,
+        96
+      ]
+    }
+  },
+  {
+    "ship": "CG_52_LATE_TICONDEROGA",
+    "scenario": "idle",
+    "reference": "paired historic VP_A",
+    "differences": [
+      [
+        "/dynamics/physics/buoyancyN",
+        95357832.16952562,
+        95357832.16952561
+      ],
+      [
+        "/dynamics/physics/cbM/x",
+        -4.569465722199667,
+        -4.569465722199676
+      ],
+      [
+        "/dynamics/physics/cbM/y",
+        -0.029094926165594538,
+        -0.02909492616559457
+      ],
+      [
+        "/dynamics/physics/cbM/z",
+        -2.325362167147916,
+        -2.3253621671479165
+      ],
+      [
+        "/dynamics/physics/cgM/x",
+        -4.657877980923756,
+        -4.6578779809237565
+      ],
+      [
+        "/dynamics/physics/displacementM3",
+        9483.387501009485,
+        9483.387501009483
+      ],
+      [
+        "/dynamics/physics/draftRateMps",
+        0.017689695678989682,
+        0.017689695678989655
+      ],
+      [
+        "/dynamics/physics/geometricRightingArmM",
+        0.03222013859946038,
+        0.03222013859946035
+      ],
+      [
+        "/dynamics/physics/trimRateRadS",
+        -3.383063524313277e-05,
+        -3.3830635243133343e-05
+      ],
+      [
+        "/dynamics/pose/target/trimRad",
+        0.0063410895129123864,
+        0.006341089512912383
+      ],
+      [
+        "/dynamics/pose/trimRad",
+        0.0063410895129123864,
+        0.006341089512912383
+      ],
+      [
+        "/state/damage/flooding/doors/0/worldZM",
+        0.5644657311980101,
+        0.5644657311980099
+      ],
+      [
+        "/state/damage/flooding/doors/1/worldZM",
+        0.6514523332696638,
+        0.6514523332696633
+      ],
+      [
+        "/state/damage/flooding/doors/2/worldZM",
+        0.6028992178687276,
+        0.6028992178687274
+      ],
+      [
+        "/state/damage/flooding/doors/3/worldZM",
+        0.6879056113345174,
+        0.687905611334517
+      ],
+      [
+        "/state/damage/flooding/doors/4/worldZM",
+        0.641332704539445,
+        0.6413327045394448
+      ],
+      [
+        "/state/damage/flooding/doors/5/worldZM",
+        0.43007960303197007,
+        0.43007960303196985
+      ],
+      [
+        "/state/damage/flooding/doors/6/worldZM",
+        0.5180933546852025,
+        0.5180933546852022
+      ],
+      [
+        "/state/damage/flooding/doors/7/worldZM",
+        0.4697407695665308,
+        0.4697407695665306
+      ],
+      [
+        "/state/damage/flooding/doors/8/worldZM",
+        0.5545466327500561,
+        0.5545466327500559
+      ],
+      [
+        "/state/damage/flooding/doors/9/worldZM",
+        0.5094019361010915,
+        0.5094019361010913
+      ],
+      [
+        "/state/damage/flooding/doors/10/worldZM",
+        0.2905802762391924,
+        0.2905802762391923
+      ],
+      [
+        "/state/damage/flooding/doors/11/worldZM",
+        0.3817644671377152,
+        0.381764467137715
+      ],
+      [
+        "/state/damage/flooding/doors/12/worldZM",
+        0.33024144277375317,
+        0.33024144277375306
+      ],
+      [
+        "/state/damage/flooding/doors/13/worldZM",
+        0.41821774520256877,
+        0.41821774520256866
+      ],
+      [
+        "/state/damage/flooding/doors/14/worldZM",
+        0.3699026093083139,
+        0.3699026093083138
+      ],
+      [
+        "/state/damage/flooding/doors/16/worldZM",
+        0.24226514034493757,
+        0.24226514034493746
+      ],
+      [
+        "/state/damage/flooding/doors/20/worldZM",
+        0.019186157862888298,
+        0.01918615786288841
+      ],
+      [
+        "/state/damage/flooding/doors/22/worldZM",
+        0.05124278918819786,
+        0.05124278918819797
+      ],
+      [
+        "/state/damage/flooding/doors/23/worldZM",
+        0.13921909161701346,
+        0.13921909161701357
+      ],
+      [
+        "/state/damage/flooding/doors/24/worldZM",
+        0.08329942051350742,
+        0.08329942051350747
+      ],
+      [
+        "/state/damage/flooding/doors/25/worldZM",
+        -0.11285942187500841,
+        -0.11285942187500825
+      ],
+      [
+        "/state/damage/flooding/doors/26/worldZM",
+        -0.03673351324061774,
+        -0.03673351324061763
+      ],
+      [
+        "/state/damage/flooding/doors/27/worldZM",
+        -0.0882565376045798,
+        -0.08825653760457963
+      ],
+      [
+        "/state/damage/flooding/doors/28/worldZM",
+        -0.00028023517576414303,
+        -0.000280235175764032
+      ],
+      [
+        "/state/damage/flooding/doors/29/worldZM",
+        -0.06365365333415118,
+        -0.06365365333415102
+      ],
+      [
+        "/state/damage/flooding/doors/30/worldZM",
+        -0.243943683880737,
+        -0.24394368388073678
+      ],
+      [
+        "/state/damage/flooding/doors/31/worldZM",
+        -0.17306240078810503,
+        -0.1730624007881048
+      ],
+      [
+        "/state/damage/flooding/doors/32/worldZM",
+        -0.2214149859067766,
+        -0.22141498590677638
+      ],
+      [
+        "/state/damage/flooding/doors/33/worldZM",
+        -0.13660912272325137,
+        -0.13660912272325115
+      ],
+      [
+        "/state/damage/flooding/doors/34/worldZM",
+        -0.1988862879328162,
+        -0.19888628793281599
+      ],
+      [
+        "/state/damage/flooding/doors/35/worldZM",
+        -0.3074787335426278,
+        -0.3074787335426275
+      ],
+      [
+        "/state/damage/flooding/doors/36/worldZM",
+        -0.2710254554777741,
+        -0.27102545547777385
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/trimRad",
+        0.0063410895129123864,
+        0.006341089512912383
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/profileRotationRow/0",
+        -0.006343920608431733,
+        -0.00634392060843173
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/surfaceNormalBody/0",
+        -0.006340878490580802,
+        -0.0063408784905807985
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ]
+    ],
+    "checks": {
+      "samePhysicalState": false,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": false,
+      "physicalStateExact": false,
+      "oldRng": 3169036119,
+      "newRng": 3169036119,
+      "loadedVlsBeforeAfter": [
+        122,
+        122
+      ]
+    }
+  },
+  {
+    "ship": "CG_52_LATE_TICONDEROGA",
+    "scenario": "raid",
+    "reference": "MAP_E approved raid",
+    "differences": [
+      [
+        "/dynamics/physics/cbM/x",
+        -4.639135357079584,
+        -4.639135357079588
+      ],
+      [
+        "/dynamics/physics/cbM/y",
+        -0.02159258048884237,
+        -0.021592580488842383
+      ],
+      [
+        "/dynamics/physics/cgM/x",
+        -4.683257237290579,
+        -4.68325723729058
+      ],
+      [
+        "/dynamics/physics/draftM",
+        0.4207574174135596,
+        0.42075741741355965
+      ],
+      [
+        "/dynamics/physics/draftRateMps",
+        6.990757730169594e-08,
+        6.990757730108569e-08
+      ],
+      [
+        "/dynamics/physics/effectiveGMM",
+        -0.01593939338809565,
+        -0.015939393388095333
+      ],
+      [
+        "/dynamics/physics/geometricRightingArmM",
+        0.026305351502176468,
+        0.02630535150217646
+      ],
+      [
+        "/dynamics/physics/rightingArmM",
+        8.63315951215062e-05,
+        8.633159512150451e-05
+      ],
+      [
+        "/dynamics/physics/rollRateRadS",
+        -2.1967189403886977e-06,
+        -2.1967189403883275e-06
+      ],
+      [
+        "/dynamics/physics/trimRateRadS",
+        -2.1743584888424067e-09,
+        -2.1743584887541382e-09
+      ],
+      [
+        "/dynamics/pose/draftM",
+        0.4207574174135596,
+        0.42075741741355965
+      ],
+      [
+        "/dynamics/pose/heelRad",
+        -0.005416285733752589,
+        -0.00541628573375259
+      ],
+      [
+        "/dynamics/pose/target/draftM",
+        0.4207574174135596,
+        0.42075741741355965
+      ],
+      [
+        "/dynamics/pose/target/heelRad",
+        -0.005416285733752589,
+        -0.00541628573375259
+      ],
+      [
+        "/dynamics/pose/target/trimRad",
+        0.006243836384620132,
+        0.006243836384620131
+      ],
+      [
+        "/dynamics/pose/trimRad",
+        0.006243836384620132,
+        0.006243836384620131
+      ],
+      [
+        "/state/damage/flooding/doors/0/worldZM",
+        0.5565104596094992,
+        0.5565104596094991
+      ],
+      [
+        "/state/damage/flooding/doors/1/worldZM",
+        0.6372785647529351,
+        0.637278564752935
+      ],
+      [
+        "/state/damage/flooding/doors/2/worldZM",
+        0.5850628613142614,
+        0.5850628613142611
+      ],
+      [
+        "/state/damage/flooding/doors/3/worldZM",
+        0.6643598610110781,
+        0.664359861011078
+      ],
+      [
+        "/state/damage/flooding/doors/4/worldZM",
+        0.6136152630190235,
+        0.6136152630190234
+      ],
+      [
+        "/state/damage/flooding/doors/5/worldZM",
+        0.42448062214249743,
+        0.4244806221424974
+      ],
+      [
+        "/state/damage/flooding/doors/6/worldZM",
+        0.5059633187637378,
+        0.5059633187637376
+      ],
+      [
+        "/state/damage/flooding/doors/7/worldZM",
+        0.4539450724713571,
+        0.45394507247135707
+      ],
+      [
+        "/state/damage/flooding/doors/8/worldZM",
+        0.5330446150218808,
+        0.5330446150218806
+      ],
+      [
+        "/state/damage/flooding/doors/9/worldZM",
+        0.4834095228002167,
+        0.48340952280021665
+      ],
+      [
+        "/state/damage/flooding/doors/10/worldZM",
+        0.2871191290689787,
+        0.28711912906897863
+      ],
+      [
+        "/state/damage/flooding/doors/11/worldZM",
+        0.37172367780552623,
+        0.37172367780552606
+      ],
+      [
+        "/state/damage/flooding/doors/12/worldZM",
+        0.3165835793978384,
+        0.3165835793978383
+      ],
+      [
+        "/state/damage/flooding/doors/13/worldZM",
+        0.39880497406366927,
+        0.3988049740636691
+      ],
+      [
+        "/state/damage/flooding/doors/14/worldZM",
+        0.34604802972669796,
+        0.3460480297266979
+      ],
+      [
+        "/state/damage/flooding/doors/15/worldZM",
+        0.15042517033657204,
+        0.150425170336572
+      ],
+      [
+        "/state/damage/flooding/doors/16/worldZM",
+        0.23436218473200748,
+        0.23436218473200743
+      ],
+      [
+        "/state/damage/flooding/doors/17/worldZM",
+        0.17922208632431963,
+        0.17922208632431957
+      ],
+      [
+        "/state/damage/flooding/doors/18/worldZM",
+        0.2614434809901505,
+        0.26144348099015047
+      ],
+      [
+        "/state/damage/flooding/doors/19/worldZM",
+        0.2080190023120672,
+        0.20801900231206716
+      ],
+      [
+        "/state/damage/flooding/doors/20/worldZM",
+        0.018045584668739068,
+        0.018045584668739012
+      ],
+      [
+        "/state/damage/flooding/doors/21/worldZM",
+        0.09700069165848874,
+        0.09700069165848868
+      ],
+      [
+        "/state/damage/flooding/doors/22/worldZM",
+        0.04186059325080088,
+        0.041860593250800826
+      ],
+      [
+        "/state/damage/flooding/doors/23/worldZM",
+        0.12408198791663178,
+        0.12408198791663172
+      ],
+      [
+        "/state/damage/flooding/doors/24/worldZM",
+        0.06567560183286275,
+        0.0656756018328627
+      ],
+      [
+        "/state/damage/flooding/doors/25/worldZM",
+        -0.11377848782308686,
+        -0.11377848782308692
+      ],
+      [
+        "/state/damage/flooding/doors/27/worldZM",
+        -0.09550089982271781,
+        -0.09550089982271787
+      ],
+      [
+        "/state/damage/flooding/doors/29/worldZM",
+        -0.07722331182234876,
+        -0.07722331182234882
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/draftM",
+        0.4207574174135596,
+        0.42075741741355965
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/heelRad",
+        -0.005416285733752589,
+        -0.00541628573375259
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/trimRad",
+        0.006243836384620132,
+        0.006243836384620131
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/profileRotationRow/0",
+        -0.006314953021438333,
+        -0.006314953021438329
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/surfaceNormalBody/0",
+        -0.006243704230614488,
+        -0.006243704230614487
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/surfaceNormalBody/1",
+        0.005416259251628607,
+        0.005416259251628608
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ]
+    ],
+    "checks": {
+      "samePhysicalState": false,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": false,
+      "physicalStateExact": false,
+      "oldRng": 2134102897,
+      "newRng": 2134102897,
+      "loadedVlsBeforeAfter": [
+        116,
+        115
+      ],
+      "cleanABaselineUpdate": {
+        "assertions": [
+          "samePhysicalState",
+          "raidInventoryDeltaBounded",
+          "sameExistingObserverState"
+        ],
+        "oldHash": "169abb7dc6c0d7b3e514260e3a4df503b01cdf07354daf28404f6b346814c92e",
+        "newHash": "aabf9b49ef5c56621f398280ba6628fcd187f7d5275270dbeac64408e9abe6c0",
+        "reason": "사용자 승인: 결과 동일, 자원 소모 차이만 존재",
+        "originalChecks": {
+          "samePhysicalState": false,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": false,
+          "sameExistingObserverState": false,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    }
+  },
+  {
+    "ship": "CG_52_LATE_TICONDEROGA",
+    "scenario": "damaged",
+    "reference": "paired historic VP_A",
+    "differences": [
+      [
+        "/dynamics/physics/cgM/x",
+        -4.825331281658972,
+        -4.825331281658973
+      ],
+      [
+        "/dynamics/physics/cgM/y",
+        -0.020692012019868256,
+        -0.020692012019868252
+      ],
+      [
+        "/dynamics/physics/draftRateMps",
+        -6.216387680152914e-05,
+        -6.216387680156513e-05
+      ],
+      [
+        "/dynamics/physics/effectiveGMM",
+        0.0838053812507709,
+        0.08380538125077092
+      ],
+      [
+        "/dynamics/physics/geometricRightingArmM",
+        0.0580456160407557,
+        0.05804561604075568
+      ],
+      [
+        "/dynamics/physics/rollRateRadS",
+        0.0022836822250319215,
+        0.0022836822250319193
+      ],
+      [
+        "/dynamics/physics/trimRateRadS",
+        6.181469956762879e-06,
+        6.181469956761782e-06
+      ],
+      [
+        "/dynamics/pose/heelRad",
+        -0.012192552042854842,
+        -0.01219255204285484
+      ],
+      [
+        "/dynamics/pose/imbalance",
+        0.0047288326232235315,
+        0.00472883262322353
+      ],
+      [
+        "/dynamics/pose/target/heelRad",
+        -0.012192552042854842,
+        -0.01219255204285484
+      ],
+      [
+        "/dynamics/pose/target/trimRad",
+        0.005957925008442882,
+        0.005957925008442881
+      ],
+      [
+        "/dynamics/pose/trimRad",
+        0.005957925008442882,
+        0.005957925008442881
+      ],
+      [
+        "/state/damage/flooding/cells/0/levelM",
+        -1.4200472357163054,
+        -1.4200472357163059
+      ],
+      [
+        "/state/damage/flooding/cells/0/levelWorldM",
+        -1.4200472357163054,
+        -1.4200472357163059
+      ],
+      [
+        "/state/damage/flooding/doors/2/worldZM",
+        0.5570181809669508,
+        0.5570181809669507
+      ],
+      [
+        "/state/damage/flooding/doors/6/worldZM",
+        0.4639843634012871,
+        0.463984363401287
+      ],
+      [
+        "/state/damage/flooding/doors/11/worldZM",
+        0.3358992545979447,
+        0.33589925459794456
+      ],
+      [
+        "/state/damage/flooding/doors/28/worldZM",
+        0.0036690075948164758,
+        0.0036690075948165313
+      ],
+      [
+        "/state/damage/flooding/doors/30/worldZM",
+        -0.2551249279230936,
+        -0.2551249279230935
+      ],
+      [
+        "/state/damage/flooding/doors/31/worldZM",
+        -0.1853773509970537,
+        -0.18537735099705366
+      ],
+      [
+        "/state/damage/flooding/doors/32/worldZM",
+        -0.21744991877418962,
+        -0.21744991877418957
+      ],
+      [
+        "/state/damage/flooding/doors/33/worldZM",
+        -0.12441610120852592,
+        -0.12441610120852586
+      ],
+      [
+        "/state/damage/flooding/doors/35/worldZM",
+        -0.3116655567877175,
+        -0.31166555678771746
+      ],
+      [
+        "/state/damage/flooding/doors/36/worldZM",
+        -0.2507043069991897,
+        -0.25070430699918966
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/heelRad",
+        -0.012192552042854842,
+        -0.01219255204285484
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/pose/trimRad",
+        0.005957925008442882,
+        0.005957925008442881
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/profileRotationRow/0",
+        -0.005954157372220698,
+        -0.005954157372220697
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/profileRotationRow/1",
+        0.013113313987805856,
+        0.013113313987805854
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/surfaceNormalBody/0",
+        -0.0059574469210856955,
+        -0.005957446921085695
+      ],
+      [
+        "/state/damage/flooding/hydrostatics/surfaceNormalBody/1",
+        0.01219224995770555,
+        0.012192249957705549
+      ],
+      [
+        "/state/damage/flooding/summary/waterCenterM/y",
+        -4.2110632548437055,
+        -4.211063254843704
+      ],
+      [
+        "/state/damage/flooding/summary/waterCenterM/z",
+        -1.7511186751132197,
+        -1.751118675113219
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/0/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/HE_127_SIM",
+        360,
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/magazine/MFF_127_SIM",
+        "<absent>",
+        180
+      ],
+      [
+        "/state/inventory/gunMounts/1/moduleId",
+        "MK45_MOD2_MK160_SURFACE_V1",
+        "MK45_MOD4_CG52_MK160_V1"
+      ]
+    ],
+    "checks": {
+      "samePhysicalState": false,
+      "sameCombatRng": true,
+      "sameHullDamageAndFixedLayout": true,
+      "raidInventoryDeltaBounded": true,
+      "sameExistingObserverState": true,
+      "sameExistingOffboardPorts": true,
+      "bothFaultFree": true
+    },
+    "observations": {
+      "oldVersionPhysicalAndRngExact": false,
+      "physicalStateExact": false,
+      "oldRng": 260457076,
+      "newRng": 260457076,
+      "loadedVlsBeforeAfter": [
+        122,
+        122
+      ]
+    }
+  }
+]

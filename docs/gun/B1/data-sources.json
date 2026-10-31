@@ -1,0 +1,57 @@
+{
+  "schema": "AEGIS_GUN_B1_INPUT_AUDIT_1",
+  "fireControl": {
+    "observedInputs": [
+      "tracks: x/y/z/vx/vy/vz",
+      "confirmed/lifecycle",
+      "sensorSource",
+      "sensorAge/_lastMeasurementStep",
+      "_kfX/_kfP 6x6 observed filter covariance",
+      "operatorIdentity/identity",
+      "IFF evidence",
+      "existing networkProtectionG/harpoonTrackIdentityC",
+      "existing observed BDA"
+    ],
+    "ownKnownInputs": [
+      "ship body frame / known navigation",
+      "installed gun profile / hardpoint / health / feed / inventory",
+      "existing environment and terrain clearance"
+    ],
+    "forbiddenCallsUsed": [],
+    "coreSolver": "Original wip13b1SolveTrackState unchanged; state z/vz and full observed covariance metadata forwarded. Existing point-mass core consumes position/velocity; the new wrapper evaluates 3D covariance quality separately.",
+    "automaticSelection": "Own observer tracks only, missile-like + existing protection/BDA, 9km and valid native solution/clearance; shortest TTC with 1s hysteresis. No SAM doctrine or EMCON writes."
+  },
+  "physicalEffectOnly": {
+    "collections": [
+      "enemyMissiles",
+      "targetPool",
+      "missiles",
+      "ramMissiles",
+      "harpoonWorldA()",
+      "physicalShipsB().weapons.executionD.sam/ram",
+      "airborne helicopters"
+    ],
+    "inputs": [
+      "physical position/velocity",
+      "alive/dead/onboard",
+      "physical type for native game damage profile"
+    ],
+    "friendlyExemption": false,
+    "helicopterDamage": "DEFERRED_HELO_DAMAGE: preceding user agreement preserved; physical proximity can trigger but no new helicopter damage system",
+    "aftermathLogs": "mainGunImpactLog and GUN_B1 diagnostic AIRBURST entries may contain physical aftermath ids/positions. They are diagnostic/effect outputs and never read by fire control, sensor or AI selection.",
+    "fragmentation": "Private 5in parameter selector + original game fragmentation arithmetic; original SAM functions/registries unchanged. Native applyInterceptResult and retirement/wreckage pipeline used for ASM.",
+    "tickPhase": "AIR/Harpoon/NPC SAM-RAM already advanced: reconstruct start of native linear swept interval from end position and current velocity. ASM/own SAM-RAM/HELO not yet advanced: current position is interval start. No entity writes."
+  },
+  "render": {
+    "physicsFeedback": false,
+    "cgTurrets": "Existing buildMk45 generator with explicit CG base datum; original round turrets hidden, no source geometry read back to physics",
+    "ring": "presentation-only 9km auto designation, not measured AA envelope"
+  },
+  "save": {
+    "schemaChanged": false,
+    "autoSettingSaved": false,
+    "loadDefault": "ON",
+    "migration": "Own CG and fleet gun inventories split remaining HE, no new rounds; legacy CG Mod2 id mapped only to the known installation's new Mod4 profile",
+    "ownDDGGunInventory": "Existing operational schema omits own DDG gun inventory; retain its original load-reset policy, as disclosed before implementation."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "kind": "ui",
+  "source": "docs/map/E/verify_d_ui.py",
+  "sourceSha256": "ab2d8940f5badb2439f54147e220af1abb4c3adf1c868ea2d20e9866c829e4d5",
+  "oldAssertion": "q['model']['reason']=='NOT_SURFACE_TRACK'and not q['model']['allowed']",
+  "newAssertion": "q['model']['reason']=='VELOCITY_UNCERTAINTY'and not q['model']['allowed']",
+  "reason": "New AIR capability supersedes blanket surface-only rejection; legacy AIR fixture initializes the native default 80m/s velocity sigma and must still be blocked by the unchanged 30m/s GUN_B1 quality limit. The probe records this actual cause. Valid observed AIR cases are tested separately.",
+  "productChanged": false,
+  "originalTestFileChanged": false,
+  "fixtureInitialization": {
+    "before": "air=p.evaluate('__MB_TEST__.add({rangeKm:10,bearingDeg:30})');q=target",
+    "after": "air=p.evaluate('__MB_TEST__.add({rangeKm:10,bearingDeg:30})');airInit=p.evaluate('id=>__GB_LEGACY_AIR_INIT__(id)',air);assert airInit=={'missingReason':'AIR_TRACK_3D_STATE_REQUIRED','defaultVelocitySigmaMps':80};records[tag+'.airFixtureB1']=airInit;q=target",
+    "reason": "Legacy diagnostic track has no EKF until a native lazy initializer runs. Explicit native trackEkfInit fixes the fixture precondition at native sigma=80 without changing product coefficients or making it fireable. Also asserts missing-EKF branch separately."
+  }
+}

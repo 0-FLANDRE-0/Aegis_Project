@@ -1,0 +1,8 @@
+{
+  "measuredHtmlSha256": "3e431e9909ef040293a2906f2013fc73ae9de4e21cde6e573e2ed04c7645d42f",
+  "deliveryHtmlSha256": "6c90b3d21560a64b4063a2d38ea80fbc6e618665922b178f949fb2f1c07d796b",
+  "allOtherMainBytesIdentical": true,
+  "change": "Presentation-only 9km ring label placement inside draw(context,view,s,m); no simulation/commands/readiness/RNG/physics changes",
+  "before": "if(radius*z<Math.min(r.w,r.h)*.45)context.fillText(label,ownship.x+radius+3/z,ownship.y-8/z);else{const p=screenToWorld(r.x+r.w-8,window.__MAP_C__.labelBase(view)+24,view);context.textAlign='right';context.fillText('→ '+label,p.x,p.y);context.textAlign='left';}",
+  "after": "{const fits=radius*z<Math.min(c.x-r.x,r.x+r.w-c.x,c.y-r.y,r.y+r.h-c.y),p=screenToWorld(r.x+r.w-8,window.__MAP_C__.labelBase(view)+24,view);context.textAlign='right';context.fillText((fits?'':'→ ')+label,p.x,p.y);context.textAlign='left';}"
+}

@@ -1,0 +1,38 @@
+{
+  "reason": "Test expected action GUN_COMMAND, but native note merges {action:FIRE}; actual FIRE takeover count and gunRequests both exactly one. Assertion corrected to verify both, no product changes.",
+  "htmlSha256": "645410fb2f007c8c1ef82652cf878b309ec9e38f94d809104b2449920e2cb0f7",
+  "cases": {
+    "DD.single": {
+      "gunRequests": 1,
+      "fireEvents": [
+        {
+          "step": 402,
+          "action": "FIRE",
+          "reason": "FIRE_CONSENT_HELD",
+          "mount": "mk45",
+          "trackId": 114001,
+          "ok": true,
+          "fired": false,
+          "queued": true,
+          "takeover": true
+        }
+      ]
+    },
+    "CG.single": {
+      "gunRequests": 1,
+      "fireEvents": [
+        {
+          "step": 402,
+          "action": "FIRE",
+          "reason": "FIRE_CONSENT_HELD",
+          "mount": "mk45f",
+          "trackId": 114001,
+          "ok": true,
+          "fired": false,
+          "queued": true,
+          "takeover": true
+        }
+      ]
+    }
+  }
+}
