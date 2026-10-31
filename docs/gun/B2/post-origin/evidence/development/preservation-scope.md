@@ -1,0 +1,1 @@
+초기 noGameEdits 검사에서 재귀 *.html glob이 과거 Phase0 보고서 docs/gun/B2/INDEX.html까지 게임 HTML로 세어 실패했다. 실제 diff는 그 문서 1개였고 제품 HTML 변경은 없었다. 검사를 root Aegis_SIM_*.html와 실제 제품 checksum으로 한정했다. 허용 오차나 게임/회차/기대값은 바꾸지 않았고 초기 실패 요약도 보존한다.

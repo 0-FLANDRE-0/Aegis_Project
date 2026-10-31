@@ -1,3 +1,14 @@
+# 현재 상태: 원점 복구 후 재진단 완료
+
+최신 main cce1802 위로 rebase하고 DDG/CG ×1기 ×0°/90° ×15회(60회)를 재진단했다.
+[Phase1 착수 보고](PHASE1_START.md) · [현재 상태](STATUS.md) · [새 진단 자료](post-origin/README.md).
+DDG90 seed419023의 자함 피해 악화 1건을 별도 native 검증해 공개했다.
+제품은 AIR_ORIGIN_A 그대로이며 B2 기능은 아직 미적용이다.
+
+아래는 기존 Phase0 인계 원문이며 당시 C9 기준과 과거 산출물을 설명한다.
+
+---
+
 # GUN_B2 — Phase 0 인계
 
 현재 단계는 **진단만 수행한 Phase 0**이다. 게임은 기준 GUN_B1 그대로이며

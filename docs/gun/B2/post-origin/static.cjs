@@ -1,0 +1,15 @@
+const path=require('path'),fs=require('fs'),crypto=require('crypto');
+const {load}=require('../../../missile/launch-handoff/A/source.cjs');
+const P=__dirname,R=path.resolve(P,'../../../..'),sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const a=load(path.join(R,'Aegis_SIM_v48_WIP_GUN_B1.html')),b=load(path.join(R,'Aegis_SIM_v48_WIP_AIR_ORIGIN_A.html'));
+const reference=JSON.parse(fs.readFileSync(path.join(R,'docs/cleanup/B/fingerprint.json')));
+const hashes=Object.fromEntries(Object.keys(reference.nativeSourceHashes).map(n=>[n,sha(b.symbols.get(n).code)]));
+const changedProtected=Object.keys(hashes).filter(n=>hashes[n]!==reference.nativeSourceHashes[n]);
+const gunNames=['spawnMainGunProjectileWip13B3','gunB1ArmShell','createProfileGunModuleWip13B3','gunB1SolveAirTrack','wip13b1SolveTrackState','wip13b6GunPointingAssessment','wip13b8GunEffectiveImpactWindow','gunB1ShellEvent','gunB1FragmentationPk'];
+const changedGuns=gunNames.filter(n=>a.symbols.get(n).code!==b.symbols.get(n).code);
+const names=['shipboardRadarEchoFieldWip13B13','shipboardRadarEchoToAirPlotWip13B13','spq9bAnonymousPlotContractV34','trackRadarPrediction','trackEkfUpdateRadar','spawnMainGunProjectileWip13B3'];
+const runtimeExpectedHashes=Object.fromEntries(names.map(n=>[n,sha(b.symbols.get(n).code)]));
+const env=s=>s.match(/\/\/ ENV_D_DATA_BEGIN[\s\S]*?\/\/ ENV_D_DATA_END/)[0];
+const checks={reviewedHtml:sha(b.raw)==='4c5191753025406697520c63afcc97c116a83c4b6b924a4b605b49233c697eeb',reviewedMain:sha(b.source)==='bc4453fb740dcf9df0ff43f8353f1099ce7a72fc3f03bf0e3bef5d8d3cfa6a97',protected281:Object.keys(hashes).length===281&&!changedProtected.length,gunFunctionsSameAsB1:!changedGuns.length,envelopeSame:env(a.source)===env(b.source),noDiagnosticHooksInProduct:!b.source.includes('__G2D__')&&!b.source.includes('PHASE0_DIAGNOSTIC_ONLY')};
+const q={pass:Object.values(checks).every(Boolean),checks,productHtmlSha256:sha(b.raw),productMainSha256:sha(b.source),changedProtected,changedGuns,nativeSourceHashes:hashes,runtimeExpectedHashes};
+fs.mkdirSync(path.join(P,'evidence'),{recursive:true});fs.writeFileSync(path.join(P,'evidence/static.json'),JSON.stringify(q,null,2)+'\n');console.log(JSON.stringify({pass:q.pass,checks}));process.exitCode=q.pass?0:1;
