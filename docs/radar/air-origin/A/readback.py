@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse,concurrent.futures,datetime,hashlib,io,json,subprocess,time,urllib.parse,urllib.request,zipfile
 B=Path(__file__).resolve().parent;R=B.parents[3];p=argparse.ArgumentParser();p.add_argument('commit');a=p.parse_args();assert len(a.commit)==40 and all(c in'0123456789abcdef'for c in a.commit)
 repo='0-FLANDRE-0/Aegis_Project';names=['Aegis_SIM_v48_WIP_AIR_ORIGIN_A.html','downloads/Aegis_SIM_v48_WIP_AIR_ORIGIN_A_HTML.zip','downloads/Aegis_SIM_v48_WIP_AIR_ORIGIN_A_REPORT.zip','downloads/AIR_ORIGIN_A_SHA256SUMS.txt','docs/radar/air-origin/A/REPORT.md','docs/radar/air-origin/A/CHECKSUMS.sha256'];data={};sha=lambda b:hashlib.sha256(b).hexdigest()
+if (B/'approved-expectations.json').exists():names+=['docs/radar/air-origin/A/'+n for n in ['approved-expectations.json','APPROVAL_REPORT.md','STATUS.json','evidence/approval/summary.json']]
 def fetch(n):
  url=f'https://raw.githubusercontent.com/{repo}/{a.commit}/'+urllib.parse.quote(n,safe='/')
  for i in range(3):

@@ -5,6 +5,11 @@ H=Path(__file__).resolve().parent;R=H.parents[2];sys.path.insert(0,str(R/'docs/m
 sys.path.insert(0,str(R/'docs/missile/termination/A'));from verify_live import instrument
 s=(R/'docs/envelope/D/verify_world120.py').read_text();STATE=re.search("STATE='''([\\s\\S]*?)'''",s)[1];raw=(R/'Aegis_SIM_v48_WIP_MAP_E.html').read_bytes();errors=[];records=[];start=time.perf_counter()
 expected={'idle':'fb1fac63054a72db26cce4b4f4781288a7f07a28465ce5ac2aa5597760adffbc','combat':'b7d28c54e141aff3cd3353b5ee6f02ee2fe633f825c5c5814f79b9c83779e8f1'}
+import argparse
+parser=argparse.ArgumentParser();parser.add_argument('--approved-air-origin-baselines',type=Path);args=parser.parse_args()
+if args.approved_air_origin_baselines:
+ sys.path.insert(0,str(R/'docs/radar/air-origin/A'));from approved_expectations import load_approval,world_expectations
+ expected=world_expectations(load_approval(args.approved_air_origin_baselines,raw),expected)
 with sync_playwright()as pw:
  b=launch(pw)
  for mode in ['idle','combat']:
