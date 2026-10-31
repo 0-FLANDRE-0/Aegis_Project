@@ -1,0 +1,4 @@
+// Test-only capture at first append, before MAP_C reparents the original controls.
+window.__C_NODE_REFS__=new Map();const C_APPEND=Element.prototype.append;
+Element.prototype.append=function(...nodes){for(const e of nodes){if(!e||e.nodeType!==1)continue;let key=['uiClockA','uiPauseA','mapFireB'].includes(e.id)?e.id:e.classList.contains('time-btn')?'rate:'+e.dataset.tw:e.classList.contains('ui-clock-a')?'clock-container':null;if(key&&!__C_NODE_REFS__.has(key))__C_NODE_REFS__.set(key,e);}return Reflect.apply(C_APPEND,this,nodes);};
+window.__C_NODE_AUDIT__=()=>[...__C_NODE_REFS__].map(([key,node])=>({key,same:node===(key==='clock-container'?document.getElementById('mapTimeBlockC'):key.startsWith('rate:')?document.querySelector('.time-btn[data-tw="'+key.slice(5)+'"]'):document.getElementById(key)),connected:node.isConnected}));

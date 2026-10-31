@@ -1,0 +1,387 @@
+--- MAP_D/main.js
++++ MAP_E/main.js
+@@ -709,10 +709,10 @@
+     const world=screenToWorld(e.clientX,e.clientY),worldX=world.x,worldY=world.y;
+     const ax = aircraft.x(), ay = aircraft.y();
+ 
+-    if(controlDeckActiveTabWip13C==='AIR'){
++    if(harpoonRouteEditingE()){
++      harpoonRouteAddE(worldX,worldY);
++    } else if(controlDeckActiveTabWip13C==='AIR'){
+       heloMapTapA(worldX,worldY);
+-    } else if(harpoonRouteEditingE()&&controlDeckActiveTabWip13C!=='FLEET'){
+-      harpoonRouteAddE(worldX,worldY);
+     } else if(inputMode === 'NAV'){
+       // NAV mode: add waypoint
+       addWaypoint(worldX, worldY);
+@@ -1400,7 +1400,7 @@
+ }
+ function nulkaAuto15B(){
+  const r=skRuntime15B('NULKA'),p=skSpec15B('NULKA'),period=Math.max(1,Math.round(1/p.autoCheckHz/SIM_FIXED_DT));
+- if(!softKillAutoDoctrine||simStepCounter-r.lastAutoCheckStep<period)return;r.lastAutoCheckStep=simStepCounter;
++ if(ownEcmLevelE()!=='FULL'||!softKillAutoDoctrine||simStepCounter-r.lastAutoCheckStep<period)return;r.lastAutoCheckStep=simStepCounter;
+  if((simStepCounter-r.lastAutoStep)*SIM_FIXED_DT<p.autoIntervalS)return;
+  for(const th of softKillThreatState.threats){
+   if(nulkaCueError15B(th))continue;const key=String(softKillResponseIdentity(th)??th.key??'');
+@@ -1484,7 +1484,7 @@
+  }return out;
+ }
+ function updateNulkaUi15B(){
+- const r=ACTIVE_SHIP_RUNTIME.weapons.nulka;if(!r)return;const s=skLogisticsSnapshot15B('NULKA'),btn=document.getElementById('nulka15bBtn'),read=document.getElementById('nulka15bReadout');
++ const r=ACTIVE_SHIP_RUNTIME.weapons.nulka;if(!r)return;const s=skLogisticsSnapshot15B('NULKA'),btn=mapELegacyNodeE('nulka15bBtn'),read=mapELegacyNodeE('nulka15bReadout');
+  if(btn){btn.textContent=`NULKA ${s.loaded}/${s.capacity} · R${s.reserveRounds}`;btn.title=`예비 ${s.reserveRounds} · 재장전 배정 ${s.allocatedRounds} · 총 함내 ${s.onboardRounds}`;}
+  if(read){const banks=s.launchers.map(l=>`${l.id} ${l.loaded}/2${l.allocatedRounds?' '+l.state+' '+l.remainingS.toFixed(1)+'s':''}`).join(' · '),air=nulkaEntities15B().map(q=>`${q.serial}:${q.phase} ${q.z.toFixed(0)}m RF${q.payloadActive?'ON':'OFF'}`).join(' · ');read.textContent=`${banks}\nR ${s.reserveRounds} + 작업중 ${s.allocatedRounds} / 사용 ${s.expendedRounds}${air?'\n'+air:''}`;}
+ }
+@@ -5160,7 +5160,7 @@
+   if(sender!==ACTIVE_SHIP_RUNTIME)return null;const n=prepareNetworkG(sender);return {mode:n.settings.groupEmcon,revision:n.groupRevision,untilS:networkNowG()+NETWORK_POLICY_G.groupLeaseS};
+ }
+ function networkSetRadarG(r,value){
+-  if(r===ACTIVE_SHIP_RUNTIME){if(emconActive!==value){applyEmconDesignationF2(value);const btn=document.getElementById('emconBtn');if(btn){btn.textContent=value?'EMCON ON':'EMCON OFF';btn.style.color=value?'rgba(100,255,100,.9)':'rgba(255,100,100,.9)';}}}
++  if(r===ACTIVE_SHIP_RUNTIME){if(emconActive!==value){applyEmconDesignationF2(value);const btn=mapELegacyNodeE('emconBtn');if(btn){btn.textContent=value?'EMCON ON':'EMCON OFF';btn.style.color=value?'rgba(100,255,100,.9)':'rgba(255,100,100,.9)';}}}
+   else observerC(r).emcon=value;
+ }
+ function networkRestoreIndividualG(r){const n=r.combatSystem.networkG;if(!n)return;if(n.groupBase!==null)networkSetRadarG(r,n.groupBase);n.groupBase=null;n.groupLease=null;}
+@@ -28392,12 +28392,12 @@
+   setRadarHalfAngle();updateModeButtonLabel();return emconActive;
+ }
+ // DIAGNOSTIC_ONLY detached reader. No alternate selection/release authority.
+-function emconDesignationSnapshotF2(){const tr=tracks.get(selectedLockId);return {schema:'AEGIS_EMCON_DESIGNATION_F2_0',emcon:emconActive,selectedLockId,mode:radar.mode,pdTracking:radar.pdTracking,displayable:!!tr&&trackIsDisplayable(tr),insideSpySector:!!tr&&isInRadarSector(tr.x,tr.y,tr.z),physicalSpyEmitters:electronicPhysicalEmittersF().filter(q=>q.owner===ACTIVE_SHIP_RUNTIME.entityId&&q.band==='S'&&q.emitterClass==='SEARCH_RADAR').length,label:document.getElementById('lockBtn')?.textContent??null};}
++function emconDesignationSnapshotF2(){const tr=tracks.get(selectedLockId);return {schema:'AEGIS_EMCON_DESIGNATION_F2_0',emcon:emconActive,selectedLockId,mode:radar.mode,pdTracking:radar.pdTracking,displayable:!!tr&&trackIsDisplayable(tr),insideSpySector:!!tr&&isInRadarSector(tr.x,tr.y,tr.z),physicalSpyEmitters:electronicPhysicalEmittersF().filter(q=>q.owner===ACTIVE_SHIP_RUNTIME.entityId&&q.band==='S'&&q.emitterClass==='SEARCH_RADAR').length,label:mapELegacyNodeE('lockBtn')?.textContent??null};}
+ window.__EMCON_DESIGNATION_F2__=Object.freeze({snapshot:emconDesignationSnapshotF2});
+ 
+   function toggleEmcon(origin='OPERATOR'){if(origin==='OPERATOR')tacticalNoteOperatorH1(ACTIVE_SHIP_RUNTIME,['radar']);networkOverrideRadarG(ACTIVE_SHIP_RUNTIME);
+     applyEmconDesignationF2(!emconActive);
+-    const btn = document.getElementById('emconBtn');
++    const btn = mapELegacyNodeE('emconBtn');
+     if(emconActive){
+       btn.textContent = 'EMCON ON';
+       btn.style.borderColor = 'rgba(100,255,100,0.5)';
+@@ -28427,7 +28427,19 @@
+   // WIP24: automatic soft-kill doctrine is an operator mode, not a hidden always-on cheat.
+   // When enabled, it may time-share the already-authorized SLQ-32 techniques and fire Mk214
+   // against sufficiently well-characterized active-RF missile threats.
+-  let softKillAutoDoctrine = false;
++  const MAP_E_LEGACY_NODES=new Map();
++function mapELegacyNodeE(id){return document.getElementById(id)??MAP_E_LEGACY_NODES.get(id)??null;}
++let softKillAutoDoctrine = false;
++// MAP_E: transient own-ship command state; never serialized. Native SK AUTO
++// resets its doctrine object, so legacy commands/load infer FULL automatically.
++let ownEcmJamContextE=null;
++function ownEcmLevelE(){return !softKillAutoDoctrine?'OFF':ownEcmJamContextE?.owner===ACTIVE_SHIP_RUNTIME&&ownEcmJamContextE.doctrine===softKillDoctrineState?'JAM':'FULL';}
++function ownEcmCommandE(level){
++ if(!['OFF','JAM','FULL'].includes(level))return {ok:false,reason:'ECM_LEVEL'};
++ const on=level!=='OFF',q=electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,{auto:on,noiseRequested:on,deceptionRequested:on,autoAim:true});
++ if(q.ok)ownEcmJamContextE=level==='JAM'?{owner:ACTIVE_SHIP_RUNTIME,doctrine:softKillDoctrineState}:null;return q;
++}
++
+ function createShipSoftKillDoctrineStateA(){return {
+     eaAssignments:[], activeEaKey:null, eaCredits:{}, schedulerAgeS:0, schedulerFrameIndex:0,
+     responses:{}, lastAutoChaffStep:-1e9, lastAutoChaff:null, revision:0, lastStep:-1
+@@ -28695,8 +28707,8 @@
+   function updateMk36ButtonLabel(){
+     const loaded=mk36LoadedRounds(),capacity=MK36_SRBOC.launcherCount*MK36_SRBOC.tubesPerLauncher;
+     const text=mk36LauncherState.map(l=>`${l.label} ${l.rounds}/6${(!l.enabled||l.health01<=0)?' OFF':''}${l.reload.allocatedRounds?' '+l.reload.state+' '+(l.reload.remainingTicks*SIM_FIXED_DT).toFixed(1)+'s':''}`).join(' · ');
+-    const b=document.getElementById('chaffBtn');if(b){b.textContent=`MK 36 SRBOC ${loaded}/${capacity} · R${MK36_RUNTIME_WIP15A.logistics.reserveRounds}`;b.style.opacity=loaded>0?1:.45;b.title=text;}
+-    const detail=document.getElementById('srboc15aReadout');if(detail)detail.textContent=text+` · R ${MK36_RUNTIME_WIP15A.logistics.reserveRounds} + 작업중 ${skAllocated15B(MK36_RUNTIME_WIP15A)}`;
++    const b=mapELegacyNodeE('chaffBtn');if(b){b.textContent=`MK 36 SRBOC ${loaded}/${capacity} · R${MK36_RUNTIME_WIP15A.logistics.reserveRounds}`;b.style.opacity=loaded>0?1:.45;b.title=text;}
++    const detail=mapELegacyNodeE('srboc15aReadout');if(detail)detail.textContent=text+` · R ${MK36_RUNTIME_WIP15A.logistics.reserveRounds} + 작업중 ${skAllocated15B(MK36_RUNTIME_WIP15A)}`;
+   }
+   // ===== SOFT-KILL THREAT COORDINATOR (WIP19) =====
+   // One combat-system threat picture feeds both AN/SLQ-32 cueing and Mk 36 SRBOC.
+@@ -28935,7 +28947,7 @@
+     if(!softKillDoctrineState.activeEaKey && softKillDoctrineState.eaAssignments.length) advanceSoftKillEaSchedule();
+     softKillDoctrineCleanupResponses();
+     const cand=softKillDoctrineChaffCandidate();
+-    if(cand){
++    if(cand&&ownEcmLevelE()==='FULL'){
+       const fired=deployOwnChaffForThreat(cand.th,{automatic:true,responseId:cand.rid});
+       if(fired>0){
+         cand.rec.salvos=(cand.rec.salvos??0)+1;cand.rec.lastFiredStep=simStepCounter;cand.rec.lastRangeKm=cand.th.rangeKm??null;cand.rec.lastTtcS=cand.th.ttcS??null;
+@@ -28954,7 +28966,7 @@
+       lastAutoChaff:softKillDoctrineState.lastAutoChaff?{...softKillDoctrineState.lastAutoChaff}:null,lastStep:softKillDoctrineState.lastStep,revision:softKillDoctrineState.revision};
+   }
+   function updateSoftKillAutoButtonLabel(){
+-    const b=document.getElementById('softKillAutoBtn');if(!b)return;
++    const b=mapELegacyNodeE('softKillAutoBtn');if(!b)return;
+     b.textContent=softKillAutoDoctrine?'SK AUTO ON':'SK AUTO OFF';
+     b.style.borderColor=softKillAutoDoctrine?'rgba(80,255,190,0.90)':'rgba(120,255,210,0.45)';
+     b.style.background=softKillAutoDoctrine?'rgba(0,70,45,0.58)':'';
+@@ -29057,7 +29069,7 @@
+       schedulerFrameS:SLQ32_EA_ALLOC.schedulerFrameS,lastStep:slq32EaState.lastStep,revision:slq32EaState.revision};
+   }
+   function updateSlq32EaButtonLabels(){
+-    const nj=document.getElementById('noiseJamBtn'),dj=document.getElementById('deceptJamBtn');
++    const nj=mapELegacyNodeE('noiseJamBtn'),dj=mapELegacyNodeE('deceptJamBtn');
+     if(nj){
+       const pct=Math.round(100*slq32EaEffectiveShare('NOISE'));
+       nj.textContent=!noiseJamActive?'NJ OFF':(pct>0?`NJ ${pct}%`:'NJ STBY');
+@@ -38283,7 +38295,7 @@
+   }
+ 
+   function updateModeButtonLabel(){
+-    const modeBtn = document.getElementById('modeBtn'),lockBtn=document.getElementById('lockBtn');
++    const modeBtn = mapELegacyNodeE('modeBtn'),lockBtn=mapELegacyNodeE('lockBtn');
+     if(lockBtn){lockBtn.textContent=emconActive?'지정 (EMCON · 방사 없음)':'LOCK';lockBtn.title=emconActive?'수동 표적 지정 · SPY 방사/정밀추적 없음':'SPY 정밀추적 지정';}
+     if(!modeBtn) return;
+     modeBtn.textContent =
+@@ -49534,10 +49546,10 @@
+     wip119AutonomyState.lastBuildMs=performance.now()-t0;return wip119AutonomyState;
+   }
+   function updateEngagementControlButtonLabel(){
+-    const b=document.getElementById('engCtrlBtn');if(!b)return;const short=engagementControlMode==='MANUAL'?'MAN':(engagementControlMode==='SEMIAUTO'?'SEMI':'AUTO');b.textContent=`CTRL ${short}`;b.style.background=engagementControlMode==='AUTO'?'rgba(220,80,60,.18)':(engagementControlMode==='SEMIAUTO'?'rgba(80,180,255,.15)':'var(--panel)');
++    const b=mapELegacyNodeE('engCtrlBtn');if(!b)return;const short=engagementControlMode==='MANUAL'?'MAN':(engagementControlMode==='SEMIAUTO'?'SEMI':'AUTO');b.textContent=`CTRL ${short}`;b.style.background=engagementControlMode==='AUTO'?'rgba(220,80,60,.18)':(engagementControlMode==='SEMIAUTO'?'rgba(80,180,255,.15)':'var(--panel)');
+   }
+   function updateTrackIdentityButtonLabelA3(){
+-    const b=document.getElementById('trackIdentityBtn');if(!b)return;const tr=selectedLockId==null?null:tracks.get(selectedLockId),op=tr?normalizeTrackOperatorIdentityA3(tr._operatorIdentity):null;
++    const b=mapELegacyNodeE('trackIdentityBtn');if(!b)return;const tr=selectedLockId==null?null:tracks.get(selectedLockId),op=tr?normalizeTrackOperatorIdentityA3(tr._operatorIdentity):null;
+     b.textContent=!tr?'ID NO-TRK':`ID ${op==='UNKNOWN'?(tr.identity==='ASSUMED_HOSTILE'?'A-HSTL':'UNK'):(op==='HOSTILE'?'HSTL':op==='FRIEND'?'FR':'NEUT')}`;
+     b.style.background=op==='HOSTILE'?'rgba(220,70,50,.22)':(op==='FRIEND'?'rgba(70,170,255,.20)':(op==='NEUTRAL'?'rgba(210,190,80,.16)':'var(--panel)'));
+   }
+@@ -49564,7 +49576,7 @@
+ 
+   // ===== Buttons =====
+   function wip13b5UpdateGunButtonLabels(){
+-    const q=ACTIVE_SHIP_RUNTIME.weapons.mainGun?.snapshot(),cue=document.getElementById('mainGunCueBtn'),fire=document.getElementById('mainGunFireBtn'),continuous=document.getElementById('mainGunContinuousBtn'),ammo=document.getElementById('mainGunAmmoBtn');if(!q)return;
++    const q=ACTIVE_SHIP_RUNTIME.weapons.mainGun?.snapshot(),cue=mapELegacyNodeE('mainGunCueBtn'),fire=mapELegacyNodeE('mainGunFireBtn'),continuous=mapELegacyNodeE('mainGunContinuousBtn'),ammo=mapELegacyNodeE('mainGunAmmoBtn');if(!q)return;
+     if(ammo)ammo.textContent=q.loadedAmmoId==='SAP_127_SIM'?`127 SAP · ${q.magazine.SAP_127_SIM}`:`127 HE · ${q.magazine.HE_127_SIM}`;
+     const fcq=q.solution?.fireControlTrackQuality,fcqBlocked=!!fcq&&!fcq.firePermitted,fcqShort=fcq?.status==='FCQ_DEGRADED'?'DEG':(fcq?.status==='FCQ_READY'?'RDY':'LOW');
+     if(cue){cue.textContent=q.commandTrackId==null?'MK45 CUE':`MK45 ${q.status}`;const w=q.solution?.effectiveImpactWindow;cue.title=w?`Composite FCQ ${fcq?`${Math.round(fcq.quality01*100)}% ${fcq.status}`:'--'} · 예측 σ ${fcq?`${fcq.predictedImpactSigmaM.cross.toFixed(1)}/${fcq.predictedImpactSigmaM.along.toFixed(1)}m`:'--'} · 익명 사격창 ±${w.crossHalfM.toFixed(0)}m / +${w.verticalUpM.toFixed(0)}m -${w.verticalDownM.toFixed(0)}m`:'선택 수상트랙 함포 사격해 계산';}
+@@ -55658,7 +55670,7 @@
+   return {x:p.x+v.x*(ageS+tgo),y:p.y+v.y*(ageS+tgo),z:HARPOON_PROFILE_A.sim.terminalHeightM,tgoS:tgo};
+ }
+ // Ship-owned editable prelaunch program. No target truth, flight telemetry or uplink.
+-function harpoonRouteEditingE(){return inputMode==='AIM'&&harpoonRuntimeA().routeDraft.editing&&!harpoonRuntimeA().pending;}
++function harpoonRouteEditingE(){return harpoonRuntimeA().routeDraft.editing&&!harpoonRuntimeA().pending;}
+ function harpoonRouteToggleE(){
+   const r=harpoonRuntimeA();if(!r.tubes.length||r.pending)return false;
+   if(r.routeDraft.editing){r.routeDraft={editing:false,pointsM:[]};}
+@@ -56069,25 +56081,25 @@
+ function harpoonBoosterRenderStatesA(){return harpoonBoostersA().filter(b=>b.alive).map(b=>({id:b.id,xM:b.positionM.x,yM:b.positionM.z,zM:b.positionM.y,
+   headingRad:b.yawRad,pitchRad:b.pitchRad,rollRad:b.rollRad,lifeS:b.ageS}));}
+ function harpoonUpdateUIA(){
+-  const host=document.getElementById('harpoonControlsA');if(!host)return;const r=harpoonRuntimeA();host.hidden=!r.tubes.length;if(!r.tubes.length)return;
+-  const gate=harpoonAutoTubeGateD(),label=document.getElementById('harpoonTubeA');
++  const host=mapELegacyNodeE('harpoonControlsA');if(!host)return;const r=harpoonRuntimeA();host.hidden=!r.tubes.length;if(!r.tubes.length)return;
++  const gate=harpoonAutoTubeGateD(),label=mapELegacyNodeE('harpoonTubeA');
+   if(gate.tubeId)r.selectedTubeId=gate.tubeId;
+   label.textContent='AUTO · '+(gate.tubeId?gate.tubeId.replace('MK141-',''):gate.reason==='TUBE_EMPTY'?'소진':'대기');
+   label.title='장전·손상·안전 조건과 입력 경로/관측 표적 방향으로 자동 선택'+(gate.reason?' · '+gate.reason:'');
+-  const button=document.getElementById('harpoonFireA');button.disabled=!gate.ok;
++  const button=mapELegacyNodeE('harpoonFireA');button.disabled=!gate.ok;
+   button.textContent='HARPOON '+r.tubes.filter(t=>t.loaded).length+'/8'+(r.pending?' · OPENING':' · FIRE');
+-  const route=document.getElementById('harpoonRouteE'),note=document.getElementById('harpoonRouteNoteE'),draft=r.routeDraft;
++  const route=mapELegacyNodeE('harpoonRouteE'),note=mapELegacyNodeE('harpoonRouteNoteE'),draft=r.routeDraft;
+   route.disabled=!!r.pending||!r.tubes.some(t=>t.loaded);route.textContent=draft.editing?'웨이포인트 해제':'웨이포인트 지정';route.setAttribute('aria-pressed',String(draft.editing));
+   note.textContent=draft.pointsM.length?'H-WP '+draft.pointsM.length+'/8 · '+(gate.rangeKm?gate.rangeKm.toFixed(1)+' km 계획':'경로 검사: '+gate.reason)+' · 마지막 점 통과 후 전방 탐색':
+     (draft.editing?'CIC 탭으로 경유점 추가 · 간격 2 km 이상 · 마지막 점 = 탐색 시작':'경유점 없이 관측 표적 발사 · 경유점 지정 시 좌표 탐색 발사');
+-  const picture=harpoonOperatorPictureC(),status=document.getElementById('harpoonStatusA');
++  const picture=harpoonOperatorPictureC(),status=mapELegacyNodeE('harpoonStatusA');
+   status.textContent=picture.launches.length?picture.launches.slice(-4).map(q=>'H'+q.id+' · NO DL · '+(q.trackId==null?'미관측':q.source+' T'+q.trackId+' ('+q.measurementAgeS.toFixed(1)+'s)')).join(' / '):(gate.ok?'RGM-84D · INS → ARH · NO DL · READY':gate.reason);
+   status.title='RGM-84D Block 1C · 공개 제원 / SIM-TUNED 비행·경로·탐색기 · Mk 141 전용';
+ }
+ function harpoonBindUIA(){
+-  if(!document.getElementById('harpoonTubeA'))return;
+-  bindPress(document.getElementById('harpoonFireA'),()=>{harpoonRequestFireA();harpoonUpdateUIA();});
+-  document.getElementById('harpoonRouteE').addEventListener('click',e=>{e.preventDefault();harpoonRouteToggleE();});harpoonUpdateUIA();
++  if(!mapELegacyNodeE('harpoonTubeA'))return;
++  bindPress(mapELegacyNodeE('harpoonFireA'),()=>{harpoonRequestFireA();harpoonUpdateUIA();});
++  mapELegacyNodeE('harpoonRouteE').addEventListener('click',e=>{e.preventDefault();harpoonRouteToggleE();});harpoonUpdateUIA();
+ }
+ // CIC uses only canonical sensor tracks. No truth position, seeker fan, or launch-only live icon.
+ // Prelaunch route drawing is defined with the ship-owned route program above.
+@@ -63258,7 +63270,7 @@
+   for(const q of inventory.gunMounts)ACTIVE_SHIP_RUNTIME.weapons.gunMounts.get(q.id).restoreInventory(q);
+   ACTIVE_SHIP_RUNTIME.weapons.selectedGunId=inventory.selectedGunId;
+   ACTIVE_SHIP_RUNTIME.weapons.mainGun=ACTIVE_SHIP_RUNTIME.weapons.gunMounts.get(inventory.selectedGunId);
+-  const select=document.getElementById('cg52GunSelect');if(select)select.value=inventory.selectedGunId;
++  const select=mapELegacyNodeE('cg52GunSelect');if(select)select.value=inventory.selectedGunId;
+ }
+ function bunkerProfileAudit(){
+   const p=ACTIVE_SHIP_PROFILE,r=ACTIVE_SHIP_RUNTIME,hp=p.geometry.hardpoints,R=BUNKER_REGISTRATION,
+@@ -63456,6 +63468,13 @@
+  draw(){drawRadar();},
+  projectShipPoint(xM=0,yM=11,zM=0){const v=WIP148_EXTERNAL_3D;if(!v.ready)return null;v.camera.updateMatrixWorld(true);const r=v.canvas.getBoundingClientRect(),p=v.shipRoot.localToWorld(new v.THREE.Vector3(xM,yM,zM)).project(v.camera);return {x:r.x+(p.x+1)*r.width/2,y:r.y+(1-p.y)*r.height/2,depth:p.z};}
+ });
++
++// MAP_E user decision: CG individual gun UI retired; native gun commands remain.
++// EMCON non-radiating designation UI deferred; lockByCursor's native branch stays.
++{const page=document.querySelector('.control-deck-page[data-page="ARM"]'),aim=document.getElementById('modeAimBtn'),arms=document.getElementById('armsBtn');
++ for(const e of [page,aim,...(page?.querySelectorAll('[id]')??[])])if(e?.id)MAP_E_LEGACY_NODES.set(e.id,e);
++ const credit=page?.querySelector('#harpoonControlsA a[href]');if(credit)document.querySelector('.control-deck-page[data-page="DEBUG"]').append(credit);
++ if(arms){MAP_E_LEGACY_NODES.set('armsBtn',arms);arms.remove();}page?.remove();aim?.remove();}
+ 
+ // UI_A shell: UI_A1 compact presentation and operator controls only. Existing controls are reparented intact.
+ window.__UI_A__=(()=>{
+@@ -63505,16 +63524,16 @@
+  const bar=make('footer','ui-status-a');bar.id='uiStatusBarA';bar.setAttribute('aria-label','함정 상태 및 시간');host.append(bar);isolate(bar);
+  const ship=button('',()=>window.__MAP_A__?.showControlInfo());ship.id='uiShipA';const inventory=make('div');inventory.id='uiInventoryA';inventory.setAttribute('aria-label','설치 무장 재고');
+  const clock=make('div','ui-clock-a'),clockText=make('span','ui-clock-text-a');clockText.id='uiClockA';const pause=button('Ⅱ',()=>{worldTimeScale=0;simAccumulator=0;document.querySelectorAll('.time-btn').forEach(e=>e.classList.remove('active'));pause.classList.add('active');},'일시정지');pause.id='uiPauseA';clock.append(clockText,pause);for(const e of [...document.querySelectorAll('.time-btn')]){clock.append(e);e.addEventListener('click',()=>pause.classList.remove('active'));}
+- const chips=make('div','ui-chips-a'),emconChip=button('',()=>{document.getElementById('emconBtn')?.click();refreshChips();}),modeChip=button('',()=>{modeMenu.hidden=!modeMenu.hidden;modeChip.setAttribute('aria-expanded',String(!modeMenu.hidden));refreshChips();placeModeMenu();});emconChip.id='uiEmconChipA';modeChip.id='uiModeChipA';chips.append(emconChip,modeChip);modeChip.setAttribute('aria-expanded','false');modeChip.setAttribute('aria-controls','uiModeMenuA');
++ const chips=make('div','ui-chips-a'),emconChip=button('',()=>{window.__MAP_E__?.toggleMenu();refreshChips();}),modeChip=button('',()=>{modeMenu.hidden=!modeMenu.hidden;modeChip.setAttribute('aria-expanded',String(!modeMenu.hidden));refreshChips();placeModeMenu();});emconChip.id='uiEmconChipA';modeChip.id='uiModeChipA';chips.append(emconChip,modeChip);modeChip.setAttribute('aria-expanded','false');modeChip.setAttribute('aria-controls','uiModeMenuA');
+  const modeMenu=make('aside','ui-mode-menu-a');modeMenu.id='uiModeMenuA';modeMenu.hidden=true;modeMenu.setAttribute('role','group');modeMenu.setAttribute('aria-label','교전 모드 선택');host.append(modeMenu);isolate(modeMenu);
+  for(const [id,label]of [['MANUAL','수동'],['SEMIAUTO','반자동'],['AUTO','자동']]){const e=button(label,()=>{setEngagementControlMode(id);closeModeMenu();refreshChips();});e.dataset.engagementModeA1=id;modeMenu.append(e);}
+  function closeModeMenu(){modeMenu.hidden=true;modeChip.setAttribute('aria-expanded','false');}
+  function placeModeMenu(){if(modeMenu.hidden)return;const a=modeChip.getBoundingClientRect(),v=AEGIS_VIEWPORT.layout,r=modeMenu.getBoundingClientRect(),scale=settings.scale;modeMenu.style.left=Math.max(v.x+4,Math.min(v.x+v.w-r.width-4,a.right-r.width))/scale+'px';modeMenu.style.top=Math.max(v.y+4,a.top-r.height-5)/scale+'px';}
+- function refreshChips(){emconChip.textContent='EMCON '+(emconActive?'ON':'OFF');emconChip.setAttribute('aria-pressed',String(emconActive));emconChip.title='EMCON 직접 전환 · '+(emconActive?'레이더 방사 통제':'레이더 사용');modeChip.textContent=({MANUAL:'MAN',SEMIAUTO:'SEMI',AUTO:'AUTO'})[engagementControlMode]??String(engagementControlMode);modeChip.title='교전 모드 선택: 수동 / 반자동 / 자동';for(const e of modeMenu.querySelectorAll('button'))e.setAttribute('aria-pressed',String(e.dataset.engagementModeA1===engagementControlMode));}
++ function refreshChips(){emconChip.textContent='EMCON '+(emconActive?'ON':'OFF');emconChip.setAttribute('aria-pressed',String(emconActive));emconChip.title='레이더/ECM 조작';window.__MAP_E__?.refreshChip();modeChip.textContent=({MANUAL:'MAN',SEMIAUTO:'SEMI',AUTO:'AUTO'})[engagementControlMode]??String(engagementControlMode);modeChip.title='교전 모드 선택: 수동 / 반자동 / 자동';for(const e of modeMenu.querySelectorAll('button'))e.setAttribute('aria-pressed',String(e.dataset.engagementModeA1===engagementControlMode));}
+  document.addEventListener('pointerdown',e=>{if(!modeMenu.contains(e.target)&&!modeChip.contains(e.target))closeModeMenu();},{capture:true});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModeMenu();});
+  const list=make('aside','ui-list-a');list.id='uiWindowListA';list.hidden=true;isolate(list);host.append(list);const listRows=make('div','ui-list-rows-a'),tabs=document.querySelector('#controlDeckPanel .control-deck-tabs');if(tabs)list.append(tabs);list.append(make('div','ui-list-title-a','창 목록'),listRows);const presets=make('div','ui-presets-a');for(const name of ['PC 가로','폰 가로','세로'])presets.append(button(name,()=>applyPreset(name)));presets.append(button('초기화',()=>applyPreset(defaultPreset())));list.append(presets);
+  const addList=make('aside','ui-list-a');addList.id='uiWindowAddA';addList.hidden=true;host.append(addList);isolate(addList);const actions=make('div','ui-bar-actions-a'),listButton=button('▤',()=>{list.hidden=!list.hidden;addList.hidden=true;closeModeMenu();refreshList();},'창 목록'),addButton=button('+',()=>{addList.hidden=!addList.hidden;list.hidden=true;closeModeMenu();refreshList();},'창 추가');listButton.id='uiWindowListButtonA';addButton.id='uiWindowAddButtonA';listButton.setAttribute('aria-label','창 목록');addButton.setAttribute('aria-label','창 추가');actions.append(listButton,addButton);const overview=make('div','ui-bar-overview-a'),commands=make('div','ui-bar-command-a');overview.append(ship,inventory);commands.append(clock,chips,actions);bar.append(overview,commands);
+- for(const [id,title]of [['NAV','NAV · 항해'],['ARM','ARM · 교전'],['FLEET','FLEET · 함대'],['AIR','AIR · 항공'],['DEBUG','SYS · 시스템']]){const content=document.querySelector('.control-deck-page[data-page="'+id+'"]');if(content){content.hidden=false;content.classList.add('active');createWindow(id,title,content,id==='AIR'?420:id==='ARM'?260:220,id==='AIR'?240:120);}}
++ for(const [id,title]of [['NAV','NAV · 항해'],['FLEET','FLEET · 함대'],['AIR','AIR · 항공'],['DEBUG','SYS · 시스템']]){const content=document.querySelector('.control-deck-page[data-page="'+id+'"]');if(content){content.hidden=false;content.classList.add('active');createWindow(id,title,content,id==='AIR'?420:id==='ARM'?260:220,id==='AIR'?240:120);}}
+  const mini=document.getElementById('external3DMiniCic');if(mini){createWindow('CIC','2D 전술 지도',mini,200,160);mini.style.pointerEvents='auto';}
+  const nav=windows.get('NAV').body,sys=windows.get('DEBUG').body;for(const id of ['centerViewBtn','shipDetailBtn','compassHud','controlDeckDamageActions']){const e=document.getElementById(id);if(e)nav.append(e);}const fs=document.getElementById('fullscreenBtn');if(fs)sys.append(fs);settings.mount(sys,'system');const panel=document.getElementById('controlDeckPanel');
+  // Native modal dialogs were siblings of the old pages. Keep their very same
+@@ -63524,13 +63543,13 @@
+  for(const e of document.querySelectorAll('button'))if(/FIRE|LOCK|발사|투하|DECOY|SRBOC|NULKA/.test(e.textContent)&&!(/OFF|UNLOCK/.test(e.textContent))||['mainGunContinuousBtn','chaffBtn','nulka15bBtn','harpoonFireA','lockBtn','external3DAutoLockBtn','external3DFireBtn'].includes(e.id))e.classList.add('ui-danger-a');
+  const tape=make('div','ui-bearing-a');tape.id='uiBearingTapeA';tape.setAttribute('aria-label','카메라 진방위와 자함 침로');host.append(tape);
+  function defaultPreset(){const b=bounds();return b.w<b.h?'세로':b.h<540?'폰 가로':'PC 가로';}
+- function applyPreset(name){presetName=name;const b=bounds(),s=settings.scale;syncDensity();for(const q of windows.values())Object.assign(q,{open:false,dock:'',collapsed:false,maximized:false,x:b.x+8,y:b.y+64,w:Math.min(b.w,(q.id==='INFO'?220:q.id==='LOCKED'?280:360)*s),h:Math.min(b.h-64,400*s),opacity:1});const n=windows.get('NAV'),a=windows.get('ARM'),c=windows.get('CIC');n.open=a.open=true;n.x=b.x+8;n.y=b.y+64;
++ function applyPreset(name){presetName=name;const b=bounds(),s=settings.scale;syncDensity();for(const q of windows.values())Object.assign(q,{open:false,dock:'',collapsed:false,maximized:false,x:b.x+8,y:b.y+64,w:Math.min(b.w,(q.id==='INFO'?220:q.id==='LOCKED'?280:360)*s),h:Math.min(b.h-64,400*s),opacity:1});const n=windows.get('NAV'),a={open:false,w:0,h:0},c=windows.get('CIC');n.open=true;n.x=b.x+8;n.y=b.y+64;
+   if(name==='PC 가로'){a.dock='right';a.w=Math.min(390*s,b.w*.32);n.w=280*s;n.h=250*s;}else if(name==='폰 가로'){n.collapsed=a.collapsed=true;n.w=a.w=Math.min(280*s,b.w*.4);a.x=b.x+b.w-a.w-8;a.y=b.y+48;n.y=b.y+48;}else{n.collapsed=true;n.w=Math.min(260*s,b.w*.65);n.y=b.y+50;a.dock='bottom';a.h=b.h*.4;}
+   if(compact()){let i=0;for(const q of windows.values()){const size=windowSize(q);Object.assign(q,{dock:'',collapsed:false,w:Math.min(b.w,size[0]*s),h:Math.min(b.h,size[1]*s),x:b.x+8+(i%3)*20,y:b.y+42+(i%3)*24});q.restoreHeight=q.h;i++;}n.collapsed=a.collapsed=true;n.x=b.x+6;n.y=b.y+42;a.x=Math.max(b.x+6,b.x+b.w-a.w-6);a.y=b.y+72;}
+   if(c){c.open=!!WIP148_EXTERNAL_3D.active;c.w=Math.min((compact()?224:300)*s,b.w*(compact()?.6:.44));c.h=Math.min((compact()?170:220)*s,b.h*.4);c.x=b.x+8;c.y=b.y+b.h-c.h-8;if(c.x+c.w>b.x+b.w-Math.min(windowSize(widget)[0]*s,b.w)-8)c.y=Math.max(b.y,c.y-windowSize(widget)[1]*s-8);}Object.assign(widget,{x:b.x+b.w-Math.min(windowSize(widget)[0]*s,b.w)-8,y:b.y+b.h-windowSize(widget)[1]*s-8,w:Math.min(windowSize(widget)[0]*s,b.w),h:windowSize(widget)[1]*s});reflow(false);refreshList();persist();
+  }
+  function focusOpen(id){if(['CIC','INFO','LOCKED'].includes(id))open(id);else setControlDeckTabWip13C(id);}
+- function refreshList(){listRows.replaceChildren();addList.replaceChildren(make('div','ui-list-title-a','창 추가'));for(const [id,q]of windows){const row=make('div','ui-list-row-a');row.append(button((q.open?'● ':'○ ')+id,()=>q.open?close(q):focusOpen(id)),button('앞으로',()=>{focusOpen(id);bring(q);}));listRows.append(row);if(!q.open)addList.append(button(id,()=>{focusOpen(id);addList.hidden=true;}));}if(!addList.querySelector('button'))addList.append(make('p','','모든 창이 열려 있습니다.'));}
++ function refreshList(){listRows.replaceChildren();addList.replaceChildren(make('div','ui-list-title-a','창 추가'));for(const [id,q]of windows){const row=make('div','ui-list-row-a');row.append(button((q.open?'● ':'○ ')+id,()=>q.open?close(q):focusOpen(id)),button('앞으로',()=>{focusOpen(id);bring(q);}));listRows.append(row);if(!q.open)addList.append(button(id,()=>{focusOpen(id);addList.hidden=true;}));}const arms=mapELegacyNodeE('armsBtn');if(arms){arms.textContent='ARMS STATUS';addList.append(arms);}if(!addList.querySelector('button'))addList.append(make('p','','모든 창이 열려 있습니다.'));}
+  function reflow(scaleChanged=false){if(applying)return;applying=true;syncDensity();document.documentElement.style.setProperty('--ui-status-height-a',bar.getBoundingClientRect().height+'px');const next=key();if(next!==layoutKey){layoutKey=next;if(!restore()){applying=false;applyPreset(defaultPreset());return;}}for(const q of windows.values())clampWindow(q);clampWindow(widget);const b=bounds();for(const e of [list,addList]){e.style.bottom=(AEGIS_VIEWPORT.layout.y+AEGIS_VIEWPORT.layout.h-b.y-b.h)/settings.scale+'px';e.style.maxHeight=b.h/settings.scale+'px';}placeModeMenu();const v=AEGIS_VIEWPORT.twoD,hud=document.getElementById('hud');if(hud){hud.style.left=(v.x+6)/settings.scale+'px';hud.style.top=(v.y+42)/settings.scale+'px';}const btn=document.getElementById('external3dBtn');if(btn){btn.style.left=(v.x+6)/settings.scale+'px';btn.style.top=(v.y+4)/settings.scale+'px';}applying=false;if(scaleChanged){AEGIS_VIEWPORT.schedule();persist();}}
+  function inventoryRows(){const r=ACTIVE_SHIP_RUNTIME;
+   // Legacy single-mount owners expose mainGun, multi-mount owners gunMounts.
+@@ -63538,7 +63557,7 @@
+   const source=r.weapons.gunMounts?r:{...r,weapons:{...r.weapons,gunMounts:new Map([['MAIN',r.weapons.mainGun]])}},q=exportWeaponInventoryD(source),rows=[],add=(name,qty)=>rows.push({name,qty}),vlsNames={SM2:'SM-2MR',SM2ER:'SM-2ER',SM6:'SM-6',ESSM4:'ESSM'},counts=new Map((q.vls.fwd.length+q.vls.aft.length)?Object.values(vlsNames).map(name=>[name,0]):[]);for(const cell of [...(q.vls?.fwd??[]),...(q.vls?.aft??[])]){if(cell.type==='EMPTY')continue;const name=vlsNames[cell.type]??cell.type;counts.set(name,(counts.get(name)??0)+(cell.destroyed?0:cell.type==='ESSM4'?cell.essmCount:1));}for(const [name,n]of counts)add(name,n);if(q.harpoon.tubes.length)add('RGM-84',q.harpoon.tubes.filter(t=>t.loaded).length);
+   const guns=new Map();for(const g of q.guns){const name=g.moduleId.includes('MK45')?'5in':g.moduleId;guns.set(name,(guns.get(name)??0)+Object.values(g.magazine).reduce((a,b)=>a+b,0));}for(const [name,n]of guns)add(name,n);const ciwsCounts=new Map();for(const m of q.closeIn){const name=m.type==='RAM'?'RAM':'20mm';ciwsCounts.set(name,(ciwsCounts.get(name)??0)+m.ammo);}for(const [name,n]of ciwsCounts)add(name,n);for(const [k,name]of [['srboc','SRBOC'],['nulka','Nulka']]){const sk=q.softKill15B?.[k];if(sk?.launchers.length)add(name,sk.launchers.reduce((n,l)=>n+l.rounds,0));}if(r.aviation.inventory?.length)add('HELO',r.aviation.inventory.length);return rows;}
+  let inventorySignature='';
+- function update(now){if(now-lastStatus>=250){lastStatus=now;const r=ACTIVE_SHIP_RUNTIME,p=resolveShipProfile(r.profileId),identity=p.identity??{};const hull=identity.hullNumber??p.id,speed=(shipNav.speed/.514444).toFixed(compact()?0:1)+'/'+shipNav.targetSpeedKt.toFixed(0)+'kt',heading=Math.round(shipHdgDeg()).toString().padStart(3,'0')+'°',health=r.health.shipHP>0?'생존':'상실';ship.textContent=compact()?hull+' · '+health+'\n'+speed+' · '+heading:hull+' '+(identity.shipName??'')+'\n'+speed+' · '+heading+' · '+health;if(window.__MAP_A__)ship.textContent=window.__MAP_A__.controlLabel(hull)+'\n'+speed+' · '+heading;ship.title=hull+' '+(identity.shipName??'')+' · '+speed+' · '+heading+' · '+health;const rows=inventoryRows(),signature=JSON.stringify(rows);if(signature!==inventorySignature){inventorySignature=signature;inventory.replaceChildren();for(const row of rows){const cell=make('span','ui-ammo-a');cell.append(make('strong','',String(row.qty)),make('span','',row.name));inventory.append(cell);}window.__MAP_B__?.inventoryRendered();}clockText.textContent=new Date(simStepCounter*SIM_FIXED_DT*1000).toISOString().slice(11,19);refreshChips();pause.classList.toggle('active',worldTimeScale===0);
++ function update(now){if(now-lastStatus>=250){lastStatus=now;const r=ACTIVE_SHIP_RUNTIME,p=resolveShipProfile(r.profileId),identity=p.identity??{};const hull=identity.hullNumber??p.id,speed=(shipNav.speed/.514444).toFixed(compact()?0:1)+'/'+shipNav.targetSpeedKt.toFixed(0)+'kt',heading=Math.round(shipHdgDeg()).toString().padStart(3,'0')+'°',health=r.health.shipHP>0?'생존':'상실';ship.textContent=compact()?hull+' · '+health+'\n'+speed+' · '+heading:hull+' '+(identity.shipName??'')+'\n'+speed+' · '+heading+' · '+health;if(window.__MAP_A__)ship.textContent=window.__MAP_A__.controlLabel(hull)+'\n'+speed+' · '+heading;ship.title=hull+' '+(identity.shipName??'')+' · '+speed+' · '+heading+' · '+health;const rows=inventoryRows(),signature=JSON.stringify(rows);if(signature!==inventorySignature){inventorySignature=signature;inventory.replaceChildren();for(const row of rows){const cell=make('span','ui-ammo-a');cell.append(make('strong','',String(row.qty)),make('span','',row.name));inventory.append(cell);}window.__MAP_B__?.inventoryRendered();window.__MAP_E__?.inventoryRendered();}clockText.textContent=new Date(simStepCounter*SIM_FIXED_DT*1000).toISOString().slice(11,19);refreshChips();pause.classList.toggle('active',worldTimeScale===0);
+    if(!window.__PIP_A__&&!WIP148_EXTERNAL_3D.active&&WIP148_EXTERNAL_3D.ready&&windows.get('CIC')?.open)WIP148_EXTERNAL_3D.drawAuxCic?.(get3DRenderState());}
+   const active=WIP148_EXTERNAL_3D.active;tape.hidden=!active;if(active&&WIP148_EXTERNAL_3D.camera){const v=WIP148_EXTERNAL_3D,d=new v.THREE.Vector3();v.camera.getWorldDirection(d);const bearing=(Math.atan2(d.x,-d.z)*180/Math.PI+360)%360,vr=AEGIS_VIEWPORT.threeD,control=document.getElementById('c14ControlsToggle')?.getBoundingClientRect(),readout=document.getElementById('external3DReadout')?.getBoundingClientRect(),space=2*Math.min(vr.cx-Math.max(vr.x,(control?.right??vr.x)+8),Math.min(vr.x+vr.w,(readout?.left??vr.x+vr.w)-8)-vr.cx),width=Math.max(110,Math.min(420,space));tape.style.left=vr.cx/settings.scale+'px';tape.style.top=(vr.y+6)/settings.scale+'px';tape.style.width=width/settings.scale+'px';window.__MAP_A__?.updateTape(tape,bearing,shipHdgDeg());}if(active!==miniWas3D){miniWas3D=active;if(active)open('CIC',{expand:false});else close(windows.get('CIC'));}requestAnimationFrame(update);
+  }
+@@ -63690,7 +63709,7 @@
+   if(!o&&inputSurface==='PIP'){menu.append(action('중심(자함 추적)',closeCall(()=>window.__PIP_A__.recenter()),'','pipContextCenterB'));menu.append(action('주화면 전환',closeCall(()=>window.__PIP_A__.swap()),'','pipContextSwapB'));}
+   menu.hidden=false;place(menu,x,y);
+  }
+- function legacyPipTap(x,y){const p=fromScreen(x,y),worldX=p.x,worldY=p.y,ax=aircraft.x(),ay=aircraft.y();if(controlDeckActiveTabWip13C==='AIR')heloMapTapA(worldX,worldY);else if(harpoonRouteEditingE()&&controlDeckActiveTabWip13C!=='FLEET')harpoonRouteAddE(worldX,worldY);else if(inputMode==='NAV')addWaypoint(worldX,worldY);else if(inputMode==='AIM'){lockCursor.nx=clamp((worldX-ax)/lockCursor.rx,-1,1);lockCursor.ny=clamp((worldY-ay)/lockCursor.ry,-1,1);lockCursor.x=ax+lockCursor.nx*lockCursor.rx;lockCursor.y=ay+lockCursor.ny*lockCursor.ry;}}
++ function legacyPipTap(x,y){const p=fromScreen(x,y),worldX=p.x,worldY=p.y,ax=aircraft.x(),ay=aircraft.y();if(harpoonRouteEditingE())harpoonRouteAddE(worldX,worldY);else if(controlDeckActiveTabWip13C==='AIR')heloMapTapA(worldX,worldY);else if(inputMode==='NAV')addWaypoint(worldX,worldY);else if(inputMode==='AIM'){lockCursor.nx=clamp((worldX-ax)/lockCursor.rx,-1,1);lockCursor.ny=clamp((worldY-ay)/lockCursor.ry,-1,1);lockCursor.x=ax+lockCursor.nx*lockCursor.rx;lockCursor.y=ay+lockCursor.ny*lockCursor.ry;}}
+  const tapCycleC={keys:[],signature:'',at:-Infinity,x:0,y:0,surface:null,armed:false,index:-1};
+  function chooseTapC(rows,x,y){const now=performance.now(),signature=pointSig(rows),armed=!!window.__MAP_B__?.snapshot().selection,same=tapCycleC.signature===signature&&tapCycleC.surface===inputSurface&&tapCycleC.armed===armed&&now-tapCycleC.at<=1500&&Math.hypot(x-tapCycleC.x,y-tapCycleC.y)<=12;
+   let ordered;if(same){ordered=tapCycleC.keys.map(k=>rows.find(o=>o.key===k));tapCycleC.index=(tapCycleC.index+1)%ordered.length;}else{ordered=window.__MAP_C__?.rankCandidates(rows,armed)??rows;tapCycleC.keys=ordered.map(o=>o.key);tapCycleC.index=0;}
+@@ -64013,7 +64032,7 @@
+   return {ok:true,reason:null,measurementAgeS,rangeKm,contributors,truthUsed:false};
+ }
+ 
+- try{return harpoonAutoTubeGateD(trackId,{mode:engagementControlMode,...options});}
++ try{return harpoonAutoTubeGateD(trackId,{mode:'MANUAL',...options});}
+  catch(e){return {ok:false,reason:'PREVIEW_UNAVAILABLE',detail:String(e),truthUsed:false};}
+ }
+ function mapDHarpoonSetSearchPoint(xM,yM){return window.__MAP_D__.appendSearchPoint(xM,yM);}
+@@ -64082,14 +64101,14 @@
+    const draft=harpoonRuntimeA().routeDraft,frozen=hpQueue?.routeProgram,path=draft.pointsM.length>0||!!frozen;
+    if(!path&&(!o||o.lost||o.kind==='ESM'||!tr)){const reason=o?.lost?'트랙 소실':o?.kind==='ESM'?'위치 정보 없음':'NO_TRACK';return {d,initial:!o,allowed:false,tone:'blocked',verdict:'발사 제한',reason,path:false};}
+    if(!path&&!isSurface(tr))return {d,allowed:false,tone:'blocked',verdict:'발사 제한',reason:'NOT_SURFACE_TRACK',path:false};
+-   const gate=mapDHarpoonPreview(id,{mode:engagementControlMode,...(frozen?{routeProgram:frozen}:{})});metrics.preview++;return {d,gate,allowed:!!gate.ok,tone:gate.ok?'effective':'blocked',verdict:gate.ok?'유효':'발사 제한',reason:gate.reason??null,path,initial:!o,rangeKm:gate.rangeKm};
++   const gate=mapDHarpoonPreview(id,{mode:'MANUAL',...(frozen?{routeProgram:frozen}:{})});metrics.preview++;return {d,gate,allowed:!!gate.ok,tone:gate.ok?'effective':'blocked',verdict:gate.ok?'유효':'발사 제한',reason:gate.reason??null,path,initial:!o,rangeKm:gate.rangeKm};
+   }
+   const a=gunAssessment(o),pending=a.rows.filter(r=>r.q.pendingSingleFire.active&&r.q.pendingSingleFire.trackId===id),continuous=a.rows.filter(r=>r.q.continuousFire.active&&r.q.continuousFire.trackId===id),queued=gunOps.some(q=>q.owner===own());
+   const canCancel=pending.length>0||continuous.length>0||queued,cycle=a.rows.filter(r=>r.eligible).map(r=>r.q.cycleRemainingS),cycleS=cycle.length?Math.min(...cycle):0;
+   return {...a,d,initial:!o,allowed:a.allowed||canCancel,pending,continuous,queued,cycleS,holdS:pending.length?Math.max(...pending.map(r=>r.q.pendingSingleFire.remainingS)):0,timeOfFlightS:a.rows.find(r=>r.eligible)?.q.solution?.timeOfFlightS??null};
+  }
+- function routeToggle(){if(inputMode!=='AIM')document.getElementById('modeAimBtn').click();const value=harpoonRouteToggleE();note('ROUTE_TOGGLE',null,{editing:value});window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return value;}
+- function appendSearchPoint(xM,yM){if(inputMode!=='AIM')document.getElementById('modeAimBtn').click();if(!harpoonRuntimeA().routeDraft.editing)harpoonRouteToggleE();const q=harpoonRouteAddE(metersToWorld(xM),metersToWorld(yM));window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return q;}
++ function routeToggle(){const value=harpoonRouteToggleE();note('ROUTE_TOGGLE',null,{editing:value});window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return value;}
++ function appendSearchPoint(xM,yM){if(!harpoonRuntimeA().routeDraft.editing)harpoonRouteToggleE();const q=harpoonRouteAddE(metersToWorld(xM),metersToWorld(yM));window.__MAP_B__.refresh(true);window.__PIP_A__?.invalidate();return q;}
+  function fireClick(s,t,m){
+   if(!handles(s?.weapon))return false;scope();if(s.weapon==='HARPOON'){
+    if(hpQueue||!m?.allowed)return true;const points=harpoonRuntimeA().routeDraft.pointsM,program=points.length?harpoonRouteProgramE(points,{x:worldToMeters(aircraft.x()),y:worldToMeters(aircraft.y())}):null;if(points.length&&!program){note('HARPOON_REJECT','INVALID_WAYPOINT_ROUTE');return true;}
+@@ -64102,7 +64121,7 @@
+  function finishHp(reason){if(!hpQueue)return;note(reason?'HARPOON_STOP':'HARPOON_COMPLETE',reason,{released:hpQueue.released,remaining:hpQueue.remaining,id:hpQueue.id});hpQueue=null;}
+  function observeHp(){if(!hpQueue?.awaiting)return;const q=hpQueue,r=harpoonRuntimeA();if(r.pending)return;const found=r.launches.find(x=>x.id!==q.awaiting.previousId&&x.tubeId===q.awaiting.tubeId&&x.releaseStep>=q.awaiting.step);if(found){q.released++;q.remaining--;metrics.hpReleased++;note('HARPOON_RELEASED',null,{id:q.id,launchId:found.id,tubeId:found.tubeId,trackId:found.memory?.trackId??null});q.awaiting=null;if(q.remaining<=0)finishHp(null);}else finishHp(r.lastResult?.replace(/^CANCELLED:/,'')??'RELEASE_CANCELLED');}
+  function step(){
+-  scope();observeHp();if(hpQueue&&!hpQueue.awaiting){const r=harpoonRuntimeA();if(!r.pending&&r.releaseCooldownS<=0){const q=hpQueue,options={mode:engagementControlMode,...(q.routeProgram?{routeProgram:q.routeProgram}:{})},result=harpoonRequestFireA(q.trackId,null,options);metrics.hpRequests++;note('HARPOON_REQUEST',result.reason??null,{id:q.id,ok:!!result.ok,tubeId:result.tubeId});if(result.ok)q.awaiting={tubeId:result.tubeId,previousId:r.launches.at(-1)?.id??null,step:simStepCounter};else finishHp(result.reason);}}
++  scope();observeHp();if(hpQueue&&!hpQueue.awaiting){const r=harpoonRuntimeA();if(!r.pending&&r.releaseCooldownS<=0){const q=hpQueue,options={mode:'MANUAL',...(q.routeProgram?{routeProgram:q.routeProgram}:{})},result=harpoonRequestFireA(q.trackId,null,options);metrics.hpRequests++;note('HARPOON_REQUEST',result.reason??null,{id:q.id,ok:!!result.ok,tubeId:result.tubeId});if(result.ok)q.awaiting={tubeId:result.tubeId,previousId:r.launches.at(-1)?.id??null,step:simStepCounter};else finishHp(result.reason);}}
+   const ops=gunOps;gunOps=[];for(const op of ops){if(op.owner!==own())continue;
+    for(const{id,g}of guns()){const q=g.snapshot();let result;if(op.action==='STOP'){if(q.continuousFire.active&&q.continuousFire.trackId===op.trackId){result=g.stopContinuousFire('OPERATOR_STOP');metrics.continuousStops++;}}
+     else if(op.action==='CANCEL'){if(q.pendingSingleFire.active&&q.pendingSingleFire.trackId===op.trackId)result=g.requestFire(op.trackId,{mode:'MANUAL',ammoId:q.loadedAmmoId});}
+@@ -64149,6 +64168,65 @@
+ })();
+ 
+ // MAP_D_EXTENSION_END
++// MAP_E_UI_BEGIN
++// MAP_E: UI reads own navigation/inventory/observed cue only. No truth/RF/NPC
++// enumeration. Native release commands remain the sole mutation authority.
++window.__MAP_E__=(()=>{
++ let menu,decoy,anchorKind=null,lastResult=null,remembered=null,mounted=false,lastRefresh=-Infinity;
++ const dom={},levelNames={OFF:'끔',JAM:'재밍 자동',FULL:'전체 자동'},scale=()=>window.__UI_A_SETTINGS__.scale;
++ const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text)e.textContent=text;return e;};
++ function button(text,id,fn){const b=make('button','ui-button-a',text);b.type='button';b.id=id;b.addEventListener('click',fn);return b;}
++ function isolate(e){for(const n of ['pointerdown','pointermove','pointerup','pointercancel','click','wheel','touchstart','touchmove','touchend','contextmenu'])e.addEventListener(n,x=>{x.stopPropagation();if(n==='contextmenu')x.preventDefault();},{passive:n.startsWith('touch')||n==='wheel'});}
++ function place(e,a){if(e.hidden||!a)return;const v=AEGIS_VIEWPORT.layout,r=e.getBoundingClientRect(),s=scale();e.style.left=Math.max(v.x+4,Math.min(v.x+v.w-r.width-4,a.right-r.width))/s+'px';e.style.top=Math.max(v.y+4,Math.min(v.y+v.h-r.height-4,a.top-r.height-5))/s+'px';}
++ function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;chip.textContent='EMCON '+(emconActive?'ON':'OFF')+'\nECM '+ownEcmLevelE();chip.title='레이더 '+(emconActive?'OFF':'ON')+' · ECM '+levelNames[ownEcmLevelE()]+(!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?' · 기존 재밍 승인 유지':'');chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}
++ function command(level){const q=ownEcmCommandE(level);refresh();refreshChip();return q;}
++ function allRadiation(){
++  if(!emconActive||ownEcmLevelE()!=='OFF'||noiseJamActive||deceptJamActive){remembered={owner:ACTIVE_SHIP_RUNTIME,level:ownEcmLevelE()};if(!emconActive)toggleEmcon();command('OFF');}
++  else{if(emconActive)toggleEmcon();command(remembered?.owner===ACTIVE_SHIP_RUNTIME?remembered.level:'OFF');}
++  refresh();
++ }
++ function toggleMenu(){if(!mounted)return;menu.hidden=!menu.hidden;decoy.hidden=true;refresh();refreshChip();}
++ function close(){if(menu)menu.hidden=true;if(decoy)decoy.hidden=true;refreshChip();}
++ function stockReason(k){
++  if(shipEquipmentOfflineV1())return k==='SRBOC'?'채프 발사 차단 · 장비 정지':'SHIP_OFFLINE';
++  if(k==='SRBOC'){
++   if(MK36_RUNTIME_WIP15A.cooldownS>0)return 'Mk 36 SRBOC 대기 '+MK36_RUNTIME_WIP15A.cooldownS.toFixed(1)+'s';
++   if(mk36LoadedRounds()<=0)return 'Mk 36 SRBOC — 발사관 탄약 없음';
++   if(!mk36SelectLauncher(softKillPrimaryThreat()?.bearing??shipNav.heading))return 'Mk 36 SRBOC — 사용 가능한 발사관 없음';
++  }else{
++   const error=nulkaCueError15B(softKillPrimaryThreat());if(error)return error;
++   if(skRuntime15B('NULKA').cooldownS>1e-9)return 'LAUNCH_CYCLE';
++   if(!nulkaSelectLauncher15B(softKillPrimaryThreat().bearing))return 'NO_READY_CANISTER';
++  }return null;
++ }
++ function popup(k){anchorKind=k;lastResult=null;menu.hidden=true;decoy.hidden=false;refresh();refreshChip();}
++ function fire(){if(!anchorKind)return;const k=anchorKind;
++  // Command happens only in this explicit click handler; no render-time dispatch.
++  if(k==='SRBOC'){const n=deployOwnChaff();lastResult={kind:k,ok:n>0,fired:n,reason:n>0?null:document.getElementById('toastWrap')?.firstElementChild?.textContent??'Mk 36 SRBOC — 발사 거부'};}
++  else{const q=nulkaFire15B(softKillPrimaryThreat());lastResult={kind:k,...q};}
++  refresh();return lastResult;
++ }
++ function inventoryRendered(){const inv=document.getElementById('uiInventoryA');if(!inv)return;for(const e of inv.children){const label=e.querySelector('span')?.textContent,k=label==='SRBOC'?'SRBOC':label==='Nulka'?'NULKA':null;if(!k)continue;
++  // Keep the original read-only cell's font/padding/width. Adding the generic
++  // weapon-button class enlarged these compact cells; role/button keyboard
++  // handling provides activation without changing the reserved inventory boxes.
++  e.dataset.decoyE=k;e.setAttribute('role','button');e.tabIndex=0;e.setAttribute('aria-label',(k==='SRBOC'?'SRBOC':'Nulka')+' 수동 발사');}window.__MAP_C__?.stabilizeInventory();}
++
++ function refresh(){if(!mounted)return;document.getElementById('uiDesktopA').classList.toggle('map-bar-narrow-e',AEGIS_VIEWPORT.layout.w/scale()<760);
++  if(armsPanelOpen){const v=AEGIS_VIEWPORT.layout,s=scale();armsPanel.style.left=v.cx/s+'px';armsPanel.style.top=v.cy/s+'px';armsPanel.style.width=Math.min(380,(v.w-20)/s)+'px';armsPanel.style.maxHeight=(v.h-40)/s+'px';}
++  const level=ownEcmLevelE();dom.all.textContent='전체 방사 '+(emconActive&&level==='OFF'&&!noiseJamActive&&!deceptJamActive?'ON':'OFF');dom.radar.textContent='레이더 '+(emconActive?'ON':'OFF');for(const [k,e]of Object.entries(dom.levels))e.setAttribute('aria-pressed',String(level===k));dom.note.textContent=!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?'기존 재밍 승인: '+(noiseJamActive?'NJ ':'')+(deceptJamActive?'DJ':''):'';place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());
++  if(!decoy.hidden){const a=document.querySelector('[data-decoy-e="'+anchorKind+'"]');if(!a){decoy.hidden=true;return;}const why=stockReason(anchorKind)??(lastResult?.ok===false?lastResult.reason:null);dom.reason.textContent=why??(lastResult?.ok?'발사 완료':'');dom.fire.disabled=!!why;dom.fire.textContent=(anchorKind==='SRBOC'?'SRBOC':'Nulka')+' 발사';place(decoy,a.getBoundingClientRect());}
++ }
++ function mount(){const host=document.getElementById('uiDesktopA');host.append(armsPanel);armsPanel.style.zIndex='60000';armsPanel.style.pointerEvents='auto';isolate(armsPanel);mapELegacyNodeE('armsBtn').addEventListener('click',()=>{document.getElementById('uiWindowAddA').hidden=true;refresh();});menu=make('aside','ui-mode-menu-a map-popover-e');menu.id='mapEmconMenuE';menu.hidden=true;menu.setAttribute('aria-label','방사 및 ECM 조작');decoy=make('aside','ui-mode-menu-a map-popover-e map-decoy-e');decoy.id='mapDecoyMenuE';decoy.hidden=true;host.append(menu,decoy);isolate(menu);isolate(decoy);
++  dom.all=button('전체 방사 OFF','mapAllRadiationE',allRadiation);dom.radar=button('레이더 OFF','mapRadarE',()=>{toggleEmcon();refresh();refreshChip();});menu.append(dom.all,dom.radar,make('span','','ECM'));const row=make('div','map-ecm-levels-e');dom.levels={};for(const[k,label]of Object.entries(levelNames)){const e=button(label,'mapEcm'+k+'E',()=>command(k));e.dataset.ecmLevelE=k;dom.levels[k]=e;row.append(e);}menu.append(row);dom.note=make('small','');menu.append(dom.note);dom.reason=make('small','map-decoy-reason-e');dom.fire=button('발사','mapDecoyFireE',fire);decoy.append(dom.reason,dom.fire);
++  const inv=document.getElementById('uiInventoryA');inv.addEventListener('keydown',e=>{const a=e.target.closest('[data-decoy-e]');if(a&&['Enter',' '].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();popup(a.dataset.decoyE);}},{capture:true});inv.addEventListener('click',e=>{const a=e.target.closest('[data-decoy-e]');if(a){e.stopImmediatePropagation();popup(a.dataset.decoyE);}},{capture:true});
++  document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target)&&!document.getElementById('uiEmconChipA').contains(e.target))menu.hidden=true;if(!decoy.contains(e.target)&&!e.target.closest?.('[data-decoy-e]'))decoy.hidden=true;refreshChip();},{capture:true});document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
++  const css=make('style');css.textContent=`#uiDesktopA #uiInventoryA [data-decoy-e]{position:relative;cursor:pointer}#uiDesktopA #uiInventoryA [data-decoy-e]:after{content:'';position:absolute;left:0;right:0;top:50%;height:36px;transform:translateY(-50%);pointer-events:auto}#uiDesktopA.map-bar-narrow-e #uiStatusBarA{grid-template-areas:'ship inventory inventory' 'fire chips actions'!important;grid-template-columns:106px minmax(0,1fr) auto!important;column-gap:4px}#uiDesktopA.map-bar-narrow-e #uiStatusBarA .ui-chips-a{padding-left:12px}#uiDesktopA #uiEmconChipA{white-space:pre;line-height:1.05;font-size:inherit}.map-popover-e{display:flex!important;flex-direction:column;gap:4px;padding:5px;font:11px/1.3 monospace;min-width:180px;max-width:240px}.map-popover-e[hidden]{display:none!important}.map-popover-e .map-ecm-levels-e{display:flex;gap:4px}.map-popover-e button{min-height:28px;min-width:28px;padding:3px 5px;font:11px/1.3 monospace}.map-popover-e button[aria-pressed=true]{border-color:#76dfbd}.map-popover-e small{white-space:normal;overflow-wrap:anywhere;color:#e8bb79}.map-popover-e small:empty{display:none}#uiDesktopA #mapDecoyMenuE #mapDecoyFireE{min-height:40px!important;height:40px!important;margin-top:8px}#uiDesktopA #armsPanelClose{min-height:28px;min-width:28px}.map-decoy-e{min-width:150px}#uiWindowAddA #armsBtn{display:block;width:100%;min-height:28px}#armsPanel{zoom:var(--ui-scale-a)}`;document.head.append(css);mounted=true;inventoryRendered();refreshChip();requestAnimationFrame(function update(now){if(now-lastRefresh>=100){lastRefresh=now;refresh();refreshChip();}requestAnimationFrame(update);});
++ }
++ return Object.freeze({mount,toggleMenu,inventoryRendered,refreshChip,snapshot(){return {level:ownEcmLevelE(),radarOn:!emconActive,noiseRequested:noiseJamActive,deceptionRequested:deceptJamActive,auto:softKillAutoDoctrine,menuOpen:!!menu&&!menu.hidden,decoyOpen:!!decoy&&!decoy.hidden,decoy:anchorKind,lastResult:lastResult?{kind:lastResult.kind,ok:!!lastResult.ok,reason:lastResult.reason??null,fired:lastResult.fired??null}:null,remembered:remembered?.owner===ACTIVE_SHIP_RUNTIME?remembered.level:null};}});
++})();
++
++// MAP_E_UI_END
+ // MAP_B_UI_BEGIN
+ // MAP_B: presentation state and operator command queue only. No target truth source.
+ function mapBObservedTrack(id){
+@@ -64490,7 +64568,7 @@
+  function clear(){window.__MAP_D__.cancelled(selection);selection=null;target=null;model=null;pending=null;chooser.hidden=pane.hidden=true;window.__MAP_A__?.setFiringTarget(null);highlight();repaint();}
+  function commitExtendedD(next){window.__MAP_D__.selectionChanging(selection,next);selection=next;pending=null;chooser.hidden=true;if(target)window.__MAP_D__.chosen(selection,target,trackView());highlight();repaint();}
+  function countMenu(w,anchor){pending=w;chooser.classList.remove('map-gun-menu-d');if(window.__MAP_D__.menu(w,anchor,commitExtendedD))return;chooser.replaceChildren();for(let n=1;n<=4;n++){const b=el('button','',n===1?'단발':n+'발');b.dataset.salvoB=n;b.disabled=ready(w)<n;b.title=b.disabled?'준비 탄 부족':'';b.addEventListener('click',()=>{if(ready(w)<n)return;window.__MAP_D__.selectionChanging(selection,{weapon:w,count:n});selection={weapon:w,count:n};pending=null;chooser.hidden=true;highlight();repaint();});chooser.append(b);}chooser.hidden=false;const a=anchor.getBoundingClientRect();place(chooser,a.left,a.top-chooser.getBoundingClientRect().height-5);}
+- inv.addEventListener('click',e=>{const b=e.target.closest('[data-weapon-b]');if(b){e.stopPropagation();if(b.disabled)return;if(selection?.weapon===b.dataset.weaponB){clear();return;}countMenu(b.dataset.weaponB,b);return;}if(e.target===inv)clear();else{window.__UI_A__.open('ARM');setControlDeckTabWip13C('ARM');}});
++ inv.addEventListener('click',e=>{const b=e.target.closest('[data-weapon-b]');if(b){e.stopPropagation();if(b.disabled)return;if(selection?.weapon===b.dataset.weaponB){clear();return;}countMenu(b.dataset.weaponB,b);return;}if(e.target===inv)clear();else{/* MAP_E: non-weapon inventory has no legacy ARM routing. */}});
+  bar.addEventListener('click',e=>{if(e.target===bar||e.target.classList.contains('ui-bar-overview-a')||e.target.classList.contains('ui-bar-command-a'))clear();});
+  document.addEventListener('pointerdown',e=>{if(!chooser.hidden&&!chooser.contains(e.target)&&!inv.contains(e.target)){chooser.hidden=true;pending=null;}},{capture:true});
+  function choose(o,surface='MAIN'){if(!selection||!['TRACK','NET','ESM'].includes(o.kind))return false;target={key:o.key,kind:o.kind,id:o.id,associatedTrackId:o.associatedTrackId,surface,last:{...o}};window.__MAP_A__.setFiringTarget(o.key);window.__MAP_D__.chosen(selection,target,o);pane.hidden=false;repaint();return true;}
+@@ -64567,6 +64645,6 @@
+ })();
+ 
+ // MAP_B_UI_END
+-window.__MAP_C__.mount();window.__MAP_D__.mount();
++window.__MAP_C__.mount();window.__MAP_D__.mount();window.__MAP_E__.mount();
+   completeShipStartup();
+ })();

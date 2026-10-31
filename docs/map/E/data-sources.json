@@ -1,0 +1,32 @@
+{
+  "newUi": "map_e.js",
+  "sourcePolicy": "own command/navigation/inventory and existing measured soft-kill cue only",
+  "inputs": [
+    "ACTIVE_SHIP_RUNTIME.entityId (own command address only)",
+    "softKillAutoDoctrine / noiseJamActive / deceptJamActive / emconActive",
+    "ownEcmLevelE() (transient own-ship command level)",
+    "skRuntime15B / skLogisticsSnapshot15B (own inventory, cooldown, readiness)",
+    "softKillPrimaryThreat() (existing observer-derived cue)",
+    "nulkaCueError15B / nulkaSelectLauncher15B / mk36SelectLauncher (unchanged native readiness helpers)",
+    "AEGIS_VIEWPORT.layout / UI_A_SETTINGS.scale / own DOM bounds",
+    "original armsPanel / drawArmsPanel (existing own inventory presentation)"
+  ],
+  "commands": [
+    "toggleEmcon()",
+    "ownEcmCommandE → electronicCommandF (own address only)",
+    "deployOwnChaff()",
+    "nulkaFire15B(softKillPrimaryThreat())",
+    "map Harpoon preview + harpoonRequestFireA options.mode=MANUAL"
+  ],
+  "newUiTargetTruthReferences": 0,
+  "newUiRfWorldEnumeration": 0,
+  "newUiSensorOrFlightMutations": 0,
+  "renderTimeReleaseCalls": 0,
+  "nativeDispatchExceptions": [
+    "Own updateSoftKillDoctrine chaff if(cand && ownEcmLevelE()===FULL)",
+    "Own nulkaAuto15B early guard ownEcmLevelE()!==FULL"
+  ],
+  "npcKernel": "createElectronicContextF byte exact",
+  "save": "no new field; JAM resets to inferred FULL on native restore/SK command. Existing manual NJ/DJ flags preserved and shown read-only until a new level is explicitly selected.",
+  "deferred": "EMCON non-radiating designation GUI location (native lockByCursor EMCON branch retained)"
+}
