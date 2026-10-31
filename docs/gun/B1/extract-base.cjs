@@ -1,0 +1,3 @@
+const fs=require('fs'),path=require('path'),{load}=require('../../missile/launch-handoff/A/source.cjs');
+const root=path.resolve(__dirname,'../../..'),q=load(path.join(root,'Aegis_SIM_v48_WIP_MAP_E.html')),names=['_wip88FragmentationPk','createProfileGunModuleWip13B3','updateMainGunWip13B3','spawnMainGunProjectileWip13B3','updateMainGunProjectilesWip13B3','prepareOperationalStateV48Wip11B','applyPreparedOperationalStateV48Wip11B','wip13b5UpdateGunButtonLabels'];
+const out=Object.fromEntries(names.map(k=>{const v=q.symbols.get(k);return[k,{code:v.code,ordinal:q.source.slice(0,v.start).split(v.code).length-1}];}));fs.writeFileSync(path.join(__dirname,'base-functions.json'),JSON.stringify(out));

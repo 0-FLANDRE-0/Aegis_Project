@@ -1,0 +1,28 @@
+from pathlib import Path
+import sys,json,hashlib,time,base64
+from playwright.sync_api import sync_playwright,Locator
+H=Path(__file__).resolve().parent;R=H.parents[2];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
+raw=(R/'Aegis_SIM_v48_WIP_GUN_B1.html').read_bytes();fixture='\n'.join(p.read_text()for p in [R/'docs/map/E/test-helper.js',R/'docs/map/D/extension-fixture.js',H/'test-fixture.js'])+'''
+__GB_TEST__.handoffSetup=()=>{__GB_TEST__.reset();const autoId=__GB_TEST__.air({rangeKm:5,bearingDeg:90,speedMps:280,classification:'ASM'});gunB1SetAuto(true);let t=0;for(;t<900;t++){__GB_TEST__.observeTick(1,{auto:true});if(gunB1OwnGuns().every(([,g])=>g.snapshot().shotsFired>=1))break;}const manualId=__MD_TEST__.surface({rangeKm:5,bearingDeg:0});return {autoId,manualId,t,guns:__GB_TEST__.guns(),auto:gunB1AutoSnapshot()};};
+__GB_TEST__.handoffFreshTick=n=>{for(let i=0;i<n;i++){for(const tr of tracks.values())tr._lastMeasurementStep=simStepCounter;__MD_TEST__.tick(1);}};
+__GB_TEST__.handoffAdvance=(id,max=700)=>{const before=__GB_TEST__.guns();for(let i=0;i<max;i++){for(const tr of tracks.values())tr._lastMeasurementStep=simStepCounter;__MD_TEST__.tick(1);const first=gunB1OwnGuns()[0][1].snapshot();if(first.lastFire?.trackId===id)return {fired:true,ticks:i+1,before,guns:__GB_TEST__.guns(),auto:gunB1AutoSnapshot(),map:__MAP_D__.snapshot()};}return {fired:false,before,guns:__GB_TEST__.guns(),auto:gunB1AutoSnapshot(),map:__MAP_D__.snapshot()};};
+'''
+errors=[];records={};checks={};E=H/'evidence/ui-handoff';E.mkdir(parents=True,exist_ok=True);start=time.perf_counter()
+def ck(k,v):checks[k]=bool(v);print(k,bool(v),flush=True)
+def choose(p,id,mode='SINGLE'):
+ p.wait_for_timeout(350);print('choose-before',p.evaluate('({selection:__MAP_B__.snapshot().selection,cell:document.querySelector("[data-weapon-b=MK45]").outerHTML})'),flush=True);p.evaluate('document.querySelector("[data-weapon-b=MK45]").click()');
+ if not p.locator('[data-gun-mode-d]').count():p.evaluate('document.querySelector("[data-weapon-b=MK45]").click()')
+ p.locator('[data-gun-mode-d="'+mode+'"]').click();p.evaluate('id=>__MAP_B__.pickObject(__MAP_A__.objects().find(o=>o.key==="TRACK:"+id))',id);p.evaluate('__MAP_B__.refresh(true)')
+with sync_playwright()as pw:
+ b=launch(pw)
+ for ship in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
+  p=load_fleet(b,instrument(raw,fixture),own=ship,width=832,height=384,errors=errors);p.set_default_timeout(180000);key=ship[:2];p.evaluate('Object.keys(__UI_A__.snapshot().windows).forEach(k=>__UI_A__.close(k))');setup=p.evaluate('__GB_TEST__.handoffSetup()');choose(p,setup['manualId']);q=p.evaluate('__MAP_B__.snapshot()');ck(key+'.buttonEnabledDuringAutoCycle',q['model']['allowed']and q['model']['reason']=='AUTO_GUN_HANDOFF_REQUIRED'and not p.locator('#mapFireB').is_disabled());ck(key+'.lookupDoesNotInterruptAuto',all(g['q']['commandTrackId']==setup['autoId']for g in p.evaluate('__GB_TEST__.guns()')))
+  c=p.context.new_cdp_session(p)
+  try:(E/(key+'-takeover.png')).write_bytes(base64.b64decode(c.send('Page.captureScreenshot',{'format':'png','captureBeyondViewport':False})['data']))
+  finally:c.detach()
+  p.locator('#mapFireB').click();q=p.evaluate('__GB_TEST__.handoffAdvance('+str(setup['manualId'])+')');ck(key+'.nativeManualShot',q['fired']);ck(key+'.nativeCyclePreserved',q['ticks']/60>=setup['guns'][0]['q']['cycleRemainingS']-1/60);ck(key+'.oneOperatorRequest',q['map']['metrics']['gunRequests']==1 and sum(r['action']=='FIRE'and r.get('takeover')and r.get('trackId')==setup['manualId']and r.get('ok')for r in q['map']['log'])==1);records[key+'.single']=q
+  if key=='CG':ck(key+'.ineligibleOtherKeepsAuto',q['guns'][1]['q']['commandTrackId']==setup['autoId']and q['guns'][1]['q']['continuousFire']['active'])
+  p.evaluate('document.getElementById("uiStatusBarA").click()');setup=p.evaluate('__GB_TEST__.handoffSetup()');choose(p,setup['manualId']);p.locator('#mapFireB').click();p.evaluate('__GB_TEST__.handoffFreshTick(1)');p.evaluate('__MAP_B__.refresh(true)');ck(key+'.waitingCancelable','요청 취소'in p.locator('#mapFireB').inner_text());p.locator('#mapFireB').click();p.evaluate('__GB_TEST__.handoffFreshTick(240)');q=p.evaluate('({guns:__GB_TEST__.guns(),map:__MAP_D__.snapshot(),auto:__GUN_B1__.snapshot()})');ck(key+'.cancelNoManualShot',all(g['q']['lastFire']is None or g['q']['lastFire']['trackId']!=setup['manualId']for g in q['guns'])and not q['map']['gunCommands']);ck(key+'.cancelResumesAuto',q['guns'][0]['q']['commandTrackId']==setup['autoId']);records[key+'.cancel']=q
+  p.evaluate('document.getElementById("uiStatusBarA").click()');setup=p.evaluate('__GB_TEST__.handoffSetup()');choose(p,setup['manualId'],'CONTINUOUS');p.locator('#mapFireB').click();r=p.evaluate('__GB_TEST__.handoffAdvance('+str(setup['manualId'])+')');ck(key+'.continuousActualShot',r['fired']and r['guns'][0]['q']['continuousFire']['active']);p.evaluate('__MAP_B__.refresh(true)');p.locator('#mapFireB').click();before=r['guns'][0]['q']['shotsFired'];p.evaluate('__GB_TEST__.handoffFreshTick(1)');r=p.evaluate('__GB_TEST__.guns()');ck(key+'.continuousStopNoExtra',r[0]['q']['shotsFired']==before);ck(key+'.continuousStopResumesAuto',r[0]['q']['commandTrackId']==setup['autoId']);records[key+'.continuousStop']=r;p.close()
+ b.close()
+ck('pageErrors0',not errors);out={'checks':checks,'records':records,'errors':errors,'pass':all(checks.values()),'htmlSha256':hashlib.sha256(raw).hexdigest(),'elapsedS':time.perf_counter()-start};(E/'results.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n');print(json.dumps({'pass':out['pass'],'failed':[k for k,v in checks.items()if not v]}));raise SystemExit(not out['pass'])
