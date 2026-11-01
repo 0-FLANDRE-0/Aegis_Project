@@ -33,7 +33,7 @@ node docs/contact/track/A/test_contract.cjs docs/contact/track/A/measurement-con
 | trace | OFF/overflow/query | 기본 OFF, ring 상한·overflow 순서, native NIS/gate 결과만 복사, 원본 입력/시계/RNG 쓰기 0, 조회 무변경 |
 | trace state privacy | before/after 상태 canary | 상태 스냅샷도 다시 허용 필드만 복사, truthRef·faction 등 유출 0 |
 
-현재 실행한 51개 단언은 `evidence/contract-unit.json`에 결과와 모듈 SHA-256을 기록한다. 단언 개수는 기존 도메인420/UI213/natural WebGL29와 별도이며 합쳐서 기존 회귀 통과 수를 늘리지 않는다.
+현재 실행한 52개 단언은 `evidence/contract-unit.json`에 결과와 모듈 SHA-256을 기록한다. 단언 개수는 기존 도메인420/UI213/natural WebGL29와 별도이며 합쳐서 기존 회귀 통과 수를 늘리지 않는다. 합성된 네트워크 추정치의 state epoch가 미상의 측정/수신 시각으로 잘못 승격되지 않는 API 검사도 포함한다. 실제 reconcile 호출부의 timestamp 계약은 별도 native ingress fixture로 확인해야 한다.
 
 ## 자연 시험과의 분리
 
