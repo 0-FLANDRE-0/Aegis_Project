@@ -4,6 +4,18 @@
 
 이 계약은 **DIAGNOSTIC_ONLY 호환 view**다. 기존 payload·TrackStore·필터·분류·IFF·수명·AI·발사 게이트·피해/무장 시스템을 교체하지 않는다. TRACK-A는 관측을 설명하고 실제 native 연관 결정을 추적하며, 이 레코드를 native 연관·FCS·자동 식별의 새 입력으로 사용하지 않는다.
 
+최종 RC2 소스는 `bae3cb3da79ba8de74220c9b53e99d7b884becea`, HTML SHA-256은 `e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a`다. RC1 `34c2999`/`2fbe5392…`의 실행 자료는 historical이며 최종 빌드의 fresh 검증으로 합산하지 않는다. RC2 보정은 합성 융합 상태의 epoch와 미상인 원 관측·수신 시각을 구별하는 **진단 메타데이터 보정**이며 native 연관·비행·교전 동작 변경이 아니다.
+
+```mermaid
+flowchart LR
+  P[기존 센서 plot / 수신 report] --> A[기존 association / EKF / 기존 consumer]
+  P -. 관찰 전용 .-> C[계약 view / bounded trace ring]
+  A -. 이미 계산한 결정만 복사 .-> C
+  C --> Q[detached snapshot / 진단 조회]
+```
+
+계약·trace·조회에서 원 plot, association, EKF 또는 전술 consumer로 돌아가는 경로는 없다.
+
 규범 원천은 [INSTRUCTIONS.md](INSTRUCTIONS.md), baseline 경로 감사는 [TRACK_AUDIT.md](TRACK_AUDIT.md)다. 실제 구현 파일은 [measurement-contract.js](measurement-contract.js), fixture-only 검사는 [TEST_MATRIX_A.md](TEST_MATRIX_A.md)와 `test_contract.cjs`다. 최종 내장·연결 범위와 실제 실행 PASS 여부는 `REPORT.md`/`VALIDATION.json`에서 확인한다. **normalize 함수가 존재한다는 사실만으로 모든 sensor hook/실제 trace/동등성 검증이 끝났다고 선언하지 않는다.**
 
 ## 2. API와 공통 schema
@@ -35,7 +47,7 @@ window.__TRACK_A__.snapshot()
 | quality / qualityOrigin / domainEvidence | 기존 제공 값·증거를 복사. 수신자가 만든 age quality는 qualityOrigin에서 reported/receiver-derived로 구분. confidence를 authority로 승격하지 않음 |
 | provenance | 기존 sourceId/sequence/sender/전술 file 번호·시각·명시 retransmission 정보. 독립 여부가 없으면 null; packet sequence가 새롭다는 이유만으로 새 독립 fix로 간주하지 않음 |
 
-`receivedAtS`를 넣기 위해 wall clock을 읽지 않는다. same-tick native local 측정은 실제 호출 문맥의 fixed time으로 기록할 수 있지만, offboard/ISAR/network에는 payload의 원 시각이 우선이다. 정보가 원 스키마에서 소실됐으면 “모름”을 보존한다.
+`receivedAtS`를 넣기 위해 wall clock을 읽지 않는다. same-tick native local 측정은 실제 호출 문맥의 fixed time으로 기록할 수 있지만, offboard/ISAR/network의 `measuredAtS`는 payload 원 측정 시각을 우선하고, `receivedAtS`는 실제 수신 문맥의 명시 시각을 우선한다. 수신 시각을 원 측정 시각으로 덮어쓰지 않는다. 정보가 원 스키마에서 소실됐으면 “모름”을 보존한다.
 
 ## 3. 센서별 차원과 가정
 
@@ -53,6 +65,8 @@ window.__TRACK_A__.snapshot()
 | OFFBOARD_PLOT | received position/P는 reported Cartesian3D rows, upstream physical 차원은 null/unknown | H1/H2의 APS라면 원 센서는 range/az이고 z가 prior지만 **수신 스키마만으로 항상 단정하지 않음**. 미측정 속도를 보충하지 않음 |
 | NETWORK_TRACK | sender filter state6D/P는 reported rows6, physical observation dimension null | x/y/z/vx/vy/vz 전부 송신자 추정. 6개의 독립 원시 센서 관측이나 새 local hit가 아님. measuredAtS와 stateAtS를 구분 |
 | NETWORK_SELF | 자기 항법 보고이며 목표 physical measurement 아님 | 현재 native producer의 x/y/vx/vy는 sender nav, **z=8/vz=0은 가정**. received state 배열을 그대로 6D target observation으로 표시하지 않음 |
+
+`NETWORK_RECONCILE`은 새 센서 수신이 아니라 기존 canonical file의 CI 융합 추정치를 local display에 연관하는 진단 경로다. RC2의 두 event(`CANDIDATE`, `ASSIGNMENT`)는 `reported.stateAtS=now`로 **추정 상태의 epoch**를 기록한다. 이 합성 입력에 upstream fix의 측정·수신 시각은 없으므로 `measuredAtS:null`, `receivedAtS:null`을 명시한다([build.py](build.py), `networkReconcile` hook). `measurementModel.dimension=6`은 보고 상태 벡터 길이이며 `physicalObservationDimension:null`, `measuredFields:[]`다. 이를 현재 시각의 새 6D physical hit로 해석하지 않는다. 실제 최종 native ingress 검증 결과는 `VALIDATION.json`에서 별도로 확인한다.
 
 결측 payload를 넘겨도 해당 kind의 정상 차원을 강제로 채우지 않는다. 예를 들어 AIR에서 range만 finite면 rows1이며 absent az/el/rdot는 unknown이다. 실제 0 Doppler가 제공된 surface plot은 유효한 측정이고, visual의 정해진 placeholder0은 아니다. 이름이 아니라 producer 계약을 구분해야 한다.
 
@@ -87,6 +101,8 @@ window.__TRACK_A__.snapshot()
 - 보고 schema/time/replay/link 거부와 canonical 연관 거부. ISAR evidence 첨부는 position update 수용과 다름.
 
 `nis:null`은 계산하지 않았거나 해당 경로에 NIS가 없음을 뜻한다. gate가 존재하지 않는 경로에 임의 기준값을 붙이지 않는다. 후속 gate를 계산하지 않고 끝난 native 실행에는 **실제로 평가하지 않음**을 표시한다. 가능한 모든 후보가 trace에 보인다는 주장은 실제 hook coverage와 별도 검증 없이는 하지 않는다.
+
+실제 관측 mask와 **그 연관 단계가 사용한 mask**도 분리한다. SPY 수상 plot이 range/az/radial의3성분을 제공하더라도 position-only 할당 단계는 range/az2성분 NIS를 사용할 수 있다. 이때 normalize의 `measuredFields`/`measurementModel`은 관측3성분을 보존하고, event의 `appliedModel`, `appliedDimension:2`, `appliedFields:['rangeM','azRad']`, `gateUnits:'NIS'`는 실제 평가된 연관2성분을 표시한다. 후속 Doppler update나 source-preferred correction 생략을 여기서 실행한 것으로 꾸미지 않는다. 반면 C55의 `appliedModel:'RELATIVE_POSITION_DISTANCE'`는 relative Cartesian3성분 거리 비교이며 `distanceM`와 `gateUnits:'m'`를 쓴다. C55 거리값에 `nis`라는 이름을 붙이거나 NIS 문턱과 단위를 혼용하지 않는다([build.py](build.py), `SURFACE_BATCH`/`C55` hooks; [measurement-contract.js](measurement-contract.js), `trackATraceEventA`).
 
 ### 상태와 query 격리
 
