@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+const P=__dirname,R=path.resolve(P,'../../../..'),{load}=require(path.join(R,'docs/gun/B2/phase1a/compact_source.cjs')),sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+const a=load(path.join(R,'Aegis_SIM_v48_WIP_GUN_B2.html')),b=load(path.join(R,'Aegis_SIM_v48_WIP_CG_TURRET_A.html'));
+const changed=[...a.symbols].filter(([n,v])=>v.code!==b.symbols.get(n)?.code).map(([n])=>n),allowed=['makeBunkerShipProfile','installBunkerRenderer'];
+const protectedNames=Object.keys(JSON.parse(fs.readFileSync(path.join(R,'docs/cleanup/B/fingerprint.json'))).nativeSourceHashes),protected281=protectedNames.map(n=>({name:n,same:a.symbols.get(n)?.code===b.symbols.get(n)?.code,sha256:sha(b.symbols.get(n).code)}));
+const envelope=s=>s.match(/\/\/ ENV_D_DATA_BEGIN[\s\S]*?\/\/ ENV_D_DATA_END/)[0];
+const checks={baseline:sha(a.raw)==='d2ae791e38221ec660283989728ea50e0eeb9075c2501cdbef9086e6c61cbc26',onlyTwoSymbols:changed.length===2&&changed.every(n=>allowed.includes(n)),noNewSymbols:b.symbols.size===a.symbols.size,protected281Exact:protected281.length===281&&protected281.every(x=>x.same),envelopeExact:envelope(a.source)===envelope(b.source),gunPerformanceRegistryExact:a.symbols.get('SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8').code===b.symbols.get('SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8').code,ddgBuilderExact:a.symbols.get('WIP148_EXTERNAL_3D').code===b.symbols.get('WIP148_EXTERNAL_3D').code};
+const assets=q=>[...q.raw.toString().matchAll(/data-c55-index="(\d+)">([^<]+)<\/script>/g)].filter(m=>m[1]!=='13').map(m=>[m[1],sha(m[2])]);checks.otherPackagedScriptsExact=JSON.stringify(assets(a))===JSON.stringify(assets(b));
+const result={pass:Object.values(checks).every(Boolean),checks,changed,protected281,baselineSha256:sha(a.raw),productSha256:sha(b.raw)};
+fs.mkdirSync(path.join(P,'evidence'),{recursive:true});fs.writeFileSync(path.join(P,'evidence/scope.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({pass:result.pass,checks,changed}));process.exitCode=result.pass?0:1;

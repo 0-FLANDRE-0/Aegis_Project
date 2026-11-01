@@ -1,0 +1,21 @@
+{
+  "baselineMainCommit": "8fdd69533ff96fa652ceec752f6852eaf89fbebc",
+  "baselineSha256": "d2ae791e38221ec660283989728ea50e0eeb9075c2501cdbef9086e6c61cbc26",
+  "htmlSha256": "af105075c65bf9c8774c8b1d347273476e53a3a5869c12387b2cd8d46824d933",
+  "mainSha256": "1eebc0ca958081cd03afd83f63484091ec58fb95ead538c9a6ce90b99c54b5ea",
+  "inverseByteExact": true,
+  "changes": [
+    {
+      "before": "moduleName:hp[hardpointId].name,trunnionOffsetM:{x:.91,y:0,z:2.87},exposedBarrelM:6.206,sourceNode:g.yawNode",
+      "after": "moduleName:hp[hardpointId].name,trunnionOffsetM:g.trunnionOffsetM,exposedBarrelM:g.barrelM,sourceNode:g.yawNode"
+    },
+    {
+      "before": "    // GUN_B1: reuse the existing DDG Mod4 generator, hide authored round turrets.\n    this._gunB1Visuals=new Map();\n    const paint=color=>new T.MeshStandardMaterial({color,roughness:.86,metalness:.02}),gm={weapon:paint(0x969fa3),weaponLight:paint(0xa3adae),structure3:paint(0x869095),dark:paint(0x424b50),darkVent:paint(0x20282c)};\n    for(const inst of profile.weapons.gunMounts){const hp=profile.geometry.hardpoints[inst.hardpointId],spec=SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8[inst.moduleId],off=inst.trunnionOffsetM;\n      const old=parts.get(R.guns[inst.hardpointId].yawNode);if(old)old.visible=false;\n      const holder=new T.Group();holder.name='GUN_B1_'+inst.id;root.add(holder);\n      this.buildMk45(holder,gm,{...WIP199_FINAL_LAYOUT.mk45,xM:hp.x,yM:hp.y,baseDeckZM:hp.z,trunnionXM:hp.x+off.x,trunnionZM:hp.z+off.z,exposedBarrelM:inst.exposedBarrelM});\n      const yaw=this.mk45TraverseGroup,pitch=this.mk45ElevationGroup;yaw.rotation.y=-inst.neutralAzRad;\n      this._gunB1Visuals.set(inst.hardpointId,{holder,yaw,pitch});parts.set(R.guns[inst.hardpointId].yawNode,yaw);\n    }\n    this.mk45TraverseGroup=this._gunB1Visuals.get('mk45').yaw;this.mk45ElevationGroup=this._gunB1Visuals.get('mk45').pitch;\n",
+      "after": "    // CG_TURRET_A: authored 54-calibre round visual; installed Mod 4 performance stays in the module profile.\n    this.mk45TraverseGroup=parts.get('mk45f_yaw');this.mk45ElevationGroup=parts.get('mk45f_pitch');\n"
+    },
+    {
+      "before": "    for(const q of st.mountInventory?.guns??[]){const g=this._gunB1Visuals?.get(q.hardpointId);if(g){g.yaw.rotation.y=-q.bodyAzRad;g.pitch.rotation.z=q.elevationRad;}}",
+      "after": "    for(const q of st.mountInventory?.guns??[]){const g=BUNKER_REGISTRATION.guns[q.hardpointId];\n      rotate(g.yawNode,-(q.bodyAzRad-g.neutralAzRad));rotate(g.pitchNode,q.elevationRad-g.restElevationRad);}"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+from pathlib import Path
+import hashlib,json
+P=Path(__file__).resolve().parent;R=P.parents[3];sha=lambda b:hashlib.sha256(b).hexdigest();scope=json.loads((P/'evidence/scope.json').read_text());assert scope['pass']
+references=[('docs/gun/B2/phase1b/TEST_REUSE.json','Historical transitive SAM/RF/EKF/EW/H3/domain/world120 evidence. Corresponding functions and constants unchanged. Not relabeled as fresh execution.'),('docs/gun/B2/phase1b/evidence/regression-summary.json','Immediate B2B regression summary. CG gun-specific rows are replaced by current fresh results.'),('docs/gun/B2/phase1b/evidence/paired42-approved.json','Historical domain cases without gun intervention; unchanged functions, protected data and DDG path.'),('docs/gun/B2/phase1a/evidence/dispersion/validation.json','Dispersion and alignment functions/constants exact; origin itself independently tested in 18 native poses.'),('docs/gun/B2/phase1a/evidence/surface-summary.json','DDG surface historical evidence. CG surface45 explicitly rerun.'),('docs/gun/B2/phase1b/evidence/g7/trials.jsonl','DDG natural G7 unchanged branch/source. CG 60-condition portion explicitly rerun.')]
+items=[]
+for name,basis in references:
+ p=R/name;assert p.exists();items.append({'path':name,'sha256':sha(p.read_bytes()),'basis':basis,'freshExecution':False})
+q={'schema':'CG_TURRET_A_REUSE_1','baselineMainCommit':json.loads((P/'build.json').read_text())['baselineMainCommit'],'baselineHtmlSha256':scope['baselineSha256'],'sourceGuard':'evidence/scope.json','sourceGuardSha256':sha((P/'evidence/scope.json').read_bytes()),'DDGFullDomainFreshRun':False,'noClaimOfFresh420':True,'currentCgGunFresh':{'pk':720,'surface':45,'g7':60},'references':items};(P/'TEST_REUSE.json').write_text(json.dumps(q,indent=2)+'\n')
