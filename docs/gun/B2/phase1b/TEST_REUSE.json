@@ -1,0 +1,48 @@
+{
+  "schema": "AEGIS_GUN_B2B_REUSE_1",
+  "authorizedBy": "INSTRUCTIONS.md section7",
+  "sourceGuard": "docs/gun/B2/phase1b/evidence/scope.json",
+  "sourceGuardSha256": "f7effadecfb65488215ef682c7d31b7cdc38a22b1898330eb66ea0fed9b8d3ea",
+  "baselineCommit": "fa0fdde96dfcc7c0655f8ba8bc3e7a903b4591f4",
+  "baselineHtmlSha256": "9515e70cb88f7caac8dd9c0b618a104a878882a5a1c06f0967059150e2b7d516",
+  "noRelabelingAsFresh": true,
+  "surfaceFirstHitFreshExecution": false,
+  "items": [
+    {
+      "report": "docs/gun/B2/phase1a/evidence/surface-summary.json",
+      "sha256": "d139da5d9ba434f21c3245aa971da121e4ba2432ade0e24cd515c32290a4b846",
+      "basis": "Surface HE and first-hit functions are byte-identical; GUN_B1 fragment fields are referenced only by MFF airburst paths. Section7 explicitly says not to rerun surface first-hit.",
+      "freshB2BExecution": false
+    },
+    {
+      "report": "docs/gun/B2/phase1a/evidence/dispersion/validation.json",
+      "sha256": "e57555d7f2feda075d6242499a543a5cea8231fc4dee617415d48dd3bd8f9cf0",
+      "basis": "Launch alignment and dispersion symbols/configuration are byte-identical; B2A 400-shot anchor is reused.",
+      "freshB2BExecution": false
+    },
+    {
+      "report": "docs/gun/B2/phase1a/evidence/static.json",
+      "sha256": "9f2669556b455cdaf3246dfe444f92797a676101b800edde1f8a1190bd104d37",
+      "basis": "B2A protected-function audit is historical support; current scope independently confirms all 281 protected hashes.",
+      "freshB2BExecution": false
+    },
+    {
+      "report": "docs/gun/B2/phase1a/evidence/b2-reference/g7-off120.jsonl",
+      "sha256": "74ebce1c7d7b048f7243825c7fbc74ba31371ab841524309ba713dfc160ba1b8",
+      "basis": "AutoAA OFF rows contain no Mk45 release/burst and all inactive paths are source-identical.",
+      "freshB2BExecution": false
+    },
+    {
+      "report": "docs/gun/B2/phase1a/TEST_REUSE.json",
+      "sha256": "c7df71dc18941f07fbcfab8d48da756ea2b326e4979f910f8ff5a7bd2e492330",
+      "basis": "Transitive ledger for SAM/common UI/EW/H3/domain/world120 evidence; current scope proves every corresponding symbol unchanged.",
+      "freshB2BExecution": false
+    },
+    {
+      "report": "docs/gun/B2/phase1a/BUILD_STATUS.json",
+      "sha256": "c567cb2268720812e8ec0de889725a4cec66bfc8b6b2c460d7e08d0ddcbadd13",
+      "basis": "B2A measurement and validation status retained as the immediate baseline.",
+      "freshB2BExecution": false
+    }
+  ]
+}

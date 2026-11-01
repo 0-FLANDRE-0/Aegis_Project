@@ -1,0 +1,21 @@
+--- docs/gun/B1/verify_geometry.py
++++ docs/gun/B2/phase1b/adapted/verify_geometry.py
+@@ -2,8 +2,8 @@
+ from pathlib import Path
+ import sys,json,hashlib
+ from playwright.sync_api import sync_playwright
+-H=Path(__file__).resolve().parent;R=H.parents[2];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
+-raw=(R/'Aegis_SIM_v48_WIP_GUN_B1.html').read_bytes();fixture='\n'.join(p.read_text()for p in [R/'docs/map/E/test-helper.js',R/'docs/map/D/extension-fixture.js',H/'test-fixture.js'])+'''
++H=Path(__file__).resolve().parents[3]/'B1';R=H.parents[2];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
++raw=(R/'Aegis_SIM_v48_WIP_GUN_B2.html').read_bytes();fixture='\n'.join(p.read_text()for p in [R/'docs/map/E/test-helper.js',R/'docs/map/D/extension-fixture.js',H/'test-fixture.js'])+'''
+ __GB_TEST__.clearanceScan=()=>gunB1OwnGuns().map(([id,g])=>{const out=[];for(let el=0;el<=30;el+=10)for(let az=-180;az<=180;az+=2){const a=deg(az),e=deg(el),q=wip13b1GunClearance(g.spec,a,e);if(!q.ok){out.push({azDeg:az,elDeg:el,withinTrain:a>=g.spec.mount.trainMinRad&&a<=g.spec.mount.trainMaxRad,result:q});if(out.length>=5)return {id,blocked:out};}}return{id,blocked:out};});
+ __GB_TEST__.movingSweep=()=>{__GB_TEST__.reset();const p={id:'MK45-999',ammoId:'MFF_127_SIM',solutionTimeOfFlightS:100,ageS:1,flightDistanceM:1000,velocityMps:{x:600,y:0,z:0}};gunB1ArmShell(p);targetPool.push({id:777,x:metersToWorld(50),y:metersToWorld(-50),z:100,vx:0,vy:mpsToWorldSpeed(-600),vz:0,alive:true});return gunB1ShellEvent(p,{x:0,y:0,z:100},{x:100,y:0,z:100},1/6);};
+ '''
+@@ -11,6 +11,6 @@
+ with sync_playwright()as pw:
+  b=launch(pw)
+  for ship in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA']:
+-  p=load_fleet(b,instrument(raw,fixture),own=ship,errors=errors);p.set_default_timeout(180000);q=p.evaluate('__GB_TEST__.clearanceScan()');r=p.evaluate('__GB_TEST__.movingSweep()');rows[ship]={'clearance':q,'movingSweep':r};checks[ship+'.nativeClearanceRejects']=all(v['blocked']for v in q);checks[ship+'.relativeSweptCPA']=r is not None and r['reason']=='MFF_PROXIMITY'and abs(r['t']-.5)<1e-12 and r['missM']<1e-10;p.close()
++  p=load_fleet(b,instrument(raw,fixture),own=ship,errors=errors);p.set_default_timeout(180000);q=p.evaluate('__GB_TEST__.clearanceScan()');r=p.evaluate('__GB_TEST__.movingSweep()');rows[ship]={'clearance':q,'movingSweep':r};checks[ship+'.nativeClearanceRejects']=all(v['blocked']for v in q);checks[ship+'.relativeSweptCPA']=r is not None and r['reason']=='MFF_PROXIMITY'and r['t']<.5 and abs((r['t']-(r['detectedAgeS']-1)/(1/6))*(1/6)-.002)<1e-9;p.close()
+  b.close()
+ checks['errors0']=not errors;out={'checks':checks,'records':rows,'errors':errors,'pass':all(checks.values()),'htmlSha256':hashlib.sha256(raw).hexdigest(),'scope':'Direct native clearance obstruction scan (includes prohibited train angles), distinct from independent air-wrapper mount-envelope rejection. Relative swept test uses the native end-of-step AIR position and analytically crosses at t=0.5.'};(H/'evidence/geometry.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out));raise SystemExit(not out['pass'])
