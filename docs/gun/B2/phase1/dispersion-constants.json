@@ -1,0 +1,15 @@
+{
+  "mvSigmaFrac": 0.0021561842388671667,
+  "elevSigmaMrad": 0.6484094047367095,
+  "reference": "USER_SPECIFIED_16459M_RANGE_SIGMA_ANCHOR",
+  "targetRangeSigmaM": 49.5,
+  "varianceAllocation": {
+    "mv": 0.8,
+    "elevation": 0.2
+  },
+  "gradients": {
+    "rangePerMvFraction": 20533.56348516718,
+    "rangePerElevationRad": 34140.579725608404
+  },
+  "derivation": "sigma_mv=49.5*sqrt(.8)/|dRange/dMvFraction|; sigma_el=49.5*sqrt(.2)/|dRange/dElRad|. Native finite differences, no target hit-rate input."
+}

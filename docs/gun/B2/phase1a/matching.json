@@ -1,0 +1,96 @@
+{
+  "provenance": "SIM_TUNED_GAME_ONLY_FUZE_WARHEAD_MATCH",
+  "baselineCommit": "c1d17cee",
+  "baselineHtmlSha256": "c48c2396932e07c8051b7a07d2da282951587283d768f2caa384a48936a0ed8b",
+  "g7SourceHtmlSha256": "925178b5b06bcd81304f6b98da4436fda4fd85eaf7ea8de3813a981981f0da71",
+  "g7OnCases": 480,
+  "burstCount": 1417,
+  "storedGeometrySpeedCount": 1392,
+  "missingSpeedNativeReplayCount": 25,
+  "readOnlyReplayCases": 25,
+  "nativeReplayExact": true,
+  "inverseVsNativeMaxErrorMps": 3.410605131648481e-13,
+  "speedMedianMps": 751.1262982725603,
+  "speedMinMps": 594.0013811935597,
+  "speedMaxMps": 805.4138320918552,
+  "targetSpeedMps": 280.0,
+  "passDistanceM": 12.5,
+  "processingDelayS": 0.002,
+  "gurney": {
+    "vf": 1284.7205581146416,
+    "spec": {
+      "id": "127_HE_MFP_FICTIONAL_GAME",
+      "provenance": "SIM_TUNED_GAME_ONLY",
+      "explosiveMassKg": 3.7,
+      "caseMassKg": 9,
+      "gurneyDrivenMassKg": 9,
+      "fragmentCount": 1200,
+      "avgFragmentMassKg": 0.0075,
+      "gurneyMps": 2200,
+      "effectiveFragmentFraction": 1,
+      "annularBandHalfAngleDeg": 55,
+      "coneHalfAngleDeg": 55
+    },
+    "source": "function _wip88GurneyFragmentSpeed(w){\n    // WIP142: Gurney-driven mass is independent from physical fragment inventory.\n    // Legacy SM-2/RAM profiles fall back to caseMassKg byte-for-byte; ESSM uses the explicit\n    // gurneyDrivenMassKg proxy so a sourced fragmentCount does not distort the Gurney mass ratio.\n    const C=Math.max(1e-6,w.explosiveMassKg),M=Math.max(1e-6,Number(w.gurneyDrivenMassKg??w.caseMassKg)),cm=C/M;\n    return w.gurneyMps*Math.sqrt(cm/(1+C/(2*M)));\n  }"
+  },
+  "formula": "theta=atan2(b,(vm+vt)*(processingDelayS+b/vf)); r_after_delay+w*t, t=b/vf at body90deg",
+  "fixedPolarCenterDeg": 45.943755735305814,
+  "matched": {
+    "angleDeg": 90.00000000000001,
+    "flightTimeS": 0.009729742332717124,
+    "detectionX": 12.094845791225552,
+    "afterDelayX": 10.032593194680432,
+    "arrivalX": -1.7763568394002505e-15,
+    "arrivalY": 12.5
+  },
+  "within20to80": true,
+  "applied": false,
+  "elapsedS": 264.27698220200546,
+  "preImplementationRangeComparison": [
+    {
+      "rangeKm": 1,
+      "seed": 592001,
+      "phase1ActualBurstSpeedMps": 779.3547570688723,
+      "oldActualAngleDeg": 135.33752198736832,
+      "representativePassM": 12.5,
+      "old70Design": {
+        "bodyPolarDeg": 133.03376125361123,
+        "fragmentTimeS": 0.013311060351285783
+      },
+      "newFixedDesign": {
+        "bodyPolarDeg": 91.53428553129571,
+        "fragmentTimeS": 0.009733231873160624
+      }
+    },
+    {
+      "rangeKm": 5,
+      "seed": 592001,
+      "phase1ActualBurstSpeedMps": 621.5418437683117,
+      "oldActualAngleDeg": 135.34294078135068,
+      "representativePassM": 12.5,
+      "old70Design": {
+        "bodyPolarDeg": 120.87411706115607,
+        "fragmentTimeS": 0.011336104548221195
+      },
+      "newFixedDesign": {
+        "bodyPolarDeg": 83.33652596894028,
+        "fragmentTimeS": 0.00979591545462788
+      }
+    },
+    {
+      "rangeKm": 9,
+      "seed": 592001,
+      "phase1ActualBurstSpeedMps": 490.3482553080105,
+      "oldActualAngleDeg": 105.10382040478311,
+      "representativePassM": 12.5,
+      "old70Design": {
+        "bodyPolarDeg": 112.12536671683523,
+        "fragmentTimeS": 0.010503175446956678
+      },
+      "newFixedDesign": {
+        "bodyPolarDeg": 77.09267638115185,
+        "fragmentTimeS": 0.009981960008779493
+      }
+    }
+  ]
+}

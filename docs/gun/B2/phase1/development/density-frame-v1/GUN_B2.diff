@@ -1,0 +1,254 @@
+--- Aegis_SIM_v48_WIP_AIR_ORIGIN_A.html::main
++++ Aegis_SIM_v48_WIP_GUN_B2.html::main
+@@ -7382,7 +7382,7 @@
+ function spawnMainGunProjectileWip13B3(request={}){
+   const module=request.module,ammo=request.ammo,hp=request.hardpoint,off=module.mount.trunnionOffsetM??{x:0,y:0,z:0},trunnion=shipGamePointStateV1({x:hp.x+off.x*Math.cos(request.bodyAzRad)-off.y*Math.sin(request.bodyAzRad),y:hp.y+off.x*Math.sin(request.bodyAzRad)+off.y*Math.cos(request.bodyAzRad),z:hp.z+off.z}),worldAim=shipGameAimWorldV1(request.bodyAzRad,request.elevationRad),dir=shipGameVectorV1(worldAim.az,worldAim.el),barrelM=Math.max(0,Number(module.mount.exposedBarrelM)||0),positionM={x:trunnion.xM+dir.x*barrelM,y:trunnion.yM+dir.y*barrelM,z:trunnion.zM+dir.z*barrelM},velocityMps={x:trunnion.vxMps+dir.x*ammo.muzzleVelocityMps,y:trunnion.vyMps+dir.y*ammo.muzzleVelocityMps,z:trunnion.vzMps+dir.z*ammo.muzzleVelocityMps};
+   const projectile={schema:'AEGIS_LIVE_GUN_PROJECTILE_V48_WIP13B6',id:`MK45-${mainGunProjectileSerialWip13B3++}`,alive:true,ammoId:String(request.ammoId),terminalProjectileSpecId:String(ammo.terminalProjectileSpecId),sourceModuleId:String(module.id),trackId:Number(request.trackId),positionM,previousPositionM:{...positionM},velocityMps,ageS:0,flightDistanceM:0,massKg:ammo.massKg,diameterM:ammo.diameterM,environment:maritimeEnvironmentSnapshotWip13A3(),retiredReason:null,solutionTimeOfFlightS:Number(request.solution?.timeOfFlightS)||null,solutionComputedStep:Number(request.solution?.computedStep),solutionSensorSource:String(request.solution?.sensorSource??'UNKNOWN'),solutionTrackCovariance:request.solution?.trackCovariance?{...request.solution.trackCovariance}:null};
+-  projectile.ownerEntityId=owner.entityId;projectile.id=owner.entityId+':'+projectile.id;mainGunProjectilesWip13B3.push(projectile);shipMassMarkWeaponsV32('OWNER_GUN_FIRE_D');wip173PushVisualEvent('MK45_MUZZLE_BLAST',{coordSpace:'WORLD',x:metersToWorld(positionM.x),y:metersToWorld(positionM.y),z:positionM.z,vxMps:velocityMps.x,vyMps:velocityMps.y,vzMps:velocityMps.z,massKg:ammo.massKg,weaponType:request.ammoId,sourceId:projectile.id,seed:mainGunProjectileSerialWip13B3});return projectile;
++  projectile.ownerEntityId=owner.entityId;projectile.id=owner.entityId+':'+projectile.id;if(gunB2Flags.dispersion)gunB2ApplyDispersion(projectile,request,trunnion);mainGunProjectilesWip13B3.push(projectile);shipMassMarkWeaponsV32('OWNER_GUN_FIRE_D');wip173PushVisualEvent('MK45_MUZZLE_BLAST',{coordSpace:'WORLD',x:metersToWorld(positionM.x),y:metersToWorld(positionM.y),z:positionM.z,vxMps:velocityMps.x,vyMps:velocityMps.y,vzMps:velocityMps.z,massKg:ammo.massKg,weaponType:request.ammoId,sourceId:projectile.id,seed:mainGunProjectileSerialWip13B3});return projectile;
+ }
+ function surfaceMissileTrackReadinessWip13C4(tr,weaponPolicy){
+   const bad=(reason,extra={})=>({ok:false,reason,truthUsed:false,...extra});if(!tr)return bad('NO_TRACK');
+@@ -35373,9 +35373,13 @@
+     let gate=gunB1ReleaseGate(id,state.solution,{...options,module:spec,mode:options.mode??'MANUAL'});
+     if(!options.skipRefresh&&!gate.ok&&gate.reason==='STALE_FIRING_SOLUTION'){const refreshed=refreshSolution();if(!refreshed.ok)return refreshed;gate=gunB1ReleaseGate(id,state.solution,{...options,module:spec,mode:options.mode??'MANUAL'});}
+     if(!gate.ok)return gate;
+-    const pointing=wip13b6GunPointingAssessment(spec,state.solution,state.bodyAzRad,state.elevationRad);if(!pointing.ok){if(options.queuedRelease||options.continuous||options.allowQueue===false)return {ok:false,reason:pointing.reason,...pointing};return armPendingSingleFire(id,ammoId,pointing);}
++    const b2Failure=gunB2PrepareRelease(state,id,ammoId,solveAirTrack,spec);if(b2Failure)return b2Failure;
++    if(gunB2Flags.alignment&&state.solution.airDomain){gate=gunB1ReleaseGate(id,state.solution,{...options,module:spec,mode:options.mode??'MANUAL'});if(!gate.ok)return gate;}
++    const pointing=gunB2Pointing(spec,state.solution,state.bodyAzRad,state.elevationRad);if(!pointing.ok){if(options.queuedRelease||options.continuous||options.allowQueue===false)return {ok:false,reason:pointing.reason,...pointing};return armPendingSingleFire(id,ammoId,pointing);}
++    if(gunB2Flags.alignment&&state.solution.airDomain&&state.solution.computedStep!==simStepCounter)return {ok:false,reason:'MOUNT_NOT_ON_SOLUTION',b2Reason:'CURRENT_TICK_SOLUTION_REQUIRED'};
+     const clearance=wip13b1GunClearance(spec,state.bodyAzRad,state.elevationRad,300);if(!clearance.ok)return clearance;
+     const projectile=spawnMainGunProjectileWip13B3({module:spec,ammo,ammoId,trackId:id,bodyAzRad:state.bodyAzRad,elevationRad:state.elevationRad,hardpoint:hp,solution:state.solution});
++    gunB2RecordRelease(projectile,state.solution);
+     const consent=state.pendingSingleFire.active?{...state.pendingSingleFire}:null;if(consent)state.pendingSingleFire=inactiveSingleFire('FIRED',consent);state.magazine[ammoId]--;if(profile.id==="CG_52_LATE_TICONDEROGA")shipMassMarkWeaponsV32('MAIN_GUN_FIRED');state.shotsFired++;state.cycleRemainingS=spec.feed.cycleIntervalS;state.status='CYCLING';state.lastFire={projectileId:projectile.id,trackId:id,ammoId,step:simStepCounter,continuous:!!options.continuous,queuedRelease:!!options.queuedRelease,operatorConsentRequestedStep:consent?.requestedStep??simStepCounter,pointingMissM:pointing.predictedMissM,pointingLimitM:pointing.limitM,crossMissM:pointing.crossMissM,verticalMissM:pointing.verticalMissM,normalizedMiss:pointing.normalizedMiss,effectiveImpactWindow:{...pointing.impactWindow},fireControlTrackQuality:gate.fireControlTrackQuality?{...gate.fireControlTrackQuality}:null};state.revision++;return {ok:true,fired:true,queued:false,projectileId:projectile.id,trackId:id,ammoId,remainingRounds:state.magazine[ammoId],cycleRemainingS:state.cycleRemainingS,queuedRelease:!!options.queuedRelease,pointingMissM:pointing.predictedMissM,pointingLimitM:pointing.limitM,crossMissM:pointing.crossMissM,verticalMissM:pointing.verticalMissM,normalizedMiss:pointing.normalizedMiss,effectiveImpactWindow:{...pointing.impactWindow},fireControlTrackQuality:gate.fireControlTrackQuality?{...gate.fireControlTrackQuality}:null};
+   }
+   function startContinuousFire(trackId=state.commandTrackId,options={}){
+@@ -35396,7 +35400,7 @@
+     if(state.continuousFire.active&&!state.solution?.ok)stopContinuousFire(state.solution?.reason??'NO_FIRING_SOLUTION');
+     if(!state.solution?.ok)return snapshot();
+     const liveDemand=wip13b15GunBodyDemandForWorldSolution(state.solution);if(!liveDemand){state.status='WITHHELD';return snapshot();}if(profile.id==="CG_52_LATE_TICONDEROGA")liveDemand.bodyAzRad=bunkerGunAzimuth(spec,liveDemand.bodyAzRad);state.solution.bodyAzRad=liveDemand.bodyAzRad;state.solution.bodyElevationRad=liveDemand.bodyElevationRad;state.solution.bodyDemandStep=liveDemand.derivedStep;
+-    const drive=clamp((spec.damage.minimumDriveFactor??.18)+(1-(spec.damage.minimumDriveFactor??.18))*health,.05,1),az=stepGameMountYawV1(state.bodyAzRad,state.azRateRadS,liveDemand.bodyAzRad,spec.mount.trainMinRad,spec.mount.trainMaxRad,spec.mount.trainRateRadS*drive,spec.mount.trainAccelRadS2*drive,dt),el=stepGameMountYawV1(state.elevationRad,state.elevationRateRadS,liveDemand.bodyElevationRad,spec.mount.elevationMinRad,spec.mount.elevationMaxRad,spec.mount.elevationRateRadS*drive,spec.mount.elevationAccelRadS2*drive,dt);state.bodyAzRad=az.position;state.azRateRadS=az.rate;state.elevationRad=el.position;state.elevationRateRadS=el.rate;const pointing=wip13b6GunPointingAssessment(spec,state.solution,state.bodyAzRad,state.elevationRad);state.status=pointing.ok?(state.cycleRemainingS>0?'CYCLING':'ON_SOLUTION'):'SLEWING';
++    const drive=clamp((spec.damage.minimumDriveFactor??.18)+(1-(spec.damage.minimumDriveFactor??.18))*health,.05,1),az=stepGameMountYawV1(state.bodyAzRad,state.azRateRadS,liveDemand.bodyAzRad,spec.mount.trainMinRad,spec.mount.trainMaxRad,spec.mount.trainRateRadS*drive,spec.mount.trainAccelRadS2*drive,dt),el=stepGameMountYawV1(state.elevationRad,state.elevationRateRadS,liveDemand.bodyElevationRad,spec.mount.elevationMinRad,spec.mount.elevationMaxRad,spec.mount.elevationRateRadS*drive,spec.mount.elevationAccelRadS2*drive,dt);state.bodyAzRad=az.position;state.azRateRadS=az.rate;state.elevationRad=el.position;state.elevationRateRadS=el.rate;const pointing=gunB2Pointing(spec,state.solution,state.bodyAzRad,state.elevationRad);state.status=pointing.ok?(state.cycleRemainingS>0?'CYCLING':'ON_SOLUTION'):'SLEWING';
+     if(state.pendingSingleFire.active&&state.status==='ON_SOLUTION'){
+       const pending={...state.pendingSingleFire},shot=requestFire(pending.trackId,{mode:'MANUAL',ammoId:pending.ammoId,queuedRelease:true,skipRefresh:true});if(!shot.ok&&state.pendingSingleFire.active){state.pendingSingleFire.lastAttemptReason=shot.reason;if(!['MOUNT_NOT_ON_SOLUTION','FEED_CYCLING'].includes(shot.reason))cancelPendingSingleFire(shot.reason);}
+     }
+@@ -35408,12 +35412,182 @@
+   function clear(){if(state.pendingSingleFire.active)cancelPendingSingleFire('FIRE_CONTROL_CLEARED');stopContinuousFire('FIRE_CONTROL_CLEARED');state.commandTrackId=null;state.solution=null;state.status='STOWED';state.solutionRefreshRemainingS=0;state.revision++;return snapshot();}
+   function reset(){state.bodyAzRad=spec.mount.stowBodyAzRad;state.elevationRad=0;state.azRateRadS=0;state.elevationRateRadS=0;state.commandTrackId=null;state.solution=null;state.status='STOWED';state.loadedAmmoId=spec.feed.initialLoadedAmmoId;state.cycleRemainingS=0;state.solutionRefreshRemainingS=0;state.magazine={...spec.magazine.initialRounds};state.shotsFired=0;state.lastFire=null;state.pendingSingleFire=inactiveSingleFire('RESET');state.continuousFire={active:false,trackId:null,ammoId:null,startedStep:null,roundsFired:0,lastAttemptReason:null,stopReason:'RESET'};state.revision++;return snapshot();}
+   function snapshot(){
+-    const solutionAgeS=state.solution?.computedStep==null?null:Math.max(0,(simStepCounter-state.solution.computedStep)*SIM_FIXED_DT),pointing=state.solution?.ok?wip13b6GunPointingAssessment(spec,state.solution,state.bodyAzRad,state.elevationRad):null,pendingRemainingS=state.pendingSingleFire.active?Math.max(0,(state.pendingSingleFire.expiresStep-simStepCounter)*SIM_FIXED_DT):0,qualityTrack=state.commandTrackId==null?null:tracks.get(Number(state.commandTrackId)),fireControlTrackQuality=qualityTrack&&state.solution?.ok?(state.solution.airDomain?gunB1AirQuality(qualityTrack,state.solution):wip13b10SurfaceFireControlQuality(qualityTrack,state.solution,spec)):state.solution?.fireControlTrackQuality??null;
++    const solutionAgeS=state.solution?.computedStep==null?null:Math.max(0,(simStepCounter-state.solution.computedStep)*SIM_FIXED_DT),pointing=state.solution?.ok?gunB2Pointing(spec,state.solution,state.bodyAzRad,state.elevationRad):null,pendingRemainingS=state.pendingSingleFire.active?Math.max(0,(state.pendingSingleFire.expiresStep-simStepCounter)*SIM_FIXED_DT):0,qualityTrack=state.commandTrackId==null?null:tracks.get(Number(state.commandTrackId)),fireControlTrackQuality=qualityTrack&&state.solution?.ok?(state.solution.airDomain?gunB1AirQuality(qualityTrack,state.solution):wip13b10SurfaceFireControlQuality(qualityTrack,state.solution,spec)):state.solution?.fireControlTrackQuality??null;
+     return {schema:'AEGIS_SHIP_GUN_RUNTIME_V48_WIP13B11',moduleId:spec.id,hardpointId:installation.hardpointId,hardwareHealth01:ownerOptions.health?ownerOptions.health(spec):wip13b1GunHardwareHealth(spec),bodyAzRad:state.bodyAzRad,elevationRad:state.elevationRad,azRateRadS:state.azRateRadS,elevationRateRadS:state.elevationRateRadS,commandTrackId:state.commandTrackId,status:state.status,revision:state.revision,loadedAmmoId:state.loadedAmmoId,cycleRemainingS:state.cycleRemainingS,solutionRefreshRemainingS:state.solutionRefreshRemainingS,magazine:{...state.magazine},shotsFired:state.shotsFired,lastFire:state.lastFire?{...state.lastFire}:null,pendingSingleFire:{...state.pendingSingleFire,remainingS:pendingRemainingS},continuousFire:{...state.continuousFire},pointing:pointing?{ok:pointing.ok,predictedMissM:pointing.predictedMissM,crossMissM:pointing.crossMissM,verticalMissM:pointing.verticalMissM,limitM:pointing.limitM,crossLimitM:pointing.impactWindow.crossHalfM,verticalLimitM:pointing.verticalLimitM,normalizedMiss:pointing.normalizedMiss,impactWindow:{...pointing.impactWindow},pointingErrorDeg:pointing.pointingErrorDeg}:null,solution:state.solution?{...(state.solution.airDomain?{airDomain:true,targetAltitudeM:state.solution.targetAltitudeM,azimuthRad:state.solution.azimuthRad,elevationRad:state.solution.elevationRad,verticalSlopeMPerRad:state.solution.verticalSlopeMPerRad}:{}),ok:state.solution.ok,reason:state.solution.reason,trackId:state.solution.trackId,ammoId:state.solution.ammoId,rangeM:state.solution.rangeM,timeOfFlightS:state.solution.timeOfFlightS,bodyAzRad:state.solution.bodyAzRad,bodyElevationRad:state.solution.bodyElevationRad,bodyDemandStep:state.solution.bodyDemandStep??null,sensorSource:state.solution.sensorSource,velocitySource:state.solution.velocitySource,trackCovariance:state.solution.trackCovariance?{...state.solution.trackCovariance}:null,sensorContributors:state.solution.sensorContributors?{...state.solution.sensorContributors}:null,observedTargetExtent:state.solution.observedTargetExtent?{...state.solution.observedTargetExtent}:null,effectiveImpactWindow:state.solution.ok?wip13b8GunEffectiveImpactWindow(spec,state.solution):null,fireControlTrackQuality:fireControlTrackQuality?{...fireControlTrackQuality}:null,computedStep:state.solution.computedStep,ageS:solutionAgeS,truthUsed:false}:null,phaseLimits:{...spec.phaseLimits}};
+   }
+   return {spec,installation:{...installation},solveTrack,solveAirTrack,solveState:(targetState,ammoId='HE_127_SIM',options={})=>wip13b1SolveTrackState(spec,ammoId,targetState,options),releaseGate:(id,solution,options={})=>gunB1ReleaseGate(id,solution,{...options,module:spec}),command,selectAmmo,requestFire,cancelPendingSingleFire,startContinuousFire,stopContinuousFire,step,clear,reset,snapshot,...(profile.id==="CG_52_LATE_TICONDEROGA"?{restoreInventory:q=>{reset();state.magazine={...q.magazine};state.loadedAmmoId=q.loadedAmmoId;state.shotsFired=q.shotsFired;state.revision++;return snapshot();}}:{})};
+ }
+ // Observation-only fire control. Physical entity collections are forbidden here.
++// GUN_B2: fictional game model. New constants are SIM_TUNED unless annotated.
++const GUN_B2_SPEC=deepFreezeShipProfileV48Wip09({
++ schema:'AEGIS_GUN_B2_1',provenance:'SIM_TUNED_GAME_ONLY',
++ dispersion:{mvSigmaFrac:0.0021561842388671667,elevSigmaMrad:0.6484094047367095,trainSigmaMrad:.20,salt:0xB2D15001,
++  calibration:{rangeM:16459,minSigmaM:44,maxSigmaM:55,reference:'USER_SPECIFIED_DTIC_ADA331645_ANCHOR',status:'NATIVE_ANCHOR_CALIBRATED'}},
++ airWindow:{radiusFraction:.25,releaseAimMargin01:.78},
++ fuze:{polarCenterDeg:70,polarHalfWidthDeg:20,processingDelayS:.002,referenceRadiusFraction:.5,referenceExposureS:.003,referencePd:.9,salt:0xB2F02901},
++ fragments:{halfAngleDeg:20,outsidePk:0}
++});
++let gunB2Flags={"alignment":true,"dispersion":true,"airWindow":true,"fuze":true,"fragments":true};
++const gunB2ReleaseCache=new WeakMap();
++const gunB2Diagnostics={refreshAttempts:0,refreshMs:0,releases:[]};
++function gunB2Configure(flags={}){for(const k of Object.keys(gunB2Flags))if(typeof flags[k]==='boolean')gunB2Flags[k]=flags[k];return {...gunB2Flags};}
++function gunB2Pointing(spec,solution,az,el){
++ if(!gunB2Flags.airWindow||!solution?.airDomain)return wip13b6GunPointingAssessment(spec,solution,az,el);
++ const half=GUN_B1_SPEC.proxRadiusM*GUN_B2_SPEC.airWindow.radiusFraction,cov=solution.trackCovariance??{},tof=Number(solution.timeOfFlightS)||0,sigmaCross=Math.max(0,Number(solution.fireControlTrackQuality?.predictedImpactSigmaM?.cross)||0),sigmaVertical=Math.hypot(Number(cov.zSigmaM)||0,tof*(Number(cov.vzSigmaMps)||0)),uncertainty=Math.max(sigmaCross,sigmaVertical),floor=Math.max(.5,Number(spec.fireControl.maxPointingMissM)||1.5),limitM=Math.max(floor,half-uncertainty),impactWindow={schema:'AEGIS_GUN_B2_AIR_WINDOW',basis:'FUZE_RADIUS_FRACTION_SYMMETRIC',crossHalfM:half,verticalUpM:half,verticalDownM:half,uncertaintyM:uncertainty,effectiveHalfM:limitM,truthUsed:false};
++ if(!solution.ok||![solution.azimuthRad,solution.elevationRad,solution.rangeM,az,el].every(Number.isFinite))return {ok:false,reason:'NO_FIRING_SOLUTION',limitM,predictedMissM:Infinity,impactWindow};
++ const actual=shipGameAimWorldV1(az,el),azError=angNorm(actual.az-solution.azimuthRad),elError=actual.el-solution.elevationRad,rangeM=Math.max(1,solution.rangeM),slope=Math.max(1,Math.abs(solution.verticalSlopeMPerRad||rangeM)),crossMissM=Math.sin(azError)*Math.cos(solution.elevationRad)*rangeM,verticalMissM=elError*slope,predictedMissM=Math.hypot(crossMissM,verticalMissM),normalizedMiss=predictedMissM/Math.max(.1,limitM),releaseAimMargin01=GUN_B2_SPEC.airWindow.releaseAimMargin01,desired=shipGameVectorV1(solution.azimuthRad,solution.elevationRad),mounted=shipGameVectorV1(actual.az,actual.el),pointingErrorRad=Math.acos(clamp(desired.x*mounted.x+desired.y*mounted.y+desired.z*mounted.z,-1,1)),ok=normalizedMiss<=releaseAimMargin01;
++ return {ok,reason:ok?null:'MOUNT_NOT_ON_SOLUTION',limitM,predictedMissM,crossMissM,verticalMissM,verticalLimitM:limitM,normalizedMiss,releaseAimMargin01,predictedCrossSigmaM:sigmaCross,impactWindow,pointingErrorRad,pointingErrorDeg:pointingErrorRad*180/Math.PI,actualWorldAzRad:actual.az,actualWorldElevationRad:actual.el};
++}
++function gunB2PrepareRelease(state,id,ammoId,solve,spec){
++ if(!gunB2Flags.alignment||!state.solution?.airDomain)return null;
++ // Solve only when the mount is ready to release on its current demand.
++ // A fresh demand can move; the normal pointing/clearance checks run again.
++ if(!gunB2Pointing(spec,state.solution,state.bodyAzRad,state.elevationRad).ok)return null;
++ const cached=gunB2ReleaseCache.get(state),key=[simStepCounter,id,ammoId,state.bodyAzRad,state.elevationRad].join('|');
++ if(cached?.key===key&&cached.solution===state.solution)return cached.failure;
++ const at=performance.now(),fresh=solve(id,ammoId,{seedSolution:state.solution});
++ gunB2Diagnostics.refreshAttempts++;gunB2Diagnostics.refreshMs+=performance.now()-at;
++ const failure=fresh.ok?null:fresh;
++ if(fresh.ok){state.solution=fresh;state.solutionRefreshRemainingS=spec.fireControl.solutionRefreshIntervalS;state.revision++;}
++ gunB2ReleaseCache.set(state,{key,failure,solution:state.solution});
++ return failure;
++}
++function gunB2RecordRelease(projectile,solution){
++ if(!gunB2Flags.alignment||!solution?.airDomain)return;
++ gunB2Diagnostics.releases.push({projectileId:projectile.id,step:simStepCounter,computedStep:solution.computedStep,ageS:(simStepCounter-solution.computedStep)*SIM_FIXED_DT,originM:{...projectile.positionM},timeOfFlightS:solution.timeOfFlightS});
++ if(gunB2Diagnostics.releases.length>256)gunB2Diagnostics.releases.shift();
++}
++function gunB2PrivateStream(seed){
++ let state=(seed>>>0)||1;const uniform=()=>{state=_xorshift32(state);return (state>>>0)/4294967296;};
++ return {uniform,normal:()=>Math.sqrt(-2*Math.log(Math.max(1e-12,uniform())))*Math.cos(TAU*uniform())};
++}
++function gunB2ApplyDispersion(p,request,trunnion){
++ const cfg=GUN_B2_SPEC.dispersion,serial=Number(String(p.id).split('-').at(-1))||1,prefix=String(p.id).split('MK45-')[0];let ownerSalt=0;
++ for(let i=0;i<prefix.length;i++)ownerSalt=_mix32(ownerSalt^prefix.charCodeAt(i));
++ const seed=_mix32((SIM_SEED_BASE>>>0)^Math.imul(serial,0x9e3779b1)^cfg.salt^ownerSalt)||1,random=gunB2PrivateStream(seed),normal={mv:random.normal(),elev:random.normal(),train:random.normal()},v=p.velocityMps,
++ r={x:v.x-trunnion.vxMps,y:v.y-trunnion.vyMps,z:v.z-trunnion.vzMps},n=Math.hypot(r.x,r.y,r.z),d={x:r.x/n,y:r.y/n,z:r.z/n},h=Math.hypot(d.x,d.y),cross=h>1e-10?{x:-d.y/h,y:d.x/h,z:0}:{x:0,y:1,z:0},up={x:d.y*cross.z-d.z*cross.y,y:d.z*cross.x-d.x*cross.z,z:d.x*cross.y-d.y*cross.x},e=Math.tan(normal.elev*cfg.elevSigmaMrad*.001),t=Math.tan(normal.train*cfg.trainSigmaMrad*.001),j={x:d.x+up.x*e+cross.x*t,y:d.y+up.y*e+cross.y*t,z:d.z+up.z*e+cross.z*t},jn=Math.hypot(j.x,j.y,j.z),speed=request.ammo.muzzleVelocityMps*(1+normal.mv*cfg.mvSigmaFrac);
++ p.velocityMps={x:trunnion.vxMps+j.x/jn*speed,y:trunnion.vyMps+j.y/jn*speed,z:trunnion.vzMps+j.z/jn*speed};
++ p._gunB2Dispersion={seed,normal,mvSigmaFrac:cfg.mvSigmaFrac,elevSigmaMrad:cfg.elevSigmaMrad,trainSigmaMrad:cfg.trainSigmaMrad};
++}
++function gunB2Roots(a,b,c){
++ if(Math.abs(a)<1e-14)return Math.abs(b)>1e-14?[-c/b]:[];
++ const d=b*b-4*a*c;if(d<0)return [];const s=Math.sqrt(Math.max(0,d));return [(-b-s)/(2*a),(-b+s)/(2*a)];
++}
++function gunB2TextSalt(text){let value=0;for(const c of String(text))value=_mix32(value^c.charCodeAt(0));return value;}
++function gunB2FuzeIntervals(r,d,axis,armedFrom,radius){
++ const norm=v=>v.x*v.x+v.y*v.y+v.z*v.z,dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z,cfg=GUN_B2_SPEC.fuze,lo=deg(cfg.polarCenterDeg-cfg.polarHalfWidthDeg),hi=deg(cfg.polarCenterDeg+cfg.polarHalfWidthDeg),rr=norm(r),dd=norm(d),rd=dot(r,d),ar=-dot(r,axis),ad=-dot(d,axis),cuts=[armedFrom,1];
++ const add=values=>{for(const t of values)if(t>armedFrom&&t<1)cuts.push(t);};
++ add(gunB2Roots(dd,2*rd,rr-radius*radius));
++ for(const angle of [lo,hi]){const c=Math.cos(angle)**2;add(gunB2Roots(ad*ad-c*dd,2*(ar*ad-c*rd),ar*ar-c*rr));}
++ if(Math.abs(ad)>1e-14)add([-ar/ad]);cuts.sort((a,b)=>a-b);const intervals=[];
++ for(let i=1;i<cuts.length;i++){const a=cuts[i-1],b=cuts[i];if(b-a<1e-12)continue;const t=(a+b)*.5,x={x:r.x+d.x*t,y:r.y+d.y*t,z:r.z+d.z*t},n=Math.sqrt(norm(x)),theta=Math.acos(clamp((-dot(x,axis))/Math.max(1e-12,n),-1,1));if(n<=radius+1e-9&&theta>=lo-1e-10&&theta<=hi+1e-10)intervals.push([a,b]);}
++ return {intervals,inSphere:gunB2Roots(dd,2*rd,rr-radius*radius).some(t=>t>=armedFrom&&t<=1)||Math.sqrt(rr)<=radius||Math.hypot(r.x+d.x,r.y+d.y,r.z+d.z)<=radius,endInside:Math.hypot(r.x+d.x,r.y+d.y,r.z+d.z)<=radius};
++}
++function gunB2FuzeSignal(row,p,prev,next,dt,t){
++ const cfg=GUN_B2_SPEC.fuze,target={...row.object,x:metersToWorld(row.positionM.x+row.velocityMps.x*dt*t),y:metersToWorld(row.positionM.y+row.velocityMps.y*dt*t),z:row.positionM.z+row.velocityMps.z*dt*t},at={x:lerp(prev.x,next.x,t),y:lerp(prev.y,next.y,t),z:lerp(prev.z,next.z,t)},dx=worldToMeters(target.x)-at.x,dy=worldToMeters(target.y)-at.y,dz=target.z-at.z,r=Math.hypot(dx,dy,dz),v=p.velocityMps,vn=Math.hypot(v.x,v.y,v.z),theta=Math.acos(clamp((dx*v.x+dy*v.y+dz*v.z)/Math.max(1e-12,r*vn),-1,1)),u=(theta-deg(cfg.polarCenterDeg))/deg(cfg.polarHalfWidthDeg);
++ if(Math.abs(u)>1)return 0;
++ const kind={ASM:'TARGET_ASM',AIR:'TARGET_AIR',HELO:'HELICOPTER'}[row.kind]??'RF_ORDNANCE',rcs=rfReflectorRcsM2Wip13A2({x:target.x,y:target.y,z:target.z,rcsM2:target.rcsM2,_truthObject:target,_physicsKind:kind},'X',metersToWorld(at.x),metersToWorld(at.y),at.z),reference=ASM_PROFILES['Kh-35U'].rcsSide,gain=Math.cos(u*Math.PI/2)**2;
++ return rcs/reference*Math.pow(GUN_B1_SPEC.proxRadiusM*cfg.referenceRadiusFraction/Math.max(.5,r),4)*gain;
++}
++function gunB2FuzeIntegral(row,p,prev,next,dt,a,b){
++ // Five-point Gauss quadrature on analytic sphere/cone intervals; no tick draw.
++ const x=[0,-.5384693101056831,.5384693101056831,-.906179845938664,.906179845938664],w=[.5688888888888889,.4786286704993665,.4786286704993665,.2369268850561891,.2369268850561891],m=(a+b)*.5,h=(b-a)*.5;let sum=0;
++ for(let i=0;i<5;i++)sum+=w[i]*gunB2FuzeSignal(row,p,prev,next,dt,m+h*x[i]);return sum*h*dt;
++}
++function gunB2ShellEvent(p,prev,next,dt){
++ if(!p.mffB1)return null;const cfg=GUN_B1_SPEC,f=p.mffB1,travel=Math.hypot(next.x-prev.x,next.y-prev.y,next.z-prev.z),armedFrom=travel>0?clamp((cfg.armDistanceM-p.flightDistanceM)/travel,0,1):p.flightDistanceM>=cfg.armDistanceM?0:1;
++ if(p.flightDistanceM+travel<cfg.armDistanceM)return null;
++ let event=null;const offer=q=>{if(q&&q.t>=armedFrom-1e-12&&q.t<=1&&(!event||q.t<event.t))event=q;};
++ const meta=p._gunB2Fuze??(p._gunB2Fuze={contacts:new WeakMap(),pending:null,passes:0}),v=p.velocityMps,n=Math.hypot(v.x,v.y,v.z),axis={x:v.x/n,y:v.y/n,z:v.z/n},fc=GUN_B2_SPEC.fuze;
++ for(const row of gunB1PhysicalAir(dt)){
++  const r={x:prev.x-row.positionM.x,y:prev.y-row.positionM.y,z:prev.z-row.positionM.z},d={x:next.x-prev.x-row.velocityMps.x*dt,y:next.y-prev.y-row.velocityMps.y*dt,z:next.z-prev.z-row.velocityMps.z*dt},geometry=gunB2FuzeIntervals(r,d,axis,armedFrom,cfg.proxRadiusM);
++  let state=meta.contacts.get(row.object);if(!geometry.inSphere){if(state){state.inRange=false;state.exposure=0;}continue;}
++  if(!state){state={pass:0,inRange:false,exposure:0,detected:false};meta.contacts.set(row.object,state);}
++  if(!state.inRange){state.pass++;state.inRange=true;state.exposure=0;state.detected=false;const seed=_mix32((SIM_SEED_BASE>>>0)^gunB2TextSalt(p.id)^gunB2TextSalt(row.kind+':'+row.object.id)^Math.imul(state.pass,0x9e3779b1)^fc.salt)||1,uniform=gunB2PrivateStream(seed).uniform();state.uniform=uniform;state.budget=-Math.log(Math.max(1e-12,1-uniform))*fc.referenceExposureS/(-Math.log(1-fc.referencePd));meta.passes++;}
++  if(!state.detected)for(const [a,b]of geometry.intervals){
++   const exposure=gunB2FuzeIntegral(row,p,prev,next,dt,a,b);
++   if(state.exposure+exposure>=state.budget&&exposure>0){let lo=a,hi=b;for(let i=0;i<18;i++){const m=(lo+hi)*.5;if(state.exposure+gunB2FuzeIntegral(row,p,prev,next,dt,a,m)>=state.budget)hi=m;else lo=m;}const detectedAgeS=p.ageS+hi*dt,pending={ageS:detectedAgeS+fc.processingDelayS,detectedAgeS,reason:'MFF_PROXIMITY',triggerKind:row.kind,triggerId:row.object.id,exposureAtDetection:state.budget,pass:state.pass};state.detected=true;if(!meta.pending||pending.ageS<meta.pending.ageS)meta.pending=pending;break;}state.exposure+=exposure;
++  }
++  if(!geometry.endInside){state.inRange=false;state.exposure=0;}
++ }
++ if(meta.pending&&meta.pending.ageS<=p.ageS+dt+1e-12)offer({...meta.pending,t:Math.max(armedFrom,(meta.pending.ageS-p.ageS)/dt)});
++ // The original ET and sea-clutter hazard/budget equations are copied exactly.
++ if(f.etTimeS!=null&&p.ageS+dt>=f.etTimeS)offer({t:Math.max(armedFrom,(f.etTimeS-p.ageS)/dt),reason:'MFF_ET_BACKUP'});
++ const midAlt=Math.max(0,lerp(prev.z,next.z,(armedFrom+1)*.5)),speed=Math.hypot(p.velocityMps.x,p.velocityMps.y,p.velocityMps.z),incidence=Math.abs(p.velocityMps.z)/Math.max(1,speed),hazard=cfg.clutterHazardPerS*Math.exp(-midAlt/cfg.clutterAltitudeScaleM)*(cfg.clutterIncidenceFloor+(1-cfg.clutterIncidenceFloor)*incidence),exposure=hazard*dt*(1-armedFrom),before=f.clutterExposure;f.clutterExposure+=exposure;
++ if(f.clutterExposure>=f.clutterBudget&&exposure>0)offer({t:armedFrom+(1-armedFrom)*clamp((f.clutterBudget-before)/exposure,0,1),reason:'MFF_SEA_CLUTTER'});
++ return event;
++}
++function gunB2FragmentField(kin,vf){
++ const data=kin.gunB2FieldInput;if(!data)return {ok:false,reason:'FRAGMENT_GEOMETRY_REQUIRED'};
++ const r=data.offsetM,w=data.relativeVelocityMps,v=data.projectileVelocityMps,vm=Math.hypot(v.x,v.y,v.z),a=w.x*w.x+w.y*w.y+w.z*w.z-vf*vf,b=2*(r.x*w.x+r.y*w.y+r.z*w.z),c=r.x*r.x+r.y*r.y+r.z*r.z,roots=gunB2Roots(a,b,c).filter(t=>t>0),timeS=roots.length?Math.min(...roots):null;
++ if(timeS==null||!(vm>0))return {ok:false,reason:'NO_FRAGMENT_INTERCEPT'};
++ const field={x:r.x+w.x*timeS,y:r.y+w.y*timeS,z:r.z+w.z*timeS},radiusM=Math.hypot(field.x,field.y,field.z),cosine=(field.x*v.x+field.y*v.y+field.z*v.z)/Math.max(1e-12,radiusM*vm),theta=Math.acos(clamp(cosine,-1,1)),half=deg(GUN_B2_SPEC.fragments.halfAngleDeg),angles=[Math.PI/2-half,Math.PI/2+half].map(t=>Math.atan2(vf*Math.sin(t),vm+vf*Math.cos(t))),worldMinRad=Math.min(...angles),worldMaxRad=Math.max(...angles),ok=Math.abs(theta-Math.PI/2)<=half;
++ return {ok,reason:ok?null:'OUTSIDE_FRAGMENT_BAND',timeS,radiusM,bodyPolarDeg:rad2deg(theta),bodyHalfWidthDeg:GUN_B2_SPEC.fragments.halfAngleDeg,worldMinRad,worldMaxRad};
++}
++function gunB2FragmentDetail(distance,weapon,label,kin,rel,v,tv){
++ if(!gunB2Flags.fragments)return gunB1FragmentationPk(distance,weapon,label,kin);
++ return gunB2FragmentationPk(distance,weapon,label,{...kin,gunB2FieldInput:{offsetM:{...rel},projectileVelocityMps:{...v},relativeVelocityMps:{x:tv.x-v.x,y:tv.y-v.y,z:tv.z-v.z}}});
++}
++window.__GUN_B2__=Object.freeze({spec:GUN_B2_SPEC,configure:gunB2Configure,snapshot:()=>({flags:{...gunB2Flags},refreshAttempts:gunB2Diagnostics.refreshAttempts,refreshMs:gunB2Diagnostics.refreshMs,releases:gunB2Diagnostics.releases.map(r=>({...r,originM:{...r.originM}}))})});
++
++function gunB2FragmentationPk(missDistM,weaponType,targetLabel,kin={}){
++    const w={...GUN_B1_SPEC.fragments,annularBandHalfAngleDeg:GUN_B2_SPEC.fragments.halfAngleDeg,coneHalfAngleDeg:GUN_B2_SPEC.fragments.halfAngleDeg},tp=INTERCEPT_FRAGMENT_TARGETS[targetLabel]??INTERCEPT_FRAGMENT_TARGETS['Kh-35U'];
++    if(!w||!tp)return {pk:0,reason:'NO_FRAGMENT_PROFILE'};
++    const field=gunB2FragmentField(kin,_wip88GurneyFragmentSpeed(w));if(!field.ok)return {pk:0,reason:field.reason,gunB2Field:field};
++    const r=Math.max(0.75,field.radiusM),vm=Math.max(0,Number(kin.missileSpeedMps)||0),rel=Math.max(0,Number(kin.relativeSpeedMps)||0);
++    const enc=clamp(Number(kin.encounterAngleRad)||0,0,Math.PI),vf=_wip88GurneyFragmentSpeed(w);
++    // WIP142/WIP148 fragment inventory contract.
++    //  - explicit preformed fragments (ESSM) remain independent physical fragments;
++    //  - WDU-17/B uses a clustered rod-breakup model: terminal piece count and independent angular coverage
++    //    count are intentionally distinct because pieces from the same titanium rod remain spatially correlated;
++    //  - untouched legacy profiles retain the old mass/average-fragment/fraction fallback exactly.
++    const M=Math.max(1e-6,Number(w.gurneyDrivenMassKg??w.caseMassKg));
++    const hasExplicitFragmentCount=Number.isFinite(Number(w.fragmentCount))&&Number(w.fragmentCount)>0;
++    const rb=w.fragmentBreakupModel?.enabled?w.fragmentBreakupModel:null;
++    const hasRodBreakup=!!(rb&&Number(rb.physicalRodCount)>0&&Number(rb.terminalFragmentsPerRodMean)>0&&Number(rb.independentCoverageFragmentsPerRodMean)>0);
++    let N,coverageN,fragmentCountSource,clusterMultiplicity=1;
++    if(hasExplicitFragmentCount){
++      N=Number(w.fragmentCount);coverageN=N;fragmentCountSource='EXPLICIT';
++    }else if(hasRodBreakup){
++      N=Number(rb.physicalRodCount)*Number(rb.terminalFragmentsPerRodMean);
++      coverageN=Number(rb.physicalRodCount)*Number(rb.independentCoverageFragmentsPerRodMean);
++      clusterMultiplicity=Math.max(1,N/Math.max(1e-9,coverageN));
++      fragmentCountSource='ROD_BREAKUP_CLUSTERED';
++    }else{
++      N=(M/Math.max(1e-6,w.avgFragmentMassKg))*(Number(w.effectiveFragmentFraction)??1);
++      coverageN=N;fragmentCountSource='LEGACY_DERIVED';
++    }
++    // WIP144: physical inventory N is fixed. Only ESSM's useful spatial field is allowed to vary, and
++    // only when the caller supplies the one-per-detonation draw. Diagnostics without an override retain
++    // the exact WIP142/WIP143 physical baseline (efficiency=1).
++    const _ffm=(weaponType==='ESSM'&&hasExplicitFragmentCount)?w.fragmentFieldEfficiencyModel:null;
++    const fieldEfficiency=_ffm?.enabled&&Number.isFinite(Number(kin.fragmentFieldEfficiency))?clamp(Number(kin.fragmentFieldEfficiency),Number(_ffm.min)||0,Number(_ffm.max)||1):1;
++    const effectiveN=N*fieldEfficiency,effectiveCoverageN=coverageN*fieldEfficiency;
++    // Forward translation tilts an annular ~90-deg fragment spray toward the nose.
++    // User-requested approximation: delta = atan(V_missile / V_fragment).
++    const delta=Math.atan2(vm,Math.max(1e-6,vf)),thetaCenter=Math.PI/2-delta;
++    const bandHalfAngleDeg=Number(w.annularBandHalfAngleDeg??w.coneHalfAngleDeg),half=deg(bandHalfAngleDeg);
++    const bandAreaM2=2*Math.PI*r*r*(Math.cos(field.worldMinRad)-Math.cos(field.worldMaxRad));
++    // First-order encounter-angle weighting from the forward-tilted annulus. It remains continuous,
++    // equals 1 head-on, and falls toward a tail chase without a hand-authored Pk lookup table.
++    const s=Math.sin(delta),coneAspectFactor=clamp((1+s*Math.cos(enc))/Math.max(1e-6,1+s),0.15,1.0);
++    // Spatial coverage uses independent coverage clusters, not raw terminal-piece count.  For normal
++    // preformed-fragment profiles coverageN===N, so this algebra reduces EXACTLY to the pre-WIP148 model.
++    const fragmentSurfaceDensityM2=(effectiveCoverageN/bandAreaM2)*coneAspectFactor;
++    const terminalFragmentSurfaceDensityM2=(effectiveN/bandAreaM2)*coneAspectFactor;
++    // Annular-fragment average: fragment radial velocity and missile/target relative translation
++    // are treated orthogonally for impact-energy estimation. Full per-fragment Mott/azimuth sampling is deferred.
++    const fragmentImpactSpeedMps=Math.hypot(vf,rel);
++    const penetrationProbability=1/(1+Math.exp(-(fragmentImpactSpeedMps-tp.fragPenV50Mps)/Math.max(1,tp.fragPenWidthMps)));
++    const expectedCoverageIntersections=Math.max(0,fragmentSurfaceDensityM2*tp.vitalAreaM2);
++    // A WDU-17/B coverage cell represents several correlated terminal pieces from a common rod breakup.
++    // At least one penetrating piece in the cell is sufficient for the existing hard-kill Poisson mapping.
++    // For ordinary profiles clusterMultiplicity=1 and clusterKillProbability==penetrationProbability exactly.
++    const clusterKillProbability=clamp(1-Math.pow(Math.max(0,1-penetrationProbability),clusterMultiplicity),0,1);
++    const expectedLethalHits=Math.max(0,expectedCoverageIntersections*clusterKillProbability);
++    const pk=clamp(1-Math.exp(-expectedLethalHits),0,0.9995);
++    return {pk,gunB2Field:field,weaponType,warheadId:w.id,targetLabel,missDistM:r,explosiveMassKg:w.explosiveMassKg,gurneyDrivenMassKg:M,fragmentSpeedMps:vf,fragmentCount:N,coverageFragmentCount:coverageN,effectiveFragmentCount:effectiveN,effectiveCoverageFragmentCount:effectiveCoverageN,fragmentClusterMultiplicity:clusterMultiplicity,fragmentFieldEfficiency:fieldEfficiency,fragmentCountSource,coneTiltDeg:rad2deg(delta),coneCenterDeg:rad2deg(thetaCenter),coneHalfAngleDeg:bandHalfAngleDeg,annularBandHalfAngleDeg:bandHalfAngleDeg,coneAspectFactor,bandAreaM2,fragmentSurfaceDensityM2,terminalFragmentSurfaceDensityM2,vitalAreaM2:tp.vitalAreaM2,relativeSpeedMps:rel,missileSpeedMps:vm,targetSpeedMps:Number(kin.targetSpeedMps)||0,encounterAngleDeg:rad2deg(enc),fragmentImpactSpeedMps,penetrationProbability,clusterKillProbability,expectedCoverageIntersections,expectedLethalHits};
++  }
+ function gunB1IsAir(tr){return !!tr&&tr.domain!=='SURFACE'&&tr.classification!=='SURFACE'&&(tr.domain==='AIR'||tr.isASM===true||['ASM','AIR','FIGHTER','BOMBER','DRONE','HELICOPTER'].includes(tr.classification));}
+ function gunB1AirPolicy(tr,automatic=false){
+  if(!tr)return {ok:false,reason:'NO_TRACK'};if(!gunB1IsAir(tr))return {ok:false,reason:'NOT_AIR_TRACK'};
+@@ -35533,6 +35707,7 @@
+ function gunB1Uniform(p){p.mffB1.rng=_xorshift32(p.mffB1.rng);return (p.mffB1.rng>>>0)/4294967296;}
+ function gunB1ArmShell(p){const n=Number(String(p.id).split('-').at(-1))||1;p.mffB1={programmedTofS:p.solutionTimeOfFlightS,etTimeS:Number.isFinite(p.solutionTimeOfFlightS)?p.solutionTimeOfFlightS+GUN_B1_SPEC.etMarginS:null,rng:_mix32((SIM_SEED_BASE>>>0)^Math.imul(n,0x9e3779b1)^GUN_B1_SPEC.clutterSeedSalt)||1,clutterExposure:0};p.mffB1.clutterBudget=-Math.log(Math.max(1e-12,1-gunB1Uniform(p)));}
+ function gunB1ShellEvent(p,prev,next,dt){
++ if(gunB2Flags.fuze)return gunB2ShellEvent(p,prev,next,dt);
+  if(!p.mffB1)return null;const cfg=GUN_B1_SPEC,f=p.mffB1,d=Math.hypot(next.x-prev.x,next.y-prev.y,next.z-prev.z),armedFrom=d>0?clamp((cfg.armDistanceM-p.flightDistanceM)/d,0,1):p.flightDistanceM>=cfg.armDistanceM?0:1;
+  if(p.flightDistanceM+d<cfg.armDistanceM)return null;
+  let event=null;const offer=q=>{if(q&&q.t>=armedFrom-1e-12&&q.t<=1&&(!event||q.t<event.t))event=q;};
+@@ -35550,7 +35725,7 @@
+  p.alive=false;p.retiredReason=event.reason;const at={...p.positionM},vf=_wip88GurneyFragmentSpeed(GUN_B1_SPEC.fragments),results=[];
+  for(const row of gunB1PhysicalAir(dt)){
+   const v=p.velocityMps,tv=row.velocityMps,rel={x:row.positionM.x+tv.x*dt*event.t-at.x,y:row.positionM.y+tv.y*dt*event.t-at.y,z:row.positionM.z+tv.z*dt*event.t-at.z},distanceM=Math.hypot(rel.x,rel.y,rel.z);if(distanceM>GUN_B1_SPEC.fragmentQueryRadiusM)continue;
+-  const flight=distanceM/Math.max(1,vf),arrival=_wip99FragmentArrivalGeometry(rel.x,rel.y,rel.z,tv.x-v.x,tv.y-v.y,tv.z-v.z,0,flight),kin=_wip88InterceptKinematics(v.x,v.y,v.z,tv.x,tv.y,tv.z),detail=gunB1FragmentationPk(arrival.missM,'MFF_127_SIM',row.object.label??'Kh-35U',kin);let result;
++  const flight=distanceM/Math.max(1,vf),arrival=_wip99FragmentArrivalGeometry(rel.x,rel.y,rel.z,tv.x-v.x,tv.y-v.y,tv.z-v.z,0,flight),kin=_wip88InterceptKinematics(v.x,v.y,v.z,tv.x,tv.y,tv.z),detail=gunB2FragmentDetail(arrival.missM,'MFF_127_SIM',row.object.label??'Kh-35U',kin,rel,v,tv);let result;
+   if(row.kind==='ASM')result=applyInterceptResult(detail.pk,row.object,'5in MFF',p.trackId);
+   else if(row.kind==='HELO')result='DEFERRED_HELO_DAMAGE';
+   else if(simRandom()<detail.pk){
+@@ -35559,7 +35734,7 @@
+    else{row.object.alive=false;if(row.kind==='AIR')retireTruthAssociationV27('AIR',row.object.id,'INTERCEPT_KILL');}
+    result='KILL';
+   }else result='MISS';
+-  results.push({kind:row.kind,id:row.object.id,distanceM,arrivalMissM:arrival.missM,result,pk:detail.pk});
++  results.push({kind:row.kind,id:row.object.id,distanceM,arrivalMissM:gunB2Flags.fragments?(detail.missDistM??arrival.missM):arrival.missM,result,pk:detail.pk,...(gunB2Flags.fragments?{gunB2FragmentField:detail.gunB2Field??null}:{})});
+   if(row.kind==='ASM'&&['KILL','STRUCT_FAIL','DAMAGED'].includes(result)){wip173RecordInterceptBurst({id:p.id,x:metersToWorld(at.x),y:metersToWorld(at.y),z:at.z,vx:mpsToWorldSpeed(v.x),vy:mpsToWorldSpeed(v.y),vz:v.z,assignedTargetId:p.trackId,_fuzeBurstMissM:distanceM},'MFF_127_SIM',row.object,result);}
+  }
+  const record={projectileId:p.id,ammoId:p.ammoId,trackId:p.trackId,outcome:event.reason,ageS:p.ageS,positionM:at,triggerKind:event.triggerKind??null,triggerId:event.triggerId??null,missM:event.missM??null,programmedTofS:p.mffB1.programmedTofS,results};mainGunImpactLogWip13B3.push(record);if(mainGunImpactLogWip13B3.length>128)mainGunImpactLogWip13B3.shift();gunB1Note('AIRBURST',record);
+@@ -35744,7 +35919,7 @@
+   const module=request.module,ammo=request.ammo,hp=request.hardpoint,off=module.mount.trunnionOffsetM??{x:0,y:0,z:0},trunnion=shipGamePointStateV1({x:hp.x+off.x*Math.cos(request.bodyAzRad)-off.y*Math.sin(request.bodyAzRad),y:hp.y+off.x*Math.sin(request.bodyAzRad)+off.y*Math.cos(request.bodyAzRad),z:hp.z+off.z}),worldAim=shipGameAimWorldV1(request.bodyAzRad,request.elevationRad),dir=shipGameVectorV1(worldAim.az,worldAim.el),barrelM=Math.max(0,Number(module.mount.exposedBarrelM)||0),positionM={x:trunnion.xM+dir.x*barrelM,y:trunnion.yM+dir.y*barrelM,z:trunnion.zM+dir.z*barrelM},velocityMps={x:trunnion.vxMps+dir.x*ammo.muzzleVelocityMps,y:trunnion.vyMps+dir.y*ammo.muzzleVelocityMps,z:trunnion.vzMps+dir.z*ammo.muzzleVelocityMps};
+   const projectile={schema:'AEGIS_LIVE_GUN_PROJECTILE_V48_WIP13B6',id:`MK45-${mainGunProjectileSerialWip13B3++}`,alive:true,ammoId:String(request.ammoId),terminalProjectileSpecId:String(ammo.terminalProjectileSpecId),sourceModuleId:String(module.id),trackId:Number(request.trackId),positionM,previousPositionM:{...positionM},velocityMps,ageS:0,flightDistanceM:0,massKg:ammo.massKg,diameterM:ammo.diameterM,environment:maritimeEnvironmentSnapshotWip13A3(),retiredReason:null,solutionTimeOfFlightS:Number(request.solution?.timeOfFlightS)||null,solutionComputedStep:Number(request.solution?.computedStep),solutionSensorSource:String(request.solution?.sensorSource??'UNKNOWN'),solutionTrackCovariance:request.solution?.trackCovariance?{...request.solution.trackCovariance}:null};
+   if(projectile.ammoId==='MFF_127_SIM')gunB1ArmShell(projectile);
+-  mainGunProjectilesWip13B3.push(projectile);wip173PushVisualEvent('MK45_MUZZLE_BLAST',{coordSpace:'WORLD',x:metersToWorld(positionM.x),y:metersToWorld(positionM.y),z:positionM.z,vxMps:velocityMps.x,vyMps:velocityMps.y,vzMps:velocityMps.z,massKg:ammo.massKg,weaponType:request.ammoId,sourceId:projectile.id,seed:mainGunProjectileSerialWip13B3});return projectile;
++  if(gunB2Flags.dispersion)gunB2ApplyDispersion(projectile,request,trunnion);mainGunProjectilesWip13B3.push(projectile);wip173PushVisualEvent('MK45_MUZZLE_BLAST',{coordSpace:'WORLD',x:metersToWorld(positionM.x),y:metersToWorld(positionM.y),z:positionM.z,vxMps:velocityMps.x,vyMps:velocityMps.y,vzMps:velocityMps.z,massKg:ammo.massKg,weaponType:request.ammoId,sourceId:projectile.id,seed:mainGunProjectileSerialWip13B3});return projectile;
+ }
+ function wip13b5ProjectileAcceleration(projectile,module,ammo){
+   const wind=wip13b1WindVector(projectile.environment),v=projectile.velocityMps,rel={x:v.x-wind.x,y:v.y-wind.y,z:v.z},speed=Math.hypot(rel.x,rel.y,rel.z),rho=airDensityKgM3(Math.max(0,projectile.positionM.z)),mach=speed/Math.max(250,speedOfSoundMps(Math.max(0,projectile.positionM.z))),k=.5*rho*wip13b1GunCd(mach)*ammo.dragAreaM2/Math.max(.001,projectile.massKg||ammo.massKg);

@@ -1,0 +1,19 @@
+{
+  "productHtmlSha256": "85c99691b3b7599d77f91e5bf820e335af7051e88e2b9c5acdd8b4b053b477f9",
+  "reason": "Original geometric mock has no RF rcsM2, so RF_ORDNANCE uses .001 fallback. Positive detector fixtures must represent an actual modeled ordnance reflector.",
+  "existingProductionRcsM2": 0.06,
+  "references": [
+    {
+      "token": "m.rcsM2=.06",
+      "containingSourceStart": "function launch(command){\n    sync();selectedLockId=Number(command.trackId);engagementControlMode=co",
+      "nativeExcerpt": "leaseStandardB1({...command,weaponType:command.weapon}));\n    for(const m of missiles.slice(before)){m.ownerEntityId=owner.entityId;m.ownerTrackKeyD=ownerTrackKeyD(owner.entityId,m.assignedTargetId);m.id=++ENGAGEMENT_RUNTIME.world.navalWeaponSerialD;m.rcsM2=.06;m._weaponLinkB3=null;weaponLinkB3Init(m);}\n    return result?.ok!=null?result:{ok:missiles.length>before,projectileId:result?.id??null,reason:missil"
+    },
+    {
+      "token": "history:[],outcome:null,rcsM2:.06",
+      "containingSourceStart": "function harpoonReleaseA(pending){\n  // Recheck authority, track freshness, ammunition, damage and a",
+      "nativeExcerpt": "ARPOON:'+BATTLESPACE.seed+':'+serial),seeker:{active:false,mode:'OFF',timerS:0,azRelRad:0,\n      elRelRad:0,scanDirection:1,scanReversals:0,scanBoundsRad:[0,0],\n      candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0},history:[],outcome:null,rcsM2:.06};\n  tube.loaded=false;tube.capOpen01=1;r.releaseCooldownS=cfg.releaseIntervalS;r.lastResult='RELEASED:'+serial;r.routeDraft={e"
+    }
+  ],
+  "changes": "Add existing NPC-SAM and own-Harpoon .06 metadata to positive physical mock. Missing-metadata, axis and r=0 controls remain. No product RF/RCS/Pd/threshold change.",
+  "resourceFailure": false
+}

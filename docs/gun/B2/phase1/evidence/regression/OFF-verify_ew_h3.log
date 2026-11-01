@@ -1,0 +1,14 @@
+ew DDG_119_LATE_FLIGHT_IIA D checks 47 failed []
+ew DDG_119_LATE_FLIGHT_IIA E checks 47 failed []
+ew CG_52_LATE_TICONDEROGA D checks 47 failed []
+ew CG_52_LATE_TICONDEROGA E checks 47 failed []
+h3 DDG_119_LATE_FLIGHT_IIA D checks 97 failed []
+h3 DDG_119_LATE_FLIGHT_IIA E checks 97 failed []
+h3 CG_52_LATE_TICONDEROGA D checks 98 failed []
+h3 CG_52_LATE_TICONDEROGA E checks 98 failed []
+{"pass": false, "rows": [{"suite": "ew", "ship": "DDG_119_LATE_FLIGHT_IIA", "same": false, "sameChecks": true, "checks": 47, "failed": []}, {"suite": "ew", "ship": "CG_52_LATE_TICONDEROGA", "same": false, "sameChecks": true, "checks": 47, "failed": []}, {"suite": "h3", "ship": "DDG_119_LATE_FLIGHT_IIA", "same": true, "sameChecks": true, "checks": 97, "failed": []}, {"suite": "h3", "ship": "CG_52_LATE_TICONDEROGA", "same": true, "sameChecks": true, "checks": 98, "failed": []}], "errors": [], "htmlSha256": "97089f4b81ea0a15b84b6591b535e396b8115cd141a5fefb2998b9478f70f66d", "elapsedS": 550.0995840889955}
+Traceback (most recent call last):
+  File "/tmp/aegis-gun-b2/repo/docs/map/E/verify_ew_h3.py", line 23, in <module>
+    out={'pass':not errors and all(r['same']and r['sameChecks']and r['candidate']['pass']for r in rows),'rows':[{'suite':r['suite'],'ship':r['ship'],'same':r['same'],'sameChecks':r['sameChecks'],'checks':len(r['candidate']['checks']),'failed':[k for k,v in r['candidate']['checks'].items()if not v]}for r in rows],'errors':errors,'htmlSha256':hashlib.sha256((R/'Aegis_SIM_v48_WIP_MAP_E.html').read_bytes()).hexdigest(),'elapsedS':time.perf_counter()-start};(E/'summary.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps(out));assert out['pass']
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ~~~^^^^^^^^
+AssertionError
