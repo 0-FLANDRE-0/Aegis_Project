@@ -1,0 +1,14 @@
+"""Choose only from the 16,459 m range-dispersion anchor, never hit outcomes."""
+from pathlib import Path
+import argparse,csv,json,statistics,time,os
+from playwright.sync_api import sync_playwright
+from harness import P,R,build,serve,load_http,launch,sha
+ap=argparse.ArgumentParser();ap.add_argument('--derive',action='store_true');a=ap.parse_args();E=Path(os.environ.get('B2_CALIBRATION_OUT',str(P/'evidence/dispersion')));E.mkdir(parents=True,exist_ok=True);errors=[];raw=build(record=False,extra=(P/'calibration.js').read_text());server,url=serve(raw);start=time.perf_counter()
+with sync_playwright()as pw:
+ browser=launch(pw);page=load_http(browser,url,own='DDG_119_LATE_FLIGHT_IIA',errors=errors);page.set_default_timeout(600000);q=page.evaluate('__B2_CALIBRATE__(400)');page.close();browser.close()
+server.shutdown();sigma=statistics.pstdev(r['rangeM']for r in q['samples']);crossSigma=statistics.pstdev(r['crossM']for r in q['samples']);repeat=all(r['rangeM']==s['rangeM']and r['crossM']==s['crossM']for r,s in zip(q['repeat'],q['samples']));checks={'nativeParity0':q['parity']['differenceM']==0,'sameSeedRepeat':repeat,'globalRngUnchanged':q['rngBefore']==q['rngAfter'],'offExactSpawn':q['unperturbedRepeatExact'],'errors0':not errors and not q['core'],'anchorSigma':44<=sigma<=55,'samples400':len(q['samples'])==400};result={'pass':all(checks.values()),'checks':checks,'rangeSigmaM':sigma,'crossSigmaM':crossSigma,'rangeMeanM':statistics.mean(r['rangeM']for r in q['samples']),'data':q,'errors':errors,'elapsedS':time.perf_counter()-start,'productSha256':sha((R/'Aegis_SIM_v48_WIP_GUN_B2.html').read_bytes())};name='initial.json'if a.derive else'validation.json';(E/name).write_text(json.dumps(result,indent=2)+'\n')
+with(E/('initial.csv'if a.derive else'validation.csv')).open('w',newline='')as f:
+ w=csv.writer(f,lineterminator='\n');w.writerow(['id','range_m','cross_m','time_s','mv_z','elev_z','train_z']);w.writerows([r['id'],r['rangeM'],r['crossM'],r['timeS'],r['dispersion']['normal']['mv'],r['dispersion']['normal']['elev'],r['dispersion']['normal']['train']]for r in q['samples'])
+if a.derive:
+ gradient=q['gradients'];target=49.5;constants={'mvSigmaFrac':target*(.8**.5)/abs(gradient['rangePerMvFraction']),'elevSigmaMrad':1000*target*(.2**.5)/abs(gradient['rangePerElevationRad']),'reference':'USER_SPECIFIED_16459M_RANGE_SIGMA_ANCHOR','targetRangeSigmaM':target,'varianceAllocation':{'mv':.8,'elevation':.2},'gradients':gradient,'derivation':'sigma_mv=49.5*sqrt(.8)/|dRange/dMvFraction|; sigma_el=49.5*sqrt(.2)/|dRange/dElRad|. Native finite differences, no target hit-rate input.'};(P/'dispersion-constants.json').write_text(json.dumps(constants,indent=2)+'\n')
+print(json.dumps({'pass':result['pass'],'checks':checks,'sigmaM':sigma,'crossSigmaM':crossSigma,'derive':a.derive}));raise SystemExit(0 if a.derive or result['pass']else 1)

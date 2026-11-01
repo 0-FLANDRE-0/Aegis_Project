@@ -1,0 +1,13 @@
+--- docs/gun/B1/verify_ui.py
++++ docs/gun/B2/phase1a/adapted/verify_ui.py
+@@ -1,8 +1,8 @@
+ from pathlib import Path
+ import sys,json,time,hashlib,base64
+ from playwright.sync_api import sync_playwright,Locator
+-H=Path(__file__).resolve().parent;R=H.parents[2];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
+-raw=(R/'Aegis_SIM_v48_WIP_GUN_B1.html').read_bytes();fixture='\n'.join(p.read_text()for p in [R/'docs/map/E/test-helper.js',R/'docs/map/D/extension-fixture.js',H/'test-fixture.js'])+'''
++H=Path(__file__).resolve().parents[3]/'B1';R=H.parents[2];sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
++raw=(R/'Aegis_SIM_v48_WIP_GUN_B2.html').read_bytes();fixture='\n'.join(p.read_text()for p in [R/'docs/map/E/test-helper.js',R/'docs/map/D/extension-fixture.js',H/'test-fixture.js'])+'''
+ __GB_TEST__.muzzleAudit=()=>{const view=WIP148_EXTERNAL_3D,T=view.THREE;view.syncShipFittings(get3DRenderState());view.shipRoot.updateWorldMatrix(true,true);return gunB1OwnGuns().map(([id,g])=>{const v=view._gunB1Visuals.get(g.installation.hardpointId),b=v.pitch.getObjectByName('MK45_MOD4_BORE'),p=view.shipRoot.worldToLocal(b.getWorldPosition(new T.Vector3())),q=g.snapshot(),hp=ACTIVE_SHIP_PROFILE.geometry.hardpoints[g.installation.hardpointId],off=g.spec.mount.trunnionOffsetM,az=q.bodyAzRad,el=q.elevationRad,l=g.spec.mount.exposedBarrelM,expected={x:hp.x+off.x*Math.cos(az)-off.y*Math.sin(az)+Math.cos(az)*Math.cos(el)*l,y:hp.y+off.x*Math.sin(az)+off.y*Math.cos(az)+Math.sin(az)*Math.cos(el)*l,z:hp.z+off.z+Math.sin(el)*l};return {id,expected,actual:{x:p.x,y:p.z,z:p.y},errorM:Math.hypot(p.x-expected.x,p.z-expected.y,p.y-expected.z),faceted:!!v.holder.getObjectByName('MK45_MOD4_FACETED_HOUSING'),sourceHidden:view._bunkerAsset.nodes.get(BUNKER_REGISTRATION.guns[g.installation.hardpointId].yawNode).obj.visible===false};});};
+ __GB_TEST__.patchAir=(id,o)=>Object.assign(tracks.get(id),o);
+ __GB_TEST__.uiTick=n=>{for(let i=0;i<n;i++){for(const tr of tracks.values()){tr._lastMeasurementStep=simStepCounter;tr.sensorAge=0;}simulateFixedTick(SIM_FIXED_DT);}return __GB_TEST__.guns();};
