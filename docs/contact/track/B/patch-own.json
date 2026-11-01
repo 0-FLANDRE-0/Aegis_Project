@@ -1,0 +1,105 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "baselineMainSha256": "8d2de4f64cb18e3248156e36fa454daee91b5603e03fee5a8f7bd372e0d5780e",
+  "patches": [
+    {
+      "op": "replace",
+      "label": "Own SPY global uses precomputed native graph and preserves native Hungarian SHADOW",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "before": "    const cols=bridgeMasterEMinCostAssignmentV35(costs);\n    for(let row=0;row<cols.length;row++){\n      const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>gate)continue;\n      assigned.set(plotIndices[row],{trackId:trackEntries[col][0],nis:costs[row][col]});\n    }\n    return assigned;",
+      "after": "    // Preserve the actual native Hungarian result for SHADOW or an enabled\n    // comparison trace. Default ACTIVE does not duplicate this pure solve.\n    // Native NIS and cross-domain gates were evaluated exactly once above.\n    const cols=(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE'||TRACK_B_DIAG.enabled)?bridgeMasterEMinCostAssignmentV35(costs):[],legacyPairs=[],trackBPairs=[];\n    for(let row=0;row<cols.length;row++){\n      const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>gate)continue;\n      legacyPairs.push({i:plotIndices[row],id:trackEntries[col][0],nis:costs[row][col]});\n    }\n    for(let row=0;row<plotIndices.length;row++)for(let col=0;col<trackEntries.length;col++){\n      const nis=costs[row][col];if(!(nis<=gate))continue;\n      const [id,tr]=trackEntries[col],i=plotIndices[row];trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR')});\n    }\n    const trackBSelection=trackBSelectB({plotCount:plots.length,pairs:trackBPairs,legacyPairs,gate,route:'OWN_SPY_GLOBAL',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter});\n    for(const q of trackBSelection.pairs)assigned.set(q.i,{trackId:q.id,nis:q.nis});\n    assigned.trackBHeldPlots=trackBSelection.heldPlots;\n    return assigned;"
+    },
+    {
+      "op": "replace",
+      "label": "Surface staged assignment carries transient held rows",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "    const plotIndices=eligiblePlotIndices??plots.map((_,i)=>i),assigned=new Map(),usedTracks=new Set(excludedTrackIds),blockedCost=1e6;\n    const assignStage=",
+      "after": "    const plotIndices=eligiblePlotIndices??plots.map((_,i)=>i),assigned=new Map(),usedTracks=new Set(excludedTrackIds),blockedCost=1e6;\n    // Transient assignment metadata only; never stored on a canonical track.\n    assigned.trackBHeldPlots=new Set();\n    const assignStage="
+    },
+    {
+      "op": "replace",
+      "label": "Surface native Hungarian reference only for SHADOW or enabled comparison trace",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "cols=bridgeMasterEMinCostAssignmentV35(costs);",
+      "after": "cols=(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE'||TRACK_B_DIAG.enabled)?bridgeMasterEMinCostAssignmentV35(costs):[];"
+    },
+    {
+      "op": "replace",
+      "label": "Surface stage uses shared selection without losing established-first priority",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "      for(let row=0;row<cols.length;row++){\n        const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>stageGate)continue;\n        const plotIndex=indices[row],trackId=trackEntries[col][0];assigned.set(plotIndex,{trackId,nis:costs[row][col],cross});usedTracks.add(trackId);\n      }",
+      "after": "      // Keep the existing stage-specific Hungarian solution for SHADOW. The\n      // graph reuses the native position/Doppler NIS values in costs verbatim.\n      const legacyPairs=[],trackBPairs=[];\n      for(let row=0;row<cols.length;row++){\n        const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>stageGate)continue;\n        legacyPairs.push({i:indices[row],id:trackEntries[col][0],nis:costs[row][col]});\n      }\n      for(let row=0;row<indices.length;row++)for(let col=0;col<trackEntries.length;col++){\n        const nis=costs[row][col];if(!(nis<=stageGate))continue;\n        const [id,tr]=trackEntries[col],i=indices[row];trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE')});\n      }\n      const trackBSelection=trackBSelectB({plotCount:plots.length,pairs:trackBPairs,legacyPairs,gate:stageGate,route:cross?'OWN_SURFACE_CROSS':'OWN_SURFACE_ESTABLISHED',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter});\n      for(const i of trackBSelection.heldPlots)assigned.trackBHeldPlots.add(i);\n      // These are stage-local reservations, not caller usedTracks or accepted hits.\n      for(const id of trackBSelection.heldTracks)usedTracks.add(id);\n      for(const q of trackBSelection.pairs){assigned.set(q.i,{trackId:q.id,nis:q.nis,cross});usedTracks.add(q.id);}"
+    },
+    {
+      "op": "replace",
+      "label": "Ambiguous established rows do not enter cross-domain recovery",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "const leftovers=plotIndices.filter(i=>!assigned.has(i)),crossTracks=",
+      "after": "const leftovers=plotIndices.filter(i=>!assigned.has(i)&&!assigned.trackBHeldPlots.has(i)),crossTracks="
+    },
+    {
+      "op": "replace",
+      "label": "SPY AIR held plots do not enter null-to-create path",
+      "scope": {
+        "function": "executeSpyTask"
+      },
+      "before": "      if(usedPlots.has(i))continue;\n      const assoc=assignments.get(i),id=assoc?.trackId??null;",
+      "after": "      if(usedPlots.has(i))continue;\n      if(assignments.trackBHeldPlots?.has(i)){spyScheduler.anonymousStats.rejectedPlots++;continue;}\n      const assoc=assignments.get(i),id=assoc?.trackId??null;"
+    },
+    {
+      "op": "replace",
+      "label": "SPY surface held plots do not create or recover another file",
+      "scope": {
+        "function": "spyExecuteSurfacePlotsWip13B9"
+      },
+      "before": "for(const i of plotIndices){const match=assignments.get(i),trackId=match?.trackId??null;",
+      "after": "for(const i of plotIndices){if(assignments.trackBHeldPlots?.has(i)){spyScheduler.anonymousStats.surfaceRejected++;continue;}const match=assignments.get(i),trackId=match?.trackId??null;"
+    },
+    {
+      "op": "replace",
+      "label": "SPQ surface held plots skip initiation with native rejected count",
+      "scope": {
+        "function": "spq9bAcceptSurfacePlotsWip13B1"
+      },
+      "before": "      const obs=observations[i],best=assigned.get(i),tr=updateSensorTrackMeasurement",
+      "after": "      const obs=observations[i],best=assigned.get(i);\n      if(assigned.trackBHeldPlots?.has(i)){SPQ9B_SURFACE_ASSOC_STATS_WIP13B1.rejected++;continue;}\n      const tr=updateSensorTrackMeasurement"
+    },
+    {
+      "op": "replace",
+      "label": "BridgeMaster held plots skip initiation and capacity change",
+      "scope": {
+        "function": "bridgeMasterEAcceptAnonymousPlotsV35"
+      },
+      "before": "      const obs=observations[i],match=assigned.get(i);\n      if(!match&&surfaceCount>=BRIDGEMASTER_E_TRACK_CAPACITY)",
+      "after": "      const obs=observations[i],match=assigned.get(i);\n      if(assigned.trackBHeldPlots?.has(i)){BRIDGEMASTER_E_ASSOC_STATS_V35.rejected++;continue;}\n      if(!match&&surfaceCount>=BRIDGEMASTER_E_TRACK_CAPACITY)"
+    }
+  ],
+  "allowedChangedSymbols": [
+    "bridgeMasterEAcceptAnonymousPlotsV35",
+    "executeSpyTask",
+    "spq9bAcceptSurfacePlotsWip13B1",
+    "spyExecuteSurfacePlotsWip13B9",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14"
+  ],
+  "allowedAddedSymbols": [],
+  "allowedProtectedAssociationChanges": [
+    "bridgeMasterEAcceptAnonymousPlotsV35",
+    "executeSpyTask",
+    "spq9bAcceptSurfacePlotsWip13B1",
+    "spyExecuteSurfacePlotsWip13B9",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14"
+  ],
+  "policyNote": "Association-only ownship selection. Native RF/EKF/NIS/gates/focused priority and established-surface-first stages remain. SHADOW requires selector input.legacyPairs override. Map.trackBHeldPlots is transient caller metadata. Native Hungarian reference executes only for SHADOW or comparison trace ON; default ACTIVE avoids duplicate pure global solve."
+}

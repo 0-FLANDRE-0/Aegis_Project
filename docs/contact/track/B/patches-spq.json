@@ -1,0 +1,68 @@
+[
+  {
+    "op": "replace",
+    "label": "spq-shadow-optional-diagnostic-index",
+    "scope": {
+      "function": "spq9bBestTrackForPlotV34",
+      "occurrence": 0
+    },
+    "before": "function spq9bBestTrackForPlotV34(plot,usedTracks){",
+    "after": "function spq9bBestTrackForPlotV34(plot,usedTracks,trackBDiagPlotIndex=null){",
+    "count": 1
+  },
+  {
+    "op": "replace",
+    "label": "spq-shadow-already-evaluated-candidates",
+    "scope": {
+      "function": "spq9bBestTrackForPlotV34",
+      "occurrence": 0
+    },
+    "before": "      if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};",
+    "after": "      if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:id,plotIndex:trackBDiagPlotIndex,nis,gate,decision:nis<=gate?'NATIVE_ELIGIBLE':'NATIVE_REJECT',reason:'PARTIAL_SEQUENCE_NATIVE_EVALUATIONS_ONLY',sequential:true,commonEpoch:false});\n      if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};",
+    "count": 1
+  },
+  {
+    "op": "replace",
+    "label": "spq-shadow-native-winner-only",
+    "scope": {
+      "function": "spq9bBestTrackForPlotV34",
+      "occurrence": 0
+    },
+    "before": "    return best;",
+    "after": "    if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:best?.trackId??null,plotIndex:trackBDiagPlotIndex,nis:best?.nis??null,gate:null,decision:best?'NATIVE_WINNER':'NO_NATIVE_MATCH',reason:'SEQUENTIAL_EKF_UPDATES_BETWEEN_PLOTS',sequential:true,commonEpoch:false});\n    return best;",
+    "count": 1
+  },
+  {
+    "op": "replace",
+    "label": "spq-shadow-local-sequence-counter",
+    "scope": {
+      "function": "spq9bAcceptAnonymousPlotsV34",
+      "occurrence": 0
+    },
+    "before": "    const usedTracks=new Set();let accepted=0;",
+    "after": "    const usedTracks=new Set();let accepted=0;let trackBSequenceIndex=-1;",
+    "count": 1
+  },
+  {
+    "op": "replace",
+    "label": "spq-shadow-sequence-index-per-plot",
+    "scope": {
+      "function": "spq9bAcceptAnonymousPlotsV34",
+      "occurrence": 0
+    },
+    "before": "    for(const obs of observations){",
+    "after": "    for(const obs of observations){\n      const trackBPlotIndex=TRACK_B_DIAG.enabled?++trackBSequenceIndex:null;",
+    "count": 1
+  },
+  {
+    "op": "replace",
+    "label": "spq-shadow-forward-diagnostic-index",
+    "scope": {
+      "function": "spq9bAcceptAnonymousPlotsV34",
+      "occurrence": 0
+    },
+    "before": "const match=spq9bBestTrackForPlotV34(plot,usedTracks),existing=",
+    "after": "const match=spq9bBestTrackForPlotV34(plot,usedTracks,trackBPlotIndex),existing=",
+    "count": 1
+  }
+]

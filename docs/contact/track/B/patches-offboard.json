@@ -1,0 +1,51 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "patches": [
+    {
+      "op": "replace",
+      "label": "Hawklink source-epoch cohort adapter and direct-call delegation",
+      "before": "function acceptOffboardC(r,report){",
+      "after": "// TRACK-B: one independent source/measurement-epoch cohort. No truth IDs,\n// velocity synthesis, lifecycle redesign or wire/schema changes enter this adapter.\nfunction trackBAcceptOffboardCohortB(r,reports){\n  if(!reports.length)return [];\n  if(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE')return reports.map(report=>acceptOffboardC(r,report,{legacy:true}));\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,entries=[...o.tracks.entries()],measurements=reports.map(report=>offboardPlotC(report,now)),pairs=[],repeated=new Set(),blockedAir=new Set(),duplicates=new Set(),seen=new Set();\n  for(let i=0;i<reports.length;i++){\n    const report=reports[i],meas=measurements[i],e=report.domainEvidence;\n    // Exact repeated payload/time is not a second measurement. Source+time alone\n    // is deliberately insufficient: distinct contacts can share one scan epoch.\n    const signature=JSON.stringify([report.sourceId,report.measuredAtS,report.positionM.x,report.positionM.y,report.positionM.z,report.covarianceM2,e.air,e.background,e.missile,e.surface]);\n    if(seen.has(signature)){duplicates.add(i);continue;}seen.add(signature);\n    for(const [id,tr]of entries){\n      const nis=trackCartesianAssociationNisV33(tr,meas);\n      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});\n      if(!(nis<=25))continue;\n      let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');\n      // Replay/observability eligibility belongs to this pair, not the whole\n      // report. Another valid file may still win. A geometrically invalid distant\n      // file cannot block an unrelated update or birth through broad filter P.\n      if(sanity.ok!==false){\n        const repeatedPair=tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS,airPair=meas._reportedSurface&&trackHasAirObservationFC(tr);\n        if(repeatedPair)repeated.add(i);if(airPair)blockedAir.add(i);\n        if(repeatedPair)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};\n        else if(airPair)sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};\n      }\n      pairs.push({i,id,nis,sanity});\n    }\n  }\n  const selection=trackBSelectB({plotCount:reports.length,pairs,gate:25,route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter}),chosen=new Map(selection.pairs.map(q=>[q.i,q])),results=[];\n  for(let i=0;i<reports.length;i++){\n    const q=chosen.get(i),held=duplicates.has(i)||selection.heldPlots.has(i)||(!q&&(repeated.has(i)||blockedAir.has(i)));\n    if(held){\n      const reason=duplicates.has(i)?'EXACT_COHORT_FIX_REPLAY':repeated.has(i)?'REPEATED_SOURCE_EPOCH_UNCERTAIN':selection.heldPlots.has(i)?'AMBIGUOUS_ASSOCIATION':'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY';\n      trackBTraceB({route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter,plotIndex:i,decision:'HOLD',reason,active:true,sequential:false,commonEpoch:true});results.push(false);continue;\n    }\n    results.push(acceptOffboardC(r,reports[i],{active:true,meas:measurements[i],match:q?{id:q.id,nis:q.nis}:null}));\n  }\n  return results;\n}\nfunction acceptOffboardC(r,report,trackBPrepared=null){\n  if(!trackBPrepared)return trackBAcceptOffboardCohortB(r,[report])[0]===true;"
+    },
+    {
+      "op": "replace",
+      "label": "Reuse transformed measurement prepared by frozen cohort scoring",
+      "scope": {
+        "function": "acceptOffboardC"
+      },
+      "before": "meas=offboardPlotC(report,now),age=now-report.measuredAtS;",
+      "after": "meas=trackBPrepared.meas??offboardPlotC(report,now),age=now-report.measuredAtS;"
+    },
+    {
+      "op": "replace",
+      "label": "Prepared ACTIVE assignment or exact sequential SHADOW native NIS once",
+      "scope": {
+        "function": "acceptOffboardC"
+      },
+      "before": "  let match=null;for(const [id,tr]of o.tracks){const nis=trackCartesianAssociationNisV33(tr,meas);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=25&&(!match||nis<match.nis))match={id,nis};}",
+      "after": "  let match=trackBPrepared.active?trackBPrepared.match:null;\n  if(!trackBPrepared.active){\n    const trackBPairs=[];\n    for(const [id,tr]of o.tracks){\n      const nis=trackCartesianAssociationNisV33(tr,meas);\n      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});\n      if(nis<=25){\n        let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');\n        if(sanity.ok!==false){\n          if(tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};\n          else if(meas._reportedSurface&&trackHasAirObservationFC(tr))sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};\n        }\n        trackBPairs.push({i:0,id,nis,sanity});if(!match||nis<match.nis)match={id,nis};\n      }\n    }\n    // This is the actual sequential native graph, not a full-cohort counterfactual.\n    // NIS is evaluated once, at the original native point after prior commits.\n    trackBSelectB({plotCount:1,pairs:trackBPairs,gate:25,route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter});\n    trackBTraceB({route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter,decision:'SEQUENTIAL_SHADOW',active:false,sequential:true,commonEpoch:false});\n  }"
+    },
+    {
+      "op": "replace",
+      "label": "Due Hawklink reports grouped by independent source and original measurement epoch",
+      "scope": {
+        "function": "drainOffboardC"
+      },
+      "before": "function drainOffboardC(r){\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];",
+      "after": "function drainOffboardC(r){\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];\n  if(TRACK_B_IMPLEMENTATION_MODE==='ACTIVE'){\n    const cohorts=new Map();let order=0;\n    for(const q of o.offboard.queue){\n      if(!o.offboard.sources.get(q.sourceId)?.connected)continue;\n      if(q.availableAtS>now){pending.push(q);continue;}\n      if(now-q.measuredAtS>OBSERVER_POLICY_C.externalMaxAgeS){o.offboard.rejected++;continue;}\n      const key=JSON.stringify([q.sourceId,q.measuredAtS]);let cohort=cohorts.get(key);\n      if(!cohort){cohort={sourceId:q.sourceId,measuredAtS:q.measuredAtS,order:order++,reports:[]};cohorts.set(key,cohort);}cohort.reports.push(q);\n    }\n    // Original measurement epochs stay ordered. A source/epoch is an assignment\n    // cohort, never a global deduplication key or a hidden contact identifier.\n    for(const cohort of [...cohorts.values()].sort((a,b)=>a.measuredAtS-b.measuredAtS||a.order-b.order)){\n      cohort.reports.sort((a,b)=>a.sequence-b.sequence);\n      for(const accepted of trackBAcceptOffboardCohortB(r,cohort.reports))if(!accepted)o.offboard.rejected++;\n    }\n    o.offboard.queue=pending;drainIsarOffboardF2(r);return;\n  }"
+    }
+  ],
+  "allowedChangedSymbols": [
+    "acceptOffboardC",
+    "drainOffboardC"
+  ],
+  "allowedAddedSymbols": [
+    "trackBAcceptOffboardCohortB"
+  ],
+  "allowedProtectedAssociationChanges": [
+    "acceptOffboardC",
+    "drainOffboardC"
+  ],
+  "baselineMainSha256": "8d2de4f64cb18e3248156e36fa454daee91b5603e03fee5a8f7bd372e0d5780e",
+  "policyNote": "Hawklink association only. ACTIVE source/measurement-epoch one-to-one/ambiguity with frozen pre-update NIS exactly once and native body commit. SHADOW exact original sequential decisions/NIS once; explicitly not a full-cohort counterfactual. No Link16, CI, EKF kernel, velocity/extrapolation, wire schema, lifecycle, identity or authority modification. Reported-surface/fresh-AIR crossings are held rather than treating prior height as a measurement. Repeated/fresh-AIR eligibility is per geometry-valid pair; another valid file may win. Only unassigned plots with such blocked candidates are held rather than birthed."
+}

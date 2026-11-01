@@ -1,0 +1,421 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "baselineMainSha256": "8d2de4f64cb18e3248156e36fa454daee91b5603e03fee5a8f7bd372e0d5780e",
+  "componentManifests": [
+    {
+      "path": "patch-own.json",
+      "sha256": "bc63dbbb377abaa19c870e825a40cbde27b3243e7b21e184977eaafc8525c717",
+      "patches": 9
+    },
+    {
+      "path": "patches-offboard.json",
+      "sha256": "c33b663693f55968d4c0887efd1f549fac2080c7e90315ad3616fb7a47bc5175",
+      "patches": 4
+    },
+    {
+      "path": "patches-npc.json",
+      "sha256": "1af2019e3665e434ab32d2d789e4d3131b5ff23c9e20b80c4e15c6ccef9cabf6",
+      "patches": 4
+    },
+    {
+      "path": "patches-spq.json",
+      "sha256": "56315a27902b1a96aa598db35c307af18c5564e929ebf146943d815f337d737f",
+      "patches": 6
+    },
+    {
+      "path": "patches-c55.json",
+      "sha256": "93808a35bf589825bb0aea1a0eb4cc142508c84add2121c256bc965bd451c72f",
+      "patches": 11
+    }
+  ],
+  "patches": [
+    {
+      "op": "module",
+      "label": "TRACK_B_ASSOCIATION_CORE",
+      "path": "association.js",
+      "sha256": "3a4bac5b74c03033490e92f5d3d69cadd4e4214309e7479afcdfe3c5cf954e46",
+      "anchor": "// TRACK_A_DIAGNOSTICS_END",
+      "placement": "after"
+    },
+    {
+      "op": "replace",
+      "label": "Own SPY global uses precomputed native graph and preserves native Hungarian SHADOW",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "before": "    const cols=bridgeMasterEMinCostAssignmentV35(costs);\n    for(let row=0;row<cols.length;row++){\n      const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>gate)continue;\n      assigned.set(plotIndices[row],{trackId:trackEntries[col][0],nis:costs[row][col]});\n    }\n    return assigned;",
+      "after": "    // Preserve the actual native Hungarian result for SHADOW or an enabled\n    // comparison trace. Default ACTIVE does not duplicate this pure solve.\n    // Native NIS and cross-domain gates were evaluated exactly once above.\n    const cols=(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE'||TRACK_B_DIAG.enabled)?bridgeMasterEMinCostAssignmentV35(costs):[],legacyPairs=[],trackBPairs=[];\n    for(let row=0;row<cols.length;row++){\n      const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>gate)continue;\n      legacyPairs.push({i:plotIndices[row],id:trackEntries[col][0],nis:costs[row][col]});\n    }\n    for(let row=0;row<plotIndices.length;row++)for(let col=0;col<trackEntries.length;col++){\n      const nis=costs[row][col];if(!(nis<=gate))continue;\n      const [id,tr]=trackEntries[col],i=plotIndices[row];trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR')});\n    }\n    const trackBSelection=trackBSelectB({plotCount:plots.length,pairs:trackBPairs,legacyPairs,gate,route:'OWN_SPY_GLOBAL',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter});\n    for(const q of trackBSelection.pairs)assigned.set(q.i,{trackId:q.id,nis:q.nis});\n    assigned.trackBHeldPlots=trackBSelection.heldPlots;\n    return assigned;"
+    },
+    {
+      "op": "replace",
+      "label": "Surface staged assignment carries transient held rows",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "    const plotIndices=eligiblePlotIndices??plots.map((_,i)=>i),assigned=new Map(),usedTracks=new Set(excludedTrackIds),blockedCost=1e6;\n    const assignStage=",
+      "after": "    const plotIndices=eligiblePlotIndices??plots.map((_,i)=>i),assigned=new Map(),usedTracks=new Set(excludedTrackIds),blockedCost=1e6;\n    // Transient assignment metadata only; never stored on a canonical track.\n    assigned.trackBHeldPlots=new Set();\n    const assignStage="
+    },
+    {
+      "op": "replace",
+      "label": "Surface native Hungarian reference only for SHADOW or enabled comparison trace",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "cols=bridgeMasterEMinCostAssignmentV35(costs);",
+      "after": "cols=(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE'||TRACK_B_DIAG.enabled)?bridgeMasterEMinCostAssignmentV35(costs):[];"
+    },
+    {
+      "op": "replace",
+      "label": "Surface stage uses shared selection without losing established-first priority",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "      for(let row=0;row<cols.length;row++){\n        const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>stageGate)continue;\n        const plotIndex=indices[row],trackId=trackEntries[col][0];assigned.set(plotIndex,{trackId,nis:costs[row][col],cross});usedTracks.add(trackId);\n      }",
+      "after": "      // Keep the existing stage-specific Hungarian solution for SHADOW. The\n      // graph reuses the native position/Doppler NIS values in costs verbatim.\n      const legacyPairs=[],trackBPairs=[];\n      for(let row=0;row<cols.length;row++){\n        const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>stageGate)continue;\n        legacyPairs.push({i:indices[row],id:trackEntries[col][0],nis:costs[row][col]});\n      }\n      for(let row=0;row<indices.length;row++)for(let col=0;col<trackEntries.length;col++){\n        const nis=costs[row][col];if(!(nis<=stageGate))continue;\n        const [id,tr]=trackEntries[col],i=indices[row];trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE')});\n      }\n      const trackBSelection=trackBSelectB({plotCount:plots.length,pairs:trackBPairs,legacyPairs,gate:stageGate,route:cross?'OWN_SURFACE_CROSS':'OWN_SURFACE_ESTABLISHED',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter});\n      for(const i of trackBSelection.heldPlots)assigned.trackBHeldPlots.add(i);\n      // These are stage-local reservations, not caller usedTracks or accepted hits.\n      for(const id of trackBSelection.heldTracks)usedTracks.add(id);\n      for(const q of trackBSelection.pairs){assigned.set(q.i,{trackId:q.id,nis:q.nis,cross});usedTracks.add(q.id);}"
+    },
+    {
+      "op": "replace",
+      "label": "Ambiguous established rows do not enter cross-domain recovery",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "const leftovers=plotIndices.filter(i=>!assigned.has(i)),crossTracks=",
+      "after": "const leftovers=plotIndices.filter(i=>!assigned.has(i)&&!assigned.trackBHeldPlots.has(i)),crossTracks="
+    },
+    {
+      "op": "replace",
+      "label": "SPY AIR held plots do not enter null-to-create path",
+      "scope": {
+        "function": "executeSpyTask"
+      },
+      "before": "      if(usedPlots.has(i))continue;\n      const assoc=assignments.get(i),id=assoc?.trackId??null;",
+      "after": "      if(usedPlots.has(i))continue;\n      if(assignments.trackBHeldPlots?.has(i)){spyScheduler.anonymousStats.rejectedPlots++;continue;}\n      const assoc=assignments.get(i),id=assoc?.trackId??null;"
+    },
+    {
+      "op": "replace",
+      "label": "SPY surface held plots do not create or recover another file",
+      "scope": {
+        "function": "spyExecuteSurfacePlotsWip13B9"
+      },
+      "before": "for(const i of plotIndices){const match=assignments.get(i),trackId=match?.trackId??null;",
+      "after": "for(const i of plotIndices){if(assignments.trackBHeldPlots?.has(i)){spyScheduler.anonymousStats.surfaceRejected++;continue;}const match=assignments.get(i),trackId=match?.trackId??null;"
+    },
+    {
+      "op": "replace",
+      "label": "SPQ surface held plots skip initiation with native rejected count",
+      "scope": {
+        "function": "spq9bAcceptSurfacePlotsWip13B1"
+      },
+      "before": "      const obs=observations[i],best=assigned.get(i),tr=updateSensorTrackMeasurement",
+      "after": "      const obs=observations[i],best=assigned.get(i);\n      if(assigned.trackBHeldPlots?.has(i)){SPQ9B_SURFACE_ASSOC_STATS_WIP13B1.rejected++;continue;}\n      const tr=updateSensorTrackMeasurement"
+    },
+    {
+      "op": "replace",
+      "label": "BridgeMaster held plots skip initiation and capacity change",
+      "scope": {
+        "function": "bridgeMasterEAcceptAnonymousPlotsV35"
+      },
+      "before": "      const obs=observations[i],match=assigned.get(i);\n      if(!match&&surfaceCount>=BRIDGEMASTER_E_TRACK_CAPACITY)",
+      "after": "      const obs=observations[i],match=assigned.get(i);\n      if(assigned.trackBHeldPlots?.has(i)){BRIDGEMASTER_E_ASSOC_STATS_V35.rejected++;continue;}\n      if(!match&&surfaceCount>=BRIDGEMASTER_E_TRACK_CAPACITY)"
+    },
+    {
+      "op": "replace",
+      "label": "Hawklink source-epoch cohort adapter and direct-call delegation",
+      "before": "function acceptOffboardC(r,report){",
+      "after": "// TRACK-B: one independent source/measurement-epoch cohort. No truth IDs,\n// velocity synthesis, lifecycle redesign or wire/schema changes enter this adapter.\nfunction trackBAcceptOffboardCohortB(r,reports){\n  if(!reports.length)return [];\n  if(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE')return reports.map(report=>acceptOffboardC(r,report,{legacy:true}));\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,entries=[...o.tracks.entries()],measurements=reports.map(report=>offboardPlotC(report,now)),pairs=[],repeated=new Set(),blockedAir=new Set(),duplicates=new Set(),seen=new Set();\n  for(let i=0;i<reports.length;i++){\n    const report=reports[i],meas=measurements[i],e=report.domainEvidence;\n    // Exact repeated payload/time is not a second measurement. Source+time alone\n    // is deliberately insufficient: distinct contacts can share one scan epoch.\n    const signature=JSON.stringify([report.sourceId,report.measuredAtS,report.positionM.x,report.positionM.y,report.positionM.z,report.covarianceM2,e.air,e.background,e.missile,e.surface]);\n    if(seen.has(signature)){duplicates.add(i);continue;}seen.add(signature);\n    for(const [id,tr]of entries){\n      const nis=trackCartesianAssociationNisV33(tr,meas);\n      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});\n      if(!(nis<=25))continue;\n      let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');\n      // Replay/observability eligibility belongs to this pair, not the whole\n      // report. Another valid file may still win. A geometrically invalid distant\n      // file cannot block an unrelated update or birth through broad filter P.\n      if(sanity.ok!==false){\n        const repeatedPair=tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS,airPair=meas._reportedSurface&&trackHasAirObservationFC(tr);\n        if(repeatedPair)repeated.add(i);if(airPair)blockedAir.add(i);\n        if(repeatedPair)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};\n        else if(airPair)sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};\n      }\n      pairs.push({i,id,nis,sanity});\n    }\n  }\n  const selection=trackBSelectB({plotCount:reports.length,pairs,gate:25,route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter}),chosen=new Map(selection.pairs.map(q=>[q.i,q])),results=[];\n  for(let i=0;i<reports.length;i++){\n    const q=chosen.get(i),held=duplicates.has(i)||selection.heldPlots.has(i)||(!q&&(repeated.has(i)||blockedAir.has(i)));\n    if(held){\n      const reason=duplicates.has(i)?'EXACT_COHORT_FIX_REPLAY':repeated.has(i)?'REPEATED_SOURCE_EPOCH_UNCERTAIN':selection.heldPlots.has(i)?'AMBIGUOUS_ASSOCIATION':'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY';\n      trackBTraceB({route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter,plotIndex:i,decision:'HOLD',reason,active:true,sequential:false,commonEpoch:true});results.push(false);continue;\n    }\n    results.push(acceptOffboardC(r,reports[i],{active:true,meas:measurements[i],match:q?{id:q.id,nis:q.nis}:null}));\n  }\n  return results;\n}\nfunction acceptOffboardC(r,report,trackBPrepared=null){\n  if(!trackBPrepared)return trackBAcceptOffboardCohortB(r,[report])[0]===true;"
+    },
+    {
+      "op": "replace",
+      "label": "Reuse transformed measurement prepared by frozen cohort scoring",
+      "scope": {
+        "function": "acceptOffboardC"
+      },
+      "before": "meas=offboardPlotC(report,now),age=now-report.measuredAtS;",
+      "after": "meas=trackBPrepared.meas??offboardPlotC(report,now),age=now-report.measuredAtS;"
+    },
+    {
+      "op": "replace",
+      "label": "Prepared ACTIVE assignment or exact sequential SHADOW native NIS once",
+      "scope": {
+        "function": "acceptOffboardC"
+      },
+      "before": "  let match=null;for(const [id,tr]of o.tracks){const nis=trackCartesianAssociationNisV33(tr,meas);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=25&&(!match||nis<match.nis))match={id,nis};}",
+      "after": "  let match=trackBPrepared.active?trackBPrepared.match:null;\n  if(!trackBPrepared.active){\n    const trackBPairs=[];\n    for(const [id,tr]of o.tracks){\n      const nis=trackCartesianAssociationNisV33(tr,meas);\n      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});\n      if(nis<=25){\n        let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');\n        if(sanity.ok!==false){\n          if(tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};\n          else if(meas._reportedSurface&&trackHasAirObservationFC(tr))sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};\n        }\n        trackBPairs.push({i:0,id,nis,sanity});if(!match||nis<match.nis)match={id,nis};\n      }\n    }\n    // This is the actual sequential native graph, not a full-cohort counterfactual.\n    // NIS is evaluated once, at the original native point after prior commits.\n    trackBSelectB({plotCount:1,pairs:trackBPairs,gate:25,route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter});\n    trackBTraceB({route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter,decision:'SEQUENTIAL_SHADOW',active:false,sequential:true,commonEpoch:false});\n  }"
+    },
+    {
+      "op": "replace",
+      "label": "Due Hawklink reports grouped by independent source and original measurement epoch",
+      "scope": {
+        "function": "drainOffboardC"
+      },
+      "before": "function drainOffboardC(r){\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];",
+      "after": "function drainOffboardC(r){\n  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];\n  if(TRACK_B_IMPLEMENTATION_MODE==='ACTIVE'){\n    const cohorts=new Map();let order=0;\n    for(const q of o.offboard.queue){\n      if(!o.offboard.sources.get(q.sourceId)?.connected)continue;\n      if(q.availableAtS>now){pending.push(q);continue;}\n      if(now-q.measuredAtS>OBSERVER_POLICY_C.externalMaxAgeS){o.offboard.rejected++;continue;}\n      const key=JSON.stringify([q.sourceId,q.measuredAtS]);let cohort=cohorts.get(key);\n      if(!cohort){cohort={sourceId:q.sourceId,measuredAtS:q.measuredAtS,order:order++,reports:[]};cohorts.set(key,cohort);}cohort.reports.push(q);\n    }\n    // Original measurement epochs stay ordered. A source/epoch is an assignment\n    // cohort, never a global deduplication key or a hidden contact identifier.\n    for(const cohort of [...cohorts.values()].sort((a,b)=>a.measuredAtS-b.measuredAtS||a.order-b.order)){\n      cohort.reports.sort((a,b)=>a.sequence-b.sequence);\n      for(const accepted of trackBAcceptOffboardCohortB(r,cohort.reports))if(!accepted)o.offboard.rejected++;\n    }\n    o.offboard.queue=pending;drainIsarOffboardF2(r);return;\n  }"
+    },
+    {
+      "op": "replace",
+      "label": "NPC candidate geometry uses only existing measurement/filter state",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "if(nis<=64)pairs.push({i,id,nis});",
+      "after": "if(nis<=64)pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR')});"
+    },
+    {
+      "op": "replace",
+      "label": "NPC pure shared selector receives native precomputed candidate graph",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);\n  const apply=",
+      "after": "  pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);\n  const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});\n  const apply="
+    },
+    {
+      "op": "replace",
+      "label": "NPC ACTIVE selected edges then native fallback; SHADOW original loop semantics",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  for(const q of pairs){if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}}",
+      "after": "  // TRACK-B association-only: SHADOW preserves the original sorted-edge execution,\n  // including failed native corrections. ACTIVE tries selected edges, then still\n  // admissible original alternatives; each pair is corrected at most once.\n  const trackBAttempts=trackBSelection.active?[...trackBSelection.pairs,...pairs]:pairs,trackBTried=trackBSelection.active?new Map():null;\n  for(const q of trackBAttempts){\n    if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;\n    if(trackBSelection.active){\n      if(trackBSelection.heldPlots.has(q.i)||trackBSelection.heldTracks.has(q.id)||q.sanity?.ok===false)continue;\n      let tried=trackBTried.get(q.i);if(!tried){tried=new Set();trackBTried.set(q.i,tried);}if(tried.has(q.id))continue;tried.add(q.id);\n    }\n    if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}\n  }"
+    },
+    {
+      "op": "replace",
+      "label": "NPC ambiguous held observations do not create duplicate tentative tracks",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){const familyCount=",
+      "after": "  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){\n    if(trackBSelection.active&&trackBSelection.heldPlots.has(i)){o.stats.rejected++;trackBTraceB({route:'NPC_OBSERVER',observerShip:r.entityId,tick:simStepCounter,timeS:now,plotIndex:i,decision:'HOLD',reason:'ASSOCIATION_HOLD_NO_INITIATION'});continue;}\n    const familyCount="
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-optional-diagnostic-index",
+      "scope": {
+        "function": "spq9bBestTrackForPlotV34",
+        "occurrence": 0
+      },
+      "before": "function spq9bBestTrackForPlotV34(plot,usedTracks){",
+      "after": "function spq9bBestTrackForPlotV34(plot,usedTracks,trackBDiagPlotIndex=null){",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-already-evaluated-candidates",
+      "scope": {
+        "function": "spq9bBestTrackForPlotV34",
+        "occurrence": 0
+      },
+      "before": "      if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};",
+      "after": "      if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:id,plotIndex:trackBDiagPlotIndex,nis,gate,decision:nis<=gate?'NATIVE_ELIGIBLE':'NATIVE_REJECT',reason:'PARTIAL_SEQUENCE_NATIVE_EVALUATIONS_ONLY',sequential:true,commonEpoch:false});\n      if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-native-winner-only",
+      "scope": {
+        "function": "spq9bBestTrackForPlotV34",
+        "occurrence": 0
+      },
+      "before": "    return best;",
+      "after": "    if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:best?.trackId??null,plotIndex:trackBDiagPlotIndex,nis:best?.nis??null,gate:null,decision:best?'NATIVE_WINNER':'NO_NATIVE_MATCH',reason:'SEQUENTIAL_EKF_UPDATES_BETWEEN_PLOTS',sequential:true,commonEpoch:false});\n    return best;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-local-sequence-counter",
+      "scope": {
+        "function": "spq9bAcceptAnonymousPlotsV34",
+        "occurrence": 0
+      },
+      "before": "    const usedTracks=new Set();let accepted=0;",
+      "after": "    const usedTracks=new Set();let accepted=0;let trackBSequenceIndex=-1;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-sequence-index-per-plot",
+      "scope": {
+        "function": "spq9bAcceptAnonymousPlotsV34",
+        "occurrence": 0
+      },
+      "before": "    for(const obs of observations){",
+      "after": "    for(const obs of observations){\n      const trackBPlotIndex=TRACK_B_DIAG.enabled?++trackBSequenceIndex:null;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "spq-shadow-forward-diagnostic-index",
+      "scope": {
+        "function": "spq9bAcceptAnonymousPlotsV34",
+        "occurrence": 0
+      },
+      "before": "const match=spq9bBestTrackForPlotV34(plot,usedTracks),existing=",
+      "after": "const match=spq9bBestTrackForPlotV34(plot,usedTracks,trackBPlotIndex),existing=",
+      "count": 1
+    },
+    {
+      "op": "module",
+      "label": "C55_SHADOW_ONLY_HELPER",
+      "path": "c55-shadow.js",
+      "anchor": "  function c55SensorSweep(m,b,dt){",
+      "placement": "before",
+      "sha256": "fcb9a92ab6320f8b96b66e1ad4bccc38b9eb9bc23c68138f6f77c3fd0783b4e4"
+    },
+    {
+      "op": "replace",
+      "label": "C55_DIAGNOSTIC_PRESWEEP_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];",
+      "after": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];\n    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_POST_RF_ACCEPTED_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      let best=null,error=Infinity;",
+      "after": "      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;\n      let best=null,error=Infinity;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_EXISTING_NATIVE_DISTANCE_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "        if(d<gate&&d<error){best=r;error=d;}",
+      "after": "        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});\n        if(d<gate&&d<error){best=r;error=d;}",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_NATIVE_RESULT_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);",
+      "after": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);\n      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_SHADOW_ANALYZE_POST_NATIVE_SWEEP_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n  }\n",
+      "after": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:owner.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);\n  }\n",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_DIAGNOSTIC_PRESWEEP_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];",
+      "after": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];\n    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_POST_RF_ACCEPTED_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      let best=null,error=Infinity;",
+      "after": "      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;\n      let best=null,error=Infinity;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_EXISTING_NATIVE_DISTANCE_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "        if(d<gate&&d<error){best=r;error=d;}",
+      "after": "        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});\n        if(d<gate&&d<error){best=r;error=d;}",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_NATIVE_RESULT_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);",
+      "after": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);\n      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_SHADOW_ANALYZE_POST_NATIVE_SWEEP_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n  }\n",
+      "after": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:ACTIVE_SHIP_RUNTIME.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);\n  }\n",
+      "count": 1
+    }
+  ],
+  "allowedChangedSymbols": [
+    "acceptOffboardC",
+    "bridgeMasterEAcceptAnonymousPlotsV35",
+    "c55SensorSweep",
+    "createWeaponContextD",
+    "drainOffboardC",
+    "executeSpyTask",
+    "observerAcceptPlotsC",
+    "spq9bAcceptAnonymousPlotsV34",
+    "spq9bAcceptSurfacePlotsWip13B1",
+    "spq9bBestTrackForPlotV34",
+    "spyExecuteSurfacePlotsWip13B9",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14"
+  ],
+  "allowedAddedSymbols": [
+    "TRACK_B_DIAG",
+    "TRACK_B_IMPLEMENTATION_MODE",
+    "TRACK_B_POLICY",
+    "trackBAcceptOffboardCohortB",
+    "trackBC55AnalyzeB",
+    "trackBC55BeginB",
+    "trackBC55CaptureB",
+    "trackBFiniteB",
+    "trackBGeometryB",
+    "trackBIdCompareB",
+    "trackBLegacyGreedyB",
+    "trackBPairCompareB",
+    "trackBPairCopyB",
+    "trackBSelectB",
+    "trackBSolveB",
+    "trackBTraceB"
+  ],
+  "allowedProtectedAssociationChanges": [
+    "acceptOffboardC",
+    "bridgeMasterEAcceptAnonymousPlotsV35",
+    "drainOffboardC",
+    "executeSpyTask",
+    "observerAcceptPlotsC",
+    "spq9bAcceptSurfacePlotsWip13B1",
+    "spyExecuteSurfacePlotsWip13B9",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14"
+  ],
+  "status": "TEST_CANDIDATE_REQUIRES_ROOT_REVIEW_AND_RUNTIME_VALIDATION",
+  "releaseApproved": false
+}
