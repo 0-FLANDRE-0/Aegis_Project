@@ -1,0 +1,5371 @@
+{
+  "schema": "AEGIS_TRACK_B_SEED419012_CAUSAL_ANALYSIS_1",
+  "status": "PARTIAL_CAUSAL_EVIDENCE_STRICT_DELTA_UNAPPROVED",
+  "sourceFiles": [
+    {
+      "name": "baseline-diagnostics.json.gz",
+      "sha256": "16c2d7572054ad15a2aaa903aa9522e98e9967cbc6a7a411f1a5a155baa5a992"
+    },
+    {
+      "name": "active-diagnostics.json.gz",
+      "sha256": "04a935e4313cb84cf109ab0a05e744680ec3a8c20d931d720c2b9eb02194c68d"
+    }
+  ],
+  "instrumentationControls": {
+    "baseline": {
+      "exactOffSignature": true,
+      "allFailedChecks": [],
+      "allOriginalReferenceDifferences": 1,
+      "env": {
+        "provenance": "GAME_ENGINE_COMPUTED",
+        "guidanceRevision": "NEAR_VERTICAL_PATH_FIX_A",
+        "envelopeMeasured": true,
+        "schema": "AEGIS_ENVELOPE_TABLE_D_3",
+        "effectiveIntervalsComplete": true,
+        "pendingEffectiveCells": 0,
+        "additionalMeasurementsRequired": false,
+        "rows": 120,
+        "targetLabel": "Kh-35U",
+        "currentProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "tableProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "match": true,
+        "changedNativeFunctions": [],
+        "recalculationRequired": false,
+        "message": "게임 엔진 계산표 일치"
+      }
+    },
+    "active": {
+      "exactOffSignature": true,
+      "allFailedChecks": [],
+      "allOriginalReferenceDifferences": 1,
+      "env": {
+        "provenance": "GAME_ENGINE_COMPUTED",
+        "guidanceRevision": "NEAR_VERTICAL_PATH_FIX_A",
+        "envelopeMeasured": true,
+        "schema": "AEGIS_ENVELOPE_TABLE_D_3",
+        "effectiveIntervalsComplete": true,
+        "pendingEffectiveCells": 0,
+        "additionalMeasurementsRequired": false,
+        "rows": 120,
+        "targetLabel": "Kh-35U",
+        "currentProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "tableProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "match": true,
+        "changedNativeFunctions": [],
+        "recalculationRequired": false,
+        "message": "게임 엔진 계산표 일치"
+      }
+    }
+  },
+  "envExplanation": "The unchanged original diagnostic.js wraps spawnEnemyMissile and applyInterceptResult. Preflight ENV matches. The awaited post-run/pre-restoration mismatch is recorded with exactly those two bindings; restoring only their captured original references after run/result collection yields awaited ENV match without more ticks or game/private state change. The initial un-restored attempt remains archived as a failed guard, not overwritten.",
+  "window": {
+    "firstStep": 1740,
+    "lastStep": 1838,
+    "frames": 99,
+    "firstRowsTracks": {
+      "baseline": [
+        {
+          "trackId": 300000001,
+          "trackNumber": 1,
+          "sensorSource": "SPY1DV_HIGH_THREAT",
+          "sensorAge": 0.05,
+          "sensorHits": 410,
+          "confirmed": true,
+          "domain": "AIR",
+          "classification": "ASM",
+          "identity": "ASSUMED_HOSTILE",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "MANUAL_ONLY",
+          "trackLifecycle": "FIRM",
+          "memActive": false,
+          "ttl": 15.949999999999998,
+          "_lastMeasurementStep": 1736,
+          "_kfNis": 6.736261384094857,
+          "_kfRejectedNis": null,
+          "_radar3dAirStepFC": 1736,
+          "_surface2DOnlyFC": false,
+          "_surfaceMotionPriorWip13B13": false,
+          "stateM": [
+            6.929159207551327,
+            2674.771552725331,
+            9.529900551409506,
+            1.0336307631740902,
+            -290.37502144905386,
+            -0.9223543476672365
+          ],
+          "covariance": [
+            0.33273568877811666,
+            -0.011066650752828092,
+            3.218231378217204e-05,
+            0.7665865212919001,
+            0.0029910720184384235,
+            -8.23017103615776e-07,
+            -0.011066650752828092,
+            1.857845319792515,
+            -0.004417325105765897,
+            0.0013193128510165155,
+            0.37607432228704135,
+            9.169523931751011e-05,
+            3.218231378217204e-05,
+            -0.004417325105765897,
+            0.5679555231876324,
+            -1.1473371301349437e-05,
+            0.0023251050881165254,
+            0.8342465106766297,
+            0.7665865212919001,
+            0.0013193128510165155,
+            -1.1473371301349437e-05,
+            3.554198392897722,
+            0.012867794184527916,
+            -3.891221662165595e-05,
+            0.0029910720184384235,
+            0.37607432228704135,
+            0.0023251050881165254,
+            0.012867794184527916,
+            1.8098633623065499,
+            0.005610895515177463,
+            -8.23017103615776e-07,
+            9.169523931751011e-05,
+            0.8342465106766297,
+            -3.891221662165595e-05,
+            0.005610895515177463,
+            2.4868794249471278
+          ]
+        },
+        {
+          "trackId": 300000002,
+          "trackNumber": 2,
+          "sensorSource": "VISUAL",
+          "sensorAge": 4.499999999999989,
+          "sensorHits": 1,
+          "confirmed": true,
+          "classification": "ASM",
+          "identity": "UNKNOWN",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "WITHHELD",
+          "trackLifecycle": "REACQUIRE",
+          "memActive": true,
+          "ttl": 11.499999999999776,
+          "_lastMeasurementStep": 1470,
+          "_kfNis": 0,
+          "stateM": [
+            17.211309021862558,
+            1926.8499790103529,
+            47.254869718515934,
+            0.426564428091674,
+            -0.000539314991106748,
+            0
+          ],
+          "covariance": [
+            657278.5829071874,
+            2382.4301471145977,
+            115.84089033375776,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            2382.4301471145977,
+            1028047.2935803268,
+            18028.629674739896,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            115.84089033375776,
+            18028.629674739896,
+            292874.98931570986,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            32530.826364920278,
+            102.67061544106758,
+            5.354226521501516,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            102.67061544106758,
+            48509.07099769774,
+            833.2926902815025,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            5.354226521501516,
+            833.2926902815025,
+            14479.010970715064
+          ]
+        }
+      ],
+      "active": [
+        {
+          "trackId": 300000001,
+          "trackNumber": 1,
+          "sensorSource": "SPY1DV_HIGH_THREAT",
+          "sensorAge": 0.05,
+          "sensorHits": 410,
+          "confirmed": true,
+          "domain": "AIR",
+          "classification": "ASM",
+          "identity": "ASSUMED_HOSTILE",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "MANUAL_ONLY",
+          "trackLifecycle": "FIRM",
+          "memActive": false,
+          "ttl": 15.949999999999998,
+          "_lastMeasurementStep": 1736,
+          "_kfNis": 6.736261384094857,
+          "_kfRejectedNis": null,
+          "_radar3dAirStepFC": 1736,
+          "_surface2DOnlyFC": false,
+          "_surfaceMotionPriorWip13B13": false,
+          "stateM": [
+            6.929159207551327,
+            2674.771552725331,
+            9.529900551409506,
+            1.0336307631740902,
+            -290.37502144905386,
+            -0.9223543476672365
+          ],
+          "covariance": [
+            0.33273568877811666,
+            -0.011066650752828092,
+            3.218231378217204e-05,
+            0.7665865212919001,
+            0.0029910720184384235,
+            -8.23017103615776e-07,
+            -0.011066650752828092,
+            1.857845319792515,
+            -0.004417325105765897,
+            0.0013193128510165155,
+            0.37607432228704135,
+            9.169523931751011e-05,
+            3.218231378217204e-05,
+            -0.004417325105765897,
+            0.5679555231876324,
+            -1.1473371301349437e-05,
+            0.0023251050881165254,
+            0.8342465106766297,
+            0.7665865212919001,
+            0.0013193128510165155,
+            -1.1473371301349437e-05,
+            3.554198392897722,
+            0.012867794184527916,
+            -3.891221662165595e-05,
+            0.0029910720184384235,
+            0.37607432228704135,
+            0.0023251050881165254,
+            0.012867794184527916,
+            1.8098633623065499,
+            0.005610895515177463,
+            -8.23017103615776e-07,
+            9.169523931751011e-05,
+            0.8342465106766297,
+            -3.891221662165595e-05,
+            0.005610895515177463,
+            2.4868794249471278
+          ]
+        },
+        {
+          "trackId": 300000002,
+          "trackNumber": 2,
+          "sensorSource": "VISUAL",
+          "sensorAge": 4.499999999999989,
+          "sensorHits": 1,
+          "confirmed": true,
+          "classification": "ASM",
+          "identity": "UNKNOWN",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "WITHHELD",
+          "trackLifecycle": "REACQUIRE",
+          "memActive": true,
+          "ttl": 11.499999999999776,
+          "_lastMeasurementStep": 1470,
+          "_kfNis": 0,
+          "stateM": [
+            17.211309021862558,
+            1926.8499790103529,
+            47.254869718515934,
+            0.426564428091674,
+            -0.000539314991106748,
+            0
+          ],
+          "covariance": [
+            657278.5829071874,
+            2382.4301471145977,
+            115.84089033375776,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            2382.4301471145977,
+            1028047.2935803268,
+            18028.629674739896,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            115.84089033375776,
+            18028.629674739896,
+            292874.98931570986,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            32530.826364920278,
+            102.67061544106758,
+            5.354226521501516,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            102.67061544106758,
+            48509.07099769774,
+            833.2926902815025,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            5.354226521501516,
+            833.2926902815025,
+            14479.010970715064
+          ]
+        }
+      ]
+    }
+  },
+  "firstDifferentByCategory": {
+    "c55": {
+      "step": 1797,
+      "timeS": 29.95,
+      "path": "/c55/0/cues/0/estimatedState/rvxMps",
+      "before": -2.977246338345444,
+      "after": -2.323086284465201
+    },
+    "tracks": {
+      "step": 1797,
+      "timeS": 29.95,
+      "path": "/tracks/1/_kfNis",
+      "before": 1.1536789827861333,
+      "after": 5.73494869466617
+    },
+    "mounts": {
+      "step": 1800,
+      "timeS": 30.0,
+      "path": "/mounts/0/cuedTarget",
+      "before": 300000001,
+      "after": 300000002
+    }
+  },
+  "firstCapturedHold": {
+    "serial": 621,
+    "kind": "ALREADY_EMITTED_B_TRACE",
+    "step": 1796,
+    "timeS": 29.933333333333334,
+    "value": {
+      "serial": 6837,
+      "route": "OWN_SPY_GLOBAL",
+      "observerShip": "SHIP_DDG119_OWN",
+      "timeS": 29.933333333333334,
+      "tick": 1796,
+      "decision": "HOLD",
+      "reason": "AMBIGUOUS_ASSOCIATION",
+      "plotIndex": 0,
+      "active": true,
+      "nativeTrackId": 300000002,
+      "mode": "ACTIVE"
+    }
+  },
+  "nativeCandidateRecordsAtHold": {
+    "baseline": [
+      {
+        "serial": 368,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7077,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000001,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.4913444179610076,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      },
+      {
+        "serial": 369,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7078,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000002,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.1536789827861333,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      }
+    ],
+    "active": [
+      {
+        "serial": 618,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7077,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000001,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.4913444179610076,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      },
+      {
+        "serial": 619,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7078,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000002,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.1536789827861333,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      }
+    ]
+  },
+  "sameObservedMeasurementAtFirstHold": true,
+  "sameNativeCandidateNisAtFirstHold": {
+    "baseline": {
+      "300000001": 1.4913444179610076,
+      "300000002": 1.1536789827861333
+    },
+    "active": {
+      "300000001": 1.4913444179610076,
+      "300000002": 1.1536789827861333
+    }
+  },
+  "nativeCandidateNisDifference": 0.33766543517487424,
+  "canonicalUpdates": {
+    "baseline": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 2,
+        "reason": null
+      },
+      {
+        "step": 1741,
+        "timeS": 29.016666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 411,
+        "reason": null
+      },
+      {
+        "step": 1745,
+        "timeS": 29.083333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 412,
+        "reason": null
+      },
+      {
+        "step": 1750,
+        "timeS": 29.166666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 413,
+        "reason": null
+      },
+      {
+        "step": 1754,
+        "timeS": 29.233333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 414,
+        "reason": null
+      },
+      {
+        "step": 1759,
+        "timeS": 29.316666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 415,
+        "reason": null
+      },
+      {
+        "step": 1763,
+        "timeS": 29.383333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 416,
+        "reason": null
+      },
+      {
+        "step": 1768,
+        "timeS": 29.466666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 417,
+        "reason": null
+      },
+      {
+        "step": 1772,
+        "timeS": 29.53333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 418,
+        "reason": null
+      },
+      {
+        "step": 1777,
+        "timeS": 29.616666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 419,
+        "reason": null
+      },
+      {
+        "step": 1780,
+        "timeS": 29.666666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 3,
+        "reason": null
+      },
+      {
+        "step": 1781,
+        "timeS": 29.683333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 420,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 4,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 421,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 5,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 422,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 6,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 423,
+        "reason": null
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_SEARCH_HORIZON",
+        "decision": "ACCEPT",
+        "hits": 7,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 424,
+        "reason": null
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 8,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 425,
+        "reason": null
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 9,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 426,
+        "reason": null
+      },
+      {
+        "step": 1810,
+        "timeS": 30.166666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 10,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 427,
+        "reason": null
+      },
+      {
+        "step": 1814,
+        "timeS": 30.233333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 11,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 428,
+        "reason": null
+      },
+      {
+        "step": 1819,
+        "timeS": 30.316666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 12,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 429,
+        "reason": null
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 13,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 430,
+        "reason": null
+      },
+      {
+        "step": 1828,
+        "timeS": 30.466666666666665,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 14,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000001,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 431,
+        "reason": null
+      },
+      {
+        "step": 1832,
+        "timeS": 30.53333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 15,
+        "reason": null
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 432,
+        "reason": null
+      },
+      {
+        "step": 1837,
+        "timeS": 30.616666666666667,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 16,
+        "reason": null
+      }
+    ],
+    "active": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 2,
+        "reason": null
+      },
+      {
+        "step": 1741,
+        "timeS": 29.016666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 411,
+        "reason": null
+      },
+      {
+        "step": 1745,
+        "timeS": 29.083333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 412,
+        "reason": null
+      },
+      {
+        "step": 1750,
+        "timeS": 29.166666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 413,
+        "reason": null
+      },
+      {
+        "step": 1754,
+        "timeS": 29.233333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 414,
+        "reason": null
+      },
+      {
+        "step": 1759,
+        "timeS": 29.316666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 415,
+        "reason": null
+      },
+      {
+        "step": 1763,
+        "timeS": 29.383333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 416,
+        "reason": null
+      },
+      {
+        "step": 1768,
+        "timeS": 29.466666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 417,
+        "reason": null
+      },
+      {
+        "step": 1772,
+        "timeS": 29.53333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 418,
+        "reason": null
+      },
+      {
+        "step": 1777,
+        "timeS": 29.616666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 419,
+        "reason": null
+      },
+      {
+        "step": 1780,
+        "timeS": 29.666666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 3,
+        "reason": null
+      },
+      {
+        "step": 1781,
+        "timeS": 29.683333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 420,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 4,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 421,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 5,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 422,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 6,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 423,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 7,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 424,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 8,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 425,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 9,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 426,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 10,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 427,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 11,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 428,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 12,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 429,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 13,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 430,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 14,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000002,
+        "source": "SPQ9B_AIR",
+        "decision": "ACCEPT",
+        "hits": 15,
+        "reason": null
+      },
+      {
+        "step": 1831,
+        "timeS": 30.516666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 431,
+        "reason": null
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 16,
+        "reason": null
+      },
+      {
+        "step": 1835,
+        "timeS": 30.583333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 432,
+        "reason": null
+      }
+    ]
+  },
+  "cueAndCmsTransitions": {
+    "baseline": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1791,
+        "timeS": 29.849999999999998,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1793,
+        "timeS": 29.883333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1800,
+        "timeS": 30,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1802,
+        "timeS": 30.03333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1806,
+        "timeS": 30.099999999999998,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1807,
+        "timeS": 30.116666666666667,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1820,
+        "timeS": 30.333333333333332,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1824,
+        "timeS": 30.4,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1829,
+        "timeS": 30.483333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "active": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1791,
+        "timeS": 29.849999999999998,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1793,
+        "timeS": 29.883333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1800,
+        "timeS": 30,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1802,
+        "timeS": 30.03333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1814,
+        "timeS": 30.233333333333334,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1818,
+        "timeS": 30.3,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "actualCachedCueRankingAndSourceReplay": {
+    "firstCachedCueValueDifferenceStep": 1797,
+    "firstCachedCueOrderDifferenceStep": 1800,
+    "firstOrderDifference": {
+      "baseline": [
+        {
+          "mountId": 1,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -33.99958529644077,
+                "ryM": 2382.1116118257655,
+                "rzM": -7.788470881125263,
+                "rvxMps": 0.6507961273451113,
+                "rvyMps": -290.64157954776715,
+                "rvzMps": -1.3226052036576688
+              },
+              "nativeKinematics": {
+                "ttiS": 7.658188576828569,
+                "rangeM": 2382.3669665427583,
+                "closingMps": 290.6153908988975,
+                "tCpaS": 8.195974682066906,
+                "cpaM": 34.186880769379044,
+                "impactS": 7.658188576828569
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -34.5203213379357,
+                "ryM": 2376.520948563022,
+                "rzM": -8.751833894251455,
+                "rvxMps": -2.979038926850416,
+                "rvyMps": -292.2697416768496,
+                "rvzMps": -6.321657276063704
+              },
+              "nativeKinematics": {
+                "ttiS": 7.6590916896089345,
+                "rangeM": 2376.7877621152197,
+                "closingMps": 292.1703869901627,
+                "tCpaS": 8.12476220869183,
+                "cpaM": 84.05841902310779,
+                "impactS": 7.6590916896089345
+              }
+            }
+          ]
+        },
+        {
+          "mountId": 2,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 24.51756377232553,
+                "ryM": 2376.543986799533,
+                "rzM": -6.2997753820509415,
+                "rvxMps": -2.979040798188061,
+                "rvyMps": -292.2649999114383,
+                "rvzMps": -6.321656694800027
+              },
+              "nativeKinematics": {
+                "ttiS": 7.616735346489853,
+                "rangeM": 2376.678800194972,
+                "closingMps": 292.26239651737626,
+                "tCpaS": 8.127211804422686,
+                "cpaM": 57.691454439287426,
+                "impactS": 7.616735346489853
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 25.03829981382046,
+                "ryM": 2382.1346500622763,
+                "rzM": -5.3364123689247505,
+                "rvxMps": 0.6507942560074664,
+                "rvyMps": -290.6368377823558,
+                "rvzMps": -1.3226046223939916
+              },
+              "nativeKinematics": {
+                "ttiS": 7.658145943212347,
+                "rangeM": 2382.2722104708905,
+                "closingMps": 290.6102527148516,
+                "tCpaS": 8.195771210439622,
+                "cpaM": 34.41149277598596,
+                "impactS": 7.658145943212347
+              }
+            }
+          ]
+        }
+      ],
+      "active": [
+        {
+          "mountId": 1,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -34.01352512152598,
+                "ryM": 2372.802744407498,
+                "rzM": -8.35803433036172,
+                "rvxMps": -0.9858554722792403,
+                "rvyMps": -291.70935500314226,
+                "rvzMps": -5.049335155084723
+              },
+              "nativeKinematics": {
+                "ttiS": 7.629415071548134,
+                "rangeM": 2373.0612382525687,
+                "closingMps": 291.6456651131276,
+                "tCpaS": 8.13071419930564,
+                "cpaM": 64.87734312861555,
+                "impactS": 7.629415071548134
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -33.96684501059866,
+                "ryM": 2382.0199936506524,
+                "rzM": -7.5137930243601385,
+                "rvxMps": 0.7298793139491293,
+                "rvyMps": -290.66591292141925,
+                "rvzMps": -0.8842000895387359
+              },
+              "nativeKinematics": {
+                "ttiS": 7.655545168364699,
+                "rangeM": 2382.2740089664417,
+                "closingMps": 290.6425379475993,
+                "tCpaS": 8.19513145953933,
+                "cpaM": 31.63918605007245,
+                "impactS": 7.655545168364699
+              }
+            }
+          ]
+        },
+        {
+          "mountId": 2,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 25.02435998873525,
+                "ryM": 2372.8257826440085,
+                "rzM": -5.905975818161208,
+                "rvxMps": -0.9858573436168852,
+                "rvyMps": -291.70461323773094,
+                "rvzMps": -5.049334573821046
+              },
+              "nativeKinematics": {
+                "ttiS": 7.610756233057983,
+                "rangeM": 2372.9650848513056,
+                "closingMps": 291.6853184341025,
+                "tCpaS": 8.131754473947108,
+                "cpaM": 49.95625747238401,
+                "impactS": 7.610756233057983
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 25.07104009966257,
+                "ryM": 2382.043031887163,
+                "rzM": -5.061734512159626,
+                "rvxMps": 0.7298774426114845,
+                "rvyMps": -290.6611711560079,
+                "rvzMps": -0.8841995082750587
+              },
+              "nativeKinematics": {
+                "ttiS": 7.656524396422705,
+                "rangeM": 2382.1803424531354,
+                "closingMps": 290.63485693512433,
+                "tCpaS": 8.194860039521773,
+                "cpaM": 33.40262396607881,
+                "impactS": 7.656524396422705
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "finalCachedOrder": {
+      "baseline": [
+        {
+          "mountId": 1,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -32.552102477565,
+                "ryM": 2195.7155350707517,
+                "rzM": -8.98014925122592,
+                "rvxMps": 2.0136604378630913,
+                "rvyMps": -292.1779891379903,
+                "rvzMps": -1.8218430406620416
+              },
+              "nativeKinematics": {
+                "ttiS": 6.976145618993533,
+                "rangeM": 2195.975180508041,
+                "closingMps": 292.1658422688081,
+                "tCpaS": 7.514920039764394,
+                "cpaM": 28.59063356755958,
+                "impactS": 6.976145618993533
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -33.047558893482474,
+                "ryM": 2199.0254034581244,
+                "rzM": -8.3480148178055,
+                "rvxMps": 1.46496708092247,
+                "rvyMps": -289.8893861953982,
+                "rvzMps": -1.1461510709265434
+              },
+              "nativeKinematics": {
+                "ttiS": 7.0423472604731465,
+                "rangeM": 2199.2895570057126,
+                "closingMps": 289.8722307417694,
+                "tCpaS": 7.585889558975773,
+                "cpaM": 27.77720653319631,
+                "impactS": 7.0423472604731465
+              }
+            }
+          ]
+        },
+        {
+          "mountId": 2,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 26.485781291505727,
+                "ryM": 2195.741735583872,
+                "rzM": -6.5280901975310375,
+                "rvxMps": 2.013658073983759,
+                "rvyMps": -292.1727458109092,
+                "rvzMps": -1.8218420579547927
+              },
+              "nativeKinematics": {
+                "ttiS": 6.989602928597308,
+                "rangeM": 2195.9111735125175,
+                "closingMps": 292.120497977361,
+                "tCpaS": 7.513804369572688,
+                "cpaM": 46.26869801799627,
+                "impactS": 6.989602928597308
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 25.990324875588257,
+                "ryM": 2199.0516039712447,
+                "rzM": -5.895955764110619,
+                "rvxMps": 1.4649647170431377,
+                "rvyMps": -289.88414286831704,
+                "rvzMps": -1.1461500882192945
+              },
+              "nativeKinematics": {
+                "ttiS": 7.050597368522857,
+                "rangeM": 2199.213090223413,
+                "closingMps": 289.8424712070539,
+                "tCpaS": 7.58512140952512,
+                "cpaM": 39.86847770264064,
+                "impactS": 7.050597368522857
+              }
+            }
+          ]
+        }
+      ],
+      "active": [
+        {
+          "mountId": 1,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -33.25424837129039,
+                "ryM": 2198.043148145073,
+                "rzM": -7.492397513930861,
+                "rvxMps": 0.930364108999763,
+                "rvyMps": -291.51854128527503,
+                "rvzMps": -0.45093700237015694
+              },
+              "nativeKinematics": {
+                "ttiS": 7.000081519721263,
+                "rangeM": 2198.307453966062,
+                "closingMps": 291.4960284709652,
+                "tCpaS": 7.540206635947275,
+                "cpaM": 28.41026533700463,
+                "impactS": 7.000081519721263
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": -32.98421416870287,
+                "ryM": 2198.315943722501,
+                "rzM": -8.572242715627102,
+                "rvxMps": 1.5656578889494785,
+                "rvyMps": -290.5687269759671,
+                "rvzMps": -1.4723375428512053
+              },
+              "nativeKinematics": {
+                "ttiS": 7.024040628315056,
+                "rangeM": 2198.5800940957442,
+                "closingMps": 290.55156450031404,
+                "tCpaS": 7.565611034243591,
+                "cpaM": 28.90325597388623,
+                "impactS": 7.024040628315056
+              }
+            }
+          ]
+        },
+        {
+          "mountId": 2,
+          "cues": [
+            {
+              "order": 0,
+              "trackId": 300000001,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 25.783635397780344,
+                "ryM": 2198.069348658193,
+                "rzM": -5.040338460235979,
+                "rvxMps": 0.9303617451204307,
+                "rvyMps": -291.5132979581939,
+                "rvzMps": -0.450936019662908
+              },
+              "nativeKinematics": {
+                "ttiS": 7.003378644115532,
+                "rangeM": 2198.226344664437,
+                "closingMps": 291.4805318138392,
+                "tCpaS": 7.539798809284646,
+                "cpaM": 33.86718276272389,
+                "impactS": 7.003378644115532
+              }
+            },
+            {
+              "order": 1,
+              "trackId": 300000002,
+              "sigmaM": 15,
+              "identity": "ASSUMED_HOSTILE",
+              "cueEligible": true,
+              "estimatedState": {
+                "rxM": 26.05366960036786,
+                "ryM": 2198.342144235621,
+                "rzM": -6.12018366193222,
+                "rvxMps": 1.5656555250701463,
+                "rvyMps": -290.56348364888595,
+                "rvzMps": -1.4723365601439564
+              },
+              "nativeKinematics": {
+                "ttiS": 7.033123797618139,
+                "rangeM": 2198.505045131844,
+                "closingMps": 290.51930131051495,
+                "tCpaS": 7.56478571228141,
+                "cpaM": 41.64311180438008,
+                "impactS": 7.033123797618139
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "firstCmsAssociationDifference": {
+      "step": 1800,
+      "timeS": 30.0,
+      "mountId": 2,
+      "localFileId": -5500002,
+      "versions": {
+        "baseline": {
+          "recordedCmsTrackId": 300000002,
+          "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+          "cachedCueCandidateCount": 2,
+          "totalCanonicalTrackCount": 2,
+          "rank": [
+            {
+              "trackId": 300000002,
+              "recordedTtiS": 7.616735346489853,
+              "replayedDistanceM": 1.9152315728587266,
+              "nativeGateFormulaM": 105,
+              "replayedDeltaVelocityMps": 8.49844622934256,
+              "distanceAndVelocityGatePass": true
+            },
+            {
+              "trackId": 300000001,
+              "recordedTtiS": 7.658145943212347,
+              "replayedDistanceM": 4.708775705997145,
+              "nativeGateFormulaM": 105,
+              "replayedDeltaVelocityMps": 2.7756213296681085,
+              "distanceAndVelocityGatePass": true
+            }
+          ]
+        },
+        "active": {
+          "recordedCmsTrackId": 300000001,
+          "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+          "cachedCueCandidateCount": 2,
+          "totalCanonicalTrackCount": 2,
+          "rank": [
+            {
+              "trackId": 300000001,
+              "recordedTtiS": 7.656524396422705,
+              "replayedDistanceM": 4.603332469494452,
+              "nativeGateFormulaM": 105,
+              "replayedDeltaVelocityMps": 2.500966258084757,
+              "distanceAndVelocityGatePass": true
+            },
+            {
+              "trackId": 300000002,
+              "recordedTtiS": 7.610756233057983,
+              "replayedDistanceM": 4.763120039281293,
+              "nativeGateFormulaM": 105,
+              "replayedDeltaVelocityMps": 6.281393502218588,
+              "distanceAndVelocityGatePass": true
+            }
+          ]
+        }
+      }
+    },
+    "cmsAssociationDifferentFrames": 23,
+    "allCmsAssociationDifferences": [
+      {
+        "step": 1800,
+        "timeS": 30.0,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.616735346489853,
+                "replayedDistanceM": 1.9152315728587266,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 8.49844622934256,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.658145943212347,
+                "replayedDistanceM": 4.708775705997145,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.7756213296681085,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.656524396422705,
+                "replayedDistanceM": 4.603332469494452,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.500966258084757,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.610756233057983,
+                "replayedDistanceM": 4.763120039281293,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 6.281393502218588,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.642431511234589,
+                "replayedDistanceM": 2.260425832144747,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 9.627609654718462,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.6415247288664,
+                "replayedDistanceM": 3.951214624117239,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.829944534588801,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.638881245401577,
+                "replayedDistanceM": 3.8703631772686125,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.709205294271362,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.612752738497016,
+                "replayedDistanceM": 5.471985219314671,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 7.901966803562694,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.600068720583559,
+                "replayedDistanceM": 2.0419356009430465,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 8.498834011974258,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.641476483836495,
+                "replayedDistanceM": 4.737676284585855,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.7760323992624607,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.639854877967921,
+                "replayedDistanceM": 4.6300935335553755,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.501403490610569,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.594088000464591,
+                "replayedDistanceM": 4.781777633994159,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 6.28172933311173,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1802,
+        "timeS": 30.033333333333335,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.624807031456759,
+                "replayedDistanceM": 4.96842662068026,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.736355630404424,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.550465267744331,
+                "replayedDistanceM": 6.182458884979038,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.0273303852875473,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.5774197722377234,
+                "replayedDistanceM": 4.50945292149974,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.3234941749748845,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.623185366636944,
+                "replayedDistanceM": 4.904229186055342,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.6851137714870785,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1803,
+        "timeS": 30.05,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.608137586067518,
+                "replayedDistanceM": 5.003674178861058,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.7367980115025534,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.533795533772456,
+                "replayedDistanceM": 6.178024944854779,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.027816540197458,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.560751548371527,
+                "replayedDistanceM": 4.5114055743279655,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.323903495758427,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.606515862424345,
+                "replayedDistanceM": 4.939471778727084,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.6855469202720235,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.591468147663275,
+                "replayedDistanceM": 5.039089685702299,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.7372404734927853,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.517125807468678,
+                "replayedDistanceM": 6.173773281737372,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.0283027675416094,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.544083328859966,
+                "replayedDistanceM": 4.515103254737648,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.324312863965213,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.589846365324561,
+                "replayedDistanceM": 4.974868962254371,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.685980153835382,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.572318550865557,
+                "replayedDistanceM": 4.071122123340689,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.061732567794874,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.497083216981183,
+                "replayedDistanceM": 7.264453367471722,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 7.04198970445937,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.560069995348447,
+                "replayedDistanceM": 1.3975242739739018,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 6.487590080520614,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.566455044247016,
+                "replayedDistanceM": 3.9169275070169984,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.215672494999032,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.566635759046843,
+                "replayedDistanceM": 5.237609944224217,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.0282098380233315,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.500456088828316,
+                "replayedDistanceM": 6.1697044053722845,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.028789067102517,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.533149480307324,
+                "replayedDistanceM": 1.1940718478876862,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.170637947494873,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.571014859660154,
+                "replayedDistanceM": 5.0625258495810685,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.499979063184883,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1806,
+        "timeS": 30.1,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.555655121530859,
+                "replayedDistanceM": 4.014185395738761,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.061445892466753,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.497805150774681,
+                "replayedDistanceM": 4.59743665056267,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 7.0887664430722666,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.5434083127599925,
+                "replayedDistanceM": 1.502919031127368,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 6.487548112830631,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.549790817674285,
+                "replayedDistanceM": 3.864319126577569,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 5.215285246071637,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.283923804718486,
+                "replayedDistanceM": 3.7207961086841412,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.9260873439575414,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.295982590218745,
+                "replayedDistanceM": 5.7207356636902436,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.577509336474371,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.243387885071218,
+                "replayedDistanceM": 5.010947507017664,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9556338999440078,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.2958293040454985,
+                "replayedDistanceM": 5.826256428431404,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1128853582839664,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.282416903049112,
+                "replayedDistanceM": 4.971491575931462,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.821847504254533,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.300126106454491,
+                "replayedDistanceM": 7.059767309168077,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.011386988023498,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.244406649900665,
+                "replayedDistanceM": 6.364796576654723,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.333865147624609,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.299283070977977,
+                "replayedDistanceM": 7.156881907698454,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.343510489892087,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1824,
+        "timeS": 30.4,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.284228514174352,
+                "replayedDistanceM": 3.922416533409211,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.4112658640660487,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.2793182986756895,
+                "replayedDistanceM": 5.744101642655247,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.5773670915119222,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.226723837069138,
+                "replayedDistanceM": 4.996080522563116,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9555181892147023,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.2791650556054455,
+                "replayedDistanceM": 5.851144734082642,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1127763375076962,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1824,
+        "timeS": 30.4,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.292109574574613,
+                "replayedDistanceM": 5.255680155854504,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.796628212396339,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.283456458743125,
+                "replayedDistanceM": 7.117008993994731,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.011324601432112,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.227737358877599,
+                "replayedDistanceM": 6.38461346818849,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.33385005551657,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.282613445896975,
+                "replayedDistanceM": 7.214913740402566,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.34345881488351,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1825,
+        "timeS": 30.416666666666668,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.267563934730993,
+                "replayedDistanceM": 3.659241615314981,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.974792664835712,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.26265400205651,
+                "replayedDistanceM": 5.463323231468668,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2159829035046443,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.210059783390237,
+                "replayedDistanceM": 4.683891679127027,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.7885126442111676,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.262500801993636,
+                "replayedDistanceM": 5.572819617793631,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.839386175208812,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1825,
+        "timeS": 30.416666666666668,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.275439601126087,
+                "replayedDistanceM": 5.326647296179298,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.796530669499413,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.266786818688188,
+                "replayedDistanceM": 7.17441700110275,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.0112623167978,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.211068074722034,
+                "replayedDistanceM": 6.404446166010442,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.3338352480793898,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.265943828423457,
+                "replayedDistanceM": 7.273203105706824,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.343407234076024,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.250899350852287,
+                "replayedDistanceM": 3.685517441788698,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.974635258317265,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.2459897003571285,
+                "replayedDistanceM": 5.471989836687258,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2158726466039407,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.193395724029347,
+                "replayedDistanceM": 4.654114304460386,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.7885192211821448,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.245836543206306,
+                "replayedDistanceM": 5.583460027069121,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.8393097298576757,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.258769636089526,
+                "replayedDistanceM": 5.188306585857297,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.965010791475366,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.250117186284301,
+                "replayedDistanceM": 7.069480728880925,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.2218320805296736,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.194398797429567,
+                "replayedDistanceM": 6.400395902963847,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.308655419885448,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.2492742185516725,
+                "replayedDistanceM": 7.145505805088652,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.3953563728495,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1827,
+        "timeS": 30.45,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.234234762533657,
+                "replayedDistanceM": 3.3785185618514193,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.7447961721671492,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.221876056915325,
+                "replayedDistanceM": 5.204413058474733,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.0331352484634204,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.166309269322468,
+                "replayedDistanceM": 4.403454233165359,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.173829513558584,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.220496901978474,
+                "replayedDistanceM": 5.362063770592296,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.2627219951724564,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1827,
+        "timeS": 30.45,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.242099679459939,
+                "replayedDistanceM": 5.248992690772246,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.964831398809874,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.233803579484083,
+                "replayedDistanceM": 7.119037055862895,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.3151594435090934,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.163047845184438,
+                "replayedDistanceM": 6.282515455568343,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.45246172940173934,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.233721274492677,
+                "replayedDistanceM": 7.275216887822963,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.3749437742231723,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1828,
+        "timeS": 30.466666666666665,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.217570169770334,
+                "replayedDistanceM": 3.386618957228668,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.744855221019795,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.205211168635915,
+                "replayedDistanceM": 5.196240210382557,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.033003560153423,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.149645494550758,
+                "replayedDistanceM": 4.359793956141644,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.174091084119059,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.203831915245265,
+                "replayedDistanceM": 5.353127782257417,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.262548848781117,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1828,
+        "timeS": 30.466666666666665,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.225429731232328,
+                "replayedDistanceM": 5.309806510659256,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.9646521007735447,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.217133365396928,
+                "replayedDistanceM": 7.167188738784548,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.3148704960057316,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.1463788898507525,
+                "replayedDistanceM": 6.289880235921565,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.45241160011081394,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.217050949395069,
+                "replayedDistanceM": 7.322655626467978,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.374635160026592,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1829,
+        "timeS": 30.483333333333334,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.1703977943404835,
+                "replayedDistanceM": 4.058674387972899,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.128799890579338,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.188546276569246,
+                "replayedDistanceM": 5.528679182387096,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4345236810995614,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.132981713396024,
+                "replayedDistanceM": 4.608959720987511,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.039443894055829,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.187166924948941,
+                "replayedDistanceM": 5.688228831308911,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.637301779747872,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1829,
+        "timeS": 30.483333333333334,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.1816161579991125,
+                "replayedDistanceM": 4.6703687426959055,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1038366319401267,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.200463160323708,
+                "replayedDistanceM": 6.273846920920174,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.215613595898382,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.12970994065596,
+                "replayedDistanceM": 5.394545356416288,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2311925548227665,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.200380633568741,
+                "replayedDistanceM": 6.424928631942316,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.3718685443814875,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.153732920016493,
+                "replayedDistanceM": 4.072796868818473,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1286505728814333,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.171881380711,
+                "replayedDistanceM": 5.537894339780328,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4341867843844378,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.116317925853919,
+                "replayedDistanceM": 4.578879058398493,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.039680749815745,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.1705019310850355,
+                "replayedDistanceM": 5.696958928815069,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.6369561692602856,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.164945929891417,
+                "replayedDistanceM": 4.677515367294662,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1034194845694563,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.183792964259363,
+                "replayedDistanceM": 6.28383329287909,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2150267318327828,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.113040997594791,
+                "replayedDistanceM": 5.364822591071124,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.231028976567671,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.183710327008485,
+                "replayedDistanceM": 6.434160201759845,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.3712850761095576,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1831,
+        "timeS": 30.516666666666666,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.13706804183995,
+                "replayedDistanceM": 4.087534960176488,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.1285013603638863,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.155023340056506,
+                "replayedDistanceM": 5.536470151858081,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4394246021221924,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.099654131920373,
+                "replayedDistanceM": 4.548854319901177,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.039917761805342,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.136495690386472,
+                "replayedDistanceM": 6.019146253475898,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.9141068250650155,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1831,
+        "timeS": 30.516666666666666,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.148275710886339,
+                "replayedDistanceM": 4.685219910551213,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.103002387340486,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.167186690069335,
+                "replayedDistanceM": 6.285434790527615,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2380663560586718,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.096372060661872,
+                "replayedDistanceM": 5.335192783861358,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.2308655274468285,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.150771923255569,
+                "replayedDistanceM": 6.746718080145461,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.5999398713388437,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1832,
+        "timeS": 30.533333333333335,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.120403159807755,
+                "replayedDistanceM": 4.102881933120253,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.12835225346705,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.138358418138597,
+                "replayedDistanceM": 5.545833862498503,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.439078720794843,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.07032306128016,
+                "replayedDistanceM": 4.457917879262828,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.264290850061489,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.119830598147896,
+                "replayedDistanceM": 6.0165261000865256,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.913773852269217,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1832,
+        "timeS": 30.533333333333335,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.13160550097774,
+                "replayedDistanceM": 5.0976337377505345,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.767370651949394,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.150516492334405,
+                "replayedDistanceM": 6.719542195629829,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.744403197175696,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.0766214594779875,
+                "replayedDistanceM": 5.693773034952754,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.2787898094788803,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.134101553734226,
+                "replayedDistanceM": 7.169390602738738,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4028871692407259,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1833,
+        "timeS": 30.55,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.0927053164392175,
+                "replayedDistanceM": 3.974327018718471,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.9861761701887497,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.121693492459059,
+                "replayedDistanceM": 5.3973291934656284,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.31346033219005864,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.053658531736425,
+                "replayedDistanceM": 4.3726216638365605,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.806971812079577,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.103165502529101,
+                "replayedDistanceM": 5.828113532176063,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9221276383442045,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1833,
+        "timeS": 30.55,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.11476288041516,
+                "replayedDistanceM": 5.323517550990579,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.4200042189279154,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.133846303638799,
+                "replayedDistanceM": 6.746055370151904,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.7444350413406713,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.05995181107093,
+                "replayedDistanceM": 5.676190496124303,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.2791008770859222,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.117431193669506,
+                "replayedDistanceM": 7.182750905848608,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4028192535117523,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.076039656834953,
+                "replayedDistanceM": 3.965165832613238,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.9858080895897194,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.105028563013627,
+                "replayedDistanceM": 5.398263529390722,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.31308594789737854,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.036993997455499,
+                "replayedDistanceM": 4.333639026313586,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.807064801397851,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.086500403525668,
+                "replayedDistanceM": 5.815221165520423,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9218491535053188,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.098091859415588,
+                "replayedDistanceM": 5.34069643405562,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.419767773443312,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.1171761239773845,
+                "replayedDistanceM": 6.772589680664531,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.744467106915689,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.0432821704852255,
+                "replayedDistanceM": 5.658634122599227,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.2794121383212744,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.100760843056446,
+                "replayedDistanceM": 7.196162355264874,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.402751598445381,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1835,
+        "timeS": 30.583333333333332,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.059373995143327,
+                "replayedDistanceM": 3.7217099300574987,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.790882341538661,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.092341247971361,
+                "replayedDistanceM": 5.2043953804766705,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.8481983888572389,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.020329458432998,
+                "replayedDistanceM": 3.9410097981004166,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.122614830752586,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.074034843306492,
+                "replayedDistanceM": 4.539745212230148,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.350269509209092,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1835,
+        "timeS": 30.583333333333332,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.081420849448431,
+                "replayedDistanceM": 5.1741379105145855,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.55503665270061,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.100606949328098,
+                "replayedDistanceM": 6.7646223641609176,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.45436139921606,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.026612537716199,
+                "replayedDistanceM": 5.4221639309411245,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.6821106182109233,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.083133573770092,
+                "replayedDistanceM": 6.100476901777684,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.3290352232489167,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1836,
+        "timeS": 30.6,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.042708331360239,
+                "replayedDistanceM": 3.7088850112123497,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.7904210115915267,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.075676589896319,
+                "replayedDistanceM": 5.189649627815567,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.8477105669184704,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.033410158175138,
+                "replayedDistanceM": 4.343775825256307,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.9871102580350106,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.057370109237144,
+                "replayedDistanceM": 4.514642167873496,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.349861485966917,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1836,
+        "timeS": 30.6,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.064749850508703,
+                "replayedDistanceM": 5.184827834043351,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.5547449695287514,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.083937080732632,
+                "replayedDistanceM": 6.7835068468199395,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4544421292724812,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.036717476135933,
+                "replayedDistanceM": 5.886308462523925,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9177447114503233,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.066463639890127,
+                "replayedDistanceM": 6.108990462987146,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.3290734289683939,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1837,
+        "timeS": 30.616666666666667,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.0260426654811585,
+                "replayedDistanceM": 3.8905590028399755,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.971189091582773,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.0590119273982515,
+                "replayedDistanceM": 5.134952735413253,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.761435324748152,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.016745841584045,
+                "replayedDistanceM": 4.142992907855242,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.377465414029633,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.04070537090792,
+                "replayedDistanceM": 4.492139931725548,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.345095783981031,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1837,
+        "timeS": 30.616666666666667,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.048078862591785,
+                "replayedDistanceM": 5.195843355000126,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.554453389094616,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.0672672204659515,
+                "replayedDistanceM": 6.8024254739418195,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4545231158495153,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.020048056469005,
+                "replayedDistanceM": 5.877615716486189,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9182044438021315,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.0497937145079295,
+                "replayedDistanceM": 6.1175724746538656,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.3291119095654764,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1838,
+        "timeS": 30.633333333333333,
+        "mountId": 1,
+        "localFileId": -5500001,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 6.976145618993533,
+                "replayedDistanceM": 2.44548686189617,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 4.853690695824863,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.0423472604731465,
+                "replayedDistanceM": 5.120693431303029,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.760978606072271,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.000081519721263,
+                "replayedDistanceM": 4.0973715827134916,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.3771886574366627,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.024040628315056,
+                "replayedDistanceM": 4.471016843383142,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 3.344701602369564,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "step": 1838,
+        "timeS": 30.633333333333333,
+        "mountId": 2,
+        "localFileId": -5500002,
+        "versions": {
+          "baseline": {
+            "recordedCmsTrackId": 300000002,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 6.989602928597308,
+                "replayedDistanceM": 3.648899015938033,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 2.0306778665529244,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.050597368522857,
+                "replayedDistanceM": 6.821377976144578,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.4546043585428308,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          },
+          "active": {
+            "recordedCmsTrackId": 300000001,
+            "candidateReplayClassification": "AFTER_ACTION_SOURCE_FORMULA_REPLAY_FROM_CACHED_ESTIMATES_NOT_NATIVE_REEVALUATION",
+            "cachedCueCandidateCount": 2,
+            "totalCanonicalTrackCount": 2,
+            "rank": [
+              {
+                "trackId": 300000001,
+                "recordedTtiS": 7.003378644115532,
+                "replayedDistanceM": 5.868950547461394,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 0.9186643320175638,
+                "distanceAndVelocityGatePass": true
+              },
+              {
+                "trackId": 300000002,
+                "recordedTtiS": 7.033123797618139,
+                "replayedDistanceM": 6.126222656385729,
+                "nativeGateFormulaM": 105,
+                "replayedDeltaVelocityMps": 1.3291506645358349,
+                "distanceAndVelocityGatePass": true
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "selectedDiagnosticComparisonsNotReplacementStrictTests": {
+    "allCapturedLocalC55FileFieldsExceptCmsTrackIdExact": true,
+    "allCapturedMountFieldsExceptCuedTargetExact": true,
+    "allFrameFieldsPreservedInRawDifferenceStream": true,
+    "rawFrameDifferenceCount": 5678,
+    "rawOriginalOutputDifferenceCount": 1345,
+    "fullAfterActionAfterFieldDifferences": [
+      {
+        "path": "/mounts/0/cue",
+        "before": 300000002,
+        "after": 300000001
+      },
+      {
+        "path": "/mounts/1/cue",
+        "before": 300000002,
+        "after": 300000001
+      }
+    ]
+  },
+  "actualObservedChain": [
+    "Both canonical files already exist at the first captured frame29.0s; no CREATE occurs in the captured window. Earlier birth/source history is outside this trace.",
+    "At native tick1796, identical SPY_SEARCH_HORIZON measurement has two eligible native AIR4D NIS values separated by0.3376654351748743. A accepts track300000002; B reports AMBIGUOUS_ASSOCIATION and withholds this update.",
+    "The first passive estimated-track divergence is post-tick frame1797. Subsequent native focused revisit/source update schedules and estimates differ.",
+    "The first captured C55 CMS-association and mount-cue differences occur at frame1800. Negative local C55 file IDs and all captured local estimated/control fields remain exact when separately displaying the differing CMS/cue labels.",
+    "At termination the full original after-action output differs only in the two mount cue fields. The original strict signature difference remains FAIL, not an approved new baseline."
+  ],
+  "sourcePathAudit": {
+    "c55CmsRows": "Pinned A source L37288–37297 obtains observed CMS states; L37402 sorts eligible cue rows by native kin.ttiS.",
+    "c55AssociateCms": "L37299–37315 ranks local-to-observed-CMS geometric distance and writes cmsTrackId; no truth resolution in this association.",
+    "updateCueing": "L37965–37968 assigns c55Bank(mount).cues[0].trackId to m.cuedTarget.",
+    "localFireControl": "L37955/L37421 select local negative C55 files for actual tracking/fire, while cue data remains separate."
+  },
+  "unknowns": [
+    "Cached native cue TTI/order is captured directly in this epoch. Offline CMS distance replay uses those estimated states and is explicitly separate from the actual recorded CMS selection.",
+    "No earlier-than29.0s canonical birth timeline was captured. This evidence does not prove duplicate elimination or explain initial creation of the preexisting second file.",
+    "This is temporal and code-path evidence for the captured branch, not proof that future battle outcomes are unaffected.",
+    "Post-restoration ENV match proves restored original bindings; it does not approve the separate A-to-B strict gameplay signature delta."
+  ],
+  "claimsExplicitlyNotMade": [
+    "Duplicate elimination",
+    "Truth target identity equality",
+    "Strict D1 baseline approval",
+    "All future combat unchanged",
+    "Full TRACK-B closure"
+  ],
+  "automaticApproval": false,
+  "expectedValuesUpdated": false,
+  "releaseApproved": false
+}

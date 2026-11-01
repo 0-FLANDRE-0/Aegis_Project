@@ -2,6 +2,10 @@
 
 이 디렉터리는 `ee960db`의 최종 TRACK-A를 기준으로 연관 단계만 변경하는 별도 시험 작업이다. TRACK-C/D, OODA, 새 전술 AI는 범위가 아니다. 현재 문서는 실행 안내이며 완료·병합 승인 보고서가 아니다. 제품·검증 결과의 최종 SHA와 상태는 root가 작성하는 `VALIDATION.json`이 있을 때 그 파일을 우선한다.
 
+최종 증거는 모두 수집됐으며, 선언한 live 구현 계약은 PASS다. 단계는 **INCOMPLETE**, releaseApproved=false다. 원래 paired4건과 ACTIVE D1 signature1건은 원인 경로를 확인했지만 사용자 승인 전 strict FAIL을 보존한다. 원래 domain402 PASS/4 FAIL/14 INCOMPLETE, runtime24건 중23 strict PASS/1 FAIL이며 기대값·허용 오차를 갱신하지 않았다.120초 연장에서도 최초8+추가13ASM가 모두 살아 있어 완료된 전투·요격 보존을 주장하지 않는다.
+
+RC1 제품 source commit은 `da73163a808aa6e480f1c26f42bdc1ae13ddb985`다. ACTIVE SHA는 `0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6`, SHADOW SHA는 `e9af30d8d71209f9eb45d72de58ca509efd261d7126d89ab626e2873d182995d`다. A/B 진단은 기본 OFF이며 UI/진단 설정으로 build-time ACTIVE/SHADOW를 바꾸지 않는다. 선언한 SHADOW-only 경로를 live 완료로 세지 않는다.
+
 기준 제품은 `Aegis_SIM_v48_WIP_TRACK_A.html`, SHA-256 `e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a`다. 기존 419025 피격 FAIL, CG→friendly observer 2건 미승인 차이, 구형 EMCON UI14 INCOMPLETE를 보존한다. 새 시험 통과는 이 세 항목의 해결 또는 승인이 아니다.
 
 ## 준비 확인 — 브라우저 실행 없음
@@ -29,7 +33,7 @@ native364+paired42=406이다. 제거된 `#lockBtn`을 요구하는 원본 EMCON 
 TMPDIR=/dev/shm PYTHONDONTWRITEBYTECODE=1 python docs/contact/track/B/verify_runtime.py --run --sha ACTIVE_SHA256 --shadow-sha SHADOW_SHA256
 ```
 
-기본은 `--products baseline shadow active`, task는 `d1 repro trace auto-iff idle clocks performance allocation`이다. 필요한 task만 `--only d1 repro trace`로 고를 수 있다. SHADOW의 full-state 비교에는 앞서 실행한 같은 도구의 baseline 캡처가 필요하므로 기본 순서를 유지한다. `--resume`은 동일 ACTIVE/SHADOW SHA만 허용한다. `--worker`는 controller 내부용이다. 직접 실행하면 caller가 전역 browser lease와 frozen SHA를 보장해야 한다.
+기본은 `--products baseline shadow active`, task는 `d1 repro trace auto-iff idle clocks performance allocation`이다. 필요한 task만 `--only d1 repro trace`로 고를 수 있다. SHADOW의 full-state 비교에는 앞서 실행한 같은 도구의 baseline 캡처가 필요하므로 기본 순서를 유지한다. `--resume`은 동일 ACTIVE/SHADOW SHA만 허용하며 PASS만 재사용한다. 실패/미완료 재시도 전 해당 variant의 전체 출력 snapshot과 이전 execution을 `evidence/runtime/attempts/`에 보존한다. `--worker`는 controller 내부용이다. 직접 실행하면 caller가 전역 browser lease와 frozen SHA를 보장해야 한다.
 
 - `d1`: 원본 friendly/A CIWS script로 419010~419039 30시드. 원래 native signature를 최종 A 증거와 비교하고 원시 사건/자원/피해 차이도 보존한다.
 - `repro`: 기존 자연 헬기 hover60초·route120초·Harpoon route75초를 실행한다. 원본 결과, RNG, 전체 관련 track/observer 상태를 비교 전에 저장한다.
@@ -44,4 +48,18 @@ TMPDIR=/dev/shm PYTHONDONTWRITEBYTECODE=1 python docs/contact/track/B/verify_run
 
 원래 assert가 실패하면 FAIL을 보존하고, 독립 사례는 계속 캡처한다. 경로가 의도대로 달라졌다는 이유만으로 기대값·허용 오차를 바꾸지 않는다. 원인 검증 전 차이를 자동 KNOWN_DELTA/PASS로 바꾸지 않는다. 직접 anonymous ingress fixture 성공과 자연 RF·실제 전투 증거는 구별한다. RC0 broad는 시작되지 않았으며 `evidence/RC0_BROAD_NOT_EXECUTED.json`은 실행 결과가 아니다.
 
+초기 runtime 도구는 async `__ENV_D__.status()`를 기다리기 전에 `.match`를 읽는 fixture 오류가 있었다. 이 때문에 변경하지 않은 TRACK-A의 자연 재현에서도 원본 결과·상태·query는 일치하면서 ENV check만 거짓 실패했다. root 승인으로 원래 A처럼 Promise 결과 전체를 기다린 뒤 같은 `match===true` 조건을 검사하도록 고쳤으며 전체 resolved status를 저장한다. 실패 시도는 폐기하지 않고 archive하며, 새 worker receipt의 실제 controller SHA로 수정 전·후 실행을 구별한다. 제품이나 ENV hash 기준을 바꾼 것이 아니다.
+
 PRIVATE/AFTER_ACTION 상태 사본은 검증 출력으로만 사용한다. 게임 association/classification/AI/fire 소비자에 truth를 전달하지 않는다. 새 제품의 RF, EKF, IFF, 무장·피해 계수와 저장 스키마는 이 검증 도구가 수정하지 않는다. main/기준 브랜치 병합, release/tag 생성도 수행하지 않는다.
+
+## 최종 증거 대조·보고서·전송 포장 재현
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python docs/contact/track/B/validate.py --require-complete
+PYTHONDONTWRITEBYTECODE=1 python docs/contact/track/B/report.py
+PYTHONDONTWRITEBYTECODE=1 python docs/contact/track/B/package.py
+```
+
+첫 명령은 원래 시험을 재실행하거나 기대값을 바꾸지 않고 현재 SHA와 완료된 raw 증거를 대조해 VALIDATION metadata를 작성한다. exit0은 증거가 모두 있다는 뜻이며 단계 승인이나 모든 strict 검사 통과라는 뜻이 아니다. 최종 성능 주 자료는 독점 lease/순차9구성의 `evidence/cost-final/SUMMARY.json`·`ASSESSMENT.json`·`COST_FINAL.md`다. 이전 동시 호스트 비용/retained-only sample도 지우지 않고 context로 남겼다.
+
+`package.py`는 최종 증거 작업사본에서 실행한다. 원래 `.jsonl`을 무손실 `.jsonl.gz`로 바꾸고 원문/gzip 해시를 `RAW_COMPRESSION.json`에 기록한다. `CHECKSUMS.sha256` 및 별도 ACTIVE HTML ZIP/SHADOW HTML ZIP/REPORT ZIP을 만들고 모든 ZIP member를 읽어 SHA와 CRC를 검증한다. 게임 HTML·시험 결과의 의미·기대값은 바꾸지 않는다. 재생성은 고정 repository와 기존 fixture/Python/Playwright/Chromium/Node/acorn에 의존하며 그래프에는 matplotlib가 필요하다. 원격 업로드/readback은 root가 수행하며 release/tag는 만들지 않는다.

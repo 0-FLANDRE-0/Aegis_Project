@@ -1,0 +1,12 @@
+{
+  "status": "INCOMPLETE",
+  "pid": 381538,
+  "stage": "Compact 1921-row capture, zero faults; runtime wrapper source assertion",
+  "actualBaseMatches": true,
+  "causeConfirmed": true,
+  "reason": "Helper originally installed during startup between two existing native wrappers; captured inner existing wrapper c4f08708 rather than final outer wrapper 13cb2dd3",
+  "fixtureRepair": "Install test forward wrapper once at start(), after the ORIGINAL loader fully initialized and paused; validate runtime source BEFORE firing any ticks",
+  "nativeFixtureCommandsChanged": false,
+  "productCodeChanged": false,
+  "releaseApproved": false
+}

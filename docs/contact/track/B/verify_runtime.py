@@ -6,12 +6,13 @@ before strict comparisons. Differences are evidence, never automatic approval.
 All private state below is AFTER_ACTION_TEST_ONLY and never a live input.
 """
 from pathlib import Path
-import argparse,gzip,hashlib,importlib.util,json,os,re,runpy,subprocess,sys,time,traceback
+import argparse,gzip,hashlib,importlib.util,json,os,re,runpy,shutil,subprocess,sys,time,traceback
 
 P=Path(__file__).resolve().parent;R=P.parents[3];A=P.parent/'A';F=R/'docs/contact/friendly/A'
 ROOT_E=P/'evidence/runtime';REFERENCE=R/'Aegis_SIM_v48_WIP_TRACK_A.html'
 REFERENCE_SHA='e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a'
 sha=lambda value:hashlib.sha256(value).hexdigest()
+LOADED_CONTROLLER_SHA=sha(Path(__file__).read_bytes())
 def module(name,path):
  spec=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 support=module('track_b_original_runtime_helpers',A/'verify_runtime.py')
@@ -123,7 +124,10 @@ def natural(label,file,out,trace):
     result=page.evaluate('c=>__FRIENDLY_REPRO_A__.run(c)',case);passive=state(page);state_value=json.loads(passive)
     save(out/(name+'-'+tag+'.json'),result);raw_state=compressed(out/(name+'-'+tag+'-full-state.json.gz'),state_value)
     expected=read(A/'evidence/candidate'/(name+'-off.json'));original_match=result==expected
-    comparisons={'originalTrackAResultExact':original_match,'defaultADiagnosticsOff':not defaults['a']['enabled'],'defaultBDiagnosticsOff':defaults['b']is None or not defaults['b']['enabled'],'coreSelftestsZero':not page.evaluate('__CORE_SELFTEST_FAILURES__'),'envHashMatch':page.evaluate('__ENV_D__.status().match')is True}
+    # ENV status is async. Await the actual returned Promise through Playwright,
+    # then inspect match; Promise.match itself is undefined, not a game failure.
+    env_status=page.evaluate('__ENV_D__.status()')
+    comparisons={'originalTrackAResultExact':original_match,'defaultADiagnosticsOff':not defaults['a']['enabled'],'defaultBDiagnosticsOff':defaults['b']is None or not defaults['b']['enabled'],'coreSelftestsZero':not page.evaluate('__CORE_SELFTEST_FAILURES__'),'envHashMatch':env_status['match']is True}
     if trace:
      before=read(out/(name+'-off.json'));off_state=json.loads(gzip.decompress((out/(name+'-off-full-state.json.gz')).read_bytes()))
      comparisons.update(traceResultExact=result==before,traceFullGameAndPrivateStateExact=state_value==off_state)
@@ -136,7 +140,7 @@ def natural(label,file,out,trace):
     diagnostic=query(page,out,name+'-'+tag);comparisons.update({'query.'+k:v for k,v in diagnostic['checks'].items()})
     quiet=page.evaluate('({a:__TRACK_A__.snapshot(),b:window.__TRACK_B__?__TRACK_B__.snapshot():null})')
     if not trace:comparisons['defaultOffNoRecords']=quiet['a']['stats']['recorded']==0 and not quiet['a']['records']and(quiet['b']is None or not quiet['b']['records'])
-    row={'name':name,'trace':trace,'product':label,'productSha256':sha(file.read_bytes()),'checks':comparisons,'status':'PASS'if all(comparisons.values())else'FAIL','stateSha256':sha(passive.encode()),'fullStateEvidence':raw_state,'fullStateDifferenceCount':len(delta),'differences':detail,'diagnostic':diagnostic,'nativeBirths':sum(x['requested']is None and x['id']is not None for x in result['births']),'maxFiles':max(len(x['tracks'])for x in result['samples']),'finalFiles':len(result['final'])}
+    row={'name':name,'trace':trace,'product':label,'productSha256':sha(file.read_bytes()),'checks':comparisons,'resolvedEnvStatus':env_status,'status':'PASS'if all(comparisons.values())else'FAIL','stateSha256':sha(passive.encode()),'fullStateEvidence':raw_state,'fullStateDifferenceCount':len(delta),'differences':detail,'diagnostic':diagnostic,'nativeBirths':sum(x['requested']is None and x['id']is not None for x in result['births']),'maxFiles':max(len(x['tracks'])for x in result['samples']),'finalFiles':len(result['final'])}
     rows.append(row);save(out/('trace-on.json'if trace else'reproduction-off.json'),{'status':'PASS'if all(r['status']=='PASS'for r in rows)and not errors else'FAIL','records':rows,'errors':errors,'wallS':time.perf_counter()-started,'productSha256':sha(file.read_bytes()),'allThreeCasesComplete':len(rows)==3,'releaseApproved':False});page.context.close();print(label,name,tag,row['status'],len(delta),round(time.perf_counter()-started,1),flush=True)
    if trace:
     pair=[]
@@ -217,23 +221,41 @@ def main():
  assert reference['status']=='PASS'and sources['status']=='PASS','Reference or original fixture provenance mismatch'
  if args.worker:
   assert args.product;label=args.product;file,pinned=products[label];out=ROOT_E/label;out.mkdir(parents=True,exist_ok=True)
-  if args.worker in ['d1','auto-iff','idle']:code=original_script(args.worker,label,file,out)
-  elif args.worker in ['repro','trace']:code=natural(label,file,out,args.worker=='trace')
-  elif args.worker=='clocks':code=clocks(label,file,out)
-  elif args.worker in ['performance','allocation']:code=measured(label,file,out,args.worker=='allocation')
-  assert sha(file.read_bytes())==pinned,'Product changed during runtime worker';raise SystemExit(code)
+  receipt={'schema':'AEGIS_TRACK_B_RUNTIME_WORKER_RECEIPT_1','product':label,'task':args.worker,'productSha256':pinned,'loadedControllerSha256':LOADED_CONTROLLER_SHA,'sourceProvenance':sources,'startedAtUnixS':time.time(),'completed':False,'releaseApproved':False};receipt_path=out/('worker-'+args.worker+'-receipt.json');save(receipt_path,receipt)
+  try:
+   if args.worker in ['d1','auto-iff','idle']:code=original_script(args.worker,label,file,out)
+   elif args.worker in ['repro','trace']:code=natural(label,file,out,args.worker=='trace')
+   elif args.worker=='clocks':code=clocks(label,file,out)
+   elif args.worker in ['performance','allocation']:code=measured(label,file,out,args.worker=='allocation')
+   assert sha(file.read_bytes())==pinned,'Product changed during runtime worker'
+   assert sha(Path(__file__).read_bytes())==LOADED_CONTROLLER_SHA,'Runtime controller file changed during worker'
+   receipt.update(completed=True,exitCode=code,controllerUnchangedDuringWorker=True)
+  except BaseException as ex:
+   receipt.update(exitCode=1,exception=repr(ex));raise
+  finally:
+   receipt.update(finishedAtUnixS=time.time(),controllerFileSha256AtEnd=sha(Path(__file__).read_bytes()));save(receipt_path,receipt)
+  raise SystemExit(code)
  ROOT_E.mkdir(parents=True,exist_ok=True);save(ROOT_E/'source-provenance.json',sources);save(ROOT_E/'reference-evidence.json',reference);rows=[];started=time.perf_counter();destination=ROOT_E/'execution.json'
  if args.resume and destination.exists():
   old=read(destination);assert old['candidateSha256']==args.sha and old['shadowSha256']==args.shadow_sha;rows=old['rows']
  for product in args.products:
   for task in jobs:
-   if any(r['product']==product and r['task']==task for r in rows):continue
+   prior=next((r for r in rows if r['product']==product and r['task']==task),None)
+   if prior and prior['status']=='PASS':continue
+   if prior:
+    # Preserve the entire native-output snapshot and failed original execution
+    # before a retry. An old FAIL is historical evidence, never silently erased.
+    attempt=ROOT_E/'attempts'/f'{product}-{task}-{time.time_ns()}';attempt.mkdir(parents=True)
+    if(ROOT_E/product).exists():shutil.copytree(ROOT_E/product,attempt/'variant-output-snapshot')
+    save(attempt/'HISTORICAL.json',{'schema':'AEGIS_TRACK_B_RUNTIME_RETRY_ARCHIVE_1','priorExecution':prior,'snapshotScope':'ENTIRE_VARIANT_OUTPUT_BEFORE_RETRY','retryControllerSha256':LOADED_CONTROLLER_SHA,'historicalOnly':True,'releaseApproved':False})
+    rows=[r for r in rows if not(r['product']==product and r['task']==task)]
    at=time.perf_counter();command=[sys.executable,'-u',str(Path(__file__).resolve()),'--candidate',str(args.candidate.resolve()),'--sha',args.sha,'--shadow',str(args.shadow.resolve()),'--shadow-sha',args.shadow_sha,'--product',product,'--worker',task]
    with slots.heavy_browser_slot()as lease:
     with(ROOT_E/(product+'-'+task+'.log')).open('w')as log:
      try:result=subprocess.run(command,cwd=R,env={**os.environ,'TMPDIR':'/dev/shm','PYTHONDONTWRITEBYTECODE':'1'},stdout=log,stderr=subprocess.STDOUT,timeout=1800);code=result.returncode
      except subprocess.TimeoutExpired:code=124
-   row={'product':product,'task':task,'exitCode':code,'status':'PASS'if code==0 else'INCOMPLETE'if code==124 else'FAIL','command':command,'wallS':time.perf_counter()-at,'lease':lease,'candidateSha256':args.sha,'shadowSha256':args.shadow_sha,'deltaApproved':False};rows.append(row)
+   receipt_path=ROOT_E/product/('worker-'+task+'-receipt.json');receipt=read(receipt_path)if receipt_path.exists()else None
+   row={'product':product,'task':task,'exitCode':code,'status':'PASS'if code==0 else'INCOMPLETE'if code==124 else'FAIL','command':command,'wallS':time.perf_counter()-at,'lease':lease,'candidateSha256':args.sha,'shadowSha256':args.shadow_sha,'workerReceipt':receipt,'deltaApproved':False};rows.append(row)
    summary={'schema':'AEGIS_TRACK_B_RUNTIME_EXECUTION_1','candidateSha256':args.sha,'shadowSha256':args.shadow_sha,'referenceSha256':REFERENCE_SHA,'rows':rows,'allRequestedTasksExecuted':len(rows)==len(args.products)*len(jobs),'status':'PASS'if all(r['status']=='PASS'for r in rows)else'FAIL','wallS':time.perf_counter()-started,'releaseApproved':False,'inherited419025AndPairedDifferencesNotApproved':True,'assertionsChanged':False,'expectedValuesUpdated':False};save(destination,summary);print(json.dumps(row),flush=True)
  # Continue after strict failures so all independent raw observations survive.
  raise SystemExit(1 if any(r['status']!='PASS'for r in rows)else 0)

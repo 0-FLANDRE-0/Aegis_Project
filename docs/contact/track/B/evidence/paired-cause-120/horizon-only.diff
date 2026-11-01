@@ -1,0 +1,11 @@
+--- original-raid-expression.js
++++ new-120s-raid-expression.js
+@@ -6,7 +6,7 @@
+                         const label=Object.keys(exp.ship.damage.moduleDamage)[0];if(label)exp.ship.damage.moduleDamage[label]=40;
+                         d.importOperationalStateV48Wip11A(exp);
+                       }
+-                      const scale={idle:1,raid:8,damaged:16}[scenario],ticks={idle:240,raid:1920,damaged:480}[scenario];
++                      const scale={idle:1,raid:8,damaged:16}[scenario],ticks={idle:240,raid:7200,damaged:480}[scenario];
+                       d.profilerEnableV48Wip11A(true);d.profilerResetV48Wip11A();const t=performance.now(),run=d.runFramesToTicks(60,scale,ticks),elapsedMs=performance.now()-t;
+                       const exp=d.exportOperationalStateV48Wip11A();
+                       return {fixture,scale,ticks,elapsedMs,run,profiler:d.profilerSnapshotV48Wip11A(),state:exp.ship,dynamics:d.shipDynamics(),observers:d.observerSnapshotC(),offboard:d.offboardSnapshotC(),rng:window.__HARPOON_DIAG_A__.snapshot().rng,
