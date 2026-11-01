@@ -1,0 +1,72 @@
+{
+  "baseBranch": "cg-turret-a",
+  "baseCommit": "6d306849f290f987cd39c31c901adb4478b07edd",
+  "baselineSha256": "af105075c65bf9c8774c8b1d347273476e53a3a5869c12387b2cd8d46824d933",
+  "output": "Aegis_SIM_v48_WIP_FRIENDLY_CONTACT_A.html",
+  "htmlSha256": "cfc74427e3d30efafec187c3fd99924f5063e74d8dbe3f8e36caebd68d149cda",
+  "mainSha256": "79c73e36809bfcf38141da6698ab43bf4c19048595652db736c970842a85afe3",
+  "inverseByteExact": true,
+  "changes": [
+    {
+      "before": "if(seen.has(r.id))continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);",
+      "after": "if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own)continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);",
+      "count": 2
+    },
+    {
+      "before": "  function trackApplySurfaceDomainConstraint(tr,refZM=8){\n    if(!tr?._kfX||!tr?._kfP)return;",
+      "after": "  function trackApplySurfaceDomainConstraint(tr,refZM=8){\n    if(!tr?._kfX||!tr?._kfP||trackHasAirObservationFC(tr))return;",
+      "count": 1
+    },
+    {
+      "before": "  // ===== WIP13B14 CROSS-DOMAIN ASSOCIATION CONTINUITY =====",
+      "after": "// FRIENDLY_CONTACT_A: measurement capability, never entity/owner/class truth.\n// The existing track hard lifetime bounds retained 3-D observation evidence.\nfunction trackHasAirObservationFC(tr){\n return Number.isFinite(tr?._radar3dAirStepFC)&&(simStepCounter-tr._radar3dAirStepFC)*SIM_FIXED_DT<=TRACK_HARD_TTL;\n}\nfunction trackNoteAirObservationFC(tr){\n tr._radar3dAirStepFC=simStepCounter;tr._surface2DOnlyFC=false;\n // A subsequently accepted 3-D observation supersedes a 2-D height prior.\n tr._surfaceMotionPriorWip13B13=false;\n}\n\n  // ===== WIP13B14 CROSS-DOMAIN ASSOCIATION CONTINUITY =====",
+      "count": 1
+    },
+    {
+      "before": "function trackSurfaceBackedWip13B14(tr){return !!tr&&(",
+      "after": "function trackSurfaceBackedWip13B14(tr){return !trackHasAirObservationFC(tr)&&!!tr&&(",
+      "count": 1
+    },
+    {
+      "before": "  function trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plot={}){\n    if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;",
+      "after": "  function trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plot={}){\n    if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;\n    if(trackHasAirObservationFC(tr))return true; // 2-D contribution; same native NIS gate, no height/domain overwrite.",
+      "count": 1
+    },
+    {
+      "before": "  function trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot={}){\n    if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;",
+      "after": "  function trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot={}){\n    if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;\n    if(tr._surface2DOnlyFC&&Number.isFinite(plot.elRad))return true; // An assumed surface height is not a measured domain partition; native 4-D NIS still decides.",
+      "count": 1
+    },
+    {
+      "before": "    if(truthRef)bindTrackTruthV27(tr,truthRef);\n    tr.truthEnded=false;tr.truthEndReason=null;tr.sensorHits=",
+      "after": "    if(isRadar&&!isSurfaceRadar)trackNoteAirObservationFC(tr);\n    else if(created&&isSurfaceRadar)tr._surface2DOnlyFC=true;\n    if(truthRef)bindTrackTruthV27(tr,truthRef);\n    tr.truthEnded=false;tr.truthEndReason=null;tr.sensorHits=",
+      "count": 1
+    },
+    {
+      "before": "    updateTrackClassification(tr,{...meta,domainEvidence:meta.domainEvidence??meas.domainEvidence});",
+      "after": "    if(!(isSurfaceRadar&&trackHasAirObservationFC(tr)))updateTrackClassification(tr,{...meta,domainEvidence:meta.domainEvidence??meas.domainEvidence});",
+      "count": 1
+    },
+    {
+      "before": "wasSurface=tr.domain==='SURFACE'||tr.classification==='SURFACE'||!!tr._surfaceMotionPriorWip13B13||!!tr._surfaceSensorContributorsWip13B9,wasAir=",
+      "after": "wasSurface=trackSurfaceBackedWip13B14(tr),wasAir=",
+      "count": 1
+    },
+    {
+      "before": "    if(surface(plots[i])!==(tr.domain==='SURFACE'))continue;",
+      "after": "    if(surface(plots[i])?!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]):!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i]))continue;",
+      "count": 1
+    },
+    {
+      "before": "    if(created)o.tracks.set(tr.trackId,tr);",
+      "after": "    if(!surface(meas))trackNoteAirObservationFC(tr);else if(created)tr._surface2DOnlyFC=true;\n    if(created)o.tracks.set(tr.trackId,tr);",
+      "count": 1
+    },
+    {
+      "before": "function observerClassifyC(tr,meas){\n  const e=",
+      "after": "function observerClassifyC(tr,meas){\n  if(trackHasAirObservationFC(tr)&&!Number.isFinite(meas.elRad)){tr.identity=heloFriendlyIffEvidenceE(tr)?'FRIEND':tr._operatorIdentity??'UNKNOWN';tr.engagementAuthority='WITHHELD';return;}\n  const e=",
+      "count": 1
+    }
+  ],
+  "coefficientChanges": false
+}

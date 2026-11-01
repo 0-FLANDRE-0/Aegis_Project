@@ -1,0 +1,45 @@
+Traceback (most recent call last):
+  File "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py", line 13, in <module>
+    runpy.run_path(str(path),run_name='__main__')
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/dev/shm/aegis-ciws-dmg-a/docs/map/A/verify_regressions.py", line 75, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/map/A/verify_regressions.py", line 58, in main
+    return vp.adapted(a.only,a.html,a.out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/viewport/A/verify_regressions.py", line 39, in adapted
+    exec(compile(s,str(f),'exec'),scope)
+  File "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/K/verify_ui.py", line 19, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/K/verify_ui.py", line 13, in main
+    x=load_fleet(b,raw,width=width,height=height,errors=errors);tid=x.evaluate(SETUP);x.locator('[data-tab=ARM]').click();x.locator('#lockBtn').click();x.evaluate('__NAVAL_SIM_DIAG__.stepTicks(1)');s=x.evaluate('__EMCON_DESIGNATION_F2__.snapshot()');checks[f'{width}.passivePointer']=s['selectedLockId']==tid and not s['pdTracking']and s['physicalSpyEmitters']==0;box=x.locator('#lockBtn').bounding_box();checks[f'{width}.labelFits']=box['x']>=0 and box['x']+box['width']<=width+.1 and '지정 (EMCON · 방사 없음)'in x.locator('#lockBtn').inner_text();x.locator('#autoEngBtn').click();x.locator('#external3DAutoLockBtn').evaluate('e=>e.click()');s=x.evaluate('__EMCON_DESIGNATION_F2__.snapshot()');checks[f'{width}.autoControlsStillBlocked']=s['selectedLockId']==tid and not s['pdTracking'];
+                                                                                                                                                                                                                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 17711, in bounding_box
+    self._sync(self._impl_obj.bounding_box(timeout=to_milliseconds(timeout)))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_locator.py", line 133, in bounding_box
+    return await self._with_element(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_locator.py", line 114, in _with_element
+    handle = await self.element_handle(timeout=timeout)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_locator.py", line 325, in element_handle
+    handle = await self._frame.wait_for_selector(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 394, in wait_for_selector
+    await self._channel.send(
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Locator.bounding_box: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("#lockBtn")
+

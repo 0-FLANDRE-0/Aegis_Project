@@ -1,0 +1,316 @@
+{
+  "schema": "AEGIS_FRIENDLY_CONTACT_A_VALIDATION_1",
+  "productSha256": "cfc74427e3d30efafec187c3fd99924f5063e74d8dbe3f8e36caebd68d149cda",
+  "functionalRepairCandidate": true,
+  "releaseApproved": false,
+  "reviewRequired": [
+    "SEED_419025_PRIOR_INTERCEPT_NOW_SHIP_IMPACT",
+    "PAIRED_RAID_OBSERVER_EXACT_STATE_EXPECTATIONS_NOT_UPDATED"
+  ],
+  "expectationChanges": 0,
+  "coefficientChanges": false,
+  "scopePass": true,
+  "protectedSymbols": 142,
+  "contracts": {
+    "surfacePriorDoesNotOverwriteObservedAir": true,
+    "fastTangentialAirCanAssociate2D": true,
+    "surfaceContributionKeepsAir": true,
+    "surfaceAssumptionNotMeasuredDomain": true,
+    "initial2DAdopts3DWithoutNewId": true,
+    "accepted3DClearsSurfacePartition": true,
+    "incompatiblePlotStillFailsNativeGate": true,
+    "resolvedObjectsStayOneToOne": true,
+    "environmentTableStillMatches": true
+  },
+  "variants": {
+    "ddg-moving.core": true,
+    "ddg-moving.oneFile": true,
+    "ddg-moving.iff": true,
+    "iff-off.core": true,
+    "iff-off.noArtificialFriend": true,
+    "iff-off.oneFile": true,
+    "no-dl.core": true,
+    "no-dl.positionUnavailable": true,
+    "no-dl.flightContinues": true,
+    "observer-off.core": true,
+    "observer-off.observerDoesNotAlterState": true
+  },
+  "autoIff": {
+    "inventoryUnchangedInAuto": true,
+    "friendlyThroughIff": true,
+    "oneFile": true,
+    "core": true
+  },
+  "ciws": {
+    "caseCount": 30,
+    "beforeHits": 12,
+    "afterHits": 8,
+    "beforeHpZero": 4,
+    "afterHpZero": 1,
+    "worseNewHit": [
+      419025
+    ],
+    "improvedAvoidedHit": [
+      419011,
+      419017,
+      419018,
+      419028,
+      419036
+    ]
+  },
+  "protection": {
+    "pass": true,
+    "count": 4,
+    "associations": 396,
+    "taintedNonOwnSources": 0
+  },
+  "regressions": {
+    "rows": [
+      {
+        "suite": "isar-native",
+        "exit": 0,
+        "elapsedS": 99.82845900399843
+      },
+      {
+        "suite": "emcon-native",
+        "exit": 0,
+        "elapsedS": 67.93242089499836
+      },
+      {
+        "suite": "emcon-ui",
+        "exit": 1,
+        "elapsedS": 52.1478493459872
+      },
+      {
+        "suite": "harpoon-f1",
+        "exit": 1,
+        "elapsedS": 77.00032815299346
+      },
+      {
+        "suite": "helicopter-flight",
+        "exit": 1,
+        "elapsedS": 296.92421162402024
+      },
+      {
+        "suite": "sov-native",
+        "exit": 0,
+        "elapsedS": 58.349659455998335
+      },
+      {
+        "suite": "harpoon-clock",
+        "exit": 0,
+        "elapsedS": 117.33424794700113
+      },
+      {
+        "suite": "sov-casualty",
+        "exit": 0,
+        "elapsedS": 76.05803598699276
+      },
+      {
+        "suite": "sov-visual",
+        "exit": 0,
+        "elapsedS": 82.83385890297359
+      },
+      {
+        "suite": "sov-deployment",
+        "exit": 0,
+        "elapsedS": 128.5715165710135
+      },
+      {
+        "suite": "webgl8",
+        "exit": 0,
+        "elapsedS": 370.5577646680176
+      },
+      {
+        "suite": "ui213",
+        "exit": -15,
+        "elapsedS": 562.3900827530015
+      },
+      {
+        "suite": "paired-current",
+        "exit": 1,
+        "elapsedS": 226.5532644400082
+      }
+    ],
+    "elapsedS": 1139.931382670009
+  },
+  "idleAndDom": {
+    "checks": {
+      "truthHashSame": true,
+      "retiredUiContractSame": true,
+      "core": true
+    },
+    "rows": [
+      {
+        "tag": "before",
+        "truthSha256": "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f",
+        "dom": {
+          "liveLock": false,
+          "retiredLock": true,
+          "liveQuickLock": false
+        },
+        "core": []
+      },
+      {
+        "tag": "after",
+        "truthSha256": "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f",
+        "dom": {
+          "liveLock": false,
+          "retiredLock": true,
+          "liveQuickLock": false
+        },
+        "core": []
+      }
+    ],
+    "errors": [],
+    "wallS": 78.35677109099925
+  },
+  "ui213Cpu2d": {
+    "exit": 0,
+    "elapsedS": 533.9609464050154,
+    "assertionChanges": 0,
+    "backend": "existing docs/pip/B/browser_backend.py CPU Canvas2D + actual WebGL"
+  },
+  "nativeRetries": {
+    "rows": [
+      {
+        "suite": "harpoon-f1",
+        "exit": 0,
+        "elapsedS": 95.29333378601586
+      },
+      {
+        "suite": "helicopter-flight",
+        "exit": 0,
+        "elapsedS": 388.9889208159875
+      }
+    ],
+    "elapsedS": 484.2825180980144
+  },
+  "pairedObserverDelta": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "failedChecks": [
+        "sameExistingObserverState"
+      ],
+      "physicalStateExact": true,
+      "rngExact": true,
+      "hp": [
+        100,
+        100
+      ],
+      "targetsEqual": true,
+      "loadedVlsBeforeAfter": [
+        90,
+        90
+      ],
+      "changedPaths": 874
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "failedChecks": [
+        "sameExistingObserverState"
+      ],
+      "physicalStateExact": true,
+      "rngExact": true,
+      "hp": [
+        100,
+        100
+      ],
+      "targetsEqual": true,
+      "loadedVlsBeforeAfter": [
+        115,
+        115
+      ],
+      "changedPaths": 43
+    }
+  ],
+  "domain420": {
+    "total": 420,
+    "passed": 404,
+    "observerExactStateDifferences": 2,
+    "incompleteRetiredEmconUi": 14,
+    "expectedValuesUpdated": false,
+    "suites": [
+      {
+        "suite": "aps153",
+        "assertions": 20,
+        "passed": 20,
+        "failed": []
+      },
+      {
+        "suite": "isar-classes",
+        "assertions": 8,
+        "passed": 8,
+        "failed": []
+      },
+      {
+        "suite": "isar-clock",
+        "assertions": 12,
+        "passed": 12,
+        "failed": []
+      },
+      {
+        "suite": "isar-ui",
+        "assertions": 38,
+        "passed": 38,
+        "failed": []
+      },
+      {
+        "suite": "emcon-native",
+        "assertions": 27,
+        "passed": 27,
+        "failed": []
+      },
+      {
+        "suite": "harpoon-clock",
+        "assertions": 24,
+        "passed": 24,
+        "failed": []
+      },
+      {
+        "suite": "harpoon-f1-retry",
+        "assertions": 46,
+        "passed": 46,
+        "failed": []
+      },
+      {
+        "suite": "helicopter-flight-retry",
+        "assertions": 85,
+        "passed": 85,
+        "failed": []
+      },
+      {
+        "suite": "isar-native",
+        "assertions": 36,
+        "passed": 36,
+        "failed": []
+      },
+      {
+        "suite": "sov-casualty",
+        "assertions": 13,
+        "passed": 13,
+        "failed": []
+      },
+      {
+        "suite": "sov-deployment",
+        "assertions": 15,
+        "passed": 15,
+        "failed": []
+      },
+      {
+        "suite": "sov-native",
+        "assertions": 30,
+        "passed": 30,
+        "failed": []
+      },
+      {
+        "suite": "sov-visual",
+        "assertions": 10,
+        "passed": 10,
+        "failed": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+--- Aegis_SIM_v48_WIP_CG_TURRET_A.html::main
++++ Aegis_SIM_v48_WIP_FRIENDLY_CONTACT_A.html::main
+@@ -4651,6 +4651,7 @@
+ }
+ function retireObserverC(r){const o=r.combatSystem.observerC;if(o){if(r!==ACTIVE_SHIP_RUNTIME)o.tracks.clear();o.offboard.queue.length=0;o.offboard.sources.clear();o.history.length=0;}r.combatSystem.observerC=null;}
+ function observerClassifyC(tr,meas){
++  if(trackHasAirObservationFC(tr)&&!Number.isFinite(meas.elRad)){tr.identity=heloFriendlyIffEvidenceE(tr)?'FRIEND':tr._operatorIdentity??'UNKNOWN';tr.engagementAuthority='WITHHELD';return;}
+   const e=meas.domainEvidence??{},prev=tr.domainEvidenceC??{surface:0,air:0,missile:0,weight:0},w=clamp(meas.quality??.5,.05,1),a=.35;
+   tr.domainEvidenceC={surface:lerp(prev.surface,e.surface??0,a),air:lerp(prev.air,e.air??0,a),missile:lerp(prev.missile,e.missile??0,a),weight:prev.weight+w};
+   const q=tr.domainEvidenceC,speed=Math.hypot(tr._kfX[3],tr._kfX[4]);
+@@ -4673,7 +4674,7 @@
+   const surface=m=>!!m.surfaceReferenceZM;
+   // Association knows only covariance, measured geometry, and domain evidence.
+   for(let i=0;i<plots.length;i++)for(const [id,tr] of o.tracks){
+-    if(surface(plots[i])!==(tr.domain==='SURFACE'))continue;
++    if(surface(plots[i])?!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]):!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i]))continue;
+     const nis=surface(plots[i])?trackSurfacePositionAssociationNisWip13B9(tr,plots[i]):trackRadarAssociationNisV31(tr,plots[i]);
+     if(nis<=64)pairs.push({i,id,nis});
+   }
+@@ -4681,6 +4682,7 @@
+   const apply=(id,meas,created)=>{
+     const tr=created?observerNewTrackC(o,meas,surface(meas)):o.tracks.get(id);
+     const ok=created||(surface(meas)?trackEkfUpdateSurfaceRadar2D(tr,meas,{nisGate:64}):trackEkfUpdateRadar(tr,meas,{nisGate:64}));if(!ok){o.stats.rejected++;return null;}
++    if(!surface(meas))trackNoteAirObservationFC(tr);else if(created)tr._surface2DOnlyFC=true;
+     if(created)o.tracks.set(tr.trackId,tr);
+     if(now-tr.lastIndependentHitS>=OBSERVER_POLICY_C.confirmationSpacingS){tr.sensorHits++;tr.lastIndependentHitS=now;}
+     tr.confirmed=tr.confirmed||tr.sensorHits>=3;tr.sensorAge=0;tr.memActive=false;tr.trackLifecycle=tr.confirmed?'FIRM':'TENTATIVE';tr.sensorSource=meas.source;tr.sensorDetected=true;tr.ttl=OBSERVER_POLICY_C.dropS;
+@@ -7639,7 +7641,7 @@
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+-        if(seen.has(r.id))continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
++        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own)continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
+         if(d<gate&&d<error){best=r;error=d;}
+       }
+@@ -26009,7 +26011,7 @@
+     return H;
+   }
+   function trackApplySurfaceDomainConstraint(tr,refZM=8){
+-    if(!tr?._kfX||!tr?._kfP)return;
++    if(!tr?._kfX||!tr?._kfP||trackHasAirObservationFC(tr))return;
+     const x=tr._kfX,P=tr._kfP;
+     // This is a domain motion-model prior, not an BridgeMaster E elevation measurement. Surface tracks
+     // are constrained to the sea-surface reflector band while x/y/vx/vy remain measurement-driven.
+@@ -27262,7 +27264,7 @@
+       tr._classEvidenceAsm=tr.classification==='ASM'?1:0;tr._classEvidenceAir=tr.classification==='AIR'?1:0;return;
+     }
+     if(domainEvidence){
+-      const s=domainEvidence.surface,a=domainEvidence.air,m=domainEvidence.missile,b=domainEvidence.background,bestAir=Math.max(a,m),samples=tr._domainEvidenceSamplesWip13B13??0,wasSurface=tr.domain==='SURFACE'||tr.classification==='SURFACE'||!!tr._surfaceMotionPriorWip13B13||!!tr._surfaceSensorContributorsWip13B9,wasAir=tr.domain==='AIR'&&(tr.classification==='AIR'||tr.classification==='ASM'),lowSlowSurfaceEcho=shipboardRadarLowSlowSurfaceEchoWip13B14({domainEvidence:meta.domainEvidence});
++      const s=domainEvidence.surface,a=domainEvidence.air,m=domainEvidence.missile,b=domainEvidence.background,bestAir=Math.max(a,m),samples=tr._domainEvidenceSamplesWip13B13??0,wasSurface=trackSurfaceBackedWip13B14(tr),wasAir=tr.domain==='AIR'&&(tr.classification==='AIR'||tr.classification==='ASM'),lowSlowSurfaceEcho=shipboardRadarLowSlowSurfaceEchoWip13B14({domainEvidence:meta.domainEvidence});
+       if(s>.50&&s>bestAir+.055&&b<s){
+         tr._domainSwitchAirStreakWip13B14=0;
+         if(wasAir&&tr.confirmed&&(tr.sensorHits??0)>=4){
+@@ -27403,6 +27405,17 @@
+     for(const [family,row] of Object.entries(tr?._surfaceSensorContributorsWip13B9||{}))out[family]={...row,ageS:Math.max(0,(simStepCounter-row.lastStep)*fixedDtS)};
+     return out;
+   }
++// FRIENDLY_CONTACT_A: measurement capability, never entity/owner/class truth.
++// The existing track hard lifetime bounds retained 3-D observation evidence.
++function trackHasAirObservationFC(tr){
++ return Number.isFinite(tr?._radar3dAirStepFC)&&(simStepCounter-tr._radar3dAirStepFC)*SIM_FIXED_DT<=TRACK_HARD_TTL;
++}
++function trackNoteAirObservationFC(tr){
++ tr._radar3dAirStepFC=simStepCounter;tr._surface2DOnlyFC=false;
++ // A subsequently accepted 3-D observation supersedes a 2-D height prior.
++ tr._surfaceMotionPriorWip13B13=false;
++}
++
+   // ===== WIP13B14 CROSS-DOMAIN ASSOCIATION CONTINUITY =====
+   // Domain classification is an output of measured RF evidence, not a pre-association partition.
+   // Low, slow, extended echoes may therefore be compared with an established surface file even
+@@ -27420,13 +27433,14 @@
+   });
+   const WIP13B14_CROSS_DOMAIN_ASSOC_STATS={airPlotToSurfaceTrack:0,surfacePlotToAirTrack:0,rejectedFastOrAloft:0,lastTrackId:null,lastRoute:null,lastNis:null};
+   function resetWip13b14CrossDomainAssociationStats(){Object.assign(WIP13B14_CROSS_DOMAIN_ASSOC_STATS,{airPlotToSurfaceTrack:0,surfacePlotToAirTrack:0,rejectedFastOrAloft:0,lastTrackId:null,lastRoute:null,lastNis:null});}
+-  function trackSurfaceBackedWip13B14(tr){return !!tr&&(tr.domain==='SURFACE'||tr.classification==='SURFACE'||tr._surfaceMotionPriorWip13B13||tr._surfaceSensorContributorsWip13B9||(tr.sensorSource??'').startsWith('BRIDGEMASTER_E'));}
++  function trackSurfaceBackedWip13B14(tr){return !trackHasAirObservationFC(tr)&&!!tr&&(tr.domain==='SURFACE'||tr.classification==='SURFACE'||tr._surfaceMotionPriorWip13B13||tr._surfaceSensorContributorsWip13B9||(tr.sensorSource??'').startsWith('BRIDGEMASTER_E'));}
+   function shipboardRadarLowSlowSurfaceEchoWip13B14(plot={}){
+     const evidence=plot.domainEvidence??plot,features=evidence?.features??{},height=Math.abs(Number(features.heightM??plot.estimatedSurfaceHeightM??plot.z??999)),significantDoppler=Math.abs(Number(features.significantDopplerMps??plot.surfaceRelativeDopplerMps??plot.radialMps??999)),along=Math.max(0,Number(features.alongM??plot.observedRangeHalfExtentM??0)),cross=Math.max(0,Number(features.crossM??plot.observedProjectedHalfWidthM??0)),verticalStructure=Math.max(0,Number(features.verticalStructure)||0),surfaceScore=clamp(Number(evidence?.surface)||0,0,1),missileScore=clamp(Number(evidence?.missile)||0,0,1),backgroundScore=clamp(Number(evidence?.background)||0,0,1),extended=Math.max(along,cross)>=10&&verticalStructure>.04;
+     return height<=WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.surfaceLikeMaxHeightM&&significantDoppler<=WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.surfaceLikeMaxSignificantDopplerMps&&backgroundScore<.68&&(surfaceScore>=.24||extended)&&!(missileScore>.78&&missileScore>surfaceScore+.24);
+   }
+   function trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plot={}){
+     if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;
++    if(trackHasAirObservationFC(tr))return true; // 2-D contribution; same native NIS gate, no height/domain overwrite.
+     if(trackSurfaceBackedWip13B14(tr))return true;
+     const speedMps=Math.hypot(worldSpeedToMps(tr.vx??0),worldSpeedToMps(tr.vy??0),Number(tr.vz)||0),altM=Math.abs(Number(tr.z)||0),confidence=clamp(Number(tr.classificationConfidence)||0,0,1);
+     if((tr.classification==='ASM'&&confidence>.68)||speedMps>WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.crossDomainSurfaceTrackMaxSpeedMps||altM>WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.crossDomainSurfaceTrackMaxAltitudeM){WIP13B14_CROSS_DOMAIN_ASSOC_STATS.rejectedFastOrAloft++;return false;}
+@@ -27435,6 +27449,7 @@
+   }
+   function trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot={}){
+     if(!tr||tr.sensorDetected===false||tr.truthEnded)return false;
++    if(tr._surface2DOnlyFC&&Number.isFinite(plot.elRad))return true; // An assumed surface height is not a measured domain partition; native 4-D NIS still decides.
+     if(!trackSurfaceBackedWip13B14(tr))return true;
+     const ok=shipboardRadarLowSlowSurfaceEchoWip13B14(plot);if(!ok)WIP13B14_CROSS_DOMAIN_ASSOC_STATS.rejectedFastOrAloft++;return ok;
+   }
+@@ -27523,6 +27538,8 @@
+       if(!created||source!=='OFFBOARD_C')trackEkfUpdateCartesianPosition(tr,meas);
+     }
+ 
++    if(isRadar&&!isSurfaceRadar)trackNoteAirObservationFC(tr);
++    else if(created&&isSurfaceRadar)tr._surface2DOnlyFC=true;
+     if(truthRef)bindTrackTruthV27(tr,truthRef);
+     tr.truthEnded=false;tr.truthEndReason=null;tr.sensorHits=(tr.sensorHits??0)+1;
+     const needHits=isVisual?1:(isSpySurface?SENSOR_MODEL.spy1dv.surfaceConfirmHits:(isSpq9bSurface?2:(isSurfaceRadar?SENSOR_MODEL.bridgeMasterE.confirmHits:SENSOR_MODEL.spy1dv.confirmHits)));
+@@ -27533,7 +27550,7 @@
+     tr.bearingSigmaDeg=meas.azSigmaDeg??null;tr.elevationSigmaDeg=meas.elSigmaDeg??null;
+     tr._lastDetQuality=meas.quality??0.5;tr.ttl=TRACK_HARD_TTL;tr.lastUpdateSeen=true;tr._lastMeasurementStep=simStepCounter;tr.memActive=false;tr._belowHorizon=false;
+     if(meta.isASM)tr.isASM=true; // internal association only; classification remains measurement-derived
+-    updateTrackClassification(tr,{...meta,domainEvidence:meta.domainEvidence??meas.domainEvidence});
++    if(!(isSurfaceRadar&&trackHasAirObservationFC(tr)))updateTrackClassification(tr,{...meta,domainEvidence:meta.domainEvidence??meas.domainEvidence});
+     if(isSurfaceRadar){recordSurfaceSensorContributorWip13B9(tr,source,meas);tr._spyExpectedRevisitS=surfaceTrackExpectedRevisitSWip13B9(tr);}
+     trackRefreshDerivedQuality(tr);
+     // A3 consumes only the completed observation/classification state. It never reads truth metadata.
+@@ -37218,7 +37235,7 @@
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+-        if(seen.has(r.id))continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
++        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own)continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
+         if(d<gate&&d<error){best=r;error=d;}
+       }
