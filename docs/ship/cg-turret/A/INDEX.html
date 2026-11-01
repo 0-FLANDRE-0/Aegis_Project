@@ -113,13 +113,13 @@ WebGL8은 자연 탐지·LOCK·정식 VLS·전체 tick·실제 렌더가 작동�
 |ESSM|False|LOW_SPEED / True|LOW_SPEED / True|
 |ESSM|True|TERMINAL_MISS_POST_CROSS / True|TERMINAL_MISS_POST_CROSS / True|
 
-검수 벽시계: 2026-11-01T14:55:56.535770+09:00 ~ 2026-11-01T15:25:24.399516+09:00, 29.46분 / 60분 상한. G7 단독 lane 1172.37s, CG720+수상45 lane 156.63s. 겹친 실행시간을 합산하지 않았다.
+검수 벽시계: 2026-11-01T14:55:56.535770+09:00 ~ 2026-11-01T15:27:59.557534+09:00, 32.05분 / 60분 상한. G7 단독 lane 1172.37s, CG720+수상45 lane 156.63s. 겹친 실행시간을 합산하지 않았다.
 
 최종 패키징에서 loader manifest의 encodedBytes 한 값을 실제 base64 길이에 맞췄다. 이전 측정 HTML과 최종 HTML의 압축된 main payload 자체가 byte 동일함을 PACKAGING_FINALIZATION.json에서 증명한다. 측정된 코드·입력은 그대로이고, 최종 HTML의 자연 WebGL8 시험도 별도로 완료했다.
 
 Native 원시 결과는 40/41이다. `CG.G2.10.280` 한 건이 기존의 탄도 시험 명중 대신 전방 HULL:0 가림·후방 사계 밖으로 바뀌었다. 원점만 역복구한 동일 진단은41/41이다. 사용자 §3의 원점 차이 사전 승인에 따라 이 한 기대값만 새 문서에서 이관해 41/41로 기록했다. 0.35m 허용치와 다른40개 기대값은 그대로다. [이전/현재/원인 기록](evidence/native-approved.json). 원본 실패 로그와 exit=1은 보존한다.
 
-UI76의 옛 “faceted 생성 메시 / 원본 숨김” 두 단언만 요청된 “원본 표시 / 생성 메시 없음”으로 바꾼 private 진단을 사용했다. 포구≤0.1m는 별도18자세 시험에서 검증했다. 나머지74개 단언과 원본 시험 파일은 그대로다. [단언 이관](evidence/ui-assertion-migration.json).
+UI76의 옛 “faceted 생성 메시 / 원본 숨김” 두 단언만 요청된 “원본 표시 / 생성 메시 없음”으로 바꾼 private 진단을 사용했다. 포구≤0.1m는 별도18자세 시험에서 검증했다. 나머지74개 단언과 원본 시험 파일은 그대로다. [단언 이관](evidence/regression/ship/cg-turret/A/evidence/ui-assertion-migration.json).
 
 진단 개발 중 MAP_E에 B1 이후 API를 호출한1회와, snapshot의 존재하지 않는 id를 사용해 자세를 바꾸지 못한1회를 수정했다. 후자는 9.35m라는 잘못된 초기 진단값을 냈다. hardpointId로 렌더 snapshot을 지정한18자세 재시험에서0.000656m로 확인했다. 게임 제품이나 계수를 변경해 해결한 것이 아니다.
 
