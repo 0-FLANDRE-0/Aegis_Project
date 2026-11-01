@@ -1,0 +1,63 @@
+--- R1 association.js::ec66a28a
++++ R2 association.js::49919839
+@@ -188,8 +188,19 @@
+       // a lower bound on every feasible alternative (including dummy costs).
+       const mins=costs.map(row=>Math.min(...row)),lower=mins.reduce((a,b)=>a+b,0),certifiedCols=new Set(),certifiedRows=new Set();
+       for(const q of base.out){let next=Infinity;for(let b=0;b<costs[q.a].length;b++)if(b!==q.b)next=Math.min(next,costs[q.a][b]);const altLower=lower-mins[q.a]+next;if(altLower>base.fullTotal+delta+TRACK_B_POLICY.numericEpsilon){chosen.push(index.get(q.a+':'+q.b));certifiedRows.add(rr[q.a]);certifiedCols.add(cc[q.b]);}}
++      c.lowerBoundCertifiedCount=certifiedRows.size;c.exactResidualCertifiedCount=0;c.residualComponentsSolved=0;c.residualRefinementRejected=0;
++      // C is present in EVERY near-optimal global alternative. Fixing C leaves
++      // independent residual components. Only small/full-parent subproblems
++      // use the existing exact alternative-forbid policy; never recurse into
++      // another large Hungarian problem or invent an unmatched/clutter prior.
++      if(base.count===rr.length&&certifiedRows.size>0&&certifiedRows.size<rr.length){
++        const refinement=trackBRefineResidualStableB(input,edges,certifiedRows,certifiedCols,base.map,ri,ci,assigner,delta);
++        c.residualComponentsSolved=refinement.solved;c.residualRefinementRejected=refinement.rejected;
++        for(const p of refinement.pairs){chosen.push(p);certifiedRows.add(p.i);certifiedCols.add(p.id);c.exactResidualCertifiedCount++;}
++      }
+       for(const i of rr)if(!certifiedRows.has(i))heldPlots.add(i);for(const id of cc)if(!certifiedCols.has(id))heldTracks.add(id);
+-      c.certifiedCount=certifiedRows.size;c.ambiguous=certifiedRows.size<rr.length;c.reason=c.ambiguous?'LARGE_COMPONENT_UNCERTIFIED_HOLD':'LARGE_COMPONENT_CERTIFIED';components.push(c);continue;
++      c.certifiedCount=certifiedRows.size;c.ambiguous=certifiedRows.size<rr.length;
++      c.reason=c.exactResidualCertifiedCount>0?(c.ambiguous?'LARGE_COMPONENT_REFINED_PARTIAL_HOLD':'LARGE_COMPONENT_REFINED_EXACT'):(c.ambiguous?'LARGE_COMPONENT_UNCERTIFIED_HOLD':'LARGE_COMPONENT_CERTIFIED');components.push(c);continue;
+     }
+     for(const q of base.out){
+       const matrix=costs.map(row=>row.slice());matrix[q.a][q.b]=blocked;const alt=evaluate(matrix);
+@@ -204,11 +215,29 @@
+   }
+   return {pairs:chosen.filter(p=>!heldPlots.has(p.i)&&!heldTracks.has(p.id)).sort(trackBPairCompareB),heldPlots,heldTracks,components,rejected,ambiguous:components.some(c=>c.ambiguous)};
+ }
++// Pure bounded refinement; only precomputed native costs/metadata are read.
++// Returned pairs must equal the ORIGINAL global native NIS winner, so a new
++// local tie/dummy choice cannot silently replace the parent's selected edge.
++function trackBRefineResidualStableB(input,edges,fixedRows,fixedCols,parentMap,rowIndex,colIndex,assigner,delta){
++  const remaining=edges.filter(p=>!fixedRows.has(p.i)&&!fixedCols.has(p.id)),byRow=new Map(),byCol=new Map();
++  for(const p of remaining){if(!byRow.has(p.i))byRow.set(p.i,[]);if(!byCol.has(p.id))byCol.set(p.id,[]);byRow.get(p.i).push(p);byCol.get(p.id).push(p);}
++  const visited=new Set(),out=[];let solved=0,rejected=0;
++  for(const start of [...byRow.keys()].sort((a,b)=>a-b)){
++    if(visited.has(start))continue;const rows=new Set(),cols=new Set(),queue=[start];
++    while(queue.length){const i=queue.pop();if(rows.has(i))continue;rows.add(i);visited.add(i);for(const p of byRow.get(i)??[]){if(cols.has(p.id))continue;cols.add(p.id);for(const q of byCol.get(p.id)??[])if(!rows.has(q.i))queue.push(q.i);}}
++    if(rows.size>TRACK_B_POLICY.maxComponentSize||cols.size>TRACK_B_POLICY.maxComponentSize)continue;
++    const subset=[...rows].flatMap(i=>byRow.get(i));
++    const result=trackBSolveB({...input,pairs:subset,ambiguityDeltaCost:delta},assigner);solved++;
++    if(result.pairs.some(p=>parentMap.get(rowIndex.get(p.i))!==colIndex.get(p.id))){rejected++;continue;}
++    out.push(...result.pairs);
++  }
++  return {pairs:out,solved,rejected};
++}
+ function trackBTraceB(event){
+   if(!TRACK_B_DIAG.enabled)return;
+   try{
+     const out={serial:++TRACK_B_DIAG.serial};
+-    for(const k of ['route','observerShip','timeS','tick','decision','reason','trackId','plotIndex','mountId','nis','gate','distanceM','distanceGateM','radialInnovationMps','radialGateMps','measurementDimensions','active','sequential','commonEpoch','knownOwnLaunch','nativeTrackId','proposedTrackId','legacyCount','proposedCount','heldCount','mode','stabilizationMode','plotCount','trackCount','certifiedCount','evidenceResolved'])if(['string','number','boolean'].includes(typeof event[k])&&(typeof event[k]!=='number'||Number.isFinite(event[k])))out[k]=event[k];
++    for(const k of ['route','observerShip','timeS','tick','decision','reason','trackId','plotIndex','mountId','nis','gate','distanceM','distanceGateM','radialInnovationMps','radialGateMps','measurementDimensions','active','sequential','commonEpoch','knownOwnLaunch','nativeTrackId','proposedTrackId','legacyCount','proposedCount','heldCount','mode','stabilizationMode','plotCount','trackCount','certifiedCount','evidenceResolved','lowerBoundCertifiedCount','exactResidualCertifiedCount','residualComponentsSolved','residualRefinementRejected'])if(['string','number','boolean'].includes(typeof event[k])&&(typeof event[k]!=='number'||Number.isFinite(event[k])))out[k]=event[k];
+     TRACK_B_DIAG.records.push(out);if(TRACK_B_DIAG.records.length>TRACK_B_DIAG.capacity){TRACK_B_DIAG.records.shift();TRACK_B_DIAG.dropped++;}
+   }catch(_){TRACK_B_DIAG.errors++;}
+ }
+@@ -228,7 +257,7 @@
+     const context={route:input.route,observerShip:input.observerShip,timeS:input.timeS,tick:input.tick,active:true,mode:TRACK_B_IMPLEMENTATION_MODE,stabilizationMode:TRACK_B_STABILIZATION_MODE};
+     trackBTraceB({...context,decision:'BATCH',legacyCount:prior.pairs.length,proposedCount:proposal.pairs.length,heldCount:proposal.heldPlots.size,reason:'FROZEN_B_VS_STABILIZATION'});
+     for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});
+-    for(const c of proposal.components)trackBTraceB({...context,decision:'COMPONENT',reason:c.reason??'RESOLVED',plotCount:c.plots.length,trackCount:c.tracks.length,certifiedCount:c.certifiedCount??0,evidenceResolved:c.evidenceResolved===true});
++    for(const c of proposal.components)trackBTraceB({...context,decision:'COMPONENT',reason:c.reason??'RESOLVED',plotCount:c.plots.length,trackCount:c.tracks.length,certifiedCount:c.certifiedCount??0,evidenceResolved:c.evidenceResolved===true,lowerBoundCertifiedCount:c.lowerBoundCertifiedCount,exactResidualCertifiedCount:c.exactResidualCertifiedCount,residualComponentsSolved:c.residualComponentsSolved,residualRefinementRejected:c.residualRefinementRejected});
+     for(const i of new Set([...native.keys(),...next.keys(),...proposal.heldPlots]))trackBTraceB({...context,plotIndex:i,nativeTrackId:native.get(i),proposedTrackId:next.get(i),decision:proposal.heldPlots.has(i)?'HOLD':next.has(i)?'ASSIGN':'UNASSIGNED',reason:proposal.heldPlots.has(i)?'AMBIGUOUS_ASSOCIATION':native.get(i)===next.get(i)?'SAME_ASSIGNMENT':'ASSIGNMENT_CHANGED'});
+   }
+   return {...selected,active:true,stabilizationActive:candidateActive};

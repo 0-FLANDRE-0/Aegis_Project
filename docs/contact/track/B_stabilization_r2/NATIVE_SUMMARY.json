@@ -1,0 +1,237 @@
+{
+  "schema": "AEGIS_TRACK_B_R2_NATIVE_VALIDATION_SUMMARY_1",
+  "status": "PASS",
+  "validationScope": "Scoped pure/native contracts only, with every added diagnostic difference retained; not combat/release approval.",
+  "allAuthorizedNativeTasksComplete": true,
+  "candidateSha256": "c8a9266fe12d6543cf09a1e851af5a0c717e73117945291c5bb5babc9670d584",
+  "shadowSha256": "a5455eda8cb3e6751047a5d81887dc2b956073a74127eb63efebd0bcf49ca1d2",
+  "moduleSha256": "499198392351c415cbf54d35d5731f393f650c6e1b00a694dd714ee318ed03bb",
+  "checks": {
+    "shadowNativeControlsPass": true,
+    "activeNativeContractsPass": true,
+    "allOriginalNativeAndCohortPass": true,
+    "actualNativeSaturationPass": true,
+    "sourcePackedBodyReceiptPass": true,
+    "R1Policy39Pass": true,
+    "residual15Pass": true
+  },
+  "packedBodyReceipt": "evidence/RUNTIME_PRODUCT_RECEIPT.json",
+  "pureTests": {
+    "R1UnmodifiedPolicy": {
+      "passed": 39,
+      "count": 39
+    },
+    "newResidual": {
+      "passed": 15,
+      "count": 15
+    },
+    "originalB47Strict": {
+      "status": "FAIL",
+      "passed": 46,
+      "count": 47,
+      "failures": [
+        "bounded.connectedThirteenByThirteenHeld"
+      ],
+      "expectationChanged": false
+    }
+  },
+  "shadowRawActivePolicyAssertions": {
+    "passed": 19,
+    "count": 23,
+    "status": "FAIL4_NOT_APPLIED_SHADOW",
+    "failures": [
+      "covarianceAgreement.originalNisWinnerSelected",
+      "covarianceAgreement.nativeCallerAcceptedExactlyOne",
+      "covarianceAgreement.preciseFileUpdatedOnce",
+      "npcCovariance.preciseNativeFileCorrected"
+    ],
+    "separateStateControlPass": true
+  },
+  "activeAdditionalNative": {
+    "oldRepresentative19": true,
+    "newNative23": true,
+    "actualNativeMetadata18": true,
+    "traceOffOnExact": {
+      "oldNativeRecordsExact": true,
+      "newNativeRecordsExact": true,
+      "oldPerFixtureFullPassiveStateExact": true,
+      "newPerFixtureFullPassiveStateExact": true,
+      "postAllFixturesFullPassiveStateExact": true
+    }
+  },
+  "allOriginalNative": {
+    "groups": 23,
+    "off": 84,
+    "on": 90,
+    "freshContexts": 8,
+    "cohortCount": 14,
+    "cohortDiagnostics": "ForcedONbyoriginalhelper; not cohortOFFtest.",
+    "allNativeResultDeltasToOldB": 0,
+    "allPerFixtureFullStateHashDeltasToOldB": 0,
+    "source": "evidence/original-native-full/SUMMARY.json"
+  },
+  "actualSaturation": {
+    "source": "evidence/native-saturation/SUMMARY.json",
+    "rows": [
+      {
+        "label": "baseline",
+        "passed": 42,
+        "count": 42,
+        "checks": {
+          "nativeFixtureAssertionsPass": true,
+          "nativePreconditionsAndRuntimeErrorsZero": true,
+          "queryFullPrivateStatePure": true,
+          "snapshotStable": true,
+          "envStatusMatch": true,
+          "diagnosticErrorsZero": true,
+          "coreSelftestsZero": true
+        },
+        "perFixtureCounts": {
+          "clear13": {
+            "selected": 0,
+            "held": 13,
+            "corrections": 0,
+            "births": 0
+          },
+          "clear16": {
+            "selected": 0,
+            "held": 16,
+            "corrections": 0,
+            "births": 0
+          },
+          "equal13": {
+            "selected": 0,
+            "held": 13,
+            "corrections": 0,
+            "births": 0
+          }
+        }
+      },
+      {
+        "label": "shadow",
+        "passed": 42,
+        "count": 42,
+        "checks": {
+          "nativeFixtureAssertionsPass": true,
+          "nativePreconditionsAndRuntimeErrorsZero": true,
+          "queryFullPrivateStatePure": true,
+          "snapshotStable": true,
+          "envStatusMatch": true,
+          "diagnosticErrorsZero": true,
+          "coreSelftestsZero": true
+        },
+        "perFixtureCounts": {
+          "clear13": {
+            "selected": 0,
+            "held": 13,
+            "corrections": 0,
+            "births": 0
+          },
+          "clear16": {
+            "selected": 0,
+            "held": 16,
+            "corrections": 0,
+            "births": 0
+          },
+          "equal13": {
+            "selected": 0,
+            "held": 13,
+            "corrections": 0,
+            "births": 0
+          }
+        }
+      },
+      {
+        "label": "active",
+        "passed": 44,
+        "count": 44,
+        "checks": {
+          "nativeFixtureAssertionsPass": true,
+          "nativePreconditionsAndRuntimeErrorsZero": true,
+          "queryFullPrivateStatePure": true,
+          "snapshotStable": true,
+          "envStatusMatch": true,
+          "diagnosticErrorsZero": true,
+          "coreSelftestsZero": true
+        },
+        "perFixtureCounts": {
+          "clear13": {
+            "selected": 13,
+            "held": 0,
+            "corrections": 13,
+            "births": 0
+          },
+          "clear16": {
+            "selected": 16,
+            "held": 0,
+            "corrections": 16,
+            "births": 0
+          },
+          "equal13": {
+            "selected": 0,
+            "held": 13,
+            "corrections": 0,
+            "births": 0
+          }
+        }
+      }
+    ],
+    "shadowFullStateEqualsOldB": true,
+    "equal13FullStateAllProductsExact": true
+  },
+  "allRawArtifactsExact": false,
+  "additionalDiagnosticDifferences": {
+    "status": "RECORDED_NOT_AN_APPROVAL",
+    "source": "evidence/native-diagnostic-deltas/SUMMARY.json",
+    "oldBvsR1InheritedOuterDeltasRetained": true,
+    "saturationVsR1": [
+      {
+        "label": "shadow",
+        "nativeResultLeafDifferences": 12,
+        "fieldNames": [
+          "exactResidualCertifiedCount",
+          "lowerBoundCertifiedCount",
+          "residualComponentsSolved",
+          "residualRefinementRejected"
+        ],
+        "allDifferencesAreNewFields": true,
+        "newValues": [
+          "0",
+          "13",
+          "16"
+        ],
+        "classification": "OBSERVED_ADDED_DIAGNOSTIC_SCALARS_NOT_AUTO_APPROVED",
+        "approved": false
+      },
+      {
+        "label": "active",
+        "nativeResultLeafDifferences": 24,
+        "fieldNames": [
+          "exactResidualCertifiedCount",
+          "lowerBoundCertifiedCount",
+          "residualComponentsSolved",
+          "residualRefinementRejected"
+        ],
+        "allDifferencesAreNewFields": true,
+        "newValues": [
+          "0",
+          "13",
+          "16"
+        ],
+        "classification": "OBSERVED_ADDED_DIAGNOSTIC_SCALARS_NOT_AUTO_APPROVED",
+        "approved": false
+      }
+    ],
+    "noFieldIgnored": true,
+    "oldRawChanged": false
+  },
+  "capturedInputCoverage": "Independent audit35 records,14 usable pairs arrays,21 unavailable; do not count unavailable as empty or passed graphs.",
+  "R1NaturalFailurePreserved": true,
+  "R2NaturalCombatResult": "OTHER_LANE_PENDING_SEPARATE_REVIEW",
+  "browserLaneReturned": true,
+  "R1SourceOrExpectedValuesChanged": false,
+  "sourcePhysicsOrCoefficientsChanged": false,
+  "releaseApproved": false,
+  "performanceApproved": false,
+  "naturalRfOrCombatEvidence": false
+}

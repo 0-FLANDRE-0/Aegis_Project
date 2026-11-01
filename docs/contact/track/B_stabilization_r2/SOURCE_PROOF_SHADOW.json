@@ -1,0 +1,75 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_R2_SOURCE_PROOF_1",
+  "stageName": "TRACK_B_STABILIZATION_R2",
+  "r1SourcePinsSha256": "7b2f5bac06edd6dc13573c3aa6706874b7124a8b8e35614bd8ea93b66c312a17",
+  "baselineHtmlSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "candidateHtmlSha256": "a5455eda8cb3e6751047a5d81887dc2b956073a74127eb63efebd0bcf49ca1d2",
+  "baselineMainSha256": "616cb07bd7443031c36eece9419c4b7e249eee5d8e3494ed4539683a5b07e8be",
+  "candidateMainSha256": "2acc7c074ef6c62fb41c1d204839d7767c6e8ba3d2d921bf2a21514747b69649",
+  "stabilizationMode": "SHADOW",
+  "legacyImplementationMode": "ACTIVE",
+  "manifestSha256": "0c4c70bc1d97997a1fcd831a96df8862e891cd05343bebd7d3a3e246abdc8012",
+  "dependencies": [
+    {
+      "path": "patches.json",
+      "sha256": "29145e9bf8f159134e08244e73b095230a56d0e8ec54c82aa7653c68ce9e50e2"
+    },
+    {
+      "path": "association.js",
+      "sha256": "499198392351c415cbf54d35d5731f393f650c6e1b00a694dd714ee318ed03bb"
+    }
+  ],
+  "inverseMainBytesExact": true,
+  "inversePackedHtmlBytesExact": true,
+  "nonMainEnvelopeByteExact": true,
+  "nonMainEnvelopeSha256": "a0968cdcc9ce28395908a370552537cdef2ff450fb27aeaed9815f76eb4c4344",
+  "packedScriptRecordChanged": 13,
+  "patches": [
+    {
+      "label": "TRACK_B_STABILIZATION_R2_ASSOCIATION_MODULE",
+      "scope": null,
+      "count": 1,
+      "beforeSha256": "3a4bac5b74c03033490e92f5d3d69cadd4e4214309e7479afcdfe3c5cf954e46",
+      "afterSha256": "d95c96e37306fb5aaab5837324a4931df0c9e1d589e7ea4e3f2cf4d51ce502f3"
+    },
+    {
+      "label": "STABLE_NPC_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "count": 1,
+      "beforeSha256": "ad9c703da947a45cce9facdf2ff0965c13ac18fe469f9c26109af929b4c07282",
+      "afterSha256": "252725f4e98bfad801cc0fa2f6c1d3b9aa4a5c3dd0c5748f0a00b2d18849d7f8"
+    },
+    {
+      "label": "STABLE_HAWKLINK_EPOCH_CONTRACT",
+      "scope": {
+        "function": "trackBAcceptOffboardCohortB"
+      },
+      "count": 1,
+      "beforeSha256": "05984219f66ffde3c1a5aa1caf3e4b236a6b1493bd64ffab35ce127df651466d",
+      "afterSha256": "837688329b35122e40fec5b9c24ca75addc1f917eafe48e00c449e9ede0a097d"
+    },
+    {
+      "label": "STABLE_OWN_AIR_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "count": 1,
+      "beforeSha256": "e401553a231051b9087e109e146734de4c0f422bbac42820b1edf5ae00eff896",
+      "afterSha256": "7f371926f6068bca4462b6283de31c8183bc37416aeb2ea8119e580fcb52318b"
+    },
+    {
+      "label": "STABLE_OWN_SURFACE_POSITION_DIMENSION",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "count": 1,
+      "beforeSha256": "310d6908bc25f58c5ecbb4e677fb1c224dd257602573ee505c4edce072115b73",
+      "afterSha256": "191e7e46faf75630d01368093ce0f933ebfe8394c03e21a96ac2eb715c7c6c85"
+    }
+  ],
+  "originalInputsStillPinned": true,
+  "gameCodeExecuted": false,
+  "releaseApproved": false
+}
