@@ -1,0 +1,41 @@
+--- B2B::main
++++ CG_TURRET_A::main
+@@ -1857,7 +1857,7 @@
+   hp.nulka=R.nulka;hp.srboc=R.srboc;
+   const installs=Object.entries(R.guns).map(([hardpointId,g])=>({id:g.id,builderId:'PROFILE_GUN_MODULE_WIP13B8',
+     moduleId:'MK45_MOD4_CG52_MK160_V1',hardpointId,neutralAzRad:g.neutralAzRad,geometryMask:true,
+-    moduleName:hp[hardpointId].name,trunnionOffsetM:{x:.91,y:0,z:2.87},exposedBarrelM:6.206,sourceNode:g.yawNode}));
++    moduleName:hp[hardpointId].name,trunnionOffsetM:g.trunnionOffsetM,exposedBarrelM:g.barrelM,sourceNode:g.yawNode}));
+   const closeInMounts={};
+   for(const [key,g]of Object.entries(R.ciws))closeInMounts[key]={id:g.id,moduleId:E.PHALANX_BLOCK_1B_V1.id,hardpointId:key,
+     type:'GUN',moduleName:hp[key].name,neutralAzRad:g.neutralAzRad,geometryMask:true,sourceNode:g.yawNode,
+@@ -63210,17 +63210,8 @@
+       sourceTriangles=meta.statics.reduce((n,s)=>n+s.meshes.reduce((a,m)=>a+(m.idx?m.idx[1]/3:0),0),0)+meta.assemblies.reduce((n,a)=>n+countNode(a.root),0);
+     this._bunkerAsset={root,parts,nodes,sourceTriangles,declaredSourceTriangles:R.sourceTriangles,ownedTextures:new Set(materials.chain.map?[materials.chain.map]:[])};
+     this.shipRoot=root;this.scene.add(root);
+-    // GUN_B1: reuse the existing DDG Mod4 generator, hide authored round turrets.
+-    this._gunB1Visuals=new Map();
+-    const paint=color=>new T.MeshStandardMaterial({color,roughness:.86,metalness:.02}),gm={weapon:paint(0x969fa3),weaponLight:paint(0xa3adae),structure3:paint(0x869095),dark:paint(0x424b50),darkVent:paint(0x20282c)};
+-    for(const inst of profile.weapons.gunMounts){const hp=profile.geometry.hardpoints[inst.hardpointId],spec=SHIP_GUN_MODULE_REGISTRY_V48_WIP13B8[inst.moduleId],off=inst.trunnionOffsetM;
+-      const old=parts.get(R.guns[inst.hardpointId].yawNode);if(old)old.visible=false;
+-      const holder=new T.Group();holder.name='GUN_B1_'+inst.id;root.add(holder);
+-      this.buildMk45(holder,gm,{...WIP199_FINAL_LAYOUT.mk45,xM:hp.x,yM:hp.y,baseDeckZM:hp.z,trunnionXM:hp.x+off.x,trunnionZM:hp.z+off.z,exposedBarrelM:inst.exposedBarrelM});
+-      const yaw=this.mk45TraverseGroup,pitch=this.mk45ElevationGroup;yaw.rotation.y=-inst.neutralAzRad;
+-      this._gunB1Visuals.set(inst.hardpointId,{holder,yaw,pitch});parts.set(R.guns[inst.hardpointId].yawNode,yaw);
+-    }
+-    this.mk45TraverseGroup=this._gunB1Visuals.get('mk45').yaw;this.mk45ElevationGroup=this._gunB1Visuals.get('mk45').pitch;
++    // CG_TURRET_A: authored 54-calibre round visual; installed Mod 4 performance stays in the module profile.
++    this.mk45TraverseGroup=parts.get('mk45f_yaw');this.mk45ElevationGroup=parts.get('mk45f_pitch');
+     this.phalanxYawGroup=parts.get('ciwss_yaw');this.phalanxPitchGroup=parts.get('ciwss_pitch');
+     this.seaRamYawGroup=null;this.seaRamPitchGroup=null;
+     this.mainMastV12=new T.Group();this.mainMastV12.name='CG52_LEGACY_MAST_PRESENTATION_ALIAS';root.add(this.mainMastV12);
+@@ -63233,7 +63224,8 @@
+   view.syncShipFittings=function(st){
+     const asset=this._bunkerAsset;if(!asset)return;
+     const rotate=(id,angle)=>{const n=asset.nodes.get(id);if(n)n.obj.quaternion.setFromAxisAngle(n.axis,angle);};
+-    for(const q of st.mountInventory?.guns??[]){const g=this._gunB1Visuals?.get(q.hardpointId);if(g){g.yaw.rotation.y=-q.bodyAzRad;g.pitch.rotation.z=q.elevationRad;}}
++    for(const q of st.mountInventory?.guns??[]){const g=BUNKER_REGISTRATION.guns[q.hardpointId];
++      rotate(g.yawNode,-(q.bodyAzRad-g.neutralAzRad));rotate(g.pitchNode,q.elevationRad-g.restElevationRad);}
+     for(const q of st.mountInventory?.closeIn??[]){const g=BUNKER_REGISTRATION.ciws[q.hardpointId];
+       rotate(g.yawNode,-(q.azRelRad-g.neutralAzRad));rotate(g.pitchNode,q.elRad);}
+     const frame=view.ownerRuntime?shipBodyFrameB(view.ownerRuntime):shipGameFrameV1();

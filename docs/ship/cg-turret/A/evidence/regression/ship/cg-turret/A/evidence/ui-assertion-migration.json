@@ -1,0 +1,6 @@
+{
+  "reason": "User CG_TURRET_A section2 explicitly restores authored visible round meshes; muzzle accuracy independently tested in 18 native spawn poses. Other 74 assertions unchanged.",
+  "old": "all(x['errorM']<=.1 and x['faceted']and x['sourceHidden']for x in q)",
+  "new": "all(x['authoredVisible']and x['generatedAbsent']for x in q)",
+  "originalFileUnchanged": true
+}
