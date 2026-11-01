@@ -1,0 +1,533 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_FINAL_REVIEW_1",
+  "reportFinalized": true,
+  "evidenceComplete": false,
+  "evidenceCompleteMeaning": "Physical measurement lineage/ID-swap closure and unfinished routes remain; all reported execution results are preserved.",
+  "trackBStatus": "INCOMPLETE",
+  "functionAndNativeValidation": "SCOPED_PASS",
+  "integratedStability": "FAIL_OBSERVED_OUTCOME_REGRESSION_NOT_APPROVED",
+  "completionRecommended": false,
+  "releaseApproved": false,
+  "deploymentRecommendation": "DO_NOT_PROMOTE_ACTIVE_OR_UPDATE_EXPECTATIONS; SHADOW is a comparison build, not a fixed baseline.",
+  "branch": "track-b-stabilization-a",
+  "baseBranch": "track-b-association",
+  "baseCommit": "1d92554026d15f417d987aec519007ea9657a6b6",
+  "active": {
+    "file": "Aegis_SIM_v48_WIP_TRACK_B_STABLE_D.html",
+    "sha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+    "mainSha256": "6163ada1a49dc86ce8b179b81650fa2da78ecc8d9273015142a721748abf6a64",
+    "use": "UNAPPROVED_DIAGNOSTIC_CANDIDATE"
+  },
+  "shadow": {
+    "file": "Aegis_SIM_v48_WIP_TRACK_B_STABLE_D_SHADOW.html",
+    "sha256": "3c7d2490e7e0d6fe94452e43d8f22132fbdd8add83986208bf7173068c478444",
+    "mainSha256": "2ca44bf9914907e9f3c294791bc2d34431013e9045cfb9b19adf069db8e1f730",
+    "consumes": "FROZEN_TRACK_B_ACTIVE"
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesUpdated": false,
+  "mainOrReferenceBranchesModified": false,
+  "mainOrReferenceBranchesModifiedMeaning": "No writes by this work. External remote main movement is recorded separately.",
+  "externalReferenceAudit": {
+    "schema": "AEGIS_TRACK_B_STABILIZATION_EXTERNAL_REF_AUDIT_1",
+    "capturedUtc": "2026-11-01T20:39:28Z",
+    "baseline": {
+      "refs/heads/cg-turret-a": "6d306849f290f987cd39c31c901adb4478b07edd",
+      "refs/heads/friendly-contact-a": "4ba64ba0cace9124497a710d00df1b174984ffdc",
+      "refs/heads/main": "8fdd69533ff96fa652ceec752f6852eaf89fbebc",
+      "refs/heads/track-a-contract-trace": "ee960dbb7c796e3c91cbe4b6d3d5f59948a0e561",
+      "refs/heads/track-b-association": "1d92554026d15f417d987aec519007ea9657a6b6"
+    },
+    "readback": {
+      "refs/heads/cg-turret-a": "6d306849f290f987cd39c31c901adb4478b07edd",
+      "refs/heads/friendly-contact-a": "4ba64ba0cace9124497a710d00df1b174984ffdc",
+      "refs/heads/main": "7079a265728471998d68bde52663489d9c926819",
+      "refs/heads/track-a-contract-trace": "ee960dbb7c796e3c91cbe4b6d3d5f59948a0e561",
+      "refs/heads/track-b-association": "1d92554026d15f417d987aec519007ea9657a6b6"
+    },
+    "differences": [
+      {
+        "ref": "refs/heads/main",
+        "before": "8fdd69533ff96fa652ceec752f6852eaf89fbebc",
+        "now": "7079a265728471998d68bde52663489d9c926819"
+      }
+    ],
+    "writesToProtectedBranchesByThisWork": 0,
+    "rebaseOrAdoptionOfExternalMain": false,
+    "externalMainSubject": "Merge pull request #62 from 0-FLANDRE-0/cg-turret-a",
+    "note": "Remote main moved while work remained pinned to track-b-association. Read-only fetch --no-write-fetch-head retrieved object metadata; no local main ref exists, no protected push performed."
+  },
+  "activeCandidateRoutes": [
+    "OWN_SPY_GLOBAL",
+    "OWN_SURFACE",
+    "NPC_OBSERVER",
+    "HAWKLINK_COHORT"
+  ],
+  "shadowOnlyUnfinishedRoutes": [
+    "C55",
+    "SPQ_AIR"
+  ],
+  "remainingComputationLimits": [
+    "Greater than16 without a certificate",
+    "Partial large parents without a certificate",
+    "Greater than128 computational HOLD"
+  ],
+  "nativeValidation": {
+    "status": "PASS",
+    "checks": {
+      "shadowNativeControlsPass": true,
+      "activeNativeContractsPass": true,
+      "allOriginalNativeAndCohortPass": true,
+      "actualNativeSaturationPass": true,
+      "sourcePackedBodyReceiptPass": true,
+      "separateFinalizerVmProductPinsMatch": true,
+      "R1Policy39Pass": true,
+      "inheritedR3BoundedExact28Pass": true,
+      "unknownHeaderGetterZero": true
+    },
+    "pureTests": {
+      "R1UnmodifiedPolicy": {
+        "status": "PASS",
+        "passed": 39,
+        "count": 39,
+        "failures": [],
+        "expectationsChanged": false
+      },
+      "inheritedR3BoundedExact": {
+        "status": "PASS",
+        "passed": 28,
+        "count": 28,
+        "failures": [],
+        "expectationsChanged": false
+      },
+      "originalB47Strict": {
+        "status": "FAIL",
+        "passed": 46,
+        "count": 47,
+        "failures": [
+          "bounded.connectedThirteenByThirteenHeld"
+        ],
+        "expectationsChanged": false
+      },
+      "originalR2Residual15Strict": {
+        "status": "FAIL",
+        "passed": 14,
+        "count": 15,
+        "failures": [
+          "negative.noCertifiedCDoesNotInvokeResidualEvenWithClearGlobalWinner"
+        ],
+        "expectationsChanged": false
+      }
+    },
+    "finalizerIsolatedVm": {
+      "status": "PASS",
+      "shadowStatus": "PASS",
+      "checksPerRun": 3096,
+      "actualNativeStepsPerRun": 600,
+      "scope": "ACTUAL_FUNCTION_ISOLATION_WITH_DEPENDENCY_COUNT_STUBS_NOT_NATIVE_GAME_INTEGRATION",
+      "actualGameWorldRuns": 0,
+      "source": "evidence/finalize-native-vm.json",
+      "notAddedToNativeOrCombatPassCounts": true
+    }
+  },
+  "broadRegression": {
+    "schema": "AEGIS_TRACK_B_STABLE_R4_REGRESSION_RESULTS_1",
+    "candidateSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+    "shadowSha256": "3c7d2490e7e0d6fe94452e43d8f22132fbdd8add83986208bf7173068c478444",
+    "referenceTrackASha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+    "referenceDeliveredBSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+    "referenceHistoricalR1Sha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+    "referenceHistoricalR2Sha256": "c8a9266fe12d6543cf09a1e851af5a0c717e73117945291c5bb5babc9670d584",
+    "referenceHistoricalR3Sha256": "a1e09f0ba815a84152b140ffeafcf139b0cbbf82911713d6c5802ed797fb0561",
+    "r2OriginalSeventeenJobs": "NOT_EXECUTED_R2",
+    "r3OriginalSeventeenJobs": "NOT_EXECUTED_R3",
+    "controllerSha256": "ac73be71cea4924fc1eec577d0da82e84e88207423e1e1f622efd922a2a797fd",
+    "productSourceProof": {
+      "schema": "AEGIS_TRACK_B_STABLE_R4_PACKED_PRODUCT_PROOF_1",
+      "candidate": "Aegis_SIM_v48_WIP_TRACK_B_STABLE_D.html",
+      "candidateSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+      "packedScriptIndex": 13,
+      "actualMainSha256": "6163ada1a49dc86ce8b179b81650fa2da78ecc8d9273015142a721748abf6a64",
+      "modulePath": "docs/contact/track/B_stabilization_r4/association.js",
+      "actualEmbeddedModuleSha256": "1abcb0863af7908931aa8a3f7c28cda37c10077f086eb903f387cefa7f1f86d7",
+      "embeddedModuleCopy": "evidence/regression/candidate-packed-association.js.gz",
+      "buildSha256": "3d3e7546df80ae7010e27dcc1dd86c39249320bde5c8e4a622db2db8f85175c8",
+      "scopeSha256": "80f0afbf56949bf31a4c08c7b04aabc647ba65875d73869ffa0d48d082790cc8",
+      "checks": {
+        "actualPackedMainMatchesFrozenBuild": true,
+        "activeModuleSourceMatchesRenderedBuild": true,
+        "actualPackedSourceContainsExactlyOneCurrentModule": true,
+        "legacyBStillActive": true,
+        "stabilizationActive": true,
+        "packedHtmlInverseByteExactBuildProof": true,
+        "scopePassCurrentProduct": true
+      },
+      "status": "PASS",
+      "scopeMeaning": "Packed production bytes contain the modified native association module; no diagnostic replacement or surrogate model. Dynamic original fixtures execute this HTML separately.",
+      "gameCodeExecutedByThisProof": false,
+      "releaseApproved": false
+    },
+    "native13Passed": 364,
+    "native13Expected": 364,
+    "pairedPassed": 36,
+    "pairedExpected": 42,
+    "domainPassed": 400,
+    "legacyUiIncomplete": 14,
+    "requestedSuites": [
+      "d1",
+      "paired-track-a",
+      "helicopter-flight",
+      "aps153",
+      "isar-native",
+      "isar-classes",
+      "isar-clock",
+      "isar-ui",
+      "emcon-native",
+      "harpoon-f1",
+      "harpoon-clock",
+      "sov-native",
+      "sov-casualty",
+      "sov-deployment",
+      "sov-visual",
+      "ui213",
+      "webgl8"
+    ],
+    "pendingSuites": [],
+    "assertionChanges": false,
+    "expectedValuesUpdated": false,
+    "releaseApproved": false,
+    "inheritedUnapproved": [
+      "CIWS419025_FAIL",
+      "ORIGINAL_CG_FRIENDLY_OBSERVER_TWO",
+      "LEGACY_UI14_INCOMPLETE"
+    ],
+    "parallel": 2,
+    "wallS": 1624.6342506199726,
+    "currentPhaseWallS": 1441.650613581005,
+    "workerWallSumS": 3056.317881377996,
+    "timeMeaning": "Cumulative controller phase wall, excluding gaps between root-authorized phases; worker wall sums overlap under parallel2."
+  },
+  "broadRegressionJobs": [
+    {
+      "suite": "paired-track-a",
+      "status": "FAIL",
+      "passedAssertions": 36,
+      "executedAssertions": 42,
+      "expectedAssertions": 42,
+      "failedAssertions": [
+        "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+        "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+        "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+        "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+      ]
+    },
+    {
+      "suite": "ui213",
+      "status": "PASS",
+      "passedAssertions": 213,
+      "executedAssertions": 213,
+      "expectedAssertions": 213,
+      "failedAssertions": []
+    },
+    {
+      "suite": "d1",
+      "status": "FAIL",
+      "passedAssertions": 29,
+      "executedAssertions": 30,
+      "expectedAssertions": 30,
+      "failedAssertions": [
+        "seed419012"
+      ]
+    },
+    {
+      "suite": "webgl8",
+      "status": "PASS",
+      "passedAssertions": 29,
+      "executedAssertions": 29,
+      "expectedAssertions": 29,
+      "failedAssertions": []
+    },
+    {
+      "suite": "aps153",
+      "status": "PASS",
+      "passedAssertions": 20,
+      "executedAssertions": 20,
+      "expectedAssertions": 20,
+      "failedAssertions": []
+    },
+    {
+      "suite": "helicopter-flight",
+      "status": "PASS",
+      "passedAssertions": 85,
+      "executedAssertions": 85,
+      "expectedAssertions": 85,
+      "failedAssertions": []
+    },
+    {
+      "suite": "isar-classes",
+      "status": "PASS",
+      "passedAssertions": 8,
+      "executedAssertions": 8,
+      "expectedAssertions": 8,
+      "failedAssertions": []
+    },
+    {
+      "suite": "isar-native",
+      "status": "PASS",
+      "passedAssertions": 36,
+      "executedAssertions": 36,
+      "expectedAssertions": 36,
+      "failedAssertions": []
+    },
+    {
+      "suite": "isar-clock",
+      "status": "PASS",
+      "passedAssertions": 12,
+      "executedAssertions": 12,
+      "expectedAssertions": 12,
+      "failedAssertions": []
+    },
+    {
+      "suite": "isar-ui",
+      "status": "PASS",
+      "passedAssertions": 38,
+      "executedAssertions": 38,
+      "expectedAssertions": 38,
+      "failedAssertions": []
+    },
+    {
+      "suite": "emcon-native",
+      "status": "PASS",
+      "passedAssertions": 27,
+      "executedAssertions": 27,
+      "expectedAssertions": 27,
+      "failedAssertions": []
+    },
+    {
+      "suite": "harpoon-f1",
+      "status": "PASS",
+      "passedAssertions": 46,
+      "executedAssertions": 46,
+      "expectedAssertions": 46,
+      "failedAssertions": []
+    },
+    {
+      "suite": "sov-native",
+      "status": "PASS",
+      "passedAssertions": 30,
+      "executedAssertions": 30,
+      "expectedAssertions": 30,
+      "failedAssertions": []
+    },
+    {
+      "suite": "harpoon-clock",
+      "status": "PASS",
+      "passedAssertions": 24,
+      "executedAssertions": 24,
+      "expectedAssertions": 24,
+      "failedAssertions": []
+    },
+    {
+      "suite": "sov-casualty",
+      "status": "PASS",
+      "passedAssertions": 13,
+      "executedAssertions": 13,
+      "expectedAssertions": 13,
+      "failedAssertions": []
+    },
+    {
+      "suite": "sov-deployment",
+      "status": "PASS",
+      "passedAssertions": 15,
+      "executedAssertions": 15,
+      "expectedAssertions": 15,
+      "failedAssertions": []
+    },
+    {
+      "suite": "sov-visual",
+      "status": "PASS",
+      "passedAssertions": 10,
+      "executedAssertions": 10,
+      "expectedAssertions": 10,
+      "failedAssertions": []
+    }
+  ],
+  "combat": {
+    "status": "FAIL_OBSERVED_OUTCOME_REGRESSION_NOT_APPROVED",
+    "freshPages": 10,
+    "completedOrdinaryAndModeratePages": 8,
+    "unresolved13Runs": [
+      {
+        "variant": "R4_SHADOW",
+        "case": "NATURAL_SATURATION_13",
+        "end": {
+          "reason": "HORIZON_UNRESOLVED",
+          "step": 5400,
+          "timeS": 90,
+          "resolvedStep": null,
+          "remainingSam": 0,
+          "remainingRam": 0,
+          "remainingInitialThreats": 1
+        }
+      },
+      {
+        "variant": "R4_ACTIVE",
+        "case": "NATURAL_SATURATION_13",
+        "end": {
+          "reason": "HORIZON_UNRESOLVED",
+          "step": 5400,
+          "timeS": 90,
+          "resolvedStep": null,
+          "remainingSam": 0,
+          "remainingRam": 0,
+          "remainingInitialThreats": 4
+        }
+      }
+    ],
+    "newSixTargetOutcomeRegression": true,
+    "sixTargetHp": 0,
+    "sixTargetWaterM3": 0.2429106334538965,
+    "notAnIrreversibleSinkingClaim": true,
+    "causalReport": "evidence/battle-six-cause/RESULTS.json"
+  },
+  "physicalIdentityMetrics": {
+    "idSwaps": null,
+    "falseMerges": null,
+    "duplicates": null,
+    "status": "UNKNOWN_NOT_ZERO",
+    "report": "MEASUREMENT_GAP_AUDIT.md"
+  },
+  "freshSixPageSmoke": {
+    "status": "PASS",
+    "checks": {
+      "reproThreeOriginalCasesComplete": true,
+      "reproOriginalExecutorPassed": true,
+      "autoIffOriginalChecksPass": true,
+      "idleBothFreshOriginalChecksPass": true,
+      "strictAvailableNativeAndStateComparisonsExact": true,
+      "allOriginalWorkersExitedZero": true
+    },
+    "wallS": 141.51699990298948,
+    "scope": "Original Harpoon/helo3, autoIFF, fresh idle before/after120; missing historical full snapshots not counted as pass.",
+    "source": "evidence/smoke/SMOKE_RESULTS.json"
+  },
+  "inheritedIssues": [
+    "D1 419025 hit failure remains",
+    "Two earlier observer deltas remain unapproved",
+    "Retired EMCON UI14 remains incomplete"
+  ],
+  "unapprovedStrictDeltas": [
+    "Paired DDG/CG state and observer4",
+    "D1 419012 versus TRACK-A signature",
+    "New DDG/CG exact VLS inventory2",
+    "Original B bounded13 test",
+    "Original R2 no-C13 test"
+  ],
+  "performance": {
+    "status": "PASS",
+    "comparisonEligible": true,
+    "wallS": 222.4755293810158,
+    "summary": {
+      "track-a-off": {
+        "meanTickMs": 1.896270833350718,
+        "meanOfPerRunP95TickMs": 2.9000000059604645,
+        "individualMeanTickMs": [
+          1.9397916666915018,
+          1.8527500000099342
+        ],
+        "individualP95TickMs": [
+          3,
+          2.800000011920929
+        ],
+        "liveHeapDeltasBytes": [
+          1903200,
+          5093768
+        ],
+        "meanOverheadVsTrackAPercent": 0.0,
+        "meanOverheadVsOldBPercent": 1.0940068440399964
+      },
+      "old-b-off": {
+        "meanTickMs": 1.875749999973923,
+        "meanOfPerRunP95TickMs": 2.949999988079071,
+        "individualMeanTickMs": [
+          1.8594583333283663,
+          1.8920416666194797
+        ],
+        "individualP95TickMs": [
+          2.899999976158142,
+          3
+        ],
+        "liveHeapDeltasBytes": [
+          8826552,
+          10297676
+        ],
+        "meanOverheadVsTrackAPercent": -1.08216785365699,
+        "meanOverheadVsOldBPercent": 0.0
+      },
+      "r4-shadow-off": {
+        "meanTickMs": 1.8600833333532014,
+        "meanOfPerRunP95TickMs": 2.7999999970197678,
+        "individualMeanTickMs": [
+          1.8143333333606522,
+          1.905833333345751
+        ],
+        "individualP95TickMs": [
+          2.7000000178813934,
+          2.899999976158142
+        ],
+        "liveHeapDeltasBytes": [
+          -6878344,
+          41331992
+        ],
+        "meanOverheadVsTrackAPercent": -1.9083508199919552,
+        "meanOverheadVsOldBPercent": -0.8352214645309552
+      },
+      "r4-active-off": {
+        "meanTickMs": 1.796187500016143,
+        "meanOfPerRunP95TickMs": 2.7000000029802322,
+        "individualMeanTickMs": [
+          1.7825000000124176,
+          1.8098750000198682
+        ],
+        "individualP95TickMs": [
+          2.699999988079071,
+          2.7000000178813934
+        ],
+        "liveHeapDeltasBytes": [
+          16583988,
+          42327452
+        ],
+        "meanOverheadVsTrackAPercent": -5.277902901545318,
+        "meanOverheadVsOldBPercent": -4.2416366764700175
+      },
+      "r4-active-on": {
+        "meanTickMs": 2.4536041667064032,
+        "meanOfPerRunP95TickMs": 4.549999997019768,
+        "individualMeanTickMs": [
+          2.8335833334053557,
+          2.0736250000074508
+        ],
+        "individualP95TickMs": [
+          5.5999999940395355,
+          3.5
+        ],
+        "liveHeapDeltasBytes": [
+          21183668,
+          -8717952
+        ],
+        "meanOverheadVsTrackAPercent": 29.391019655714203,
+        "meanOverheadVsOldBPercent": 30.806566266320857
+      }
+    },
+    "phoneFpsMeasured": false
+  },
+  "priorCandidatesPreserved": [
+    "R1",
+    "R2",
+    "R3"
+  ],
+  "newTacticalAiOrTrackCImplemented": false,
+  "reportSha256": "b7b3edbeeb766d209a6530513d87460b9c299e6fba0d521f60d41b635afb77b9"
+}

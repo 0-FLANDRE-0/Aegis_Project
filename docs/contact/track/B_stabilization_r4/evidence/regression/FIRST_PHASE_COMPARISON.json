@@ -1,0 +1,700 @@
+{
+  "schema": "AEGIS_TRACK_B_STABLE_R4_FIRST_PHASE_COMPARISON_1",
+  "candidateSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+  "controllerSha256": "ac73be71cea4924fc1eec577d0da82e84e88207423e1e1f622efd922a2a797fd",
+  "originalAssertions": 42,
+  "passed": 36,
+  "failed": 6,
+  "newStrictFailures": 2,
+  "legacyStrictFailuresStillPresent": 4,
+  "criterion": {
+    "source": "docs/helicopter/F/verify_regression.py:66",
+    "actual": "exact loaded VLS cell count equality",
+    "misleadingName": "raidInventoryDeltaBounded",
+    "historicalOriginalH4": "abs(count_vls(baseline)-count_vls(candidate))<=1",
+    "currentFAdapter": "count_vls(baseline)==count_vls(candidate)",
+    "approvedBranch": "If explicitly enabled/hash-verified, compares candidate count exactly to approved expected count. Not used by this command.",
+    "approvalArgumentsPassed": false,
+    "physicalUpperBoundFailure": false,
+    "expectedValuesUpdated": false
+  },
+  "sourceSha256": {
+    "currentPair": "326870582193745800566c15c4152ace9e7498695f2b555c6fcde903189e8929",
+    "deliveredBPair": "d641458c5f605dee4a30fe5fad271481459eb444db91783b3e981adbcfed5d86",
+    "r1Pair": "93d026bd2de4953bb818931a6c093837f581cef00975b26bfa5e87c73f6168c0",
+    "originalAdapter": "c928028870a1af821f7886e67843cc7ac4ef37ef4a2044ae094c444677d202b1"
+  },
+  "raidRows": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "originalStrictChecks": {
+        "samePhysicalState": false,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": false,
+        "sameExistingObserverState": false,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "versions": {
+        "TRACK_A": {
+          "loadedVlsCells": 90,
+          "vlsCellTypes": {
+            "SM2": 66,
+            "EMPTY": 6,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 6,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(전방)": 0
+          },
+          "hullMassKg": 9651749.633599998,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "DELIVERED_B": {
+          "loadedVlsCells": 90,
+          "vlsCellTypes": {
+            "SM2": 66,
+            "EMPTY": 6,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 6,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(전방)": 0
+          },
+          "hullMassKg": 9651749.633599998,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "R1": {
+          "loadedVlsCells": 90,
+          "vlsCellTypes": {
+            "SM2": 66,
+            "EMPTY": 6,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 6,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(전방)": 0
+          },
+          "hullMassKg": 9651749.633599998,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "R4": {
+          "loadedVlsCells": 89,
+          "vlsCellTypes": {
+            "SM2": 65,
+            "EMPTY": 7,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 7,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(전방)": 0
+          },
+          "hullMassKg": 9651041.633599998,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        }
+      },
+      "newFailuresComparedWithDeliveredBAndR1": [
+        "raidInventoryDeltaBounded"
+      ],
+      "extraConsumptionEvidence": "One additional SM2 cell is EMPTY and current SAM count is +1. No launch-time or final-termination attribution is inferred.",
+      "classification": "UNAPPROVED_STRICT_RESOURCE_AND_STATE_DELTA; final battle quality unresolved",
+      "r3PairedComparison": "NOT_EXECUTED; cannot isolate R4 finalizer from R3 changes",
+      "approved": false
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "originalStrictChecks": {
+        "samePhysicalState": false,
+        "sameCombatRng": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": false,
+        "sameExistingObserverState": false,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "versions": {
+        "TRACK_A": {
+          "loadedVlsCells": 115,
+          "vlsCellTypes": {
+            "EMPTY": 7,
+            "SM2": 91,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 7,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(1)": 0
+          },
+          "hullMassKg": 9749111.2,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "DELIVERED_B": {
+          "loadedVlsCells": 115,
+          "vlsCellTypes": {
+            "EMPTY": 7,
+            "SM2": 91,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 7,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(1)": 0
+          },
+          "hullMassKg": 9749111.2,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "R1": {
+          "loadedVlsCells": 115,
+          "vlsCellTypes": {
+            "EMPTY": 7,
+            "SM2": 91,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 7,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(1)": 0
+          },
+          "hullMassKg": 9749111.2,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        },
+        "R4": {
+          "loadedVlsCells": 114,
+          "vlsCellTypes": {
+            "EMPTY": 8,
+            "SM2": 90,
+            "ESSM4": 24
+          },
+          "currentSamEntityCount": 8,
+          "currentRamEntityCount": 0,
+          "hp": 100,
+          "floodWaterM3": 0,
+          "waterMassKg": 0,
+          "moduleDamageMax": 0,
+          "allModuleDamage": {
+            "AN/SPG-62(1)": 0
+          },
+          "hullMassKg": 9748403.2,
+          "combatRng": 2134102897,
+          "fixedTicks": 1920,
+          "simStepCounter": 1920,
+          "simSeconds": 32.0,
+          "nativeInterceptEventCount": 0,
+          "nativeInterceptEvents": [],
+          "afterActionInitialTargets": [
+            {
+              "id": 1,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 2,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 3,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 4,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 5,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 6,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 7,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            },
+            {
+              "id": 8,
+              "label": "Kh-32",
+              "alive": true,
+              "reason": null
+            }
+          ],
+          "initialTargetsAlive": 8,
+          "shipHitHistoryCount": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "cumulativeLaunchTimes": "NOT_CAPTURED_BY_ORIGINAL_PAIRED_FIXTURE",
+          "nativeBattleTermination": "NOT_TESTED; stopped at original fixed32s horizon"
+        }
+      },
+      "newFailuresComparedWithDeliveredBAndR1": [
+        "raidInventoryDeltaBounded"
+      ],
+      "extraConsumptionEvidence": "One additional SM2 cell is EMPTY and current SAM count is +1. No launch-time or final-termination attribution is inferred.",
+      "classification": "UNAPPROVED_STRICT_RESOURCE_AND_STATE_DELTA; final battle quality unresolved",
+      "r3PairedComparison": "NOT_EXECUTED; cannot isolate R4 finalizer from R3 changes",
+      "approved": false
+    }
+  ],
+  "completedBattleClaim": false,
+  "allSixFailuresUnapproved": true,
+  "releaseApproved": false
+}

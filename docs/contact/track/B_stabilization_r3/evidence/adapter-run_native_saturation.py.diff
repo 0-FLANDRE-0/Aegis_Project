@@ -1,0 +1,11 @@
+--- docs/contact/track/B_stabilization_r2/run_native_saturation.py
++++ docs/contact/track/B_stabilization_r3/run_native_saturation.py
+@@ -10,7 +10,7 @@
+ def packed(path,value):
+  raw=json.dumps(value,separators=(',',':')).encode();path.write_bytes(gzip.compress(raw,6,mtime=0));return {'path':path.name,'rawSha256':sha(raw),'gzipSha256':sha(path.read_bytes())}
+ def main():
+- ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/native-saturation');ap.add_argument('--run',action='store_true');args=ap.parse_args();r1_test_inputs=module('r2_frozen_native_inputs',P/'controller_pins.py').verify();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
++ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_C.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_C_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/native-saturation');ap.add_argument('--run',action='store_true');args=ap.parse_args();r1_test_inputs=module('r2_frozen_native_inputs',P/'controller_pins.py').verify();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
+  base=R/'Aegis_SIM_v48_WIP_TRACK_B.html';base_sha=json.loads((P/'BASELINE_PINS.json').read_text())['files'][base.name];products=[('baseline',base,base_sha,'ORIGINAL_B_ACTIVE'),('shadow',args.shadow,args.shadow_sha,'SHADOW'),('active',args.candidate,args.sha,'ACTIVE')]
+  for _,file,pin,_ in products:assert sha(file.read_bytes())==pin
+  util=module('sat_native_original_unpacker',B/'build.py');source_locations=[]

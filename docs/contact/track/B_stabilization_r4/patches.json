@@ -1,0 +1,64 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "patches": [
+    {
+      "op": "replace",
+      "label": "STABLE_NPC_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR')});",
+      "after": "pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR'),evidence:trackBEvidenceStableB(tr,plots[i],surface(plots[i])?'SURFACE_POSITION':'AIR',now)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_HAWKLINK_EPOCH_CONTRACT",
+      "scope": {
+        "function": "trackBAcceptOffboardCohortB"
+      },
+      "before": "pairs.push({i,id,nis,sanity});",
+      "after": "pairs.push({i,id,nis,sanity,evidence:trackBEvidenceStableB(tr,meas,'CARTESIAN',now,report.measuredAtS)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_OWN_AIR_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "before": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR')});",
+      "after": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR'),evidence:trackBEvidenceStableB(tr,plots[i],'AIR',simStepCounter*SIM_FIXED_DT)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_OWN_SURFACE_POSITION_DIMENSION",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE')});",
+      "after": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE'),evidence:trackBEvidenceStableB(tr,plots[i],nisFn===trackSurfacePositionAssociationNisWip13B9||(nisFn===trackSurfaceRadarAssociationNisV35&&!Number.isFinite(plots[i].radialMps))?'SURFACE_POSITION':'UNSUPPORTED_SURFACE_ASSOCIATION',simStepCounter*SIM_FIXED_DT)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_REACQUIRE_TASK_OWNERSHIP",
+      "scope": {
+        "function": "spyFinalizeAcceptedTrackV31"
+      },
+      "before": "    if(task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE'){",
+      "after": "    // Association metadata ownership: a coherent anonymous return for a\n    // firm neighbouring file must not inherit the scheduled file's reacquire\n    // state. Actual RF task/source, EKF correction and existing reacquisition\n    // recovery remain unchanged. Frozen B / SHADOW retain their exact path.\n    const foreignFirmReturn=TRACK_B_IMPLEMENTATION_MODE==='ACTIVE'&&TRACK_B_STABILIZATION_MODE==='ACTIVE'&&task.trackId!=null&&task.trackId!==tr.trackId&&!tr.reacquiring&&(task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE');\n    if((task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE')&&!foreignFirmReturn){",
+      "count": 1
+    }
+  ],
+  "allowedChangedSymbols": [
+    "observerAcceptPlotsC",
+    "spyFinalizeAcceptedTrackV31",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14",
+    "trackBAcceptOffboardCohortB"
+  ],
+  "allowedAddedSymbols": [],
+  "allowedProtectedAssociationChanges": []
+}

@@ -1,0 +1,903 @@
+{
+  "schema": "AEGIS_WALLCLOCK_EVENT_TIMESTAMP_SOURCE_1",
+  "classification": "PRESENTATION_CLOCK_WRITES_SOURCE_AUDIT",
+  "rows": [
+    {
+      "product": "R3",
+      "htmlSha256": "a1e09f0ba815a84152b140ffeafcf139b0cbbf82911713d6c5802ed797fb0561",
+      "script13Sha256": "796d685b5a098ac2de9acf09c07dfc393bbf5d929ad7c1b26dd695222f1ceb8d",
+      "shipHitReferences": [
+        {
+          "sourceLine": 6733,
+          "reference": "shipHitHistory",
+          "snippet": "start.x,y0:start.y,z0:start.z,x1:terminal.finalState.position.x,y1:terminal.finalState.position.y,z1:terminal.finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)history.splice(0,history.length-64);if(own)shipLastHit=hit;\n    const impulse={x:relative.x*(projectile.massKg??spec.body.massKg),y:relative.y*(projectile.massKg??spec.body.massKg),z:relative.z*(projectile.massKg??spec.body.massKg)};\n    getShipDynamicsV15(r).impactImpulse({pointLocal:point,impulseLocal:shipBodyFrameB(r).vectorToBo"
+        },
+        {
+          "sourceLine": 6733,
+          "reference": "shipLastHit",
+          "snippet": "finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)history.splice(0,history.length-64);if(own)shipLastHit=hit;\n    const impulse={x:relative.x*(projectile.massKg??spec.body.massKg),y:relative.y*(projectile.massKg??spec.body.massKg),z:relative.z*(projectile.massKg??spec.body.massKg)};\n    getShipDynamicsV15(r).impactImpulse({pointLocal:point,impulseLocal:shipBodyFrameB(r).vectorToBody(impulse),source:weaponKey});\n    const row={eventId,sourceShipId:projectile.ownerEntityId??ACTIVE_SHIP_RUNT"
+        },
+        {
+          "sourceLine": 6894,
+          "reference": "shipHitHistory",
+          "snippet": "owner.geometry.targetIds,WIP199_HULL_STATIONS=ACTIVE_SHIP_PROFILE.geometry.hullStations,\n    WIP173_SHIP_BOW_X_M=owner.geometry.bow,WIP173_SHIP_STERN_X_M=owner.geometry.stern,\n    shipHitHistory=owner.hitHistory,WIP101_SYSTEM_MEMBER_CACHE=new Map(),WIP12C_SHIP_GEOMETRY_CACHE={value:null,builds:0};\n  const CIWS_GAME_CONSTRAINT_CACHE_V1=new WeakMap(),BRIDGEMASTER_E_INSTALLATION={...ACTIVE_SHIP_PROFILE.sensors.bridgeMasterE,xM:ACTIVE_SHIP_PROFILE.geometry.hardpoints.bridgeMasterE.x,yM:ACTIVE_SHIP_PROFILE.geometry.hardpoints.bridgeMasterE.y,zM:ACTIVE_SHIP_PROFILE.geometry.hardp"
+        },
+        {
+          "sourceLine": 6900,
+          "reference": "shipLastHit",
+          "snippet": " WIP12E_TOPOLOGY_CACHE=null,selectedLockId=null,emconActive=false,\n    engagementControlMode='AUTO',missileSerial=1,mainGunProjectileSerialWip13B3=1,\n    wip125VlsConsumeTieFlip=0,shipLastHit=null;\n  const SPG62_ILLUMINATORS=ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62.map(q=>({\n    id:q.id,oX:q.oX,oY:q.oY,height:q.heightM,label:q.label,mountRole:q.mountRole,moduleName:q.moduleName,\n    hitboxHalfLengthM:1.45,hitboxHalfWidthM:1.45,hitboxHalfHeightM:1.35,\n    preferredBrg:deg(q.blindCenterDeg===180?0:180),sectorHalf:deg(q.sectorHalfDeg),blindCenter:deg(q.blindCenterDeg),bli"
+        },
+        {
+          "sourceLine": 7151,
+          "reference": "shipLastHit",
+          "snippet": "ionAudit??null,penetrationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.proj"
+        },
+        {
+          "sourceLine": 7151,
+          "reference": "shipHitHistory",
+          "snippet": "rationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.projectile?.speedMps??0,"
+        },
+        {
+          "sourceLine": 23060,
+          "reference": "shipHitHistory",
+          "snippet": "se(seed);BATTLESPACE_DIAG_BYPASS=true;shipNav.speed=0;shipNav.vx=0;shipNav.vy=0;emconActive=true;softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;const before=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:0,speedMps,altM});if(!em)return {error:'SPAWN_FAILED'};wip112EnsureTargetState(em);if(dud){em._systemDamage.warhead=100;em._warheadState='DUD';wip112UpdateProjectedImpactMass(em);}let t=0;for(let tick=0;tick<Math.ceil(90/SIM_FIXED_DT)&&em.alive;tick++){updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;"
+        },
+        {
+          "sourceLine": 23060,
+          "reference": "shipHitHistory",
+          "snippet": "tedImpactMass(em);}let t=0;for(let tick=0;tick<Math.ceil(90/SIM_FIXED_DT)&&em.alive;tick++){updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;}const hit=shipHitHistory.slice(before).find(h=>h.label==='Kh-35U'&&!h.miss)??null;return {seed,dud,durationS:t,targetAlive:!!em.alive,outcome:wip113ClassifyOutcome(em),deathReason:em._deathReason??null,warheadState:em._warheadState,projectedImpactMassKg:em._wip112ProjectedImpactMassKg,hit:hit?{physicalPenetrationM:hit.physicalPenetrationM,penetration:hit.penetration,blastSourceCount:hit.blastSources?.length"
+        },
+        {
+          "sourceLine": 23393,
+          "reference": "shipHitHistory",
+          "snippet": "options.label??'Kh-32'),xM=Number(options.xM??12),zM=Number(options.zM??-3.5),side=String(options.side??'STARBOARD').toUpperCase();\n    resetModules();getShipDynamicsV15().reset();shipHitHistory.length=0;shipLastHit=null;const impacts=[];\n    for(let i=0;i<hits;i++){\n      const probe=runV48Wip02ImpactProbe(label,{xM,zM,side,dud:true}),entry=probe.entryPointLocal,stop=probe.stopPointLocal,boxes=buildShipHitBoxes(),sideKey=side==='PORT'?'PORT':'STARBOARD';\n      const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side===sideKey&&xM>=b.oX-b.hL&&xM<=b.oX+b.hL&&zM>=b.zMin&&zM"
+        },
+        {
+          "sourceLine": 23393,
+          "reference": "shipLastHit",
+          "snippet": "xM=Number(options.xM??12),zM=Number(options.zM??-3.5),side=String(options.side??'STARBOARD').toUpperCase();\n    resetModules();getShipDynamicsV15().reset();shipHitHistory.length=0;shipLastHit=null;const impacts=[];\n    for(let i=0;i<hits;i++){\n      const probe=runV48Wip02ImpactProbe(label,{xM,zM,side,dud:true}),entry=probe.entryPointLocal,stop=probe.stopPointLocal,boxes=buildShipHitBoxes(),sideKey=side==='PORT'?'PORT':'STARBOARD';\n      const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side===sideKey&&xM>=b.oX-b.hL&&xM<=b.oX+b.hL&&zM>=b.zMin&&zM<=b.zMax)??boxes.find(b="
+        },
+        {
+          "sourceLine": 23399,
+          "reference": "shipHitHistory",
+          "snippet": "reaM2:probe.impact.openings.entryAreaM2,exitOpeningAreaM2:probe.impact.openings.exitAreaM2,throughHull:probe.impact.throughHull,impactState:probe.impact,explosiveMassKg:0});\n      shipHitHistory.push({impactPart:initial.name,impactPoint:{...entry},impactNormal:[0,sideKey==='PORT'?-1:1,0],physicalPenetrationM:probe.impact.physicalPenetrationM,penetration:probe.impact.physicalPenetrationM,obliquityDeg:probe.impact.obliquityDeg,ricochet:false,dud:true,blastSources:[],blastParts:[],penetrationLine:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},throughHull:prob"
+        },
+        {
+          "sourceLine": 23830,
+          "reference": "shipLastHit",
+          "snippet": "ionAudit??null,penetrationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.proj"
+        },
+        {
+          "sourceLine": 23830,
+          "reference": "shipHitHistory",
+          "snippet": "rationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.projectile?.speedMps??0,"
+        },
+        {
+          "sourceLine": 25275,
+          "reference": "shipHitHistory",
+          "snippet": "n),breach:wip12eBlastTraceSummary(breachTrace),portalEvents:wip12eBlastTraceSummary(eventTrace),rngBefore,rngAfter};\n  }\n  function wip12eKh32BlastShadowComparison(){const hit=[...shipHitHistory].reverse().find(q=>q.label==='Kh-32'&&q.blastTraceHash),trace=hit?WIP12E_BLAST_TRACES.find(q=>q.physicsHash===hit.blastTraceHash):null;return {schema:'AEGIS_KH32_BLAST_SHADOW_COMPARISON_V48_WIP12E',available:!!hit,authorityMode:hit?.blastAuthority??WIP12E_BLAST_MODE,impactEventId:trace?.impactEventId??null,legacy:hit?.legacyBlastComparison??null,compartment:trace?wip12eBlastTraceSum"
+        },
+        {
+          "sourceLine": 25861,
+          "reference": "shipLastHit",
+          "snippet": ".exitAreaM2,impactResponse,vlsCellDamage:cellDamage,penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:`wip11c-wreck:${w.id}:${simStepCounter}`,label:w.sourceLabel,dud:true,entryPointLocal:entry,stopPointLocal:stop,direction:localDir,impactState:impact,hitInfo});wip173PushVisualEvent('SHIP_WRECK_IMPACT',{coordSpace:'SHIP_LOCAL',sourceId:w.sourceAsmId,wreckId:w.id,x:entry.x,y:entry.y,z:entry.z,vxMps:l"
+        },
+        {
+          "sourceLine": 25861,
+          "reference": "shipHitHistory",
+          "snippet": "sponse,vlsCellDamage:cellDamage,penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:`wip11c-wreck:${w.id}:${simStepCounter}`,label:w.sourceLabel,dud:true,entryPointLocal:entry,stopPointLocal:stop,direction:localDir,impactState:impact,hitInfo});wip173PushVisualEvent('SHIP_WRECK_IMPACT',{coordSpace:'SHIP_LOCAL',sourceId:w.sourceAsmId,wreckId:w.id,x:entry.x,y:entry.y,z:entry.z,vxMps:localDir.x*speed,vyMp"
+        },
+        {
+          "sourceLine": 31838,
+          "reference": "shipLastHit",
+          "snippet": "_AIRCRAFT_${fromTarget.id}`);\n    missileNavB2Init(em,true);\n    enemyMissiles.push(em);\n    notify(`\u26a0 ${em.label} \ubc1c\uc0ac! (T${fromTarget.id} ${Math.round(dLaunchKm)}km)`);\n  }\n\n  let shipLastHit = null;\n  const shipHitHistory = [];\n\n  // ===== WIP101 STAGE 1: STRUCTURED SHIP HITBOX METADATA =====\n  // Geometry is deliberately unchanged in Stage 1. Every physical hitbox is decorated at build time\n  // with stable system / side / deck fields; display names remain presentation-only.\n  // getShipDamageEffects() consumes system IDs rather than Korean display-name literals.\n  const "
+        },
+        {
+          "sourceLine": 31839,
+          "reference": "shipHitHistory",
+          "snippet": ";\n    missileNavB2Init(em,true);\n    enemyMissiles.push(em);\n    notify(`\u26a0 ${em.label} \ubc1c\uc0ac! (T${fromTarget.id} ${Math.round(dLaunchKm)}km)`);\n  }\n\n  let shipLastHit = null;\n  const shipHitHistory = [];\n\n  // ===== WIP101 STAGE 1: STRUCTURED SHIP HITBOX METADATA =====\n  // Geometry is deliberately unchanged in Stage 1. Every physical hitbox is decorated at build time\n  // with stable system / side / deck fields; display names remain presentation-only.\n  // getShipDamageEffects() consumes system IDs rather than Korean display-name literals.\n  const DF_TARGET_IDS=Object.freeze("
+        },
+        {
+          "sourceLine": 32512,
+          "reference": "shipLastHit",
+          "snippet": ":!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:dudEventId,label:em.label,dud:true,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,direction:vdirLocal,impactState,hitInfo});wip173PushVisualEvent('SHIP_DUD_IMPACT',{coordSpace:'SHIP_LOCAL',x:hitLocalX,y:hitLocalY,z:hitZ,targetLabel:em.label,result:'DUD',warheadState:'DUD',"
+        },
+        {
+          "sourceLine": 32512,
+          "reference": "shipHitHistory",
+          "snippet": "erforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:dudEventId,label:em.label,dud:true,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,direction:vdirLocal,impactState,hitInfo});wip173PushVisualEvent('SHIP_DUD_IMPACT',{coordSpace:'SHIP_LOCAL',x:hitLocalX,y:hitLocalY,z:hitZ,targetLabel:em.label,result:'DUD',warheadState:'DUD',impactSpeedMps:impac"
+        },
+        {
+          "sourceLine": 32558,
+          "reference": "shipLastHit",
+          "snippet": "stSources:blastSources.map(q=>({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:blastEventId,label:em.label,dud:false,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,detonationPointLocal:detPointLocal,direction:vdirLocal,impactState,hitInfo,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg});wip173PushVisualEvent('"
+        },
+        {
+          "sourceLine": 32558,
+          "reference": "shipHitHistory",
+          "snippet": "es.map(q=>({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:blastEventId,label:em.label,dud:false,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,detonationPointLocal:detPointLocal,direction:vdirLocal,impactState,hitInfo,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg});wip173PushVisualEvent('SHIP_WARHEAD_DETONAT"
+        },
+        {
+          "sourceLine": 32577,
+          "reference": "shipHitHistory",
+          "snippet": " - ay);\n      const mlx = mLx * cosHH - mLy * sinHH;\n      const mly = mLx * sinHH + mLy * cosHH;\n      const missDist = Math.round(worldToMeters(dist(em.x, em.y, ax, ay)));\n      shipHitHistory.push({ x: mlx, y: mly, z: 0, label: em.label, part: `\ube57\ub098\uac10 ${missDist}m`, dmg: 0, time: performance.now(), miss: true });\n      em._outcomeRecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      notify(`${em.label} \ube57\ub098\uac10 (${missDist}m)`);\n    }\n    if(dKm > 380){\n      if(!em._outcomeRecorded){\n        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,p"
+        },
+        {
+          "sourceLine": 32583,
+          "reference": "shipHitHistory",
+          "snippet": "ecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      notify(`${em.label} \ube57\ub098\uac10 (${missDist}m)`);\n    }\n    if(dKm > 380){\n      if(!em._outcomeRecorded){\n        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,part:'\ube57\ub098\uac10(\uad50\uc804\uad6c\uc5ed \uc774\ud0c8)',dmg:0,time:performance.now(),miss:true});\n        em._outcomeRecorded=true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      }\n      em.alive = false; retireTruthAssociationV27('ASM',em.id,'BATTLESPACE_EXIT');\n    }\n  }\n\n  // ===== SHIP STATE =====\n  let shipHP = 100;\n\n  // === MODULE DAMAGE SYSTEM ===\n  "
+        },
+        {
+          "sourceLine": 33225,
+          "reference": "shipHitHistory",
+          "snippet": "=createShipMassLossV16({stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt},buildShipHitBoxes());\n  const last=shipHitHistory.at(-1),count=shipHitHistory.length,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLo"
+        },
+        {
+          "sourceLine": 33225,
+          "reference": "shipHitHistory",
+          "snippet": "n:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt},buildShipHitBoxes());\n  const last=shipHitHistory.at(-1),count=shipHitHistory.length,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLossV16.update(scars,mastDamag"
+        },
+        {
+          "sourceLine": 33227,
+          "reference": "shipHitHistory",
+          "snippet": "ength,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLossV16.update(scars,mastDamage||mastSectionLostV12(scars));shipMassLossCacheV16={last,count,mastDamage};\n  }\n  return shipMassLossV16.snapshot();\n}\n\n// SHIP_MASS_LEDGER_V32: event-driven compartment mass/CG ledger.\n// The pub"
+        },
+        {
+          "sourceLine": 34098,
+          "reference": "shipHitHistory",
+          "snippet": "reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;interiorTopologyAccumulatorV48Wip06=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSur"
+        },
+        {
+          "sourceLine": 34376,
+          "reference": "shipHitHistory",
+          "snippet": ",emitters,compartments,interiorStructures};\n}\nfunction shipDamageVisualStateV1(){return createShipDamageVisualStateV1(getDamageFloodV1().snapshot(),getDamageControlV1().snapshot(),shipHitHistory,buildShipHitBoxes());}\n\nfunction damageControlRenderV1(){\n  const f=getDamageFloodV1(),s=getDamageControlV1().snapshot(),boxes=buildShipHitBoxes();return s.cells.filter(c=>c.fire>.005||c.smoke>.15).map(c=>{\n    const g=f.cells.find(g=>g.id===c.id),x=(g.x0+g.x1)/2,y=g.lane===0?-3.5:g.lane===2?3.5:0;\n    const roof=boxes.filter(b=>['STRUCT','FUNNEL','DECK','EMBEDDED_DECK'].includes(b."
+        },
+        {
+          "sourceLine": 34590,
+          "reference": "shipHitHistory",
+          "snippet": "n true;\n    }\n  }return false;\n}\nlet mastSupportCacheV12=null;\nfunction mastSupportLostV12(){\n  const damage=getShipSystemDamage('MAST');if(damage>=80)return true;\n  const history=shipHitHistory,last=history.at(-1),key=history.length+':'+damage+':'+(last?.dmg??0)+':'+(last?.blastSources?.length??0)+':'+(last?.blastParts?.length??0);\n  if(mastSupportCacheV12?.history===history&&mastSupportCacheV12.last===last&&mastSupportCacheV12.key===key)return mastSupportCacheV12.lost;\n  const scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes("
+        },
+        {
+          "sourceLine": 37085,
+          "reference": "shipHitHistory",
+          "snippet": "5ResetCase(seed);_wip103ResetCiwsForCase();softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;ramMissiles.length=0;missiles.length=0;\n      const beforeHitCount=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg,speedMps,altM});if(!em){records.push({summary:{bearingDeg,seed,outcome:'SPAWN_FAILED'}});continue;}\n      const meta={caseIndex:caseIndex++,bearingDeg,seed,rangeKm,altM,speedMps};_wip103BeginCase(meta,em);\n      let outcome=null,lastRangeM=null;const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n      for(let tick=0;tick<maxTicks&&"
+        },
+        {
+          "sourceLine": 37094,
+          "reference": "shipHitHistory",
+          "snippet": "S.current,lastResult=c?.lastProjectileResult;\n        if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;\n        else if(!em.alive){\n          const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');\n          if(newShipHit)outcome='PENETRATION_SUCCESS';\n          else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_H"
+        },
+        {
+          "sourceLine": 37094,
+          "reference": "shipHitHistory",
+          "snippet": "Result;\n        if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;\n        else if(!em.alive){\n          const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');\n          if(newShipHit)outcome='PENETRATION_SUCCESS';\n          else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitH"
+        },
+        {
+          "sourceLine": 37101,
+          "reference": "shipHitHistory",
+          "snippet": "T_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');records.push(_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit}));\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),allErr=allFrames.map(r=>r.turretErrDeg),allQ=allFrames.map(r=>r.stQuality);\n    const totalBu"
+        },
+        {
+          "sourceLine": 37101,
+          "reference": "shipHitHistory",
+          "snippet": "CEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');records.push(_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit}));\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),allErr=allFrames.map(r=>r.turretErrDeg),allQ=allFrames.map(r=>r.stQuality);\n    const totalBullets=summaries.reduce((a,r)=>a+(r.tot"
+        },
+        {
+          "sourceLine": 37203,
+          "reference": "shipHitHistory",
+          "snippet": "5ResetCase(seed);_wip103ResetCiwsForCase();softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;ramMissiles.length=0;missiles.length=0;\n      const beforeHitCount=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg,speedMps,altM});if(!em){records.push({summary:{bearingDeg,seed,outcome:'SPAWN_FAILED'}});continue;}\n      const meta={caseIndex:caseIndex++,bearingDeg,seed,rangeKm,altM,speedMps};_wip103BeginCase(meta,em);_wip104BeginCase(meta,em);\n      let outcome=null,lastRangeM=null;const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n      for("
+        },
+        {
+          "sourceLine": 37206,
+          "reference": "shipHitHistory",
+          "snippet": "z);const c=WIP103_PHALANX_MEAS.current,lastResult=c?.lastProjectileResult;if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;else if(!em.alive){const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');if(newShipHit)outcome='PENETRATION_SUCCESS';else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit"
+        },
+        {
+          "sourceLine": 37206,
+          "reference": "shipHitHistory",
+          "snippet": ",lastResult=c?.lastProjectileResult;if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;else if(!em.alive){const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');if(newShipHit)outcome='PENETRATION_SUCCESS';else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&"
+        },
+        {
+          "sourceLine": 37207,
+          "reference": "shipHitHistory",
+          "snippet": "='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U'),base=_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit});records.push({...base,spotting:spot});\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),totalBullets=summaries.reduce((a,r)=>a+(r.totalBulletsFired??0),"
+        },
+        {
+          "sourceLine": 37207,
+          "reference": "shipHitHistory",
+          "snippet": "_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U'),base=_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit});records.push({...base,spotting:spot});\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),totalBullets=summaries.reduce((a,r)=>a+(r.totalBulletsFired??0),0),totalHits=summaries.reduce((a,r)=>a"
+        },
+        {
+          "sourceLine": 37222,
+          "reference": "shipHitHistory",
+          "snippet": "=false;r.firing=false;r.angle=deg(180);r.turretAng=deg(180);r.turretRate=0;r.cuedTarget=null;r.cueAge=0;delete r._localTrack;\n        const shipBearingDeg=180+bearingDeg,beforeHit=shipHitHistory.length,logStart=WIP106_RAM_TERMINAL_LOG.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:shipBearingDeg,speedMps,altM});if(!em){records.push({bearingDeg,shipBearingDeg,seed,outcome:'SPAWN_FAILED'});continue;}\n        const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);let launchRangeM=null,launchTimeS=null,finalRangeM=null;\n        for(let tick=0;tick<maxTicks;tick++){\n          c"
+        },
+        {
+          "sourceLine": 37229,
+          "reference": "shipHitHistory",
+          "snippet": "m.id);if(evs.length||!em.alive)break;\n        }\n        const events=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=events[events.length-1]??null,shipHit=shipHitHistory.length>beforeHit&&shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');\n        let outcome='NO_RAM_TERMINAL';if(ev?.prox)outcome=ev.result;else if(shipHit)outcome='PENETRATION_SUCCESS';else if(!em.alive)outcome='TARGET_DEAD_OTHER';else outcome='INTERCEPT_FAIL';\n        records.push({caseIndex:caseIndex++,bearingDeg,shipBearingDeg,seed,physicsOnlyPk,launchRangeM,laun"
+        },
+        {
+          "sourceLine": 37229,
+          "reference": "shipHitHistory",
+          "snippet": "eak;\n        }\n        const events=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=events[events.length-1]??null,shipHit=shipHitHistory.length>beforeHit&&shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');\n        let outcome='NO_RAM_TERMINAL';if(ev?.prox)outcome=ev.result;else if(shipHit)outcome='PENETRATION_SUCCESS';else if(!em.alive)outcome='TARGET_DEAD_OTHER';else outcome='INTERCEPT_FAIL';\n        records.push({caseIndex:caseIndex++,bearingDeg,shipBearingDeg,seed,physicsOnlyPk,launchRangeM,launchTimeS,finalRangeM,targetAlive:!"
+        },
+        {
+          "sourceLine": 49809,
+          "reference": "shipHitHistory",
+          "snippet": "les:mslRows,ramMissiles:ramRows,enemyMissiles:enemyRows,ciws:ciwsRows,tracks:trackRows,\n      softKillThreatState:JSON.parse(JSON.stringify(softKillThreatState)),shipHitHistoryLen:shipHitHistory.length,chaffCount:chaffs.length,flareCount:flares.length,ciwsBulletCount:ciwsBullets.length};\n  }\n  function hardKillRecommendationMutationAudit(){\n    updateSoftKillThreatManager(SIM_FIXED_DT); // establish the already-existing threat-score authority before the mutation snapshot.\n    const before=hardKillGameplayFingerprint(),beforeJson=JSON.stringify(before);\n    const recs=hardKi"
+        },
+        {
+          "sourceLine": 50512,
+          "reference": "shipHitHistory",
+          "snippet": "Follow=!!opts.operatorFollow,schedTicks=Math.max(1,Math.round(WIP119_AUTONOMY_POLICY.schedulerFrameS/SIM_FIXED_DT)),refs=enemyMissiles.slice(),startCounts=getVlsCounts(),startHits=shipHitHistory.filter(h=>!h.miss).length,startFireLog=wip119AutonomyState.fireLog.length;setEngagementControlMode(mode);\n    let ticks=0;for(;ticks<Math.ceil(seconds/SIM_FIXED_DT);ticks++){simulateFixedTick(SIM_FIXED_DT);if(ticks%schedTicks===0){updateSoftKillThreatManager(SIM_FIXED_DT);wip118BuildEngagementControl({commit:true,force:true});updateWip119EngagementAutomation(true);if(operatorFollow&"
+        },
+        {
+          "sourceLine": 50514,
+          "reference": "shipHitHistory",
+          "snippet": "efs.every(e=>!e.alive)&&missiles.every(m=>m.dead)&&ramMissiles.every(m=>!m.alive))break;}\n    const endCounts=getVlsCounts(),outcomes=refs.map(e=>wip113ClassifyOutcome(e)),endHits=shipHitHistory.filter(h=>!h.miss).length;return {mode,operatorFollow,ticks,timeS:ticks*SIM_FIXED_DT,targetCount:refs.length,outcomes,airKills:outcomes.filter(x=>x==='AIR_KILL').length,harmlessMisses:outcomes.filter(x=>x==='GUIDANCE_CONTROL_LOSS_MISS'||x==='PROPULSION_LOSS_SEA_IMPACT').length,shipHits:endHits-startHits,shipHP,startCounts,endCounts,spent:{SM2:startCounts.sm2Total-endCounts.sm2Total,"
+        },
+        {
+          "sourceLine": 50796,
+          "reference": "shipHitHistory",
+          "snippet": "calTrack = null; ciws[1].trackingTarget = null;\n    if(updateCIWS._localContacts?.clear) updateCIWS._localContacts.clear();\n    ciwsBullets.length = 0; ramMissiles.length = 0;\n    shipHitHistory.length = 0; shipLastHit = null;\n    targetPool.length = 0;\n    resetSurfaceContacts();\n    nextTargetId = 1;\n    updateModeButtonLabel();\n    shipNav.heading = ACTIVE_SHIP_PROFILE.navigation.initialHeadingRad; shipNav.speed = 0; shipNav.targetSpeedKt = 0;\n    shipNav.rudder = 0; shipNav.targetRudder = 0; shipNav.turnRate = 0;\n    for(const mount of ciws)ciwsGameResetYawV1(mount);\n  "
+        },
+        {
+          "sourceLine": 50796,
+          "reference": "shipLastHit",
+          "snippet": "ackingTarget = null;\n    if(updateCIWS._localContacts?.clear) updateCIWS._localContacts.clear();\n    ciwsBullets.length = 0; ramMissiles.length = 0;\n    shipHitHistory.length = 0; shipLastHit = null;\n    targetPool.length = 0;\n    resetSurfaceContacts();\n    nextTargetId = 1;\n    updateModeButtonLabel();\n    shipNav.heading = ACTIVE_SHIP_PROFILE.navigation.initialHeadingRad; shipNav.speed = 0; shipNav.targetSpeedKt = 0;\n    shipNav.rudder = 0; shipNav.targetRudder = 0; shipNav.turnRate = 0;\n    for(const mount of ciws)ciwsGameResetYawV1(mount);\n    shipNav.vx = 0; shipNav.v"
+        },
+        {
+          "sourceLine": 52355,
+          "reference": "shipHitHistory",
+          "snippet": "70,${clamp(alpha*V.labelAlpha,.08,.9)})`;c.textAlign='center';c.fillText(String(idx+1),cx,cy-Math.min(2.5,r+.6));\n      });\n    }\n    if(showTerminalInteriorEffects)for(const h of shipHitHistory){const age=(now-h.time)/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlayTop(h,alpha);}\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const tdX = tx(h.x ?? 0);\n      con"
+        },
+        {
+          "sourceLine": 52356,
+          "reference": "shipHitHistory",
+          "snippet": ")/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlayTop(h,alpha);}\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const tdX = tx(h.x ?? 0);\n      const tdY = ty(h.y ?? 0);\n      if(h.miss){\n        c.strokeStyle = 'rgba(255,255,0,' + alpha * 0.6 + ')';\n        c.lineWidth = 1.5;\n        c.beginPath(); c.moveTo(tdX-3,tdY-3); c.lineTo(tdX+3,tdY+3);\n        c.moveTo("
+        },
+        {
+          "sourceLine": 52465,
+          "reference": "shipHitHistory",
+          "snippet": "70,${clamp(alpha*V.labelAlpha,.08,.9)})`;c.textAlign='center';c.fillText(String(idx+1),cx,cy-Math.min(2.5,r+.6));\n      });\n    }\n    if(showTerminalInteriorEffects)for(const h of shipHitHistory){const age=(now-h.time)/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlaySide(h,alpha);}\n\n    // Side hit markers \u2014 white diamonds\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0)"
+        },
+        {
+          "sourceLine": 52468,
+          "reference": "shipHitHistory",
+          "snippet": "iss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlaySide(h,alpha);}\n\n    // Side hit markers \u2014 white diamonds\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const svX = tx(h.x ?? 0);\n      const svY = scy - (h.z ?? 0) * ssc;\n      if(h.miss){\n        c.strokeStyle = 'rgba(255,255,0,' + alpha*0.5 + ')';\n        c.lineWidth = 1;\n        c.beginPath(); c.moveTo(svX-2,svY-2); c.lineTo(svX+2,svY+2);\n        c.m"
+        },
+        {
+          "sourceLine": 52510,
+          "reference": "shipHitHistory",
+          "snippet": ",80,0.4)' : 'rgba(255,100,40,0.7)';\n    c.fillText('SPY:[' + spyTxt + ']' + (allSpy ? '' : ' BACKUP'), tcx, H - 14);\n    c.fillStyle = 'rgba(0,255,80,0.4)';\n    c.fillText('\uc9c1\uaca9:' + shipHitHistory.filter(h=>!h.miss).length + ' \ube57\ub098\uac10:' + shipHitHistory.filter(h=>h.miss).length, tcx, H - 3);\n    c.fillStyle = 'rgba(0,255,80,0.3)';\n    c.textAlign = 'left';\n    c.fillText('TOP', 4, topH - 3);\n    c.fillText('SIDE', 4, sideY + 8);\n  }\n\n  function runWip101Stage3RepresentativeImpact(label='Kh-32',commitVisual=false){\n    const boxes=buildShipHitBoxes(),p=asmImpactProfile(label),impa"
+        },
+        {
+          "sourceLine": 52510,
+          "reference": "shipHitHistory",
+          "snippet": "PY:[' + spyTxt + ']' + (allSpy ? '' : ' BACKUP'), tcx, H - 14);\n    c.fillStyle = 'rgba(0,255,80,0.4)';\n    c.fillText('\uc9c1\uaca9:' + shipHitHistory.filter(h=>!h.miss).length + ' \ube57\ub098\uac10:' + shipHitHistory.filter(h=>h.miss).length, tcx, H - 3);\n    c.fillStyle = 'rgba(0,255,80,0.3)';\n    c.textAlign = 'left';\n    c.fillText('TOP', 4, topH - 3);\n    c.fillText('SIDE', 4, sideY + 8);\n  }\n\n  function runWip101Stage3RepresentativeImpact(label='Kh-32',commitVisual=false){\n    const boxes=buildShipHitBoxes(),p=asmImpactProfile(label),impactSpeed=label==='Kh-32'?1372:280,impact={x:12,y:9.99,"
+        },
+        {
+          "sourceLine": 52526,
+          "reference": "shipHitHistory",
+          "snippet": ">({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u}))};\n    if(commitVisual){resetModules();for(const hp of chain.hitParts)addModuleDmg(hp.name,hp.dmg*3.5);shipHitHistory.length=0;const info={x:det.x,y:det.y,z:det.z,label,part:detBox?.name??initial.name,dmg:chain.totalDmg,impactPart:initial.name,penetration:detTravel,physicalPenetrationM:pen.physicalPenetrationM,fuzeTravelM:fuzeTravel,fuzeDelaySec:fuzeDelay,ricochet:!!pen.ricochet,impactSpeed,blastParts:chain.hitParts,penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1"
+        },
+        {
+          "sourceLine": 52526,
+          "reference": "shipHitHistory",
+          "snippet": "blastParts:chain.hitParts,penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3PerformanceDiagnostics(iterations=2000){\n    const boxes=buildShipHitBoxes(),n=Math.max(100,Math.min(20000,Math.floor(Number(iterations)||2000))),impact={x:12,y:9.99,z:4},dir={x:0,y:-1,z:0};\n    const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side==='STARBOARD'&&impact.x>=b.oX-b.hL&&impact.x<=b.oX+"
+        },
+        {
+          "sourceLine": 52526,
+          "reference": "shipLastHit",
+          "snippet": "penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3PerformanceDiagnostics(iterations=2000){\n    const boxes=buildShipHitBoxes(),n=Math.max(100,Math.min(20000,Math.floor(Number(iterations)||2000))),impact={x:12,y:9.99,z:4},dir={x:0,y:-1,z:0};\n    const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side==='STARBOARD'&&impact.x>=b.oX-b.hL&&impact.x<=b.oX+b.hL&&impact.y>=(b.oY??0)-"
+        },
+        {
+          "sourceLine": 54114,
+          "reference": "shipHitHistory",
+          "snippet": "(seed);\n    missileSerial=1;enemyMslSerial=1;ramMissileSerial=1;\n    simAccumulator=0;simDroppedTimeSec=0;simStepCounter=0;resetOwnshipWorldWip14A();\n    shipHP=100;resetModules();shipHitHistory.length=0;shipLastHit=null;\n    enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();SPG62_ENGAGEMENT_STATE.clear();spg62ResetReservations(); // WIP116: isolate live ownership + time reservations\n    targetPool.length=0;resetMk36Srboc();resetNulka15B();chaffs.length"
+        },
+        {
+          "sourceLine": 54114,
+          "reference": "shipLastHit",
+          "snippet": "l=1;enemyMslSerial=1;ramMissileSerial=1;\n    simAccumulator=0;simDroppedTimeSec=0;simStepCounter=0;resetOwnshipWorldWip14A();\n    shipHP=100;resetModules();shipHitHistory.length=0;shipLastHit=null;\n    enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();SPG62_ENGAGEMENT_STATE.clear();spg62ResetReservations(); // WIP116: isolate live ownership + time reservations\n    targetPool.length=0;resetMk36Srboc();resetNulka15B();chaffs.length=0;flares.length=0;esmCo"
+        },
+        {
+          "sourceLine": 54642,
+          "reference": "shipHitHistory",
+          "snippet": "ts.maxTimeS??60),samplePeriodS=Math.max(.25,Number(opts.samplePeriodS??1));\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=opts.emconActive!==false;const before=shipHitHistory.length,em=_wip107SpawnRealAsm(label,rangeKm,0);if(!em)return {error:'SPAWN_FAILED',label,speedKt,seed};\n    let driftX=0,driftY=0,nextSample=0,t=0;const samples=[];const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n    for(let tick=0;tick<maxTicks&&em.alive;tick++){\n      updateShipMovement(SIM_FIXED_DT);const dx=worldSpeedToMps(shipNav.vx)*SIM_FIXED_DT,dy=worldSpeedToMps(shipNav.vy)*"
+        },
+        {
+          "sourceLine": 54648,
+          "reference": "shipHitHistory",
+          "snippet": "D_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;\n      if(t+1e-9>=nextSample){samples.push(_wip107SampleAsm(em,t,driftX,driftY));nextSample+=samplePeriodS;}\n    }\n    const shipHit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label===label),dr=samples.map(s=>s.shipWorldDriftM),ins=samples.map(s=>s.insTgtErrorM),ls=samples.map(s=>s.lastSeekerErrorM),st=samples.map(s=>s.seekerTgtErrorM),ae=samples.map(s=>s.asmSeekerEkfErrorM),coast=samples.filter(s=>s.seekerMode==='COAST');\n    return {label,speedKt,seed,headingDeg,rangeKm,durationS:t,targetAlive:!!em.alive,deathReason:em._"
+        },
+        {
+          "sourceLine": 54654,
+          "reference": "shipHitHistory",
+          "snippet": "umber(opts.maxTimeS??90);\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=true;softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;const before=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:0,speedMps:280,altM:12});if(!em)return {error:'SPAWN_FAILED',speedKt,seed};\n    let driftX=0,driftY=0,t=0;for(let tick=0;tick<Math.ceil(maxTimeS/SIM_FIXED_DT)&&em.alive;tick++){updateShipMovement(SIM_FIXED_DT);driftX+=worldSpeedToMps(shipNav.vx)*SIM_FIXED_DT;driftY+=worldSpeedToMps(shipNav.vy)*SIM_FIXED_DT;applyAircraftWorldShif"
+        },
+        {
+          "sourceLine": 54656,
+          "reference": "shipHitHistory",
+          "snippet": "driftY+=worldSpeedToMps(shipNav.vy)*SIM_FIXED_DT;applyAircraftWorldShift(SIM_FIXED_DT);updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;}\n    const hit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label==='Kh-35U');return {label:'Kh-35U',fixture:'STRAIGHT_INS_CENTER_REAL_FLIGHT_CORE',speedKt,seed,durationS:t,shipWorldDriftM:Math.hypot(driftX,driftY),shipHit:hit,targetAlive:!!em.alive,deathReason:em._deathReason??null};\n  }\n  function _wip107RunSarhCase(opts={}){\n    const label=opts.label==='Kh-32'?'Kh-32':'Kh-35U',speedKt=Number(opts.speedKt?"
+        },
+        {
+          "sourceLine": 54674,
+          "reference": "shipHitHistory",
+          "snippet": "SIM_FIXED_DT;}\n    return {weapon:'ESSM',label,speedKt,seed,durationS:t,prox:!!m.proxDetonated,missileDeathReason:m._deathReason??null,targetAlive:!!em.alive,intercept:!em.alive&&!shipHitHistory.some(h=>!h.miss&&h.label===label)};\n  }\n  function _wip107RunRamMotionCase(opts={}){\n    const speedKt=Number(opts.speedKt??0),seed=(Number(opts.seed??107401)>>>0)||107401,headingDeg=Number(opts.headingDeg??90),rangeKm=Number(opts.rangeKm??8),maxTimeS=Number(opts.maxTimeS??45),bearingOffsetDeg=Number(opts.bearingOffsetDeg??0);\n    _wip75ResetCase(seed);_wip103ResetCiwsForCase();soft"
+        },
+        {
+          "sourceLine": 54680,
+          "reference": "shipHitHistory",
+          "snippet": "t=null;r.trackQuality=0;r.tracking=false;r.firing=false;r.angle=deg(180);r.turretAng=deg(180);r.turretRate=0;r.cuedTarget=null;r.cueAge=0;delete r._localTrack;\n    const beforeHit=shipHitHistory.length,logStart=WIP106_RAM_TERMINAL_LOG.length,worldBearing=headingDeg+180+bearingOffsetDeg,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:worldBearing,speedMps:280,altM:12});if(!em)return {error:'SPAWN_FAILED',weapon:'RAM',speedKt,seed};WIP106_RAM_DIAG_ENABLED=true;\n    let t=0;try{const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);for(let tick=0;tick<maxTicks;tick++){simulateFixedTi"
+        },
+        {
+          "sourceLine": 54682,
+          "reference": "shipHitHistory",
+          "snippet": "s.length||!em.alive)break;}}finally{WIP106_RAM_DIAG_ENABLED=false;}\n    const evs=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=evs.at(-1)??null,shipHit=shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');return {weapon:'RAM',label:'Kh-35U',speedKt,seed,durationS:t,prox:!!ev?.prox,result:ev?.result??null,terminalReason:ev?.terminalReason??null,shipHit,targetAlive:!!em.alive,intercept:['KILL','STRUCT_FAIL'].includes(ev?.result)};\n  }\n  // ===== WIP108 moving-world fix validation harness (diagnostic-only) =====\n  // Gameplay change "
+        },
+        {
+          "sourceLine": 54689,
+          "reference": "shipHitHistory",
+          "snippet": "opts.rangeKm??(label==='Kh-32'?100:55)),maxTimeS=Number(opts.maxTimeS??60);\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=opts.emconActive!==false;const before=shipHitHistory.length,em=_wip107SpawnRealAsm(label,rangeKm,0);if(!em)return {error:'SPAWN_FAILED',label,speedKt,seed};\n    const p=ASM_SEEKER_PROFILES[label]??ASM_SEEKER_PROFILES['Kh-35U'];let driftX=0,driftY=0,t=0,everAcquire=false,everTrack=false,acquireTimeS=null,acquireInsErrorM=null,coastEntries=0,reacquireEntries=0,reacquireSuccesses=0,prevMode=em.seeker?.mode??'OFF',searchAttempts=0,searchI"
+        },
+        {
+          "sourceLine": 54703,
+          "reference": "shipHitHistory",
+          "snippet": "ngeAttempts++;else{searchInRangeAttempts++;if(mode==='SEARCH'&&beforeMode==='SEARCH'&&(s.lastCandidateCount??0)===0)searchMissAttempts++;}}lastDwell=dwell;\n    }\n    const shipHit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label===label),finalSample=_wip107SampleAsm(em,t,driftX,driftY);\n    let acquireFailureReason=null;if(!everAcquire){if(searchInRangeAttempts===0&&searchOutOfRangeAttempts>0)acquireFailureReason='SEARCH_RANGE_OUTSIDE';else if(searchMissAttempts>0||searchInRangeAttempts>0)acquireFailureReason='NO_DETECTION_OR_ASSOCIATION';else acquireFailureReason='OTH"
+        },
+        {
+          "sourceLine": 55036,
+          "reference": "shipHitHistory",
+          "snippet": "etTestClock: () => { simAccumulator=0; simDroppedTimeSec=0; simStepCounter=0; return true; },\n    _resetShipTest: () => { BATTLESPACE_DIAG_BYPASS=true; shipHP=100; resetModules(); shipHitHistory.length=0; shipLastHit=null; enemyMissiles.length=0; resetAsmWreckageV48Wip11C(); wip12bResetTerminalEvents(); resetMainGunProjectilesWip13B3(); ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts(); missiles.length=0; ramMissiles.length=0; ramMissileSerial=1; ciwsBullets.length=0; tracks.clear(); SPG62_ENGAGEMENT_STATE.clear(); resetSurfaceContacts(); rese"
+        },
+        {
+          "sourceLine": 55036,
+          "reference": "shipLastHit",
+          "snippet": "ccumulator=0; simDroppedTimeSec=0; simStepCounter=0; return true; },\n    _resetShipTest: () => { BATTLESPACE_DIAG_BYPASS=true; shipHP=100; resetModules(); shipHitHistory.length=0; shipLastHit=null; enemyMissiles.length=0; resetAsmWreckageV48Wip11C(); wip12bResetTerminalEvents(); resetMainGunProjectilesWip13B3(); ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts(); missiles.length=0; ramMissiles.length=0; ramMissileSerial=1; ciwsBullets.length=0; tracks.clear(); SPG62_ENGAGEMENT_STATE.clear(); resetSurfaceContacts(); resetMk36Srboc();resetNulka15"
+        },
+        {
+          "sourceLine": 55053,
+          "reference": "shipLastHit",
+          "snippet": "turns().map(r=>({id:r.id,rcsM2:r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,ali"
+        },
+        {
+          "sourceLine": 55053,
+          "reference": "shipLastHit",
+          "snippet": "=>({id:r.id,rcsM2:r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,de"
+        },
+        {
+          "sourceLine": 55053,
+          "reference": "shipLastHit",
+          "snippet": "r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState"
+        },
+        {
+          "sourceLine": 55054,
+          "reference": "shipHitHistory",
+          "snippet": "dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts."
+        },
+        {
+          "sourceLine": 55054,
+          "reference": "shipHitHistory",
+          "snippet": "readMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id"
+        },
+        {
+          "sourceLine": 55054,
+          "reference": "shipHitHistory",
+          "snippet": "    spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.si"
+        },
+        {
+          "sourceLine": 55055,
+          "reference": "shipHitHistory",
+          "snippet": ",\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.sizeClass,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,heading:t.he"
+        },
+        {
+          "sourceLine": 55056,
+          "reference": "shipHitHistory",
+          "snippet": "   shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.sizeClass,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,heading:t.heading,speedKt:t.speedKt,alive:t.alive})),\n      enemyMissileSta"
+        },
+        {
+          "sourceLine": 62236,
+          "reference": "shipHitHistory",
+          "snippet": "=>e.backgroundKind)?.backgroundKind;if(b)firstBackground=b;}}}\n    return {seed,model:getArhSeekerModel(),rangeKm,altM,speedMps,durationS:t,prox:!!m.proxDetonated,kill:!em.alive&&!shipHitHistory.some(h=>!h.miss&&h.label==='Kh-35U'),targetAlive:!!em.alive,missileDeathReason:m._deathReason??null,arhSamples,arhTrackSamples,trackMaintainRate:arhSamples?arhTrackSamples/arhSamples:0,acquireAtS:acquireAt,firstBackground,rf:m._v1ArhRfShadow?{model:m._v1ArhRfShadow.model,profileId:m._v1ArhRfShadow.profileId,frontendPassMin:m._v1ArhRfShadow.frontendPassMin,protectedQuality:m._v1ArhRf"
+        }
+      ],
+      "performanceTimestampWrites": [
+        {
+          "sourceLine": 6732,
+          "snippet": "terminal.finalState.position.x,y1:terminal.finalState.position.y,z1:terminal.finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)histor"
+        },
+        {
+          "sourceLine": 7151,
+          "snippet": ".map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayl"
+        },
+        {
+          "sourceLine": 23830,
+          "snippet": ".map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayl"
+        },
+        {
+          "sourceLine": 25860,
+          "snippet": ",penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impac"
+        },
+        {
+          "sourceLine": 32511,
+          "snippet": "X,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({i"
+        },
+        {
+          "sourceLine": 32556,
+          "snippet": "y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminal"
+        },
+        {
+          "sourceLine": 32577,
+          "snippet": "     shipHitHistory.push({ x: mlx, y: mly, z: 0, label: em.label, part: `\ube57\ub098\uac10 ${missDist}m`, dmg: 0, time: performance.now(), miss: true });\n      em._outcomeRecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(e"
+        },
+        {
+          "sourceLine": 32583,
+          "snippet": "        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,part:'\ube57\ub098\uac10(\uad50\uc804\uad6c\uc5ed \uc774\ud0c8)',dmg:0,time:performance.now(),miss:true});\n        em._outcomeRecorded=true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));"
+        },
+        {
+          "sourceLine": 52526,
+          "snippet": "ull:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3P"
+        },
+        {
+          "sourceLine": 55971,
+          "snippet": "rr?.message||err||'Unknown simulation error');\n    simRuntimeFault={step:simStepCounter,message:msg,time:performance.now()};\n    lastErrorMsg=`SIM FAULT @ step ${simStepCounter}: ${String(err?.message||err)}`;\n    debugL"
+        },
+        {
+          "sourceLine": 55979,
+          "snippet": "|'Unknown 3D error');\n    presentationRuntimeFault={stage:'EXTERNAL_3D',step:simStepCounter,message,time:performance.now(),action:'RETURN_TO_CIC'};\n    lastErrorMsg=`3D FAULT @ step ${simStepCounter}: ${String(err?.messa"
+        }
+      ]
+    },
+    {
+      "product": "R4",
+      "htmlSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+      "script13Sha256": "6163ada1a49dc86ce8b179b81650fa2da78ecc8d9273015142a721748abf6a64",
+      "shipHitReferences": [
+        {
+          "sourceLine": 6733,
+          "reference": "shipHitHistory",
+          "snippet": "start.x,y0:start.y,z0:start.z,x1:terminal.finalState.position.x,y1:terminal.finalState.position.y,z1:terminal.finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)history.splice(0,history.length-64);if(own)shipLastHit=hit;\n    const impulse={x:relative.x*(projectile.massKg??spec.body.massKg),y:relative.y*(projectile.massKg??spec.body.massKg),z:relative.z*(projectile.massKg??spec.body.massKg)};\n    getShipDynamicsV15(r).impactImpulse({pointLocal:point,impulseLocal:shipBodyFrameB(r).vectorToBo"
+        },
+        {
+          "sourceLine": 6733,
+          "reference": "shipLastHit",
+          "snippet": "finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)history.splice(0,history.length-64);if(own)shipLastHit=hit;\n    const impulse={x:relative.x*(projectile.massKg??spec.body.massKg),y:relative.y*(projectile.massKg??spec.body.massKg),z:relative.z*(projectile.massKg??spec.body.massKg)};\n    getShipDynamicsV15(r).impactImpulse({pointLocal:point,impulseLocal:shipBodyFrameB(r).vectorToBody(impulse),source:weaponKey});\n    const row={eventId,sourceShipId:projectile.ownerEntityId??ACTIVE_SHIP_RUNT"
+        },
+        {
+          "sourceLine": 6894,
+          "reference": "shipHitHistory",
+          "snippet": "owner.geometry.targetIds,WIP199_HULL_STATIONS=ACTIVE_SHIP_PROFILE.geometry.hullStations,\n    WIP173_SHIP_BOW_X_M=owner.geometry.bow,WIP173_SHIP_STERN_X_M=owner.geometry.stern,\n    shipHitHistory=owner.hitHistory,WIP101_SYSTEM_MEMBER_CACHE=new Map(),WIP12C_SHIP_GEOMETRY_CACHE={value:null,builds:0};\n  const CIWS_GAME_CONSTRAINT_CACHE_V1=new WeakMap(),BRIDGEMASTER_E_INSTALLATION={...ACTIVE_SHIP_PROFILE.sensors.bridgeMasterE,xM:ACTIVE_SHIP_PROFILE.geometry.hardpoints.bridgeMasterE.x,yM:ACTIVE_SHIP_PROFILE.geometry.hardpoints.bridgeMasterE.y,zM:ACTIVE_SHIP_PROFILE.geometry.hardp"
+        },
+        {
+          "sourceLine": 6900,
+          "reference": "shipLastHit",
+          "snippet": " WIP12E_TOPOLOGY_CACHE=null,selectedLockId=null,emconActive=false,\n    engagementControlMode='AUTO',missileSerial=1,mainGunProjectileSerialWip13B3=1,\n    wip125VlsConsumeTieFlip=0,shipLastHit=null;\n  const SPG62_ILLUMINATORS=ACTIVE_SHIP_PROFILE.geometry.hardpoints.spg62.map(q=>({\n    id:q.id,oX:q.oX,oY:q.oY,height:q.heightM,label:q.label,mountRole:q.mountRole,moduleName:q.moduleName,\n    hitboxHalfLengthM:1.45,hitboxHalfWidthM:1.45,hitboxHalfHeightM:1.35,\n    preferredBrg:deg(q.blindCenterDeg===180?0:180),sectorHalf:deg(q.sectorHalfDeg),blindCenter:deg(q.blindCenterDeg),bli"
+        },
+        {
+          "sourceLine": 7151,
+          "reference": "shipLastHit",
+          "snippet": "ionAudit??null,penetrationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.proj"
+        },
+        {
+          "sourceLine": 7151,
+          "reference": "shipHitHistory",
+          "snippet": "rationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.projectile?.speedMps??0,"
+        },
+        {
+          "sourceLine": 23060,
+          "reference": "shipHitHistory",
+          "snippet": "se(seed);BATTLESPACE_DIAG_BYPASS=true;shipNav.speed=0;shipNav.vx=0;shipNav.vy=0;emconActive=true;softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;const before=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:0,speedMps,altM});if(!em)return {error:'SPAWN_FAILED'};wip112EnsureTargetState(em);if(dud){em._systemDamage.warhead=100;em._warheadState='DUD';wip112UpdateProjectedImpactMass(em);}let t=0;for(let tick=0;tick<Math.ceil(90/SIM_FIXED_DT)&&em.alive;tick++){updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;"
+        },
+        {
+          "sourceLine": 23060,
+          "reference": "shipHitHistory",
+          "snippet": "tedImpactMass(em);}let t=0;for(let tick=0;tick<Math.ceil(90/SIM_FIXED_DT)&&em.alive;tick++){updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;}const hit=shipHitHistory.slice(before).find(h=>h.label==='Kh-35U'&&!h.miss)??null;return {seed,dud,durationS:t,targetAlive:!!em.alive,outcome:wip113ClassifyOutcome(em),deathReason:em._deathReason??null,warheadState:em._warheadState,projectedImpactMassKg:em._wip112ProjectedImpactMassKg,hit:hit?{physicalPenetrationM:hit.physicalPenetrationM,penetration:hit.penetration,blastSourceCount:hit.blastSources?.length"
+        },
+        {
+          "sourceLine": 23393,
+          "reference": "shipHitHistory",
+          "snippet": "options.label??'Kh-32'),xM=Number(options.xM??12),zM=Number(options.zM??-3.5),side=String(options.side??'STARBOARD').toUpperCase();\n    resetModules();getShipDynamicsV15().reset();shipHitHistory.length=0;shipLastHit=null;const impacts=[];\n    for(let i=0;i<hits;i++){\n      const probe=runV48Wip02ImpactProbe(label,{xM,zM,side,dud:true}),entry=probe.entryPointLocal,stop=probe.stopPointLocal,boxes=buildShipHitBoxes(),sideKey=side==='PORT'?'PORT':'STARBOARD';\n      const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side===sideKey&&xM>=b.oX-b.hL&&xM<=b.oX+b.hL&&zM>=b.zMin&&zM"
+        },
+        {
+          "sourceLine": 23393,
+          "reference": "shipLastHit",
+          "snippet": "xM=Number(options.xM??12),zM=Number(options.zM??-3.5),side=String(options.side??'STARBOARD').toUpperCase();\n    resetModules();getShipDynamicsV15().reset();shipHitHistory.length=0;shipLastHit=null;const impacts=[];\n    for(let i=0;i<hits;i++){\n      const probe=runV48Wip02ImpactProbe(label,{xM,zM,side,dud:true}),entry=probe.entryPointLocal,stop=probe.stopPointLocal,boxes=buildShipHitBoxes(),sideKey=side==='PORT'?'PORT':'STARBOARD';\n      const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side===sideKey&&xM>=b.oX-b.hL&&xM<=b.oX+b.hL&&zM>=b.zMin&&zM<=b.zMax)??boxes.find(b="
+        },
+        {
+          "sourceLine": 23399,
+          "reference": "shipHitHistory",
+          "snippet": "reaM2:probe.impact.openings.entryAreaM2,exitOpeningAreaM2:probe.impact.openings.exitAreaM2,throughHull:probe.impact.throughHull,impactState:probe.impact,explosiveMassKg:0});\n      shipHitHistory.push({impactPart:initial.name,impactPoint:{...entry},impactNormal:[0,sideKey==='PORT'?-1:1,0],physicalPenetrationM:probe.impact.physicalPenetrationM,penetration:probe.impact.physicalPenetrationM,obliquityDeg:probe.impact.obliquityDeg,ricochet:false,dud:true,blastSources:[],blastParts:[],penetrationLine:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},throughHull:prob"
+        },
+        {
+          "sourceLine": 23830,
+          "reference": "shipLastHit",
+          "snippet": "ionAudit??null,penetrationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.proj"
+        },
+        {
+          "sourceLine": 23830,
+          "reference": "shipHitHistory",
+          "snippet": "rationLine,blastSources:blastSources.map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayload(blastTrace):{};wip173PushVisualEvent(blastTrace?'SHIP_WARHEAD_DETONATION':'SHIP_KINETIC_IMPACT',{coordSpace:'SHIP_LOCAL',x:p.x,y:p.y,z:p.z,targetLabel:hitInfo.label,result:hitInfo.dud?'DUD':'HIT',explosiveMassKg:totalExplosiveKg,blastMedium:blastTrace?.charge?.medium??null,impactSpeedMps:packet.projectile?.speedMps??0,"
+        },
+        {
+          "sourceLine": 25275,
+          "reference": "shipHitHistory",
+          "snippet": "n),breach:wip12eBlastTraceSummary(breachTrace),portalEvents:wip12eBlastTraceSummary(eventTrace),rngBefore,rngAfter};\n  }\n  function wip12eKh32BlastShadowComparison(){const hit=[...shipHitHistory].reverse().find(q=>q.label==='Kh-32'&&q.blastTraceHash),trace=hit?WIP12E_BLAST_TRACES.find(q=>q.physicsHash===hit.blastTraceHash):null;return {schema:'AEGIS_KH32_BLAST_SHADOW_COMPARISON_V48_WIP12E',available:!!hit,authorityMode:hit?.blastAuthority??WIP12E_BLAST_MODE,impactEventId:trace?.impactEventId??null,legacy:hit?.legacyBlastComparison??null,compartment:trace?wip12eBlastTraceSum"
+        },
+        {
+          "sourceLine": 25861,
+          "reference": "shipLastHit",
+          "snippet": ".exitAreaM2,impactResponse,vlsCellDamage:cellDamage,penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:`wip11c-wreck:${w.id}:${simStepCounter}`,label:w.sourceLabel,dud:true,entryPointLocal:entry,stopPointLocal:stop,direction:localDir,impactState:impact,hitInfo});wip173PushVisualEvent('SHIP_WRECK_IMPACT',{coordSpace:'SHIP_LOCAL',sourceId:w.sourceAsmId,wreckId:w.id,x:entry.x,y:entry.y,z:entry.z,vxMps:l"
+        },
+        {
+          "sourceLine": 25861,
+          "reference": "shipHitHistory",
+          "snippet": "sponse,vlsCellDamage:cellDamage,penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:`wip11c-wreck:${w.id}:${simStepCounter}`,label:w.sourceLabel,dud:true,entryPointLocal:entry,stopPointLocal:stop,direction:localDir,impactState:impact,hitInfo});wip173PushVisualEvent('SHIP_WRECK_IMPACT',{coordSpace:'SHIP_LOCAL',sourceId:w.sourceAsmId,wreckId:w.id,x:entry.x,y:entry.y,z:entry.z,vxMps:localDir.x*speed,vyMp"
+        },
+        {
+          "sourceLine": 31843,
+          "reference": "shipLastHit",
+          "snippet": "_AIRCRAFT_${fromTarget.id}`);\n    missileNavB2Init(em,true);\n    enemyMissiles.push(em);\n    notify(`\u26a0 ${em.label} \ubc1c\uc0ac! (T${fromTarget.id} ${Math.round(dLaunchKm)}km)`);\n  }\n\n  let shipLastHit = null;\n  const shipHitHistory = [];\n\n  // ===== WIP101 STAGE 1: STRUCTURED SHIP HITBOX METADATA =====\n  // Geometry is deliberately unchanged in Stage 1. Every physical hitbox is decorated at build time\n  // with stable system / side / deck fields; display names remain presentation-only.\n  // getShipDamageEffects() consumes system IDs rather than Korean display-name literals.\n  const "
+        },
+        {
+          "sourceLine": 31844,
+          "reference": "shipHitHistory",
+          "snippet": ";\n    missileNavB2Init(em,true);\n    enemyMissiles.push(em);\n    notify(`\u26a0 ${em.label} \ubc1c\uc0ac! (T${fromTarget.id} ${Math.round(dLaunchKm)}km)`);\n  }\n\n  let shipLastHit = null;\n  const shipHitHistory = [];\n\n  // ===== WIP101 STAGE 1: STRUCTURED SHIP HITBOX METADATA =====\n  // Geometry is deliberately unchanged in Stage 1. Every physical hitbox is decorated at build time\n  // with stable system / side / deck fields; display names remain presentation-only.\n  // getShipDamageEffects() consumes system IDs rather than Korean display-name literals.\n  const DF_TARGET_IDS=Object.freeze("
+        },
+        {
+          "sourceLine": 32517,
+          "reference": "shipLastHit",
+          "snippet": ":!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:dudEventId,label:em.label,dud:true,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,direction:vdirLocal,impactState,hitInfo});wip173PushVisualEvent('SHIP_DUD_IMPACT',{coordSpace:'SHIP_LOCAL',x:hitLocalX,y:hitLocalY,z:hitZ,targetLabel:em.label,result:'DUD',warheadState:'DUD',"
+        },
+        {
+          "sourceLine": 32517,
+          "reference": "shipHitHistory",
+          "snippet": "erforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:dudEventId,label:em.label,dud:true,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,direction:vdirLocal,impactState,hitInfo});wip173PushVisualEvent('SHIP_DUD_IMPACT',{coordSpace:'SHIP_LOCAL',x:hitLocalX,y:hitLocalY,z:hitZ,targetLabel:em.label,result:'DUD',warheadState:'DUD',impactSpeedMps:impac"
+        },
+        {
+          "sourceLine": 32563,
+          "reference": "shipLastHit",
+          "snippet": "stSources:blastSources.map(q=>({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:blastEventId,label:em.label,dud:false,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,detonationPointLocal:detPointLocal,direction:vdirLocal,impactState,hitInfo,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg});wip173PushVisualEvent('"
+        },
+        {
+          "sourceLine": 32563,
+          "reference": "shipHitHistory",
+          "snippet": "es.map(q=>({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:blastEventId,label:em.label,dud:false,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,detonationPointLocal:detPointLocal,direction:vdirLocal,impactState,hitInfo,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg});wip173PushVisualEvent('SHIP_WARHEAD_DETONAT"
+        },
+        {
+          "sourceLine": 32582,
+          "reference": "shipHitHistory",
+          "snippet": " - ay);\n      const mlx = mLx * cosHH - mLy * sinHH;\n      const mly = mLx * sinHH + mLy * cosHH;\n      const missDist = Math.round(worldToMeters(dist(em.x, em.y, ax, ay)));\n      shipHitHistory.push({ x: mlx, y: mly, z: 0, label: em.label, part: `\ube57\ub098\uac10 ${missDist}m`, dmg: 0, time: performance.now(), miss: true });\n      em._outcomeRecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      notify(`${em.label} \ube57\ub098\uac10 (${missDist}m)`);\n    }\n    if(dKm > 380){\n      if(!em._outcomeRecorded){\n        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,p"
+        },
+        {
+          "sourceLine": 32588,
+          "reference": "shipHitHistory",
+          "snippet": "ecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      notify(`${em.label} \ube57\ub098\uac10 (${missDist}m)`);\n    }\n    if(dKm > 380){\n      if(!em._outcomeRecorded){\n        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,part:'\ube57\ub098\uac10(\uad50\uc804\uad6c\uc5ed \uc774\ud0c8)',dmg:0,time:performance.now(),miss:true});\n        em._outcomeRecorded=true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));\n      }\n      em.alive = false; retireTruthAssociationV27('ASM',em.id,'BATTLESPACE_EXIT');\n    }\n  }\n\n  // ===== SHIP STATE =====\n  let shipHP = 100;\n\n  // === MODULE DAMAGE SYSTEM ===\n  "
+        },
+        {
+          "sourceLine": 33230,
+          "reference": "shipHitHistory",
+          "snippet": "=createShipMassLossV16({stern:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt},buildShipHitBoxes());\n  const last=shipHitHistory.at(-1),count=shipHitHistory.length,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLo"
+        },
+        {
+          "sourceLine": 33230,
+          "reference": "shipHitHistory",
+          "snippet": "n:WIP173_SHIP_STERN_X_M,bow:WIP173_SHIP_BOW_X_M,section:wip199HullInterpolatedSection,halfBeam:wip199HullHalfBeamAt},buildShipHitBoxes());\n  const last=shipHitHistory.at(-1),count=shipHitHistory.length,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLossV16.update(scars,mastDamag"
+        },
+        {
+          "sourceLine": 33232,
+          "reference": "shipHitHistory",
+          "snippet": "ength,mastDamage=getShipSystemDamage('MAST')>=80,cache=shipMassLossCacheV16;\n  if(!cache||cache.last!==last||cache.count!==count||cache.mastDamage!==mastDamage){\n    const history=shipHitHistory.filter(h=>!shipMassLossIgnoreV16.has(h)),scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes()).scars;\n    shipMassLossV16.update(scars,mastDamage||mastSectionLostV12(scars));shipMassLossCacheV16={last,count,mastDamage};\n  }\n  return shipMassLossV16.snapshot();\n}\n\n// SHIP_MASS_LEDGER_V32: event-driven compartment mass/CG ledger.\n// The pub"
+        },
+        {
+          "sourceLine": 34103,
+          "reference": "shipHitHistory",
+          "snippet": "reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;interiorTopologyAccumulatorV48Wip06=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSur"
+        },
+        {
+          "sourceLine": 34381,
+          "reference": "shipHitHistory",
+          "snippet": ",emitters,compartments,interiorStructures};\n}\nfunction shipDamageVisualStateV1(){return createShipDamageVisualStateV1(getDamageFloodV1().snapshot(),getDamageControlV1().snapshot(),shipHitHistory,buildShipHitBoxes());}\n\nfunction damageControlRenderV1(){\n  const f=getDamageFloodV1(),s=getDamageControlV1().snapshot(),boxes=buildShipHitBoxes();return s.cells.filter(c=>c.fire>.005||c.smoke>.15).map(c=>{\n    const g=f.cells.find(g=>g.id===c.id),x=(g.x0+g.x1)/2,y=g.lane===0?-3.5:g.lane===2?3.5:0;\n    const roof=boxes.filter(b=>['STRUCT','FUNNEL','DECK','EMBEDDED_DECK'].includes(b."
+        },
+        {
+          "sourceLine": 34595,
+          "reference": "shipHitHistory",
+          "snippet": "n true;\n    }\n  }return false;\n}\nlet mastSupportCacheV12=null;\nfunction mastSupportLostV12(){\n  const damage=getShipSystemDamage('MAST');if(damage>=80)return true;\n  const history=shipHitHistory,last=history.at(-1),key=history.length+':'+damage+':'+(last?.dmg??0)+':'+(last?.blastSources?.length??0)+':'+(last?.blastParts?.length??0);\n  if(mastSupportCacheV12?.history===history&&mastSupportCacheV12.last===last&&mastSupportCacheV12.key===key)return mastSupportCacheV12.lost;\n  const scars=createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},history,buildShipHitBoxes("
+        },
+        {
+          "sourceLine": 37090,
+          "reference": "shipHitHistory",
+          "snippet": "5ResetCase(seed);_wip103ResetCiwsForCase();softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;ramMissiles.length=0;missiles.length=0;\n      const beforeHitCount=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg,speedMps,altM});if(!em){records.push({summary:{bearingDeg,seed,outcome:'SPAWN_FAILED'}});continue;}\n      const meta={caseIndex:caseIndex++,bearingDeg,seed,rangeKm,altM,speedMps};_wip103BeginCase(meta,em);\n      let outcome=null,lastRangeM=null;const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n      for(let tick=0;tick<maxTicks&&"
+        },
+        {
+          "sourceLine": 37099,
+          "reference": "shipHitHistory",
+          "snippet": "S.current,lastResult=c?.lastProjectileResult;\n        if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;\n        else if(!em.alive){\n          const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');\n          if(newShipHit)outcome='PENETRATION_SUCCESS';\n          else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_H"
+        },
+        {
+          "sourceLine": 37099,
+          "reference": "shipHitHistory",
+          "snippet": "Result;\n        if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;\n        else if(!em.alive){\n          const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');\n          if(newShipHit)outcome='PENETRATION_SUCCESS';\n          else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitH"
+        },
+        {
+          "sourceLine": 37106,
+          "reference": "shipHitHistory",
+          "snippet": "T_FAIL';\n          else outcome='INTERCEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');records.push(_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit}));\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),allErr=allFrames.map(r=>r.turretErrDeg),allQ=allFrames.map(r=>r.stQuality);\n    const totalBu"
+        },
+        {
+          "sourceLine": 37106,
+          "reference": "shipHitHistory",
+          "snippet": "CEPT_FAIL_NO_HULL_HIT';\n        }\n      }\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';\n      const shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');records.push(_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit}));\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),allErr=allFrames.map(r=>r.turretErrDeg),allQ=allFrames.map(r=>r.stQuality);\n    const totalBullets=summaries.reduce((a,r)=>a+(r.tot"
+        },
+        {
+          "sourceLine": 37208,
+          "reference": "shipHitHistory",
+          "snippet": "5ResetCase(seed);_wip103ResetCiwsForCase();softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;ramMissiles.length=0;missiles.length=0;\n      const beforeHitCount=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg,speedMps,altM});if(!em){records.push({summary:{bearingDeg,seed,outcome:'SPAWN_FAILED'}});continue;}\n      const meta={caseIndex:caseIndex++,bearingDeg,seed,rangeKm,altM,speedMps};_wip103BeginCase(meta,em);_wip104BeginCase(meta,em);\n      let outcome=null,lastRangeM=null;const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n      for("
+        },
+        {
+          "sourceLine": 37211,
+          "reference": "shipHitHistory",
+          "snippet": "z);const c=WIP103_PHALANX_MEAS.current,lastResult=c?.lastProjectileResult;if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;else if(!em.alive){const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');if(newShipHit)outcome='PENETRATION_SUCCESS';else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit"
+        },
+        {
+          "sourceLine": 37211,
+          "reference": "shipHitHistory",
+          "snippet": ",lastResult=c?.lastProjectileResult;if(lastResult==='KILL'||lastResult==='STRUCT_FAIL')outcome=lastResult;else if(!em.alive){const newShipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U');if(newShipHit)outcome='PENETRATION_SUCCESS';else if((em._phalanxHitCount??0)>0&&(em._structDmg??0)>30)outcome='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&"
+        },
+        {
+          "sourceLine": 37212,
+          "reference": "shipHitHistory",
+          "snippet": "='STRUCT_FAIL';else outcome='INTERCEPT_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U'),base=_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit});records.push({...base,spotting:spot});\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),totalBullets=summaries.reduce((a,r)=>a+(r.totalBulletsFired??0),"
+        },
+        {
+          "sourceLine": 37212,
+          "reference": "shipHitHistory",
+          "snippet": "_FAIL_NO_HULL_HIT';}}\n      if(outcome==null)outcome=em.alive?'TIMEOUT':'INTERCEPT_FAIL_NO_HULL_HIT';const spot=_wip104FinalizeCase(),shipHit=shipHitHistory.length>beforeHitCount&&shipHitHistory.slice(beforeHitCount).some(h=>!h.miss&&h.label==='Kh-35U'),base=_wip103FinalizeCase(em,outcome,{finalRangeM:lastRangeM,shipHit});records.push({...base,spotting:spot});\n    }\n    const summaries=records.map(r=>r.summary).filter(Boolean),allFrames=records.flatMap(r=>r.fireFrames??[]),totalBullets=summaries.reduce((a,r)=>a+(r.totalBulletsFired??0),0),totalHits=summaries.reduce((a,r)=>a"
+        },
+        {
+          "sourceLine": 37227,
+          "reference": "shipHitHistory",
+          "snippet": "=false;r.firing=false;r.angle=deg(180);r.turretAng=deg(180);r.turretRate=0;r.cuedTarget=null;r.cueAge=0;delete r._localTrack;\n        const shipBearingDeg=180+bearingDeg,beforeHit=shipHitHistory.length,logStart=WIP106_RAM_TERMINAL_LOG.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:shipBearingDeg,speedMps,altM});if(!em){records.push({bearingDeg,shipBearingDeg,seed,outcome:'SPAWN_FAILED'});continue;}\n        const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);let launchRangeM=null,launchTimeS=null,finalRangeM=null;\n        for(let tick=0;tick<maxTicks;tick++){\n          c"
+        },
+        {
+          "sourceLine": 37234,
+          "reference": "shipHitHistory",
+          "snippet": "m.id);if(evs.length||!em.alive)break;\n        }\n        const events=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=events[events.length-1]??null,shipHit=shipHitHistory.length>beforeHit&&shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');\n        let outcome='NO_RAM_TERMINAL';if(ev?.prox)outcome=ev.result;else if(shipHit)outcome='PENETRATION_SUCCESS';else if(!em.alive)outcome='TARGET_DEAD_OTHER';else outcome='INTERCEPT_FAIL';\n        records.push({caseIndex:caseIndex++,bearingDeg,shipBearingDeg,seed,physicsOnlyPk,launchRangeM,laun"
+        },
+        {
+          "sourceLine": 37234,
+          "reference": "shipHitHistory",
+          "snippet": "eak;\n        }\n        const events=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=events[events.length-1]??null,shipHit=shipHitHistory.length>beforeHit&&shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');\n        let outcome='NO_RAM_TERMINAL';if(ev?.prox)outcome=ev.result;else if(shipHit)outcome='PENETRATION_SUCCESS';else if(!em.alive)outcome='TARGET_DEAD_OTHER';else outcome='INTERCEPT_FAIL';\n        records.push({caseIndex:caseIndex++,bearingDeg,shipBearingDeg,seed,physicsOnlyPk,launchRangeM,launchTimeS,finalRangeM,targetAlive:!"
+        },
+        {
+          "sourceLine": 49814,
+          "reference": "shipHitHistory",
+          "snippet": "les:mslRows,ramMissiles:ramRows,enemyMissiles:enemyRows,ciws:ciwsRows,tracks:trackRows,\n      softKillThreatState:JSON.parse(JSON.stringify(softKillThreatState)),shipHitHistoryLen:shipHitHistory.length,chaffCount:chaffs.length,flareCount:flares.length,ciwsBulletCount:ciwsBullets.length};\n  }\n  function hardKillRecommendationMutationAudit(){\n    updateSoftKillThreatManager(SIM_FIXED_DT); // establish the already-existing threat-score authority before the mutation snapshot.\n    const before=hardKillGameplayFingerprint(),beforeJson=JSON.stringify(before);\n    const recs=hardKi"
+        },
+        {
+          "sourceLine": 50517,
+          "reference": "shipHitHistory",
+          "snippet": "Follow=!!opts.operatorFollow,schedTicks=Math.max(1,Math.round(WIP119_AUTONOMY_POLICY.schedulerFrameS/SIM_FIXED_DT)),refs=enemyMissiles.slice(),startCounts=getVlsCounts(),startHits=shipHitHistory.filter(h=>!h.miss).length,startFireLog=wip119AutonomyState.fireLog.length;setEngagementControlMode(mode);\n    let ticks=0;for(;ticks<Math.ceil(seconds/SIM_FIXED_DT);ticks++){simulateFixedTick(SIM_FIXED_DT);if(ticks%schedTicks===0){updateSoftKillThreatManager(SIM_FIXED_DT);wip118BuildEngagementControl({commit:true,force:true});updateWip119EngagementAutomation(true);if(operatorFollow&"
+        },
+        {
+          "sourceLine": 50519,
+          "reference": "shipHitHistory",
+          "snippet": "efs.every(e=>!e.alive)&&missiles.every(m=>m.dead)&&ramMissiles.every(m=>!m.alive))break;}\n    const endCounts=getVlsCounts(),outcomes=refs.map(e=>wip113ClassifyOutcome(e)),endHits=shipHitHistory.filter(h=>!h.miss).length;return {mode,operatorFollow,ticks,timeS:ticks*SIM_FIXED_DT,targetCount:refs.length,outcomes,airKills:outcomes.filter(x=>x==='AIR_KILL').length,harmlessMisses:outcomes.filter(x=>x==='GUIDANCE_CONTROL_LOSS_MISS'||x==='PROPULSION_LOSS_SEA_IMPACT').length,shipHits:endHits-startHits,shipHP,startCounts,endCounts,spent:{SM2:startCounts.sm2Total-endCounts.sm2Total,"
+        },
+        {
+          "sourceLine": 50801,
+          "reference": "shipHitHistory",
+          "snippet": "calTrack = null; ciws[1].trackingTarget = null;\n    if(updateCIWS._localContacts?.clear) updateCIWS._localContacts.clear();\n    ciwsBullets.length = 0; ramMissiles.length = 0;\n    shipHitHistory.length = 0; shipLastHit = null;\n    targetPool.length = 0;\n    resetSurfaceContacts();\n    nextTargetId = 1;\n    updateModeButtonLabel();\n    shipNav.heading = ACTIVE_SHIP_PROFILE.navigation.initialHeadingRad; shipNav.speed = 0; shipNav.targetSpeedKt = 0;\n    shipNav.rudder = 0; shipNav.targetRudder = 0; shipNav.turnRate = 0;\n    for(const mount of ciws)ciwsGameResetYawV1(mount);\n  "
+        },
+        {
+          "sourceLine": 50801,
+          "reference": "shipLastHit",
+          "snippet": "ackingTarget = null;\n    if(updateCIWS._localContacts?.clear) updateCIWS._localContacts.clear();\n    ciwsBullets.length = 0; ramMissiles.length = 0;\n    shipHitHistory.length = 0; shipLastHit = null;\n    targetPool.length = 0;\n    resetSurfaceContacts();\n    nextTargetId = 1;\n    updateModeButtonLabel();\n    shipNav.heading = ACTIVE_SHIP_PROFILE.navigation.initialHeadingRad; shipNav.speed = 0; shipNav.targetSpeedKt = 0;\n    shipNav.rudder = 0; shipNav.targetRudder = 0; shipNav.turnRate = 0;\n    for(const mount of ciws)ciwsGameResetYawV1(mount);\n    shipNav.vx = 0; shipNav.v"
+        },
+        {
+          "sourceLine": 52360,
+          "reference": "shipHitHistory",
+          "snippet": "70,${clamp(alpha*V.labelAlpha,.08,.9)})`;c.textAlign='center';c.fillText(String(idx+1),cx,cy-Math.min(2.5,r+.6));\n      });\n    }\n    if(showTerminalInteriorEffects)for(const h of shipHitHistory){const age=(now-h.time)/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlayTop(h,alpha);}\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const tdX = tx(h.x ?? 0);\n      con"
+        },
+        {
+          "sourceLine": 52361,
+          "reference": "shipHitHistory",
+          "snippet": ")/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlayTop(h,alpha);}\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const tdX = tx(h.x ?? 0);\n      const tdY = ty(h.y ?? 0);\n      if(h.miss){\n        c.strokeStyle = 'rgba(255,255,0,' + alpha * 0.6 + ')';\n        c.lineWidth = 1.5;\n        c.beginPath(); c.moveTo(tdX-3,tdY-3); c.lineTo(tdX+3,tdY+3);\n        c.moveTo("
+        },
+        {
+          "sourceLine": 52470,
+          "reference": "shipHitHistory",
+          "snippet": "70,${clamp(alpha*V.labelAlpha,.08,.9)})`;c.textAlign='center';c.fillText(String(idx+1),cx,cy-Math.min(2.5,r+.6));\n      });\n    }\n    if(showTerminalInteriorEffects)for(const h of shipHitHistory){const age=(now-h.time)/1000;if(age>WIP101_IMPACT_VIS_HOLD_S||h.miss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlaySide(h,alpha);}\n\n    // Side hit markers \u2014 white diamonds\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0)"
+        },
+        {
+          "sourceLine": 52473,
+          "reference": "shipHitHistory",
+          "snippet": "iss)continue;const alpha=clamp(1-age/Math.max(1,WIP101_IMPACT_VIS_HOLD_S),.08,1);drawImpactDebugOverlaySide(h,alpha);}\n\n    // Side hit markers \u2014 white diamonds\n    for(const h of shipHitHistory){\n      const age = (now - h.time) / 1000;\n      if(age > 120) continue;\n      const alpha = clamp(1.0 - age / 120, 0.1, 1.0);\n      const svX = tx(h.x ?? 0);\n      const svY = scy - (h.z ?? 0) * ssc;\n      if(h.miss){\n        c.strokeStyle = 'rgba(255,255,0,' + alpha*0.5 + ')';\n        c.lineWidth = 1;\n        c.beginPath(); c.moveTo(svX-2,svY-2); c.lineTo(svX+2,svY+2);\n        c.m"
+        },
+        {
+          "sourceLine": 52515,
+          "reference": "shipHitHistory",
+          "snippet": ",80,0.4)' : 'rgba(255,100,40,0.7)';\n    c.fillText('SPY:[' + spyTxt + ']' + (allSpy ? '' : ' BACKUP'), tcx, H - 14);\n    c.fillStyle = 'rgba(0,255,80,0.4)';\n    c.fillText('\uc9c1\uaca9:' + shipHitHistory.filter(h=>!h.miss).length + ' \ube57\ub098\uac10:' + shipHitHistory.filter(h=>h.miss).length, tcx, H - 3);\n    c.fillStyle = 'rgba(0,255,80,0.3)';\n    c.textAlign = 'left';\n    c.fillText('TOP', 4, topH - 3);\n    c.fillText('SIDE', 4, sideY + 8);\n  }\n\n  function runWip101Stage3RepresentativeImpact(label='Kh-32',commitVisual=false){\n    const boxes=buildShipHitBoxes(),p=asmImpactProfile(label),impa"
+        },
+        {
+          "sourceLine": 52515,
+          "reference": "shipHitHistory",
+          "snippet": "PY:[' + spyTxt + ']' + (allSpy ? '' : ' BACKUP'), tcx, H - 14);\n    c.fillStyle = 'rgba(0,255,80,0.4)';\n    c.fillText('\uc9c1\uaca9:' + shipHitHistory.filter(h=>!h.miss).length + ' \ube57\ub098\uac10:' + shipHitHistory.filter(h=>h.miss).length, tcx, H - 3);\n    c.fillStyle = 'rgba(0,255,80,0.3)';\n    c.textAlign = 'left';\n    c.fillText('TOP', 4, topH - 3);\n    c.fillText('SIDE', 4, sideY + 8);\n  }\n\n  function runWip101Stage3RepresentativeImpact(label='Kh-32',commitVisual=false){\n    const boxes=buildShipHitBoxes(),p=asmImpactProfile(label),impactSpeed=label==='Kh-32'?1372:280,impact={x:12,y:9.99,"
+        },
+        {
+          "sourceLine": 52531,
+          "reference": "shipHitHistory",
+          "snippet": ">({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u}))};\n    if(commitVisual){resetModules();for(const hp of chain.hitParts)addModuleDmg(hp.name,hp.dmg*3.5);shipHitHistory.length=0;const info={x:det.x,y:det.y,z:det.z,label,part:detBox?.name??initial.name,dmg:chain.totalDmg,impactPart:initial.name,penetration:detTravel,physicalPenetrationM:pen.physicalPenetrationM,fuzeTravelM:fuzeTravel,fuzeDelaySec:fuzeDelay,ricochet:!!pen.ricochet,impactSpeed,blastParts:chain.hitParts,penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1"
+        },
+        {
+          "sourceLine": 52531,
+          "reference": "shipHitHistory",
+          "snippet": "blastParts:chain.hitParts,penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3PerformanceDiagnostics(iterations=2000){\n    const boxes=buildShipHitBoxes(),n=Math.max(100,Math.min(20000,Math.floor(Number(iterations)||2000))),impact={x:12,y:9.99,z:4},dir={x:0,y:-1,z:0};\n    const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side==='STARBOARD'&&impact.x>=b.oX-b.hL&&impact.x<=b.oX+"
+        },
+        {
+          "sourceLine": 52531,
+          "reference": "shipLastHit",
+          "snippet": "penetrationLine:pen.ricochet?null:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3PerformanceDiagnostics(iterations=2000){\n    const boxes=buildShipHitBoxes(),n=Math.max(100,Math.min(20000,Math.floor(Number(iterations)||2000))),impact={x:12,y:9.99,z:4},dir={x:0,y:-1,z:0};\n    const initial=boxes.find(b=>b.system==='HULL_SKIN'&&b.side==='STARBOARD'&&impact.x>=b.oX-b.hL&&impact.x<=b.oX+b.hL&&impact.y>=(b.oY??0)-"
+        },
+        {
+          "sourceLine": 54119,
+          "reference": "shipHitHistory",
+          "snippet": "(seed);\n    missileSerial=1;enemyMslSerial=1;ramMissileSerial=1;\n    simAccumulator=0;simDroppedTimeSec=0;simStepCounter=0;resetOwnshipWorldWip14A();\n    shipHP=100;resetModules();shipHitHistory.length=0;shipLastHit=null;\n    enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();SPG62_ENGAGEMENT_STATE.clear();spg62ResetReservations(); // WIP116: isolate live ownership + time reservations\n    targetPool.length=0;resetMk36Srboc();resetNulka15B();chaffs.length"
+        },
+        {
+          "sourceLine": 54119,
+          "reference": "shipLastHit",
+          "snippet": "l=1;enemyMslSerial=1;ramMissileSerial=1;\n    simAccumulator=0;simDroppedTimeSec=0;simStepCounter=0;resetOwnshipWorldWip14A();\n    shipHP=100;resetModules();shipHitHistory.length=0;shipLastHit=null;\n    enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();SPG62_ENGAGEMENT_STATE.clear();spg62ResetReservations(); // WIP116: isolate live ownership + time reservations\n    targetPool.length=0;resetMk36Srboc();resetNulka15B();chaffs.length=0;flares.length=0;esmCo"
+        },
+        {
+          "sourceLine": 54647,
+          "reference": "shipHitHistory",
+          "snippet": "ts.maxTimeS??60),samplePeriodS=Math.max(.25,Number(opts.samplePeriodS??1));\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=opts.emconActive!==false;const before=shipHitHistory.length,em=_wip107SpawnRealAsm(label,rangeKm,0);if(!em)return {error:'SPAWN_FAILED',label,speedKt,seed};\n    let driftX=0,driftY=0,nextSample=0,t=0;const samples=[];const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);\n    for(let tick=0;tick<maxTicks&&em.alive;tick++){\n      updateShipMovement(SIM_FIXED_DT);const dx=worldSpeedToMps(shipNav.vx)*SIM_FIXED_DT,dy=worldSpeedToMps(shipNav.vy)*"
+        },
+        {
+          "sourceLine": 54653,
+          "reference": "shipHitHistory",
+          "snippet": "D_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;\n      if(t+1e-9>=nextSample){samples.push(_wip107SampleAsm(em,t,driftX,driftY));nextSample+=samplePeriodS;}\n    }\n    const shipHit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label===label),dr=samples.map(s=>s.shipWorldDriftM),ins=samples.map(s=>s.insTgtErrorM),ls=samples.map(s=>s.lastSeekerErrorM),st=samples.map(s=>s.seekerTgtErrorM),ae=samples.map(s=>s.asmSeekerEkfErrorM),coast=samples.filter(s=>s.seekerMode==='COAST');\n    return {label,speedKt,seed,headingDeg,rangeKm,durationS:t,targetAlive:!!em.alive,deathReason:em._"
+        },
+        {
+          "sourceLine": 54659,
+          "reference": "shipHitHistory",
+          "snippet": "umber(opts.maxTimeS??90);\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=true;softKillAutoDoctrine=false;noiseJamActive=false;deceptJamActive=false;const before=shipHitHistory.length,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:0,speedMps:280,altM:12});if(!em)return {error:'SPAWN_FAILED',speedKt,seed};\n    let driftX=0,driftY=0,t=0;for(let tick=0;tick<Math.ceil(maxTimeS/SIM_FIXED_DT)&&em.alive;tick++){updateShipMovement(SIM_FIXED_DT);driftX+=worldSpeedToMps(shipNav.vx)*SIM_FIXED_DT;driftY+=worldSpeedToMps(shipNav.vy)*SIM_FIXED_DT;applyAircraftWorldShif"
+        },
+        {
+          "sourceLine": 54661,
+          "reference": "shipHitHistory",
+          "snippet": "driftY+=worldSpeedToMps(shipNav.vy)*SIM_FIXED_DT;applyAircraftWorldShift(SIM_FIXED_DT);updateEnemyMissile(em,SIM_FIXED_DT);simStepCounter++;t=(tick+1)*SIM_FIXED_DT;}\n    const hit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label==='Kh-35U');return {label:'Kh-35U',fixture:'STRAIGHT_INS_CENTER_REAL_FLIGHT_CORE',speedKt,seed,durationS:t,shipWorldDriftM:Math.hypot(driftX,driftY),shipHit:hit,targetAlive:!!em.alive,deathReason:em._deathReason??null};\n  }\n  function _wip107RunSarhCase(opts={}){\n    const label=opts.label==='Kh-32'?'Kh-32':'Kh-35U',speedKt=Number(opts.speedKt?"
+        },
+        {
+          "sourceLine": 54679,
+          "reference": "shipHitHistory",
+          "snippet": "SIM_FIXED_DT;}\n    return {weapon:'ESSM',label,speedKt,seed,durationS:t,prox:!!m.proxDetonated,missileDeathReason:m._deathReason??null,targetAlive:!!em.alive,intercept:!em.alive&&!shipHitHistory.some(h=>!h.miss&&h.label===label)};\n  }\n  function _wip107RunRamMotionCase(opts={}){\n    const speedKt=Number(opts.speedKt??0),seed=(Number(opts.seed??107401)>>>0)||107401,headingDeg=Number(opts.headingDeg??90),rangeKm=Number(opts.rangeKm??8),maxTimeS=Number(opts.maxTimeS??45),bearingOffsetDeg=Number(opts.bearingOffsetDeg??0);\n    _wip75ResetCase(seed);_wip103ResetCiwsForCase();soft"
+        },
+        {
+          "sourceLine": 54685,
+          "reference": "shipHitHistory",
+          "snippet": "t=null;r.trackQuality=0;r.tracking=false;r.firing=false;r.angle=deg(180);r.turretAng=deg(180);r.turretRate=0;r.cuedTarget=null;r.cueAge=0;delete r._localTrack;\n    const beforeHit=shipHitHistory.length,logStart=WIP106_RAM_TERMINAL_LOG.length,worldBearing=headingDeg+180+bearingOffsetDeg,em=_wip103SpawnStraightKh35({rangeKm,bearingDeg:worldBearing,speedMps:280,altM:12});if(!em)return {error:'SPAWN_FAILED',weapon:'RAM',speedKt,seed};WIP106_RAM_DIAG_ENABLED=true;\n    let t=0;try{const maxTicks=Math.ceil(maxTimeS/SIM_FIXED_DT);for(let tick=0;tick<maxTicks;tick++){simulateFixedTi"
+        },
+        {
+          "sourceLine": 54687,
+          "reference": "shipHitHistory",
+          "snippet": "s.length||!em.alive)break;}}finally{WIP106_RAM_DIAG_ENABLED=false;}\n    const evs=WIP106_RAM_TERMINAL_LOG.slice(logStart).filter(q=>q.targetId===em.id),ev=evs.at(-1)??null,shipHit=shipHitHistory.slice(beforeHit).some(h=>!h.miss&&h.label==='Kh-35U');return {weapon:'RAM',label:'Kh-35U',speedKt,seed,durationS:t,prox:!!ev?.prox,result:ev?.result??null,terminalReason:ev?.terminalReason??null,shipHit,targetAlive:!!em.alive,intercept:['KILL','STRUCT_FAIL'].includes(ev?.result)};\n  }\n  // ===== WIP108 moving-world fix validation harness (diagnostic-only) =====\n  // Gameplay change "
+        },
+        {
+          "sourceLine": 54694,
+          "reference": "shipHitHistory",
+          "snippet": "opts.rangeKm??(label==='Kh-32'?100:55)),maxTimeS=Number(opts.maxTimeS??60);\n    _wip107PrepareMotionCase(seed,speedKt,headingDeg);emconActive=opts.emconActive!==false;const before=shipHitHistory.length,em=_wip107SpawnRealAsm(label,rangeKm,0);if(!em)return {error:'SPAWN_FAILED',label,speedKt,seed};\n    const p=ASM_SEEKER_PROFILES[label]??ASM_SEEKER_PROFILES['Kh-35U'];let driftX=0,driftY=0,t=0,everAcquire=false,everTrack=false,acquireTimeS=null,acquireInsErrorM=null,coastEntries=0,reacquireEntries=0,reacquireSuccesses=0,prevMode=em.seeker?.mode??'OFF',searchAttempts=0,searchI"
+        },
+        {
+          "sourceLine": 54708,
+          "reference": "shipHitHistory",
+          "snippet": "ngeAttempts++;else{searchInRangeAttempts++;if(mode==='SEARCH'&&beforeMode==='SEARCH'&&(s.lastCandidateCount??0)===0)searchMissAttempts++;}}lastDwell=dwell;\n    }\n    const shipHit=shipHitHistory.slice(before).some(h=>!h.miss&&h.label===label),finalSample=_wip107SampleAsm(em,t,driftX,driftY);\n    let acquireFailureReason=null;if(!everAcquire){if(searchInRangeAttempts===0&&searchOutOfRangeAttempts>0)acquireFailureReason='SEARCH_RANGE_OUTSIDE';else if(searchMissAttempts>0||searchInRangeAttempts>0)acquireFailureReason='NO_DETECTION_OR_ASSOCIATION';else acquireFailureReason='OTH"
+        },
+        {
+          "sourceLine": 55041,
+          "reference": "shipHitHistory",
+          "snippet": "etTestClock: () => { simAccumulator=0; simDroppedTimeSec=0; simStepCounter=0; return true; },\n    _resetShipTest: () => { BATTLESPACE_DIAG_BYPASS=true; shipHP=100; resetModules(); shipHitHistory.length=0; shipLastHit=null; enemyMissiles.length=0; resetAsmWreckageV48Wip11C(); wip12bResetTerminalEvents(); resetMainGunProjectilesWip13B3(); ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts(); missiles.length=0; ramMissiles.length=0; ramMissileSerial=1; ciwsBullets.length=0; tracks.clear(); SPG62_ENGAGEMENT_STATE.clear(); resetSurfaceContacts(); rese"
+        },
+        {
+          "sourceLine": 55041,
+          "reference": "shipLastHit",
+          "snippet": "ccumulator=0; simDroppedTimeSec=0; simStepCounter=0; return true; },\n    _resetShipTest: () => { BATTLESPACE_DIAG_BYPASS=true; shipHP=100; resetModules(); shipHitHistory.length=0; shipLastHit=null; enemyMissiles.length=0; resetAsmWreckageV48Wip11C(); wip12bResetTerminalEvents(); resetMainGunProjectilesWip13B3(); ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts(); missiles.length=0; ramMissiles.length=0; ramMissileSerial=1; ciwsBullets.length=0; tracks.clear(); SPG62_ENGAGEMENT_STATE.clear(); resetSurfaceContacts(); resetMk36Srboc();resetNulka15"
+        },
+        {
+          "sourceLine": 55058,
+          "reference": "shipLastHit",
+          "snippet": "turns().map(r=>({id:r.id,rcsM2:r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,ali"
+        },
+        {
+          "sourceLine": 55058,
+          "reference": "shipLastHit",
+          "snippet": "=>({id:r.id,rcsM2:r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,de"
+        },
+        {
+          "sourceLine": 55058,
+          "reference": "shipLastHit",
+          "snippet": "r.rcsM2,radiusM:r.radiusM,z:r.z,ageS:r.ageS,dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState"
+        },
+        {
+          "sourceLine": 55059,
+          "reference": "shipHitHistory",
+          "snippet": "dopplerSpreadMps:r.dopplerSpreadMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts."
+        },
+        {
+          "sourceLine": 55059,
+          "reference": "shipHitHistory",
+          "snippet": "readMps}))},\n      spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id"
+        },
+        {
+          "sourceLine": 55059,
+          "reference": "shipHitHistory",
+          "snippet": "    spyScheduler: spySchedulerSnapshot(),\n      shipHP,\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.si"
+        },
+        {
+          "sourceLine": 55060,
+          "reference": "shipHitHistory",
+          "snippet": ",\n      shipLastHit: shipLastHit ? {...shipLastHit} : null,\n      shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.sizeClass,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,heading:t.he"
+        },
+        {
+          "sourceLine": 55061,
+          "reference": "shipHitHistory",
+          "snippet": "   shipLastOutcome: shipHitHistory.length ? {...shipHitHistory[shipHitHistory.length-1]} : null,\n      shipHitCount: shipHitHistory.filter(h=>!h.miss).length,\n      shipMissCount: shipHitHistory.filter(h=>h.miss).length,\n      lastErrorMsg,\n      targetState: targetPool.slice(0,12).map(t=>({id:t.id,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,vz:t.vz,alive:t.alive,det:t.detectionState??0})),\n      surfaceState: surfaceContacts.slice(0,16).map(t=>({id:t.id,sizeClass:t.sizeClass,x:t.x,y:t.y,z:t.z,vx:t.vx,vy:t.vy,heading:t.heading,speedKt:t.speedKt,alive:t.alive})),\n      enemyMissileSta"
+        },
+        {
+          "sourceLine": 62241,
+          "reference": "shipHitHistory",
+          "snippet": "=>e.backgroundKind)?.backgroundKind;if(b)firstBackground=b;}}}\n    return {seed,model:getArhSeekerModel(),rangeKm,altM,speedMps,durationS:t,prox:!!m.proxDetonated,kill:!em.alive&&!shipHitHistory.some(h=>!h.miss&&h.label==='Kh-35U'),targetAlive:!!em.alive,missileDeathReason:m._deathReason??null,arhSamples,arhTrackSamples,trackMaintainRate:arhSamples?arhTrackSamples/arhSamples:0,acquireAtS:acquireAt,firstBackground,rf:m._v1ArhRfShadow?{model:m._v1ArhRfShadow.model,profileId:m._v1ArhRfShadow.profileId,frontendPassMin:m._v1ArhRfShadow.frontendPassMin,protectedQuality:m._v1ArhRf"
+        }
+      ],
+      "performanceTimestampWrites": [
+        {
+          "sourceLine": 6732,
+          "snippet": "terminal.finalState.position.x,y1:terminal.finalState.position.y,z1:terminal.finalState.position.z},time:performance.now()};\n    const history=own?shipHitHistory:r.hitHistory;history.push(hit);if(history.length>64)histor"
+        },
+        {
+          "sourceLine": 7151,
+          "snippet": ".map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayl"
+        },
+        {
+          "sourceLine": 23830,
+          "snippet": ".map(q=>({...q})),kineticSpallSources:impactMeta.kineticSpallSources,vlsCellDamage:wip125CellDamage,time:performance.now()};shipLastHit=hitInfo;shipHitHistory.push(hitInfo);const visualPayload=blastTrace?wip12eVisualPayl"
+        },
+        {
+          "sourceLine": 25860,
+          "snippet": ",penetrationLine:pen.ricochet?null:{x0:entry.x,y0:entry.y,z0:entry.z,x1:stop.x,y1:stop.y,z1:stop.z},time:performance.now()};\n    shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impac"
+        },
+        {
+          "sourceLine": 32516,
+          "snippet": "X,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({i"
+        },
+        {
+          "sourceLine": 32561,
+          "snippet": "y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()\n        };\n        shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminal"
+        },
+        {
+          "sourceLine": 32582,
+          "snippet": "     shipHitHistory.push({ x: mlx, y: mly, z: 0, label: em.label, part: `\ube57\ub098\uac10 ${missDist}m`, dmg: 0, time: performance.now(), miss: true });\n      em._outcomeRecorded = true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(e"
+        },
+        {
+          "sourceLine": 32588,
+          "snippet": "        shipHitHistory.push({x:0,y:0,z:Math.max(0,em.z??0),label:em.label,part:'\ube57\ub098\uac10(\uad50\uc804\uad6c\uc5ed \uc774\ud0c8)',dmg:0,time:performance.now(),miss:true});\n        em._outcomeRecorded=true;wip113SetOutcome(em,wip113OutcomeForSeaImpact(em));"
+        },
+        {
+          "sourceLine": 52531,
+          "snippet": "ull:{x0:impact.x,y0:impact.y,z0:impact.z,x1:stop.x,y1:stop.y,z1:stop.z},blastSources:result.sources,time:performance.now()};shipHitHistory.push(info);shipLastHit=info;}\n    return result;\n  }\n\n  function runWip101Stage3P"
+        },
+        {
+          "sourceLine": 55976,
+          "snippet": "rr?.message||err||'Unknown simulation error');\n    simRuntimeFault={step:simStepCounter,message:msg,time:performance.now()};\n    lastErrorMsg=`SIM FAULT @ step ${simStepCounter}: ${String(err?.message||err)}`;\n    debugL"
+        },
+        {
+          "sourceLine": 55984,
+          "snippet": "|'Unknown 3D error');\n    presentationRuntimeFault={stage:'EXTERNAL_3D',step:simStepCounter,message,time:performance.now(),action:'RETURN_TO_CIC'};\n    lastErrorMsg=`3D FAULT @ step ${simStepCounter}: ${String(err?.messa"
+        }
+      ]
+    }
+  ],
+  "productOrExpectedValuesChanged": false
+}
