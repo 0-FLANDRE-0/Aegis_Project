@@ -1,0 +1,113 @@
+[
+  {
+    "number": 52,
+    "state": "open",
+    "merged": false,
+    "head": "43021f9693dc0500b5f2def531ec5d0d9e17bf0b",
+    "path": "docs/multiship/H1/tactical.js",
+    "blobSha": "61bb3a8e839fac4230a32e0278b540490523f3ba",
+    "sha256": "c30a147a78e2df3432687f7e7ed97e94030e2f5a5b55798fb462e6f91be3fe87",
+    "bytes": 12164,
+    "containsManeuverH2": false,
+    "containsNativeArcCoverage": false,
+    "containsCandidateTurns": false,
+    "lineHits": [
+      {
+        "line": 13,
+        "text": "function tacticalActiveH1(r){return prepareTacticalH1(r).settings.enabled&&tacticalModeH1(r)==='AUTO';}"
+      }
+    ]
+  },
+  {
+    "number": 53,
+    "state": "open",
+    "merged": false,
+    "head": "59fad37cc170c760c1659b916febc168021a31b4",
+    "path": "docs/multiship/H2/maneuver.js",
+    "blobSha": "41b24fc2762e352b22003557031cdd7fe33d35b3",
+    "sha256": "dba3749d3b554e621e60cc0e4fb1194730c469569945af25301be5759fd85e4e",
+    "bytes": 16821,
+    "containsManeuverH2": true,
+    "containsNativeArcCoverage": true,
+    "containsCandidateTurns": true,
+    "lineHits": [
+      {
+        "line": 6,
+        "text": "const settings=r.restoredManeuverH2??{schema:MANEUVER_POLICY_H2.schema,enabled:r!==ACTIVE_SHIP_RUNTIME,manualNav:false};delete r.restoredManeuverH2;"
+      },
+      {
+        "line": 11,
+        "text": "function maneuverActiveH2(r){const s=prepareManeuverH2(r);return s.settings.enabled&&!s.settings.manualNav&&tacticalActiveH1(r);}"
+      },
+      {
+        "line": 18,
+        "text": "function maneuverNoteOperatorH2(r){const s=prepareManeuverH2(r);maneuverYieldH2(r);s.settings.manualNav=true;s.lastStep=-1;}"
+      },
+      {
+        "line": 24,
+        "text": "else {s.settings.enabled=true;s.settings.manualNav=false;tacticalCommandH1(id,{enabled:true});}"
+      },
+      {
+        "line": 29,
+        "text": "function validateManeuverSettingsH2(q,errors){if(!networkStrictKeysG(q,['schema','enabled','manualNav'])||q.schema!==MANEUVER_POLICY_H2.schema||typeof q.enabled!=='boolean'||typeof q.manualNav!=='boolean')errors.push('MANEUVER_H2_SETTINGS');}"
+      },
+      {
+        "line": 38,
+        "text": "if(src.ship&&!Object.hasOwn(src.ship,'maneuver'))src.ship.maneuver={schema:MANEUVER_POLICY_H2.schema,enabled:false,manualNav:!!(src.ship.navigation?.manualSpeedV15||src.ship.navigation?.manualRudderV15)};"
+      },
+      {
+        "line": 39,
+        "text": "for(const q of src.fleet?.ships??[])if(!Object.hasOwn(q,'maneuver'))q.maneuver={schema:MANEUVER_POLICY_H2.schema,enabled:true,manualNav:!!(q.ship?.navigation?.manualSpeedV15||q.ship?.navigation?.manualRudderV15)};"
+      },
+      {
+        "line": 72,
+        "text": "function maneuverCoverageNativeH2(r,observation,pose,ports){"
+      },
+      {
+        "line": 81,
+        "text": "function maneuverPlanH2(r,rows,damage,s){"
+      },
+      {
+        "line": 95,
+        "text": "function maneuverApplyH2(r,choice,damage){"
+      },
+      {
+        "line": 103,
+        "text": "if(!maneuverActiveH2(r)||shipEquipmentOfflineV1(r)){maneuverYieldH2(r);s.summary={reason:s.settings.manualNav?'MANUAL_NAV':shipEquipmentOfflineV1(r)?'OFFLINE':'INACTIVE',localThreats:0};s.candidates=[];return;}"
+      }
+    ]
+  },
+  {
+    "number": 54,
+    "state": "open",
+    "merged": false,
+    "head": "af1eade2d418b215720a68a5b902aae0d9387203",
+    "path": "docs/multiship/H3/attack.js",
+    "blobSha": "31e83c43705483167a8d77a5515dcb0d676e0fe4",
+    "sha256": "a5f13f7bd9f9c3c295041984a7b5edba4bbbadd1e3bd3ae50902b78e07e39b37",
+    "bytes": 14953,
+    "containsManeuverH2": false,
+    "containsNativeArcCoverage": false,
+    "containsCandidateTurns": false,
+    "lineHits": []
+  },
+  {
+    "number": 55,
+    "state": "open",
+    "merged": false,
+    "head": "b74a2c733352230a0799446cfdb6730b2bb87421",
+    "path": "docs/multiship/H4/team.js",
+    "blobSha": "ae3bf0e5d57c777b1490628760e640d0c89e062d",
+    "sha256": "b526b450a232576e059d84e007c275fb4a7064b6c39a23cae653411ae0c7bffc",
+    "bytes": 25639,
+    "containsManeuverH2": true,
+    "containsNativeArcCoverage": false,
+    "containsCandidateTurns": false,
+    "lineHits": [
+      {
+        "line": 13,
+        "text": "function teamYieldNavigationH4(r){const m=r.combatSystem.maneuverH2;if(m?.commandSourceH4==='FORMATION')maneuverYieldH2(r);const s=r.combatSystem.teamH4;if(s)s.formation=null;}"
+      }
+    ]
+  }
+]

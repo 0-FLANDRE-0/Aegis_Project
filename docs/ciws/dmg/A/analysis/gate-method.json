@@ -1,0 +1,22 @@
+{
+  "totalRuns": 30,
+  "autoAA": false,
+  "manualMode": true,
+  "gunRounds": 183,
+  "ramRounds": 75,
+  "nativeGateModel": {
+    "schema": "PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A",
+    "groupRadiusFractionForCenterGate": 0.32,
+    "baseCenterGateM": 0.42,
+    "minCenterGateM": 0.55,
+    "maxCenterGateM": 2.1,
+    "predictedMissBaseM": 0.5,
+    "predictedMissGroupFraction": 0.18,
+    "engageHysteresis": 1.35
+  },
+  "notes": [
+    "FIRE_CONTROL_GATE ready false can contain centre-error and predicted-miss rejection simultaneously. Predicted-miss-only is inferred only when centre gate passes.",
+    "A ready sample outside 3km is insufficient: native range/quality/state dwell/release gates also apply.",
+    "PROTECTED veto classification uses previously selected local file IDs, not the first file serial."
+  ]
+}
