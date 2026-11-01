@@ -1,0 +1,43 @@
+{
+  "suite": "paired-track-a",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-u",
+    "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/F/verify_regression.py",
+    "/dev/shm/aegis-ciws-dmg-a/Aegis_SIM_v48_WIP_TRACK_A.html",
+    "/dev/shm/aegis-ciws-dmg-a/Aegis_SIM_v48_WIP_TRACK_B_STABLE_A.html",
+    "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/evidence/regression/paired-track-a",
+    "--baseline-only"
+  ],
+  "exitCode": 1,
+  "executionS": 170.65721443999792,
+  "wallS": 170.6573038950155,
+  "lease": {
+    "slot": 0,
+    "waitS": 7.360099698416889e-05,
+    "scope": "COOPERATING_RUNNERS_ONLY_USE_SAME_HELPER"
+  },
+  "status": "FAIL",
+  "reason": "Original strict comparison failed or output incomplete; delta needs cause review, not an updated expectation",
+  "expectedAssertions": 42,
+  "executedAssertions": 42,
+  "passedAssertions": 38,
+  "failedAssertions": [
+    "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+    "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+    "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+  ],
+  "errors": [],
+  "resultPath": "paired-track-a/baseline-comparison.json",
+  "allFieldDeltaEvidence": {
+    "path": "evidence/regression/paired-state-deltas.json.gz",
+    "sha256": "a01fa09c54b7a711d82b49014b1118c07a22af25f7097840ac634a33a79d82bf",
+    "cases": 6,
+    "changedLeaves": 2254,
+    "reviewOnly": true
+  },
+  "expectedValuesChanged": false,
+  "deltaApproved": false,
+  "reviewPending": true
+}

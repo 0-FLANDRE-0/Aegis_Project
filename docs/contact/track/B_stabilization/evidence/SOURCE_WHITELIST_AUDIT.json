@@ -1,0 +1,90 @@
+{
+  "schema": "AEGIS_TRACK_B_STABLE_SOURCE_WHITELIST_AUDIT_1",
+  "status": "PASS",
+  "candidateModuleSha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71",
+  "testSourceSha256": "77dfcb3e27742055c5781a8eb8761ead202bcf979de261d24686508809bdfb8f",
+  "scope": "Association API inputs/outputs and detached query records; AFTER_ACTION native fixture artifacts are separate, not tactical inputs.",
+  "productOutputContracts": {
+    "trackBEvidenceStableB": [
+      "valid",
+      "reason",
+      "dimensions",
+      "epochS",
+      "logDetS"
+    ],
+    "trackBPairCopyB": [
+      "i",
+      "id",
+      "nis",
+      "sanity",
+      "evidence"
+    ],
+    "evidenceWhitelist": [
+      "valid",
+      "dimensions",
+      "epochS",
+      "logDetS"
+    ],
+    "trackBSnapshot": "Fresh outer snapshot plus freshly copied scalar-only trace records; no raw measurement, track, P, S or physical entity object returned."
+  },
+  "permittedAssociationInput": "Anonymous measured geometry/noise plus receiver-owned filter x/P and explicit model/epoch. File IDs and receiver observerShip context are not target truth identifiers.",
+  "truthOrRawAliasedReferencesFound": 0,
+  "unknownAndTruthCanaryTests": [
+    {
+      "name": "privacy.truthCanariesDoNotChangeSelection",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthAndUnknownEvidenceFieldsNotReturned",
+      "status": "PASS"
+    }
+  ],
+  "purityAndDeterminismTests": [
+    {
+      "name": "metadata.missingOwnedPriorDoesNotInitializeFilter",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.mismatchedMeasurementEpochRejectedBeforeAnyNativeRead",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.unknownEpochIsNotZero",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.inputOrderCannotChooseContact",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.renamedIdsDoNotChangeSemanticPreference",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.deepFrozenInputNotMutated",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.outputDoesNotAliasEvidenceInput",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthCanariesDoNotChangeSelection",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthAndUnknownEvidenceFieldsNotReturned",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.repeatedSolveHasNoHiddenAccumulation",
+      "status": "PASS"
+    }
+  ],
+  "nativeSourceInputAudit": "Existing immutable B native_support assertNoTruthFields rejects truthRef/objectId/rfId/_truthObject/faction/owner/targetEntity/entityId in anonymous payloads before actual native calls. Native metadata captures S as Array.from only in TEST helper.",
+  "rawAfterActionBoundary": "World/private state strings and captured native matrices are TEST_ONLY/AFTER_ACTION artifacts. They are hashed or compared by the runner and never fed back to association or gameplay.",
+  "originalBTestsOrExpectationsChanged": false,
+  "staticForbiddenTargetPropertyAccessPattern": "(?:\\.\\s*|\\[\\s*['\"])(truthRef|objectId|rfId|_truthObject|faction|owner|targetEntity|entityId|profileId)\\b",
+  "staticForbiddenTargetPropertyAccessMatches": [],
+  "staticPatternMethodLimit": "Text property-access pattern plus explicit scalar-whitelist read review; not an AST proof of every future data flow."
+}

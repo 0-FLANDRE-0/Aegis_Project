@@ -1,0 +1,158 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_POLICY_TEST_1",
+  "status": "FAIL",
+  "classification": "ACTUAL_CANDIDATE_SOLVER_WITH_NATIVE_HUNGARIAN_NO_SECOND_MODEL",
+  "modulePath": "docs/contact/track/B/association.js",
+  "moduleSha256": "3a4bac5b74c03033490e92f5d3d69cadd4e4214309e7479afcdfe3c5cf954e46",
+  "nativeSourcePath": "/dev/shm/track-b-baseline-source.js",
+  "nativeAssignerSha256": "67c7c70e32ab3d314abef3e7a72f824fbba83fd0c6ae56c9bac31ad820d97f34",
+  "count": 34,
+  "passed": 28,
+  "failed": 6,
+  "existingBTestsOrExpectationsChanged": false,
+  "countsNotAddedToExistingDomain420": true,
+  "rows": [
+    {
+      "name": "policy.existingNisAmbiguityThresholdIsNotLowered",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.sameWinnerCovarianceEvidenceCanReleaseNearEqualHold",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     'precise'\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:18:81)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "negative.likelihoodCannotReplaceExistingNisWinner",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.equalCovarianceKeepsNearEqualHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactNisTieNotResolvedByCovarianceOrNumericId",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactSignalAndCovarianceRemainHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.reliabilityLabelsAloneCannotResolveSameSignal",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.noEvidencePreservesOriginalPolicy",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.missingOneCandidateEvidenceDoesNotFavorTheOther",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.invalidEvidenceFallsBackToOriginalHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.nonFiniteLogDetCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.differentObservationDimensionsNotCompared",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.nonIntegerObservationDimensionNotAccepted",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.missingObservationDimensionDoesNotDefaultToThree",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.differentEpochsCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.unknownEpochDoesNotBecomeCurrentEpoch",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.zeroEpochIsARealEpoch",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     11\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:33:51)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "negative.nonFiniteEpochCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.evidenceCannotBypassOriginalNisGate",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.evidenceCannotBypassIndependentGeometrySanity",
+      "status": "PASS"
+    },
+    {
+      "name": "preservation.singleEligibleCandidateDoesNotNeedNewEvidence",
+      "status": "PASS"
+    },
+    {
+      "name": "preservation.clearNisWinnerStaysClearWithoutEvidence",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.sameRFullPermutationLogDetCancels",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.conflictingGlobalLikelihoodCannotReverseNisAssignment",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.agreeingGlobalEvidenceRetainsNisOneToOneMatching",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     11\n-   ],\n-   [\n-     1,\n-     22\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:41:291)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "isolation.resolveOnlyEvidenceSupportedDisconnectedComponent",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     'precise'\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:42:242)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "determinism.inputOrderCannotChooseContact",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.renamedIdsDoNotChangeSemanticPreference",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     1\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:44:127)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "purity.deepFrozenInputNotMutated",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   [\n-     0,\n-     'precise'\n-   ]\n- ]\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:45:106)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/tests_policy.cjs:51:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "purity.outputDoesNotAliasEvidenceInput",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthCanariesDoNotChangeSelection",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthAndUnknownEvidenceFieldsNotReturned",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.repeatedSolveHasNoHiddenAccumulation",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.identical257PlotContactStillHeld",
+      "status": "PASS"
+    }
+  ]
+}

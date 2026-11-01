@@ -1,0 +1,122 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_VALIDATION_1",
+  "generatedAtKst": "2026-11-02T04:29:08+09:00",
+  "branch": "track-b-stabilization-a",
+  "implementationCommit": "5718f2d25f2e069f9ebd7948360fcf468bcdbb0b",
+  "parentCommit": "1d92554026d15f417d987aec519007ea9657a6b6",
+  "candidateSha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+  "shadowSha256": "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+  "trackBStatus": "INCOMPLETE",
+  "r1StabilizationStatus": "FAIL_NOT_ACCEPTED",
+  "deploymentRecommendation": "DO_NOT_APPROVE_R1; natural13 worsening remains unapproved. R2 is a separate follow-up candidate.",
+  "evidenceComplete": true,
+  "pendingEvidence": [],
+  "checks": {
+    "originalBInputsUnchanged": true,
+    "frozenHtml": true,
+    "inverseAndEnvelope": true,
+    "protectedScope": true,
+    "frozenHtml_SHADOW": true,
+    "inverseAndEnvelope_SHADOW": true,
+    "protectedScope_SHADOW": true,
+    "singleCompileTokenDifference": true,
+    "policy39AndActualNativeMetadata": true,
+    "old47StrictDifferenceRetained": true,
+    "originalNativeAndCohortFull": true,
+    "largeComponentCertificates": true,
+    "exclusiveSameWorkloadCost": true,
+    "originalBroadSuitesCompleted": true,
+    "d1AndPairedFullStateAgainstDeliveredB": true,
+    "battleMatrixCollected": true,
+    "evidence/native-saturation/SUMMARY.json": true,
+    "evidence/smoke/SMOKE_RESULTS.json": true,
+    "evidence/original-raid-pilot/SUMMARY.json": true
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesUpdated": false,
+  "sensorEkfIffRoeWeaponPhysicsAiOrSaveSchemaChanged": false,
+  "releaseApproved": false,
+  "performanceApproved": false,
+  "mergePrReleaseTagCreated": false,
+  "strictDifferences": [
+    {
+      "id": "PAIRED_RAID_4",
+      "count": 4,
+      "status": "FAIL_UNAPPROVED",
+      "expectationsUpdated": false
+    },
+    {
+      "id": "D1_419012_SIGNATURE",
+      "count": 1,
+      "status": "FAIL_UNAPPROVED",
+      "expectationsUpdated": false
+    },
+    {
+      "id": "ORIGINAL_B47_COMPONENT_13",
+      "count": 1,
+      "status": "FAIL_DECLARED_POLICY_CHANGE_UNAPPROVED",
+      "expectationsUpdated": false
+    }
+  ],
+  "newObservedCombatWorsening": {
+    "scenario": "NATURAL_SATURATION_13",
+    "status": "FAIL_UNAPPROVED",
+    "oldBInitialAsmAliveAt90S": 1,
+    "r1InitialAsmAliveAt90S": 3,
+    "oldBInitialNativeInterceptKill": 7,
+    "r1InitialNativeInterceptKill": 6,
+    "allComparedVersionsLegacyHpAt90S": 0,
+    "cause": "Same native13x13 graph has13 exact distinguishable assignments but R1 lower-bound certificates release3 and hold10. This precedes filter, resalvo and subsequent physical outcome differences.",
+    "globalRngOnlyExplanationRejected": true,
+    "actualTerminalBattleClaim": false
+  },
+  "legacyRaidPilotScope": "TRACK-A/DDG only;1 native intercept and7 non-ownship surface-target contacts. Does not approve the four legacy paired differences.",
+  "inheritedIssues": [
+    {
+      "id": "CIWS419025",
+      "status": "FAIL_UNCHANGED"
+    },
+    {
+      "id": "CG_TO_FRIENDLY_OBSERVER_2",
+      "status": "KNOWN_DELTA_UNAPPROVED"
+    },
+    {
+      "id": "RETIRED_EMCON_UI14",
+      "status": "INCOMPLETE_NOT_COUNTED_PASS"
+    }
+  ],
+  "shadowOnlyNotCountedAsImplemented": [
+    "C55 live association",
+    "SPQ AIR live association"
+  ],
+  "limits": [
+    ">128 connected component computation bound remains",
+    "Dense128 Node per-call p95 about42ms exceeds16.7ms budget",
+    "Own/NPC epoch is asserted by current native caller; no general historical-epoch alignment",
+    "Surface position association/native Doppler correction fallback is preserved, not fully re-solved",
+    "Legacy TRACK-A truth-boundary debts are not globally fixed"
+  ],
+  "evidenceFiles": {
+    "BUILD.json": "e25a69426b39906560935ea390b4104db149c2e5dd01a13d746129e5bdd40a3b",
+    "BUILD_SHADOW.json": "dd291fdfe1c78c45a25b7ab4e641c637a4c198989cb19199281fccd232e9cfd1",
+    "SCOPE.json": "ce51eea7456f8c7ea91eb05730e5f6e429ce50e07c1253a32fec7f2f1b28c9de",
+    "SCOPE_SHADOW.json": "b37d2714ad493a00293e2dd46ac45e95644a79b1c1c4d0b540ba73e6808ce83b",
+    "SOURCE_PROOF.json": "90255bed8ab4e6ebdf975c00762efd73d3fe94896570e647284c75202cacd75c",
+    "SOURCE_PROOF_SHADOW.json": "f1c4c04bdbe278b1ae2f14a98e1ebfc328d77a4b9edad763f4a34596f9bdf56c",
+    "MODE_PAIR_PROOF.json": "e3e69a989151541a8735afc16db057f6d0c51119fae13e6c76c662adc85ed9cb",
+    "NATIVE_SUMMARY.json": "95e80bb578e5a02594e0c2c55d0325385c998c4bbab927643828fd2b5eedcb04",
+    "evidence/original-native-full/SUMMARY.json": "b0d9457a58c50c62ee0b381eb8bf7c342d2e187fec3053aacc874eeb65e27675",
+    "evidence/saturation-candidate.json": "621bda93890e2b99e6f08ee8e93f3d95ff0453f9a1a9fc39d33d95f0b773ad91",
+    "evidence/saturation-128.json": "2ed1caaa949676f0b326c5b25b3c1e2289218eec04a544d1e6eb85e04dad7052",
+    "evidence/cost/SUMMARY.json": "67d5af28114673689c0a8bacf3dd23c80189f8c53cbc9761ead243908fc14557",
+    "evidence/cost/POSTCHECKS.json": "cb6d91524b1559bb2924d93bb3105282a97db135decdb53d583c8666e5fe98bb",
+    "REGRESSION_RESULTS.json": "6ac1ea436f2a6f0ed0747d07f8180fce08fbda223dba93422a23442530d06fcc",
+    "evidence/regression/FIRST_STAGE_COMPARISON.json": "d353a1f1490f55213d89936093fda2fad022171f64c50dddbfb93d36382f80ec",
+    "BATTLE_RESULTS.json": "ae0120068af80f0b83ab6ee4d0e6ad11cbc41100d670757b00b66c94b9a96804"
+  },
+  "additionalEvidenceFiles": {
+    "evidence/native-saturation/SUMMARY.json": "4f4ceb8912e3790f5da29da4bad96ac40a7642e633ee4a55e361d5be74cb004b",
+    "evidence/smoke/SMOKE_RESULTS.json": "070221a22a3bd0dd19260eeaf6e3a375addf77d9154e2beccd74033accd174d9",
+    "evidence/original-raid-pilot/SUMMARY.json": "008d44f95cee64c89259fb87aea3eaa142f751b9d614b1412496b86b4e58cbe2"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "schema": "AEGIS_TRACK_B_NATIVE_SATURATION_PROVENANCE_1",
+  "runnerSha256": "c28a3f289297992be5274d8a2dbe170df0946764b5a18fca1020173bd7672504",
+  "moduleSha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71",
+  "candidateSha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+  "shadowSha256": "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+  "oldBReferenceSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "actualSourceLocations": [
+    {
+      "product": "baseline",
+      "htmlSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+      "packedMainIndex": 13,
+      "mainSha256": "616cb07bd7443031c36eece9419c4b7e249eee5d8e3494ed4539683a5b07e8be",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 4896,
+          "scopedFragmentSha256": "0b6e823b9b34ca03d3145706ec2f0e7b4937c0e1c29aff3fefbcd8ee3677a3e5",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26410,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 206,
+          "scopedFragmentSha256": "30f74ce540d59dda65a108febabb4eeb0f8e2d61bfe99d1c07b0b5d78c297e9a",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26362,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    },
+    {
+      "product": "shadow",
+      "htmlSha256": "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+      "packedMainIndex": 13,
+      "mainSha256": "c02e63af07d02fcda3e1fe1501bdc6f0487785450fe6e842d27ead093bc6a6a3",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 5012,
+          "scopedFragmentSha256": "10da303f4fff906869fffb4c618ee234f7209fe932807bf74cde55005809e4cf",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26526,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 312,
+          "scopedFragmentSha256": "f0b1bbc6986e2055b329a2ce1ac54acb748a016110818e3fa5aec6833ac73d25",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26478,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    },
+    {
+      "product": "active",
+      "htmlSha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+      "packedMainIndex": 13,
+      "mainSha256": "21f63de9c0ed32f3d247b9371e06b4e4eb0dd8a566a33c8bf4897533f466d35d",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 5012,
+          "scopedFragmentSha256": "10da303f4fff906869fffb4c618ee234f7209fe932807bf74cde55005809e4cf",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26526,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 312,
+          "scopedFragmentSha256": "f0b1bbc6986e2055b329a2ce1ac54acb748a016110818e3fa5aec6833ac73d25",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26478,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    }
+  ],
+  "helpers": [
+    {
+      "path": "docs/contact/track/B/test_support/native_support.js",
+      "sha256": "37efa43ce32a11e318bdee6f5dcda62606988349dff7c6a4bfc523419f7355b2"
+    },
+    {
+      "path": "docs/contact/track/B_stabilization/test_support/native_saturation.js",
+      "sha256": "49930d6ea824db674de3490fcd9d2c63519e6654ce2ab58fae85b380f5d2ddbc"
+    }
+  ],
+  "combinedFixtureSha256": "cb84a1c5562d039403ff4dabfbd000623b1c09274edcdb6bfad39a893aff27ef",
+  "fixtureCases": [
+    "clear13",
+    "clear16",
+    "equal13"
+  ],
+  "contexts": 3,
+  "maximumConcurrentBrowsers": 1,
+  "estimatedWallMinutes": 1,
+  "physicalRfGenerationEvidence": false,
+  "existingCoefficientsOrExpectationsChanged": false
+}

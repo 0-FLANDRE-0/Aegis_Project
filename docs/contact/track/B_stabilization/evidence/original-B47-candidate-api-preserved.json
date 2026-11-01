@@ -1,0 +1,205 @@
+{
+  "schema": "AEGIS_TRACK_B_SOLVER_UNIT_1",
+  "status": "FAIL",
+  "classification": "FIXTURE_ONLY_ACTUAL_PRODUCT_MODULE_AND_NATIVE_ASSIGNER",
+  "modulePath": "docs/contact/track/B_stabilization/association.js",
+  "moduleSha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71",
+  "nativeSourcePath": "/dev/shm/track-b-baseline-source.js",
+  "nativeAssignerSha256": "67c7c70e32ab3d314abef3e7a72f824fbba83fd0c6ae56c9bac31ad820d97f34",
+  "count": 47,
+  "passed": 46,
+  "failed": 1,
+  "existingExpectationsChanged": false,
+  "countsNotAddedToExistingDomain420": true,
+  "rows": [
+    {
+      "name": "nativeHungarian.uniqueMinimumIsActuallyUsed",
+      "status": "PASS"
+    },
+    {
+      "name": "assignment.oneToOneForTwoResolvedContacts",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.exactTwoByTwoDoesNotChooseNumericIds",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.onePlotTwoEqualFilesIsHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.totalNisGapWithinOneHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.gapAboveOneRemainsResolved",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.singleCandidateIsNotAnAmbiguity",
+      "status": "PASS"
+    },
+    {
+      "name": "ambiguity.disconnectedResolvedComponentRetained",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.inputPairPermutationDoesNotChangeSolution",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.ambiguityPermutationKeepsHold",
+      "status": "PASS"
+    },
+    {
+      "name": "gate.outsideOriginalNisGateNeverAssigned",
+      "status": "PASS"
+    },
+    {
+      "name": "gate.exactNativeGateAccepted",
+      "status": "PASS"
+    },
+    {
+      "name": "gate.nonFiniteAndNegativeNisDoNotBecomeMatches",
+      "status": "PASS"
+    },
+    {
+      "name": "gate.invalidPlotIndicesDoNotBecomeMatches",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.connectedThirteenByThirteenHeld",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   [\n+     0,\n+     100\n+   ],\n+   [\n+     1,\n+     101\n+   ],\n+   [\n+     2,\n+     102\n+   ],\n+   [\n+     3,\n+     103\n+   ],\n+   [\n+     4,\n+     104\n+   ],\n+   [\n+     5,\n+     105\n+   ],\n+   [\n+     6,\n+     106\n+   ],\n+   [\n+     7,\n+     107\n+   ],\n+   [\n+     8,\n+     108\n+   ],\n+   [\n+     9,\n+     109\n+   ],\n+   [\n+     10,\n+     110\n+   ],\n+   [\n+     11,\n+     111\n+   ],\n+   [\n+     12,\n+     112\n+   ]\n+ ]\n- []\n\n    at Object.run (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B/test_association.cjs:40:174)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B/test_association.cjs:73:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "bounded.twoHundredFiftySevenDisjointRowsDoNotThrow",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.twoHundredFiftySevenConnectedRowsHoldWithoutDenseSolve",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.largeSafePlotIndexDoesNotAllocateByCount",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.unsafePlotCountRejectedExplicitly",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.shadowTwoHundredFiftySevenRowsDoesNotThrow",
+      "status": "PASS"
+    },
+    {
+      "name": "empty.noPlotsOrPairsNoAssignments",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.frozenInputNotMutated",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.solutionDoesNotAliasCandidateInput",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthCanariesDoNotInfluenceAssignment",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.unknownAndTruthPairFieldsNotReturned",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.nestedSanityOutputDetached",
+      "status": "PASS"
+    },
+    {
+      "name": "sanity.explicitGeometryRejectionExcludesCandidate",
+      "status": "PASS"
+    },
+    {
+      "name": "sanity.explicitGeometryAcceptancePreservesCandidate",
+      "status": "PASS"
+    },
+    {
+      "name": "sanity.measurementSigmaCannotRemovePositionHardCap",
+      "status": "PASS"
+    },
+    {
+      "name": "sanity.measurementSigmaCannotRemoveRadialHardCap",
+      "status": "PASS"
+    },
+    {
+      "name": "sanity.hugeCartesianReportCovarianceCannotMergeFarFile",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.coincidentObservedPositionEligible",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.largeFilterPDoesNotInflateSanityGate",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.lowSigmaDistanceGateIs2500m",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.lowSigmaRadialGateIs180mps",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.insideDistanceBoundaryAccepted",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.outsideDistanceBoundaryRejected",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.missingDopplerDoesNotBecomeZeroObservation",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.surfacePriorHeightNotThreeDimensionalDistance",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.cartesianUsesProvidedPosition",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.receiverVelocityIsSubtracted",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.unknownVerticalReceiverVelocityNotAssumedZero",
+      "status": "PASS"
+    },
+    {
+      "name": "units.c55MetreCostDoesNotReuseOneNisAmbiguityDelta",
+      "status": "PASS"
+    },
+    {
+      "name": "geometry.truthCanariesIgnored",
+      "status": "PASS"
+    },
+    {
+      "name": "diagnostics.defaultOffAndBuildTimeModeImmutable",
+      "status": "PASS"
+    },
+    {
+      "name": "diagnostics.boundedRingUsesDetachedSnapshots",
+      "status": "PASS"
+    },
+    {
+      "name": "diagnostics.configureCannotEnableLivePolicySwitch",
+      "status": "PASS"
+    }
+  ]
+}

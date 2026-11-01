@@ -1,0 +1,36 @@
+{
+  "schema": "AEGIS_TRACK_B_DIAGNOSTIC_ABLATIONS_1",
+  "parentHtmlSha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+  "parentMainSha256": "21f63de9c0ed32f3d247b9371e06b4e4eb0dd8a566a33c8bf4897533f466d35d",
+  "builderSha256": "8a5016a9d03d0955282a988361e23fb89be12c52a257977a0958378739476094",
+  "variants": [
+    {
+      "label": "s-only",
+      "path": "/dev/shm/track-b-stabilization-variants/Aegis_TRACK_B_DIAGNOSTIC_S_ONLY.html",
+      "htmlSha256": "ad295c1432f8405c417ca11d65e402294b8df896f7de1531ac5571e30d3c623d",
+      "mainSha256": "e2e6cdd5a852592521b929ce0c582178ce63f0bfd8e23c365f2b21a83bfa32ca",
+      "changedExistingFunction": "trackBSolveB",
+      "onlyFunctionChanged": true,
+      "inverseMainByteExact": true,
+      "diff": "evidence/ablation/s-only.diff",
+      "interpretation": "Secondary covariance HOLD release only; >12 retains old wholeHOLD"
+    },
+    {
+      "label": "large-only",
+      "path": "/dev/shm/track-b-stabilization-variants/Aegis_TRACK_B_DIAGNOSTIC_LARGE_ONLY.html",
+      "htmlSha256": "b3496a9f33ae0a3180201df24d501c81c842d114dc18e9ac9e6406a342708182",
+      "mainSha256": "560157c4bc8d54904b4ed6f49c69805975d5c05f44f4ef241cc3f71e8a1abe2c",
+      "changedExistingFunction": "trackBSolveB",
+      "onlyFunctionChanged": true,
+      "inverseMainByteExact": true,
+      "diff": "evidence/ablation/large-only.diff",
+      "interpretation": "Large-component certificates only; secondary covariance HOLD release disabled"
+    }
+  ],
+  "diagnosticOnly": true,
+  "notShipping": true,
+  "fullRegressionTested": false,
+  "physicalSensorEkfIffRoeWeaponDamageAiAndSaveBytesChanged": false,
+  "existingThresholdsOrCoefficientsChanged": false,
+  "releaseApproved": false
+}

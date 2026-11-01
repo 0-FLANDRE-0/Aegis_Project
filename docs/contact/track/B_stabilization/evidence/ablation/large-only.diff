@@ -1,0 +1,11 @@
+--- frozen87da::trackBSolveB
++++ DIAGNOSTIC_large-only::trackBSolveB
+@@ -35,7 +35,7 @@
+       for(let a=0;a<rr.length;a++)if(base.map.get(a)!==alt.map.get(a)){componentHeldRows.add(rr[a]);if(base.map.has(a))componentHeldCols.add(cc[base.map.get(a)]);if(alt.map.has(a))componentHeldCols.add(cc[alt.map.get(a)]);}
+     }
+     // An exact native tie cannot be made into a numeric-ID-dependent winner.
+-    if(componentHeldRows.size&&!exactNativeTie&&trackBEvidenceCertificateStableB(edges,rr,cc,base,assigner,delta,gate)){componentHeldRows.clear();componentHeldCols.clear();c.evidenceResolved=true;c.reason='SAME_NIS_WINNER_INNOVATION_DENSITY_CERTIFIED';}
++    if(componentHeldRows.size&&!exactNativeTie&&false&&trackBEvidenceCertificateStableB(edges,rr,cc,base,assigner,delta,gate)){componentHeldRows.clear();componentHeldCols.clear();c.evidenceResolved=true;c.reason='SAME_NIS_WINNER_INNOVATION_DENSITY_CERTIFIED';}
+     if(componentHeldRows.size){c.ambiguous=true;c.reason='NEAR_EQUAL_MATCHING_HOLD';for(const i of componentHeldRows)heldPlots.add(i);for(const id of componentHeldCols)heldTracks.add(id);}
+     for(const q of base.out)chosen.push(index.get(q.a+':'+q.b));c.certifiedCount=base.out.filter(q=>!componentHeldRows.has(rr[q.a])&&!componentHeldCols.has(cc[q.b])).length;components.push(c);
+   }

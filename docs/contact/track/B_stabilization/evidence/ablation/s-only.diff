@@ -1,0 +1,19 @@
+--- frozen87da::trackBSolveB
++++ DIAGNOSTIC_s-only::trackBSolveB
+@@ -20,13 +20,9 @@
+     const evaluate=matrix=>{const a=assigner(matrix),out=[],map=new Map();let total=0,fullTotal=0;for(let i=0;i<rr.length;i++){const b=a[i];if(!Number.isInteger(b)||b<0||b>=matrix[i].length)throw new Error('TRACK_B_INVALID_ASSIGNER');fullTotal+=matrix[i][b];if(b<cc.length&&matrix[i][b]<=gate){out.push({a:i,b});map.set(i,b);total+=matrix[i][b];}}return {out,map,total,count:out.length,fullTotal};};
+     const base=evaluate(costs),componentHeldRows=new Set(),componentHeldCols=new Set();let exactNativeTie=false;
+     if(rr.length>TRACK_B_POLICY.maxComponentSize||cc.length>TRACK_B_POLICY.maxComponentSize){
+-      // Global native optimum first. This is NOT mutual-best/greedy peeling.
+-      // Each row may reuse columns in this relaxation, hence its objective is
+-      // a lower bound on every feasible alternative (including dummy costs).
+-      const mins=costs.map(row=>Math.min(...row)),lower=mins.reduce((a,b)=>a+b,0),certifiedCols=new Set(),certifiedRows=new Set();
+-      for(const q of base.out){let next=Infinity;for(let b=0;b<costs[q.a].length;b++)if(b!==q.b)next=Math.min(next,costs[q.a][b]);const altLower=lower-mins[q.a]+next;if(altLower>base.fullTotal+delta+TRACK_B_POLICY.numericEpsilon){chosen.push(index.get(q.a+':'+q.b));certifiedRows.add(rr[q.a]);certifiedCols.add(cc[q.b]);}}
+-      for(const i of rr)if(!certifiedRows.has(i))heldPlots.add(i);for(const id of cc)if(!certifiedCols.has(id))heldTracks.add(id);
+-      c.certifiedCount=certifiedRows.size;c.ambiguous=certifiedRows.size<rr.length;c.reason=c.ambiguous?'LARGE_COMPONENT_UNCERTIFIED_HOLD':'LARGE_COMPONENT_CERTIFIED';components.push(c);continue;
++      c.ambiguous=true;c.reason='DIAGNOSTIC_ABLATION_OLD_COMPONENT_HOLD';
++      for(const i of rr)heldPlots.add(i);for(const id of cc)heldTracks.add(id);
++      components.push(c);continue;
+     }
+     for(const q of base.out){
+       const matrix=costs.map(row=>row.slice());matrix[q.a][q.b]=blocked;const alt=evaluate(matrix);

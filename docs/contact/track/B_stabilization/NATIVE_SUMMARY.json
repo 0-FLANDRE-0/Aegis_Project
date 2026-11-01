@@ -1,0 +1,189 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_NATIVE_SUMMARY_1",
+  "status": "PASS",
+  "validationScope": "New standalone policy and native contracts only; not full RF/combat regression approval.",
+  "allTasksComplete": true,
+  "candidateSha256": "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+  "shadowSha256": "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+  "baselineSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "moduleSha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71",
+  "testSourceSha256": "77dfcb3e27742055c5781a8eb8761ead202bcf979de261d24686508809bdfb8f",
+  "runnerSha256": "0c9ad77a7fb4ae2c088f177324b9c9c5a1b3aba198df5134801054c0b32815cb",
+  "helperSha256": {
+    "newPolicy": "3a2bd0db4c6ab42ece11222e1ba314645ba9941077183f1fa7c4727b2e3f572a",
+    "nativeMetadata": "42b061a5f6b08468ddb01f185a0ac5c78fcec57746b12dd4a8a3bbbd9f334141"
+  },
+  "policyUnit": {
+    "passed": 39,
+    "count": 39,
+    "status": "PASS",
+    "path": "evidence/policy-candidate-final-unit.json"
+  },
+  "originalB47Strict": {
+    "passed": 46,
+    "count": 47,
+    "status": "FAIL",
+    "failed": [
+      "bounded.connectedThirteenByThirteenHeld"
+    ],
+    "path": "evidence/original-B47-candidate-api-preserved.json",
+    "classification": "RETAINED_STRICT_DIFFERENCE_DUE_TO_DECLARED_SATURATION_POLICY_REPLACEMENT",
+    "previousExpectation": "Connected13x13 graph always HOLD beyond component12",
+    "candidateResult": "Unique diagonal matching13 assignments with mathematical lower-bound certificates",
+    "expectedValueUpdated": false,
+    "automaticApproval": false,
+    "historicalApiFailure": "Initial a304\u2026 module also failed original SHADOW active flag; root restored the API, and ec66\u2026 passes that check."
+  },
+  "currentNative": {
+    "oldRepresentative": {
+      "passed": 19,
+      "count": 19,
+      "originalFixtureGroups": 5,
+      "allThreeProductsAndOffOn": true
+    },
+    "newCandidateNative": {
+      "passedOff": 23,
+      "passedOn": 23,
+      "count": 23,
+      "fixtureGroups": 5
+    },
+    "actualNativeMetadata": {
+      "passedOff": 18,
+      "passedOn": 18,
+      "count": 18,
+      "fixtureGroups": 5,
+      "capturedNativeLogDetErrors": {
+        "airFourRowsActualNativeMatrix": 1.7763568394002505e-15,
+        "surfacePositionActualNativeMatrix": 0.0,
+        "cartesianAlignedReportedCovariance": 0.0
+      },
+      "fullDopplerCallbackHold": true
+    }
+  },
+  "shadow": {
+    "status": "PASS",
+    "source": "evidence/native-shadow-guard/SUMMARY.json",
+    "actualFrozenBNativeStateExact": true,
+    "positiveProposalLogs": {
+      "covarianceAgreesWithNativeWinner": [
+        {
+          "serial": 19,
+          "route": "OWN_SURFACE_ESTABLISHED",
+          "observerShip": "SHIP_CG52_OWN",
+          "timeS": 0,
+          "tick": 0,
+          "decision": "COMPONENT",
+          "reason": "SAME_NIS_WINNER_INNOVATION_DENSITY_CERTIFIED",
+          "active": true,
+          "mode": "ACTIVE",
+          "stabilizationMode": "SHADOW",
+          "plotCount": 1,
+          "trackCount": 2,
+          "certifiedCount": 1,
+          "evidenceResolved": true
+        },
+        {
+          "serial": 22,
+          "route": "OWN_SURFACE_ESTABLISHED",
+          "observerShip": "SHIP_CG52_OWN",
+          "timeS": 0,
+          "tick": 0,
+          "decision": "COMPONENT",
+          "reason": "SAME_NIS_WINNER_INNOVATION_DENSITY_CERTIFIED",
+          "active": true,
+          "mode": "ACTIVE",
+          "stabilizationMode": "SHADOW",
+          "plotCount": 1,
+          "trackCount": 2,
+          "certifiedCount": 1,
+          "evidenceResolved": true
+        }
+      ],
+      "npcCovarianceEvidenceAndOwnerIsolation": [
+        {
+          "serial": 42,
+          "route": "NPC_OBSERVER",
+          "observerShip": "TRACK_B_FIXTURE_STABILIZE_ACTIVE",
+          "timeS": 0,
+          "tick": 0,
+          "decision": "COMPONENT",
+          "reason": "SAME_NIS_WINNER_INNOVATION_DENSITY_CERTIFIED",
+          "active": true,
+          "mode": "ACTIVE",
+          "stabilizationMode": "SHADOW",
+          "plotCount": 1,
+          "trackCount": 2,
+          "certifiedCount": 1,
+          "evidenceResolved": true
+        }
+      ]
+    },
+    "rawNewActivePolicyExpectationResults": {
+      "passed": 19,
+      "count": 23,
+      "status": "FAIL_NOT_APPLIED_IN_SHADOW",
+      "failures": [
+        "covarianceAgreement.originalNisWinnerSelected",
+        "covarianceAgreement.nativeCallerAcceptedExactlyOne",
+        "covarianceAgreement.preciseFileUpdatedOnce",
+        "npcCovariance.preciseNativeFileCorrected"
+      ]
+    },
+    "separateControlMeaning": "SHADOW returns the frozen-B decisions and exact state while logging the stabilization proposal. The four not-applied assertions remain false in raw output."
+  },
+  "offOnPurity": {
+    "shadow": {
+      "oldNativeRecordsExact": true,
+      "newNativeRecordsExact": true,
+      "oldPerFixtureFullPassiveStateExact": true,
+      "newPerFixtureFullPassiveStateExact": true,
+      "postAllFixturesFullPassiveStateExact": true
+    },
+    "active": {
+      "oldNativeRecordsExact": true,
+      "newNativeRecordsExact": true,
+      "oldPerFixtureFullPassiveStateExact": true,
+      "newPerFixtureFullPassiveStateExact": true,
+      "postAllFixturesFullPassiveStateExact": true
+    },
+    "metadataNativeOutputExact": true,
+    "allQueryApiEnvControlsPass": true,
+    "allActualMetadataContractsPass": true
+  },
+  "negativeContracts": [
+    "same-signal/same-S and ID/input permutations remain HOLD",
+    "NIS/likelihood conflict remains HOLD; likelihood never changes NIS winner",
+    "missing/different epoch and dimension metadata remain HOLD",
+    "missing receiver velocity is not zero",
+    "surface8m prior and reported surface height are not physical elevation observations",
+    "actual3-row surface callback does not receive a2-row certificate",
+    "original NIS/2500m/180mps gates preserved",
+    "diagnostics/query do not update filter, physical/private RNG or authority"
+  ],
+  "sourceWhitelistAudit": "evidence/SOURCE_WHITELIST_AUDIT.json",
+  "historicalEvidence": [
+    {
+      "path": "evidence/native-shadow/SUMMARY.json",
+      "candidateSha256": "57f3d3ea67dffdb09de1d6e766a8b9f8e73c1aa6a1d7c8807afba74c69e936ff",
+      "meaning": "Completed pre-guard SHADOW5-scenario proof; historical source epoch, not final product evidence."
+    },
+    {
+      "path": "evidence/policy-candidate-initial.json",
+      "meaning": "Initial39-predecessor34 tests at8231958\u2026 before API preservation."
+    },
+    {
+      "path": "evidence/original-B47-candidate.json",
+      "meaning": "Initial a304\u202645/47 strict result retained, both actual failures listed."
+    }
+  ],
+  "finalRunWallS": {
+    "shadow": 46.181234651012346,
+    "active": 48.50424925799598
+  },
+  "naturalRfOrCombatEvidence": false,
+  "allOriginalB90GroupsExecutedByThisLane": false,
+  "originalBFilesOrExpectedValuesChanged": false,
+  "releaseApproved": false,
+  "performanceApproved": false,
+  "browserLaneReturned": true
+}
