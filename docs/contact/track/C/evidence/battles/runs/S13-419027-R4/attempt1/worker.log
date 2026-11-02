@@ -1,0 +1,15 @@
+{"pid": 478467, "pages": 1, "oneSharedBrowserLane": true}
+Traceback (most recent call last):
+  File "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/C/battles.py", line 102, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/C/battles.py", line 82, in main
+    if a.worker:return worker(a.worker)
+                       ^^^^^^^^^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/C/battles.py", line 37, in worker
+    return b.main()
+           ^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/battle.py", line 110, in main
+    raw=encode_storage(result);assert len(raw)<=10*1024*1024,('Capture exceeds 10MiB',len(raw));tag=label+'-'+name;(a.out/(tag+'.json.gz')).write_bytes(gzip.compress(raw,6,mtime=0));(a.out/(tag+'-PASSIVE.json.gz')).write_bytes(gzip.compress(state.encode(),6,mtime=0));row={'version':label,'case':name,'productSha256':pinned,'setupSha256':sha(json.dumps(case,sort_keys=True,separators=(',',':')).encode()),'fixtureSha256':plan['fixtureSha256'],'passiveHelperSha256':sha(passive.encode()),'passiveFinalStateSha256':sha(state.encode()),'nativeSourceHashes':sourceHashes,'qualification':result['qualification'],'postValidation':validation,'status':result['status'],'end':result['end'],'counts':result['counts'],'targets':result['targets'],'hp':result['final']['ship']['shipHP'],'inventory':result['final']['inventory'],'core':result['final']['core'],'faults':result['faults'],'recordBytes':len(raw),'wallS':time.perf_counter()-at,'lease':lease,'releaseApproved':False};rows.append(row);(a.out/(tag+'-SUMMARY.json')).write_text(json.dumps(row,indent=2)+'\n');page.context.close();browser.close();print(json.dumps({k:row[k]for k in ['version','case','status','end','postValidation','hp','wallS']}|{'launches':row['counts']['launches'],'intercepts':row['counts']['intercepts'],'componentMaximum':row['counts']['componentMaximum'],'componentsOver12':row['counts']['componentsOver12']},ensure_ascii=False),flush=True)
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('Capture exceeds 10MiB', 12220132)

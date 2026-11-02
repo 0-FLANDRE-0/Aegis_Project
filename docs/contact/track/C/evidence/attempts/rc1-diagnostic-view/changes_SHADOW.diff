@@ -1,0 +1,166 @@
+--- Aegis_SIM_v48_WIP_TRACK_B_STABLE_D.html::MAIN
++++ Aegis_SIM_v48_WIP_TRACK_C_SHADOW.html::MAIN
+@@ -1,5 +1,110 @@
+ 
+ window.__AEGIS_STARTUP_PROMISE__=(async () => {
++// TRACK_C_DIAGNOSTICS_BEGIN
++// TRACK-C: diagnostic compatibility views only. No track/RF/weapon writes.
++const TRACK_C_IMPLEMENTATION_MODE='SHADOW';
++const TRACK_C_DIAG={enabled:false,capacity:2048,serial:0,dropped:0,errors:0,records:[],previous:new Map()}; // SIM_TUNED diagnostic capacity only.
++function trackCFiniteC(v){return typeof v==='number'&&Number.isFinite(v)?v:null;}
++function trackCTimeC(){return simStepCounter*SIM_FIXED_DT;}
++function trackCEvidenceViewC(tr,now=trackCTimeC()){
++  const iff=tr?.iffF,air=iff?.source==='AIR_IFF_E',operatorAt=Number.isFinite(tr?._operatorIdentitySetAtStep)?tr._operatorIdentitySetAtStep*SIM_FIXED_DT:null;
++  return {
++    classification:{value:tr?.classification??null,source:'MEASUREMENT_CLASSIFIER',confirmed:!!tr?.confirmed,grantsAuthority:false},
++    identity:{value:tr?.identity??'UNKNOWN',source:heloFriendlyIffEvidenceE(tr)?'AUTHENTICATED_IFF':tr?._operatorIdentity?'OPERATOR_OR_LEGACY_SURFACE_IFF':'OBSERVED_KINEMATIC_POLICY'},
++    operator:{value:tr?._operatorIdentity??null,setAtS:operatorAt,expiresAtS:null,policy:'EXISTING_PERSISTENT_ANNOTATION_NO_NEW_EXPIRY'},
++    iff:iff?{authenticatedFriendly:iff.authenticatedFriendly===true,source:iff.source??'LEGACY_SURFACE_IFF',measuredAtS:trackCFiniteC(iff.measuredAtS),expiresAtS:air?trackCFiniteC(iff.expiresAtS):null,valid:air?Number.isFinite(iff.expiresAtS)&&iff.expiresAtS>now:iff.authenticatedFriendly===true,policy:air?'EXISTING_AIR_IFF_HOLD':'EXISTING_SURFACE_IFF_NO_EXPIRY'}:null,
++    threatStatus:tr?.threatStatus??null,engagementAuthority:tr?.engagementAuthority??null,
++    authorityReason:tr?._a3AuthorityReason??null,
++    aliasPolicy:'NO_CLASSIFICATION_IDENTITY_OPERATOR_IFF_AUTHORITY_COPY',
++    distinction:'classification != identity != authority; nonresponse is not hostile evidence'
++  };
++}
++function trackCLifecycleViewC(tr,ownerEntityId,now=trackCTimeC()){
++  const measuredAtS=Number.isFinite(tr?._lastMeasurementStep)?tr._lastMeasurementStep*SIM_FIXED_DT:trackCFiniteC(tr?.lastMeasurementS),
++    airAtS=Number.isFinite(tr?._radar3dAirStepFC)?tr._radar3dAirStepFC*SIM_FIXED_DT:null,
++    contributors=Object.fromEntries(Object.entries(tr?.contributorsC??{}).map(([k,v])=>[k,{measuredAtS:trackCFiniteC(v?.measuredAtS),receivedAtS:null,quality:trackCFiniteC(v?.quality),receivedTimePolicy:'NOT_STORED_ON_LEGACY_CONTRIBUTOR'}]));
++  const reports=tr?.observationReportsC;
++  for(const [sourceId,q]of Object.entries(reports?.remote??{}))contributors['OFFBOARD:'+sourceId]={measuredAtS:trackCFiniteC(q.measuredAtS),receivedAtS:trackCFiniteC(q.receivedAtS),sequence:q.sequence??null,policy:'RECEIPT_OR_REPLAY_DOES_NOT_PROVE_INDEPENDENT_FIX'};
++  return {schema:'AEGIS_TRACK_C_LIFECYCLE_VIEW_1',ownerEntityId,trackId:tr?.trackId??null,trackUid:tr?.trackUid??null,
++    timeS:now,filterEpochS:trackCFiniteC(tr?._kfTimeS),nativeLifecycle:tr?.trackLifecycle??null,
++    confirmation:tr?.confirmed?'FIRM':'TENTATIVE',sensorSource:tr?.sensorSource??null,
++    sensorAgeS:trackCFiniteC(tr?.sensorAge),ttlS:trackCFiniteC(tr?.ttl),memory:!!tr?.memActive,reacquiring:!!tr?.reacquiring,
++    lastAcceptedMeasurementAtS:measuredAtS,lastIndependentFixAtS:trackCFiniteC(tr?.lastIndependentHitS),
++    independentFixPolicy:ownerEntityId===ACTIVE_SHIP_RUNTIME.entityId?'LEGACY_OWN_ACCEPTED_PLOT_COUNT; packet/ISAR not inferred':'LEGACY_OBSERVER_CONFIRMATION_SPACING',
++    hits:trackCFiniteC(tr?.sensorHits),contributors,
++    air3d:{lastObservedAtS:airAtS,ageS:airAtS===null?null:Math.max(0,now-airAtS),valid:trackHasAirObservationFC(tr),maxAgeS:TRACK_HARD_TTL},
++    surfacePrior:{only2D:!!tr?._surface2DOnlyFC,motionPrior:!!tr?._surfaceMotionPriorWip13B13,measuredElevation:false,referenceRole:'MODEL_PRIOR_NOT_HEIGHT_OBSERVATION'},
++    evidence:trackCEvidenceViewC(tr,now),readOnly:true};
++}
++function trackCLocalViewC(rec,ownerEntityId,mountId){
++  return {schema:'AEGIS_TRACK_C_LOCAL_RF_VIEW_1',ownerEntityId,mountId,fileId:rec?.id??null,
++    confirmation:rec?.confirmed?'FIRM':'TENTATIVE',firstSeenS:trackCFiniteC(rec?.firstSeenS),
++    localAgeS:trackCFiniteC(rec?.st?.localAgeS),localHits:trackCFiniteC(rec?.st?.localHits),
++    ownFireEvidence:{value:!!rec?.ownFireEvidence,source:'ACTUAL_OWN_LAUNCH_RF_PARTITION',expires:'NATIVE_FILE_RETIREMENT',inheritedFromProximity:false},
++    protectedIdentity:{value:rec?.protectedIdentity??null,cmsTrackId:rec?.protectedCmsId??null,source:rec?.ownFireEvidence?'ACTUAL_OWN_LAUNCH_RF_PARTITION':'EXISTING_GEOMETRIC_CMS_VETO',confirmedAtS:null,policy:'LEGACY_LATCH; NO_NEW_EXPIRY_OR_IFF_POLICY'},
++    cmsTrackId:rec?.cmsTrackId??null,cmsIdentity:rec?.cmsIdentity??null,readOnly:true};
++}
++function trackCSnapshotC(){
++  const owners=[ACTIVE_SHIP_RUNTIME,...physicalShipsB()],now=trackCTimeC();
++  return {schema:'AEGIS_TRACK_C_DIAGNOSTICS_1',mode:TRACK_C_IMPLEMENTATION_MODE,timeS:now,truthUsed:false,
++    ownerTracks:owners.map(r=>({ownerEntityId:r.entityId,tracks:[...(r.combatSystem.observerC?.tracks??r.combatSystem.trackManager?.tracks??new Map())].map(([,tr])=>trackCLifecycleViewC(tr,r.entityId,now))})),
++    ownLocalFiles:[...CIWS_C55.banks].flatMap(([mountId,b])=>[...b.files.values()].map(rec=>trackCLocalViewC(rec,ACTIVE_SHIP_RUNTIME.entityId,mountId))),
++    routes:{SPQ_AIR:TRACK_C_IMPLEMENTATION_MODE,C55_OWN:'SHADOW_DISTANCE_ONLY',C55_NPC:'SHADOW_DISTANCE_ONLY',c55Reason:'NO_NATIVE_NIS_OR_COVARIANCE; DO_NOT_RELABEL_METRES_AS_NIS'},
++    trace:{enabled:TRACK_C_DIAG.enabled,recorded:TRACK_C_DIAG.serial,dropped:TRACK_C_DIAG.dropped,errors:TRACK_C_DIAG.errors,records:TRACK_C_DIAG.records.map(r=>({...r}))}};
++}
++function trackCSampleC(){
++  if(!TRACK_C_DIAG.enabled)return;
++  try{
++    const snapshot=trackCSnapshotC(),current=new Map();
++    for(const owner of snapshot.ownerTracks)for(const q of owner.tracks){
++      const key=JSON.stringify([owner.ownerEntityId,q.trackId]),old=TRACK_C_DIAG.previous.get(key);
++      current.set(key,q);
++      const changed=!old||['nativeLifecycle','confirmation','hits','lastAcceptedMeasurementAtS','reacquiring','memory'].some(k=>old[k]!==q[k])||JSON.stringify(old.evidence)!==JSON.stringify(q.evidence);
++      if(changed)trackCRecordC({event:old?'OBSERVED_STATE_CHANGE':'FILE_APPEARED',...q});
++    }
++    for(const[key,old]of TRACK_C_DIAG.previous)if(!current.has(key))trackCRecordC({event:'FILE_DROPPED',ownerEntityId:old.ownerEntityId,trackId:old.trackId,timeS:snapshot.timeS,lastAcceptedMeasurementAtS:old.lastAcceptedMeasurementAtS,priorState:old.nativeLifecycle});
++    TRACK_C_DIAG.previous=current;
++  }catch(_){TRACK_C_DIAG.errors++;}
++}
++function trackCRecordC(record){
++  if(!TRACK_C_DIAG.enabled)return;
++  TRACK_C_DIAG.records.push({...record,serial:++TRACK_C_DIAG.serial});
++  if(TRACK_C_DIAG.records.length>TRACK_C_DIAG.capacity){TRACK_C_DIAG.records.shift();TRACK_C_DIAG.dropped++;}
++}
++function trackCAliasUniqueC(candidates){return candidates.length===1?candidates[0]:null;}
++function trackCAliasDecisionC(candidates,newId,tr,store,extractState){
++  const reject=reason=>({ok:false,reason});
++  if(['FRIEND','NEUTRAL','TRAINING_TARGET'].includes(tr?.identity)||['FRIEND','NEUTRAL','TRAINING_TARGET'].includes(tr?._operatorIdentity)||heloFriendlyIffEvidenceE(tr))return reject('NEW_FILE_PROTECTED');
++  if(!tr?.confirmed||tr.sensorDetected===false||tr.memActive||tr.reacquiring)return reject('NEW_FILE_NOT_FIRM_OBSERVATION');
++  const pick=trackCAliasUniqueC(candidates);if(!pick)return reject(candidates.length?'AMBIGUOUS_LOST_PREDECESSOR':'NO_LOST_PREDECESSOR');
++  for(const[id,other]of store){
++    if(id===newId||id===pick.oldId||!other?.confirmed||other.sensorDetected===false||other.memActive||other.reacquiring)continue;
++    const si=extractState(other),ps=pick.coast;if(!si||!ps)continue;
++    if(Math.hypot(si.x-ps.x,si.y-ps.y,si.z-ps.z)<=pick.posGate&&Math.hypot(si.vx-ps.vx,si.vy-ps.vy,si.vz-ps.vz)<=pick.velGate)return reject('AMBIGUOUS_LIVE_SUCCESSOR');
++  }
++  return {ok:true,reason:'UNIQUE_EXISTING_COAST_GATES',pick};
++}
++function trackCSpqAssignmentsC(observations){
++  const pairs=[];
++  for(let i=0;i<observations.length;i++){
++    const plot=observations[i].plot;
++    for(const[id,tr]of tracks){
++      if(!tr||tr.sensorDetected===false||!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot))continue;
++      const nis=trackRadarAssociationNisV31(tr,plot),cross=trackSurfaceBackedWip13B14(tr),gate=Math.min(TRACK_FILTER_MODEL.nisGateSearch,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:TRACK_FILTER_MODEL.nisGateSearch);
++      if(nis<=gate)pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plot,'AIR'),evidence:trackBEvidenceStableB(tr,plot,'AIR',trackCTimeC())});
++    }
++  }
++  return trackBSolveB({plotCount:observations.length,pairs,gate:TRACK_FILTER_MODEL.nisGateSearch,ambiguityDeltaCost:TRACK_B_POLICY.ambiguityDeltaNis},bridgeMasterEMinCostAssignmentV35);
++}
++window.__TRACK_C__=Object.freeze({schema:'AEGIS_TRACK_C_DIAGNOSTICS_1',mode:TRACK_C_IMPLEMENTATION_MODE,
++  snapshot:trackCSnapshotC,view:trackCLifecycleViewC,evidence:trackCEvidenceViewC,localView:trackCLocalViewC,
++  sample:trackCSampleC,uniqueAlias:trackCAliasUniqueC,aliasDecision:trackCAliasDecisionC,spqAssignments:trackCSpqAssignmentsC,
++  configure(options={}){if(typeof options.enabled==='boolean')TRACK_C_DIAG.enabled=options.enabled;if(Number.isFinite(options.capacity))TRACK_C_DIAG.capacity=Math.max(16,Math.min(32768,Math.floor(options.capacity)));return {enabled:TRACK_C_DIAG.enabled,capacity:TRACK_C_DIAG.capacity};},
++  clear(){TRACK_C_DIAG.records.length=0;TRACK_C_DIAG.previous.clear();TRACK_C_DIAG.serial=TRACK_C_DIAG.dropped=TRACK_C_DIAG.errors=0;}
++});
++
++// TRACK_C_DIAGNOSTICS_END
++
+ // TRACK_A_DIAGNOSTICS_BEGIN
+ // TRACK-A: DIAGNOSTIC_ONLY compatibility views. No consumer, filter, hit,
+ // identity, authority, RNG, clock or scheduler reads these records back.
+@@ -14059,8 +14164,14 @@
+   }
+ function wip121TryAliasReacquire(newId,tr,opt={}){
+     const current=wip118ControlState.assessments.get(newId),allowFresh=!!opt.allowExistingFresh&&current?.state==='THREAT'&&current?.lastAssessmentStep===simStepCounter&&!current?.everEngaged;
+-    if(current&&!allowFresh)return null;const now=simStepCounter*SIM_FIXED_DT,si=wip118TrackStateSI(tr);if(!si)return null;let best=null;
+-    for(const [oldId,a] of wip118ControlState.assessments){if(a.state!=='LOST'||(a.lostAgeS??Infinity)>WIP118_KILL_ASSESSMENT_POLICY.lostAliasMaxS)continue;const px=wip121LostProxy(oldId,a);if(!px)continue;const ps=wip118TrackStateSI(px),cov=trackCovarianceMetrics(px),dp=Math.hypot(si.x-ps.x,si.y-ps.y,si.z-ps.z),dv=Math.hypot(si.vx-ps.vx,si.vy-ps.vy,si.vz-ps.vz),posGate=Math.max(600,3*cov.posSigmaM),velGate=Math.max(120,3*cov.velSigmaMps);if(dp>posGate||dv>velGate)continue;const score=dp/posGate+dv/velGate;if(!best||score<best.score)best={oldId,newId,score,dp,dv,posGate,velGate};}
++    if(current&&!allowFresh)return null;const now=simStepCounter*SIM_FIXED_DT,si=wip118TrackStateSI(tr);if(!si)return null;let best=null;const trackCCandidates=[];
++    for(const [oldId,a] of wip118ControlState.assessments){if(a.state!=='LOST'||(a.lostAgeS??Infinity)>WIP118_KILL_ASSESSMENT_POLICY.lostAliasMaxS)continue;const px=wip121LostProxy(oldId,a);if(!px)continue;const ps=wip118TrackStateSI(px),cov=trackCovarianceMetrics(px),dp=Math.hypot(si.x-ps.x,si.y-ps.y,si.z-ps.z),dv=Math.hypot(si.vx-ps.vx,si.vy-ps.vy,si.vz-ps.vz),posGate=Math.max(600,3*cov.posSigmaM),velGate=Math.max(120,3*cov.velSigmaMps);if(dp>posGate||dv>velGate)continue;const score=dp/posGate+dv/velGate;trackCCandidates.push({oldId,newId,score,dp,dv,posGate,velGate,coast:ps});if(!best||score<best.score)best={oldId,newId,score,dp,dv,posGate,velGate};}
++    if(TRACK_C_IMPLEMENTATION_MODE==='ACTIVE'){
++      const lineage=trackCAliasDecisionC(trackCCandidates,newId,tr,tracks,wip118TrackStateSI);
++      if(TRACK_C_DIAG.enabled)trackCRecordC({event:'ALIAS_INHERITANCE',ownerEntityId:ACTIVE_SHIP_RUNTIME.entityId,timeS:trackCTimeC(),newId,oldId:lineage.pick?.oldId??null,candidateCount:trackCCandidates.length,accepted:lineage.ok,reason:lineage.reason});
++      if(!lineage.ok)return null;
++      const q=lineage.pick;best={oldId:q.oldId,newId:q.newId,score:q.score,dp:q.dp,dv:q.dv,posGate:q.posGate,velGate:q.velGate};
++    }
+     if(!best)return null;const oldA=wip118ControlState.assessments.get(best.oldId),oldAccel=wip118ControlState.accel.get(best.oldId);wip118ControlState.assessments.delete(best.oldId);if(oldAccel){wip118ControlState.accel.delete(best.oldId);wip118ControlState.accel.set(newId,oldAccel);}wip121TransferEngagementMemory(best.oldId,newId);
+     const live=wip118LiveEngagementCount(newId),next={...oldA,...(current??{}),trackId:newId,state:'THREAT',trackPresent:true,everEngaged:!!oldA?.everEngaged||!!current?.everEngaged||live>0,liveEngagement:live,reengageRequired:false,lostStep:null,lostAgeS:0,lastObservation:current?.lastObservation??oldA?.lastObservation??null,lastSeenStep:simStepCounter,lastAssessmentStep:simStepCounter,reacquiredFromTrackId:best.oldId,reacquiredStep:simStepCounter};wip118ControlState.assessments.set(newId,next);wip118ControlState.aliasLog.push({...best,t:now,phase:allowFresh?'POST_LOSS_SAME_FRAME':'PREEXISTING_LOST'});if(wip118ControlState.aliasLog.length>64)wip118ControlState.aliasLog.shift();return best;
+   }
+@@ -34709,10 +34820,17 @@
+   }
+   function spq9bAcceptAnonymousPlotsV34(observations){
+     const usedTracks=new Set();let accepted=0;let trackBSequenceIndex=-1;
++    const trackCSelection=trackCSpqAssignmentsC(observations),trackCMatches=new Map(trackCSelection.pairs.map(p=>[p.i,p]));
++    if(TRACK_C_DIAG.enabled)trackCRecordC({event:'SPQ_AIR_COMMON_EPOCH',mode:TRACK_C_IMPLEMENTATION_MODE,timeS:trackCTimeC(),ownerEntityId:ACTIVE_SHIP_RUNTIME.entityId,pairs:trackCSelection.pairs.map(p=>({i:p.i,id:p.id,nis:p.nis})),heldPlots:[...trackCSelection.heldPlots],heldTracks:[...trackCSelection.heldTracks]});
++    let trackCIndex=-1;
+     for(const obs of observations){
++      trackCIndex++;
++      if(TRACK_C_IMPLEMENTATION_MODE==='ACTIVE'&&trackCSelection.heldPlots.has(trackCIndex)){SPQ9B_ASSOC_STATS_V34.rejected++;continue;}
+       const trackBPlotIndex=TRACK_B_DIAG.enabled?++trackBSequenceIndex:null;
+       const plot=obs.plot;SPQ9B_ASSOC_STATS_V34.plots++;
+-      const match=spq9bBestTrackForPlotV34(plot,usedTracks,trackBPlotIndex),existing=match?tracks.get(match.trackId):null;
++      const selected=trackCMatches.get(trackCIndex),
++        match=TRACK_C_IMPLEMENTATION_MODE==='ACTIVE'?(selected?{trackId:selected.id,nis:selected.nis,cross:trackSurfaceBackedWip13B14(tracks.get(selected.id))}:null):spq9bBestTrackForPlotV34(plot,usedTracks,trackBPlotIndex),existing=match?tracks.get(match.trackId):null;
++      if(TRACK_C_IMPLEMENTATION_MODE==='ACTIVE'&&match&&(usedTracks.has(match.trackId)||trackCSelection.heldTracks.has(match.trackId))){SPQ9B_ASSOC_STATS_V34.rejected++;continue;}
+       // A fresh SPY estimate already contains this echo at much better 3-D precision. Consume the
+       // association so the SPQ return cannot start a duplicate track, but preserve SPY as source.
+       if(existing&&isAegisAvailable(existing.x,existing.y)&&(existing.sensorSource??'').startsWith('SPY1DV')&&(existing.sensorAge??99)<0.65){
+@@ -50032,8 +50150,14 @@
+   }
+   function wip121TryAliasReacquire(newId,tr,opt={}){
+     const current=wip118ControlState.assessments.get(newId),allowFresh=!!opt.allowExistingFresh&&current?.state==='THREAT'&&current?.lastAssessmentStep===simStepCounter&&!current?.everEngaged;
+-    if(current&&!allowFresh)return null;const now=simStepCounter*SIM_FIXED_DT,si=wip118TrackStateSI(tr);if(!si)return null;let best=null;
+-    for(const [oldId,a] of wip118ControlState.assessments){if(a.state!=='LOST'||(a.lostAgeS??Infinity)>WIP118_KILL_ASSESSMENT_POLICY.lostAliasMaxS)continue;const px=wip121LostProxy(oldId,a);if(!px)continue;const ps=wip118TrackStateSI(px),cov=trackCovarianceMetrics(px),dp=Math.hypot(si.x-ps.x,si.y-ps.y,si.z-ps.z),dv=Math.hypot(si.vx-ps.vx,si.vy-ps.vy,si.vz-ps.vz),posGate=Math.max(600,3*cov.posSigmaM),velGate=Math.max(120,3*cov.velSigmaMps);if(dp>posGate||dv>velGate)continue;const score=dp/posGate+dv/velGate;if(!best||score<best.score)best={oldId,newId,score,dp,dv,posGate,velGate};}
++    if(current&&!allowFresh)return null;const now=simStepCounter*SIM_FIXED_DT,si=wip118TrackStateSI(tr);if(!si)return null;let best=null;const trackCCandidates=[];
++    for(const [oldId,a] of wip118ControlState.assessments){if(a.state!=='LOST'||(a.lostAgeS??Infinity)>WIP118_KILL_ASSESSMENT_POLICY.lostAliasMaxS)continue;const px=wip121LostProxy(oldId,a);if(!px)continue;const ps=wip118TrackStateSI(px),cov=trackCovarianceMetrics(px),dp=Math.hypot(si.x-ps.x,si.y-ps.y,si.z-ps.z),dv=Math.hypot(si.vx-ps.vx,si.vy-ps.vy,si.vz-ps.vz),posGate=Math.max(600,3*cov.posSigmaM),velGate=Math.max(120,3*cov.velSigmaMps);if(dp>posGate||dv>velGate)continue;const score=dp/posGate+dv/velGate;trackCCandidates.push({oldId,newId,score,dp,dv,posGate,velGate,coast:ps});if(!best||score<best.score)best={oldId,newId,score,dp,dv,posGate,velGate};}
++    if(TRACK_C_IMPLEMENTATION_MODE==='ACTIVE'){
++      const lineage=trackCAliasDecisionC(trackCCandidates,newId,tr,tracks,wip118TrackStateSI);
++      if(TRACK_C_DIAG.enabled)trackCRecordC({event:'ALIAS_INHERITANCE',ownerEntityId:ACTIVE_SHIP_RUNTIME.entityId,timeS:trackCTimeC(),newId,oldId:lineage.pick?.oldId??null,candidateCount:trackCCandidates.length,accepted:lineage.ok,reason:lineage.reason});
++      if(!lineage.ok)return null;
++      const q=lineage.pick;best={oldId:q.oldId,newId:q.newId,score:q.score,dp:q.dp,dv:q.dv,posGate:q.posGate,velGate:q.velGate};
++    }
+     if(!best)return null;const oldA=wip118ControlState.assessments.get(best.oldId),oldAccel=wip118ControlState.accel.get(best.oldId);wip118ControlState.assessments.delete(best.oldId);if(oldAccel){wip118ControlState.accel.delete(best.oldId);wip118ControlState.accel.set(newId,oldAccel);}wip121TransferEngagementMemory(best.oldId,newId);
+     const live=wip118LiveEngagementCount(newId),next={...oldA,...(current??{}),trackId:newId,state:'THREAT',trackPresent:true,everEngaged:!!oldA?.everEngaged||!!current?.everEngaged||live>0,liveEngagement:live,reengageRequired:false,lostStep:null,lostAgeS:0,lastObservation:current?.lastObservation??oldA?.lastObservation??null,lastSeenStep:simStepCounter,lastAssessmentStep:simStepCounter,reacquiredFromTrackId:best.oldId,reacquiredStep:simStepCounter};wip118ControlState.assessments.set(newId,next);wip118ControlState.aliasLog.push({...best,t:now,phase:allowFresh?'POST_LOSS_SAME_FRAME':'PREEXISTING_LOST'});if(wip118ControlState.aliasLog.length>64)wip118ControlState.aliasLog.shift();return best;
+   }
