@@ -1,0 +1,25 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_A_EGRESS_ROOT_CAUSE_1",
+  "status": "CONFIRMED_CODE_DEFECT",
+  "source": "EGRESS_CAUSAL_ANALYSIS.json",
+  "afterActionTruthTestOnly": true,
+  "sampleCount": 37,
+  "firstAssociationFamilies": {
+    "RF_OBJECT": 37
+  },
+  "firstConfirmedTrackFamilies": {
+    "RF_OBJECT": 37
+  },
+  "damageBeforeFirstConfirmedTrack": 0,
+  "decoyFirstAssociations": 0,
+  "category": "STATE_MACHINE_DEFECT",
+  "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+  "mechanism": "Before an EKF exists, launch-cue residuals were only soft score penalties. A close, high-SNR neighboring ASM reflector could dominate the score and initialize the seeker EKF away from the designated target basket.",
+  "runtimeEvidence": "All 37 stored TRACK-C qualified-egress samples first associated and first confirmed TRACK on an RF_OBJECT. A same-tick surface-target return was present in representative samples. No damage preceded the first confirmed TRACK.",
+  "diagnosticObserverEquivalence": {
+    "status": "PASS",
+    "comparableJsonByteEqual": true,
+    "sha256": "201bff4c0b3d80d3e4e857cb8b7dd70ce12328dbc0b406c16f61b6533946f043"
+  },
+  "caveat": "Fresh replay reproduced the stored final egress endpoint in 12 of 37 samples; diagnostic observer ON/OFF remained byte-identical. Root-cause classification uses the common first-association path, not endpoint equality."
+}

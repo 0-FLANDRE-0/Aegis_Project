@@ -1,0 +1,1140 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_A_EGRESS_CAUSAL_ANALYSIS_1",
+  "status": "CONFIRMED_CODE_DEFECT",
+  "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+  "counts": {
+    "rows": 37,
+    "firstAssociationFamilies": {
+      "RF_OBJECT": 37
+    },
+    "firstTrackFamilies": {
+      "RF_OBJECT": 37
+    },
+    "replayMatchesPriorEgress": 12,
+    "damageBeforeFirstTrack": 0,
+    "everDamaged": 9,
+    "decoyFirstAssociations": 0
+  },
+  "causalConclusion": {
+    "category": "STATE_MACHINE_DEFECT",
+    "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+    "mechanism": "Before the EKF exists, the launch-cue range/azimuth/elevation residuals are only soft score penalties. Very strong, close neighboring-ASM returns dominate that score and seed the RF EKF on the wrong object.",
+    "notPrimary": [
+      "DAMAGE_DEGRADED",
+      "DECOY",
+      "NO_ECHO"
+    ]
+  },
+  "rows": [
+    {
+      "runId": "S13-419027-C",
+      "scenario": "S13",
+      "seed": 419027,
+      "missileId": 8,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 71,
+        "timeS": 1.1833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:4+ASM:6",
+        "rangeM": 99.61595976568307,
+        "snr": 8462.971778347317
+      },
+      "firstTrack": {
+        "step": 75,
+        "timeS": 1.25,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:4+ASM:6"
+      },
+      "firstShipAssociationTimeS": 23.866666666666667,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 36.016666666666666,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419027-C",
+      "scenario": "S13",
+      "seed": 419027,
+      "missileId": 16,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 78,
+        "timeS": 1.3,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12",
+        "rangeM": 206.04878160258423,
+        "snr": 22965.26866967464
+      },
+      "firstTrack": {
+        "step": 82,
+        "timeS": 1.3666666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:10+ASM:12"
+      },
+      "firstShipAssociationTimeS": 32.5,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419027-C",
+      "scenario": "S13",
+      "seed": 419027,
+      "missileId": 22,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 54,
+        "timeS": 0.9,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18",
+        "rangeM": 204.86605633519352,
+        "snr": 36590.001958670226
+      },
+      "firstTrack": {
+        "step": 58,
+        "timeS": 0.9666666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419027-C",
+      "scenario": "S13",
+      "seed": 419027,
+      "missileId": 24,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 81,
+        "timeS": 1.35,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:16+ASM:18",
+        "rangeM": 254.2005576114688,
+        "snr": 18375.148064616445
+      },
+      "firstTrack": {
+        "step": 85,
+        "timeS": 1.4166666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:16+ASM:18"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419021-C",
+      "scenario": "S6",
+      "seed": 419021,
+      "missileId": 12,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 87,
+        "timeS": 1.45,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4",
+        "rangeM": 347.1943111030921,
+        "snr": 10466.075561353267
+      },
+      "firstTrack": {
+        "step": 91,
+        "timeS": 1.5166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 29.116666666666667,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419023-C",
+      "scenario": "S6",
+      "seed": 419023,
+      "missileId": 10,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 71,
+        "timeS": 1.1833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:8",
+        "rangeM": 79.47853130258125,
+        "snr": 3309.660981572796
+      },
+      "firstTrack": {
+        "step": 75,
+        "timeS": 1.25,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:8"
+      },
+      "firstShipAssociationTimeS": 27.95,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419025-C",
+      "scenario": "S6",
+      "seed": 419025,
+      "missileId": 8,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 54,
+        "timeS": 0.9,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6",
+        "rangeM": 98.49782844208562,
+        "snr": 33651.30251353617
+      },
+      "firstTrack": {
+        "step": 58,
+        "timeS": 0.9666666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419025-C",
+      "scenario": "S6",
+      "seed": 419025,
+      "missileId": 12,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 86,
+        "timeS": 1.4333333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10",
+        "rangeM": 100.87534848609707,
+        "snr": 16535.160545722665
+      },
+      "firstTrack": {
+        "step": 90,
+        "timeS": 1.5,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:6+ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": 26.066666666666666,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419032-C",
+      "scenario": "S6",
+      "seed": 419032,
+      "missileId": 8,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 73,
+        "timeS": 1.2166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6",
+        "rangeM": 112.17831503245934,
+        "snr": 21147.769120483164
+      },
+      "firstTrack": {
+        "step": 77,
+        "timeS": 1.2833333333333332,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6"
+      },
+      "firstShipAssociationTimeS": 26.2,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419033-C",
+      "scenario": "S6",
+      "seed": 419033,
+      "missileId": 8,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 73,
+        "timeS": 1.2166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6",
+        "rangeM": 92.80146721405183,
+        "snr": 17786.21309269768
+      },
+      "firstTrack": {
+        "step": 77,
+        "timeS": 1.2833333333333332,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6"
+      },
+      "firstShipAssociationTimeS": 21.183333333333334,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419033-C",
+      "scenario": "S6",
+      "seed": 419033,
+      "missileId": 10,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6",
+        "rangeM": 226.0179798329528,
+        "snr": 5251.385780787607
+      },
+      "firstTrack": {
+        "step": 73,
+        "timeS": 1.2166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 27.266666666666666,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S6-419039-C",
+      "scenario": "S6",
+      "seed": 419039,
+      "missileId": 12,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 57,
+        "timeS": 0.95,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10",
+        "rangeM": 101.4791585774801,
+        "snr": 31577.12610103742
+      },
+      "firstTrack": {
+        "step": 61,
+        "timeS": 1.0166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 14.966666666666667,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419020-C",
+      "scenario": "S13",
+      "seed": 419020,
+      "missileId": 16,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 58,
+        "timeS": 0.9666666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8",
+        "rangeM": 373.57195032289593,
+        "snr": 8369.031766079075
+      },
+      "firstTrack": {
+        "step": 62,
+        "timeS": 1.0333333333333332,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8"
+      },
+      "firstShipAssociationTimeS": 22.716666666666665,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419020-C",
+      "scenario": "S13",
+      "seed": 419020,
+      "missileId": 18,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 61,
+        "timeS": 1.0166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:10+ASM:12+ASM:14+ASM:16",
+        "rangeM": 100.17654100420793,
+        "snr": 13273.033655064957
+      },
+      "firstTrack": {
+        "step": 65,
+        "timeS": 1.0833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:16"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419021-C",
+      "scenario": "S13",
+      "seed": 419021,
+      "missileId": 26,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 72,
+        "timeS": 1.2,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22",
+        "rangeM": 220.18477857570258,
+        "snr": 11346.002128617783
+      },
+      "firstTrack": {
+        "step": 76,
+        "timeS": 1.2666666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 10,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 83,
+        "timeS": 1.3833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4",
+        "rangeM": 274.21033241616215,
+        "snr": 5245.9129581975985
+      },
+      "firstTrack": {
+        "step": 89,
+        "timeS": 1.4833333333333334,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4"
+      },
+      "firstShipAssociationTimeS": 19.55,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 14,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 65,
+        "timeS": 1.0833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8",
+        "rangeM": 275.8447224748602,
+        "snr": 16388.279598688358
+      },
+      "firstTrack": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8"
+      },
+      "firstShipAssociationTimeS": 25.566666666666666,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 16,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12",
+        "rangeM": 193.77475466968457,
+        "snr": 29528.668195086277
+      },
+      "firstTrack": {
+        "step": 73,
+        "timeS": 1.2166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 13.216666666666667,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 18,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 67,
+        "timeS": 1.1166666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12",
+        "rangeM": 309.73032626865665,
+        "snr": 9390.702666925596
+      },
+      "firstTrack": {
+        "step": 71,
+        "timeS": 1.1833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 20,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 84,
+        "timeS": 1.4,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12",
+        "rangeM": 384.0478055449753,
+        "snr": 24791.67478379575
+      },
+      "firstTrack": {
+        "step": 88,
+        "timeS": 1.4666666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12"
+      },
+      "firstShipAssociationTimeS": 21.95,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 24.6,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 22,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 67,
+        "timeS": 1.1166666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16",
+        "rangeM": 307.3902303557676,
+        "snr": 22826.41873450174
+      },
+      "firstTrack": {
+        "step": 71,
+        "timeS": 1.1833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:14+ASM:16"
+      },
+      "firstShipAssociationTimeS": 36.28333333333333,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "missileId": 26,
+      "priorCause": "OTHER",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 74,
+        "timeS": 1.2333333333333334,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20",
+        "rangeM": 307.4919490433027,
+        "snr": 10092.492895768008
+      },
+      "firstTrack": {
+        "step": 78,
+        "timeS": 1.3,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:14+ASM:16+ASM:18+ASM:20"
+      },
+      "firstShipAssociationTimeS": 36.083333333333336,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419023-C",
+      "scenario": "S13",
+      "seed": 419023,
+      "missileId": 16,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 70,
+        "timeS": 1.1666666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10",
+        "rangeM": 288.71101435700217,
+        "snr": 17494.528449258243
+      },
+      "firstTrack": {
+        "step": 74,
+        "timeS": 1.2333333333333334,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": 17.866666666666667,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419024-C",
+      "scenario": "S13",
+      "seed": 419024,
+      "missileId": 14,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 87,
+        "timeS": 1.45,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:6",
+        "rangeM": 320.2377175286449,
+        "snr": 642.1744912815001
+      },
+      "firstTrack": {
+        "step": 93,
+        "timeS": 1.55,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:6"
+      },
+      "firstShipAssociationTimeS": 26.8,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419024-C",
+      "scenario": "S13",
+      "seed": 419024,
+      "missileId": 18,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 53,
+        "timeS": 0.8833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16",
+        "rangeM": 107.1522622977043,
+        "snr": 23073.28968271052
+      },
+      "firstTrack": {
+        "step": 57,
+        "timeS": 0.95,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16"
+      },
+      "firstShipAssociationTimeS": 32.416666666666664,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419024-C",
+      "scenario": "S13",
+      "seed": 419024,
+      "missileId": 20,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 74,
+        "timeS": 1.2333333333333334,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:8+ASM:10",
+        "rangeM": 441.4548091652688,
+        "snr": 5239.365561327165
+      },
+      "firstTrack": {
+        "step": 80,
+        "timeS": 1.3333333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": 28.866666666666667,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419024-C",
+      "scenario": "S13",
+      "seed": 419024,
+      "missileId": 26,
+      "priorCause": "OTHER",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 57,
+        "timeS": 0.95,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22+ASM:24",
+        "rangeM": 93.69391093653559,
+        "snr": 43928.593768257466
+      },
+      "firstTrack": {
+        "step": 61,
+        "timeS": 1.0166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:20+ASM:22+ASM:24"
+      },
+      "firstShipAssociationTimeS": 39.93333333333333,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "missileId": 10,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 63,
+        "timeS": 1.05,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8",
+        "rangeM": 100.40771427247931,
+        "snr": 29384.561105555073
+      },
+      "firstTrack": {
+        "step": 67,
+        "timeS": 1.1166666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8"
+      },
+      "firstShipAssociationTimeS": 18.616666666666667,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 37.06666666666666,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "missileId": 16,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 86,
+        "timeS": 1.4333333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10",
+        "rangeM": 306.12761080180513,
+        "snr": 19149.71668799162
+      },
+      "firstTrack": {
+        "step": 90,
+        "timeS": 1.5,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": 21.466666666666665,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 35.083333333333336,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "missileId": 20,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 65,
+        "timeS": 1.0833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18",
+        "rangeM": 103.9406028871225,
+        "snr": 5757.235124349507
+      },
+      "firstTrack": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:14+ASM:16+ASM:18"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "missileId": 22,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 71,
+        "timeS": 1.1833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12",
+        "rangeM": 486.56342470659933,
+        "snr": 29727.090868953048
+      },
+      "firstTrack": {
+        "step": 75,
+        "timeS": 1.25,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "missileId": 26,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 65,
+        "timeS": 1.0833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22+ASM:24",
+        "rangeM": 107.79550211349576,
+        "snr": 45021.92335581618
+      },
+      "firstTrack": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:22+ASM:24"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419026-C",
+      "scenario": "S13",
+      "seed": 419026,
+      "missileId": 22,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "PHALANX_STRUCTURAL_FAILURE",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 73,
+        "timeS": 1.2166666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20",
+        "rangeM": 104.11402728826684,
+        "snr": 28926.174325495467
+      },
+      "firstTrack": {
+        "step": 77,
+        "timeS": 1.2833333333333332,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:16+ASM:18+ASM:20"
+      },
+      "firstShipAssociationTimeS": 32.86666666666667,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": 43.18333333333333,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419026-C",
+      "scenario": "S13",
+      "seed": 419026,
+      "missileId": 26,
+      "priorCause": "OTHER",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 79,
+        "timeS": 1.3166666666666667,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22",
+        "rangeM": 243.50669032979567,
+        "snr": 18434.785148149822
+      },
+      "firstTrack": {
+        "step": 83,
+        "timeS": 1.3833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16+ASM:18+ASM:20+ASM:22"
+      },
+      "firstShipAssociationTimeS": 32.75,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419028-C",
+      "scenario": "S13",
+      "seed": 419028,
+      "missileId": 20,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "EGRESS",
+      "replayMatchesPriorEgress": true,
+      "firstAssociation": {
+        "step": 74,
+        "timeS": 1.2333333333333334,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14",
+        "rangeM": 349.84646978639154,
+        "snr": 5242.97473849243
+      },
+      "firstTrack": {
+        "step": 78,
+        "timeS": 1.3,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10"
+      },
+      "firstShipAssociationTimeS": 38.583333333333336,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419028-C",
+      "scenario": "S13",
+      "seed": 419028,
+      "missileId": 24,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "NORMAL_HIT",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 72,
+        "timeS": 1.2,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16",
+        "rangeM": 412.650735739546,
+        "snr": 26239.044724690353
+      },
+      "firstTrack": {
+        "step": 76,
+        "timeS": 1.2666666666666666,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14+ASM:16"
+      },
+      "firstShipAssociationTimeS": null,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    },
+    {
+      "runId": "S13-419029-C",
+      "scenario": "S13",
+      "seed": 419029,
+      "missileId": 20,
+      "priorCause": "SEEKER_LOSS",
+      "priorMinRangeM": null,
+      "replayOutcome": "INTERCEPT_KILL",
+      "replayMatchesPriorEgress": false,
+      "firstAssociation": {
+        "step": 65,
+        "timeS": 1.0833333333333333,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:2+ASM:4+ASM:6+ASM:8+ASM:10+ASM:12+ASM:14",
+        "rangeM": 271.4575201358685,
+        "snr": 7349.935640933175
+      },
+      "firstTrack": {
+        "step": 69,
+        "timeS": 1.15,
+        "family": "RF_OBJECT",
+        "debugId": "ASM:12+ASM:14"
+      },
+      "firstShipAssociationTimeS": 32.7,
+      "damageBeforeFirstTrack": false,
+      "firstDamageTimeS": null,
+      "classification": "STATE_MACHINE_DEFECT",
+      "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+      "evidence": "Initial no-KF association selected neighboring ASM RF return despite a launch-cued SHIP measurement."
+    }
+  ]
+}

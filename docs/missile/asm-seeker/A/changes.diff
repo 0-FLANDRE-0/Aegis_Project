@@ -1,0 +1,16 @@
+--- Aegis_SIM_v48_WIP_TRACK_C/main.js
++++ Aegis_SIM_v48_WIP_ASM_SEEKER_A/main.js
+@@ -31862,7 +31862,12 @@
+     let scored=[];
+     if(!s._kfX){
+       const dx=worldToMeters(em.insTgtX-own.x),dy=worldToMeters(em.insTgtY-own.y),dz=(p.aimHeightM??5)-(own.z??0),cueRange=Math.max(1,Math.hypot(dx,dy,dz)),cueAz=Math.atan2(dy,dx),cueEl=Math.atan2(dz,Math.max(1,Math.hypot(dx,dy)));
+-      for(const m of measurements){const evidence=clamp(Number(m.targetEvidence)||0,0,1);if(!arhRfCandidateAcceptedWip13B12(s.mode,evidence)){s.lastRejectedLowEvidence++;s.lowEvidenceRejectTotal=(s.lowEvidenceRejectTotal??0)+1;continue;}s.lastValidatedCandidateCount++;const rangeErr=Math.abs(m.rangeM-cueRange),azErr=Math.abs(angNorm(m.azRad-cueAz)),elErr=Math.abs(angNorm(m.elRad-cueEl)),score=5*Math.log1p(Math.max(0,m.snr))+18*(evidence-.5)-4*clamp(rangeErr/Math.max(1200,cueRange*.12),0,4)-5*clamp(azErr/deg(5),0,4)-3*clamp(elErr/deg(4),0,4);scored.push({m,score,stats:null,rangeErr,azErr,elErr,dopErr:0});}
++      for(const m of measurements){const evidence=clamp(Number(m.targetEvidence)||0,0,1);if(!arhRfCandidateAcceptedWip13B12(s.mode,evidence)){s.lastRejectedLowEvidence++;s.lowEvidenceRejectTotal=(s.lowEvidenceRejectTotal??0)+1;continue;}s.lastValidatedCandidateCount++;const rangeErr=Math.abs(m.rangeM-cueRange),azErr=Math.abs(angNorm(m.azRad-cueAz)),elErr=Math.abs(angNorm(m.elRad-cueEl)),cueRangeScaleM=Math.max(1200,cueRange*.12),cueAzScaleRad=deg(5),cueElScaleRad=deg(4);
++        // ASM_SEEKER_A: before an EKF exists, the launch cue is an acquisition
++        // basket, not merely a soft score. Reuse the existing residual scales;
++        // no RF/Pd/noise/beam/gimbal or guidance coefficient changes.
++        if(rangeErr>cueRangeScaleM||azErr>cueAzScaleRad||elErr>cueElScaleRad)continue;
++        const score=5*Math.log1p(Math.max(0,m.snr))+18*(evidence-.5)-4*clamp(rangeErr/cueRangeScaleM,0,4)-5*clamp(azErr/cueAzScaleRad,0,4)-3*clamp(elErr/cueElScaleRad,0,4);scored.push({m,score,stats:null,rangeErr,azErr,elErr,dopErr:0});}
+     }else{
+       for(const m of measurements){
+         const evidence=clamp(Number(m.targetEvidence)||0,0,1),strict=arhRfCandidateAcceptedWip13B12(s.mode,evidence);
