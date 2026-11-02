@@ -1,0 +1,100 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_A_VALIDATION_1",
+  "status": "PASS",
+  "baselineCommit": "e10b1bdf8822655d3b9d5c29491161e5e24ee203",
+  "baselineHtml": "Aegis_SIM_v48_WIP_TRACK_C.html",
+  "baselineHtmlSha256": "3f2af4c1e18ef30ce4b8dfe4cc2b28f2b91cf96c62306e8f9c55df4a8c508c81",
+  "productHtml": "Aegis_SIM_v48_WIP_ASM_SEEKER_A.html",
+  "productHtmlSha256": "9a00c8c02bd88ef1322b1b47882a2299184e174230391f9a608347f2b4fb3e5f",
+  "productPackedMainSha256": "4f4ded11519f4f625143a440bfd2c32c574f12097599d77180db6405237893a9",
+  "checks": {
+    "baselinePinned": true,
+    "productHashMatchesBuild": true,
+    "oneProductChange": true,
+    "reverseReplacementRestoresBaseline": true,
+    "noNewTuningConstants": true,
+    "noTruthOrEntityIdentityConsumed": true,
+    "noDiagnosticApiInProduct": true,
+    "noAfterActionHelperInProduct": true,
+    "noTargetEntityTeamIdentityTokensInProduct": true,
+    "observerComparableJsonByteExact": true,
+    "observerComparableShaEqual": true,
+    "confirmedRootCause": true,
+    "s2Pass": true,
+    "s3Pass": true,
+    "s3PopulationConserved": true,
+    "s3ImproperEgressRemoved": true,
+    "native13Pass": true,
+    "ui213Pass": true,
+    "webgl8Pass": true,
+    "noNewRegressionFailures": true,
+    "onlyKnownRetiredIncomplete": true
+  },
+  "rootCause": {
+    "qualifiedEgressSamples": 37,
+    "category": "STATE_MACHINE_DEFECT",
+    "subtype": "INITIAL_CUE_ASSOCIATION_ACCEPTED_OUT_OF_BASKET_RF_OBJECT",
+    "firstAssociationFamilies": {
+      "RF_OBJECT": 37
+    },
+    "damageBeforeFirstTrack": 0
+  },
+  "s2": {
+    "status": "PASS",
+    "elapsedS": 145.03217613798915,
+    "pageErrors": [],
+    "unresolved": "45 km small-surface-target acquisition remained 0/50; RF/evidence coefficients deliberately unchanged."
+  },
+  "s3": {
+    "status": "PASS",
+    "battles": 60,
+    "baseline": {
+      "kills": 264,
+      "leakers": 15,
+      "egress": 37,
+      "other": 4
+    },
+    "product": {
+      "kills": 294,
+      "leakers": 21,
+      "egress": 0,
+      "other": 5
+    },
+    "elapsedS": 2158.3505767028255
+  },
+  "broadRegression": {
+    "native13": {
+      "suiteCount": 13,
+      "expectedSuiteCount": 13,
+      "assertionCount": 364,
+      "passedAssertions": 364,
+      "expectedAssertions": 364
+    },
+    "ui213": {
+      "status": "PASS",
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "wallS": 467.40478627898847
+    },
+    "webgl8": {
+      "status": "PASS",
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "wallS": 290.4571479980077
+    },
+    "newFailures": [],
+    "knownRetiredDebt": {
+      "suite": "emcon-ui",
+      "assertions": 14,
+      "status": "INCOMPLETE",
+      "reason": "Existing retired EMCON UI requires absent #lockBtn; original 14 assertions not approved or waived. Prior bounded RC1 attempt retained; no RC2 assertions executed."
+    }
+  },
+  "releaseDecision": {
+    "approvedByDirective": true,
+    "mergeAllowed": true,
+    "releaseOrTagAllowed": false
+  }
+}

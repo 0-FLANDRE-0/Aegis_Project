@@ -1,0 +1,25 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_A_SCOPE_1",
+  "productChangeCount": 1,
+  "changedFunction": "asmSeekerAssociateMeasurements",
+  "changedBranch": "initial association when seeker._kfX is absent",
+  "sourceTransformationProof": {
+    "oldOccurrenceCount": 1,
+    "newOccurrenceCount": 1,
+    "reverseReplacementRestoresBaselineMainExactly": true,
+    "diff": "changes.diff"
+  },
+  "addedBehavior": "Reject an initial RF measurement when its range, azimuth, or elevation residual lies outside the pre-existing launch-cue residual scales before it can initialize the EKF.",
+  "newTuningConstants": [],
+  "truthOrEntityIdentityConsumed": false,
+  "unchangedByExactReverseReplacement": [
+    "RF and Pd models",
+    "measurement noise",
+    "RCS and aspect models",
+    "beam and gimbal models",
+    "confirmed-track guidance",
+    "propulsion and flight dynamics",
+    "warhead and damage models",
+    "SAM, CIWS and gun code"
+  ]
+}
