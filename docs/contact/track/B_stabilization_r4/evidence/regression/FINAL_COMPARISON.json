@@ -1,0 +1,655 @@
+{
+  "schema": "AEGIS_TRACK_B_STABLE_R4_ORIGINAL_REGRESSION_SUMMARY_1",
+  "candidateSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+  "shadowSha256": "3c7d2490e7e0d6fe94452e43d8f22132fbdd8add83986208bf7173068c478444",
+  "controllerSha256": "ac73be71cea4924fc1eec577d0da82e84e88207423e1e1f622efd922a2a797fd",
+  "producerSha256": "623065ddbac8943cb2e97aefab0d8580e4e5b5f93fe7cba14f15a24ccea5c1da",
+  "sourceResultsPath": "REGRESSION_RESULTS.json",
+  "sourceResultsSha256": "f8fdc796ea4d164f8e4b12c3bd40b9d01851db48f30c83232e6455a9b4ecc1b4",
+  "evidenceComplete": true,
+  "checks": {
+    "seventeenFreshFinalProductJobsClosed": true,
+    "allSeventeenSameCandidateSha256": true,
+    "allSeventeenSameFrozenControllerSha256": true,
+    "allOriginalSourceProvenanceValid": true,
+    "packedProductProofPass": true,
+    "assertionsUnchanged": true,
+    "expectationsUnchanged": true,
+    "noDeltasApproved": true,
+    "remainingSixteenMemoryReceiptsClosed": true,
+    "remainingSixteenNoOomIncrement": true
+  },
+  "originalNative13": {
+    "passed": 364,
+    "expected": 364,
+    "jobs": 13
+  },
+  "paired": {
+    "status": "FAIL",
+    "executedAssertions": 42,
+    "passedAssertions": 36,
+    "failedAssertions": [
+      "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+      "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+      "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+      "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+      "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+    ]
+  },
+  "domain420": {
+    "passed": 400,
+    "failed": 6,
+    "legacyUiIncomplete": 14,
+    "expected": 420
+  },
+  "d1": {
+    "aExact": 29,
+    "bExact": 30,
+    "r1Exact": 30,
+    "cases": 30,
+    "failuresAgainstA": [
+      419012
+    ],
+    "selectedGameplaySummariesEqualToA": 30,
+    "selectedGameplayIsNotStrictAssertionReplacement": true,
+    "inherited419025": {
+      "shipHits": 1,
+      "hpBefore": 100,
+      "hpAfter": 6.846598842629405,
+      "shipAlive": true,
+      "targets": [
+        {
+          "id": 2,
+          "alive": false,
+          "reason": null
+        }
+      ],
+      "seconds": 38.13333333333333,
+      "gunPreCiwsKills": 0,
+      "preCiwsKills": 0,
+      "shots": 0,
+      "ciwsUsed": 73,
+      "burstCount": 0,
+      "gunRounds": 68,
+      "ramRounds": 5
+    },
+    "approved": false
+  },
+  "ui213": {
+    "status": "PASS",
+    "passedAssertions": 213,
+    "expectedAssertions": 213
+  },
+  "webgl8": {
+    "status": "PASS",
+    "passedAssertions": 29,
+    "expectedAssertions": 29,
+    "flights": 8,
+    "eightSuccessfulKillsClaimed": false
+  },
+  "newStrictFailuresComparedWithDeliveredBAndR1": 2,
+  "newStrictFailureMeaning": "Two exact inventory-equality checks; one additional SM2 consumption each. Not a physical upper-bound violation; remains unapproved.",
+  "allFailedOriginalAssertions": [
+    {
+      "suite": "paired-track-a",
+      "failures": [
+        "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+        "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+        "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+        "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+      ]
+    },
+    {
+      "suite": "d1",
+      "failures": [
+        "seed419012"
+      ]
+    }
+  ],
+  "environmentIncompleteJobNames": [],
+  "memory": {
+    "receipts": [
+      {
+        "suite": "aps153",
+        "path": "evidence/regression/memory/aps153.json",
+        "sha256": "cc9fc288a9b738eacfcaf83dab91af3005080948e74b6fb460a2ded9509a72cb",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14295707648,
+        "beforeHeadroomBytes": 2884161536,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "d1",
+        "path": "evidence/regression/memory/d1.json",
+        "sha256": "2a2eb8e02181c0bbc84ca1f05710f4f93df5bc10ab5c2cdfabd940825597918d",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 12652228608,
+        "beforeHeadroomBytes": 4527640576,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "emcon-native",
+        "path": "evidence/regression/memory/emcon-native.json",
+        "sha256": "c49149fe40b41905a765000e217901c15735de8ab510f942e1c70b9cfa94b191",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14029029376,
+        "beforeHeadroomBytes": 3150839808,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "harpoon-clock",
+        "path": "evidence/regression/memory/harpoon-clock.json",
+        "sha256": "795d6bcfd183a8d2da26b1bfc502a22080345280c751067a7adb47de6f3de628",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14122315776,
+        "beforeHeadroomBytes": 3057553408,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "harpoon-f1",
+        "path": "evidence/regression/memory/harpoon-f1.json",
+        "sha256": "569ab6db76658ce797e293ada15ec4858d9f94129d178cb70d1d14fc0d2826b7",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13912985600,
+        "beforeHeadroomBytes": 3266883584,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "helicopter-flight",
+        "path": "evidence/regression/memory/helicopter-flight.json",
+        "sha256": "d8de4cab6535d3964235c83297e6ff3ddf16acb22b06164434ce2d6859211eb9",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13568786432,
+        "beforeHeadroomBytes": 3611082752,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "isar-classes",
+        "path": "evidence/regression/memory/isar-classes.json",
+        "sha256": "2e31fec1d0bbb4608d2faf1e08d54b5da801bbb6fd750468edb1a825d8bbb6a2",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13564178432,
+        "beforeHeadroomBytes": 3615690752,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "isar-clock",
+        "path": "evidence/regression/memory/isar-clock.json",
+        "sha256": "89c223a9d2451438f623e0949d5cb1ffa6c86a67283255d06350d05a28626047",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13505294336,
+        "beforeHeadroomBytes": 3674574848,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "isar-native",
+        "path": "evidence/regression/memory/isar-native.json",
+        "sha256": "ff766989f2f82891030289f5fc86958e5ffbe82da8f052aaa2cf0c71910c92d9",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14205714432,
+        "beforeHeadroomBytes": 2974154752,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "isar-ui",
+        "path": "evidence/regression/memory/isar-ui.json",
+        "sha256": "a5871f3a38440245771efb067014141667f3ac2274496d6b00e09bbce00c31cb",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14252126208,
+        "beforeHeadroomBytes": 2927742976,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "sov-casualty",
+        "path": "evidence/regression/memory/sov-casualty.json",
+        "sha256": "6d131b62a40d26d1e0b29f31c8447b3456f75a45cae06a0f021a49323e6df12e",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14388113408,
+        "beforeHeadroomBytes": 2791755776,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "sov-deployment",
+        "path": "evidence/regression/memory/sov-deployment.json",
+        "sha256": "464f4b31be4b8422adf1cebeb886b788f2c31132e8a102152d17d95e6823076d",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13934329856,
+        "beforeHeadroomBytes": 3245539328,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "sov-native",
+        "path": "evidence/regression/memory/sov-native.json",
+        "sha256": "720d04b4487f1453967796e94bb0d50714fecabfe78a5d1d4e529f5617e6b030",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14570037248,
+        "beforeHeadroomBytes": 2609831936,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "sov-visual",
+        "path": "evidence/regression/memory/sov-visual.json",
+        "sha256": "84dc766135e97d73550c05cd5fa3a2f6dbd01e89dd2c13e8bd7e3d63b3d5b5a5",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 14607433728,
+        "beforeHeadroomBytes": 2572435456,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "ui213",
+        "path": "evidence/regression/memory/ui213.json",
+        "sha256": "1a7b37c4f0f1f4f1b9592a5a577db1fc34a62581ffb23feea7b39b9ac58ada14",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 12652228608,
+        "beforeHeadroomBytes": 4527640576,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      },
+      {
+        "suite": "webgl8",
+        "path": "evidence/regression/memory/webgl8.json",
+        "sha256": "4062562ed9aa2c214250eddfdb27ef3d0be3d50d1db402df9fdde3df0b31293a",
+        "capturedBeforeWorker": true,
+        "closed": true,
+        "beforeCurrentBytes": 13976436736,
+        "beforeHeadroomBytes": 3203432448,
+        "beforeEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "afterEvents": {
+          "low": 0,
+          "high": 0,
+          "max": 2662,
+          "oom": 50,
+          "oom_kill": 9,
+          "oom_group_kill": 0
+        },
+        "eventDelta": {
+          "max": 0,
+          "low": 0,
+          "oom_group_kill": 0,
+          "high": 0,
+          "oom_kill": 0,
+          "oom": 0
+        }
+      }
+    ],
+    "sampling": "Before/after job only; not a continuously sampled peak. Shared cgroup increments do not alone attribute a product cause.",
+    "pairedFirstPhaseReceipt": "Not captured by later per-worker supervisor; retained original phase execution evidence is separate."
+  },
+  "wallS": 1624.6342506199726,
+  "currentPhaseWallS": 1441.650613581005,
+  "workerWallSumS": 3056.317881377996,
+  "timeMeaning": "Cumulative controller phase wall, excluding gaps between root-authorized phases; worker wall sums overlap under parallel2.",
+  "overallRegressionStatus": "FAIL",
+  "candidateAcceptance": "UNAPPROVED; separate guarded natural6 HP worsening remains a material combat regression. Original regression completion is not release approval.",
+  "completedPairedBattleClaim": false,
+  "releaseApproved": false
+}

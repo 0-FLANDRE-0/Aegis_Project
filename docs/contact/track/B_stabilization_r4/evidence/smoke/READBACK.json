@@ -1,0 +1,225 @@
+{
+  "schema": "AEGIS_R4_FRESH_SMOKE_READBACK_1",
+  "status": "PASS",
+  "candidateSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+  "freshPages": 6,
+  "wallS": 141.51699990298948,
+  "executions": [
+    {
+      "job": "repro",
+      "exitCode": 0,
+      "wallS": 64.77867013600189,
+      "log": "evidence/smoke/repro.log",
+      "logSha256": "a7e6f2c1d13a219a1f24ef76381c848d60b74909c68bcb307fc36ac381743ea0"
+    },
+    {
+      "job": "auto-iff",
+      "exitCode": 0,
+      "wallS": 23.82019111298723,
+      "log": "evidence/smoke/auto-iff.log",
+      "logSha256": "3074f540f1bf2b9a400c43b6a91286d8079af097ca78133b79d9f58baad72900"
+    },
+    {
+      "job": "idle",
+      "exitCode": 0,
+      "wallS": 52.585304441978224,
+      "log": "evidence/smoke/idle.log",
+      "logSha256": "5b54230ae22accd1259bc0753630c753c9cf9730f16fcfb88915a8f4df1fc451"
+    }
+  ],
+  "checks": {
+    "reproThreeOriginalCasesComplete": true,
+    "reproOriginalExecutorPassed": true,
+    "autoIffOriginalChecksPass": true,
+    "idleBothFreshOriginalChecksPass": true,
+    "strictAvailableNativeAndStateComparisonsExact": true,
+    "allOriginalWorkersExitedZero": true
+  },
+  "originalSmoketoolSha256": "867359913df0cd562d7db96c40731ea091831328dd0109174a1310e0a910953f",
+  "currentSmoketoolSha256": "be36c9ffd6fa92e2e8d0249ffc0d686d763d12f164546034121fe43f6ae1b6b1",
+  "unchangedExecutorsAndComparisons": true,
+  "reproductionFullState": [
+    {
+      "name": "helo-hover",
+      "actualStateStringSha256": "2108f9d8821b7923672aeefae6497cc806a3d434062d225c3fee61809d80dbea",
+      "allRecordedNativeChecksPass": true,
+      "fullObserverTrackPPrivateRngSnapshotsAvailable": true,
+      "frozenAAndBComparisons": [
+        {
+          "reference": "track-a-fresh",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        },
+        {
+          "reference": "delivered-b",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        }
+      ]
+    },
+    {
+      "name": "helo-route",
+      "actualStateStringSha256": "d4abd2e723e4d4a793ba94cf4ad4fac93ac402b3a323e88c09b84339f381b20a",
+      "allRecordedNativeChecksPass": true,
+      "fullObserverTrackPPrivateRngSnapshotsAvailable": true,
+      "frozenAAndBComparisons": [
+        {
+          "reference": "track-a-fresh",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        },
+        {
+          "reference": "delivered-b",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        }
+      ]
+    },
+    {
+      "name": "harpoon-route",
+      "actualStateStringSha256": "7e8cf69fda5ac1aced47f9b449fd07ade9d6abf76164f97e76989974d77a7a6c",
+      "allRecordedNativeChecksPass": true,
+      "fullObserverTrackPPrivateRngSnapshotsAvailable": true,
+      "frozenAAndBComparisons": [
+        {
+          "reference": "track-a-fresh",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        },
+        {
+          "reference": "delivered-b",
+          "allFieldsExact": true,
+          "fileBytesExact": true,
+          "originalStateStringHashExact": true
+        }
+      ]
+    }
+  ],
+  "idle120": {
+    "rows": [
+      {
+        "tag": "before",
+        "actualProduct": "Aegis_SIM_v48_WIP_CG_TURRET_A.html",
+        "timeS": 120,
+        "truthSha256": "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f",
+        "worldStateFileSha256": "d13b78e61f24e32679f41be103133c57bc75987a0f9aade85edbd859fe7ad033",
+        "rng": 12002,
+        "dom": {
+          "liveLock": false,
+          "retiredLock": true,
+          "liveQuickLock": false
+        },
+        "core": []
+      },
+      {
+        "tag": "after",
+        "actualProduct": "Aegis_SIM_v48_WIP_TRACK_B_STABLE_D.html",
+        "timeS": 120,
+        "truthSha256": "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f",
+        "worldStateFileSha256": "d13b78e61f24e32679f41be103133c57bc75987a0f9aade85edbd859fe7ad033",
+        "rng": 12002,
+        "dom": {
+          "liveLock": false,
+          "retiredLock": true,
+          "liveQuickLock": false
+        },
+        "core": []
+      }
+    ],
+    "truthHashEqualBeforeAfter": true,
+    "worldStateBytesEqualBeforeAfter": true,
+    "rngEqualBeforeAfter": true,
+    "allOriginalChecksPass": true,
+    "fullObserverPPrivateRngSnapshotComparisonAvailable": false,
+    "notClaimedFromTruthOnlyHash": true
+  },
+  "autoIff": {
+    "checks": {
+      "inventoryUnchangedInAuto": true,
+      "friendlyThroughIff": true,
+      "oneFile": true,
+      "core": true
+    },
+    "errors": [],
+    "resultRngPresent": true,
+    "resultRng": 419010,
+    "fullObserverPPrivateRngSnapshotComparisonAvailable": false
+  },
+  "rawEnvelopeDifferencesRetainedAndUnapproved": [
+    {
+      "case": "auto-iff-raw-envelope",
+      "reference": "track-a-fresh",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/auto-iff-raw-envelope-track-a-fresh-all-leaf-differences.json.gz",
+        "rawSha256": "b1d96883cd92e2401a2c8240fb132b65379be8886eadce356863cab4de3cfe6d",
+        "gzipSha256": "050865a12d82fe64022d3c9384bdbb226e5b68bdddc7b48372a47bf5dee33c0c"
+      }
+    },
+    {
+      "case": "idle-raw-envelope",
+      "reference": "track-a-fresh",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/idle-raw-envelope-track-a-fresh-all-leaf-differences.json.gz",
+        "rawSha256": "ea4de87b2fc7b1614f73e714ddfb1e3abcf0c1897de7bfeacd8acf0a7a94154e",
+        "gzipSha256": "54782a2a4a057724a5fb1323b4cd9428792672ccf0f9f84fb366e3c19b4629e3"
+      }
+    },
+    {
+      "case": "auto-iff-raw-envelope",
+      "reference": "delivered-b",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/auto-iff-raw-envelope-delivered-b-all-leaf-differences.json.gz",
+        "rawSha256": "5cb9d22546e063bf37839edd0df2c3e1263df50f2c132c0608ba4e4558f61fe7",
+        "gzipSha256": "293067e64d49c157bc5515b30b9d51f469587b64dc2104b8827664c9d1c9f4e5"
+      }
+    },
+    {
+      "case": "idle-raw-envelope",
+      "reference": "delivered-b",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/idle-raw-envelope-delivered-b-all-leaf-differences.json.gz",
+        "rawSha256": "61d9f5a9ac9e4bdcaacfa0ef75f2a381ed6a85f00749f26e239b04fa592df339",
+        "gzipSha256": "6c1823c8e462eb42e33ebe00aaa792a77f55c7f6b339f63c1908eaacedac11f7"
+      }
+    },
+    {
+      "case": "auto-iff-raw-envelope",
+      "reference": "track-a-official",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/auto-iff-raw-envelope-track-a-official-all-leaf-differences.json.gz",
+        "rawSha256": "00528c5992895a3b6064e0b7fc96c1a8f1582acb5b71ba3b640431cb509f002f",
+        "gzipSha256": "75e098355f89a34a507cae48ba39f24648e83f1b30b5a0fd0b7b1b79f029a79b"
+      }
+    },
+    {
+      "case": "idle-raw-envelope",
+      "reference": "track-a-official",
+      "differingLeaves": 1,
+      "allLeafDifferences": {
+        "path": "evidence/smoke/comparisons/idle-raw-envelope-track-a-official-all-leaf-differences.json.gz",
+        "rawSha256": "14e1b6f8c0ffc7449a96c242de76bb3df4779ed44fc354726ae83147ac78f674",
+        "gzipSha256": "634ebaf75ee57fb6322baf982045ac157f16835c00253d4b6081b983c0c3dada"
+      }
+    }
+  ],
+  "missingHistoricalSnapshots": [
+    "auto-iff observer/P/private RNG",
+    "idle observer full state"
+  ],
+  "missingHistoricalSnapshotsNotCountedAsPass": true,
+  "productOrExpectedValuesModified": false,
+  "priorR1ResultsRelabeledAsCurrent": false,
+  "releaseApproved": false,
+  "combatStabilityApproval": false,
+  "browserClosedAndBothLeasesReturned": true
+}

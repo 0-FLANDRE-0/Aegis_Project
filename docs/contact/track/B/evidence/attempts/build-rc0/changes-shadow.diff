@@ -1,0 +1,411 @@
+--- Aegis_SIM_v48_WIP_TRACK_A.html::main
++++ Aegis_SIM_v48_WIP_TRACK_B_SHADOW.html::main
+@@ -95,6 +95,130 @@
+ });
+ 
+ // TRACK_A_DIAGNOSTICS_END
++// TRACK-B association policy only. No RF/EKF/IFF/authority/weapon coefficients.
++// Geometry reads anonymous measurements and receiver-owned filter estimates.
++const TRACK_B_IMPLEMENTATION_MODE='SHADOW'; // Build-time ACTIVE or SHADOW; never a UI/diagnostic switch.
++const TRACK_B_POLICY=Object.freeze({
++  provenance:'SIM_TUNED', reference:'GAME_ASSOCIATION_POLICY_NOT_SENSOR_PHYSICS',
++  ambiguityDeltaNis:1, // Near-equal native NIS cost heuristic, not a calibrated probability.
++  maxPositionInnovationM:2500, maxRadialInnovationMps:180,
++  // Existing networkAssociationNisG hard bounds, reused as association-only
++  // sanity. Neither measurement nor track covariance can remove these caps.
++  maxComponentSize:12, numericEpsilon:1e-9,
++  defaultTraceCapacity:1024, minTraceCapacity:16, maxTraceCapacity:4096
++});
++const TRACK_B_DIAG={enabled:false,capacity:TRACK_B_POLICY.defaultTraceCapacity,records:[],serial:0,dropped:0,errors:0};
++function trackBFiniteB(v){return typeof v==='number'&&Number.isFinite(v);}
++function trackBIdCompareB(a,b){if(typeof a==='number'&&typeof b==='number')return a-b;const x=String(a),y=String(b);return x<y?-1:x>y?1:0;}
++function trackBPairCompareB(a,b){return a.nis-b.nis||a.i-b.i||trackBIdCompareB(a.id,b.id);}
++function trackBPairCopyB(p){
++  const out={i:p.i,id:p.id,nis:p.nis};
++  if(p.sanity&&typeof p.sanity==='object'){
++    out.sanity={ok:p.sanity.ok!==false};
++    for(const k of ['reason','distanceM','distanceGateM','measurementPositionSigmaM','radialInnovationMps','radialGateMps','positionDimensions'])if(typeof p.sanity[k]==='string'||trackBFiniteB(p.sanity[k])||p.sanity[k]===null)out.sanity[k]=p.sanity[k];
++  }
++  return out;
++}
++function trackBLegacyGreedyB(pairs){
++  const rows=new Set(),cols=new Set(),out=[];
++  for(const q of pairs.slice().sort(trackBPairCompareB))if(!rows.has(q.i)&&!cols.has(q.id)){out.push(q);rows.add(q.i);cols.add(q.id);}
++  return out;
++}
++function trackBGeometryB(tr,meas,mode='AIR'){
++  const x=tr?._kfX,surface=mode==='SURFACE',withZ=!surface;
++  if(!x||x.length<6||![x[0],x[1],...(withZ?[x[2]]:[])].every(trackBFiniteB))return {ok:false,reason:'FILTER_POSITION_UNAVAILABLE'};
++  if(!trackBFiniteB(meas?.x)||!trackBFiniteB(meas?.y)||(withZ&&!trackBFiniteB(meas?.z)))return {ok:false,reason:'MEASUREMENT_POSITION_UNAVAILABLE'};
++  const px=worldToMeters(meas.x),py=worldToMeters(meas.y),distanceM=Math.hypot(px-x[0],py-x[1],withZ?meas.z-x[2]:0);
++  let sigmaM=0;
++  const C=meas.cartesianCovarianceM2;
++  if(C?.length===9&&[C[0],C[4],...(withZ?[C[8]]:[])].every(v=>trackBFiniteB(v)&&v>=0))sigmaM=Math.sqrt(C[0]+C[4]+(withZ?C[8]:0));
++  else{
++    const r=trackBFiniteB(meas.rangeM)?Math.abs(meas.rangeM):0,sr=trackBFiniteB(meas.rangeSigmaM)?Math.max(0,meas.rangeSigmaM):0;
++    const sa=trackBFiniteB(meas.azSigmaDeg)?Math.max(0,meas.azSigmaDeg)*Math.PI/180:0,se=withZ&&trackBFiniteB(meas.elSigmaDeg)?Math.max(0,meas.elSigmaDeg)*Math.PI/180:0;
++    sigmaM=Math.hypot(sr,r*sa,r*se);
++  }
++  const distanceGateM=TRACK_B_POLICY.maxPositionInnovationM;
++  let radialInnovationMps=null,radialGateMps=null;
++  if(trackBFiniteB(meas.radialMps)&&[x[3],x[4],x[5],meas.sensorVxMps,meas.sensorVyMps].every(trackBFiniteB)){
++    let ux=meas.losUx,uy=meas.losUy,uz=surface?0:meas.losUz;
++    if(![ux,uy,uz].every(trackBFiniteB)&&trackBFiniteB(meas.azRad)&&(surface||trackBFiniteB(meas.elRad))){const el=surface?0:meas.elRad;ux=Math.cos(el)*Math.cos(meas.azRad);uy=Math.cos(el)*Math.sin(meas.azRad);uz=Math.sin(el);}
++    if([ux,uy,uz].every(trackBFiniteB)){
++      if(surface||uz===0||trackBFiniteB(meas.sensorVzMps)){
++        const vertical=surface||uz===0?0:uz*(x[5]-meas.sensorVzMps);
++        radialInnovationMps=Math.abs(meas.radialMps-(ux*(x[3]-meas.sensorVxMps)+uy*(x[4]-meas.sensorVyMps)+vertical));
++        radialGateMps=TRACK_B_POLICY.maxRadialInnovationMps;
++      }
++    }
++  }
++  const ok=distanceM<=distanceGateM&&(radialInnovationMps===null||radialInnovationMps<=radialGateMps);
++  return {ok,reason:distanceM>distanceGateM?'INDEPENDENT_POSITION_SANITY':radialInnovationMps!==null&&radialInnovationMps>radialGateMps?'INDEPENDENT_RADIAL_SANITY':'NATIVE_NIS_PLUS_SANITY',distanceM,distanceGateM,measurementPositionSigmaM:sigmaM,radialInnovationMps,radialGateMps,positionDimensions:surface?2:3};
++}
++function trackBSolveB(input,assigner){
++  const gate=input.gate,plotCount=input.plotCount,ambiguityDelta=trackBFiniteB(input.ambiguityDeltaCost)&&input.ambiguityDeltaCost>=0?input.ambiguityDeltaCost:TRACK_B_POLICY.ambiguityDeltaNis;
++  if(!trackBFiniteB(gate)||gate<=0||!Number.isInteger(plotCount)||plotCount<0||plotCount>256)throw new Error('TRACK_B_INVALID_GRAPH');
++  const pairs=[],seen=new Set(),rejected=[];
++  for(const p of input.pairs??[]){
++    if(!Number.isInteger(p.i)||p.i<0||p.i>=plotCount||!['number','string'].includes(typeof p.id)||!trackBFiniteB(p.nis)||p.nis<0||p.nis>gate)continue;
++    const key=JSON.stringify([p.i,p.id]);if(seen.has(key))continue;seen.add(key);
++    if(p.sanity?.ok===false){rejected.push(trackBPairCopyB(p));continue;}pairs.push(trackBPairCopyB(p));
++  }
++  const byRow=new Map(),byCol=new Map();
++  for(const p of pairs){if(!byRow.has(p.i))byRow.set(p.i,[]);if(!byCol.has(p.id))byCol.set(p.id,[]);byRow.get(p.i).push(p);byCol.get(p.id).push(p);}
++  const visited=new Set(),heldPlots=new Set(),heldTracks=new Set(),chosen=[],components=[];
++  for(const start of [...byRow.keys()].sort((a,b)=>a-b)){
++    if(visited.has(start))continue;
++    const rows=new Set(),cols=new Set(),queue=[start];
++    while(queue.length){const i=queue.pop();if(rows.has(i))continue;rows.add(i);visited.add(i);for(const q of byRow.get(i)??[]){if(cols.has(q.id))continue;cols.add(q.id);for(const other of byCol.get(q.id)??[])if(!rows.has(other.i))queue.push(other.i);}}
++    const rr=[...rows].sort((a,b)=>a-b),cc=[...cols].sort(trackBIdCompareB),edges=pairs.filter(p=>rows.has(p.i)),component={plots:rr,tracks:cc,edgeCount:edges.length,ambiguous:false,reason:null};
++    if(rr.length>TRACK_B_POLICY.maxComponentSize||cc.length>TRACK_B_POLICY.maxComponentSize){component.ambiguous=true;component.reason='BOUNDED_COMPONENT_HOLD';for(const i of rr)heldPlots.add(i);for(const id of cc)heldTracks.add(id);components.push(component);continue;}
++    if(edges.length===1){chosen.push(edges[0]);components.push(component);continue;}
++    if(typeof assigner!=='function')throw new Error('TRACK_B_ASSIGNER_REQUIRED');
++    const rowIndex=new Map(rr.map((v,i)=>[v,i])),colIndex=new Map(cc.map((v,i)=>[v,i])),dummy=gate+.5,blocked=1e6;
++    const costs=rr.map(()=>Array(cc.length).fill(blocked).concat(Array(rr.length).fill(dummy)));
++    const edgeIndex=new Map();for(const p of edges){const a=rowIndex.get(p.i),b=colIndex.get(p.id);costs[a][b]=p.nis;edgeIndex.set(a+':'+b,p);}
++    const evaluate=(matrix)=>{
++      const solution=assigner(matrix),out=[],map=new Map();let total=0;
++      for(let a=0;a<rr.length;a++){const b=solution[a];if(Number.isInteger(b)&&b>=0&&b<cc.length&&matrix[a][b]<=gate){out.push({a,b});map.set(a,b);total+=matrix[a][b];}}
++      return {out,map,total,count:out.length};
++    };
++    const base=evaluate(costs);
++    for(const edge of base.out){
++      const matrix=costs.map(row=>row.slice());matrix[edge.a][edge.b]=blocked;const alternative=evaluate(matrix);
++      if(alternative.count!==base.count||alternative.total-base.total>ambiguityDelta+TRACK_B_POLICY.numericEpsilon)continue;
++      component.ambiguous=true;component.reason='NEAR_EQUAL_MATCHING_HOLD';
++      for(let a=0;a<rr.length;a++)if(base.map.get(a)!==alternative.map.get(a)){heldPlots.add(rr[a]);if(base.map.has(a))heldTracks.add(cc[base.map.get(a)]);if(alternative.map.has(a))heldTracks.add(cc[alternative.map.get(a)]);}
++    }
++    for(const q of base.out)chosen.push(edgeIndex.get(q.a+':'+q.b));components.push(component);
++  }
++  return {pairs:chosen.filter(p=>!heldPlots.has(p.i)&&!heldTracks.has(p.id)).sort(trackBPairCompareB),heldPlots,heldTracks,components,rejected,ambiguous:components.some(c=>c.ambiguous)};
++}
++function trackBTraceB(event){
++  if(!TRACK_B_DIAG.enabled)return;
++  try{
++    const out={serial:++TRACK_B_DIAG.serial};
++    for(const k of ['route','observerShip','timeS','tick','decision','reason','trackId','plotIndex','mountId','nis','gate','distanceM','distanceGateM','radialInnovationMps','radialGateMps','measurementDimensions','active','sequential','commonEpoch','knownOwnLaunch','nativeTrackId','proposedTrackId','legacyCount','proposedCount','heldCount','mode'])if(['string','number','boolean'].includes(typeof event[k])&&(typeof event[k]!=='number'||Number.isFinite(event[k])))out[k]=event[k];
++    TRACK_B_DIAG.records.push(out);if(TRACK_B_DIAG.records.length>TRACK_B_DIAG.capacity){TRACK_B_DIAG.records.shift();TRACK_B_DIAG.dropped++;}
++  }catch(_){TRACK_B_DIAG.errors++;}
++}
++function trackBSelectB(input){
++  const proposal=trackBSolveB(input,bridgeMasterEMinCostAssignmentV35),active=TRACK_B_IMPLEMENTATION_MODE==='ACTIVE';
++  if(TRACK_B_DIAG.enabled){
++    const legacy=trackBLegacyGreedyB(input.pairs??[]),native=new Map(legacy.map(p=>[p.i,p.id])),next=new Map(proposal.pairs.map(p=>[p.i,p.id]));
++    const context={route:input.route,observerShip:input.observerShip,timeS:input.timeS,tick:input.tick,active,mode:TRACK_B_IMPLEMENTATION_MODE};
++    trackBTraceB({...context,decision:'BATCH',legacyCount:legacy.length,proposedCount:proposal.pairs.length,heldCount:proposal.heldPlots.size,reason:'PRECOMPUTED_NATIVE_CANDIDATES'});
++    for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});
++    for(const i of new Set([...native.keys(),...next.keys(),...proposal.heldPlots]))trackBTraceB({...context,plotIndex:i,nativeTrackId:native.get(i),proposedTrackId:next.get(i),decision:proposal.heldPlots.has(i)?'HOLD':next.has(i)?'ASSIGN':'UNASSIGNED',reason:proposal.heldPlots.has(i)?'AMBIGUOUS_ASSOCIATION':native.get(i)===next.get(i)?'SAME_ASSIGNMENT':'ASSIGNMENT_CHANGED'});
++  }
++  return {...proposal,active,pairs:active?proposal.pairs:trackBLegacyGreedyB(input.pairs??[]),heldPlots:active?proposal.heldPlots:new Set(),heldTracks:active?proposal.heldTracks:new Set()};
++}
++window.__TRACK_B__=Object.freeze({
++  schema:'AEGIS_ASSOCIATION_TRACK_B_1',mode:TRACK_B_IMPLEMENTATION_MODE,policy:TRACK_B_POLICY,
++  solve:trackBSolveB,geometry:trackBGeometryB,
++  configure(options={}){if(typeof options.enabled==='boolean')TRACK_B_DIAG.enabled=options.enabled;if(Number.isInteger(options.capacity))TRACK_B_DIAG.capacity=Math.max(TRACK_B_POLICY.minTraceCapacity,Math.min(TRACK_B_POLICY.maxTraceCapacity,options.capacity));while(TRACK_B_DIAG.records.length>TRACK_B_DIAG.capacity){TRACK_B_DIAG.records.shift();TRACK_B_DIAG.dropped++;}return {enabled:TRACK_B_DIAG.enabled,capacity:TRACK_B_DIAG.capacity};},
++  clear(){TRACK_B_DIAG.records.length=0;TRACK_B_DIAG.serial=TRACK_B_DIAG.dropped=TRACK_B_DIAG.errors=0;},
++  snapshot(){return {schema:'AEGIS_ASSOCIATION_TRACK_B_1',mode:TRACK_B_IMPLEMENTATION_MODE,enabled:TRACK_B_DIAG.enabled,capacity:TRACK_B_DIAG.capacity,records:TRACK_B_DIAG.records.map(r=>({...r})),stats:{recorded:TRACK_B_DIAG.serial,retained:TRACK_B_DIAG.records.length,dropped:TRACK_B_DIAG.dropped,errors:TRACK_B_DIAG.errors}};}
++});
++
+ 
+ function samLaunchHandoffGateA(m,cfg,cor,own,altM){
+     // SI: own velocity m/s, angles rad, altitude m. Air Standard only.
+@@ -4775,9 +4899,10 @@
+     if(surface(plots[i])?!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]):!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i])){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',trackId:id,decision:'REJECT',reason:'NATIVE_CROSS_DOMAIN_PARTITION'});continue;}
+     const nis=surface(plots[i])?trackSurfacePositionAssociationNisWip13B9(tr,plots[i]):trackRadarAssociationNisV31(tr,plots[i]);
+     if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
+-    if(nis<=64)pairs.push({i,id,nis});
++    if(nis<=64)pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR')});
+   }
+   pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);
++  const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});
+   const apply=(id,meas,created)=>{
+     const tr=created?observerNewTrackC(o,meas,surface(meas)):o.tracks.get(id);
+     const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(created?null:tr):null;
+@@ -4792,8 +4917,21 @@
+     if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA(surface(meas)?'SURFACE_RADAR':'AIR_RADAR',meas.source,r.entityId),route:'NPC_OBSERVER',trackId:tr.trackId,decision:created?'CREATE':'ACCEPT',nis:tr._kfNis,finalSource:tr.sensorSource,before:trackABefore,after:trackAStateA(tr)});
+     if(created)o.stats.initiated++;else o.stats.associated++;return tr;
+   };
+-  for(const q of pairs){if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}}
+-  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){const familyCount=initiationFamily?[...o.tracks.values()].filter(q=>Object.keys(q.contributorsC??{}).some(k=>k.startsWith(initiationFamily))).length:o.tracks.size;
++  // TRACK-B association-only: SHADOW preserves the original sorted-edge execution,
++  // including failed native corrections. ACTIVE tries selected edges, then still
++  // admissible original alternatives; each pair is corrected at most once.
++  const trackBAttempts=trackBSelection.active?[...trackBSelection.pairs,...pairs]:pairs,trackBTried=trackBSelection.active?new Map():null;
++  for(const q of trackBAttempts){
++    if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;
++    if(trackBSelection.active){
++      if(trackBSelection.heldPlots.has(q.i)||trackBSelection.heldTracks.has(q.id)||q.sanity?.ok===false)continue;
++      let tried=trackBTried.get(q.i);if(!tried){tried=new Set();trackBTried.set(q.i,tried);}if(tried.has(q.id))continue;tried.add(q.id);
++    }
++    if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}
++  }
++  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){
++    if(trackBSelection.active&&trackBSelection.heldPlots.has(i)){o.stats.rejected++;trackBTraceB({route:'NPC_OBSERVER',observerShip:r.entityId,tick:simStepCounter,timeS:now,plotIndex:i,decision:'HOLD',reason:'ASSOCIATION_HOLD_NO_INITIATION'});continue;}
++    const familyCount=initiationFamily?[...o.tracks.values()].filter(q=>Object.keys(q.contributorsC??{}).some(k=>k.startsWith(initiationFamily))).length:o.tracks.size;
+     if(initiate&&o.tracks.size<OBSERVER_POLICY_C.maxTracks&&familyCount<initiationLimit)apply(null,plots[i],true);else o.stats.rejected++;}
+ }
+ function observerExtractC(r,opts,{surfaceOnly=false,elevationObservable=true,source,center,exclude=null}={}){
+@@ -4914,11 +5052,71 @@
+   const speedPrior=surface?12:180;C[0]+=age*age*speedPrior*speedPrior;C[4]+=age*age*speedPrior*speedPrior;C[8]+=age*age*(surface?1.2:120)**2;
+   return {x:metersToWorld(report.positionM.x),y:metersToWorld(report.positionM.y),z:report.positionM.z,sensorVxMps:0,sensorVyMps:0,rangeSigmaM:Math.sqrt(Math.max(C[0],C[4])),altitudeSigmaM:Math.sqrt(C[8]),quality:Math.exp(-age/8)*.7,source:'OFFBOARD_C',cartesianCovarianceM2:C,domainEvidence:report.domainEvidence,_reportedSurface:surface};
+ }
+-function acceptOffboardC(r,report){
+-  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,meas=offboardPlotC(report,now),age=now-report.measuredAtS;
++// TRACK-B: one independent source/measurement-epoch cohort. No truth IDs,
++// velocity synthesis, lifecycle redesign or wire/schema changes enter this adapter.
++function trackBAcceptOffboardCohortB(r,reports){
++  if(!reports.length)return [];
++  if(TRACK_B_IMPLEMENTATION_MODE!=='ACTIVE')return reports.map(report=>acceptOffboardC(r,report,{legacy:true}));
++  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,entries=[...o.tracks.entries()],measurements=reports.map(report=>offboardPlotC(report,now)),pairs=[],repeated=new Set(),blockedAir=new Set(),duplicates=new Set(),seen=new Set();
++  for(let i=0;i<reports.length;i++){
++    const report=reports[i],meas=measurements[i],e=report.domainEvidence;
++    // Exact repeated payload/time is not a second measurement. Source+time alone
++    // is deliberately insufficient: distinct contacts can share one scan epoch.
++    const signature=JSON.stringify([report.sourceId,report.measuredAtS,report.positionM.x,report.positionM.y,report.positionM.z,report.covarianceM2,e.air,e.background,e.missile,e.surface]);
++    if(seen.has(signature)){duplicates.add(i);continue;}seen.add(signature);
++    for(const [id,tr]of entries){
++      const nis=trackCartesianAssociationNisV33(tr,meas);
++      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
++      if(!(nis<=25))continue;
++      let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');
++      // Replay/observability eligibility belongs to this pair, not the whole
++      // report. Another valid file may still win. A geometrically invalid distant
++      // file cannot block an unrelated update or birth through broad filter P.
++      if(sanity.ok!==false){
++        const repeatedPair=tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS,airPair=meas._reportedSurface&&trackHasAirObservationFC(tr);
++        if(repeatedPair)repeated.add(i);if(airPair)blockedAir.add(i);
++        if(repeatedPair)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};
++        else if(airPair)sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};
++      }
++      pairs.push({i,id,nis,sanity});
++    }
++  }
++  const selection=trackBSelectB({plotCount:reports.length,pairs,gate:25,route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter}),chosen=new Map(selection.pairs.map(q=>[q.i,q])),results=[];
++  for(let i=0;i<reports.length;i++){
++    const q=chosen.get(i),held=duplicates.has(i)||selection.heldPlots.has(i)||(!q&&(repeated.has(i)||blockedAir.has(i)));
++    if(held){
++      const reason=duplicates.has(i)?'EXACT_COHORT_FIX_REPLAY':repeated.has(i)?'REPEATED_SOURCE_EPOCH_UNCERTAIN':selection.heldPlots.has(i)?'AMBIGUOUS_ASSOCIATION':'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY';
++      trackBTraceB({route:'HAWKLINK_COHORT',observerShip:r.entityId,timeS:now,tick:simStepCounter,plotIndex:i,decision:'HOLD',reason,active:true,sequential:false,commonEpoch:true});results.push(false);continue;
++    }
++    results.push(acceptOffboardC(r,reports[i],{active:true,meas:measurements[i],match:q?{id:q.id,nis:q.nis}:null}));
++  }
++  return results;
++}
++function acceptOffboardC(r,report,trackBPrepared=null){
++  if(!trackBPrepared)return trackBAcceptOffboardCohortB(r,[report])[0]===true;
++  const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,meas=trackBPrepared.meas??offboardPlotC(report,now),age=now-report.measuredAtS;
+   if(TRACK_A_DIAG.enabled)TRACK_A_DIAG.origins.set(meas,{measuredAtS:report.measuredAtS,receivedAtS:now,sourceId:report.sourceId,sequence:report.sequence});
+   if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',decision:'PENDING'});
+-  let match=null;for(const [id,tr]of o.tracks){const nis=trackCartesianAssociationNisV33(tr,meas);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=25&&(!match||nis<match.nis))match={id,nis};}
++  let match=trackBPrepared.active?trackBPrepared.match:null;
++  if(!trackBPrepared.active){
++    const trackBPairs=[];
++    for(const [id,tr]of o.tracks){
++      const nis=trackCartesianAssociationNisV33(tr,meas);
++      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
++      if(nis<=25){
++        let sanity=trackBGeometryB(tr,meas,meas._reportedSurface?'SURFACE':'CARTESIAN');
++        if(sanity.ok!==false){
++          if(tr.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS)sanity={...sanity,ok:false,reason:'REPEATED_SOURCE_EPOCH_PAIR'};
++          else if(meas._reportedSurface&&trackHasAirObservationFC(tr))sanity={...sanity,ok:false,reason:'SURFACE_REPORT_FRESH_AIR_OBSERVABILITY'};
++        }
++        trackBPairs.push({i:0,id,nis,sanity});if(!match||nis<match.nis)match={id,nis};
++      }
++    }
++    // This is the actual sequential native graph, not a full-cohort counterfactual.
++    // NIS is evaluated once, at the original native point after prior commits.
++    trackBSelectB({plotCount:1,pairs:trackBPairs,gate:25,route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter});
++    trackBTraceB({route:'HAWKLINK_SHADOW',observerShip:r.entityId,timeS:now,tick:simStepCounter,decision:'SEQUENTIAL_SHADOW',active:false,sequential:true,commonEpoch:false});
++  }
+   const existing=match?o.tracks.get(match.id):null,priorLocalS=existing?.observationReportsC?.localAtS??(existing&&existing.sensorSource!=='OFFBOARD_C'?(existing._lastMeasurementStep??simStepCounter)*SIM_FIXED_DT:null);
+   // A new packet sequence may contain a repeated/older fix. It cannot provide
+   // another independent confirmation or overwrite a newer fix on this file.
+@@ -4943,6 +5141,23 @@
+ }
+ function drainOffboardC(r){
+   const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];
++  if(TRACK_B_IMPLEMENTATION_MODE==='ACTIVE'){
++    const cohorts=new Map();let order=0;
++    for(const q of o.offboard.queue){
++      if(!o.offboard.sources.get(q.sourceId)?.connected)continue;
++      if(q.availableAtS>now){pending.push(q);continue;}
++      if(now-q.measuredAtS>OBSERVER_POLICY_C.externalMaxAgeS){o.offboard.rejected++;continue;}
++      const key=JSON.stringify([q.sourceId,q.measuredAtS]);let cohort=cohorts.get(key);
++      if(!cohort){cohort={sourceId:q.sourceId,measuredAtS:q.measuredAtS,order:order++,reports:[]};cohorts.set(key,cohort);}cohort.reports.push(q);
++    }
++    // Original measurement epochs stay ordered. A source/epoch is an assignment
++    // cohort, never a global deduplication key or a hidden contact identifier.
++    for(const cohort of [...cohorts.values()].sort((a,b)=>a.measuredAtS-b.measuredAtS||a.order-b.order)){
++      cohort.reports.sort((a,b)=>a.sequence-b.sequence);
++      for(const accepted of trackBAcceptOffboardCohortB(r,cohort.reports))if(!accepted)o.offboard.rejected++;
++    }
++    o.offboard.queue=pending;drainIsarOffboardF2(r);return;
++  }
+   for(const q of o.offboard.queue){if(!o.offboard.sources.get(q.sourceId)?.connected)continue;if(q.availableAtS>now){pending.push(q);continue;}if(now-q.measuredAtS>OBSERVER_POLICY_C.externalMaxAgeS||!acceptOffboardC(r,q))o.offboard.rejected++;}
+   o.offboard.queue=pending;drainIsarOffboardF2(r);
+ }
+@@ -7735,6 +7950,7 @@
+   }
+ function c55SensorSweep(m,b,dt){
+     const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];
++    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;
+     // Range/LOS/RCS/noise are evaluated in this boundary. The combat controller
+     // never selects directly from enemyMissiles. Known own-fire is an inventory
+     // safety exclusion, not inferred hostile identity from a world class label.
+@@ -7747,11 +7963,13 @@
+       const meas=ciwsLocalMeasurement(m,e,mode,!!cue,dt,{key:src.key,rcs:src.rcs,random:()=>c55SensorRandom(b),normal:sigma=>c55SensorNormal(b,sigma)});
+       if(TRACK_A_DIAG.enabled&&meas?.attempted)trackATraceEventA('RECEIVED',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,knownOwnLaunch:!!src.own,decision:meas.accepted?'DETECTED':'NO_DETECTION'});
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
++      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+         if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,knownOwnLaunch:!!src.own,decision:'REJECT',reason:seen.has(r.id)?'NATIVE_ONE_TO_ONE':'NATIVE_OWN_FIRE_PARTITION'});continue;}const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
+         if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,distanceM:d,gate,knownOwnLaunch:!!src.own,decision:d<gate?'ELIGIBLE':'REJECT',reason:'NATIVE_DISTANCE_GATE'});
++        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});
+         if(d<gate&&d<error){best=r;error=d;}
+       }
+       const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(best):null;
+@@ -7760,8 +7978,10 @@
+       }
+       seen.add(best.id);CIWS_C55_SENSOR_LINKS.set(best,src);best.proxy.id=e.id;
+       best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);
++      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;
+       if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});
+     }
++    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:owner.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);
+   }
+ function c55ContactAudit(m,r){
+     const s=r.st,reject=(reason)=>({accepted:false,reason,localId:r.id});
+@@ -34290,21 +34510,24 @@
+     const keys=['x','y','z','rangeM','azRad','elRad','radialMps','radialVelSigmaMps','losUx','losUy','losUz','quality','rangeSigmaM','azSigmaDeg','elSigmaDeg','sensorXWorld','sensorYWorld','sensorZM','sensorVxMps','sensorVyMps','sensorVzMps','source','domainEvidence'],out={};
+     for(const k of keys)if(meas?.[k]!=null)out[k]=meas[k];return out;
+   }
+-  function spq9bBestTrackForPlotV34(plot,usedTracks){
++  function spq9bBestTrackForPlotV34(plot,usedTracks,trackBDiagPlotIndex=null){
+     let best=null;
+     for(const [id,tr] of tracks){
+       if(usedTracks.has(id)||!tr||tr.sensorDetected===false||!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot))continue;
+       const nis=trackRadarAssociationNisV31(tr,plot),cross=trackSurfaceBackedWip13B14(tr),gate=Math.min(TRACK_FILTER_MODEL.nisGateSearch,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:TRACK_FILTER_MODEL.nisGateSearch);
+       if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plot,{...trackATraceContextA('AIR_RADAR',plot.source,ACTIVE_SHIP_RUNTIME.entityId),route:'SPQ_AIR_GREEDY',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate,decision:nis<=gate?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
++      if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:id,plotIndex:trackBDiagPlotIndex,nis,gate,decision:nis<=gate?'NATIVE_ELIGIBLE':'NATIVE_REJECT',reason:'PARTIAL_SEQUENCE_NATIVE_EVALUATIONS_ONLY',sequential:true,commonEpoch:false});
+       if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};
+     }
++    if(TRACK_B_DIAG.enabled)trackBTraceB({route:'SPQ_AIR_SHADOW',observerShip:ACTIVE_SHIP_RUNTIME.entityId,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter,trackId:best?.trackId??null,plotIndex:trackBDiagPlotIndex,nis:best?.nis??null,gate:null,decision:best?'NATIVE_WINNER':'NO_NATIVE_MATCH',reason:'SEQUENTIAL_EKF_UPDATES_BETWEEN_PLOTS',sequential:true,commonEpoch:false});
+     return best;
+   }
+   function spq9bAcceptAnonymousPlotsV34(observations){
+-    const usedTracks=new Set();let accepted=0;
++    const usedTracks=new Set();let accepted=0;let trackBSequenceIndex=-1;
+     for(const obs of observations){
++      const trackBPlotIndex=TRACK_B_DIAG.enabled?++trackBSequenceIndex:null;
+       const plot=obs.plot;SPQ9B_ASSOC_STATS_V34.plots++;
+-      const match=spq9bBestTrackForPlotV34(plot,usedTracks),existing=match?tracks.get(match.trackId):null;
++      const match=spq9bBestTrackForPlotV34(plot,usedTracks,trackBPlotIndex),existing=match?tracks.get(match.trackId):null;
+       // A fresh SPY estimate already contains this echo at much better 3-D precision. Consume the
+       // association so the SPQ return cannot start a duplicate track, but preserve SPY as source.
+       if(existing&&isAegisAvailable(existing.x,existing.y)&&(existing.sensorSource??'').startsWith('SPY1DV')&&(existing.sensorAge??99)<0.65){
+@@ -37333,8 +37556,56 @@
+   }
+   function c55SensorRandom(b){b.rng=_xorshift32(b.rng);return b.rng/4294967296;}
+   function c55SensorNormal(b,sigma){const u=Math.max(1e-12,c55SensorRandom(b)),v=c55SensorRandom(b);return sigma*Math.sqrt(-2*Math.log(u))*Math.cos(TAU*v);}
++// TRACK-B C55 diagnostics only. Native RF order, local files and weapons stay live.
++// No physical source key, proxy ID, label/faction, or true source velocity enters.
++function trackBC55BeginB(bank){
++  return {files:[...bank.files.values()].map(r=>({id:r.id,rxM:r.st.rxM,ryM:r.st.ryM,rzM:r.st.rzM,localHits:r.st.localHits,localAgeS:r.st.localAgeS,knownOwn:!!r.ownFireEvidence})),plots:[],accepted:0,overflow:0};
++}
++function trackBC55CaptureB(batch,meas,knownOwn,seen){
++  batch.accepted++;
++  // Same explicit input-count bound as the shared solver; diagnostic only.
++  if(batch.plots.length>=256){batch.overflow++;return null;}
++  const plot={i:batch.plots.length,rxM:meas.rxM,ryM:meas.ryM,rzM:meas.rzM,rangeM:meas.rangeM,knownOwn:!!knownOwn,nativeTrackId:null,nativeSeenBefore:new Set(seen),nativeCandidates:[]};
++  batch.plots.push(plot);return plot;
++}
++function trackBC55AnalyzeB(batch,cfg,context,assigner){
++  if(!TRACK_B_DIAG.enabled)return;
++  try{
++    const cx={...context,route:'C55_SHADOW',active:false,mode:'SHADOW_DISTANCE_ONLY',measurementDimensions:3,sequential:true,commonEpoch:true};
++    if(batch.overflow){trackBTraceB({...cx,decision:'LIMIT',reason:'C55_SHADOW_MEASUREMENT_LIMIT',legacyCount:batch.accepted,proposedCount:batch.plots.length});return;}
++    const pairs=[],existingIds=new Set(batch.files.map(f=>f.id));let maxGate=CIWS_C55_POLICY.associationBaseM;
++    for(const p of batch.plots){
++      if(![p.rxM,p.ryM,p.rzM,p.rangeM].every(trackBFiniteB)){trackBTraceB({...cx,plotIndex:p.i,knownOwnLaunch:p.knownOwn,decision:'REJECT',reason:'SHADOW_INVALID_MEASUREMENT'});continue;}
++      for(const f of batch.files){
++        if(f.knownOwn!==p.knownOwn){trackBTraceB({...cx,plotIndex:p.i,trackId:f.id,knownOwnLaunch:p.knownOwn,decision:'REJECT',reason:'NATIVE_OWN_FIRE_PARTITION'});continue;}
++        const distanceM=Math.hypot(f.rxM-p.rxM,f.ryM-p.ryM,f.rzM-p.rzM),gate=CIWS_C55_POLICY.associationBaseM+p.rangeM*deg(cfg.searchAzSigmaDeg)*3+(f.localHits<5?2200:350)*Math.min(.35,f.localAgeS);
++        if(![distanceM,gate].every(trackBFiniteB)||gate<=0){trackBTraceB({...cx,plotIndex:p.i,trackId:f.id,knownOwnLaunch:p.knownOwn,decision:'REJECT',reason:'SHADOW_INVALID_FILE_GEOMETRY'});continue;}
++        maxGate=Math.max(maxGate,gate);
++        const native=p.nativeCandidates.find(q=>q.id===f.id),seen=p.nativeSeenBefore.has(f.id);
++        const reason=seen?'SHADOW_COUNTERFACTUAL_NATIVE_SEEN':native?(native.distanceM===distanceM&&native.gate===gate?'NATIVE_EVALUATED_DISTANCE':'SHADOW_NATIVE_GEOMETRY_MISMATCH'):'SHADOW_NOT_NATIVE_EVALUATED';
++        trackBTraceB({...cx,plotIndex:p.i,trackId:f.id,knownOwnLaunch:p.knownOwn,distanceM,distanceGateM:gate,decision:distanceM<gate?'ELIGIBLE':'REJECT',reason});
++        // `nis` is the shared solver's generic numeric-cost ABI, not an RF NIS.
++        // Trace exposes only distanceM/distanceGateM; no C55 `nis` is published.
++        if(distanceM<gate)pairs.push({i:p.i,id:f.id,nis:distanceM,nativeGateM:gate});
++      }
++    }
++    const proposal=trackBSolveB({plotCount:batch.plots.length,pairs,gate:maxGate,costUnits:'m',ambiguityDeltaCost:0},assigner),next=new Map(proposal.pairs.map(p=>[p.i,p.id]));
++    const legacyCount=batch.plots.filter(p=>existingIds.has(p.nativeTrackId)).length;
++    trackBTraceB({...cx,decision:'BATCH',reason:'C55_COMMON_EPOCH_DISTANCE_SHADOW',legacyCount,proposedCount:proposal.pairs.length,heldCount:proposal.heldPlots.size});
++    for(const c of proposal.components){
++      const competing=c.edgeCount>c.plots.length||c.edgeCount>c.tracks.length;
++      if(competing||c.ambiguous)trackBTraceB({...cx,decision:'COMPONENT',reason:c.ambiguous?'C55_SHARED_SOLVER_AMBIGUOUS':'C55_COMPETING_GEOMETRY',legacyCount:c.plots.length,proposedCount:c.tracks.length,heldCount:c.ambiguous?c.plots.filter(i=>proposal.heldPlots.has(i)).length:0});
++    }
++    for(const p of batch.plots){
++      const isNew=p.nativeTrackId!==null&&!existingIds.has(p.nativeTrackId),held=proposal.heldPlots.has(p.i);
++      trackBTraceB({...cx,plotIndex:p.i,knownOwnLaunch:p.knownOwn,nativeTrackId:p.nativeTrackId,proposedTrackId:next.get(p.i),decision:isNew?'NATIVE_NEW_FILE':held?'SHADOW_HOLD':next.has(p.i)?'SHADOW_ASSIGN':'SHADOW_UNASSIGNED',reason:p.nativeTrackId===null?'NATIVE_CAPACITY_NO_NEW_FILE':held?'SHADOW_AMBIGUOUS_NO_LIVE_EFFECT':p.nativeTrackId===next.get(p.i)?'SAME_EXISTING_ASSIGNMENT':'SHADOW_EXISTING_ASSIGNMENT_DIFFERS'});
++    }
++  }catch(_){TRACK_B_DIAG.errors++;trackBTraceB({...context,route:'C55_SHADOW',active:false,mode:'SHADOW_DISTANCE_ONLY',decision:'DIAGNOSTIC_ERROR',reason:'C55_SHADOW_ANALYSIS_ERROR'});}
++}
++
+   function c55SensorSweep(m,b,dt){
+     const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];
++    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;
+     // Range/LOS/RCS/noise are evaluated in this boundary. The combat controller
+     // never selects directly from enemyMissiles. Known own-fire is an inventory
+     // safety exclusion, not inferred hostile identity from a world class label.
+@@ -37354,11 +37625,13 @@
+       const meas=ciwsLocalMeasurement(m,e,mode,!!cue,dt,{key:src.key,rcs:src.rcs,random:()=>c55SensorRandom(b),normal:sigma=>c55SensorNormal(b,sigma)});
+       if(TRACK_A_DIAG.enabled&&meas?.attempted)trackATraceEventA('RECEIVED',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,knownOwnLaunch:!!src.own,decision:meas.accepted?'DETECTED':'NO_DETECTION'});
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
++      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+         if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,knownOwnLaunch:!!src.own,decision:'REJECT',reason:seen.has(r.id)?'NATIVE_ONE_TO_ONE':'NATIVE_OWN_FIRE_PARTITION'});continue;}const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
+         if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,distanceM:d,gate,knownOwnLaunch:!!src.own,decision:d<gate?'ELIGIBLE':'REJECT',reason:'NATIVE_DISTANCE_GATE'});
++        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});
+         if(d<gate&&d<error){best=r;error=d;}
+       }
+       const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(best):null;
+@@ -37367,8 +37640,10 @@
+       }
+       seen.add(best.id);CIWS_C55_SENSOR_LINKS.set(best,src);best.proxy.id=e.id;
+       best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);
++      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;
+       if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});
+     }
++    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:ACTIVE_SHIP_RUNTIME.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);
+   }
+   function c55ContactAudit(m,r){
+     const s=r.st,reject=(reason)=>({accepted:false,reason,localId:r.id});

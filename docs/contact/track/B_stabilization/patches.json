@@ -1,0 +1,53 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "patches": [
+    {
+      "op": "replace",
+      "label": "STABLE_NPC_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR')});",
+      "after": "pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR'),evidence:trackBEvidenceStableB(tr,plots[i],surface(plots[i])?'SURFACE_POSITION':'AIR',now)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_HAWKLINK_EPOCH_CONTRACT",
+      "scope": {
+        "function": "trackBAcceptOffboardCohortB"
+      },
+      "before": "pairs.push({i,id,nis,sanity});",
+      "after": "pairs.push({i,id,nis,sanity,evidence:trackBEvidenceStableB(tr,meas,'CARTESIAN',now,report.measuredAtS)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_OWN_AIR_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "before": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR')});",
+      "after": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'AIR'),evidence:trackBEvidenceStableB(tr,plots[i],'AIR',simStepCounter*SIM_FIXED_DT)});",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "STABLE_OWN_SURFACE_POSITION_DIMENSION",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "before": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE')});",
+      "after": "trackBPairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],'SURFACE'),evidence:trackBEvidenceStableB(tr,plots[i],nisFn===trackSurfacePositionAssociationNisWip13B9||(nisFn===trackSurfaceRadarAssociationNisV35&&!Number.isFinite(plots[i].radialMps))?'SURFACE_POSITION':'UNSUPPORTED_SURFACE_ASSOCIATION',simStepCounter*SIM_FIXED_DT)});",
+      "count": 1
+    }
+  ],
+  "allowedChangedSymbols": [
+    "observerAcceptPlotsC",
+    "spyGlobalAssignmentsV36",
+    "surfaceAssignmentsPreferEstablishedWip13B14",
+    "trackBAcceptOffboardCohortB"
+  ],
+  "allowedAddedSymbols": [],
+  "allowedProtectedAssociationChanges": []
+}

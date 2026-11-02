@@ -1,0 +1,99 @@
+{
+  "schema": "AEGIS_TRACK_B_SEED_CAUSE_PLAN_1",
+  "status": "RUN_REQUESTED",
+  "seed": 419012,
+  "case": {
+    "ship": "DDG_119_LATE_FLIGHT_IIA",
+    "bearing": 90,
+    "seed": 419012
+  },
+  "runs": 2,
+  "originalRunExpression": "c=>__CIWS_DMG_A__.run(c,true)",
+  "fixtureChanged": false,
+  "expectationsChanged": false,
+  "windowS": [
+    29,
+    30.65
+  ],
+  "diagnosticByteBoundPerRun": 8388608,
+  "passThroughNativeEventWatchOnly": true,
+  "nativeNisOrRfReevaluation": false,
+  "cacheOrGeometryCapture": false,
+  "cachedC55CuesReadDirectly": true,
+  "afterFixtureRestoreOnlyTwoOriginalDiagnosticWrappers": true,
+  "supersededAttempt": "../seed419012-cause-attempts/rc0-original-wrapper-env-fail/",
+  "products": [
+    {
+      "label": "baseline",
+      "path": "Aegis_SIM_v48_WIP_TRACK_A.html",
+      "sha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+      "bytes": 22095443,
+      "requiredSha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a"
+    },
+    {
+      "label": "active",
+      "path": "Aegis_SIM_v48_WIP_TRACK_B.html",
+      "sha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+      "bytes": 22101963,
+      "requiredSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6"
+    }
+  ],
+  "referenceRows": {
+    "baseline": {
+      "signatureSha256": "b96b4f5dd36fb03524bc3db3c456a7f2ecb400e4c75a041d268eeb47efbcd991",
+      "source": {
+        "path": "docs/contact/track/A/evidence/candidate/friendly/ciws-d1.jsonl.gz",
+        "sha256": "ad3ee87b4a04194a578a36e5d9a5b7786233e348d7f26e6ff6d035e830eacad1",
+        "bytes": 4076413
+      }
+    },
+    "active": {
+      "signatureSha256": "3610fbd8fb2c21702b18d26641c840bfd15391863fdf52d054e74c64a289e8cd",
+      "source": {
+        "path": "docs/contact/track/B/evidence/runtime/active/friendly/ciws-d1.jsonl",
+        "sha256": "6f2016533874e1349b3ae9d9c0fc8a45f2e6d0316c6ce8414defe5441d17c2b5",
+        "bytes": 32634363
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "docs/contact/track/B/trace_seed.py",
+      "sha256": "a2d8e0aa7fe6ae668dbcbdc2af44f4c36e06b3e0f9122f673cfde3497e882080",
+      "bytes": 10554
+    },
+    {
+      "path": "docs/contact/track/B/trace_seed_passive.js",
+      "sha256": "ea2af7b1ed02bba5e9e9aedcea7c0b86024b58f5fcec118377491df115d20c28",
+      "bytes": 5291
+    },
+    {
+      "path": "docs/ciws/dmg/A/diagnostic.js",
+      "sha256": "5509e998f58b852939759b52bd9e3496c9f974bf6655236d7088bdd7de61d856",
+      "bytes": 11441
+    },
+    {
+      "path": "docs/contact/friendly/A/ciws.py",
+      "sha256": "cbd0716d7cf73eea5350e76eb3253a9ab0c908123ad2c626f24a320444d04491",
+      "bytes": 1402
+    },
+    {
+      "path": "docs/contact/friendly/A/harness.py",
+      "sha256": "6987fbbcadfde4791065ef472403a09bf7b924d5c987fb72f8f5d01458ba6152",
+      "bytes": 656
+    },
+    {
+      "path": "docs/contact/track/B/regression_runner.py",
+      "sha256": "fd7b2d57037b3b48b60ec7f1bc3bdf61d2672c4dd4f605d2dced926a01f1854a",
+      "bytes": 15468
+    },
+    {
+      "path": "docs/contact/track/A/verify_runtime.py",
+      "sha256": "f013a66d3fe6be98f59c670e49855e00e4c8f4eed628a9691ecec3406218474f",
+      "bytes": 37531
+    }
+  ],
+  "rootBrowserGoRequired": true,
+  "automaticApproval": false,
+  "releaseApproved": false
+}

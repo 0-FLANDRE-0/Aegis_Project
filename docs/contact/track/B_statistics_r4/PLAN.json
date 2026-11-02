@@ -1,0 +1,125 @@
+{
+  "schema": "AEGIS_TRACK_B_R4_PREREGISTERED_STATISTICAL_BATTLE_1",
+  "createdUtc": "2026-11-01T23:38:32.670500+00:00",
+  "referenceCommit": "ca260502a9a033b83ece446273df0bae09b42fc7",
+  "products": {
+    "B": {
+      "file": "Aegis_SIM_v48_WIP_TRACK_B.html",
+      "sha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6"
+    },
+    "R4": {
+      "file": "Aegis_SIM_v48_WIP_TRACK_B_STABLE_D.html",
+      "sha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab"
+    }
+  },
+  "seeds20": [
+    419020,
+    419021,
+    419022,
+    419023,
+    419024,
+    419025,
+    419026,
+    419027,
+    419028,
+    419029,
+    419030,
+    419031,
+    419032,
+    419033,
+    419034,
+    419035,
+    419036,
+    419037,
+    419038,
+    419039
+  ],
+  "seeds10": [
+    419020,
+    419021,
+    419022,
+    419023,
+    419024,
+    419025,
+    419026,
+    419027,
+    419028,
+    419029
+  ],
+  "scenarios": {
+    "S6": {
+      "nSeeds": 20,
+      "base": "NATURAL_SATURATION_13",
+      "firstAsms": 6
+    },
+    "S13": {
+      "nSeeds": 10,
+      "base": "NATURAL_SATURATION_13",
+      "firstAsms": 13
+    },
+    "TWO": {
+      "nSeeds": 10,
+      "base": "DDG_CONVERGING_2"
+    },
+    "THREE": {
+      "nSeeds": 10,
+      "base": "CG_MULTIPLE_3"
+    },
+    "CROSS": {
+      "nSeeds": 10,
+      "base": "DDG_BEARING_CROSSING_2"
+    }
+  },
+  "pairedBattles": 60,
+  "actualBattles": 120,
+  "initialAsmsPerProduct": 320,
+  "endpoint": {
+    "maxSimSeconds": 600,
+    "egressKm": 30,
+    "continuousOutwardSeconds": 10,
+    "stableAllResolvedSeconds": 5,
+    "continueAfterOwnIrreversibleLoss": true,
+    "doesNotRetireOrMutateMissiles": true,
+    "unresolvedInvalidForApproval": true
+  },
+  "primaryMetrics": {
+    "initialLeakers": "Unique initial ASM native NORMAL_HIT/DUD_PENETRATION or other explicitly classified native ship-contact outcome. Wreck hits are separate callbacks, not extra initial leakers.",
+    "damagingHitRounds": "Each native shipHitHistory callback with dmg>0 and miss!=true, including wreck/debris callbacks. No HP clipping.",
+    "killCount": "Native intercept/Phalanx/structural-failure retirement categories; raw causes preserved.",
+    "flood": "Sum native flooding cell waterM3 at recorded all-initial terminal+5 end. Exact times reported, HP reference only."
+  },
+  "statistics": {
+    "analysisFrozenBeforeNewBattleResults": true,
+    "primaryComparison": "Across requested60 pairs, total R4 minus B initialLeakers and damagingHitRounds; two co-primary endpoints.",
+    "unit": "Seed-block. First10 shared seeds includeall5 scenarios; final10 includeS6only. Preserve cross-scenario same-seed dependence.",
+    "randomization": "Exact one-sided sign-flip over20 seed-block aggregate differences (2^20), greater=R4 worse. Alpha0.05 each co-primary; both must avoid worsening. Raw and Holm-adjusted p reported; unadjusted harm screening is conservative for approval.",
+    "bootstrap": "200000 paired seed-block bootstrap, independently resample the two10-block coverage strata to preserve requested case counts. Percentile95% CI for total difference; fixed diagnostic RNG seed20261102.",
+    "acceptRule": "All120 valid closed runs, anchors/source checks pass. For BOTH primary endpoints: no positive significant worsening (one-sided exact p<=.05 with delta>0), and95% paired interval contains0 or lies entirely<=0. This implements user between-seed-variation rule; it is not a claim of formal noninferiority with an unspecified margin.",
+    "clearlyWorseRule": "Either primary endpoint has delta>0 and one-sided exact p<=.05, or paired95% lower bound>0. Report cause and stop; no baseline updates/merge.",
+    "inconclusiveRule": "Missing/invalid trials, failed anchors, or inconsistent interval/test results: no automatic approval.",
+    "secondary": "Scenario-specific paired totals/distributions, exact p/CI, flood and HP descriptive; no posthoc seed exclusions or coefficient tuning."
+  },
+  "execution": {
+    "maxWallSeconds": 10800,
+    "perWorkerTimeoutSeconds": 900,
+    "maxBrowsers": 2,
+    "freshProcessAndBrowserPerTrial": true,
+    "estimateMinutes": [
+      60,
+      110
+    ],
+    "estimateBasis": "Archived45s six-target pages~30–65s wall;13-target90s~40–80s with newendpoint~150–200sSIM;120freshpages two slots plus startup/export. Re-estimate from first frozen anchor pair; hard deadline enforced.",
+    "approvalChangesForbiddenUntilResult": true
+  },
+  "sourcePins": {
+    "baseHelper": "bbecae524297ecb0f0c32969ad6079f4834dca4547fbcf402e551c5c81a0070b",
+    "derivedHelper": "b54e9629da0f4e4d9ca514311271ea0f07f182d6368b34b39d7e82f9c5fe7ceb",
+    "frozenRunner": "9cc3246701e031ef8d584d6b2a436adcf5b290578448687422c0060da99036d7",
+    "instrumentAndBrowser": "63948208dbbd1aac55e92cc5e2021a4f55cd503ebdd37ab20ae517e4d70eec96",
+    "loader": "7a09d0513fb3fe2aec4cd2d075d89ce509cad0db2a34ba88c3703fcb442ab6a8",
+    "server": "6eb233c514190884ee1d516d95cd3fa7c6ae0ad2ffeafa74cec62c5b9c6e175f"
+  },
+  "gameProductChanged": false,
+  "expectedValuesUpdated": false,
+  "userConditionalApproval": "On passing primary statistical rule: promoteR4; approvepaired6+D1419012expectationswithrecords; deferC55/SPQAIRtoafterTRACKC; openandmergestabilization→main includingunmergedtrackA/friendly/ciws chain."
+}

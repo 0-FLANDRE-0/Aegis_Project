@@ -1,0 +1,2602 @@
+{
+  "schema": "AEGIS_TRACK_B_SEED419012_CAUSAL_ANALYSIS_1",
+  "status": "PARTIAL_CAUSAL_EVIDENCE_STRICT_DELTA_UNAPPROVED",
+  "sourceFiles": [
+    {
+      "name": "baseline-diagnostics.json.gz",
+      "sha256": "64c450b12f027361667a37962d5d9d575c5f9bf4e970925c2173c5b14623cc6a"
+    },
+    {
+      "name": "active-diagnostics.json.gz",
+      "sha256": "b85113a5a4fc36c6bd9e8b9f3a7591300fe117212b964cde5288031a8027e3fc"
+    }
+  ],
+  "instrumentationControls": {
+    "baseline": {
+      "exactOffSignature": true,
+      "allFailedChecks": [
+        "envHashMatch"
+      ],
+      "allOriginalReferenceDifferences": 1,
+      "env": {
+        "provenance": "GAME_ENGINE_COMPUTED",
+        "guidanceRevision": "NEAR_VERTICAL_PATH_FIX_A",
+        "envelopeMeasured": true,
+        "schema": "AEGIS_ENVELOPE_TABLE_D_3",
+        "effectiveIntervalsComplete": true,
+        "pendingEffectiveCells": 0,
+        "additionalMeasurementsRequired": false,
+        "rows": 120,
+        "targetLabel": "Kh-35U",
+        "currentProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "tableProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "match": false,
+        "changedNativeFunctions": [
+          "spawnEnemyMissile",
+          "applyInterceptResult"
+        ],
+        "recalculationRequired": true,
+        "message": "재계산 필요"
+      }
+    },
+    "active": {
+      "exactOffSignature": true,
+      "allFailedChecks": [
+        "envHashMatch"
+      ],
+      "allOriginalReferenceDifferences": 1,
+      "env": {
+        "provenance": "GAME_ENGINE_COMPUTED",
+        "guidanceRevision": "NEAR_VERTICAL_PATH_FIX_A",
+        "envelopeMeasured": true,
+        "schema": "AEGIS_ENVELOPE_TABLE_D_3",
+        "effectiveIntervalsComplete": true,
+        "pendingEffectiveCells": 0,
+        "additionalMeasurementsRequired": false,
+        "rows": 120,
+        "targetLabel": "Kh-35U",
+        "currentProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "tableProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+        "match": false,
+        "changedNativeFunctions": [
+          "spawnEnemyMissile",
+          "applyInterceptResult"
+        ],
+        "recalculationRequired": true,
+        "message": "재계산 필요"
+      }
+    }
+  },
+  "envExplanation": "The unchanged original diagnostic.js wraps spawnEnemyMissile and applyInterceptResult, so awaited ENV status correctly reports those test bindings as different. Profile hashes match. No clean restored-binding ENV proof was executed in these two runs. This failure is preserved, not silently passed.",
+  "window": {
+    "firstStep": 1740,
+    "lastStep": 1838,
+    "frames": 99,
+    "firstRowsTracks": {
+      "baseline": [
+        {
+          "trackId": 300000001,
+          "trackNumber": 1,
+          "sensorSource": "SPY1DV_HIGH_THREAT",
+          "sensorAge": 0.05,
+          "sensorHits": 410,
+          "confirmed": true,
+          "domain": "AIR",
+          "classification": "ASM",
+          "identity": "ASSUMED_HOSTILE",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "MANUAL_ONLY",
+          "trackLifecycle": "FIRM",
+          "memActive": false,
+          "ttl": 15.949999999999998,
+          "_lastMeasurementStep": 1736,
+          "_kfNis": 6.736261384094857,
+          "_kfRejectedNis": null,
+          "_radar3dAirStepFC": 1736,
+          "_surface2DOnlyFC": false,
+          "_surfaceMotionPriorWip13B13": false,
+          "stateM": [
+            6.929159207551327,
+            2674.771552725331,
+            9.529900551409506,
+            1.0336307631740902,
+            -290.37502144905386,
+            -0.9223543476672365
+          ],
+          "covariance": [
+            0.33273568877811666,
+            -0.011066650752828092,
+            3.218231378217204e-05,
+            0.7665865212919001,
+            0.0029910720184384235,
+            -8.23017103615776e-07,
+            -0.011066650752828092,
+            1.857845319792515,
+            -0.004417325105765897,
+            0.0013193128510165155,
+            0.37607432228704135,
+            9.169523931751011e-05,
+            3.218231378217204e-05,
+            -0.004417325105765897,
+            0.5679555231876324,
+            -1.1473371301349437e-05,
+            0.0023251050881165254,
+            0.8342465106766297,
+            0.7665865212919001,
+            0.0013193128510165155,
+            -1.1473371301349437e-05,
+            3.554198392897722,
+            0.012867794184527916,
+            -3.891221662165595e-05,
+            0.0029910720184384235,
+            0.37607432228704135,
+            0.0023251050881165254,
+            0.012867794184527916,
+            1.8098633623065499,
+            0.005610895515177463,
+            -8.23017103615776e-07,
+            9.169523931751011e-05,
+            0.8342465106766297,
+            -3.891221662165595e-05,
+            0.005610895515177463,
+            2.4868794249471278
+          ]
+        },
+        {
+          "trackId": 300000002,
+          "trackNumber": 2,
+          "sensorSource": "VISUAL",
+          "sensorAge": 4.499999999999989,
+          "sensorHits": 1,
+          "confirmed": true,
+          "classification": "ASM",
+          "identity": "UNKNOWN",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "WITHHELD",
+          "trackLifecycle": "REACQUIRE",
+          "memActive": true,
+          "ttl": 11.499999999999776,
+          "_lastMeasurementStep": 1470,
+          "_kfNis": 0,
+          "stateM": [
+            17.211309021862558,
+            1926.8499790103529,
+            47.254869718515934,
+            0.426564428091674,
+            -0.000539314991106748,
+            0
+          ],
+          "covariance": [
+            657278.5829071874,
+            2382.4301471145977,
+            115.84089033375776,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            2382.4301471145977,
+            1028047.2935803268,
+            18028.629674739896,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            115.84089033375776,
+            18028.629674739896,
+            292874.98931570986,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            32530.826364920278,
+            102.67061544106758,
+            5.354226521501516,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            102.67061544106758,
+            48509.07099769774,
+            833.2926902815025,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            5.354226521501516,
+            833.2926902815025,
+            14479.010970715064
+          ]
+        }
+      ],
+      "active": [
+        {
+          "trackId": 300000001,
+          "trackNumber": 1,
+          "sensorSource": "SPY1DV_HIGH_THREAT",
+          "sensorAge": 0.05,
+          "sensorHits": 410,
+          "confirmed": true,
+          "domain": "AIR",
+          "classification": "ASM",
+          "identity": "ASSUMED_HOSTILE",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "MANUAL_ONLY",
+          "trackLifecycle": "FIRM",
+          "memActive": false,
+          "ttl": 15.949999999999998,
+          "_lastMeasurementStep": 1736,
+          "_kfNis": 6.736261384094857,
+          "_kfRejectedNis": null,
+          "_radar3dAirStepFC": 1736,
+          "_surface2DOnlyFC": false,
+          "_surfaceMotionPriorWip13B13": false,
+          "stateM": [
+            6.929159207551327,
+            2674.771552725331,
+            9.529900551409506,
+            1.0336307631740902,
+            -290.37502144905386,
+            -0.9223543476672365
+          ],
+          "covariance": [
+            0.33273568877811666,
+            -0.011066650752828092,
+            3.218231378217204e-05,
+            0.7665865212919001,
+            0.0029910720184384235,
+            -8.23017103615776e-07,
+            -0.011066650752828092,
+            1.857845319792515,
+            -0.004417325105765897,
+            0.0013193128510165155,
+            0.37607432228704135,
+            9.169523931751011e-05,
+            3.218231378217204e-05,
+            -0.004417325105765897,
+            0.5679555231876324,
+            -1.1473371301349437e-05,
+            0.0023251050881165254,
+            0.8342465106766297,
+            0.7665865212919001,
+            0.0013193128510165155,
+            -1.1473371301349437e-05,
+            3.554198392897722,
+            0.012867794184527916,
+            -3.891221662165595e-05,
+            0.0029910720184384235,
+            0.37607432228704135,
+            0.0023251050881165254,
+            0.012867794184527916,
+            1.8098633623065499,
+            0.005610895515177463,
+            -8.23017103615776e-07,
+            9.169523931751011e-05,
+            0.8342465106766297,
+            -3.891221662165595e-05,
+            0.005610895515177463,
+            2.4868794249471278
+          ]
+        },
+        {
+          "trackId": 300000002,
+          "trackNumber": 2,
+          "sensorSource": "VISUAL",
+          "sensorAge": 4.499999999999989,
+          "sensorHits": 1,
+          "confirmed": true,
+          "classification": "ASM",
+          "identity": "UNKNOWN",
+          "threatStatus": "THREAT",
+          "engagementAuthority": "WITHHELD",
+          "trackLifecycle": "REACQUIRE",
+          "memActive": true,
+          "ttl": 11.499999999999776,
+          "_lastMeasurementStep": 1470,
+          "_kfNis": 0,
+          "stateM": [
+            17.211309021862558,
+            1926.8499790103529,
+            47.254869718515934,
+            0.426564428091674,
+            -0.000539314991106748,
+            0
+          ],
+          "covariance": [
+            657278.5829071874,
+            2382.4301471145977,
+            115.84089033375776,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            2382.4301471145977,
+            1028047.2935803268,
+            18028.629674739896,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            115.84089033375776,
+            18028.629674739896,
+            292874.98931570986,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            146091.15030880677,
+            462.01776948480733,
+            24.09401934675681,
+            32530.826364920278,
+            102.67061544106758,
+            5.354226521501516,
+            462.01776948480733,
+            217993.25115630764,
+            3749.817106266771,
+            102.67061544106758,
+            48509.07099769774,
+            833.2926902815025,
+            24.09401934675681,
+            3749.817106266771,
+            65021.64361821811,
+            5.354226521501516,
+            833.2926902815025,
+            14479.010970715064
+          ]
+        }
+      ]
+    }
+  },
+  "firstDifferentByCategory": {
+    "tracks": {
+      "step": 1797,
+      "timeS": 29.95,
+      "path": "/tracks/1/_kfNis",
+      "before": 1.1536789827861333,
+      "after": 5.73494869466617
+    },
+    "c55": {
+      "step": 1800,
+      "timeS": 30.0,
+      "path": "/c55/1/files/0/cmsTrackId",
+      "before": 300000002,
+      "after": 300000001
+    },
+    "mounts": {
+      "step": 1800,
+      "timeS": 30.0,
+      "path": "/mounts/0/cuedTarget",
+      "before": 300000001,
+      "after": 300000002
+    }
+  },
+  "firstCapturedHold": {
+    "serial": 621,
+    "kind": "ALREADY_EMITTED_B_TRACE",
+    "step": 1796,
+    "timeS": 29.933333333333334,
+    "value": {
+      "serial": 6837,
+      "route": "OWN_SPY_GLOBAL",
+      "observerShip": "SHIP_DDG119_OWN",
+      "timeS": 29.933333333333334,
+      "tick": 1796,
+      "decision": "HOLD",
+      "reason": "AMBIGUOUS_ASSOCIATION",
+      "plotIndex": 0,
+      "active": true,
+      "nativeTrackId": 300000002,
+      "mode": "ACTIVE"
+    }
+  },
+  "nativeCandidateRecordsAtHold": {
+    "baseline": [
+      {
+        "serial": 368,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7077,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000001,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.4913444179610076,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      },
+      {
+        "serial": 369,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7078,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000002,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.1536789827861333,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      }
+    ],
+    "active": [
+      {
+        "serial": 618,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7077,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000001,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.4913444179610076,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      },
+      {
+        "serial": 619,
+        "kind": "ALREADY_EMITTED_A_TRACE",
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "value": {
+          "serial": 7078,
+          "type": "CANDIDATE",
+          "route": "SPY_BATCH",
+          "observerShip": "SHIP_DDG119_OWN",
+          "tick": 1796,
+          "timeS": 29.933333333333334,
+          "trackId": 300000002,
+          "decision": "ELIGIBLE",
+          "reason": "NATIVE_NIS",
+          "nis": 1.1536789827861333,
+          "gate": 64,
+          "appliedModel": "AIR_POLAR_DOPPLER",
+          "appliedDimension": 4,
+          "gateUnits": "NIS",
+          "appliedFields": [
+            "rangeM",
+            "azRad",
+            "elRad",
+            "radialMps"
+          ],
+          "measurementId": "M2706",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "AIR_RADAR",
+            "sourceSensor": "SPY1DV_SEARCH_HORIZON",
+            "observerShip": "SHIP_DDG119_OWN",
+            "measuredAtS": 29.933333333333334,
+            "receivedAtS": 29.933333333333334,
+            "measuredFields": [
+              "rangeM",
+              "azRad",
+              "elRad",
+              "radialMps"
+            ],
+            "measurementModel": {
+              "name": "AIR_RADAR",
+              "dimension": 4,
+              "physicalObservationDimension": 4,
+              "rows": [
+                "rangeM",
+                "azRad",
+                "elRad",
+                "radialMps"
+              ]
+            },
+            "observed": {
+              "rangeM": 2370.948928745497,
+              "azRad": 1.5802040690556607,
+              "elRad": -0.003971368544857385,
+              "radialMps": -294.8917165211414
+            },
+            "assumed": {},
+            "derived": {
+              "cartesianPositionM": {
+                "x": 4.235033687873465,
+                "y": 2377.494462557408,
+                "z": 8.56248639031855
+              }
+            },
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": 26.539805206704344,
+                "y": 6.669150360349447,
+                "z": 17.978373636491142
+              },
+              "velocityMps": {
+                "x": 0.6204700809618433,
+                "y": -0.0014453516786937781,
+                "z": 0
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {
+                "rangeSigmaM": 40.51012879845772,
+                "azSigmaDeg": 0.0765191321748646,
+                "elSigmaDeg": 0.1500375140683619,
+                "radialVelSigmaMps": 8.102025759691543
+              },
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": 0.9995,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {
+              "surface": 0.46,
+              "air": 0.5,
+              "missile": 1,
+              "background": 0,
+              "candidateDomain": "AIR",
+              "features": {
+                "heightM": 8.093846466817148,
+                "significantDopplerMps": 278.5687923059761,
+                "alongM": 2.1641509398243275,
+                "crossM": 0.44643997367885463,
+                "verticalStructure": 0
+              }
+            },
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      }
+    ]
+  },
+  "sameObservedMeasurementAtFirstHold": true,
+  "sameNativeCandidateNisAtFirstHold": {
+    "baseline": {
+      "300000001": 1.4913444179610076,
+      "300000002": 1.1536789827861333
+    },
+    "active": {
+      "300000001": 1.4913444179610076,
+      "300000002": 1.1536789827861333
+    }
+  },
+  "nativeCandidateNisDifference": 0.33766543517487424,
+  "canonicalUpdates": {
+    "baseline": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 2,
+        "reason": null
+      },
+      {
+        "step": 1741,
+        "timeS": 29.016666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 411,
+        "reason": null
+      },
+      {
+        "step": 1745,
+        "timeS": 29.083333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 412,
+        "reason": null
+      },
+      {
+        "step": 1750,
+        "timeS": 29.166666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 413,
+        "reason": null
+      },
+      {
+        "step": 1754,
+        "timeS": 29.233333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 414,
+        "reason": null
+      },
+      {
+        "step": 1759,
+        "timeS": 29.316666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 415,
+        "reason": null
+      },
+      {
+        "step": 1763,
+        "timeS": 29.383333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 416,
+        "reason": null
+      },
+      {
+        "step": 1768,
+        "timeS": 29.466666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 417,
+        "reason": null
+      },
+      {
+        "step": 1772,
+        "timeS": 29.53333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 418,
+        "reason": null
+      },
+      {
+        "step": 1777,
+        "timeS": 29.616666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 419,
+        "reason": null
+      },
+      {
+        "step": 1780,
+        "timeS": 29.666666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 3,
+        "reason": null
+      },
+      {
+        "step": 1781,
+        "timeS": 29.683333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 420,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 4,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 421,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 5,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 422,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 6,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 423,
+        "reason": null
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_SEARCH_HORIZON",
+        "decision": "ACCEPT",
+        "hits": 7,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 424,
+        "reason": null
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 8,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 425,
+        "reason": null
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 9,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 426,
+        "reason": null
+      },
+      {
+        "step": 1810,
+        "timeS": 30.166666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 10,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 427,
+        "reason": null
+      },
+      {
+        "step": 1814,
+        "timeS": 30.233333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 11,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 428,
+        "reason": null
+      },
+      {
+        "step": 1819,
+        "timeS": 30.316666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 12,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 429,
+        "reason": null
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 13,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 430,
+        "reason": null
+      },
+      {
+        "step": 1828,
+        "timeS": 30.466666666666665,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 14,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000001,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 431,
+        "reason": null
+      },
+      {
+        "step": 1832,
+        "timeS": 30.53333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 15,
+        "reason": null
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 432,
+        "reason": null
+      },
+      {
+        "step": 1837,
+        "timeS": 30.616666666666667,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 16,
+        "reason": null
+      }
+    ],
+    "active": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 2,
+        "reason": null
+      },
+      {
+        "step": 1741,
+        "timeS": 29.016666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 411,
+        "reason": null
+      },
+      {
+        "step": 1745,
+        "timeS": 29.083333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 412,
+        "reason": null
+      },
+      {
+        "step": 1750,
+        "timeS": 29.166666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 413,
+        "reason": null
+      },
+      {
+        "step": 1754,
+        "timeS": 29.233333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 414,
+        "reason": null
+      },
+      {
+        "step": 1759,
+        "timeS": 29.316666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 415,
+        "reason": null
+      },
+      {
+        "step": 1763,
+        "timeS": 29.383333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 416,
+        "reason": null
+      },
+      {
+        "step": 1768,
+        "timeS": 29.466666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 417,
+        "reason": null
+      },
+      {
+        "step": 1772,
+        "timeS": 29.53333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 418,
+        "reason": null
+      },
+      {
+        "step": 1777,
+        "timeS": 29.616666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 419,
+        "reason": null
+      },
+      {
+        "step": 1780,
+        "timeS": 29.666666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 3,
+        "reason": null
+      },
+      {
+        "step": 1781,
+        "timeS": 29.683333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 420,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_TRACK_REACQUIRE",
+        "decision": "ACCEPT",
+        "hits": 4,
+        "reason": null
+      },
+      {
+        "step": 1786,
+        "timeS": 29.766666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 421,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 5,
+        "reason": null
+      },
+      {
+        "step": 1790,
+        "timeS": 29.833333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 422,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 6,
+        "reason": null
+      },
+      {
+        "step": 1795,
+        "timeS": 29.916666666666668,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 423,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 7,
+        "reason": null
+      },
+      {
+        "step": 1799,
+        "timeS": 29.983333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 424,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 8,
+        "reason": null
+      },
+      {
+        "step": 1804,
+        "timeS": 30.066666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 425,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 9,
+        "reason": null
+      },
+      {
+        "step": 1808,
+        "timeS": 30.133333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 426,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 10,
+        "reason": null
+      },
+      {
+        "step": 1813,
+        "timeS": 30.216666666666665,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 427,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 11,
+        "reason": null
+      },
+      {
+        "step": 1817,
+        "timeS": 30.28333333333333,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 428,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 12,
+        "reason": null
+      },
+      {
+        "step": 1822,
+        "timeS": 30.366666666666667,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 429,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 13,
+        "reason": null
+      },
+      {
+        "step": 1826,
+        "timeS": 30.433333333333334,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 430,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000002,
+        "source": "VISUAL",
+        "decision": "ACCEPT",
+        "hits": 14,
+        "reason": null
+      },
+      {
+        "step": 1830,
+        "timeS": 30.5,
+        "trackId": 300000002,
+        "source": "SPQ9B_AIR",
+        "decision": "ACCEPT",
+        "hits": 15,
+        "reason": null
+      },
+      {
+        "step": 1831,
+        "timeS": 30.516666666666666,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 431,
+        "reason": null
+      },
+      {
+        "step": 1834,
+        "timeS": 30.566666666666666,
+        "trackId": 300000002,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 16,
+        "reason": null
+      },
+      {
+        "step": 1835,
+        "timeS": 30.583333333333332,
+        "trackId": 300000001,
+        "source": "SPY1DV_HIGH_THREAT",
+        "decision": "ACCEPT",
+        "hits": 432,
+        "reason": null
+      }
+    ]
+  },
+  "cueAndCmsTransitions": {
+    "baseline": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1791,
+        "timeS": 29.849999999999998,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1793,
+        "timeS": 29.883333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1800,
+        "timeS": 30,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1802,
+        "timeS": 30.03333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1806,
+        "timeS": 30.099999999999998,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1807,
+        "timeS": 30.116666666666667,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1820,
+        "timeS": 30.333333333333332,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1824,
+        "timeS": 30.4,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1829,
+        "timeS": 30.483333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "active": [
+      {
+        "step": 1740,
+        "timeS": 29,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1791,
+        "timeS": 29.849999999999998,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1793,
+        "timeS": 29.883333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1796,
+        "timeS": 29.933333333333334,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1800,
+        "timeS": 30,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1801,
+        "timeS": 30.016666666666666,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1802,
+        "timeS": 30.03333333333333,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1805,
+        "timeS": 30.083333333333332,
+        "cues": [
+          [
+            1,
+            300000002,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1814,
+        "timeS": 30.233333333333334,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000002,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1818,
+        "timeS": 30.3,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000002
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "step": 1823,
+        "timeS": 30.383333333333333,
+        "cues": [
+          [
+            1,
+            300000001,
+            -5500001
+          ],
+          [
+            2,
+            300000001,
+            -5500002
+          ]
+        ],
+        "cmsAssociation": [
+          {
+            "mountId": 1,
+            "files": [
+              {
+                "id": -5500001,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500008,
+                "cmsTrackId": null
+              }
+            ]
+          },
+          {
+            "mountId": 2,
+            "files": [
+              {
+                "id": -5500002,
+                "cmsTrackId": 300000001
+              },
+              {
+                "id": -5500007,
+                "cmsTrackId": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "selectedDiagnosticComparisonsNotReplacementStrictTests": {
+    "allCapturedLocalC55FileFieldsExceptCmsTrackIdExact": true,
+    "allCapturedMountFieldsExceptCuedTargetExact": true,
+    "allFrameFieldsPreservedInRawDifferenceStream": true,
+    "rawFrameDifferenceCount": 3670,
+    "rawOriginalOutputDifferenceCount": 1345,
+    "fullAfterActionAfterFieldDifferences": [
+      {
+        "path": "/mounts/0/cue",
+        "before": 300000002,
+        "after": 300000001
+      },
+      {
+        "path": "/mounts/1/cue",
+        "before": 300000002,
+        "after": 300000001
+      }
+    ]
+  },
+  "actualObservedChain": [
+    "Both canonical files already exist at the first captured frame29.0s; no CREATE occurs in the captured window. Earlier birth/source history is outside this trace.",
+    "At native tick1796, identical SPY_SEARCH_HORIZON measurement has two eligible native AIR4D NIS values separated by0.3376654351748743. A accepts track300000002; B reports AMBIGUOUS_ASSOCIATION and withholds this update.",
+    "The first passive estimated-track divergence is post-tick frame1797. Subsequent native focused revisit/source update schedules and estimates differ.",
+    "The first captured C55 CMS-association and mount-cue differences occur at frame1800. Negative local C55 file IDs and all captured local estimated/control fields remain exact when separately displaying the differing CMS/cue labels.",
+    "At termination the full original after-action output differs only in the two mount cue fields. The original strict signature difference remains FAIL, not an approved new baseline."
+  ],
+  "sourcePathAudit": {
+    "c55CmsRows": "Pinned A source L37288–37297 obtains observed CMS states; L37402 sorts eligible cue rows by native kin.ttiS.",
+    "c55AssociateCms": "L37299–37315 ranks local-to-observed-CMS geometric distance and writes cmsTrackId; no truth resolution in this association.",
+    "updateCueing": "L37965–37968 assigns c55Bank(mount).cues[0].trackId to m.cuedTarget.",
+    "localFireControl": "L37955/L37421 select local negative C55 files for actual tracking/fire, while cue data remains separate."
+  },
+  "unknowns": [
+    "Cached b.cues TTI values were not captured, so their numerical rank cannot be reconstructed as actual recorded values. Source-path explanation is distinct from a measured TTI ranking.",
+    "No earlier-than29.0s canonical birth timeline was captured. This evidence does not prove duplicate elimination or explain initial creation of the preexisting second file.",
+    "This is temporal and code-path evidence for the captured branch, not proof that future battle outcomes are unaffected.",
+    "Awaited ENV mismatch is confined to the original diagnostic wrappers as reported, but clean after-restoration ENV status was not measured."
+  ],
+  "claimsExplicitlyNotMade": [
+    "Duplicate elimination",
+    "Truth target identity equality",
+    "Strict D1 baseline approval",
+    "All future combat unchanged",
+    "Full TRACK-B closure"
+  ],
+  "automaticApproval": false,
+  "expectedValuesUpdated": false,
+  "releaseApproved": false
+}

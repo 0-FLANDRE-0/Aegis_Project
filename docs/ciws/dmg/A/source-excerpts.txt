@@ -1,0 +1,954 @@
+// CG_TURRET_A decompressed main JS lines 3318-3405
+3318:   return build(Array.from({length:t.length/9},(_,i)=>i*9));
+3319: }
+3320: function bunkerRaySource(origin,direction,maxDistance=300,exclude=null,minDistance=.035){
+3321:   let best=maxDistance,result=null;
+3322:   const O=[origin.x,origin.y,origin.z],D=[direction.x,direction.y,direction.z];
+3323:   function box(min,max){let lo=minDistance,hi=best;
+3324:     for(let k=0;k<3;k++){if(Math.abs(D[k])<1e-12){if(O[k]<min[k]||O[k]>max[k])return false;}else{
+3325:       let a=(min[k]-O[k])/D[k],b=(max[k]-O[k])/D[k];if(a>b)[a,b]=[b,a];lo=Math.max(lo,a);hi=Math.min(hi,b);if(hi<lo)return false;}}
+3326:     return true;
+3327:   }
+3328:   for(const row of BUNKER_REGISTRATION.occluders){
+3329:     if(row.name===exclude)continue;
+3330:     if(!box([row.min.x,row.min.y,row.min.z],[row.max.x,row.max.y,row.max.z]))continue;
+3331:     let root=BUNKER_BVH.get(row.name);if(!root){root=bunkerBuildBvh(row);BUNKER_BVH.set(row.name,root);}
+3332:     const t=row.triangles;
+3333:     function visit(node){if(!box(node.min,node.max))return;if(node.left){visit(node.left);visit(node.right);return;}
+3334:       for(const i of node.ids){
+3335:         const ax=t[i],ay=t[i+1],az=t[i+2],ex=t[i+3]-ax,ey=t[i+4]-ay,ez=t[i+5]-az,
+3336:           fx=t[i+6]-ax,fy=t[i+7]-ay,fz=t[i+8]-az;
+3337:         const px=D[1]*fz-D[2]*fy,py=D[2]*fx-D[0]*fz,pz=D[0]*fy-D[1]*fx,det=ex*px+ey*py+ez*pz;
+3338:         if(Math.abs(det)<1e-10)continue;
+3339:         const inv=1/det,tx=O[0]-ax,ty=O[1]-ay,tz=O[2]-az,u=(tx*px+ty*py+tz*pz)*inv;if(u<0||u>1)continue;
+3340:         const qx=ty*ez-tz*ey,qy=tz*ex-tx*ez,qz=tx*ey-ty*ex,v=(D[0]*qx+D[1]*qy+D[2]*qz)*inv;if(v<0||u+v>1)continue;
+3341:         const distance=(fx*qx+fy*qy+fz*qz)*inv;if(distance>=minDistance&&distance<best){best=distance;result={name:row.name,distanceM:distance};}
+3342:       }
+3343:     }
+3344:     visit(root);
+3345:   }
+3346:   return result;
+3347: }
+3348: function bunkerRayAngles(origin,az,el,rangeM=300,exclude=null){
+3349:   return bunkerRaySource(origin,{x:Math.cos(el)*Math.cos(az),y:Math.cos(el)*Math.sin(az),z:Math.sin(el)},rangeM,exclude);
+3350: }
+3351: function bunkerGunAzimuth(spec,az){return (spec.mount.stowBodyAzRad??0)+angNorm(az-(spec.mount.stowBodyAzRad??0));}
+3352: function bunkerGunClearance(spec,bodyAz,bodyEl,maxDistanceM=300){
+3353:   const inst=spec.installation,hp=ACTIVE_SHIP_PROFILE.geometry.hardpoints[inst.hardpointId],off=spec.mount.trunnionOffsetM,
+3354:     az=bunkerGunAzimuth(spec,bodyAz),origin={x:hp.x+off.x*Math.cos(az)-off.y*Math.sin(az),y:hp.y+off.x*Math.sin(az)+off.y*Math.cos(az),z:hp.z+off.z};
+3355:   if(az<spec.mount.trainMinRad||az>spec.mount.trainMaxRad||bodyEl<spec.mount.elevationMinRad||bodyEl>spec.mount.elevationMaxRad)
+3356:     return {ok:false,reason:'MOUNT_ENVELOPE',mountId:inst.id};
+3357:   const hit=bunkerRayAngles(origin,bodyAz,bodyEl,maxDistanceM);
+3358:   return {ok:!hit,reason:hit?'MOUNT_OCCLUDED':null,obstruction:hit?.name??null,distanceM:hit?.distanceM??null,mountId:inst.id,originM:origin};
+3359: }
+3360: function createBunkerCiwsRuntime(template,profile=ACTIVE_SHIP_PROFILE,navigation=shipNav){
+3361:   return Object.values(profile.weapons.closeIn.mounts).map((inst,i)=>{
+3362:     const E=SHIP_EQUIPMENT_PROFILE_REGISTRY[inst.moduleId],hp=profile.geometry.hardpoints[inst.hardpointId];
+3363:     return {...template,id:i+1,installationId:inst.id,installation:inst,profileId:inst.moduleId,type:'GUN',
+3364:       label:inst.moduleName,moduleName:inst.moduleName,posOffsetM:hp.x,posOffsetYM:hp.y,heightM:hp.z,
+3365:       angleOffset:inst.neutralAzRad,arcCenter:inst.neutralAzRad,arcHalf:E.trainHalfRad,blindSectors:[],
+3366:       ammo:E.ammo,maxAmmo:E.ammo,fireRate:E.fireRateRps,searchRangeKm:E.searchRangeKm,trackRangeKm:E.trackRangeKm,
+3367:       cueTrackRangeKm:E.cueTrackRangeKm,engageRangeKm:E.engageRangeKm,maxTurretRate:E.trainRateRadS,turretAccel:E.trainAccelRadS2,
+3368:       turretAng:navigation.heading+inst.neutralAzRad,_bodyYawV1:inst.neutralAzRad,turretEl:0,turretElRate:0,maxElevationRate:E.elevationRateRadS,elevationAccel:E.elevationAccelRadS2,
+3369:       _localTrack:null,trackingTarget:null,cuedTarget:null,geometryMask:true};
+3370:   });
+3371: }
+3372: function bunkerCiwsMuzzleOffset(registration,az,el){
+3373:   const q=registration.muzzleOffsetLocalM,ce=Math.cos(el),se=Math.sin(el),ca=Math.cos(az),sa=Math.sin(az),
+3374:     forward=ce*q.x-se*q.z;
+3375:   return {x:ca*forward-sa*q.y,y:sa*forward+ca*q.y,z:se*q.x+ce*q.z};
+3376: }
+3377: function bunkerCiwsMuzzleLocal(hardpointId,az,el){
+3378:   const r=BUNKER_REGISTRATION.ciws[hardpointId],d=bunkerCiwsMuzzleOffset(r,az,el);
+3379:   return {x:r.x+d.x,y:r.y+d.y,z:r.z+d.z};
+3380: }
+3381: function bunkerCiwsConstraints(mount){
+3382:   const E=SHIP_EQUIPMENT_PROFILE_REGISTRY[mount.profileId],R=BUNKER_REGISTRATION.ciws[mount.installation.hardpointId],
+3383:     origin={x:R.x,y:R.y,z:R.z},blind=[];
+3384:   // Near barrel sweep: actual structural triangles, independent of far beam masks.
+3385:   const step=Math.PI/180;let start=null;
+3386:   for(let a=-E.trainHalfRad;a<=E.trainHalfRad+step*.5;a+=step){
+3387:     const blocked=!!bunkerRayAngles(origin,mount.arcCenter+a,0,2.0);
+3388:     if(blocked&&start===null)start=a;
+3389:     if(!blocked&&start!==null){blind.push({center:mount.arcCenter+(start+a)/2,half:(a-start)/2});start=null;}
+3390:   }
+3391:   if(start!==null)blind.push({center:mount.arcCenter+(start+E.trainHalfRad)/2,half:(E.trainHalfRad-start)/2});
+3392:   const base=createGameMountConstraintsV1({name:mount.moduleName,center:mount.arcCenter,half:E.trainHalfRad,blind,origin,boxes:[]});
+3393:   const rayHit=(az,el,max=300)=>bunkerRayAngles(origin,az,el,max)?.name??null;
+3394:   return Object.freeze({...base,rayHit,direction:(az,el=0,max=300)=>{
+3395:     const r=base.direction(az,el,max),hit=rayHit(az,el,max),inElevation=el>=E.elevationMinRad&&el<=E.elevationMaxRad;
+3396:     return {...r,ok:r.ok&&!hit&&inElevation,inBlind:r.inBlind||!!hit||!inElevation,
+3397:       reason:hit?'구조물: '+hit:!inElevation?'고각 범위 밖':r.reason};
+3398:   }});
+3399: }
+3400: function bunkerSpgMask(ill,az,altM=ill.height,rangeKm=100){
+3401:   const E=SHIP_EQUIPMENT_PROFILE_REGISTRY.SPG62_V1,el=Math.atan2(altM-ill.height,Math.max(1,rangeKm*1000));
+3402:   if(el<E.elevationMinRad||el>E.elevationMaxRad)return {ok:false,reason:'MOUNT_ELEVATION'};
+3403:   const hit=bunkerRayAngles({x:ill.oX,y:ill.oY,z:ill.height},az,el,Math.min(300,rangeKm*1000));
+3404:   return {ok:!hit,reason:hit?'STRUCTURE_MASK':null,obstruction:hit?.name??null,elevationRad:el};
+3405: }
+
+// CG_TURRET_A decompressed main JS lines 5595-5728
+5595: function tacticalUpdateUiH1(){
+5596:   const b=document.getElementById('tacticalToggleH1');if(!b)return;const r=fleetOwnerG(),s=prepareTacticalH1(r),q=s.summary,labels={WATCH:'감시',CONSERVE:'탄약 절약',DEFEND:'방어',SATURATED:'포화 대응',DEGRADED:'손상 대응'};
+5597:   b.textContent='전술 AI '+(s.settings.enabled?'ON':'OFF');b.setAttribute('aria-pressed',String(s.settings.enabled));
+5598:   const resume=document.getElementById('tacticalResumeH1');resume.disabled=!s.settings.manualRadar&&!s.settings.manualEw&&s.settings.enabled;
+5599:   document.getElementById('tacticalStatusH1').textContent=!s.settings.enabled?'기존 AUTO 운용':!tacticalActiveH1(r)?'대기 · AUTO에서 동작':labels[s.posture]+(s.settings.manualRadar?' · 레이더 수동':'')+(s.settings.manualEw?' · 전자전 수동':'')+(tacticalGroupAuthorityH1(r)?' · 공동 EMCON 우선':'');
+5600:   document.getElementById('tacticalReasonH1').textContent=q?'현지 위협 '+q.localThreats+' · 미대응 '+q.unserved+' · 방어 가용탄 '+q.availableRounds+(s.priorities[0]?' · 우선 T'+s.priorities[0].trackId:''):'상황 판단 대기';
+5601: maneuverUpdateUiH2();attackUpdateUiH3();teamUpdateUiH4();
+5602: }
+5603: 
+5604: // LIVE_CANONICAL owner commands. Prediction is SIM-TUNE scoring, never physics.
+5605: const MANEUVER_POLICY_H2=Object.freeze({schema:'AEGIS_MANEUVER_UTILITY_H2_1',periodTicks:12,minHoldS:3,switchMargin:.04,quietS:4,maxThreats:8,maxTraffic:16,maxLog:64,horizonS:30});
+5606: const MANEUVER_NAV_KEYS_H2=Object.freeze(['targetSpeedKt','targetRudder','manualSpeedV15','manualRudderV15','telegraph','_c17Kt','_c17Tg']);
+5607: function prepareManeuverH2(r){
+5608:   if(r.combatSystem.maneuverH2)return r.combatSystem.maneuverH2;
+5609:   const settings=r.restoredManeuverH2??{schema:MANEUVER_POLICY_H2.schema,enabled:r!==ACTIVE_SHIP_RUNTIME,manualNav:false};delete r.restoredManeuverH2;
+5610:   const s={settings:{...settings},lastStep:-1,evaluations:0,selected:'KEEP',sinceS:0,lastDangerS:-1e6,baseline:null,candidates:[],summary:null,command:null,log:[]};
+5611:   r.combatSystem.maneuverH2=s;claimShipMutableRootA(r,'maneuverH2',s);return s;
+5612: }
+5613: function maneuverSettingsH2(r){return {...prepareManeuverH2(r).settings};}
+5614: function maneuverActiveH2(r){const s=prepareManeuverH2(r);return s.settings.enabled&&!s.settings.manualNav&&tacticalActiveH1(r);}
+5615: function maneuverOwnsH2(r){return !!r.combatSystem.maneuverH2?.baseline;}
+5616: function maneuverYieldH2(r){
+5617:   const s=r.combatSystem.maneuverH2;if(!s)return;
+5618:   if(s.baseline)for(const k of MANEUVER_NAV_KEYS_H2){if(Object.hasOwn(s.baseline.order,k))r.navigation[k]=s.baseline.order[k];else delete r.navigation[k];}
+5619:   s.baseline=null;s.command=null;s.commandSourceH4=null;if(r.combatSystem.teamH4)r.combatSystem.teamH4.formation=null;s.selected='KEEP';
+5620: }
+5621: function maneuverNoteOperatorH2(r){const s=prepareManeuverH2(r);maneuverYieldH2(r);s.settings.manualNav=true;s.lastStep=-1;}
+5622: function maneuverCommandH2(id,c){if(sovHullA(ENGAGEMENT_RUNTIME.ships.get(String(id))))return {ok:false,reason:'SOV_NAV_ONLY'};
+5623:   const r=fleetOwnerG(id);if(!r)return {ok:false,reason:'FRIENDLY_OWNER_REQUIRED'};
+5624:   if(!c||typeof c!=='object'||Array.isArray(c)||Object.keys(c).length!==1||!('enabled'in c||'resume'in c)||'enabled'in c&&typeof c.enabled!=='boolean'||'resume'in c&&c.resume!==true)return {ok:false,reason:'MANEUVER_COMMAND_FIELDS'};
+5625:   const s=prepareManeuverH2(r);maneuverYieldH2(r);
+5626:   if('enabled'in c)s.settings.enabled=c.enabled;
+5627:   else {s.settings.enabled=true;s.settings.manualNav=false;tacticalCommandH1(id,{enabled:true});}
+5628:   s.lastStep=-1;fleetUpdateUiG(true);return {ok:true,settings:{...s.settings}};
+5629: }
+5630: function maneuverExportNavigationH2(r){const n=jsonSafeCloneV48Wip11A(r.navigation),s=r.combatSystem.maneuverH2;if(s?.baseline)for(const k of MANEUVER_NAV_KEYS_H2){if(Object.hasOwn(s.baseline.order,k))n[k]=s.baseline.order[k];else delete n[k];}return n;}
+5631: function resetManeuverFleetH2(){for(const r of [ACTIVE_SHIP_RUNTIME,...physicalShipsB()]){const s=r.combatSystem.maneuverH2;if(s&&!r.restoredManeuverH2)r.restoredManeuverH2={...s.settings};r.combatSystem.maneuverH2=null;prepareManeuverH2(r);}}
+5632: function validateManeuverSettingsH2(q,errors){if(!networkStrictKeysG(q,['schema','enabled','manualNav'])||q.schema!==MANEUVER_POLICY_H2.schema||typeof q.enabled!=='boolean'||typeof q.manualNav!=='boolean')errors.push('MANEUVER_H2_SETTINGS');}
+5633: function validateManeuverNavigationH2(n,errors){
+5634:   if(!n||typeof n!=='object')return;
+5635:   if('telegraph'in n&&(!Number.isInteger(n.telegraph)||n.telegraph< -3||n.telegraph>5))errors.push('MANEUVER_H2_TELEGRAPH');
+5636:   if('_c17Kt'in n&&(!Number.isFinite(n._c17Kt)||n._c17Kt< -15||n._c17Kt>35))errors.push('MANEUVER_H2_SPEED_ORDER');
+5637:   if('_c17Tg'in n&&typeof n._c17Tg!=='boolean')errors.push('MANEUVER_H2_TELEGRAPH_MODE');
+5638: }
+5639: function migrateManeuverSaveH2(src,migrations){
+5640:   if(src.fleet&&!['AEGIS_NAVAL_PHYSICAL_FLEET_H1_1','AEGIS_NAVAL_PHYSICAL_FLEET_G_1','AEGIS_NAVAL_PHYSICAL_FLEET_F_1','AEGIS_NAVAL_PHYSICAL_FLEET_B_1'].includes(src.fleet.schema))return;
+5641:   if(src.ship&&!Object.hasOwn(src.ship,'maneuver'))src.ship.maneuver={schema:MANEUVER_POLICY_H2.schema,enabled:false,manualNav:!!(src.ship.navigation?.manualSpeedV15||src.ship.navigation?.manualRudderV15)};
+5642:   for(const q of src.fleet?.ships??[])if(!Object.hasOwn(q,'maneuver'))q.maneuver={schema:MANEUVER_POLICY_H2.schema,enabled:true,manualNav:!!(q.ship?.navigation?.manualSpeedV15||q.ship?.navigation?.manualRudderV15)};
+5643:   migrations.push({id:'LEGACY_MANEUVER_H2',policy:'SETTINGS_ONLY_NO_HEADING_GOAL_OR_COMMAND_OWNERSHIP'});
+5644: }
+5645: function maneuverObservedH2(r){
+5646:   const rows=[];for(const q of r.combatSystem.tacticalH1?.priorities??[]){
+5647:     if(rows.length>=MANEUVER_POLICY_H2.maxThreats)break;const tr=observerC(r).tracks.get(q.trackId);
+5648:     if(!tr?.confirmed||tr.sensorDetected===false||networkLocalAgeG(tr)>2||tr.memActive||tr.reacquiring||tr.domain==='SURFACE'||tr.classification==='SURFACE'||['FRIEND','NEUTRAL','UNKNOWN','TRAINING_TARGET'].includes(tr.identity)||tr.engagementAuthority!=='AUTO_AUTHORIZED'||networkProtectionG(r,tr))continue;
+5649:     const e=networkLocalEstimateG(tr);if(!e)continue;const n=r.navigation,rx=e.x[0]-worldToMeters(n.positionWorld.x),ry=e.x[1]-worldToMeters(n.positionWorld.y),vx=e.x[3]-worldSpeedToMps(n.vx??0),vy=e.x[4]-worldSpeedToMps(n.vy??0),vv=vx*vx+vy*vy,t=vv>1?- (rx*vx+ry*vy)/vv:0,cpa=Math.hypot(rx+vx*Math.max(0,t),ry+vy*Math.max(0,t));
+5650:     if(t<=0||t>120||cpa>1500)continue;
+5651:     rows.push({trackId:q.trackId,weight:Math.max(.1,q.score),ttiS:q.ttiS,cpaS:t,cpaM:cpa,positionM:{x:e.x[0],y:e.x[1],z:e.x[2]},velocityMps:{x:e.x[3],y:e.x[4],z:e.x[5]}});
+5652:   }return rows;
+5653: }
+5654: function maneuverTrafficH2(r){
+5655:   const rows=[];for(const tr of observerC(r).tracks.values()){
+5656:     if(rows.length>=MANEUVER_POLICY_H2.maxTraffic)break;if(!tr.confirmed||tr.domain!=='SURFACE'||networkLocalAgeG(tr)>2||tr.memActive||tr.reacquiring)continue;const e=networkLocalEstimateG(tr);if(e)rows.push({x:e.x[0],y:e.x[1],vx:e.x[3],vy:e.x[4],source:'LOCAL_SURFACE'});
+5657:   }
+5658:   if(networkMemberG(r))for(const q of networkPictureG(r)){
+5659:     if(rows.length>=MANEUVER_POLICY_H2.maxTraffic)break;if(q.domain!=='SURFACE'||q.coasting||q.ageS>2||!q.sources.some(s=>s.kind==='SELF')||!q.positionM||!q.velocityMps)continue;rows.push({x:q.positionM.x,y:q.positionM.y,vx:q.velocityMps.x,vy:q.velocityMps.y,source:'RECEIVED_NAVIGATION'});
+5660:   }return rows;
+5661: }
+5662: function maneuverPredictH2(r,goal,speedKt,horizon,damage){
+5663:   const n=r.navigation,poses=[],origin={x:worldToMeters(n.positionWorld.x),y:worldToMeters(n.positionWorld.y)},initialSpeed=Math.max(0,n.speed),targetSpeed=Math.max(0,speedKt)*.514444,turnCap=deg(.9)*clamp(initialSpeed/10,.1,1.5)*Math.max(0,damage.turnFac??0),actuation=Math.min(10,Math.abs(clamp(angNorm(goal-n.heading)*180/Math.PI*1.6,-30,30)-n.rudder)/Math.max(.3,3*(damage.rudderRateFac??0)));
+5664:   let x=origin.x,y=origin.y,heading=n.heading,v=initialSpeed;const dt=horizon/6;
+5665:   for(let i=1;i<=6;i++){const timeS=i*dt,turnTime=Math.max(0,timeS-actuation),next=n.heading+clamp(angNorm(goal-n.heading),-turnCap*turnTime,turnCap*turnTime),accel=(targetSpeed<v?.06:.08)*Math.max(0,damage.accelFac??0),newSpeed=v+clamp(targetSpeed-v,-accel*dt,accel*dt),mid=heading+angNorm(next-heading)*.5;x+=Math.cos(mid)*(v+newSpeed)*.5*dt;y+=Math.sin(mid)*(v+newSpeed)*.5*dt;heading=angNorm(next);v=newSpeed;poses.push({x,y,heading,speedMps:v,timeS});}
+5666:   return {origin,poses,final:poses.at(-1),horizonS:horizon};
+5667: }
+5668: function maneuverPathGuardH2(r,prediction,traffic){
+5669:   const profile=resolveShipProfile(r.profileId),radius=Math.max(Math.abs(profile.geometry.bowXM),Math.abs(profile.geometry.sternXM))+15;
+5670:   for(const p of prediction.poses){
+5671:     if(!BATTLESPACE_DIAG_BYPASS)for(const island of terrainIslands){const x=metersToWorld(p.x),y=metersToWorld(p.y),pad=metersToWorld(radius);if(Math.hypot(x-island.cx,y-island.cy)>island.boundRadiusWorld+pad)continue;if(pointInTerrainPolygon(x,y,island.points)||distanceToTerrainEdge(x,y,island)<pad)return {ok:false,reason:'CHART_TERRAIN',atS:p.timeS};}
+5672:     for(const q of traffic){const initial=Math.hypot(prediction.origin.x-q.x,prediction.origin.y-q.y),separation=Math.hypot(p.x-q.x-q.vx*p.timeS,p.y-q.y-q.vy*p.timeS);if(separation<radius+100&&separation<initial-2)return {ok:false,reason:'MEASURED_TRAFFIC',atS:p.timeS};}
+5673:   }return {ok:true,reason:null};
+5674: }
+5675: function maneuverCoverageNativeH2(r,observation,pose,ports){
+5676:   const frame=createShipBodyFrameV1(shipSurvivalB(r).snapshot(),{x:pose.x,y:pose.y,z:OWN_ALT_M},pose.heading),p=frame.pointToBody(observation),range=Math.max(1,Math.hypot(p.x,p.y)),az=Math.atan2(p.y,p.x),spg=[],closeIn=[];
+5677:   for(const ill of ports.illuminators){const quality=ports.spg62Quality(ill,az,observation.z,range/1000);spg.push({id:ill.id,quality,open:quality>=.05});}
+5678:   for(const mount of ports.closeIn){const origin={x:mount.posOffsetM??0,y:mount.posOffsetYM??0,z:mount.heightM??15},dx=p.x-origin.x,dy=p.y-origin.y,dz=p.z-origin.z,dir=ports.ciwsGameConstraintsV1(mount).direction(Math.atan2(dy,dx),Math.atan2(dz,Math.hypot(dx,dy)),Math.min(300,Math.hypot(dx,dy,dz))),healthy=observerHealthC(r,mount.moduleName)>.15&&mount.ammo>0;closeIn.push({id:mount.id,open:healthy&&dir.ok});}
+5679:   return {spg,closeIn,spgFraction:spg.filter(q=>q.open).length/Math.max(1,spg.length),closeInFraction:closeIn.filter(q=>q.open).length/Math.max(1,closeIn.length),rangeM:range,bearingRelRad:az};
+5680: }
+5681: function maneuverCoverageH2(r,observation,pose){return r===ACTIVE_SHIP_RUNTIME?maneuverCoverageNativeH2(r,observation,pose,{illuminators:SPG62_ILLUMINATORS,closeIn:ciws,spg62Quality,ciwsGameConstraintsV1}):r.weapons.executionD.context.maneuverCoverageH2(observation,pose);}
+5682: function maneuverSpeedH2(r,requested,damage){const max=Math.min(shipAheadLimitB(resolveShipProfile(r.profileId)),Math.max(0,damage.maxSpeedKt??0)),options=C17_TELEGRAPH.filter(q=>q.kt>=0&&q.kt<=max+.001);return (options.filter(q=>q.kt<=Math.max(0,requested)+.001).at(-1)??options[0]).kt;}
+5683: function maneuverMissionHeadingH2(r,s){if(r===ACTIVE_SHIP_RUNTIME&&routePoints.length&&activeWpIdx<routePoints.length){const wp=routePoints[activeWpIdx],n=r.navigation;return Math.atan2(wp.y-n.positionWorld.y,wp.x-n.positionWorld.x);}return s.baseline?.headingRad??r.navigation.heading;}
+5684: function maneuverPlanH2(r,rows,damage,s){
+5685:   const n=r.navigation,horizon=Math.min(MANEUVER_POLICY_H2.horizonS,Math.max(4,Math.min(...rows.map(q=>q.ttiS))*.5)),anchor=maneuverMissionHeadingH2(r,s),requested=s.baseline?.order.targetSpeedKt??n.targetSpeedKt,normal=maneuverSpeedH2(r,Math.max(14,requested),damage),traffic=maneuverTrafficH2(r),specs=[['KEEP',0,maneuverSpeedH2(r,requested,damage)],['PORT30',-30,normal],['STARBOARD30',30,normal],['PORT60',-60,normal],['STARBOARD60',60,normal],['FAST',0,maneuverSpeedH2(r,28,damage)],['SLOW',0,maneuverSpeedH2(r,8,damage)],['STOP',0,0]],candidates=[];
+5686:   for(const [id,offset,speedKt] of specs){
+5687:     const headingRad=angNorm(anchor+deg(offset)),prediction=maneuverPredictH2(r,headingRad,speedKt,horizon,damage),guard=maneuverPathGuardH2(r,prediction,traffic);let weight=0,coverage=0,spacing=0,aspect=0,supportRisk=0,supportCount=0;const opportunities=[];
+5688:     for(const q of rows){const target={x:q.positionM.x+q.velocityMps.x*horizon,y:q.positionM.y+q.velocityMps.y*horizon,z:Math.max(0,q.positionM.z+q.velocityMps.z*horizon)},m=prediction.final,c=maneuverCoverageH2(r,target,m),current=maneuverCoverageH2(r,target,{x:m.x,y:m.y,heading:n.heading}),near=clamp(1-c.rangeM/15000,0,1);weight+=q.weight;coverage+=q.weight*(c.spgFraction*(1-.6*near)+c.closeInFraction*.6*near);aspect+=q.weight*Math.abs(Math.cos(c.bearingRelRad));
+5689:       const rx=target.x-m.x,ry=target.y-m.y,vx=q.velocityMps.x-Math.cos(m.heading)*m.speedMps,vy=q.velocityMps.y-Math.sin(m.heading)*m.speedMps,vv=vx*vx+vy*vy,t=vv>1?Math.max(0,-(rx*vx+ry*vy)/vv):0,cpa=Math.hypot(rx+vx*t,ry+vy*t);spacing+=q.weight*clamp(cpa/700,0,1);
+5690:       const assigned=r.combatSystem.fireControl.illuminatorAssignments.get(q.trackId);if(assigned?.illId!=null&&current.spg.find(v=>v.id===assigned.illId)?.open){supportCount++;if(!c.spg.find(v=>v.id===assigned.illId)?.open)supportRisk++;}
+5691:       opportunities.push({trackId:q.trackId,spgOpen:c.spg.filter(q=>q.open).map(q=>q.id),closeInOpen:c.closeIn.filter(q=>q.open).map(q=>q.id),cpaM:cpa});
+5692:     }
+5693:     const turnCost=Math.abs(angNorm(headingRad-n.heading))/Math.PI,speedCost=Math.abs(speedKt-requested)/31,score=guard.ok?.55*coverage/Math.max(.1,weight)+.2*spacing/Math.max(.1,weight)+.1*aspect/Math.max(.1,weight)-.12*turnCost-.08*speedCost-.45*supportRisk/Math.max(1,supportCount)+(id==='KEEP'?.02:0):-1;
+5694:     candidates.push({id,headingRad,speedKt,score,guard,coverage:coverage/Math.max(.1,weight),supportRisk,supportCount,predictedHeadingRad:prediction.final.heading,predictedSpeedMps:prediction.final.speedMps,horizonS:horizon,opportunities});
+5695:   }candidates.sort((a,b)=>b.score-a.score||specs.findIndex(q=>q[0]===a.id)-specs.findIndex(q=>q[0]===b.id));return candidates;
+5696: }
+5697: function maneuverChooseH2(s,now,candidates,emergency){const best=candidates[0],current=candidates.find(q=>q.id===s.selected);if(s.baseline&&s.command===null)return best;if(!current||!current.guard.ok||emergency||now-s.sinceS>=MANEUVER_POLICY_H2.minHoldS&&best.score>current.score+MANEUVER_POLICY_H2.switchMargin)return best;return current;}
+5698: function maneuverApplyH2(r,choice,damage){
+5699:   if(!maneuverActiveH2(r)||shipEquipmentOfflineV1(r))return;
+5700:   const n=r.navigation,limit=30*Math.max(.1,damage.steerFac??0),rudder=clamp(angNorm(choice.headingRad-n.heading)*180/Math.PI*1.6-n.turnRate*90,-limit,limit),command={targetSpeedKt:choice.speedKt,targetRudder:rudder};
+5701:   if(r!==ACTIVE_SHIP_RUNTIME){const q=physicalShipCommandB(r.entityId,command,'TACTICAL_H2');if(!q.ok)return;}else Object.assign(n,command);
+5702:   n.manualSpeedV15=true;n.manualRudderV15=true;n.telegraph=c17OrderForKt(choice.speedKt);n._c17Kt=choice.speedKt;prepareManeuverH2(r).command={headingRad:choice.headingRad,speedKt:choice.speedKt,rudderDeg:rudder};
+5703: }
+5704: function maneuverEvaluateH2(r){
+5705:   const s=prepareManeuverH2(r);if(s.lastStep===simStepCounter)return;s.lastStep=simStepCounter;s.evaluations++;const now=networkNowG(),damage=getShipDamageEffects(r);
+5706:   if(!maneuverActiveH2(r)||shipEquipmentOfflineV1(r)){maneuverYieldH2(r);s.summary={reason:s.settings.manualNav?'MANUAL_NAV':shipEquipmentOfflineV1(r)?'OFFLINE':'INACTIVE',localThreats:0};s.candidates=[];return;}
+5707:   const rows=maneuverObservedH2(r);s.summary={reason:'MONITOR',localThreats:rows.length,steering:damage.steerFac,propulsion:damage.accelFac};
+5708:   if(!rows.length){
+5709:     const formation=now-s.lastDangerS>=MANEUVER_POLICY_H2.quietS?teamFormationH4(r):null;
+5710:     if(formation){if(!s.baseline){const order={};for(const k of MANEUVER_NAV_KEYS_H2)if(Object.hasOwn(r.navigation,k))order[k]=r.navigation[k];s.baseline={order,headingRad:r.navigation.heading};}
+5711:       s.commandSourceH4='FORMATION';s.selected='TEAM_'+formation.id;s.summary.reason=s.selected;s.candidates=prepareTeamH4(r).formation?.candidates??[];maneuverApplyH2(r,formation,damage);return;}
+5712:     if(s.commandSourceH4==='FORMATION'){maneuverYieldH2(r);s.candidates=[];s.summary.reason='TEAM_NAVIGATION_RELEASED';return;}
+5713:     if(!s.baseline)return;if(now-s.lastDangerS<MANEUVER_POLICY_H2.quietS)return;
+5714:     const heading=maneuverMissionHeadingH2(r,s),speed=maneuverSpeedH2(r,s.baseline.order.targetSpeedKt,damage);if(Math.abs(angNorm(heading-r.navigation.heading))<deg(2)){maneuverYieldH2(r);s.candidates=[];s.summary.reason='BASELINE_RESTORED';return;}
+5715:     const prediction=maneuverPredictH2(r,heading,speed,30,damage),guard=maneuverPathGuardH2(r,prediction,maneuverTrafficH2(r));s.selected=guard.ok?'RECOVER':'SAFETY_HOLD';s.summary.reason=s.selected;
+5716:     maneuverApplyH2(r,{headingRad:guard.ok?heading:r.navigation.heading,speedKt:guard.ok?speed:0},damage);return;
+5717:   }
+5718:   s.commandSourceH4='DEFENSE';s.lastDangerS=now;if(!s.baseline){const order={};for(const k of MANEUVER_NAV_KEYS_H2)if(Object.hasOwn(r.navigation,k))order[k]=r.navigation[k];s.baseline={order,headingRad:r.navigation.heading};s.sinceS=now;}
+5719:   const candidates=maneuverPlanH2(r,rows,damage,s);s.candidates=candidates;let choice=maneuverChooseH2(s,now,candidates,Math.min(...rows.map(q=>q.ttiS))<=12);
+5720:   if(!choice.guard.ok)choice={id:'SAFETY_HOLD',headingRad:r.navigation.heading,speedKt:0,score:-1};
+5721:   if(choice.id!==s.selected){s.log.push({step:simStepCounter,from:s.selected,to:choice.id,score:choice.score});if(s.log.length>MANEUVER_POLICY_H2.maxLog)s.log.shift();s.sinceS=now;}
+5722:   s.selected=choice.id;s.summary.reason=choice.id;s.summary.earliestTtiS=Math.min(...rows.map(q=>q.ttiS));maneuverApplyH2(r,choice,damage);
+5723: }
+5724: function stepManeuverFleetH2(){if(simStepCounter%MANEUVER_POLICY_H2.periodTicks!==0)return;for(const r of [ACTIVE_SHIP_RUNTIME,...physicalShipsB()])maneuverEvaluateH2(r);}
+5725: function maneuverSnapshotH2(){return {schema:MANEUVER_POLICY_H2.schema,truthUsed:false,remoteFireControl:false,ships:[ACTIVE_SHIP_RUNTIME,...physicalShipsB()].map(r=>{const s=prepareManeuverH2(r);return {entityId:r.entityId,settings:{...s.settings},active:maneuverActiveH2(r),owned:!!s.baseline,selected:s.selected,sinceS:s.sinceS,lastStep:s.lastStep,evaluations:s.evaluations,summary:s.summary?{...s.summary}:null,command:s.command?{...s.command}:null,candidates:jsonSafeCloneV48Wip11A(s.candidates),log:s.log.map(q=>({...q}))};})};}
+5726: function maneuverSelfTestH2(){const s={selected:'KEEP',sinceS:0},rows=[{id:'PORT30',score:.8,guard:{ok:true}},{id:'KEEP',score:.5,guard:{ok:true}}],checks={hold:maneuverChooseH2(s,1,rows,false).id==='KEEP',normal:maneuverChooseH2(s,3,rows,false).id==='PORT30',emergency:maneuverChooseH2(s,.1,rows,true).id==='PORT30',blocked:maneuverChooseH2(s,.1,[rows[0],{...rows[1],guard:{ok:false}}],false).id==='PORT30',margin:maneuverChooseH2(s,4,[{...rows[0],score:.53},rows[1]],false).id==='KEEP'};return {checks,pass:Object.values(checks).every(Boolean)};}
+5727: 
+5728: // Presentation-only FLEET controls.
+
+// CG_TURRET_A decompressed main JS lines 13950-13965
+13950:   return {schema:'AEGIS_PERFORMANCE_A_SELFTEST',checks,pass:Object.values(checks).every(Boolean)};
+13951: }
+13952: 
+13953: function shipSystemDamageB(r,system,aggregate='MAX'){
+13954:   if(r===ACTIVE_SHIP_RUNTIME)return getShipSystemDamage(system,aggregate);
+13955:   const names=systemModuleNamesPerfA(r.geometry.boxes,system),v=names.map(n=>r.flooding.readDamage(n));
+13956:   return !v.length?0:aggregate==='AVG'?v.reduce((a,b)=>a+b,0)/v.length:aggregate==='SUM'?v.reduce((a,b)=>a+b,0):Math.max(...v);
+13957: }
+13958: function shipMassLossB(r){
+13959:   if(r===ACTIVE_SHIP_RUNTIME)return syncShipMassLossV16();
+13960:   const mast=shipSystemDamageB(r,'MAST')>=80,key=r.hitHistory.length+':'+mast;
+13961:   if(r.massLossKey!==key){r.damage.massLoss.update(createShipDamageVisualStateV1({cells:[],openings:[]},{cells:[]},r.hitHistory,r.geometry.boxes,{terminalEvents:[]}).scars,mast);r.massLossKey=key;}
+13962:   return r.damage.massLoss.snapshot();
+13963: }
+13964: // PERF_B: one immutable derived frame per owner; compare every physical input.
+13965: // Live survival/navigation reads remain in the callers, including actual releases.
+
+// CG_TURRET_A decompressed main JS lines 31315-31348
+31315:     '제2발전실':'GEN_2','후방기관실':'ENGINE_AFT','제3발전실(비상)':'GEN_3','탄약고(후)':'AMMO_AFT','조타기실':'STEERING',
+31316:     '연료탱크(전)':'FUEL','연료탱크(중앙전)':'FUEL','연료탱크(중앙후)':'FUEL','연료탱크(후)':'FUEL',
+31317:     '청수탱크':'FRESH_WATER','밸러스트(전)':'BALLAST','밸러스트(후)':'BALLAST','선수':'BOW_STRUCTURE','선미':'STERN_STRUCTURE',
+31318:     'Mk45':'MK45','VLS(전)':'VLS_FWD','VLS(후)':'VLS_AFT',
+31319:     '함교(전방)':'BRIDGE','함교(후방)':'BRIDGE','함교(상부전)':'BRIDGE','함교(상부후)':'BRIDGE','전투지휘소':'COMBAT_CENTER',
+31320:     'AN/SPY-1D(V)(전좌)':'SPY_1D','AN/SPY-1D(V)(전우)':'SPY_1D','AN/SPY-1D(V)(후좌)':'SPY_1D','AN/SPY-1D(V)(후우)':'SPY_1D',
+31321:     '마스트':'MAST','AN/SPQ-9B':'SPQ9B','BridgeMaster E':'BRIDGEMASTER_E','전방연돌':'FUNNEL_FWD','후방연돌':'FUNNEL_AFT',
+31322:     '중앙갑판(전)':'STRUCTURE','중앙갑판(후)':'STRUCTURE','후방구조물':'STRUCTURE','격납고':'HANGAR','비행갑판':'FLIGHT_DECK',
+31323:     'AN/SPG-62(전방)':'SPG62_FWD','AN/SPG-62(후방상단)':'SPG62_AFT_HIGH','AN/SPG-62(후방하단)':'SPG62_AFT_LOW',
+31324:     'Phalanx':'CIWS_GUN','SeaRAM':'CIWS_RAM'
+31325:   });
+31326:   function shipHitboxSystemForName(name){if(String(name??'').startsWith('선체(')||String(name??'').startsWith('선체하부('))return 'HULL_SKIN';return SHIP_SYSTEM_BY_NAME[name]??'STRUCTURE';}
+31327:   function shipHitboxDeckForBox(box){
+31328:     if((box?.zMax??0)<=2.000001)return 'BELOW_WL';
+31329:     if((box?.zMin??0)>=SHIP_DECK_Z_M-1e-6 || box?.renderClass)return 'SUPERSTRUCTURE';
+31330:     return 'ABOVE_WL';
+31331:   }
+31332:   function structureShipHitbox(box){
+31333:     const structured={...box,targetId:box.targetId??DF_TARGET_IDS[box.name]??null,system:box.system??shipHitboxSystemForName(box.name),side:box.side??'CENTER',deck:box.deck??shipHitboxDeckForBox(box)};
+31334:     return wip11ProtectShipHitbox(structured);
+31335:   }
+31336:   const WIP101_SYSTEM_MEMBER_CACHE=new Map();
+31337:   function getShipSystemDamage(system,aggregate='MAX'){
+31338:     let names=WIP101_SYSTEM_MEMBER_CACHE.get(system);
+31339:     if(!names){const seen=new Set();names=[];for(const box of buildShipHitBoxes())if(box.system===system&&!seen.has(box.name)){seen.add(box.name);names.push(box.name);}WIP101_SYSTEM_MEMBER_CACHE.set(system,names);}
+31340:     if(!names.length)return 0;const vals=names.map(name=>shipModules[name]??0);
+31341:     if(aggregate==='AVG')return vals.reduce((a,b)=>a+b,0)/vals.length;
+31342:     if(aggregate==='SUM')return vals.reduce((a,b)=>a+b,0);
+31343:     return Math.max(...vals);
+31344:   }
+31345:   // ===== WIP101 STAGE 3: HULL-SKIN / WATERTIGHT BULKHEAD SUBDIVISION =====
+31346:   // Only the outer hull skin is subdivided. Internal machinery/ammo/CDC rooms and all superstructure
+31347:   // geometry retain their WIP100/WIP101-2 size and location. +Y=STARBOARD, -Y=PORT.
+31348:   const WIP101_HULL_SPLIT = Object.freeze({belowWaterSideHalfWidthM:0.60,centralAboveBlastShare:0.25,endAboveBlastShare:0.375,belowSideBlastShare:0.125}); // SIM_TUNED: split children share the legacy compartment blast-susceptibility budget so subdivision does not multiply total damage. WIP11 resistance is material-derived.
+
+// CG_TURRET_A decompressed main JS lines 31886-32029
+31886:     function toShipLocal(px,py,pz){return shipImpactPointV1(impactFrame,px,py,pz);}
+31887: 
+31888:     // Find which hitbox a point is inside (returns box or null)
+31889:     function findHitBox(lx, ly, z){
+31890:       let bestBox = null;
+31891:       let bestDist = Infinity;
+31892:       for(const box of shipBoxes){
+31893:         const bx = lx - box.oX, by = ly - (box.oY ?? 0);
+31894:         if(Math.abs(bx) < box.hL && Math.abs(by) < box.hW && z >= box.zMin && z < box.zMax){
+31895:           return box; // exact hit
+31896:         }
+31897:         // Track closest box for projection
+31898:         const dx = Math.max(0, Math.abs(bx) - box.hL);
+31899:         const dy = Math.max(0, Math.abs(by) - box.hW);
+31900:         const dz = z < box.zMin ? box.zMin - z : (z >= box.zMax ? z - box.zMax : 0);
+31901:         const d = Math.hypot(dx, dy, dz);
+31902:         if(d < bestDist){ bestDist = d; bestBox = box; }
+31903:       }
+31904:       return bestBox; // closest box (for near-hit projection)
+31905:     }
+31906: 
+31907:     // === WIP16/WIP100: exact swept-segment collision + entry-face normal ===
+31908:     // The collision geometry is unchanged. WIP100 only retains the entry-face normal so impact
+31909:     // obliquity can affect penetration / ricochet.
+31910:     const previousWorld={x:em._prevX??em.x,y:em._prevY??em.y,z:em._prevZ??em.z??0},currentWorld={x:em.x,y:em.y,z:em.z??0};
+31911:     const sweep=shipImpactSweepV1(impactFrame,previousWorld,currentWorld,shipBoxes,previousShipWorldFrameWip14A()),cur=sweep.current,prev=sweep.previous,prevZ=prev.z,contact=sweep.hit,targetContact=surfaceTargetFirstAsmContactWip13A(previousWorld,currentWorld,ACTIVE_SHIP_RUNTIME.entityId);
+31912:     if(targetContact?.shipRuntimeD&&targetContact.shipRuntimeD!==ACTIVE_SHIP_RUNTIME&&(!contact||targetContact.hit.t<=contact.t)){const k=em.label??'Kh-35U',spec=WIP12B_LIVE_ORDNANCE[wip12bWeaponKey(k)].spec;navalTerminalD(em,targetContact,{weaponKey:k,spec,armed:em._warheadState!=='DUD',ageS:em.life??20,distanceM:em.flight?.distanceM??12000});em.alive=false;em._deathReason='NAVAL_CONTACT';return;}
+31913:     // Resolve the earliest swept physical contact. A seeker association is neither required nor trusted
+31914:     // here: collision is against world geometry, so a missile can hit any ship it physically reaches.
+31915:     if(targetContact&&(!contact||targetContact.hit.t<=contact.t+1e-9)){if(applyAsmImpactToSurfaceTargetWip13A(em,targetContact))return;}
+31916:     let hit=!!contact,hitBoxName=contact?.box.name??'',hitBox=contact?.box??null,hitNormal=contact?.normal??[0,0,0],hitZ=contact?.local.z??emZ,hitLocalX=contact?.local.x??cur.x,hitLocalY=contact?.local.y??cur.y,impactWorldX=contact?metersToWorld(contact.world.x):em.x,impactWorldY=contact?metersToWorld(contact.world.y):em.y;
+31917: 
+31918:     // === WIP100: residual-energy penetration, then delayed burst on that physically allowed path ===
+31919:     if(hit){
+31920:       const baseImpactProfile=asmImpactProfile(em.label),isDud=em._warheadState==='DUD';
+31921:       const impactProfile=isDud?wip113DudImpactProfile(em,baseImpactProfile):baseImpactProfile;
+31922:       const vxMps=worldSpeedToMps(em.vx??0),vyMps=worldSpeedToMps(em.vy??0),vzMps=em.vz??0;
+31923:       const impactSpeed=Math.max(1,Math.hypot(vxMps,vyMps,vzMps));
+31924:       const vdirWorld={x:vxMps/impactSpeed,y:vyMps/impactSpeed,z:vzMps/impactSpeed};
+31925:       const vdirLocal=impactFrame.vectorToBody(vdirWorld);
+31926:       let incidenceCos=Math.abs(vdirLocal.x*(hitNormal[0]||0)+vdirLocal.y*(hitNormal[1]||0)+vdirLocal.z*(hitNormal[2]||0));
+31927:       if(!(incidenceCos>1e-5))incidenceCos=1; // defensive fallback only for a segment that started exactly inside a face.
+31928: 
+31929:       const hitPointLocal={x:hitLocalX,y:hitLocalY,z:hitZ},impactOriginLocal={x:hitLocalX+vdirLocal.x*0.01,y:hitLocalY+vdirLocal.y*0.01,z:hitZ+vdirLocal.z*0.01},patchedHitBox=wip12fLegacyBarrierWithPersistentPatch(hitBox,hitPointLocal,'OWN_SHIP');
+31930:       const barrierEvents=buildPenetrationBarrierEvents(impactOriginLocal,vdirLocal,shipBoxes,hitBox).map(ev=>{const point=wip12aPointAlong(impactOriginLocal,vdirLocal,ev.distanceM),box=wip12fLegacyBarrierWithPersistentPatch(ev.box,point,'OWN_SHIP');return {...ev,box,materialProfileId:box?.materialProfileId??ev.materialProfileId};});
+31931:       const penCompat=wip12aTerminalBallistics({mode:'LEGACY_ASM_PENETRATION_COMPAT',label:em.label,profile:impactProfile,impactSpeedMps:impactSpeed,incidenceCos,initialResistance:patchedHitBox??0.70,events:barrierEvents});
+31932:       const penSolve=penCompat.penetration;
+31933:       const impactState=buildV48Wip02ImpactState(impactProfile,impactSpeed,incidenceCos,impactOriginLocal,vdirLocal,patchedHitBox,barrierEvents,penSolve);
+31934:       const liveTerminalSpec=WIP12B_LIVE_ORDNANCE[wip12bWeaponKey(em.label)]?.spec??WIP12B_LIVE_ORDNANCE.KH35U.spec,armorResponse=wip12eRev5LegacyArmorImpact(liveTerminalSpec,impactProfile,patchedHitBox,hitNormal,vdirLocal,impactSpeed,incidenceCos,penSolve,impactState,hitPointLocal),fuzeQualification=isDud?null:armorResponse.fuzeQualification,superquickExternal=!isDud&&fuzeQualification?.action==='SUPERQUICK_EXTERNAL',externalDetonation=!isDud&&(!impactState.outerPerforated||superquickExternal),kineticSpallSources=wip12fLegacyKineticSpallSources(armorResponse,hitPointLocal,vdirLocal),kineticSpallParts=wip12fKineticSpallParts({plugAndSpall:kineticSpallSources});
+31935:       const physicalPenetrationM=penSolve.physicalPenetrationM,pathEndM=impactState.pathEndM;
+31936:       // DUD consumes the reduced WIP112 projected mass in the unchanged WIP100 solver, then simply coasts to
+31937:       // the residual-energy stop point. It does not consume fuze-delay RNG and never creates a blast source.
+31938:       const fuzeDelaySec=isDud||superquickExternal?0:rand(Number(impactProfile.fuzeDelayMinS)||0.015,Number(impactProfile.fuzeDelayMaxS)||0.025);
+31939:       const fuzeTravelM=isDud?physicalPenetrationM:impactSpeed*fuzeDelaySec;
+31940:       const detonationTravelM=isDud?physicalPenetrationM:(externalDetonation||penSolve.ricochet?0:Math.min(physicalPenetrationM,fuzeTravelM));
+31941:       // WIP12D observes the legacy solver at the actual fuze point. The legacy damage path still
+31942:       // owns every applied effect; this retained-energy sample only seeds presentation/diagnostic
+31943:       // macro bodies after the already-authoritative detonation.
+31944:       const preDetonationPenetrationState=!isDud&&!penSolve.ricochet?v48Wip02ResidualAtDistance(impactProfile,impactSpeed,incidenceCos,hitBox??.70,barrierEvents,detonationTravelM):null;
+31945: 
+31946:       const detX=impactWorldX+metersToWorld(detonationTravelM*vdirWorld.x);
+31947:       const detY=impactWorldY+metersToWorld(detonationTravelM*vdirWorld.y);
+31948:       const pathDetWorldZ=impactFrame.pointToWorld({x:hitLocalX,y:hitLocalY,z:hitZ}).z+detonationTravelM*vdirWorld.z;
+31949:       let detLocal=toShipLocal(detX,detY,pathDetWorldZ);if(externalDetonation){const standOffM=Math.max(.08,(Number(impactProfile.diameter)||.42)*.15);detLocal={x:hitLocalX+(Number(hitNormal[0])||0)*standOffM,y:hitLocalY+(Number(hitNormal[1])||0)*standOffM,z:hitZ+(Number(hitNormal[2])||0)*standOffM};}const detWorldZ=impactFrame.pointToWorld(detLocal).z,detZ=detLocal.z;
+31950: 
+31951:       // The deepest compartment actually ENTERED before the burst owns the detonation. This preserves
+31952:       // the existing hitboxes while avoiding the outer hull's overlapping volume masking an internal room.
+31953:       let detBox=hitBox;
+31954:       if(!externalDetonation)for(const ev of barrierEvents){if(ev.distanceM<=detonationTravelM+0.03)detBox=ev.box;else break;}
+31955:       if(!detBox)detBox=findHitBox(detLocal.x,detLocal.y,detZ);
+31956:       const detBoxName=detBox?.name??hitBoxName;
+31957: 
+31958:       em.alive=false;retireTruthAssociationV27('ASM',em.id,isDud?'SHIP_DUD_IMPACT':'SHIP_IMPACT');
+31959:       const impactImpulse=v48Wip02TransferredImpulse(impactState,vdirLocal,isDud),impactResponse=getShipDynamicsV15().impactImpulse({pointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},impulseLocal:impactImpulse,source:em.label,impactState});
+31960:       const impactRecord={impactMassKg:impactState.massKg,impactKineticEnergyMJ:impactState.rawKineticEnergyMJ,impactMomentumNs:impactState.impactMomentumNs,transferredImpulseNs:impactImpulse.magnitudeNs,outerPerforated:impactState.outerPerforated,throughHull:impactState.throughHull,hullExitDistanceM:impactState.hullExitDistanceM,exitPoint:impactState.exitPointLocal?{...impactState.exitPointLocal}:null,entryOpeningAreaM2:impactState.openings.entryAreaM2,exitOpeningAreaM2:impactState.openings.exitAreaM2,residualExitEnergyMJ:impactState.exitEnergyMJ,residualExitSpeedMps:impactState.residualSpeedMps,impactResponse,armorResponse,fuzeQualification};
+31961: 
+31962:       if(isDud){
+31963:         const dudDamage=wip113ApplyDudPathDamage(hitBox,barrierEvents,physicalPenetrationM,penSolve,impactSpeed,false),dudParts=wip12eRev4MergeImpactDamageParts(dudDamage.hitParts,kineticSpallParts),dudTotalDmg=dudParts.reduce((sum,q)=>sum+Math.max(0,Number(q.dmg)||0),0),dudEventId='dud:'+em.id+':'+simStepCounter;
+31964:         const stopLocal={x:hitLocalX+vdirLocal.x*pathEndM,y:hitLocalY+vdirLocal.y*pathEndM,z:hitZ+vdirLocal.z*pathEndM};
+31965:         // WIP125 reuses the already-solved WIP101 physical path. It does not alter penetration energy or hitbox math.
+31966:         const wip125CellDamage=wip125ApplyImpactEffects({impactPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},penetrationLine:!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},blastSources:[],hitParts:dudParts});
+31967:         const dudAccepted=damageFloodImpactV1(dudEventId,{x:hitLocalX,y:hitLocalY,z:hitZ},stopLocal,dudParts,penSolve.ricochet,hitBox?.system==='HULL_SKIN',{entryOpeningAreaM2:impactState.openings.entryAreaM2,exitOpeningAreaM2:impactState.openings.exitAreaM2,outerPerforated:impactState.outerPerforated,throughHull:impactState.throughHull,impactState,armorResponse,explosiveMassKg:0,tntEquivalentKg:0,caseMassKg:0,detonationPoint:null,kineticSpallSources,impactSpeedMps:impactSpeed,impactMassKg:impactProfile.impactMassKg,missileDiameterM:impactProfile.diameter}),armorPatchAudit=dudAccepted?wip12fCommitLegacyArmorResponse(dudEventId,'OWN_SHIP',armorResponse,hitPointLocal,impactProfile.diameter):{committed:0,total:WIP12F_ARMOR_PATCH_LEDGER.size};
+31968:         const status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);
+31969:         const displayX=clamp(stopLocal.x,WIP173_SHIP_STERN_X_M,84),displayY=clamp(stopLocal.y,-12,12),displayZ=clamp(stopLocal.z,0,42);
+31970:         const deepest=dudParts.at(-1)?.name??hitBoxName;
+31971:         const hitInfo={x:displayX,y:displayY,z:displayZ,label:em.label,part:deepest,dmg:dudTotalDmg,impactPart:hitBoxName,impactPoint:{x:hitLocalX,y:hitLocalY,z:hitZ},impactNormal:[...hitNormal],
+31972:           penetration:physicalPenetrationM,physicalPenetrationM,fuzeTravelM:physicalPenetrationM,fuzeDelaySec:0,
+31973:           obliquityDeg:penSolve.obliquityDeg,ricochet:!!penSolve.ricochet,penetrationStopReason:penSolve.stopReason,
+31974:           residualPenetrationEnergyMJ:penSolve.residualEnergyMJ,barriersPassed:penSolve.barriersPassed,impactSpeed:Math.round(impactSpeed),
+31975:           blastParts:dudParts,blastMedium:null,blastSources:[],kineticSpallSources,armorPatchAudit,dud:true,warheadState:'DUD',...impactRecord,
+31976:           penetrationLine:!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},vlsCellDamage:wip125CellDamage,time:performance.now()};
+31977:         shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:dudEventId,label:em.label,dud:true,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,direction:vdirLocal,impactState,hitInfo});wip173PushVisualEvent('SHIP_DUD_IMPACT',{coordSpace:'SHIP_LOCAL',x:hitLocalX,y:hitLocalY,z:hitZ,targetLabel:em.label,result:'DUD',warheadState:'DUD',impactSpeedMps:impactSpeed,throughHull:impactState.throughHull,exitPoint:impactRecord.exitPoint,armorSurfaceDamage:armorResponse.surfaceDamage});em._outcomeRecorded=true;wip113SetOutcome(em,'DUD_PENETRATION');
+31978:         notify(`⚠ ${em.label} 불발 관통! ${physicalPenetrationM.toFixed(1)}m / ${impactProfile.impactMassKg.toFixed(1)}kg`);
+31979:       }else{
+31980:         // === WIP100 damage: compartment vulnerability × warhead power ===
+31981:         // No missile-label or compartment-name damage branches remain in the live damage calculation.
+31982:         const directVuln=Math.max(0.05,Number(detBox?.damageVulnerability)||1),surfaceStage=String(armorResponse.surfaceDamage?.stage??'SCORCH'),nonPerforatingDirectScale=surfaceStage==='CRATER'?0.38:surfaceStage==='DENT'?0.18:0.08;
+31983:         const directDmg=Math.round(asmDirectDamagePower(impactProfile)*directVuln*(impactState.outerPerforated?1:nonPerforatingDirectScale));
+31984:         // HP is derived once from the authoritative structural damage state.
+31985: 
+31986:         const blastMedium=externalDetonation?(detWorldZ<-.05?'UNDERWATER':'OPEN'):asmBlastMediumForDetonation(detBox,detWorldZ),blastFx=computeAsmBlastEffects(impactProfile,blastMedium),boundaryCoupling=externalDetonation?wip12eRev5ExternalBlastCoupling(armorResponse.surfaceDamage,blastFx.tntEquivalentKg,impactState.outerPerforated,{...armorResponse.armorSurface,position:{x:hitLocalX,y:hitLocalY,z:hitZ},normal:{x:Number(hitNormal[0])||0,y:Number(hitNormal[1])||0,z:Number(hitNormal[2])||0},detonationStandoffM:Math.max(.08,(Number(impactProfile.diameter)||.42)*.15)}):null;
+31987:         const blastRadius=blastFx.radiusM,warheadKg=blastFx.warhead.totalMassKg;
+31988:         const keFactor=asmImpactKineticDamageFactor(impactSpeed);
+31989:         const stopLocal={x:hitLocalX+vdirLocal.x*pathEndM,y:hitLocalY+vdirLocal.y*pathEndM,z:hitZ+vdirLocal.z*pathEndM};
+31990:         const detPointLocal={x:detLocal.x,y:detLocal.y,z:detZ};
+31991:         const blastSources=buildWip101ChainBlastSources(blastFx,impactSpeed,detPointLocal,externalDetonation?detPointLocal:stopLocal,penSolve.ricochet);
+31992:         const blastDamage=computeWip101BlastDamageFromSources(shipBoxes,blastSources,blastFx,keFactor,detPointLocal,stopLocal,segmentAabbHitT);
+31993:         const blastEventId='blast:'+em.id+':'+simStepCounter;
+31994:     const impactBlastOpenings=[impactState.openings.entryAreaM2>0?{id:blastEventId+':ENTRY',position:{x:hitLocalX,y:hitLocalY,z:hitZ},normal:{x:Number(hitNormal[0])||0,y:Number(hitNormal[1])||0,z:Number(hitNormal[2])||0},holeAreaM2:impactState.openings.entryAreaM2,source:'CURRENT_PROJECTILE_ENTRY',impactRole:'ENTRY'}:null,impactState.openings.exitAreaM2>0?{id:blastEventId+':EXIT',position:{...(impactState.exitPointLocal??stopLocal)},normal:{...vdirLocal},holeAreaM2:impactState.openings.exitAreaM2,source:'CURRENT_PROJECTILE_EXIT',impactRole:'EXIT'}:null].filter(Boolean);
+31995:         // WIP12E is keyed by physical charge inputs only. The label is retained as metadata but is
+31996:         // deliberately outside the solver's authority/hash, so shells, rockets and missiles share one kernel.
+31997:         const blastTrace=WIP12E_BLAST_MODE==='LEGACY_SCALAR_BLAST_COMPAT'?null:wip12eSolveCompartmentBlast({
+31998:           impactEventId:blastEventId,mode:WIP12E_BLAST_MODE,sourceProjectileId:String(em.id),targetEntityId:'OWN_SHIP',detonationTimeS:simStepCounter*SIM_FIXED_DT,projectileSpeedMps:impactSpeed,existingOpenings:impactBlastOpenings,boundaryCoupling,
+31999:           charge:{id:'LIVE_EXPLOSIVE:'+em.id,sourceClass:'LIVE_GENERIC_EXPLOSIVE',explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg,caseMassKg:blastFx.warhead.caseMassKg,position:detPointLocal,direction:vdirLocal,medium:blastMedium,sourceShape:blastSources,metadata:{carrierLabel:em.label}}
+32000:         });
+32001:         const directParts=directDmg>0&&detBoxName?[{name:detBoxName,dmg:directDmg,damageChannel:'DIRECT_KINETIC'}]:[],hitParts=wip12eRev4MergeImpactDamageParts([...directParts,...kineticSpallParts],wip12eAuthorityParts(blastTrace,blastDamage.hitParts)),totalDmg=hitParts.reduce((sum,q)=>sum+Math.max(0,Number(q.dmg)||0),0);
+32002:         // WIP125 consumes the same trace only after the ID-keyed damage authority accepts this event.
+32003:         const blastOpenings=wip12eBlastOpenings(blastTrace),blastImpactMeta={entryOpeningAreaM2:impactState.openings.entryAreaM2,exitOpeningAreaM2:impactState.openings.exitAreaM2,outerPerforated:impactState.outerPerforated,throughHull:impactState.throughHull||blastOpenings.length>0,impactState,armorResponse,fuzeQualification,boundaryCoupling,externalDetonation,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg,caseMassKg:blastFx.warhead.caseMassKg,detonationPoint:detPointLocal,blastSources,kineticSpallSources,blastTrace,additionalShellOpenings:blastOpenings,blastMedium,impactSpeedMps:impactSpeed,impactMassKg:impactProfile.impactMassKg,missileDiameterM:impactProfile.diameter};
+32004:         const blastAccepted=blastTrace?.mode==='COMPARTMENT_BLAST_AUTHORITY'?damageFloodImpactV48Wip12E(blastEventId,{x:hitLocalX,y:hitLocalY,z:hitZ},stopLocal,hitParts,penSolve.ricochet,hitBox?.system==='HULL_SKIN',blastImpactMeta):damageFloodImpactV1(blastEventId,{x:hitLocalX,y:hitLocalY,z:hitZ},stopLocal,hitParts,penSolve.ricochet,hitBox?.system==='HULL_SKIN',blastImpactMeta);
+32005:         const armorPatchAudit=blastAccepted?wip12fCommitLegacyArmorResponse(blastEventId,'OWN_SHIP',armorResponse,hitPointLocal,impactProfile.diameter,boundaryCoupling):{committed:0,total:WIP12F_ARMOR_PATCH_LEDGER.size};
+32006:         const wip125CellDamage=blastAccepted?wip125ApplyImpactEffects({impactEventId:blastEventId,impactPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},penetrationLine:!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},blastSources,blastTrace,hitParts}):null;
+32007:         const status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);
+32008: 
+32009:         const cosHit=Math.cos(-shipNav.heading),sinHit=Math.sin(-shipNav.heading);
+32010:         const penWorldMx=detonationTravelM*vdirWorld.x,penWorldMy=detonationTravelM*vdirWorld.y;
+32011:         const penLocalX=detonationTravelM*vdirLocal.x,penLocalY=detonationTravelM*vdirLocal.y;
+32012:         const displayX=clamp(hitLocalX+penLocalX,WIP173_SHIP_STERN_X_M,84),displayY=clamp(hitLocalY+penLocalY,-12,12),displayZ=clamp(detZ,0,42);
+32013: 
+32014:         const hitInfo={
+32015:           x:displayX,y:displayY,z:displayZ,label:em.label,part:detBoxName,dmg:totalDmg,impactPart:hitBoxName,impactPoint:{x:hitLocalX,y:hitLocalY,z:hitZ},impactNormal:[...hitNormal],
+32016:           penetration:detonationTravelM,physicalPenetrationM,fuzeTravelM,fuzeDelaySec,
+32017:           obliquityDeg:penSolve.obliquityDeg,ricochet:!!penSolve.ricochet,penetrationStopReason:penSolve.stopReason,
+32018:           residualPenetrationEnergyMJ:penSolve.residualEnergyMJ,preDetonationResidualEnergyMJ:preDetonationPenetrationState?.residualEnergyMJ??0,preDetonationResidualReached:!!preDetonationPenetrationState?.reached,barriersPassed:penSolve.barriersPassed,
+32019:           impactSpeed:Math.round(impactSpeed),blastParts:hitParts,blastMedium,externalDetonation,boundaryCoupling,armorSurfaceDamage:armorResponse.surfaceDamage,armorPatchAudit,kineticSpallSources,blastAuthority:blastTrace?.mode??'LEGACY_SCALAR_BLAST_COMPAT',blastTraceHash:blastTrace?.physicsHash??null,blastTraceSummary:wip12eBlastTraceSummary(blastTrace),blastBreaches:blastTrace?.breaches?.map(q=>({...q,position:{...q.position},normal:{...q.normal}}))??[],ignitionAudit:blastImpactMeta.ignitionAudit??null,legacyBlastComparison:{totalDamage:blastDamage.totalDmg,damagedParts:blastDamage.hitParts.length,topParts:blastDamage.hitParts.slice().sort((a,b)=>b.dmg-a.dmg).slice(0,8).map(q=>({name:q.name,dmg:q.dmg})),sourceCount:blastSources.length,powerFractionSum:blastSources.reduce((s,q)=>s+(Number(q.powerFraction)||0),0)},...impactRecord,
+32020:           penetrationLine:!impactState.outerPerforated?null:{x0:hitLocalX,y0:hitLocalY,z0:hitZ,x1:stopLocal.x,y1:stopLocal.y,z1:stopLocal.z},
+32021:           blastSources:blastSources.map(q=>({x:q.x,y:q.y,z:q.z,radiusM:q.radiusM,powerFraction:q.powerFraction,u:q.u})),vlsCellDamage:wip125CellDamage,time:performance.now()
+32022:         };
+32023:         shipLastHit=hitInfo;shipHitHistory.push(hitInfo);wip12bRecordLegacyAsmTerminalEffect({impactEventId:blastEventId,label:em.label,dud:false,entryPointLocal:{x:hitLocalX,y:hitLocalY,z:hitZ},stopPointLocal:stopLocal,detonationPointLocal:detPointLocal,direction:vdirLocal,impactState,hitInfo,explosiveMassKg:blastFx.warhead.explosiveMassKg,tntEquivalentKg:blastFx.tntEquivalentKg});wip173PushVisualEvent('SHIP_WARHEAD_DETONATION',{coordSpace:'SHIP_LOCAL',x:detPointLocal.x,y:detPointLocal.y,z:detPointLocal.z,targetLabel:em.label,result:'HIT',explosiveMassKg:blastFx.warhead.explosiveMassKg,blastMedium,impactSpeedMps:impactSpeed,impactPoint:{x:hitLocalX,y:hitLocalY,z:hitZ},blastSources,throughHull:impactState.throughHull||blastOpenings.length>0,exitPoint:impactRecord.exitPoint,...wip12eVisualPayload(blastTrace)});em._outcomeRecorded=true;wip113SetOutcome(em,'NORMAL_HIT');
+32024: 
+32025:         const topParts=hitParts.sort((a,b)=>b.dmg-a.dmg).slice(0,3).map(p=>p.name).join(', ');
+32026:         const penTxt=penSolve.ricochet?`도탄/표면기폭 ${penSolve.obliquityDeg.toFixed(0)}°`:!impactState.outerPerforated?(boundaryCoupling?.blastPerforated?`${surfaceStage} 비관통 후 외부폭압 파괴구`:`${surfaceStage} 비관통 외부기폭`):superquickExternal?`관통구 접촉기폭 (신관 자극 ${fuzeQualification?.normalRhaeMm?.toFixed?.(1)??'?'}mm RHAe)`:`관통 ${detonationTravelM.toFixed(1)}m (한계 ${physicalPenetrationM.toFixed(1)}m)`;
+32027:         notify(`💥 ${em.label} 직격! [${hitBoxName}→${detBoxName}] ${warheadKg}kg탄두 ${penTxt} ${totalDmg}% (${topParts})`);
+32028:       }
+32029:     }
+
+// CG_TURRET_A decompressed main JS lines 32508-32570
+32508:   let state;
+32509:   function reset(){hydro.reset();state={schemaVersion:2,revision:0,timeS:0,stabilityV11:{total:0,side:0,longitudinal:0},damage:{},cells:Object.fromEntries(cells.map(c=>[c.id,{waterM3:0,levelM:z0}])),openings:{},doors:Object.fromEntries(connections.map(c=>[c.id,false])),pumps:Object.fromEntries(pumps.map(p=>[p.id,true])),seen:new Set(),events:[],ledger:{initialM3:0,seaInM3:0,seaOutM3:0,pumpedOutM3:0,firefightingInM3:0,controlPumpedM3:0},last:{seaInM3s:0,seaOutM3s:0,pumpedM3s:0,netM3s:0},issues:[]};}
+32510:   reset();
+32511:   const resolve=key=>targets.has(key)?key:names.get(key);
+32512:   const issue=msg=>{if(state.issues.at(-1)!==msg)state.issues.push(msg);if(state.issues.length>30)state.issues.shift();};
+32513:   function readDamage(key){const id=resolve(key);if(id)return state.damage[id]||0;return (aliases.get(key)||[]).reduce((s,id)=>s+(state.damage[id]||0),0);}
+32514:   function setDamage(key,value,add=false){
+32515:     const id=resolve(key),ids=id?[id]:aliases.get(key);if(!ids){issue('UNKNOWN_DAMAGE_TARGET:'+key);return 0;}
+32516:     const v=Math.max(0,finite(value));let budget=add?v:v-ids.reduce((s,id)=>s+(state.damage[id]||0),0);
+32517:     if(id){state.damage[id]=clamp(add?readDamage(id)+v:v,0,100);}else{
+32518:       // A legacy parent is one finite damage budget, not a copy for each child.
+32519:       for(let k=0;k<ids.length&&Math.abs(budget)>1e-10;k++){
+32520:         const candidates=ids.filter(q=>budget>0?readDamage(q)<100:readDamage(q)>0);if(!candidates.length)break;const weights=candidates.reduce((s,q)=>s+targets.get(q).weight,0),amount=budget;let used=0;
+32521:         for(const q of candidates){const old=readDamage(q),next=clamp(old+amount*targets.get(q).weight/weights,0,100);state.damage[q]=next;used+=next-old;}budget-=used;
+32522:       }
+32523:     }
+32524:     state.revision++;return readDamage(key);
+32525:   }
+32526:   function deleteDamage(key){const id=resolve(key);if(id)delete state.damage[id];else for(const q of aliases.get(key)||[])delete state.damage[q];state.revision++;}
+32527:   function hullDamagePct(){const roots=[...aliases.values()];return roots.reduce((s,ids)=>s+ids.reduce((v,id)=>v+readDamage(id)*targets.get(id).weight,0)/ids.reduce((v,id)=>v+targets.get(id).weight,0),0)/Math.max(1,roots.length);}
+32528:   function cellAt(p){if(!p||p.x<xs[0]||p.x>xs.at(-1))return null;let s=7;for(let i=0;i<8;i++)if(p.x<xs[i+1]){s=i;break;}const lane=p.y< -2.5?0:p.y>2.5?2:1;return at(s,lane);}
+32529:   function sample(arr,c,h){const f=clamp((h-c.z0)/c.dz,0,arr.length-1),i=Math.min(arr.length-2,Math.floor(f));return arr[i]+(arr[i+1]-arr[i])*(f-i);}
+32530:   function volumeAt(id,h){return hydro.volume(byId.get(id),h);}
+32531:   // levelM/volumeAt now use world elevation, with mean sea level = 0 m.
+32532:   function levelAt(id,v){return hydro.level(byId.get(id),v);}
+32533:   function setAttitude(pose){if(hydro.setPose(pose)){for(const c of cells)state.cells[c.id].levelM=levelAt(c.id,state.cells[c.id].waterM3);state.revision++;}}
+32534: 
+32535:   function surfacePoint(p){return p&&Number.isFinite(p.x+p.y+p.z)&&p.x>=geo.stern-.02&&p.x<=geo.bowAtZ(p.z)+.05&&(geo.halfBeam(p.x,p.z)>0||geo.contains(p.x-.05,p.y,p.z)!==geo.contains(p.x+.05,p.y,p.z));}
+32536:   function nearSurface(p){if(!surfacePoint(p))return false;const inside=geo.contains(p.x,p.y,p.z);return [[.16,0,0],[-.16,0,0],[0,.16,0],[0,-.16,0],[0,0,.16],[0,0,-.16]].some(d=>geo.contains(p.x+d[0],p.y+d[1],p.z+d[2])!==inside);}
+32537:   function addOpening(spec){
+32538:     const c=byId.get(spec.a);if(!c||spec.b&&!byId.has(spec.b)||![spec.x,spec.y,spec.z].every(Number.isFinite))return false;
+32539:     const o=state.openings[spec.id]??{id:spec.id,a:spec.a,b:spec.b||null,x:spec.x,y:spec.y,z:spec.z,work:0,areaM2:0,seal01:0,kind:spec.kind||'SHELL',impactRole:spec.impactRole??null,normal:[...(spec.normal||[0,1,0])]};if(spec.kind)o.kind=spec.kind;if(spec.impactRole)o.impactRole=spec.impactRole;
+32540:     o.work+=Math.max(0,finite(spec.damage));const explicitArea=clamp(finite(spec.areaM2),0,cfg.patchCapM2),cap=Math.min(cfg.patchCapM2,Math.max(explicitArea,.005,finite(spec.capM2)||Math.min(o.kind==='BULKHEAD'?4:cfg.patchCapM2,.25+o.work/70))),area=cap*(1-Math.exp(-Math.max(0,o.work-cfg.crack)/cfg.workScale));o.areaM2=Math.min(cap,Math.max(o.areaM2,area,explicitArea,spec.perforated?cfg.perforationMinM2:0));state.openings[o.id]=o;state.revision++;return true;
+32541:   }
+32542:   function impact(event){
+32543:     if(!event?.id||state.seen.has(event.id))return false;state.seen.add(event.id);
+32544:     for(const e of event.effects||[])setDamage(e.targetId,e.deltaDamage,true);
+32545:     // Bounded game loss of stability from accumulated asymmetric structural damage.
+32546:     // This bias moves the hull; it never adds water without a submerged opening.
+32547:     if(event.start&&event.perforated!==false){const amount=clamp((finite(event.damage)-80)/800,0,1.5),v=state.stabilityV11,room=Math.max(0,12-v.total),added=Math.min(room,amount);v.total+=added;v.side+=added*clamp(finite(event.start.y)/10.2,-1,1);v.longitudinal+=added*clamp(finite(event.start.x)/75,-1,1);}
+32548:     const damage=Math.max(0,finite(event.damage));let contacts=[];
+32549:     const inside=p=>geo.contains(p.x,p.y,p.z);
+32550:     const mix=(a,b,t)=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,z:a.z+(b.z-a.z)*t});
+32551:     const sourceLines=Array.isArray(event.penetrationLines)&&event.penetrationLines.length?event.penetrationLines:[{start:event.start,stop:event.end,entryOpeningAreaM2:event.entryOpeningAreaM2,exitOpeningAreaM2:event.exitOpeningAreaM2,entryOpeningKind:event.entryOpeningKind,exitOpeningKind:event.exitOpeningKind,entryExactArea:event.entryExactArea,exitExactArea:event.exitExactArea}];
+32552:     const paths=sourceLines.map((line,index)=>({index,p:line?.start??(Number.isFinite(line?.x0)?{x:line.x0,y:line.y0,z:line.z0}:null),q:line?.stop??(Number.isFinite(line?.x1)?{x:line.x1,y:line.y1,z:line.z1}:null),entryOpeningAreaM2:finite(line?.entryOpeningAreaM2),exitOpeningAreaM2:finite(line?.exitOpeningAreaM2),entryOpeningKind:String(line?.entryOpeningKind??'SHELL_ENTRY'),exitOpeningKind:String(line?.exitOpeningKind??'SHELL_EXIT'),entryExactArea:!!line?.entryExactArea,exitExactArea:!!line?.exitExactArea}));
+32553:     for(const path of paths){const p=path.p,q=path.q;if(!(p&&q&&[p.x,p.y,p.z,q.x,q.y,q.z].every(Number.isFinite)))continue;
+32554:       const len=Math.hypot(q.x-p.x,q.y-p.y,q.z-p.z),dx=(q.x-p.x)/Math.max(1e-9,len),dy=(q.y-p.y)/Math.max(1e-9,len),dz=(q.z-p.z)/Math.max(1e-9,len);
+32555:       // Only extend backwards from the known impact, never beyond the solved stop point.
+32556:       const a={x:p.x-dx*.4,y:p.y-dy*.4,z:p.z-dz*.4},n=Math.max(2,Math.ceil((len+.4)/.15));let prev=a,was=inside(a);
+32557:       for(let i=1;i<=n;i++){const next=mix(a,q,i/n),now=inside(next);if(now!==was){let lo=prev,hi=next;for(let k=0;k<22;k++){const m=mix(lo,hi,.5);if(inside(m)===was)lo=m;else hi=m;}const contact=mix(lo,hi,.5),inward=now?hi:lo,c=cellAt(inward),kind=now?path.entryOpeningKind:path.exitOpeningKind,impactRole=now?'ENTRY':'EXIT',exactArea=now?path.entryExactArea:path.exitExactArea;if(c&&surfacePoint(contact))contacts.push({p:contact,c,kind,impactRole,b:null,boundary:'shell.'+c.id,normal:now?[-dx,-dy,-dz]:[dx,dy,dz],pathIndex:path.index,explicitAreaM2:now?path.entryOpeningAreaM2:path.exitOpeningAreaM2,exactArea});}prev=next;was=now;}
+32558:       // Internal partitions are separate from the overlapping physical damage boxes.
+32559:       for(const b of boundaries){const den=q[b.axis]-p[b.axis];if(Math.abs(den)<1e-9)continue;const t=(b.plane-p[b.axis])/den;if(t<=1e-6||t>=1)continue;const m=mix(p,q,t),u=b.axis==='x'?m.y:m.x;if(u<b.lo||u>b.hi||!inside(m))continue;contacts.push({p:m,c:byId.get(b.a),b:b.b,kind:'BULKHEAD',boundary:b.id,normal:b.axis==='x'?[1,0,0]:[0,1,0],pathIndex:path.index});}
+32560:     }
+32561:     // Blast-only surface damage must carry a confirmed exterior contact; never use a room centre.
+32562:     for(const h of event.shellContacts||[]){const c=cellAt(h);if(c&&nearSurface(h))contacts.push({p:h,c,b:null,kind:'SHELL',boundary:'shell.'+c.id});}
+32563:     for(const row of event.additionalShellOpenings||[]){const h=row?.position??row,c=h&&cellAt(h),n=row?.normal,normal=Array.isArray(n)?n:[finite(n?.x),Number.isFinite(Number(n?.y))?Number(n.y):1,finite(n?.z)],kind=String(row?.kind??'SHELL_EXIT'),boundary=String(row?.surfaceId??row?.id??('shell.'+c?.id)),impactRole=String(row?.impactRole??(kind.includes('ENTRY')?'ENTRY':kind.includes('EXIT')||kind.includes('FRAGMENT')?'EXIT':'OPENING')),exactArea=!!row?.exactArea,dedupeKey=exactArea?String(row?.id??boundary+':'+[h?.x,h?.y,h?.z].join(':')):null;if(c&&nearSurface(h))contacts.push({p:h,c,b:null,kind,impactRole,boundary,normal,explicitAreaM2:finite(row.holeAreaM2),exactArea,dedupeKey});}
+32564:     const unique=new Map();for(const h of contacts){const p=h.p,key=h.dedupeKey??h.boundary+':'+[p.x,p.y,p.z].map(v=>Math.floor(v/2)).join(':');if(!unique.has(key))unique.set(key,{...h,key});else{const old=unique.get(key);old.explicitAreaM2=Math.max(finite(old.explicitAreaM2),finite(h.explicitAreaM2));old.exactArea=old.exactArea||h.exactArea;if(String(h.kind).startsWith('BLAST_')){old.kind=h.kind;old.impactRole=h.impactRole??old.impactRole;}}}
+32565:     for(const h of unique.values()){const explicitArea=Number.isFinite(h.explicitAreaM2)?h.explicitAreaM2:String(h.impactRole)==='ENTRY'?event.entryOpeningAreaM2:String(h.impactRole)==='EXIT'?event.exitOpeningAreaM2:0;addOpening({id:h.key,a:h.c.id,b:h.b,x:h.p.x,y:h.p.y,z:h.p.z,damage:damage/Math.max(1,unique.size),areaM2:explicitArea,perforated:event.perforated!==false&&!h.exactArea,kind:h.kind,impactRole:h.impactRole,normal:h.normal});}
+32566:     state.events.push({id:event.id,kind:event.kind||'IMPACT',timeS:state.timeS,contacts:unique.size,damage,throughHull:!!event.throughHull,entryOpeningAreaM2:finite(event.entryOpeningAreaM2),exitOpeningAreaM2:finite(event.exitOpeningAreaM2)});if(state.events.length>40)state.events.shift();return true;
+32567:   }
+32568:   function apertureFlow(area,z,height,levelA,levelB){return c8ApertureFlow(area,z,height,levelA,levelB,cfg.cd,cfg.g);}
+32569:   function tick(dt,power={GEN_1:1,GEN_2:1,GEN_3:1},pose=null,sea=null){
+32570:     if(!(dt>0&&Number.isFinite(dt)))return;if(pose)setAttitude(pose);const transferred={};const totals={seaInM3:0,seaOutM3:0,pumpedOutM3:0};let left=dt;
+
+// CG_TURRET_A decompressed main JS lines 33557-33615
+33557:       c.font='11px sans-serif';c.fillStyle='#c4dae4';c.textAlign='center';c.fillText(left,cx-53,18);c.fillText(right,cx+53,18);
+33558:       c.fillStyle='#93acbb';c.fillText(axis==='y'?'선미에서 본 좌우':'측면 · 앞뒤',cx,94);
+33559:     };
+33560:     draw(85,10.2,'y','좌현','우현');draw(255,70,'x','선미','선수');
+33561:     c.font='10px sans-serif';c.textAlign='center';c.fillStyle='#809caa';c.fillText('청색선: 해수면 · 단면별 축척 상이 · 자세 표시용',170,108);
+33562:   }
+33563:   function resetModules(){for(const cells of Object.values(vlsCells))for(const c of cells)delete c.incident;shipHP=100;WIP12E_BLAST_TRACES.length=0;wip12fResetArmorPatches();getDamageFloodV1().reset();getWaveFloodEnvironmentV48Wip05().reset({preserveConfig:true});shipCrewV21?.reset();shipMassLedgerV32?.reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;interiorTopologyAccumulatorV48Wip06=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSurvivalBannerV1(floodAttitudePreviewV1.snapshot());}
+33564:   function damageFloodPowerV1(runtime=ACTIVE_SHIP_RUNTIME){if(shipEquipmentOfflineV1(runtime))return {GEN_1:0,GEN_2:0,GEN_3:0};return Object.fromEntries(['GEN_1','GEN_2','GEN_3'].map(id=>[id,clamp(1-shipSystemDamageB(runtime,id)/100,0,1)]));}
+33565:   function damageFloodTickV1(dt,runtime=ACTIVE_SHIP_RUNTIME){
+33566:     const own=runtime===ACTIVE_SHIP_RUNTIME,survivalModel=shipSurvivalB(runtime),nav=runtime.navigation;
+33567:     if(!(Number.isFinite(dt)&&dt>0))return;
+33568:     if(own){shipGamePreviousPoseV1=survivalModel.snapshot();shipGamePoseDtV1=dt;}else {runtime.previousPose=survivalModel.snapshot();runtime.poseDtS=dt;}
+33569:     const m=getDamageFloodV1(runtime),wave=getWaveFloodEnvironmentV48Wip05(runtime),power=damageFloodPowerV1(runtime),massLoss=shipMassLossB(runtime),strength=getShipLongitudinalStrengthV48Wip03(runtime);
+33570:     strength.step(dt,{flood:m.snapshot(),pose:survivalModel.snapshot(),dynamics:getShipDynamicsV15(runtime).snapshot(),speedMps:nav.speed});const structuralLoss01=strength.snapshot().summary.structuralLoss01;let left=dt;
+33571:     // Fixed substeps make water -> attitude -> hydraulic head a deterministic feedback loop.
+33572:     while(left>1e-10){const h=Math.min(left,1/120);left-=h;wave.step(h,{headingRad:nav.heading,speedMps:nav.speed});m.tick(h,shipEquipmentOfflineV1(runtime)?{GEN_1:0,GEN_2:0,GEN_3:0}:power,survivalModel.snapshot(),wave);damageControlStepV1(h,power,runtime);const floodSummary=m.summary();survivalModel.step({...floodSummary,...massLoss,structuralLoss01:Math.max(floodSummary.structuralLoss01||0,massLoss.structuralLoss01||0,structuralLoss01)},h);}
+33573:     m.setAttitude(survivalModel.snapshot());
+33574:     const survival=survivalModel.snapshot();const hp=survival.irreversible?0:Math.max(0,100-computeShipStatus(runtime).overall);if(own)shipHP=hp;else runtime.health.shipHP=hp;
+33575:     if(own&&survival.state!==damageFloodTickV1.lastState){if(survival.state!=='NORMAL')notify(survival.label+(survival.equipmentOffline?' · 장비 정지':''));damageFloodTickV1.lastState=survival.state;}
+33576:     if(own&&(shipEquipmentOfflineV1(runtime)||shipCrewV21?.combatUnavailable())){SPG62_ENGAGEMENT_STATE.clear();for(const m of ciws){m.firing=false;m.tracking=false;m.state='IDLE';m.turretRate=0;m.turretElRate=0;m.trackingTarget=null;}}
+33577:     if(own){updateShipSurvivalBannerV1(survival);updateDamageControlPanelV1();}
+33578:   }
+33579:   function damageFloodImpactV1(id,start,stop,parts,ricochet=false,exteriorHit=false,impactMeta=null,runtime=ACTIVE_SHIP_RUNTIME){
+33580:     const damage=(parts??[]).reduce((s,p)=>s+Math.max(0,Number(p.dmg)||0),0)*3.5;
+33581:     const effects=(parts??[]).map(p=>({targetId:(runtime===ACTIVE_SHIP_RUNTIME?DF_TARGET_IDS:runtime.geometry.targetIds)[p.name]??p.name,deltaDamage:Math.max(0,Number(p.dmg)||0)*3.5}));
+33582:     const outerPerforated=impactMeta?.outerPerforated??!ricochet,accepted=getDamageFloodV1(runtime).impact({id,kind:'IMPACT',start,end:outerPerforated?stop:null,damage,effects,perforated:outerPerforated,shellContacts:!outerPerforated&&exteriorHit?[start]:[],entryOpeningAreaM2:outerPerforated?impactMeta?.entryOpeningAreaM2:0,exitOpeningAreaM2:outerPerforated?impactMeta?.exitOpeningAreaM2:0,throughHull:outerPerforated&&impactMeta?.throughHull});
+33583:     if(accepted){getDamageControlV1(runtime).impact(id,stop??start,parts,impactMeta?.ignitionAllowed??!String(id).startsWith('dud:'));getShipLongitudinalStrengthV48Wip03(runtime).impact({id,point:start,impactState:impactMeta?.impactState,explosiveMassKg:impactMeta?.explosiveMassKg});
+33584:       getShipCrewV21(runtime).damageImpact({id,start,stop,detonationPoint:impactMeta?.detonationPoint??null,penetrationLine:outerPerforated?{x0:start.x,y0:start.y,z0:start.z,x1:stop.x,y1:stop.y,z1:stop.z}:null,blastSources:impactMeta?.blastSources??[],kineticSpallSources:impactMeta?.kineticSpallSources??[],blastMedium:impactMeta?.blastMedium??null,explosiveMassKg:impactMeta?.explosiveMassKg??0,tntEquivalentKg:impactMeta?.tntEquivalentKg??impactMeta?.explosiveMassKg??0,caseMassKg:impactMeta?.caseMassKg??0,impactSpeedMps:impactMeta?.impactSpeedMps??0,impactMassKg:impactMeta?.impactMassKg??0,missileDiameterM:impactMeta?.missileDiameterM??.42,impactState:impactMeta?.impactState??null,parts});
+33585:     }
+33586:     return accepted;
+33587:   }
+33588:   function damageFloodImpactV48Wip12C(id,start,stop,parts,ricochet=false,exteriorHit=false,impactMeta=null){
+33589:     const damage=(parts??[]).reduce((s,p)=>s+Math.max(0,Number(p.dmg)||0),0)*3.5;
+33590:     const effects=(parts??[]).map(p=>({targetId:DF_TARGET_IDS[p.name]??p.name,deltaDamage:Math.max(0,Number(p.dmg)||0)*3.5}));
+33591:     const outerPerforated=impactMeta?.outerPerforated??!ricochet,penetrationLines=!outerPerforated?[]:(impactMeta?.penetrationLines?.length?impactMeta.penetrationLines:[{start,stop,caliberM:impactMeta?.missileDiameterM,kineticBeforeJ:(impactMeta?.impactState?.rawKineticEnergyMJ??0)*1e6,kineticAfterJ:(impactMeta?.impactState?.exitEnergyMJ??0)*1e6,entryOpeningAreaM2:impactMeta?.entryOpeningAreaM2,exitOpeningAreaM2:impactMeta?.exitOpeningAreaM2}]);
+33592:     const accepted=getDamageFloodV1().impact({id,kind:'IMPACT',start,end:outerPerforated?stop:null,penetrationLines,additionalShellOpenings:impactMeta?.additionalShellOpenings??[],damage,effects,perforated:outerPerforated,shellContacts:!outerPerforated&&exteriorHit?[start]:[],entryOpeningAreaM2:outerPerforated?impactMeta?.entryOpeningAreaM2:0,exitOpeningAreaM2:outerPerforated?impactMeta?.exitOpeningAreaM2:0,throughHull:outerPerforated&&impactMeta?.throughHull});
+33593:     if(accepted){const control=getDamageControlV1();control.impact(id,impactMeta?.detonationPoint??stop??start,parts,false);if(impactMeta)impactMeta.ignitionAudit=wip12cApplyTerminalIgnition(control,id,{...impactMeta,fallbackPoint:stop??start});getShipLongitudinalStrengthV48Wip03().impact({id,point:start,impactState:impactMeta?.impactState,explosiveMassKg:impactMeta?.explosiveMassKg});
+33594:       getShipCrewV21().damageImpact({id,start,stop,detonationPoint:impactMeta?.detonationPoint??null,penetrationLine:outerPerforated?{x0:start.x,y0:start.y,z0:start.z,x1:stop.x,y1:stop.y,z1:stop.z}:null,penetrationLines,blastSources:impactMeta?.blastSources??[],kineticSpallSources:impactMeta?.kineticSpallSources??[],blastMedium:impactMeta?.blastMedium??null,explosiveMassKg:impactMeta?.explosiveMassKg??0,tntEquivalentKg:impactMeta?.tntEquivalentKg??impactMeta?.explosiveMassKg??0,caseMassKg:impactMeta?.caseMassKg??0,impactSpeedMps:impactMeta?.impactSpeedMps??0,impactMassKg:impactMeta?.impactMassKg??0,missileDiameterM:impactMeta?.missileDiameterM??.42,impactState:impactMeta?.impactState??null,parts});
+33595:     }
+33596:     return accepted;
+33597:   }
+33598:   function damageFloodImpactV48Wip12E(id,start,stop,parts,ricochet=false,exteriorHit=false,impactMeta=null){
+33599:     const trace=impactMeta?.blastTrace;if(trace?.mode!=='COMPARTMENT_BLAST_AUTHORITY')return damageFloodImpactV48Wip12C(id,start,stop,parts,ricochet,exteriorHit,impactMeta);
+33600:     const outerPerforated=impactMeta?.outerPerforated??!ricochet,damage=(parts??[]).reduce((s,p)=>s+Math.max(0,Number(p.dmg)||0),0)*3.5,effects=(parts??[]).map(p=>({targetId:DF_TARGET_IDS[p.name]??p.name,deltaDamage:Math.max(0,Number(p.dmg)||0)*3.5})),traceOpenings=wip12eBlastOpenings(trace),entryBlowout=outerPerforated?(traceOpenings.filter(q=>q.kind==='BLAST_ENTRY_BLOWOUT').sort((a,b)=>b.holeAreaM2-a.holeAreaM2)[0]??null):null,rawLines=!outerPerforated?[]:(impactMeta?.penetrationLines?.length?impactMeta.penetrationLines:[{start,stop,caliberM:impactMeta?.missileDiameterM,kineticBeforeJ:(impactMeta?.impactState?.rawKineticEnergyMJ??0)*1e6,kineticAfterJ:(impactMeta?.impactState?.exitEnergyMJ??0)*1e6,entryOpeningAreaM2:impactMeta?.entryOpeningAreaM2,exitOpeningAreaM2:impactMeta?.exitOpeningAreaM2}]),penetrationLines=rawLines.map((line,index)=>index||!entryBlowout?line:{...line,entryOpeningAreaM2:Math.max(Number(line.entryOpeningAreaM2)||0,entryBlowout.holeAreaM2),entryOpeningKind:'BLAST_ENTRY_BLOWOUT',entryExactArea:true}),replacementIds=new Set(traceOpenings.filter(q=>q.kind==='BLAST_ENTRY_BLOWOUT').flatMap(q=>[q.id,q.replacesOpeningId].filter(Boolean))),openingMap=new Map();
+33601:     for(const row of impactMeta?.additionalShellOpenings??[]){const p=row?.position??row;if(!p||penetrationLines.length&&replacementIds.has(row.id))continue;const key=String(row.id??row.surfaceId??'OPENING')+'|'+[p.x,p.y,p.z].map(v=>Number(v).toFixed(4)).join('|');if(!openingMap.has(key))openingMap.set(key,row);}
+33602:     const additionalShellOpenings=[...openingMap.values()],entryOpeningAreaM2=outerPerforated?Math.max(Number(impactMeta?.entryOpeningAreaM2)||0,entryBlowout?.holeAreaM2??0):0,accepted=getDamageFloodV1().impact({id,kind:'IMPACT',start,end:outerPerforated?stop:null,penetrationLines,additionalShellOpenings,damage,effects,perforated:outerPerforated,shellContacts:!outerPerforated&&exteriorHit?[start]:[],entryOpeningAreaM2,exitOpeningAreaM2:outerPerforated?impactMeta?.exitOpeningAreaM2:0,throughHull:impactMeta?.throughHull||additionalShellOpenings.length>0});
+33603:     if(accepted){const control=getDamageControlV1();control.impact(id,impactMeta?.detonationPoint??stop??start,parts,false,trace.damagePacket.compartmentDamage??[]);const terminal=wip12cApplyTerminalIgnition(control,id,{...impactMeta,explosiveMassKg:0,tntEquivalentKg:0}),hotGas=wip12eApplyHotGasIgnition(control,trace);impactMeta.ignitionAudit={schema:'AEGIS_TERMINAL_IGNITION_AUDIT_V48_WIP12E',terminal,hotGas,appliedCount:(terminal.appliedCount??0)+(hotGas.appliedCount??0),genericBlastIgnition:false};getShipLongitudinalStrengthV48Wip03().impact({id,point:start,impactState:impactMeta?.impactState,explosiveMassKg:0,structuralShockEnergyJ:trace.damagePacket.structuralShock.energyJ,blastSurfaceLoads:trace.damagePacket.structureLoads,blastTraceHash:trace.physicsHash});
+33604:       getShipCrewV21().damageImpact({id,start,stop,detonationPoint:impactMeta?.detonationPoint??null,penetrationLine:outerPerforated?{x0:start.x,y0:start.y,z0:start.z,x1:stop.x,y1:stop.y,z1:stop.z}:null,penetrationLines,blastSources:[],kineticSpallSources:impactMeta?.kineticSpallSources??[],blastMedium:trace.charge.medium,explosiveMassKg:impactMeta?.explosiveMassKg??0,tntEquivalentKg:impactMeta?.tntEquivalentKg??impactMeta?.explosiveMassKg??0,caseMassKg:impactMeta?.caseMassKg??0,impactSpeedMps:impactMeta?.impactSpeedMps??0,impactMassKg:impactMeta?.impactMassKg??0,missileDiameterM:impactMeta?.missileDiameterM??.42,impactState:impactMeta?.impactState??null,parts,blastTrace:trace});
+33605:     }
+33606:     return accepted;
+33607:   }
+33608:   function damageFloodSnapshotV1(){return getDamageFloodV1().snapshot();}
+33609:   function runV48Wip05WaveFloodProbe(options={}){
+33610:     const hsM=Math.max(0,Number(options.hsM??2)),tpS=Math.max(3.5,Number(options.tpS??8)),directionDeg=Number(options.directionDeg??90),seed=(Number(options.seed??4805)>>>0)||4805,durationS=Math.max(1,Number(options.durationS??16)),sampleEveryS=Math.max(.1,Number(options.sampleEveryS??.25)),speedKt=Math.max(0,Number(options.speedKt??15)),headingDeg=Number(options.headingDeg??0),x=Number(options.xM??12),z=Number(options.zM??1.30),areaM2=Math.max(.01,Number(options.areaM2??.24)),fill01=clamp(Number(options.initialFill01??0),0,1);
+33611:     const wave=getWaveFloodEnvironmentV48Wip05();wave.configure({hsM,tpS,directionDeg,seed,preset:hsM<=1e-9?'CALM':'CUSTOM'});resetModules();shipNav.heading=deg(headingDeg);shipNav.speed=speedKt*.514444;shipNav.targetSpeedKt=speedKt;shipNav.rudder=shipNav.targetRudder=0;
+33612:     const flood=getDamageFloodV1(),half=Math.max(.5,wip199HullHalfBeamAt(x,z)-.02),defs=[{id:'wip05.wave.starboard',side:'STARBOARD',y:half,normal:[0,1,0]},{id:'wip05.wave.port',side:'PORT',y:-half,normal:[0,-1,0]}];
+33613:     for(const q of defs){const cell=flood.cellAt({x,y:q.y,z});if(!cell)continue;flood.addOpening({id:q.id,a:cell.id,x,y:q.y,z,areaM2,capM2:areaM2,perforated:true,damage:100,kind:'WAVE_PROBE',normal:q.normal});if(fill01>0)flood.setWater(cell.id,cell.capacityM3*fill01);q.cellId=cell.id;}
+33614:     const stride=Math.max(1,Math.round(sampleEveryS/SIM_FIXED_DT)),ticks=Math.max(1,Math.round(durationS/SIM_FIXED_DT)),samples=[];
+33615:     for(let i=0;i<ticks;i++){damageFloodTickV1(SIM_FIXED_DT);simStepCounter++;if(i%stride===0||i===ticks-1){const fs=flood.snapshot(),ws=wave.snapshot(),rows=defs.map(q=>{const o=fs.openings.find(o=>o.id===q.id);return o?{id:o.id,side:q.side,cellId:o.a,seaLevelM:o.seaLevelM,worldZM:o.worldZM,submergenceM:o.submergenceM,seaWet01:o.seaWet01,flowIntoM3s:o.lastFlowIntoAM3s}:null;}).filter(Boolean);samples.push({timeS:ws.timeS,centerSeaLevelM:ws.centerSeaLevelM,waterM3:fs.summary.waterM3,seaInM3s:fs.summary.seaInM3s,seaOutM3s:fs.summary.seaOutM3s,netM3s:fs.summary.netM3s,openings:rows,gm0M:getShipDynamicsV15().snapshot().gm0M,draftM:floodAttitudePreviewV1.snapshot().draftM});}}
+
+// CG_TURRET_A decompressed main JS lines 34610-34634
+34610:   // Compute overall ship status from modules
+34611:   function computeShipStatus(runtime=ACTIVE_SHIP_RUNTIME){
+34612:     const getShipSystemDamage=(id,aggregate)=>shipSystemDamageB(runtime,id,aggregate);
+34613:     // Critical systems — WIP101 Stage 1: structured system aggregation, no display-name coupling.
+34614:     const cdcDmg = getShipSystemDamage('CDC');
+34615:     const bridge = Math.max(getShipSystemDamage('BRIDGE'),getShipSystemDamage('COMBAT_CENTER'));
+34616:     const spy = getShipSystemDamage('SPY_1D');
+34617:     const propulsion = (getShipSystemDamage('BOILER_1') + getShipSystemDamage('BOILER_2') + getShipSystemDamage('ENGINE_AFT')) / 3;
+34618:     const power = (getShipSystemDamage('GEN_1') + getShipSystemDamage('GEN_2')) / 2;
+34619:     const steering = getShipSystemDamage('STEERING');
+34620:     const flooding = getDamageFloodV1(runtime).summary().floodingPct;
+34621:     const longitudinalLoss=getShipLongitudinalStrengthV48Wip03(runtime).snapshot().summary.structuralLoss01*100;
+34622:     const hullStructuralDamage=100*(1-(1-clamp(getDamageFloodV1(runtime).hullDamagePct()/100,0,1))*(1-clamp(longitudinalLoss/100,0,1)));
+34623: 
+34624:     return {
+34625:       command: Math.max(cdcDmg, bridge),
+34626:       radar: spy,
+34627:       propulsion,
+34628:       power,
+34629:       steering,
+34630:       flooding,
+34631:       hullStructuralDamage,
+34632:       overall: Math.min(100, hullStructuralDamage * 1.2 + propulsion * 0.4 + power * 0.3 + cdcDmg * 0.1)
+34633:     };
+34634:   }
+
+// CG_TURRET_A decompressed main JS lines 36723-36741
+36723:   const WIP16_PHALANX_FIRE_CONTROL_MODEL=Object.freeze({
+36724:     schema:'PHALANX_FIRE_CONTROL_STABILIZATION_V48_1_WIP16A',
+36725:     groupRadiusFractionForCenterGate:.32,
+36726:     baseCenterGateM:.42,
+36727:     minCenterGateM:.55,
+36728:     maxCenterGateM:2.10,
+36729:     predictedMissBaseM:.50,
+36730:     predictedMissGroupFraction:.18,
+36731:     engageHysteresis:1.35,
+36732:   });
+36733:   function phalanxFireControlGate(mount,st,sol,turretErr,engaged=false){
+36734:     const M=WIP16_PHALANX_FIRE_CONTROL_MODEL,rangeM=Math.max(1,Number(st?.rangeM)||Math.hypot(st?.rxM??0,st?.ryM??0,st?.rzM??0)||1);
+36735:     const group80RadiusM=rangeM*PHALANX_MK244_BALLISTICS.dispersion80DiameterMil*.0005;
+36736:     const centerGateM=clamp(M.baseCenterGateM+group80RadiusM*M.groupRadiusFractionForCenterGate,M.minCenterGateM,M.maxCenterGateM)*(engaged?M.engageHysteresis:1);
+36737:     const turretCenterErrorM=Math.tan(Math.min(deg(20),Math.abs(Number(turretErr)||0)))*rangeM;
+36738:     const predictedMissM=Math.max(0,Number(sol?.predictedMissM)||0),predictedMissLimitM=(M.predictedMissBaseM+group80RadiusM*M.predictedMissGroupFraction)*(engaged?M.engageHysteresis:1);
+36739:     return {ready:!!sol&&turretCenterErrorM<=centerGateM&&predictedMissM<=predictedMissLimitM,rangeM,group80RadiusM,centerGateM,turretCenterErrorM,predictedMissM,predictedMissLimitM};
+36740:   }
+36741:   window.__WIP16_PHALANX_FC__={profile:()=>({...WIP16_PHALANX_FIRE_CONTROL_MODEL}),gate:(rangeM,turretErrDeg,predictedMissM=0,engaged=false)=>phalanxFireControlGate(null,{rangeM},{predictedMissM},deg(turretErrDeg),engaged)};
+
+// CG_TURRET_A decompressed main JS lines 37145-37292
+37145:     CIWS_C55.stats={attempted:0,accepted:0,created:0,expired:0,cueOnly:0};
+37146:     if(typeof ciws!=='undefined')for(const m of ciws){m._c55Managed=true;m._localTrack=null;m.trackingTarget=null;m.trackingTrackId=null;m.cuedTarget=null;m.firing=false;m.tracking=false;m.state='IDLE';m.stateTimer=0;m._shotAccumulator=0;}
+37147:   }
+37148:   function c55BlankState(){return {valid:false,rxM:0,ryM:0,rzM:0,rvxMps:0,rvyMps:0,rvzMps:0,
+37149:     raxMps2:0,rayMps2:0,razMps2:0,rjxMps3:0,rjyMps3:0,rjzMps3:0,accelMps2:0,jerkMps3:0,maneuverScore:0,maneuvering:false,
+37150:     quality:0,ageS:999,localAgeS:999,cueAgeS:999,lastLosQ:0,lastRangeQ:0,lastSource:'NONE',localHits:0,cueHits:0,_accelWindowS:0};}
+37151:   function c55CmsRows(m){
+37152:     const rows=[];
+37153:     for(const [id,tr] of tracks){
+37154:       if(!tr||tr.sensorDetected===false||!tr.confirmed||tr.memActive||tr.reacquiring||(tr.sensorAge??tr.age??999)>CIWS_C55_POLICY.cueFreshS)continue;
+37155:       const c=ciwsTrackStateForTargetB1(id,m);if(!c)continue;
+37156:       const kin=ciwsRelativeKinematicsFromState(c.rxM,c.ryM,c.rzM,c.rvxMps,c.rvyMps,c.rvzMps);
+37157:       rows.push({trackId:id,state:c,kin,identity:tr.identity??'UNKNOWN',sigmaM:Math.max(15,Number(tr.measurementSigmaM)||100),
+37158:         cueEligible:!CIWS_C55_POLICY.protectedIdentities.includes(tr.identity)&&kin.closingMps>50&&trackKinematicThreatCue(tr).missileLike&&kin.rangeM<CIWS_C55_POLICY.searchHintRangeKm*1000});
+37159:     }
+37160:     return rows;
+37161:   }
+37162:   function c55AssociateCms(rec,rows){
+37163:     const s=rec.st,rank=[];
+37164:     for(const q of rows){const c=q.state,dist=Math.hypot(s.rxM-c.rxM,s.ryM-c.ryM,s.rzM-c.rzM),gate=clamp(q.sigmaM*3+60,90,650);
+37165:       if(dist>gate)continue;
+37166:       const dv=Math.hypot(s.rvxMps-c.rvxMps,s.rvyMps-c.rvyMps,s.rvzMps-c.rvzMps);
+37167:       if(s.localHits>8&&dv>300)continue;rank.push({q,dist});
+37168:     }
+37169:     rank.sort((a,b)=>a.dist-b.dist);const matched=rank[0]?.q;
+37170:     // A nearby protected observed file vetoes release conservatively. It is not
+37171:     // obtained by resolving a track's hidden world/truth identity.
+37172:     const protectedRow=rank.find(r=>CIWS_C55_POLICY.protectedIdentities.includes(r.q.identity));
+37173:     rec.cmsTrackId=matched?.trackId??null;rec.hasCue=!!matched?.cueEligible;
+37174:     if(protectedRow)rec.protectedIdentity=protectedRow.q.identity;
+37175:     else if(matched&&rec.protectedCmsId===matched.trackId)rec.protectedIdentity=null;
+37176:     if(protectedRow)rec.protectedCmsId=protectedRow.q.trackId;
+37177:     if(rec.ownFireEvidence)rec.protectedIdentity='FRIEND';
+37178:     rec.cmsIdentity=matched?.identity??'UNKNOWN';
+37179:   }
+37180:   function c55UpdateFile(rec,meas,m,mode,dt){
+37181:     const s=rec.st,cfg=CIWS_LOCAL_TRACK_MODEL[m.type],now=CIWS_C55.clockS;
+37182:     if(s.localAgeS>cfg.coastS){rec.samples=[];rec.confirmed=false;rec.approachS=0;s.valid=false;s.localHits=0;rec.firstSeenS=now;}
+37183:     const elapsed=Math.max(.02,Math.min(.4,s.localAgeS<900?s.localAgeS:cfg.searchDwellS));
+37184:     const variances=meas.positionVarianceM2??[36,100,100];
+37185:     if(!s.valid||!s._c55P){s.rxM=meas.rxM;s.ryM=meas.ryM;s.rzM=meas.rzM;s.rvxMps=s.rvyMps=s.rvzMps=0;s._c55P=variances.map(v=>[v,0,250000]);s.valid=true;}
+37186:     else for(let axis=0;axis<3;axis++){
+37187:       const pk=['rxM','ryM','rzM'][axis],vk=['rvxMps','rvyMps','rvzMps'][axis],P=s._c55P[axis],R=Math.max(.5,variances[axis]),innovation=meas[pk]-s[pk],den=P[0]+R,k0=P[0]/den,k1=P[1]/den;
+37188:       s[pk]+=k0*innovation;s[vk]+=k1*innovation;const oldCross=P[1];P[0]=Math.max(.01,(1-k0)*P[0]);P[1]=(1-k0)*oldCross;P[2]=Math.max(.01,P[2]-k1*oldCross);
+37189:     }
+37190:     ciwsCapVectorB3(s,['rvxMps','rvyMps','rvzMps'],2200);s.localHits++;ciwsUpdateManeuverEstimateB3(s,cfg,elapsed);
+37191:     s.velocitySigmaMps=Math.sqrt(Math.max(...s._c55P.map(p=>p[2])));
+37192:     s.ageS=s.localAgeS=0;s.lastLosQ=meas.losQ;s.lastRangeQ=meas.rangeQ;s.lastSource='LOCAL_RF';
+37193:     s.damageSigmaFactor=meas.damageSigmaFactor;s.damagePdFactor=meas.damagePdFactor;s.effectiveRangeKm=meas.effectiveRangeKm;
+37194:     s.quality=clamp(s.quality+.16+.24*meas.quality,0,1);
+37195:     rec.confirmed=s.localHits>=CIWS_C55_POLICY.confirmHits&&s.velocitySigmaMps<90&&now-rec.firstSeenS>=CIWS_C55_POLICY.confirmSpanS;
+37196:   }
+37197:   function c55SensorRandom(b){b.rng=_xorshift32(b.rng);return b.rng/4294967296;}
+37198:   function c55SensorNormal(b,sigma){const u=Math.max(1e-12,c55SensorRandom(b)),v=c55SensorRandom(b);return sigma*Math.sqrt(-2*Math.log(u))*Math.cos(TAU*v);}
+37199:   function c55SensorSweep(m,b,dt){
+37200:     const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];
+37201:     // Range/LOS/RCS/noise are evaluated in this boundary. The combat controller
+37202:     // never selects directly from enemyMissiles. Known own-fire is an inventory
+37203:     // safety exclusion, not inferred hostile identity from a world class label.
+37204:     const sources=physicalShipsB().length?navalCiwsSourcesD(ACTIVE_SHIP_RUNTIME):(()=>{
+37205:     const sources=[];
+37206:     for(const e of enemyMissiles)if(e.alive)sources.push({e,key:'ASM:'+e.id,rcs:null,own:false});
+37207:     for(const e of targetPool)if(e.alive!==false)sources.push({e,key:'AIR:'+e.id,rcs:targetRcsM2(e,metersToWorld(o.xM),metersToWorld(o.yM)),own:false});
+37208:     sources.push(...heloCiwsSourcesE({x:metersToWorld(o.xM),y:metersToWorld(o.yM),z:o.zM}));
+37209:     for(const e of missiles)if(!e.dead)sources.push({e,key:'OWN_SAM:'+e.id,rcs:.04,own:true});
+37210:     for(const e of ramMissiles)if(e.alive)sources.push({e,key:'OWN_RAM:'+e.id,rcs:.02,own:true});
+37211: return sources;})();
+37212:     for(const src of sources){
+37213:       const e=src.e,rx=worldToMeters(e.x)-o.xM,ry=worldToMeters(e.y)-o.yM,rz=(e.z??0)-o.zM;
+37214:       const cue=b.cues.find(q=>Math.hypot(rx-q.state.rxM,ry-q.state.ryM,rz-q.state.rzM)<clamp(q.sigmaM*4,200,1000));
+37215:       const selected=b.files.get(m.trackingTrackId),lock=selected&&CIWS_C55_SENSOR_LINKS.get(selected)?.key===src.key;
+37216:       const mode=lock&&m.state!=='IDLE'&&m.state!=='SEARCH'?'TRACK':'SEARCH';
+37217:       const meas=ciwsLocalMeasurement(m,e,mode,!!cue,dt,{key:src.key,rcs:src.rcs,random:()=>c55SensorRandom(b),normal:sigma=>c55SensorNormal(b,sigma)});
+37218:       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
+37219:       let best=null,error=Infinity;
+37220:       for(const r of b.files.values()){
+37221:         if(seen.has(r.id))continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+37222:         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
+37223:         if(d<gate&&d<error){best=r;error=d;}
+37224:       }
+37225:       if(!best){if(b.files.size>=CIWS_C55_POLICY.maxFiles)continue;const id=-5500000-(++CIWS_C55.serial);
+37226:         best={id,st:c55BlankState(),proxy:{id:e.id,alive:true,_c55Id:id},firstSeenS:CIWS_C55.clockS,confirmed:false,approachS:0,samples:[],cmsTrackId:null,protectedIdentity:null,ownFireEvidence:false};b.files.set(id,best);CIWS_C55.stats.created++;
+37227:       }
+37228:       seen.add(best.id);CIWS_C55_SENSOR_LINKS.set(best,src);best.proxy.id=e.id;
+37229:       best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);
+37230:     }
+37231:   }
+37232:   function c55ContactAudit(m,r){
+37233:     const s=r.st,reject=(reason)=>({accepted:false,reason,localId:r.id});
+37234:     if(emconActive)return reject('EMCON');
+37235:     if(r.protectedIdentity)return reject('PROTECTED_'+r.protectedIdentity);
+37236:     if(!r.confirmed)return reject('LOCAL_CONFIRMING');
+37237:     if(!s.valid||s.localAgeS>CIWS_LOCAL_TRACK_MODEL[m.type].coastS)return reject('LOCAL_STALE');
+37238:     if(s.quality<.45)return reject('LOCAL_QUALITY');
+37239:     const o=ciwsMountStateM(m),kin=ciwsRelativeKinematicsFromState(s.rxM,s.ryM,s.rzM,s.rvxMps,s.rvyMps,s.rvzMps),speed=Math.hypot(s.rvxMps+o.vxMps,s.rvyMps+o.vyMps,s.rvzMps+o.vzMps),alt=s.rzM+o.zM;
+37240:     // Preserve the existing game's kinematic missile cue thresholds, not label truth.
+37241:     const missileLike=speed>600||(alt<500&&speed>180&&kin.closingMps>100);
+37242:     if(!missileLike)return reject('NOT_MISSILE_LIKE');
+37243:     if(kin.closingMps<80)return reject('NOT_APPROACHING');
+37244:     const sigma=kin.rangeM*deg(CIWS_LOCAL_TRACK_MODEL[m.type].searchAzSigmaDeg);
+37245:     if(!Number.isFinite(kin.ttiS)||kin.cpaM>CIWS_C55_POLICY.protectionCorridorM+clamp(sigma*3,20,160))return reject('OUTSIDE_PROTECTION_CORRIDOR');
+37246:     if(r.approachS<CIWS_C55_POLICY.approachHoldS)return reject('THREAT_CONFIRMING');
+37247:     const az=Math.atan2(s.ryM,s.rxM),el=Math.atan2(s.rzM,Math.hypot(s.rxM,s.ryM)),dir=ciwsGameDirectionV1(m,az,el,kin.rangeM);
+37248:     if(!dir.ok)return {...reject('DIRECTION_BLOCKED'),detail:dir.reason};
+37249:     const aim=shipGameAimBodyV1(az,el),plan=ciwsGameConstraintsV1(m).plan(ciwsBodyYawV1(m),aim.az);
+37250:     if(!plan.reachable)return {...reject('TRAVERSE_BLOCKED'),detail:plan.reason};
+37251:     let score=kin.ttiS;if(alt<20)score*=.7;if(ramMissiles.some(q=>q.alive&&q.targetId===r.id))score*=2.5;
+37252:     return {accepted:true,reason:s.localAgeS<=CIWS_C55_POLICY.releaseFreshS?'LOCAL_SELF_DEFENCE':'LOCAL_COAST_NO_FIRE',localId:r.id,row:{trackId:r.id,cmsTrackId:r.cmsTrackId,hasCue:r.hasCue,d:kin.rangeM/1000,tti:kin.ttiS,score,rangeM:kin.rangeM,closingSpd:kin.closingMps,cpaM:kin.cpaM,source:'LOCAL_RF'}};
+37253:   }
+37254:   function c55StepSensors(dt){
+37255:     CIWS_C55.clockS+=dt;
+37256:     const disabled=emconActive?'EMCON':shipEquipmentOfflineV1()?'SHIP_OFFLINE':getShipDamageEffects().ciwsPowerFac<=.15?'NO_POWER':null;
+37257:     if(disabled!==CIWS_C55.disabled){for(const m of ciws){const b=c55Bank(m);b.files.clear();m._localTrack=null;m.trackingTarget=null;m.trackingTrackId=null;m.state='IDLE';m.firing=false;m.tracking=false;m.stateTimer=0;m._shotAccumulator=0;m.turretRate=0;m.turretElRate=0;}CIWS_C55.disabled=disabled;}
+37258:     for(const m of ciws){m._c55Managed=true;const b=c55Bank(m);b.winner=null;
+37259:       const off=disabled||(!ciwsB3Performance(m).operational?'MOUNT_DAMAGED':ciwsMountStateM(m).zM<=0?'SUBMERGED':null);
+37260:       if(off){b.files.clear();b.cues=[];b.status=off;b.reason=off;m._localTrack=null;m.trackingTarget=null;m.trackingTrackId=null;m.cuedTarget=null;m.firing=false;m.tracking=false;m.state='IDLE';continue;}
+37261:       const cms=c55CmsRows(m);b.cues=cms.filter(q=>q.cueEligible).sort((a,b)=>a.kin.ttiS-b.kin.ttiS);
+37262:       for(const [id,r]of b.files){const s=r.st;ciwsPredictTrackStepB3(s,dt,CIWS_LOCAL_TRACK_MODEL[m.type]);if(s._c55P){const q=s.maneuvering?400:36;for(const P of s._c55P){P[0]+=2*dt*P[1]+dt*dt*P[2]+q*dt*dt*dt/3;P[1]+=dt*P[2]+q*dt*dt/2;P[2]+=q*dt;}}s.ageS+=dt;s.localAgeS+=dt;s.cueAgeS+=dt;s.quality=Math.max(0,s.quality-.07*dt);
+37263:         if(s.localAgeS>CIWS_C55_POLICY.expireS){r.proxy.alive=false;b.files.delete(id);CIWS_C55.stats.expired++;}
+37264:       }
+37265:       c55SensorSweep(m,b,dt);
+37266:       for(const r of b.files.values()){
+37267:         const s=r.st;c55AssociateCms(r,cms);const kin=ciwsRelativeKinematicsFromState(s.rxM,s.ryM,s.rzM,s.rvxMps,s.rvyMps,s.rvzMps);Object.assign(s,kin);
+37268:         s.azRad=Math.atan2(s.ryM,s.rxM);s.elRad=Math.atan2(s.rzM,Math.hypot(s.rxM,s.ryM));
+37269:         if(s.localAgeS>CIWS_LOCAL_TRACK_MODEL[m.type].coastS){s.valid=false;r.confirmed=false;}
+37270:         const approaching=s.valid&&r.confirmed&&s.localAgeS<CIWS_LOCAL_TRACK_MODEL[m.type].coastS&&kin.closingMps>80&&kin.cpaM<320;
+37271:         r.approachS=approaching?r.approachS+dt:0;r.audit=c55ContactAudit(m,r);
+37272:       }
+37273:       const winners=[...b.files.values()].filter(r=>r.audit?.accepted).sort((a,b)=>a.audit.row.score-b.audit.row.score||a.id-b.id);b.winner=winners[0]?.id??null;
+37274:       b.status=b.winner!=null?'LOCAL_DEFENCE':b.cues.length?'CUE_SEARCH':'SEARCH';
+37275:       const newest=[...b.files.values()].sort((a,b)=>a.st.rangeM-b.st.rangeM)[0];b.reason=b.winner!=null?b.files.get(b.winner).audit.reason:newest?.audit?.reason??(b.cues.length?'CUE_ONLY_NO_LOCAL_LOCK':'NO_LOCAL_CONTACT');
+37276:       if(b.cues.length&&!b.files.size)CIWS_C55.stats.cueOnly++;
+37277:     }
+37278:   }
+37279:   function c55ReleaseAllowed(m){const r=c55Selected(m,m.trackingTrackId);return !!r&&r.audit?.accepted&&!r.protectedIdentity&&r.confirmed&&r.st.valid&&r.st.localAgeS<CIWS_C55_POLICY.releaseFreshS&&!emconActive;}
+37280:   function c55Threats(m){return [...c55Bank(m).files.values()].filter(r=>r.audit?.accepted).map(r=>r.audit.row).sort((a,b)=>a.score-b.score||a.trackId-b.trackId);}
+37281:   function c55Selected(m,id){return c55Bank(m).files.get(id)??null;}
+37282:   function c55Select(m,row){
+37283:     const r=row?c55Selected(m,row.trackId):null;if(!r)return null;
+37284:     if(m.trackingTrackId!==r.id&&m.type==='GUN'){ciwsResetSpotting(m,r.proxy.id);m._gunAimError={azRad:0,elRad:0};m._gunAimRngState=_mix32((SIM_SEED_BASE>>>0)^Math.abs(r.id)^0x203a11)||1;m._gunShotRngState=_mix32((SIM_SEED_BASE>>>0)^Math.abs(r.id)^0x203d15)||1;}
+37285:     m.trackingTrackId=r.id;m.trackingTarget=r.proxy;m._localTrack=r.st;return r.proxy;
+37286:   }
+37287:   function c55Track(m,proxy){const r=c55Selected(m,proxy?._c55Id);if(!r){const s=c55BlankState();m._localTrack=s;return s;}m._localTrack=r.st;m.trackQuality=r.st.quality;m._ciwsTrackSource='LOCAL_RF';return r.st;}
+37288:   function c55Snapshot(){return {schema:CIWS_C55_POLICY.schema,emcon:emconActive,controlMode:engagementControlMode,clockS:CIWS_C55.clockS,stats:{...CIWS_C55.stats},cmsTrackCount:tracks.size,
+37289:     mounts:ciws.map(m=>{const b=c55Bank(m);return {type:m.type,state:m.state,status:b.status,reason:b.reason,ammo:m.ammo,firing:!!m.firing,fireBlocked:!!m._gameFireBlocked,traverse:m._gameTraverse??null,localId:m.trackingTrackId,cueCount:b.cues.length,cueTrackId:m.cuedTarget??null,
+37290:       files:[...b.files.values()].map(r=>({id:r.id,confirmed:r.confirmed,cmsTrackId:r.cmsTrackId,protectedIdentity:r.protectedIdentity,decision:r.audit?.reason,detail:r.audit?.detail??null,source:r.st.lastSource,hits:r.st.localHits,localAgeS:r.st.localAgeS,quality:r.st.quality,rangeM:r.st.rangeM,closingMps:r.st.closingMps,cpaM:r.st.cpaM,positionM:[r.st.rxM,r.st.ryM,r.st.rzM],velocityMps:[r.st.rvxMps,r.st.rvyMps,r.st.rvzMps]}))};})};}
+37291:   function c55DrawStatus(dt){CIWS_C55.uiAgeS+=dt;if(CIWS_C55.uiAgeS<.25)return;CIWS_C55.uiAgeS=0;const el=document.getElementById('ciwsLocalStatusC55');if(!el)return;
+37292:     const title=emconActive?'CIWS: EMCON — 탐색/신규발사 정지':'CIWS: 자체센서 자동방어 · CMS 보조';
+
+// CG_TURRET_A decompressed main JS lines 37810-37995
+37810: 
+37811:   function updateCIWS(dt){
+37812:     c55StepSensors(dt);
+37813:     for(const mount of ciws){ciwsGameSyncHeadingV1(mount);mount._gameFireBlocked=false;}
+37814:     function evaluateThreats(mount){return c55Threats(mount);}
+37815: 
+37816:     function updateTurret(mount,targetAng,dt2,targetEl=0){
+37817:       const b=shipGameAimBodyV1(targetAng,targetEl);if(mount.type==='GUN')mount.turretEl=clamp(b.el,deg(-15),deg(85));
+37818:       return ciwsGameSlewV1(mount,targetAng,dt2,targetEl);
+37819:     }
+37820:     function updateLauncherElevation(mount,targetEl,dt2){
+37821:       const cur=Number.isFinite(mount.turretEl)?mount.turretEl:0,err=targetEl-cur,performance=ciwsB3Performance(mount),maxRate=performance.maxElevationRateRadS,accel=performance.elevationAccelRadS2,rate=Number(mount.turretElRate)||0,desiredRate=clamp(err*5,-maxRate,maxRate);
+37822:       mount.turretElRate=clamp(rate+clamp(desiredRate-rate,-accel*dt2,accel*dt2),-maxRate,maxRate);mount.turretEl=clamp(cur+mount.turretElRate*dt2,deg(-20),deg(80));ciwsGamePublishYawV1(mount,ciwsBodyYawV1(mount));return Math.abs(err);
+37823:     }
+37824:     function updateCueing(mount){
+37825:       if(emconActive||shipEquipmentOfflineV1()){mount.cuedTarget=null;return;}
+37826:       const best=c55Bank(mount).cues[0]??null;
+37827:       mount.cuedTarget=best?.trackId??null;mount.cueAge=best?0:(mount.cueAge??0)+dt;
+37828:     }
+37829:     function cueTurret(mount){const local=c55Selected(mount,mount.trackingTrackId)?.st,c=local?.valid?local:(c55Bank(mount).cues.find(q=>q.trackId===mount.cuedTarget)?.state??null);if(c)updateTurret(mount,Math.atan2(c.ryM,c.rxM),dt,Math.atan2(c.rzM,Math.hypot(c.rxM,c.ryM)));}
+37830:     function selectThreat(mount,row){return c55Select(mount,row);}
+37831: 
+37832:     // ===== PHALANX =====
+37833:     const _ciwsDmg=getShipDamageEffects();
+37834:     for(const phalanx of ciws.filter(m=>m.type==='GUN')){
+37835:     phalanx.firing=false;updateCueing(phalanx);
+37836:     const phalanxPerformance=ciwsB3Performance(phalanx);
+37837:     if(!emconActive&&!shipEquipmentOfflineV1()&&phalanx.ammo>0&&_ciwsDmg.ciwsPowerFac>.15&&phalanxPerformance.operational){
+37838:       const threats=evaluateThreats(phalanx),topThreat=threats[0]??null;
+37839:       // WIP04 B1 closure: authority/lifecycle is revalidated after acquisition as well as at selection.
+37840:       // A lost, reacquiring, or newly protected file must release the local track before another shot.
+37841:       if(phalanx.state!=='IDLE'&&phalanx.trackingTrackId!=null&&!threats.some(row=>row.trackId===phalanx.trackingTrackId)){
+37842:         phalanx.state='IDLE';phalanx.firing=false;phalanx.tracking=false;phalanx.trackQuality=0;ciwsSelectTarget(phalanx,null);
+37843:       }
+37844:       if(phalanx.state==='IDLE'){
+37845:         phalanx.tracking=false;phalanx.trackQuality=0;
+37846:         // Cueing may pre-slew/narrow-beam the mount but can never shrink its native search envelope.
+37847:         const effSearchP=(topThreat&&topThreat.hasCue)?Math.max(phalanxPerformance.searchRangeKm,phalanxPerformance.cueTrackRangeKm):phalanxPerformance.searchRangeKm;
+37848:         if(topThreat&&topThreat.d<effSearchP){phalanx.state='SEARCH';phalanx.stateTimer=0;selectThreat(phalanx,topThreat);}cueTurret(phalanx);
+37849:       }else if(phalanx.state==='SEARCH'){
+37850:         phalanx.tracking=false;phalanx.stateTimer+=dt;const tgt=phalanx.trackingTarget;
+37851:         if(!tgt||!tgt.alive){phalanx.state='IDLE';ciwsSelectTarget(phalanx,null);}else{
+37852:            const hasCue=!!c55Selected(phalanx,phalanx.trackingTrackId)?.hasCue,st=ciwsStepLocalTrack(phalanx,tgt,dt,'SEARCH',hasCue),kinSol=ciwsGunBallisticInterceptSolution(phalanx,st),rawSol=phalanxTrackAdjustedSolution(phalanx,kinSol,st,dt),sol=ciwsSpotAdjustedSolution(phalanx,rawSol,tgt.id),turretErr=sol?updateTurret(phalanx,sol.azRad,dt,sol.elRad):deg(180);phalanx.angle=phalanx.turretAng;
+37853:           const reactTime=phalanx.cuedTarget===phalanx.trackingTrackId?phalanx.searchToTrackTime*.5:phalanx.searchToTrackTime;
+37854:           if(st.valid&&st.localAgeS<.16&&st.quality>.25&&turretErr<deg(8)&&st.lastLosQ>.3&&phalanx.stateTimer>reactTime){phalanx.state='TRACK';phalanx.stateTimer=0;}
+37855:           if(topThreat&&topThreat.trackId!==phalanx.trackingTrackId&&topThreat.tti<3){selectThreat(phalanx,topThreat);phalanx.stateTimer=0;}
+37856:         }
+37857:       }else if(phalanx.state==='TRACK'){
+37858:         phalanx.tracking=true;phalanx.stateTimer+=dt;const tgt=phalanx.trackingTarget;
+37859:         if(!tgt||!tgt.alive){phalanx.state='IDLE';ciwsSelectTarget(phalanx,null);}else{
+37860:            const hasCue=!!c55Selected(phalanx,phalanx.trackingTrackId)?.hasCue,st=ciwsStepLocalTrack(phalanx,tgt,dt,'TRACK',hasCue),kinSol=ciwsGunBallisticInterceptSolution(phalanx,st),rawSol=phalanxTrackAdjustedSolution(phalanx,kinSol,st,dt),sol=ciwsSpotAdjustedSolution(phalanx,rawSol,tgt.id),turretErr=sol?updateTurret(phalanx,sol.azRad,dt,sol.elRad):deg(180);phalanx.trackAng=phalanx.turretAng;phalanx.angle=phalanx.turretAng;
+37861:           const d=(st.rangeM??Infinity)/1000,localFresh=st.localAgeS<.16,trackRangeQ=st.lastRangeQ??0;
+37862:           const fcGate=phalanxFireControlGate(phalanx,st,sol,turretErr,false);if(st.valid&&localFresh&&st.quality>.70&&d<phalanx.engageRangeKm&&trackRangeQ>.30&&fcGate.ready&&phalanx.stateTimer>phalanx.trackToFireTime){phalanx.state='ENGAGE';phalanx.stateTimer=0;}
+37863:           if(!st.valid||d>Math.max(phalanxPerformance.searchRangeKm,phalanxPerformance.cueTrackRangeKm)*1.1||st.lastLosQ<.1){phalanx.state='IDLE';phalanx.trackQuality=0;ciwsSelectTarget(phalanx,null);}
+37864:           if(topThreat&&topThreat.trackId!==phalanx.trackingTrackId&&topThreat.tti<2){selectThreat(phalanx,topThreat);phalanx.state='SEARCH';phalanx.stateTimer=0;}
+37865:         }
+37866:       }else if(phalanx.state==='ENGAGE'){
+37867:         phalanx.tracking=true;phalanx.firing=true;const tgt=phalanx.trackingTarget;
+37868:         if(!tgt||!tgt.alive){phalanx.state='IDLE';phalanx.firing=false;ciwsSelectTarget(phalanx,null);}else{
+37869:            const hasCue=!!c55Selected(phalanx,phalanx.trackingTrackId)?.hasCue,st=ciwsStepLocalTrack(phalanx,tgt,dt,'ENGAGE',hasCue),kinSol=ciwsGunBallisticInterceptSolution(phalanx,st),rawSol=phalanxTrackAdjustedSolution(phalanx,kinSol,st,dt),sol=ciwsSpotAdjustedSolution(phalanx,rawSol,tgt.id),turretErr=sol?updateTurret(phalanx,sol.azRad,dt,sol.elRad):deg(180);phalanx.trackAng=phalanx.turretAng;phalanx.angle=phalanx.turretAng;
+37870:           const d=(st.rangeM??Infinity)/1000,localFresh=st.localAgeS<.13;
+37871:           const fireClear=c55ReleaseAllowed(phalanx)&&!!sol&&ciwsGameCanFireV1(phalanx,sol.azRad,sol.elRad);phalanx._gameFireBlocked=!!sol&&!fireClear;
+37872:           const fcGate=phalanxFireControlGate(phalanx,st,sol,turretErr,true);if(sol&&fireClear&&st.valid&&localFresh&&fcGate.ready&&st.quality>.50){
+37873:             const bulletsThisFrame=ciwsB3AdvanceGunAccumulator(phalanx,dt,phalanxPerformance);
+37874:              const requestedBullets=Math.min(bulletsThisFrame,phalanx.ammo);let actualBullets=0;const spreadFac=rad2deg(PHALANX_MK244_BALLISTICS.dispersion80DiameterMil*.0005);
+37875:              for(let i=0;i<requestedBullets;i++){
+37876:                const shot=phalanxDispersedDirection(phalanx,phalanx.turretAng,phalanx._worldElevationV1),az=shot.az,el=shot.el,ce=Math.cos(el),muzzle=PHALANX_MK244_BALLISTICS.muzzleVelocityMps,o=wip199CiwsMuzzleStateM(phalanx,az,el,3.02,.25);
+37877:                if(!ciwsGameDirectionV1(phalanx,az,el).ok)continue;
+37878:                phalanx.ammo--;actualBullets++;
+37879:                ciwsBullets.push({x:metersToWorld(o.xM),y:metersToWorld(o.yM),z:o.zM,
+37880:                  vx:mpsToWorldSpeed(o.vxMps+muzzle*ce*Math.cos(az)),vy:mpsToWorldSpeed(o.vyMps+muzzle*ce*Math.sin(az)),vz:o.vzMps+muzzle*Math.sin(el),
+37881:                  life:0,maxLife:Math.min(PHALANX_MK244_BALLISTICS.maxFlightTimeS,Math.max(.45,sol.tof*1.35)),intendedTargetId:tgt.id,
+37882:                  mountId:phalanx.id,installationId:phalanx.installationId??null,engagementTrackId:phalanx.trackingTrackId,
+37883:                  dispersionXRad:shot.dispersionXRad,dispersionYRad:shot.dispersionYRad,
+37884:                  _wip104AimAzOffsetAtFireRad:rawSol?angNorm(phalanx.turretAng-rawSol.azRad):0,_wip104AimElOffsetAtFireRad:rawSol?((sol?.elRad??rawSol.elRad)-rawSol.elRad):0});
+37885:             }
+37886:             phalanx.firing=actualBullets>0;if(actualBullets>0)shipMassMarkWeaponsV32('PHALANX_FIRE');
+37887:             _wip103RecordFireFrame(tgt,st,sol,turretErr,spreadFac,actualBullets);
+37888:             _wip104RecordConvergenceFrame(tgt,st,rawSol,sol,turretErr,actualBullets);
+37889:           }else phalanx.firing=false;
+37890:           if(d>phalanx.engageRangeKm*1.1||st.quality<.30||phalanx.ammo<=0||!st.valid){phalanx.state='IDLE';phalanx.firing=false;ciwsSelectTarget(phalanx,null);}
+37891:           if(topThreat&&topThreat.trackId!==phalanx.trackingTrackId&&topThreat.tti<1.5){selectThreat(phalanx,topThreat);phalanx.state='SEARCH';phalanx.stateTimer=0;phalanx.firing=false;}
+37892:         }
+37893:       }
+37894:     }else phalanx._shotAccumulator=phalanx._shotAccumulator??0;
+37895:     }
+37896: 
+37897:     // ===== PHALANX BULLETS =====
+37898:     for(const b of ciwsBullets){
+37899:       b.life+=dt;const prevX=b.x,prevY=b.y,prevZ=b.z;b._prevX=prevX;b._prevY=prevY;b._prevZ=prevZ;const next=phalanxIntegratePointMass({x:worldToMeters(b.x),y:worldToMeters(b.y),z:b.z,vx:worldSpeedToMps(b.vx),vy:worldSpeedToMps(b.vy),vz:b.vz},dt);b.x=metersToWorld(next.x);b.y=metersToWorld(next.y);b.z=next.z;b.vx=mpsToWorldSpeed(next.vx);b.vy=mpsToWorldSpeed(next.vy);b.vz=next.vz;
+37900:       if(!b._wip104Spotted&&b.intendedTargetId!=null){const spotTarget=enemyMissiles.find(em=>em.alive&&em.id===b.intendedTargetId);const shooter=ciws.find(m=>m.type==='GUN'&&m.id===b.mountId)??ciws.find(m=>m.type==='GUN');if(spotTarget&&shooter)ciwsObserveBulletTargetPlaneCrossing(shooter,b,spotTarget,prevX,prevY,prevZ,dt);}
+37901:       for(const em of navalIncomingOrdnanceD(ACTIVE_SHIP_RUNTIME)){if(em.alive===false||em.dead)continue;const hit=ciwsBulletSweptHit(b,em,prevX,prevY,prevZ,dt);if(!hit.hit)continue;
+37902:         const engagementTrackId=b.intendedTargetId===em.id?b.engagementTrackId:null,result=applyPhalanxProjectileHit(em,hit.relSpeedMps,engagementTrackId,hit);_wip103RecordProjectileHit(em,hit.relSpeedMps,result,hit);wip173PushVisualEvent('PHALANX_HIT',{sourceId:em.id,x:em.x,y:em.y,z:em.z??0,
+37903:           vxMps:worldSpeedToMps(em.vx??0),vyMps:worldSpeedToMps(em.vy??0),vzMps:Number(em.vz)||0,massKg:wip173AsmImpactMassKg(em),
+37904:           targetLabel:em.label,result,warheadState:em._warheadState??'NORMAL',physicalWreckage:!!em._wip11cRetirementQueued,seed:em._wip11cRetirementQueued?.seed,
+37905:           impactSpeedMps:hit.relSpeedMps,hitRegion:hit.region??'BODY',explosiveMassKg:(!em.alive&&em._warheadState==='DETONATED')?wip173AsmExplosiveKg(em):0});b.life=b.maxLife; // every physical impact consumes the projectile, including non-kill damage.
+37906:         if(result==='KILL'||result==='STRUCT_FAIL')notify('🔫 Phalanx 물리탄 요격: '+trackDisplayLabelOr(trackIdForTruthV27('ASM',em.id,false),'ASM'));else if((em._phalanxHitCount??0)===1)notify('🔫 Phalanx 20mm 직접명중: '+trackDisplayLabelOr(trackIdForTruthV27('ASM',em.id,false),'ASM'));break;}
+37907:     }
+37908:     for(let i=ciwsBullets.length-1;i>=0;i--){if(ciwsBullets[i].life>=ciwsBullets[i].maxLife)ciwsBullets.splice(i,1);}
+37909: 
+37910:     // ===== SeaRAM =====
+37911:     for(const searam of ciws.filter(m=>m.type==='RAM')){
+37912:     searam.firing=false;searam.reloadTimer=Math.max(0,(searam.reloadTimer??0)-dt);updateCueing(searam);const searamPerformance=ciwsB3Performance(searam);
+37913:     if(!emconActive&&!shipEquipmentOfflineV1()&&searam.ammo>0&&_ciwsDmg.ciwsPowerFac>.15&&searamPerformance.operational){
+37914:       const threats=evaluateThreats(searam),topThreat=threats[0]??null;
+37915:       if(searam.state!=='IDLE'&&searam.trackingTrackId!=null&&!threats.some(row=>row.trackId===searam.trackingTrackId)){
+37916:         searam.state='IDLE';searam.firing=false;searam.tracking=false;searam.trackQuality=0;ciwsSelectTarget(searam,null);
+37917:       }
+37918:       if(searam.state==='IDLE'){
+37919:         searam.tracking=false;searam.trackQuality=0;const effSearchRange=(topThreat&&topThreat.hasCue)?Math.max(searamPerformance.searchRangeKm,searamPerformance.cueTrackRangeKm):searamPerformance.searchRangeKm;
+37920:         if(topThreat&&topThreat.d<effSearchRange){searam.state='SEARCH';searam.stateTimer=0;selectThreat(searam,topThreat);}cueTurret(searam);
+37921:       }else if(searam.state==='SEARCH'){
+37922:         searam.tracking=false;searam.stateTimer+=dt;const tgt=searam.trackingTarget;
+37923:         if(!tgt||!tgt.alive){searam.state='IDLE';ciwsSelectTarget(searam,null);}else{
+37924:           const hasCue=!!c55Selected(searam,searam.trackingTrackId)?.hasCue,st=ciwsStepLocalTrack(searam,tgt,dt,'SEARCH',hasCue),sol=ciwsInterceptSolution(searam,st,520),turretErr=sol?updateTurret(searam,sol.azRad,dt,sol.elRad):deg(180),desiredEl=sol?Math.max(shipGameAimBodyV1(sol.azRad,sol.elRad).el,deg(RAM_BLK1A_6DOF_LITE.launchElevationFloorDeg)):deg(RAM_BLK1A_6DOF_LITE.launchElevationFloorDeg),elevErr=updateLauncherElevation(searam,desiredEl,dt);searam.angle=searam.turretAng;
+37925:           const reactTime=searam.cuedTarget===searam.trackingTrackId?searam.searchToTrackTime*.5:searam.searchToTrackTime;
+37926:           if(st.valid&&st.localAgeS<.18&&st.quality>.23&&turretErr<deg(10)&&elevErr<deg(10)&&st.lastLosQ>.3&&searam.stateTimer>reactTime){searam.state='TRACK';searam.stateTimer=0;}
+37927:           if(topThreat&&topThreat.trackId!==searam.trackingTrackId&&topThreat.tti<5){selectThreat(searam,topThreat);searam.stateTimer=0;}
+37928:         }
+37929:       }else if(searam.state==='TRACK'){
+37930:         searam.tracking=true;searam.stateTimer+=dt;const tgt=searam.trackingTarget;
+37931:         if(!tgt||!tgt.alive){searam.state='IDLE';ciwsSelectTarget(searam,null);}else{
+37932:           const hasCue=!!c55Selected(searam,searam.trackingTrackId)?.hasCue,st=ciwsStepLocalTrack(searam,tgt,dt,'TRACK',hasCue),sol=ciwsInterceptSolution(searam,st,520),turretErr=sol?updateTurret(searam,sol.azRad,dt,sol.elRad):deg(180),desiredEl=sol?Math.max(shipGameAimBodyV1(sol.azRad,sol.elRad).el,deg(RAM_BLK1A_6DOF_LITE.launchElevationFloorDeg)):deg(RAM_BLK1A_6DOF_LITE.launchElevationFloorDeg),elevErr=updateLauncherElevation(searam,desiredEl,dt);searam.angle=searam.turretAng;
+37933:           const d=(st.rangeM??Infinity)/1000,offBore=sol?Math.abs(angNorm(shipGameAimBodyV1(sol.azRad,sol.elRad).az-ciwsBodyYawV1(searam))):Math.PI,localFresh=st.localAgeS<.16,geometryOk=d>(searam.minEngageKm??.5)&&d<searam.engageRangeKm;
+37934:           const fireClear=c55ReleaseAllowed(searam)&&!!sol&&ciwsGameCanFireV1(searam,sol.azRad,shipGameAimWorldV1(shipGameAimBodyV1(sol.azRad,sol.elRad).az,desiredEl).el);searam._gameFireBlocked=!!sol&&!fireClear;
+37935:           const tgtTrackId=searam.trackingTrackId,qualityOk=st.valid&&localFresh&&st.quality>.55&&(st.lastLosQ??0)>.25&&(st.lastRangeQ??0)>.28,turretOk=fireClear&&offBore<deg(15)&&elevErr<deg(15),cooldownOk=searam.reloadTimer<=0,alreadyEngaged=ramMissiles.some(r=>r.alive&&r.targetId===tgtTrackId);
+37936:           if(searam.type==='RAM'&&sol&&geometryOk&&qualityOk&&turretOk&&cooldownOk&&!alreadyEngaged&&searam.stateTimer>searam.trackToFireTime){
+37937:             searam.firing=true;searam.ammo--;shipMassMarkWeaponsV32('SEARAM_FIRE');searam.reloadTimer=searamPerformance.reloadIntervalS;const launchScore=clamp(st.quality*(st.lastLosQ??0)*(st.lastRangeQ??0)*clamp(1-offBore/deg(30),.3,1),.2,1),launchSpdMps=RAM_BLK1A_6DOF_LITE.launchKinematicSeedMps,launchAz=searam.turretAng,launchEl=searam._worldElevationV1,ce=Math.cos(launchEl),o=wip199CiwsMuzzleStateM(searam,launchAz,launchEl,3.45,.45);
+37938:             const ram={id:ramMissileSerial++,isRAM:true,x:metersToWorld(o.xM),y:metersToWorld(o.yM),z:o.zM,
+37939:               vx:mpsToWorldSpeed(o.vxMps+launchSpdMps*ce*Math.cos(launchAz)),vy:mpsToWorldSpeed(o.vyMps+launchSpdMps*ce*Math.sin(launchAz)),vz:o.vzMps+launchSpdMps*Math.sin(launchEl),speedMps:launchSpdMps,
+37940:               maxG:RAM_BLK1A_6DOF_LITE.optimalManeuverG,targetId:tgtTrackId,alive:true,life:0,maxLife:12,
+37941:               _seekerQuality:launchScore,_seekerCaptured:false,_seekerMode:'MEM',_launchRangeM:d*1000,_launchOffBore:offBore,_crossingAngle:0,_launchTrackSource:st.lastSource,_launchPlatform:'SEARAM_TRAIN_ELEVATION_MOUNT',_launchAzimuthRad:launchAz,_launchElevationRad:launchEl};
+37942:             initializeRamSeeker(ram,st);initializeRamSixDof(ram);tagWorldEntityOwnershipV48Wip11A(ram,'FRIENDLY_ORDNANCE',ACTIVE_SHIP_RUNTIME.entityId);ramMissiles.push(ram);
+37943:             notify('🚀 RAM Blk1A 발사 → '+trackDisplayLabelOr(tgtTrackId,'ASM')+' ('+Math.round(d*10)/10+'km, local FCQ:'+Math.round(launchScore*100)+'%)');searam.stateTimer=0;
+37944:           }
+37945:           if(!st.valid||d>Math.max(searamPerformance.searchRangeKm,searamPerformance.cueTrackRangeKm)*1.1||(st.lastLosQ??0)<.1){searam.state='IDLE';ciwsSelectTarget(searam,null);}
+37946:           if(topThreat&&topThreat.trackId!==searam.trackingTrackId&&topThreat.tti<4&&!alreadyEngaged){selectThreat(searam,topThreat);searam.state='SEARCH';searam.stateTimer=0;}
+37947:         }
+37948:       }
+37949:     }
+37950: 
+37951:     } // installed RAM launchers
+37952: 
+37953:     for(const mount of ciws){if(!shipEquipmentOfflineV1()&&!mount._gameYawDriven)ciwsGameSlewV1(mount,mount.turretAng,dt,mount._worldElevationV1||0);mount.angle=mount.turretAng;}
+37954: 
+37955:     c55DrawStatus(dt);
+37956:     // ===== WIP106 RAM FUZE / PK INTEGRATION =====
+37957:     // The final gameplay state uses raw WIP88 fragment-physics Pk. Diagnostic runs may temporarily
+37958:     // restore the legacy post-Pk factors to isolate Stage-1 fuze effects in this same build.
+37959:     // WIP149 routes RAM through a dedicated active-optical profile while retaining common geometry/timing helpers.
+37960:     for(const rm of ramMissiles){
+37961:       if(!rm.alive)continue;rm.life+=dt;if(rm.life>rm.maxLife){rm.alive=false;rm._deathReason='MAX_FLIGHT_TIME';_wip106LogRamTerminal(rm,null,{prox:false,terminalReason:'max-flight-time',result:'NO_PROX'});continue;}
+37962:       const prev={x:rm.x,y:rm.y,z:rm.z};
+37963:       const gd=updateRamMeasurementSeeker(rm,dt);
+37964:       updateRamSixDof(rm,dt,gd.aYawReq,gd.aPitReq);navalMissileContactD(rm,prev);if(!rm.alive)continue;
+37965:       if(WIP106_RAM_DIAG_ENABLED&&simStepCounter%6===0)WIP145_RAM_FLIGHT_TRACE.push({step:simStepCounter,ramId:rm.id,targetId:rm.targetId,lifeS:rm.life,zM:rm.z,speedMps:rm.speedMps,massKg:rm.massKg,propellantKg:rm.propellantKg,thrustN:rm.thrustN,pitchDeg:rad2deg(rm.pitch??0),velPitchDeg:rad2deg(rm.velPitch??0),aoaDeg:rm.aoaDeg??0,availableG:rm.availableG??0,actualNormalG:rm.actualNormalG??0,seekerMode:rm._seekerMode,guidanceMode:rm._ramGuidance?.mode??null,aPitReq:gd.aPitReq,aYawReq:gd.aYawReq,rangeEstM:gd.rangeEstM,launchTransient:!!gd.launchTransient,seaGuard:!!gd.seaGuard,seaProjectedAltM:gd.seaProjectedAltM??null,seaFloorM:gd.seaFloorM??null,handoverBlend:gd.handoverBlend??null,launchElDeg:rm._launchElevationRad==null?null:rad2deg(rm._launchElevationRad)});
+37966:       if((rm.z??0)<-1){wip173PushVisualEvent('SEA_IMPACT',{x:rm.x,y:rm.y,z:0,
+37967:         vxMps:worldSpeedToMps(rm.vx??0),vyMps:worldSpeedToMps(rm.vy??0),vzMps:Number(rm.vz)||0,
+37968:         weaponType:'RAM',massKg:rm.massKg??73.5,impactSpeedMps:rm.speedMps??0});rm.alive=false;rm._deathReason='SEA_IMPACT';_wip106LogRamTerminal(rm,null,{prox:false,terminalReason:'sea-impact',result:'NO_PROX',altM:rm.z,speedMps:rm.speedMps,pitchDeg:rad2deg(rm.pitch??0),velPitchDeg:rad2deg(rm.velPitch??0)});continue;}
+37969: 
+37970:       // Physical closest approach / proximity fuze uses truth geometry only after flight dynamics.
+37971:       // Guidance above never reads targetId or target truth state. WIP106 reuses the WIP99 common
+37972:       // fragment-lead / TDD / Pd / processing-delay / clutter helpers; no parallel fuze helper is created.
+37973:       const hit=ramSweptClosestHit(rm,prev,dt);if(hit)rm._closestDist=Math.min(rm._closestDist??Infinity,hit.distanceM);
+37974:       if(hit){
+37975:         const tgt=hit.target,fuzeCfg=RAM_BLK1A_AOTD_SIM,fuzeSenseM=Math.max(1,Number(fuzeCfg.sensingRadiusM)||20),fuzeActuateM=Math.max(1,Number(fuzeCfg.maxActuationCpaM)||16),seekQ=clamp(rm._seekerQuality??.25,.15,1);
+37976:         const relXm=worldToMeters(rm.x-tgt.x),relYm=worldToMeters(rm.y-tgt.y),relZm=(rm.z??0)-(tgt.z??0);
+37977:         const relVxMps=worldSpeedToMps((rm.vx??0)-(tgt.vx??0)),relVyMps=worldSpeedToMps((rm.vy??0)-(tgt.vy??0)),relVzMps=(rm.vz??0)-(tgt.vz??0);
+37978:         const dotPV=relXm*relVxMps+relYm*relVyMps+relZm*relVzMps,dotVV=relVxMps*relVxMps+relVyMps*relVyMps+relVzMps*relVzMps;
+37979:         // PRIMARY architecture: RAM also carries a contact fuze. WIP149 gives a swept physical-body
+37980:         // contact a separate actuation path once the same safety-arming gate is satisfied.
+37981:         if(fuzeCfg.contactFuze?.enabled&&rm.life>=Math.max(0,Number(fuzeCfg.armingTimeS)||0)&&hit.contactHit){
+37982:           const kin=_wip88InterceptKinematics(worldSpeedToMps(rm.vx??0),worldSpeedToMps(rm.vy??0),rm.vz??0,worldSpeedToMps(tgt.vx??0),worldSpeedToMps(tgt.vy??0),tgt.vz??0),pkRaw=computeInterceptPk(0,'RAM',tgt.label??'Kh-35U',kin.relativeSpeedMps,kin),result=applyInterceptResult(pkRaw,tgt,'SeaRAM',rm.targetId);
+37983:           rm.proxArmed=true;rm.proxDetonated=true;rm._fuzeTriggerReason='contact';rm._fuzeBurstMissM=0;rm._fuzeFragmentArrivalMissM=0;rm._fuzeStage2TerminalReason=null;rm.alive=false;rm._deathReason='PROX_DETONATION_'+result;wip173RecordInterceptBurst(rm,'RAM',tgt,result);
+37984:           _wip106LogRamTerminal(rm,tgt,{prox:true,terminalReason:null,triggerReason:'contact',burstMissM:0,fragmentArrivalMissM:0,pkRaw,pkApplied:pkRaw,seekerMode:rm._seekerMode,seekerQuality:seekQ,contactBodyDistanceM:hit.bodyDistanceM,contactRadiusM:hit.contactRadiusM,result});
+37985:           const tgtDisplayLabel=trackDisplayLabelOr(trackIdForTruthV27('ASM',tgt.id,false),'ASM');if(result==='KILL'||result==='STRUCT_FAIL')notify('🚀 RAM Blk1A 직접충돌 요격: '+tgtDisplayLabel);else if(result==='DAMAGED')notify('🚀 RAM Blk1A 직접충돌 파편 명중: '+tgtDisplayLabel);continue;
+37986:         }
+37987:         const currentMissM=Math.hypot(relXm,relYm,relZm),tMinRaw=dotVV>1e-9?-dotPV/dotVV:0;
+37988:         let predictedCPAm=null,predictedCPATime=null;if(tMinRaw>0&&tMinRaw<60){const fx=relXm+relVxMps*tMinRaw,fy=relYm+relVyMps*tMinRaw,fz=relZm+relVzMps*tMinRaw;predictedCPAm=Math.hypot(fx,fy,fz);predictedCPATime=tMinRaw;}
+37989:         const effMissM=Math.min(currentMissM,hit.distanceM);rm._predictedCPAm=predictedCPAm;rm._predictedCPATime=predictedCPATime;rm._everClosestM=Math.min(rm._everClosestM??Infinity,effMissM);
+37990:         // WIP149: safety arming is time/launch-history based, not target-distance based. Public Sidewinder
+37991:         // lineage supports acceleration arming but not an exact RAM time; 0.60 s is SIM_TUNED.
+37992:         if(rm.life>=Math.max(0,Number(fuzeCfg.armingTimeS)||0))rm.proxArmed=true;
+37993:         if(rm.proxArmed){if(effMissM<(rm.proxMissDistM??Infinity)){rm.proxMissDistM=effMissM;rm.afterClosestTimer=0;}else rm.afterClosestTimer=(rm.afterClosestTimer??0)+dt;}
+37994:         const expectedMissM=Number.isFinite(predictedCPAm)?Math.max(0,predictedCPAm):Math.max(0,effMissM),leadS=_wip99FragmentLeadTimeS(expectedMissM,'RAM'),procS=fuzeCfg.processingDelay.enabled?Math.max(0,Number(fuzeCfg.processingDelay.delayS)||0):0;
+37995:         const futureInside=predictedCPAm!=null&&predictedCPAm<fuzeActuateM,cpaImminent=futureInside&&predictedCPATime!=null&&predictedCPATime>=0&&predictedCPATime<=leadS+procS+dt*1.25;
+
+// CG_TURRET_A decompressed main JS lines 24560-24565
+24560:     const nearest=targets.map(target=>({target,gapM:wip12eRev4BoundsGap(cell.bounds,target.bounds),distanceM:wip12ePointBoundsDistance(charge.position,target.bounds)})).filter(q=>q.distanceM<=envelope.fringeRadiusM).sort((a,b)=>a.gapM-b.gapM||a.distanceM-b.distanceM||a.target.name.localeCompare(b.target.name))[0];if(!nearest)return [];
+24561:     const range=wip12eRev4RangeCoupling(nearest.distanceM,envelope);return [{name:nearest.target.name,target:nearest.target,coupling01:range.factor*.52/(1+nearest.gapM*.12),rangeBand:range.rangeBand,distanceM:nearest.distanceM,gapM:nearest.gapM,reason:'NEAREST_REGISTERED_PHYSICAL_STRUCTURE'}];
+24562:   }
+24563:   function wip12eRev4MergeImpactDamageParts(directParts=[],blastParts=[]){const merged=new Map();for(const p of [...directParts,...blastParts]){if(!p?.name)continue;const old=merged.get(p.name)??{name:p.name,dmg:0};old.dmg+=Math.max(0,wip12aFinite(p.dmg));for(const key of ['damageChannel','blastChannels','blastCellIds','blastResponseProfileIds','blastRangeBands','blastCouplingReasons'])if(p[key]!=null)old[key]=p[key];if(p.kineticSpallSources)old.kineticSpallSources=(old.kineticSpallSources??0)+Math.max(0,Number(p.kineticSpallSources)||0);merged.set(p.name,old);}return [...merged.values()].sort((a,b)=>b.dmg-a.dmg||a.name.localeCompare(b.name));}
+24564:   function wip12eRev4ThermalTransferCandidates(cells,states,sourceCellId,charge,radiusM,limit=16){
+24565:     const pool=cells.filter(c=>c.id!==sourceCellId&&states.has(c.id)).map(c=>({cell:c,distanceM:wip12ePointBoundsDistance(charge.position,c.bounds),profile:wip12eCombustibleProfile(c)})).filter(q=>q.distanceM<=radiusM&&q.profile.load01>=.18).sort((a,b)=>a.distanceM-b.distanceM||b.profile.load01-a.profile.load01||String(a.cell.id).localeCompare(String(b.cell.id))),out=[],used=new Set(),parentSeen=new Set();
+
+// CG_TURRET_A decompressed main JS lines 24684-24690
+24684:     trace.physicsHash=wip12eHash({charge:{explosiveMassKg:charge.explosiveMassKg,tntEquivalentKg:charge.tntEquivalentKg,caseMassKg:charge.caseMassKg,position:charge.position,direction:charge.direction,medium,sourceShape:charge.sourceShape.map(q=>({x:q.x,y:q.y,z:q.z,powerFraction:q.powerFraction}))},boundaryCoupling,cellStates,portalEvents:portalEvents.map(q=>({portalId:q.portalId,fromCellId:q.fromCellId,toCellId:q.toCellId,transferredEnergyJ:q.transferredEnergyJ,opened:q.opened})),surfaceLoads,breaches:breaches.map(q=>({surfaceId:q.surfaceId,position:q.position,holeAreaM2:q.holeAreaM2,failureMode:q.failureMode})),ventJets:ventJets.map(q=>({openingId:q.openingId,position:q.position,direction:q.direction,energyJ:q.energyJ,areaM2:q.areaM2})),ledger,terminationReason});trace.determinismHash=wip12eHash({impactEventId,physicsHash:trace.physicsHash,damagePacket});trace.rngUnchanged=trace.rngBefore===trace.rngAfter;if(request.record!==false&&mode!=='LEGACY_SCALAR_BLAST_COMPAT')wip12eRecordTrace(trace);return trace;
+24685:   }
+24686:   function wip12eBlastTraceSummary(trace){return trace?{schema:trace.schema,impactEventId:trace.impactEventId,mode:trace.mode,physicsHash:trace.physicsHash,determinismHash:trace.determinismHash,terminationReason:trace.terminationReason,clippedByBudget:trace.clippedByBudget,discardedEnergyEstimateJ:trace.discardedEnergyEstimateJ,boundaryCoupling:trace.boundaryCoupling??null,sourceCellIds:trace.topology.sourceCellIds,affectedCells:trace.cellStates.length,equipmentTargets:trace.topology.equipmentTargetCount??0,portalEvents:trace.portalEvents.length,portalFailures:trace.damagePacket.portalFailures.length,breaches:trace.breaches.length,entryBlowouts:trace.breaches.filter(q=>q.kind==='BLAST_ENTRY_BLOWOUT').length,externalBlowouts:trace.breaches.filter(q=>q.kind==='BLAST_EXTERNAL_BLOWOUT').length,surfaceRuptures:trace.breaches.filter(q=>q.kind==='BLAST_SURFACE_RUPTURE').length,internalTears:trace.breaches.filter(q=>q.kind==='BLAST_INTERNAL_TEAR').length,fragmentPerforations:trace.breaches.filter(q=>q.kind==='BLAST_FRAGMENT_PERFORATION').length,totalOpenAreaM2:trace.breaches.filter(q=>q.floodEligible).reduce((s,q)=>s+Math.max(0,wip12aFinite(q.holeAreaM2)),0),totalDamagedFootprintM2:trace.breaches.reduce((s,q)=>s+Math.max(0,wip12aFinite(q.damagedAreaM2,q.holeAreaM2)),0),damageEnvelope:trace.damagePacket.damageEnvelope??null,damagedCompartments:trace.damagePacket.compartmentDamage?.length??0,damagedModules:trace.damagePacket.moduleDamage.length,externalDamagedModules:trace.damagePacket.externalEquipmentDamage?.length??0,ignitionCandidates:trace.damagePacket.ignitionCandidates.length,plannedIgnitions:trace.damagePacket.ignitionCandidates.filter(q=>q.ignite).length,moduleDamage:trace.damagePacket.moduleDamage.reduce((s,q)=>s+q.dmg,0),ledger:{...trace.ledger},caps:{...trace.caps},rngUnchanged:trace.rngUnchanged}:null;}
+24687:   function wip12eVisualPayload(trace){if(!trace)return {};return {blastAuthority:trace.mode,blastTraceHash:trace.physicsHash,visualFireballRadiusM:trace.presentation.fireballRadiusM,shockwaveRadiusM:trace.presentation.shockwaveRadiusM,seaSurfaceInteraction:trace.presentation.seaSurfaceInteraction,surfaceEnergyMJ:trace.presentation.surfaceEnergyMJ,blastCellShells:trace.presentation.cellShells,blastPortalFailures:trace.presentation.portalFailures,ventJets:trace.presentation.ventJets,blastBreaches:trace.breaches};}
+24688:   function wip12eAuthorityParts(trace,legacyParts=[]){return trace?.mode==='COMPARTMENT_BLAST_AUTHORITY'?trace.damagePacket.moduleDamage.map(q=>({name:q.name,dmg:q.dmg,blastChannels:q.channels,blastCellIds:q.cells,blastResponseProfileIds:q.responseProfileIds,blastRangeBands:q.rangeBands??[],blastCouplingReasons:q.couplingReasons??[]})):legacyParts;}
+24689:   function wip12eBlastOpenings(trace){return trace?.mode==='COMPARTMENT_BLAST_AUTHORITY'?trace.breaches.filter(q=>q.floodEligible).map(q=>({id:q.id,position:{...q.position},normal:[q.normal.x,q.normal.y,q.normal.z],holeAreaM2:q.holeAreaM2,surfaceId:q.surfaceId,kind:q.kind??'BLAST_SURFACE_RUPTURE',impactRole:q.impactRole??'REMOTE_RUPTURE',replacesOpeningId:q.replacesOpeningId??null,baseOpeningAreaM2:q.baseOpeningAreaM2??null,exactArea:!!q.exactArea,source:q.source??'WIP12E_BLAST_TRACE',outwardEjection:!!q.outwardEjection})):[];}
+24690:   function wip12eApplyHotGasIgnition(control,trace){const applied=[];if(trace?.mode!=='COMPARTMENT_BLAST_AUTHORITY')return {schema:'AEGIS_BLAST_IGNITION_AUDIT_V48_WIP12E',applied,attemptedCount:0,appliedCount:0};const selected=new Map();for(const q of trace.damagePacket.ignitionCandidates){const cell=getDamageFloodV1().cellAt(q.position),row={...q,floodCellId:cell?.id??null,attempted:false,accepted:false};applied.push(row);if(!cell||!q.ignite)continue;const old=selected.get(cell.id);if(!old||q.intensity01>old.q.intensity01||q.intensity01===old.q.intensity01&&q.probability01>old.q.probability01)selected.set(cell.id,{q,row});}for(const {q,row} of selected.values()){row.attempted=true;row.accepted=!!control.ignite(row.floodCellId,q.intensity01,'blast hot detonation products');}return {schema:'AEGIS_BLAST_IGNITION_AUDIT_V48_WIP12E',cause:'HOT_DETONATION_PRODUCTS_AND_COMBUSTIBLE_LOAD',combatRngConsumed:0,applied,attemptedCount:applied.filter(q=>q.attempted).length,appliedCount:applied.filter(q=>q.accepted).length};}

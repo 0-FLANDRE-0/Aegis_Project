@@ -1,0 +1,23 @@
+--- docs/contact/track/B_stabilization/run_native_saturation.py
++++ docs/contact/track/B_stabilization_r2/run_native_saturation.py
+@@ -10,7 +10,7 @@
+ def packed(path,value):
+  raw=json.dumps(value,separators=(',',':')).encode();path.write_bytes(gzip.compress(raw,6,mtime=0));return {'path':path.name,'rawSha256':sha(raw),'gzipSha256':sha(path.read_bytes())}
+ def main():
+- ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_A.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_A_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/native-saturation');ap.add_argument('--run',action='store_true');args=ap.parse_args();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
++ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/native-saturation');ap.add_argument('--run',action='store_true');args=ap.parse_args();r1_test_inputs=module('r2_frozen_native_inputs',P/'controller_pins.py').verify();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
+  base=R/'Aegis_SIM_v48_WIP_TRACK_B.html';base_sha=json.loads((P/'BASELINE_PINS.json').read_text())['files'][base.name];products=[('baseline',base,base_sha,'ORIGINAL_B_ACTIVE'),('shadow',args.shadow,args.shadow_sha,'SHADOW'),('active',args.candidate,args.sha,'ACTIVE')]
+  for _,file,pin,_ in products:assert sha(file.read_bytes())==pin
+  util=module('sat_native_original_unpacker',B/'build.py');source_locations=[]
+@@ -19,9 +19,9 @@
+   for name in ['observerAcceptPlotsC','trackSurfacePositionAssociationNisWip13B9','trackBSelectB','trackEkfUpdateSurfaceRadar2D']:
+    a,b=util.scope_span(main_source,{'function':name});fragment=main_source[a:b];entries.append({'function':name,'startLine':main_source[:a].count('\n')+1,'scopedFragmentSha256':sha(fragment.encode()),'scopeMeaning':'Existing original packer function scope, including following non-function statements until next same-indent function.','gateLines':[line.strip()for line in fragment.splitlines()if 'gate' in line][:12]})
+   source_locations.append({'product':label,'htmlSha256':pin,'packedMainIndex':13,'mainSha256':sha(main_source.encode()),'functions':entries})
+- support=module('sat_native_original_a',A/'verify_runtime.py');slots=module('sat_native_original_slots',B/'regression_runner.py');helpers=[B/'test_support/native_support.js',P/'test_support/native_saturation.js'];source='\n'.join(p.read_text()for p in helpers)
++ support=module('sat_native_original_a',A/'verify_runtime.py');slots=module('sat_native_original_slots',B/'regression_runner.py');helpers=[B/'test_support/native_support.js',P.parent/'B_stabilization/test_support/native_saturation.js'];source='\n'.join(p.read_text()for p in helpers)
+  provenance={'schema':'AEGIS_TRACK_B_NATIVE_SATURATION_PROVENANCE_1','runnerSha256':sha(Path(__file__).read_bytes()),'moduleSha256':sha((P/'association.js').read_bytes()),'candidateSha256':args.sha,'shadowSha256':args.shadow_sha,'oldBReferenceSha256':base_sha,'actualSourceLocations':source_locations,'helpers':[{'path':str(p.relative_to(R)),'sha256':sha(p.read_bytes())}for p in helpers],'combinedFixtureSha256':sha(source.encode()),'fixtureCases':['clear13','clear16','equal13'],'contexts':3,'maximumConcurrentBrowsers':1,'estimatedWallMinutes':1,'physicalRfGenerationEvidence':False,'existingCoefficientsOrExpectationsChanged':False}
+- save(args.out/'PROVENANCE.json',provenance)
++ provenance['frozenR1NativeInputs']=r1_test_inputs;save(args.out/'PROVENANCE.json',provenance)
+  if not args.run:print(json.dumps({'dryRun':True,'browserRuns':0,**provenance},indent=2));return 0
+  from playwright.sync_api import sync_playwright
+  h=support.load_harness();rows=[];errors=[];started=time.perf_counter()

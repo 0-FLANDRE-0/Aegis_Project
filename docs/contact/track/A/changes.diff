@@ -1,0 +1,361 @@
+--- Aegis_SIM_v48_WIP_FRIENDLY_CONTACT_A.html::main
++++ Aegis_SIM_v48_WIP_TRACK_A.html::main
+@@ -1,5 +1,101 @@
+ 
+ window.__AEGIS_STARTUP_PROMISE__=(async () => {
++// TRACK_A_DIAGNOSTICS_BEGIN
++// TRACK-A: DIAGNOSTIC_ONLY compatibility views. No consumer, filter, hit,
++// identity, authority, RNG, clock or scheduler reads these records back.
++const TRACK_A_DIAG={enabled:false,capacity:1024,ring:[],head:0,size:0,serial:0,measurementSerial:0,dropped:0,errors:0,measurements:new WeakMap(),origins:new WeakMap()};
++function trackAFiniteA(v){return typeof v==='number'&&Number.isFinite(v)?v:null;}
++function trackAScalarA(v){return typeof v==='string'?v.slice(0,160):typeof v==='boolean'?v:trackAFiniteA(v);}
++function trackANumbersA(v,max=64){if(!Array.isArray(v)&&!ArrayBuffer.isView(v))return null;const a=Array.from(v).slice(0,max);return a.every(x=>trackAFiniteA(x)!==null)?a:null;}
++function trackAExactNumbersA(v,size){return (Array.isArray(v)||ArrayBuffer.isView(v))&&v.length===size?trackANumbersA(v,size):null;}
++function trackAFieldsA(v,keys){const out={};for(const k of keys)if(v&&v[k]!==undefined){const q=trackAScalarA(v[k]);if(q!==null)out[k]=q;}return out;}
++function trackAVectorA(p,keys=['x','y','z']){if(!p||typeof p!=='object')return null;const out={};for(const k of keys)out[k]=trackAFiniteA(p[k]);return Object.values(out).some(x=>x!==null)?out:null;}
++function trackAWorldM_A(v){return trackAFiniteA(v)===null?null:worldToMeters(v);}
++function trackANormalizeA(kind,payload,context={}){
++ kind=typeof kind==='string'?kind:'UNSPECIFIED';
++ const p=payload&&typeof payload==='object'?payload:{},c=context&&typeof context==='object'?context:{},observed={},assumed={},derived={},reported={},rows=[];
++ const sourceSensor=trackAScalarA(c.sourceSensor??p.source??p.sourceSensor)??'UNSPECIFIED',observerShip=trackAScalarA(c.observerShip),measuredAtS=trackAFiniteA(p.measuredAtS??c.measuredAtS),receivedAtS=trackAFiniteA(c.receivedAtS??p.receivedAtS);
++ let name=kind,physicalDimension=null;
++ const take=(key,value)=>{if(trackAFiniteA(value)!==null){observed[key]=value;rows.push(key);}};
++ const polar=el=>{take('rangeM',p.measuredRangeM??p.rangeM);take('azRad',p.measuredAzRad??p.azRad);if(el)take('elRad',p.elRad);};
++ const xy=()=>{const x=trackAWorldM_A(p.x),y=trackAWorldM_A(p.y);if(x!==null||y!==null)derived.cartesianPositionM={x,y,z:trackAFiniteA(p.z)};};
++ if(kind==='AIR_RADAR'){polar(true);take('radialMps',p.radialMps);physicalDimension=rows.length;xy();}
++ else if(kind==='SURFACE_RADAR'){polar(false);take('radialMps',p.radialMps);physicalDimension=rows.length;xy();assumed.surfaceReferenceZM={value:trackAFiniteA(p.surfaceReferenceZM),role:'MODEL_PRIOR_NOT_ELEVATION'};}
++ else if(kind==='CIWS_LOCAL_RF'){polar(true);physicalDimension=rows.length;derived.relativeCartesianM=trackAVectorA(p,['rxM','ryM','rzM']);}
++ else if(kind==='VISUAL_CARTESIAN'){
++  take('xM',trackAWorldM_A(p.x));take('yM',trackAWorldM_A(p.y));take('zM',p.z);physicalDimension=rows.length;
++  if(p.radialMps!==undefined)assumed.radialMps={value:trackAFiniteA(p.radialMps),role:'OPTICAL_PLACEHOLDER_NOT_DOPPLER'};
++ }
++ else if(kind==='HELO_RADAR'){polar(false);physicalDimension=rows.length;derived.cartesianPositionM=trackAVectorA(p.positionM);if(!derived.cartesianPositionM)xy();assumed.surfaceReferenceZM={value:trackAFiniteA(p.surfaceReferenceZM??p.positionM?.z??p.z),role:'MODEL_PRIOR_NOT_ELEVATION'};}
++ else if(kind==='ESM_BEARING'){take('bearingRad',p.bearingRad??p.bearing);physicalDimension=rows.length;reported.emitterEvidence=trackAFieldsA(p,['band','emitterFamily','family','confidence','type','emitterClass','strength']);}
++ else if(kind==='IFF_REPLY'){
++  take('rangeM',p.rangeM);take('azRad',p.azRad??p.bearing);take('elRad',p.elRad??p.elevationRad);physicalDimension=rows.length;
++  if(typeof p.authenticatedFriendly==='boolean')observed.authenticatedFriendly=p.authenticatedFriendly;
++ }
++ else if(kind==='ISAR_EVIDENCE'){
++  const f=p.result??p;Object.assign(observed,trackAFieldsA(f,['lengthM','lengthSigmaM','mastPosition01','mastSigma01','quality','heightSigmaM','crossResolutionM','rangeResolutionM','deltaThetaRad']));
++  const heights=trackANumbersA(f.heightsM,32);if(heights)observed.heightsM=heights;physicalDimension=0;name='ISAR_FEATURE_EVIDENCE_NOT_POSITION_HIT';
++  reported.positionGateM=trackAVectorA(p.positionM);reported.candidates=Array.isArray(f.candidates)?f.candidates.slice(0,16).map(q=>trackAFieldsA(q,['classId','label','confidence'])):[];
++ }
++ else if(kind==='OFFBOARD_PLOT'){
++  name='REPORTED_CARTESIAN_POSITION';reported.positionM=trackAVectorA(p.positionM);reported.covarianceM2=trackAExactNumbersA(p.covarianceM2??p.cartesianCovarianceM2,9);
++  if(!reported.positionM&&(trackAFiniteA(p.x)!==null||trackAFiniteA(p.y)!==null)){reported.positionM={x:trackAWorldM_A(p.x),y:trackAWorldM_A(p.y),z:trackAFiniteA(p.z)};reported.coordinatesTransformedFromWorld=true;}
++  if(reported.positionM)for(const k of ['x','y','z'])if(reported.positionM[k]!==null)rows.push('reported.'+k+'M');
++  reported.componentObservability='UPSTREAM_PHYSICAL_DIMENSIONS_NOT_IN_RECEIVED_SCHEMA';
++ }
++ else if(kind==='NETWORK_TRACK'){
++  name='REPORTED_FILTER_STATE';reported.stateM=trackAExactNumbersA(p.stateM,6);reported.covariance=trackAExactNumbersA(p.covariance,36);reported.stateAtS=trackAFiniteA(p.stateAtS);
++  if(reported.stateM)for(let i=0;i<reported.stateM.length;i++)rows.push('reported.'+['xM','yM','zM','vxMps','vyMps','vzMps'][i]);
++  reported.componentObservability='SENDER_FILTER_ESTIMATE_NOT_SIX_PHYSICAL_MEASUREMENTS';
++ }
++ else if(kind==='NETWORK_SELF'){
++  name='REPORTED_OWN_NAVIGATION';reported.positionM=trackAVectorA(p.positionM);reported.stateM=trackAExactNumbersA(p.stateM,6);reported.navigation=trackAFieldsA(p,['heading','speedMps']);
++  if(reported.stateM){for(let i=0;i<reported.stateM.length;i++)rows.push('reported.'+['xM','yM','zM','vxMps','vyMps','vzMps'][i]);derived.navigation={xM:reported.stateM[0],yM:reported.stateM[1],vxMps:reported.stateM[3],vyMps:reported.stateM[4]};assumed.zM={value:reported.stateM[2],role:'SELF_REPORT_PRODUCER_HEIGHT_PRIOR'};assumed.vzMps={value:reported.stateM[5],role:'SELF_REPORT_PRODUCER_VERTICAL_VELOCITY_PRIOR'};}
++ }
++ const measuredFields=Object.keys(observed),sigmas=trackAFieldsA(p,['rangeSigmaM','azSigmaDeg','elSigmaDeg','radialVelSigmaMps','altitudeSigmaM','bearingSigmaDeg','elevationSigmaDeg','sigmaRad']);
++ const uncertainty={providedSigmas:sigmas,cartesianCovarianceM2:trackAExactNumbersA(p.cartesianCovarianceM2,9),relativePositionVarianceM2:trackAExactNumbersA(p.positionVarianceM2,3),covarianceM2:trackAExactNumbersA(p.covarianceM2,9),covariance:trackAExactNumbersA(p.covariance,36),missingNoiseIsUnknown:true};
++ const evidence=trackAFieldsA(p.domainEvidence,['surface','air','missile','background','candidateDomain']),features=trackAFieldsA(p.domainEvidence?.features,['heightM','significantDopplerMps','alongM','crossM','verticalStructure']);if(Object.keys(features).length)evidence.features=features;
++ const provenance={...trackAFieldsA(c,['sourceId','sequence','senderShip','sourceTrackUid','sourceTrackNumber','independentObservation','retransmission']),...trackAFieldsA(p,['sourceId','sequence']),independence:'NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE'};
++ if(!Object.prototype.hasOwnProperty.call(provenance,'independentObservation'))provenance.independentObservation=null;
++ const observerState={originM:{x:trackAWorldM_A(p.sensorXWorld),y:trackAWorldM_A(p.sensorYWorld),z:trackAFiniteA(p.sensorZM)},velocityMps:{x:trackAFiniteA(p.sensorVxMps),y:trackAFiniteA(p.sensorVyMps),z:trackAFiniteA(p.sensorVzMps)},missingComponentsRemainUnknown:true};
++ return {schema:'AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1',kind,sourceSensor,observerShip,measuredAtS,receivedAtS,measuredFields,measurementModel:{name,dimension:rows.length,physicalObservationDimension:physicalDimension,rows},observed,assumed,derived,reported,observerState,uncertainty,quality:trackAFiniteA(p.quality),qualityOrigin:trackAScalarA(c.qualityOrigin)??(kind==='OFFBOARD_PLOT'?'REPORTED_OR_RECEIVER_AGE_DERIVED':'SOURCE_PROVIDED_NOT_AUTHORITY'),domainEvidence:evidence,provenance};
++}
++function trackASafeStateA(v){
++ if(!v||typeof v!=='object')return null;
++ const q=trackAFieldsA(v,['trackId','trackNumber','sensorSource','sensorAge','sensorHits','confirmed','domain','classification','identity','threatStatus','engagementAuthority','memActive','trackLifecycle','ttl','_radar3dAirStepFC','_surface2DOnlyFC','_surfaceMotionPriorWip13B13','id','ownFireEvidence','protectedIdentity','cmsTrackId']);
++ q.stateM=trackAExactNumbersA(v.stateM,6);q.covariance=trackAExactNumbersA(v.covariance,36);
++ if(v.local)q.local=trackAFieldsA(v.local,['rxM','ryM','rzM','rvxMps','rvyMps','rvzMps','localHits','localAgeS','quality','valid']);return q;
++}
++function trackAStateA(tr){
++ if(!tr)return null;
++ const q=trackAFieldsA(tr,['trackId','trackNumber','sensorSource','sensorAge','sensorHits','confirmed','domain','classification','identity','threatStatus','engagementAuthority','memActive','trackLifecycle','ttl','_radar3dAirStepFC','_surface2DOnlyFC','_surfaceMotionPriorWip13B13']);
++ q.stateM=trackANumbersA(tr._kfX,6);q.covariance=trackANumbersA(tr._kfP,36);
++ if(tr.st){q.local=trackAFieldsA(tr.st,['rxM','ryM','rzM','rvxMps','rvyMps','rvzMps','localHits','localAgeS','quality','valid']);Object.assign(q,trackAFieldsA(tr,['id','ownFireEvidence','protectedIdentity','cmsTrackId','confirmed']));}
++ return q;
++}
++function trackAKindA(p,source){if(source==='OFFBOARD_C')return 'OFFBOARD_PLOT';if(source==='VISUAL')return 'VISUAL_CARTESIAN';if((source??'').startsWith('BRIDGEMASTER_E')||(source??'').includes('_SURFACE'))return 'SURFACE_RADAR';return 'AIR_RADAR';}
++function trackATraceEventA(type,payload,context={}){
++ if(!TRACK_A_DIAG.enabled)return;
++ try{
++  const c=context,p=payload&&typeof payload==='object'?payload:{},record={serial:++TRACK_A_DIAG.serial,type,...trackAFieldsA(c,['route','observerShip','tick','timeS','trackId','mountId','decision','reason','nis','gate','distanceM','independentHit','nativeHitIncrement','finalSource','knownOwnLaunch','appliedModel','appliedDimension','gateUnits'])};
++  if(Array.isArray(c.appliedFields))record.appliedFields=c.appliedFields.filter(v=>typeof v==='string').slice(0,8).map(v=>v.slice(0,40));
++  if(c.kind){let measurementId=TRACK_A_DIAG.measurements.get(p);if(!measurementId){measurementId='M'+(++TRACK_A_DIAG.measurementSerial);TRACK_A_DIAG.measurements.set(p,measurementId);}record.measurementId=measurementId;record.measurement=trackANormalizeA(c.kind,p,c);}
++  if(c.before)record.before=trackASafeStateA(c.before);if(c.after)record.after=trackASafeStateA(c.after);
++  const safe=JSON.parse(JSON.stringify(record));
++  TRACK_A_DIAG.ring[TRACK_A_DIAG.head]=safe;TRACK_A_DIAG.head=(TRACK_A_DIAG.head+1)%TRACK_A_DIAG.capacity;
++  if(TRACK_A_DIAG.size<TRACK_A_DIAG.capacity)TRACK_A_DIAG.size++;else TRACK_A_DIAG.dropped++;
++ }catch{TRACK_A_DIAG.errors++;} // Diagnostics can never abort or rescue a native decision.
++}
++function trackATraceContextA(kind,source,observerShip,meas=null){const now=simStepCounter*SIM_FIXED_DT,origin=meas&&TRACK_A_DIAG.origins.get(meas);return {kind,sourceSensor:source,observerShip:observerShip??null,tick:simStepCounter,timeS:now,measuredAtS:kind==='OFFBOARD_PLOT'?null:now,receivedAtS:now,...(origin??{})};}
++window.__TRACK_A__=Object.freeze({
++ schema:'AEGIS_TRACK_A_DIAGNOSTICS_1',normalize:trackANormalizeA,
++ configure(options={}){if(typeof options.enabled==='boolean')TRACK_A_DIAG.enabled=options.enabled;if(Number.isFinite(options.capacity)){const next=Math.max(16,Math.min(4096,Math.floor(options.capacity)));if(next!==TRACK_A_DIAG.capacity){TRACK_A_DIAG.capacity=next;TRACK_A_DIAG.ring=[];TRACK_A_DIAG.head=TRACK_A_DIAG.size=0;}}return {enabled:TRACK_A_DIAG.enabled,capacity:TRACK_A_DIAG.capacity};},
++ clear(){TRACK_A_DIAG.ring=[];TRACK_A_DIAG.head=TRACK_A_DIAG.size=TRACK_A_DIAG.serial=TRACK_A_DIAG.measurementSerial=TRACK_A_DIAG.dropped=TRACK_A_DIAG.errors=0;TRACK_A_DIAG.measurements=new WeakMap();TRACK_A_DIAG.origins=new WeakMap();},
++ snapshot(){const records=[];for(let i=0;i<TRACK_A_DIAG.size;i++)records.push(TRACK_A_DIAG.ring[(TRACK_A_DIAG.head-TRACK_A_DIAG.size+i+TRACK_A_DIAG.capacity)%TRACK_A_DIAG.capacity]);return JSON.parse(JSON.stringify({schema:'AEGIS_TRACK_A_DIAGNOSTICS_1',enabled:TRACK_A_DIAG.enabled,capacity:TRACK_A_DIAG.capacity,records,stats:{recorded:TRACK_A_DIAG.serial,retained:TRACK_A_DIAG.size,dropped:TRACK_A_DIAG.dropped,errors:TRACK_A_DIAG.errors}}));}
++});
++
++// TRACK_A_DIAGNOSTICS_END
++
+ function samLaunchHandoffGateA(m,cfg,cor,own,altM){
+     // SI: own velocity m/s, angles rad, altitude m. Air Standard only.
+     // 'Forward' is along the intended 3-D launch corridor, not the sea plane.
+@@ -2487,6 +2583,7 @@
+   if(!r||!Array.isArray(plots)||plots.length>96||plots.some(q=>!q||Object.keys(q).some(k=>!allowed.includes(k))||!['bearing','bearingSigmaDeg','strength','quality','measuredAtS'].every(k=>Number.isFinite(q[k]))||Math.abs(q.bearing)>TAU||q.bearingSigmaDeg<=0||q.bearingSigmaDeg>180||q.strength<0||q.strength>1||q.quality<0||q.quality>1||q.measuredAtS<0||q.measuredAtS>simStepCounter*SIM_FIXED_DT+.001||!['S','IJ','X'].includes(q.band)||typeof q.type!=='string'||q.type.length>80||!['SEARCH_RADAR','ACTIVE_SEEKER','JAMMER'].includes(q.emitterClass)))return {ok:false,reason:'ANONYMOUS_EW_PLOT_REQUIRED'};
+   const e=prepareElectronicF(r),used=new Set();
+   for(const q of plots){
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',q,{...trackATraceContextA('ESM_BEARING','PASSIVE_RF_F',r.entityId),route:'ESM_RECEIVE',measuredAtS:q.measuredAtS,decision:'BEARING_ONLY'});
+     let found=null,best=Infinity;
+     for(const [id,c]of e.contacts){if(used.has(id)||c.band!==q.band||c.emitterClass!==q.emitterClass||q.emitterClass!=='ACTIVE_SEEKER'&&c.type!==q.type)continue;const err=Math.abs(angNorm(q.bearing-c.bearing)),gate=deg(Math.max(2,3*Math.hypot(q.bearingSigmaDeg,c.bearingSigmaDeg??6)));if(err<gate&&err<best){best=err;found=id;}}
+     if(found==null){if(e.contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;found=600000000+e.serial++;e.contacts.set(found,{contactId:found,...q,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F'});}
+@@ -4205,7 +4302,7 @@
+  if(!Array.isArray(f.heightsM)||f.heightsM.length!==ISAR_F2.featureBins||!f.heightsM.every(v=>Number.isFinite(v)&&v>=0&&v<1000)||!Array.isArray(f.candidates)||f.candidates.length!==ISAR_LIBRARY_F2.length)return false;
+  const ids=new Set();let prev=Infinity;for(const c of f.candidates){const lib=ISAR_LIBRARY_F2.find(l=>l.classId===c.classId);if(!isarFiniteRecordF2(c,'classId,label,confidence')||!lib||ids.has(c.classId)||c.label!==lib.label||!Number.isFinite(c.confidence)||c.confidence<0||c.confidence>1||c.confidence>prev)return false;ids.add(c.classId);prev=c.confidence;}return f.candidates.reduce((a,b)=>a+b.confidence,0)<=1+1e-9;
+ }
+-function ingestOffboardIsarF2(r,p){const now=simStepCounter*SIM_FIXED_DT;if(!isarReportValidF2(p,now))return {ok:false,reason:'ISAR_SCHEMA_OR_TRUTH_FIELDS'};const link=observerC(r).offboard.sources.get(p.sourceId);if(!link?.connected)return {ok:false,reason:'LINK_UNAVAILABLE'};const s=isarReceiverStateF2(r);if(p.sequence<=(s.lastSequence[p.sourceId]??0))return {ok:false,reason:'ISAR_REPLAY'};if(s.queue.length>=ISAR_F2.receiverCapacity)return {ok:false,reason:'ISAR_QUEUE_FULL'};
++function ingestOffboardIsarF2(r,p){const now=simStepCounter*SIM_FIXED_DT;if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',p,{...trackATraceContextA('ISAR_EVIDENCE','ISAR',r.entityId),route:'ISAR_INGEST',measuredAtS:p?.measuredAtS,sourceId:p?.sourceId,sequence:p?.sequence,independentHit:false,decision:'EVIDENCE_ONLY'});if(!isarReportValidF2(p,now))return {ok:false,reason:'ISAR_SCHEMA_OR_TRUTH_FIELDS'};const link=observerC(r).offboard.sources.get(p.sourceId);if(!link?.connected)return {ok:false,reason:'LINK_UNAVAILABLE'};const s=isarReceiverStateF2(r);if(p.sequence<=(s.lastSequence[p.sourceId]??0))return {ok:false,reason:'ISAR_REPLAY'};if(s.queue.length>=ISAR_F2.receiverCapacity)return {ok:false,reason:'ISAR_QUEUE_FULL'};
+  s.queue.push({...JSON.parse(JSON.stringify(p)),availableAtS:now+link.latencyS});s.lastSequence[p.sourceId]=p.sequence;s.accepted++;return {ok:true};}
+ function drainIsarOffboardF2(r){const s=r.combatSystem.observerC?.isarF2;if(!s)return;const now=simStepCounter*SIM_FIXED_DT,pending=[];
+  for(const report of s.queue){if(now-report.measuredAtS>ISAR_F2.resultMaxAgeS){s.rejected++;continue;}if(report.availableAtS>now||!observerC(r).offboard.sources.get(report.sourceId)?.connected){pending.push(report);continue;}s.history.push(report);if(s.history.length>ISAR_F2.receiverCapacity)s.history.shift();}s.queue=pending;
+@@ -4305,7 +4402,7 @@
+ function apsCellKeyF(q,p,m){const dx=p.x-q.originM.x,dy=p.y-q.originM.y,r=Math.hypot(dx,dy),az=(Math.atan2(dy,dx)+2*Math.PI)%(2*Math.PI),step=Math.max(m.resolutionM*APS_F.gateRangeCells,APS_F.navigationSigmaM*APS_F.associationSigma),naz=Math.ceil(360/APS_F.azimuthBeamDeg);return {r,az,rb:Math.floor(r/step),ab:Math.floor(az/(2*Math.PI)*naz),step,naz};}
+ function apsIndexAddF(q,c,m){const p=apsCellKeyF(q,c.point,m),key=p.rb+':'+p.ab;c.indexKey=key;let set=q.cellIndex.get(key);if(!set){set=new Set();q.cellIndex.set(key,set);}set.add(c.id);}
+ function apsIndexDeleteF(q,c){const set=q.cellIndex.get(c.indexKey);if(set){set.delete(c.id);if(!set.size)q.cellIndex.delete(c.indexKey);}}
+-function apsContactStepF(h,q,rows,turn){const m=APS_MODES_F[q.mode],out=[],nmask=(1<<m.n)-1;if(!q.originM)q.originM={...h.positionM};
++function apsContactStepF(h,q,rows,turn){const m=APS_MODES_F[q.mode],out=[],nmask=(1<<m.n)-1;if(TRACK_A_DIAG.enabled)for(const p of rows)trackATraceEventA('RECEIVED',p,{...trackATraceContextA('HELO_RADAR','AN/APS-153',h.ownerEntityId),route:'HELO_CONTACT_INPUT',measuredAtS:p.measuredAtS,decision:'PENDING_CONFIRMATION'});if(!q.originM)q.originM={...h.positionM};
+  if(q.prunedTurn!==turn){for(const[id,c]of q.cells)if(turn-c.lastTurn>=m.n){apsIndexDeleteF(q,c);q.cells.delete(id);q.contacts.delete(id);q.stats.expired++;}q.originM={...h.positionM};q.cellIndex.clear();for(const c of q.cells.values())apsIndexAddF(q,c,m);q.prunedTurn=turn;}
+  for(const p of rows){const k=apsCellKeyF(q,p.positionM,m),rangeGate=k.step,angleGate=apsRadF(APS_F.azimuthBeamDeg),priorMotion=APS_F.velocityGateMps*m.periodS*m.n,span=Math.ceil(priorMotion/k.step)+1;let best=null,score=Infinity;
+   for(let dr=-span;dr<=span;dr++)for(let da=-1;da<=1;da++){const set=q.cellIndex.get((k.rb+dr)+':'+((k.ab+da+k.naz)%k.naz));if(!set)continue;for(const id of set){const c=q.cells.get(id);if(turn-c.lastTurn>=m.n)continue;const ck=apsCellKeyF(q,c.point,m),age=Math.max(0,p.measuredAtS-c.lastAtS),rg=rangeGate+APS_F.velocityGateMps*age,ag=angleGate+Math.atan2(APS_F.velocityGateMps*age,Math.max(1,k.r)),metric=((k.r-ck.r)/rg)**2+(apsAngleF(k.az-ck.az)/ag)**2;if(metric<=1&&metric<score){score=metric;best=c;}}}
+@@ -4391,6 +4488,7 @@
+     const tx={x:metersToWorld(h.positionM.x),y:metersToWorld(h.positionM.y),z:h.positionM.z},dx=worldToMeters(tx.x-rx.x),dy=worldToMeters(tx.y-rx.y),dz=tx.z-rx.z,horizontal=Math.hypot(dx,dy),range=Math.hypot(horizontal,dz);
+     if(range>C.iffMaxRangeM||terrainAwareRadarLOS(rx.x,rx.y,rx.z,tx.x,tx.y,tx.z)<C.iffMinLos)continue;
+     out.push({bearing:angNorm(Math.atan2(dy,dx)+observerNormalC(state.rng)*deg(C.iffBearingSigmaDeg)),elevationRad:Math.atan2(dz,Math.max(1,horizontal))+observerNormalC(state.rng)*deg(C.iffElevationSigmaDeg),rangeM:Math.max(0,range+observerNormalC(state.rng)*C.iffRangeSigmaM),rangeSigmaM:C.iffRangeSigmaM,bearingSigmaDeg:C.iffBearingSigmaDeg,elevationSigmaDeg:C.iffElevationSigmaDeg,authenticatedFriendly:true,measuredAtS:now});
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',out[out.length-1],{...trackATraceContextA('IFF_REPLY','AIR_IFF_E',ship.entityId),route:'IFF_REPLY',decision:'REPLY_EVIDENCE'});
+     state.lastReply={...out[out.length-1]};state.responses++;const sensor=heloSensorStateE(h);sensor.iffRepliesReceived++;sensor.lastIffReplyAtS=now;
+   }return out;
+ }
+@@ -4674,14 +4772,16 @@
+   const surface=m=>!!m.surfaceReferenceZM;
+   // Association knows only covariance, measured geometry, and domain evidence.
+   for(let i=0;i<plots.length;i++)for(const [id,tr] of o.tracks){
+-    if(surface(plots[i])?!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]):!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i]))continue;
++    if(surface(plots[i])?!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]):!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i])){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',trackId:id,decision:'REJECT',reason:'NATIVE_CROSS_DOMAIN_PARTITION'});continue;}
+     const nis=surface(plots[i])?trackSurfacePositionAssociationNisWip13B9(tr,plots[i]):trackRadarAssociationNisV31(tr,plots[i]);
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
+     if(nis<=64)pairs.push({i,id,nis});
+   }
+   pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);
+   const apply=(id,meas,created)=>{
+     const tr=created?observerNewTrackC(o,meas,surface(meas)):o.tracks.get(id);
+-    const ok=created||(surface(meas)?trackEkfUpdateSurfaceRadar2D(tr,meas,{nisGate:64}):trackEkfUpdateRadar(tr,meas,{nisGate:64}));if(!ok){o.stats.rejected++;return null;}
++    const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(created?null:tr):null;
++    const ok=created||(surface(meas)?trackEkfUpdateSurfaceRadar2D(tr,meas,{nisGate:64}):trackEkfUpdateRadar(tr,meas,{nisGate:64}));if(!ok){if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA(surface(meas)?'SURFACE_RADAR':'AIR_RADAR',meas.source,r.entityId),route:'NPC_OBSERVER',trackId:id,decision:'REJECT',reason:'NATIVE_FILTER_REJECT',before:trackABefore,after:trackAStateA(tr)});o.stats.rejected++;return null;}
+     if(!surface(meas))trackNoteAirObservationFC(tr);else if(created)tr._surface2DOnlyFC=true;
+     if(created)o.tracks.set(tr.trackId,tr);
+     if(now-tr.lastIndependentHitS>=OBSERVER_POLICY_C.confirmationSpacingS){tr.sensorHits++;tr.lastIndependentHitS=now;}
+@@ -4689,6 +4789,7 @@
+     tr._lastMeasurementStep=simStepCounter;tr.lastMeasurementS=now;tr._lastDetQuality=meas.quality;tr._spyExpectedRevisitS=surface(meas)?o.model.spy1dv.surfaceTrackRevisitS:o.model.spy1dv.trackRevisitAircraftS;
+     tr.identificationEvidence??='LOCAL_SENSOR';observerClassifyC(tr,meas);networkNoteLocalG(r,tr,meas.source);if(tr.observationReportsC&&meas.source!=='OFFBOARD_C')tr.observationReportsC.localAtS=now;trackRefreshDerivedQuality(tr);if(surface(meas))fuseSurfaceTrackExtentWip13B8(tr,meas);
+     tr.contributorsC??={};tr.contributorsC[meas.source]={measuredAtS:now,quality:meas.quality};
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA(surface(meas)?'SURFACE_RADAR':'AIR_RADAR',meas.source,r.entityId),route:'NPC_OBSERVER',trackId:tr.trackId,decision:created?'CREATE':'ACCEPT',nis:tr._kfNis,finalSource:tr.sensorSource,before:trackABefore,after:trackAStateA(tr)});
+     if(created)o.stats.initiated++;else o.stats.associated++;return tr;
+   };
+   for(const q of pairs){if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}}
+@@ -4815,11 +4916,14 @@
+ }
+ function acceptOffboardC(r,report){
+   const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,meas=offboardPlotC(report,now),age=now-report.measuredAtS;
+-  let match=null;for(const [id,tr]of o.tracks){const nis=trackCartesianAssociationNisV33(tr,meas);if(nis<=25&&(!match||nis<match.nis))match={id,nis};}
++  if(TRACK_A_DIAG.enabled)TRACK_A_DIAG.origins.set(meas,{measuredAtS:report.measuredAtS,receivedAtS:now,sourceId:report.sourceId,sequence:report.sequence});
++  if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',decision:'PENDING'});
++  let match=null;for(const [id,tr]of o.tracks){const nis=trackCartesianAssociationNisV33(tr,meas);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:id,nis,gate:25,decision:nis<=25?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=25&&(!match||nis<match.nis))match={id,nis};}
+   const existing=match?o.tracks.get(match.id):null,priorLocalS=existing?.observationReportsC?.localAtS??(existing&&existing.sensorSource!=='OFFBOARD_C'?(existing._lastMeasurementStep??simStepCounter)*SIM_FIXED_DT:null);
+   // A new packet sequence may contain a repeated/older fix. It cannot provide
+   // another independent confirmation or overwrite a newer fix on this file.
+-  if(existing?.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS)return false;
++  if(existing?.observationReportsC?.remote[report.sourceId]?.measuredAtS>=report.measuredAtS){if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:existing.trackId,decision:'REJECT',reason:'NATIVE_REPEATED_FIX'});return false;}
++  const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(existing):null;
+   let tr;
+   if(r===ACTIVE_SHIP_RUNTIME)tr=updateSensorTrackMeasurement(match?.id??null,meas,{source:meas.source,domainEvidence:meas.domainEvidence});
+   else{
+@@ -4835,7 +4939,7 @@
+   // Do not age a newer local observation backwards, or freshen a stale remote one.
+   const local=tr.observationReportsC.localAtS;tr.sensorAge=Math.min(local==null?Infinity:now-local,age);tr._lastMeasurementStep=Math.floor((now-tr.sensorAge)/SIM_FIXED_DT);
+   tr.memActive=tr.sensorAge>OBSERVER_POLICY_C.coastS;tr.trackLifecycle=tr.memActive?'MEMORY':tr.confirmed?'FIRM':'TENTATIVE';
+-  tr.ttl=Math.max(0,OBSERVER_POLICY_C.dropS-tr.sensorAge);trackRefreshDerivedQuality(tr);o.offboard.accepted++;o.offboard.sources.get(report.sourceId).lastReportS=report.measuredAtS;return true;
++  tr.ttl=Math.max(0,OBSERVER_POLICY_C.dropS-tr.sensorAge);trackRefreshDerivedQuality(tr);o.offboard.accepted++;o.offboard.sources.get(report.sourceId).lastReportS=report.measuredAtS;if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',report,{...trackATraceContextA('OFFBOARD_PLOT','OFFBOARD_C',r.entityId),measuredAtS:report.measuredAtS,sourceId:report.sourceId,sequence:report.sequence,route:'HAWKLINK_RECEIVE',appliedModel:'REPORTED_CARTESIAN_POSITION',appliedDimension:3,appliedFields:['reported.xM','reported.yM','reported.zM'],gateUnits:'NIS',trackId:tr.trackId,decision:existing?'ACCEPT':'CREATE',finalSource:tr.sensorSource,before:trackABefore,after:trackAStateA(tr)});return true;
+ }
+ function drainOffboardC(r){
+   const o=observerC(r),now=simStepCounter*SIM_FIXED_DT,pending=[];
+@@ -5017,18 +5121,21 @@
+ }
+ function networkAcceptReportG(r,senderId,report){
+   const n=prepareNetworkG(r),key=JSON.stringify([senderId,report.fileId]),now=networkNowG();let file=[...n.files.values()].find(f=>f.sources.has(key));
++  if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',report,{...trackATraceContextA(report.kind==='SELF'?'NETWORK_SELF':'NETWORK_TRACK','LINK16',r.entityId),route:'NETWORK_RECEIVE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',senderShip:senderId,sourceTrackUid:report.fileId,measuredAtS:report.measuredAtS,decision:'PENDING'});
+   if(file?.sources.get(key).measuredAtS>=report.measuredAtS){
+     // New delivery sequence is not a new measurement; status may change, but P/time/hits may not.
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',report,{...trackATraceContextA(report.kind==='SELF'?'NETWORK_SELF':'NETWORK_TRACK','LINK16',r.entityId),route:'NETWORK_RECEIVE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',senderShip:senderId,sourceTrackUid:report.fileId,measuredAtS:report.measuredAtS,decision:'STATUS_ONLY',independentHit:false,reason:'NATIVE_REPEATED_FIX'});
+     const q=file.sources.get(key);q.bid={...report.bid};q.assessment=report.assessment;q.identity=report.identity;return;
+   }
+   const estimate=networkEstimateG(report.stateM,report.covariance,report.stateAtS,now,report.domain);
+   if(file){const prior=networkFileEstimateG(file,now);if(file.domain!==report.domain||!prior||networkNisG(prior,estimate)>36){file.sources.delete(key);file=null;}}
+   if(!file){
+-    const candidates=[];for(const f of n.files.values())if(f.domain===report.domain&&!f.sources.has(key)&&![...f.sources.values()].some(q=>q.senderId===senderId)){const e=networkFileEstimateG(f,now),nis=e?networkNisG(e,estimate):Infinity;if(nis<=36)candidates.push({f,nis});}
++    const candidates=[];for(const f of n.files.values())if(f.domain===report.domain&&!f.sources.has(key)&&![...f.sources.values()].some(q=>q.senderId===senderId)){const e=networkFileEstimateG(f,now),nis=e?networkNisG(e,estimate):Infinity;if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',report,{...trackATraceContextA(report.kind==='SELF'?'NETWORK_SELF':'NETWORK_TRACK','LINK16',r.entityId),route:'NETWORK_RECEIVE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',senderShip:senderId,sourceTrackUid:report.fileId,measuredAtS:report.measuredAtS,trackId:f.id,nis,gate:36,decision:nis<=36?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=36)candidates.push({f,nis});}
+     candidates.sort((a,b)=>a.nis-b.nis||a.f.serial-b.f.serial);if(candidates.length===1||candidates.length>1&&candidates[1].nis-candidates[0].nis>4)file=candidates[0].f;
+   }
+   if(!file){if(n.files.size>=NETWORK_POLICY_G.maxFiles)return;const serial=n.serial++;file={id:'N'+serial,serial,domain:report.domain,sources:new Map(),localTrackId:null,hits:0};n.files.set(serial,file);n.stats.created++;}
+   file.sources.set(key,{...jsonSafeCloneV48Wip11A(report),senderId});file.hits++;
++  if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',report,{...trackATraceContextA(report.kind==='SELF'?'NETWORK_SELF':'NETWORK_TRACK','LINK16',r.entityId),route:'NETWORK_RECEIVE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',senderShip:senderId,sourceTrackUid:report.fileId,measuredAtS:report.measuredAtS,trackId:file.id,decision:'ACCEPT',nativeHitIncrement:1,finalSource:'LINK16'});
+ }
+ function networkReconcileG(r){
+   const n=prepareNetworkG(r),now=networkNowG(),local=observerC(r).tracks,pairs=[];
+@@ -5037,11 +5144,11 @@
+     for(const [key,q]of file.sources)if(now-q.measuredAtS>NETWORK_POLICY_G.coastS)file.sources.delete(key);
+     if(!file.sources.size){n.files.delete(serial);n.stats.expired++;continue;}file.localTrackId=null;file.fused=null;
+     const estimate=networkFileEstimateG(file,now);if(!estimate)continue;
+-    for(const [id,tr]of candidates){if(tr.domain!==file.domain)continue;const e=networkLocalEstimateG(tr),nis=e?networkNisG(e,estimate):Infinity;if(nis<=36)pairs.push({file,id,tr,e,estimate,nis});}
++    for(const [id,tr]of candidates){if(tr.domain!==file.domain)continue;const e=networkLocalEstimateG(tr),nis=e?networkNisG(e,estimate):Infinity;if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',{stateM:estimate.x,covariance:estimate.P,stateAtS:now},{...trackATraceContextA('NETWORK_TRACK','LINK16_CI',r.entityId),measuredAtS:null,receivedAtS:null,route:'NETWORK_RECONCILE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',sourceTrackUid:file.id,trackId:id,nis,gate:36,decision:nis<=36?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=36)pairs.push({file,id,tr,e,estimate,nis});}
+   }
+   pairs.sort((a,b)=>a.nis-b.nis||a.id-b.id||a.file.serial-b.file.serial);const used=new Set(),ambiguous=new Set();
+   const bestByFile=new Map();for(const p of pairs){const best=bestByFile.get(p.file.serial);if(!best)bestByFile.set(p.file.serial,p);else if(best.id!==p.id&&p.nis-best.nis<4)ambiguous.add(p.file.serial);}
+-  for(const p of pairs){if(ambiguous.has(p.file.serial)||p.file.localTrackId!=null||used.has(p.id))continue;p.file.localTrackId=p.id;p.file.fused=networkIntersectionG(p.e,p.estimate);p.file.fusedAtS=now;used.add(p.id);n.stats.associated++;}
++  for(const p of pairs){if(ambiguous.has(p.file.serial)||p.file.localTrackId!=null||used.has(p.id))continue;p.file.localTrackId=p.id;p.file.fused=networkIntersectionG(p.e,p.estimate);p.file.fusedAtS=now;used.add(p.id);n.stats.associated++;if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',{stateM:p.estimate.x,covariance:p.estimate.P,stateAtS:now},{...trackATraceContextA('NETWORK_TRACK','LINK16_CI',r.entityId),measuredAtS:null,receivedAtS:null,route:'NETWORK_RECONCILE',appliedModel:'REPORTED_FILTER_STATE',appliedDimension:6,appliedFields:['reported.xM','reported.yM','reported.zM','reported.vxMps','reported.vyMps','reported.vzMps'],gateUnits:'NIS',sourceTrackUid:p.file.id,trackId:p.id,nis:p.nis,gate:36,decision:'ASSIGN_TO_LOCAL_DISPLAY',independentHit:false,finalSource:'LINK16_CI'});}
+   for(const [id,lease]of n.leases)if(lease.untilS<now||!local.has(id))n.leases.delete(id);
+   for(const id of n.waitSince.keys())if(!local.has(id))n.waitSince.delete(id);
+ }
+@@ -7638,18 +7745,22 @@
+       const selected=b.files.get(m.trackingTrackId),lock=selected&&CIWS_C55_SENSOR_LINKS.get(selected)?.key===src.key;
+       const mode=lock&&m.state!=='IDLE'&&m.state!=='SEARCH'?'TRACK':'SEARCH';
+       const meas=ciwsLocalMeasurement(m,e,mode,!!cue,dt,{key:src.key,rcs:src.rcs,random:()=>c55SensorRandom(b),normal:sigma=>c55SensorNormal(b,sigma)});
++      if(TRACK_A_DIAG.enabled&&meas?.attempted)trackATraceEventA('RECEIVED',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,knownOwnLaunch:!!src.own,decision:meas.accepted?'DETECTED':'NO_DETECTION'});
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+-        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own)continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
++        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,knownOwnLaunch:!!src.own,decision:'REJECT',reason:seen.has(r.id)?'NATIVE_ONE_TO_ONE':'NATIVE_OWN_FIRE_PARTITION'});continue;}const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
++        if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,distanceM:d,gate,knownOwnLaunch:!!src.own,decision:d<gate?'ELIGIBLE':'REJECT',reason:'NATIVE_DISTANCE_GATE'});
+         if(d<gate&&d<error){best=r;error=d;}
+       }
++      const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(best):null;
+       if(!best){if(b.files.size>=CIWS_C55_POLICY.maxFiles)continue;const id=-5500000-(++CIWS_C55.serial);
+         best={id,st:c55BlankState(),proxy:{id:e.id,alive:true,_c55Id:id},firstSeenS:CIWS_C55.clockS,confirmed:false,approachS:0,samples:[],cmsTrackId:null,protectedIdentity:null,ownFireEvidence:false};b.files.set(id,best);CIWS_C55.stats.created++;
+       }
+       seen.add(best.id);CIWS_C55_SENSOR_LINKS.set(best,src);best.proxy.id=e.id;
+       best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);
++      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});
+     }
+   }
+ function c55ContactAudit(m,r){
+@@ -26888,7 +26999,8 @@
+     // measured by an earlier dwell is still a legal candidate here; one-to-one use is enforced
+     // inside each dwell by usedPlots/usedTracks, not across the whole 25 ms scheduler cycle.
+     const tr=tracks.get(trackId);if(!tr)return null;
+-    let best=null;for(let i=0;i<plots.length;i++){if(usedPlots.has(i))continue;const nis=trackRadarAssociationNisV31(tr,plots[i]);if(nis<=spyAssociationGateV31(task)&&(!best||nis<best.nis))best={index:i,nis};}
++    let best=null;for(let i=0;i<plots.length;i++){if(usedPlots.has(i))continue;const nis=trackRadarAssociationNisV31(tr,plots[i]),trackAGate=spyAssociationGateV31(task);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA('AIR_RADAR',plots[i].source,ACTIVE_SHIP_RUNTIME.entityId),route:'SPY_FOCUSED',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId,nis,gate:trackAGate,decision:nis<=trackAGate?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});if(nis<=trackAGate&&(!best||nis<best.nis))best={index:i,nis};}
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',best?plots[best.index]:{}, {...trackATraceContextA('AIR_RADAR','SPY1DV',ACTIVE_SHIP_RUNTIME.entityId),route:'SPY_FOCUSED',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId,decision:best?'ASSIGN':'NO_ASSIGNMENT',nis:best?.nis,reason:'NATIVE_FOCUSED_WINNER'});
+     return best;
+   }
+ 
+@@ -26902,7 +27014,7 @@
+     const assigned=new Map();if(!plotIndices.length||!trackEntries.length)return assigned;
+     const gate=spyAssociationGateV31(task),dummyCost=gate+0.5,blockedCost=1e6;
+     const costs=plotIndices.map(i=>[
+-      ...trackEntries.map(([,tr])=>{if(!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i]))return blockedCost;const nis=trackRadarAssociationNisV31(tr,plots[i]),cross=trackSurfaceBackedWip13B14(tr);return nis<=Math.min(gate,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:gate)?nis:blockedCost;}),
++      ...trackEntries.map(([,tr])=>{if(!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plots[i])){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA('AIR_RADAR',plots[i].source,ACTIVE_SHIP_RUNTIME.entityId),route:'SPY_BATCH',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:tr.trackId,decision:'REJECT',reason:'NATIVE_CROSS_DOMAIN_PARTITION',gate});return blockedCost;}const nis=trackRadarAssociationNisV31(tr,plots[i]),cross=trackSurfaceBackedWip13B14(tr);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA('AIR_RADAR',plots[i].source,ACTIVE_SHIP_RUNTIME.entityId),route:'SPY_BATCH',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:tr.trackId,nis,gate:Math.min(gate,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:gate),decision:nis<=Math.min(gate,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:gate)?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});return nis<=Math.min(gate,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:gate)?nis:blockedCost;}),
+       ...new Array(plotIndices.length).fill(dummyCost)
+     ]);
+     const cols=bridgeMasterEMinCostAssignmentV35(costs);
+@@ -27466,7 +27578,7 @@
+     const assignStage=(indices,trackEntries,cross)=>{
+       if(!indices.length||!trackEntries.length)return;
+       const stageGate=cross?Math.min(gate,WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.surfaceToAirNisGate):gate,dummyCost=stageGate+.5;
+-      const costs=indices.map(i=>[...trackEntries.map(([,tr])=>{if(cross&&!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i]))return blockedCost;const nis=nisFn(tr,plots[i]);return nis<=stageGate?nis:blockedCost;}),...new Array(indices.length).fill(dummyCost)]),cols=bridgeMasterEMinCostAssignmentV35(costs);
++      const costs=indices.map(i=>[...trackEntries.map(([,tr])=>{if(cross&&!trackMayAcceptSurfacePlotCrossDomainWip13B14(tr,plots[i])){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA('SURFACE_RADAR',plots[i].source,ACTIVE_SHIP_RUNTIME.entityId),route:'SURFACE_BATCH',appliedModel:'SURFACE_ASSOCIATION',appliedDimension:nisFn===trackSurfacePositionAssociationNisWip13B9?2:(Number.isFinite(plots[i].radialMps)?3:2),appliedFields:nisFn===trackSurfacePositionAssociationNisWip13B9||!Number.isFinite(plots[i].radialMps)?['rangeM','azRad']:['rangeM','azRad','radialMps'],gateUnits:'NIS',trackId:tr.trackId,decision:'REJECT',reason:'NATIVE_CROSS_DOMAIN_PARTITION',gate:stageGate});return blockedCost;}const nis=nisFn(tr,plots[i]);if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA('SURFACE_RADAR',plots[i].source,ACTIVE_SHIP_RUNTIME.entityId),route:'SURFACE_BATCH',appliedModel:'SURFACE_ASSOCIATION',appliedDimension:nisFn===trackSurfacePositionAssociationNisWip13B9?2:(Number.isFinite(plots[i].radialMps)?3:2),appliedFields:nisFn===trackSurfacePositionAssociationNisWip13B9||!Number.isFinite(plots[i].radialMps)?['rangeM','azRad']:['rangeM','azRad','radialMps'],gateUnits:'NIS',trackId:tr.trackId,nis,gate:stageGate,decision:nis<=stageGate?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});return nis<=stageGate?nis:blockedCost;}),...new Array(indices.length).fill(dummyCost)]),cols=bridgeMasterEMinCostAssignmentV35(costs);
+       for(let row=0;row<cols.length;row++){
+         const col=cols[row];if(col<0||col>=trackEntries.length||costs[row][col]>stageGate)continue;
+         const plotIndex=indices[row],trackId=trackEntries[col][0];assigned.set(plotIndex,{trackId,nis:costs[row][col],cross});usedTracks.add(trackId);
+@@ -27490,6 +27602,8 @@
+ 
+   function updateSensorTrackMeasurement(id, meas, meta={}){
+     const source=meta.source??meas.source??'SENSOR';
++    const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(id==null?null:tracks.get(id)):null;
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',meas,{...trackATraceContextA(trackAKindA(meas,source),source,ACTIVE_SHIP_RUNTIME.entityId,meas),route:'PLAYER_MEASUREMENT',trackId:id,decision:'PENDING'});
+     const truthRef=normalizeTrackTruthRefV27(meta.truthRef);
+     if(id==null&&truthRef)id=trackIdForTruthV27(truthRef.domain,truthRef.objectId,true);
+     // Anonymous sensor plots receive a combat-system ID only after association has failed.
+@@ -27516,6 +27630,7 @@
+       }else trackEkfInit(tr,meas);
+     }
+ 
++    let trackAAppliedGate=null;
+     const isVisual=source==='VISUAL';
+     const isBridgeMasterE=source.startsWith('BRIDGEMASTER_E');
+     const isSpq9bSurface=source.startsWith('SPQ9B_SURFACE');
+@@ -27524,11 +27639,13 @@
+     const isRadar=source.startsWith('SPY1DV') || source.startsWith('SPQ9B');
+     if(isSurfaceRadar){
+       const gate=isSpySurface?SENSOR_MODEL.spy1dv.surfaceNisGate:(isSpq9bSurface?64:SENSOR_MODEL.bridgeMasterE.nisGate);
+-      if(!trackEkfUpdateSurfaceRadar2D(tr,meas,{nisGate:gate})){if(created)tracks.delete(id);return null;}
++      if(TRACK_A_DIAG.enabled)trackAAppliedGate=gate;
++      if(!trackEkfUpdateSurfaceRadar2D(tr,meas,{nisGate:gate})){if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('SURFACE_RADAR',source,ACTIVE_SHIP_RUNTIME.entityId),route:'PLAYER_MEASUREMENT',trackId:id,decision:'REJECT',reason:'NATIVE_FILTER_REJECT',nis:tr._kfNis,gate,before:trackABefore,after:trackAStateA(tr)});if(created)tracks.delete(id);return null;}
+     }else if(isRadar){
+       const taskType=meta.taskType??'';
+       const nisGate=taskType==='PRECISION_REACQUIRE'?TRACK_FILTER_MODEL.nisGatePrecisionReacquire:(taskType==='TRACK_REACQUIRE'?TRACK_FILTER_MODEL.nisGateReacquire:(taskType.startsWith('SEARCH_')||taskType==='TRACK_CONFIRM'?TRACK_FILTER_MODEL.nisGateSearch:TRACK_FILTER_MODEL.nisGateNormal));
+-      if(!trackEkfUpdateRadar(tr,meas,{nisGate})){if(created)tracks.delete(id);return null;}
++      if(TRACK_A_DIAG.enabled)trackAAppliedGate=nisGate;
++      if(!trackEkfUpdateRadar(tr,meas,{nisGate})){if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('AIR_RADAR',source,ACTIVE_SHIP_RUNTIME.entityId),route:'PLAYER_MEASUREMENT',trackId:id,decision:'REJECT',reason:'NATIVE_FILTER_REJECT',nis:tr._kfNis,gate:nisGate,before:trackABefore,after:trackAStateA(tr)});if(created)tracks.delete(id);return null;}
+     }else if(isVisual){
+       meas.altitudeSigmaM=Math.max(30,(meas.rangeSigmaM??100)*0.7);
+       trackEkfUpdateCartesianPosition(tr,meas);
+@@ -27555,6 +27672,7 @@
+     trackRefreshDerivedQuality(tr);
+     // A3 consumes only the completed observation/classification state. It never reads truth metadata.
+     updateTrackOperationalStateA3(tr,{mode:typeof engagementControlMode==='string'?engagementControlMode:'MANUAL',assessment:typeof wip118ControlState==='object'?wip118ControlState?.assessments?.get(id):null});
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA(trackAKindA(meas,source),source,ACTIVE_SHIP_RUNTIME.entityId,meas),route:'PLAYER_MEASUREMENT',trackId:tr.trackId,decision:created?'CREATE':'ACCEPT',nis:isRadar||isSurfaceRadar?tr._kfNis:null,gate:trackAAppliedGate,nativeHitIncrement:1,finalSource:tr.sensorSource,before:trackABefore,after:trackAStateA(tr)});
+     return tr;
+   }
+ 
+@@ -34177,6 +34295,7 @@
+     for(const [id,tr] of tracks){
+       if(usedTracks.has(id)||!tr||tr.sensorDetected===false||!trackMayAcceptAirPlotCrossDomainWip13B14(tr,plot))continue;
+       const nis=trackRadarAssociationNisV31(tr,plot),cross=trackSurfaceBackedWip13B14(tr),gate=Math.min(TRACK_FILTER_MODEL.nisGateSearch,cross?WIP13B14_CROSS_DOMAIN_ASSOCIATION_CONTRACT.airToSurfaceNisGate:TRACK_FILTER_MODEL.nisGateSearch);
++      if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plot,{...trackATraceContextA('AIR_RADAR',plot.source,ACTIVE_SHIP_RUNTIME.entityId),route:'SPQ_AIR_GREEDY',appliedModel:'AIR_POLAR_DOPPLER',appliedDimension:4,appliedFields:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate,decision:nis<=gate?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});
+       if(nis<=gate&&(!best||nis<best.nis))best={trackId:id,nis,cross};
+     }
+     return best;
+@@ -34189,6 +34308,7 @@
+       // A fresh SPY estimate already contains this echo at much better 3-D precision. Consume the
+       // association so the SPQ return cannot start a duplicate track, but preserve SPY as source.
+       if(existing&&isAegisAvailable(existing.x,existing.y)&&(existing.sensorSource??'').startsWith('SPY1DV')&&(existing.sensorAge??99)<0.65){
++        if(TRACK_A_DIAG.enabled)trackATraceEventA('ASSIGNMENT',plot,{...trackATraceContextA('AIR_RADAR','SPQ9B_AIR',ACTIVE_SHIP_RUNTIME.entityId),route:'SPQ_SPY_PREFERRED',trackId:existing.trackId,decision:'ASSOCIATE_WITHOUT_HIT',independentHit:false,nis:match.nis,finalSource:existing.sensorSource});
+         existing._spq9bFreshS=0;existing._spq9bLastPd=obs.pd;existing._spq9bPanel=obs.panel;updateTrackClassification(existing,{domainEvidence:plot.domainEvidence});usedTracks.add(existing.trackId);SPQ9B_ASSOC_STATS_V34.associated++;SPQ9B_ASSOC_STATS_V34.spyPreferred++;SPQ9B_ASSOC_STATS_V34.lastNis=match.nis;SPQ9B_ASSOC_STATS_V34.lastTrackId=existing.trackId;accepted++;continue;
+       }
+       const tr=updateSensorTrackMeasurement(match?.trackId??null,plot,{source:'SPQ9B_AIR',domainEvidence:plot.domainEvidence,revisitS:SPQ9B_NOMINAL_REVISIT_S,taskType:'SEARCH_HORIZON'});
+@@ -37232,18 +37352,22 @@
+       const selected=b.files.get(m.trackingTrackId),lock=selected&&CIWS_C55_SENSOR_LINKS.get(selected)?.key===src.key;
+       const mode=lock&&m.state!=='IDLE'&&m.state!=='SEARCH'?'TRACK':'SEARCH';
+       const meas=ciwsLocalMeasurement(m,e,mode,!!cue,dt,{key:src.key,rcs:src.rcs,random:()=>c55SensorRandom(b),normal:sigma=>c55SensorNormal(b,sigma)});
++      if(TRACK_A_DIAG.enabled&&meas?.attempted)trackATraceEventA('RECEIVED',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,knownOwnLaunch:!!src.own,decision:meas.accepted?'DETECTED':'NO_DETECTION'});
+       if(!meas?.attempted)continue;CIWS_C55.stats.attempted++;if(!meas.accepted)continue;CIWS_C55.stats.accepted++;
+       let best=null,error=Infinity;
+       for(const r of b.files.values()){
+-        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own)continue;const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
++        if(seen.has(r.id)||!!r.ownFireEvidence!==!!src.own){if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,knownOwnLaunch:!!src.own,decision:'REJECT',reason:seen.has(r.id)?'NATIVE_ONE_TO_ONE':'NATIVE_OWN_FIRE_PARTITION'});continue;}const s=r.st,d=Math.hypot(s.rxM-meas.rxM,s.ryM-meas.ryM,s.rzM-meas.rzM);
+         const gate=CIWS_C55_POLICY.associationBaseM+meas.rangeM*deg(cfg.searchAzSigmaDeg)*3+(s.localHits<5?2200:350)*Math.min(.35,s.localAgeS);
++        if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:r.id,distanceM:d,gate,knownOwnLaunch:!!src.own,decision:d<gate?'ELIGIBLE':'REJECT',reason:'NATIVE_DISTANCE_GATE'});
+         if(d<gate&&d<error){best=r;error=d;}
+       }
++      const trackABefore=TRACK_A_DIAG.enabled?trackAStateA(best):null;
+       if(!best){if(b.files.size>=CIWS_C55_POLICY.maxFiles)continue;const id=-5500000-(++CIWS_C55.serial);
+         best={id,st:c55BlankState(),proxy:{id:e.id,alive:true,_c55Id:id},firstSeenS:CIWS_C55.clockS,confirmed:false,approachS:0,samples:[],cmsTrackId:null,protectedIdentity:null,ownFireEvidence:false};b.files.set(id,best);CIWS_C55.stats.created++;
+       }
+       seen.add(best.id);CIWS_C55_SENSOR_LINKS.set(best,src);best.proxy.id=e.id;
+       best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);
++      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});
+     }
+   }
+   function c55ContactAudit(m,r){

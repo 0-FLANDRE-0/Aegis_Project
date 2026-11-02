@@ -1,0 +1,57 @@
+{
+  "schema": "AEGIS_TRACK_B_COHORT_SUPPLEMENT_RUN_1",
+  "status": "FAIL",
+  "candidateSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "shadowSha256": "e9af30d8d71209f9eb45d72de58ca509efd261d7126d89ab626e2873d182995d",
+  "baselineSha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+  "baselineDefectsActuallyReproduced": {
+    "npcActualGreedyTrap": true,
+    "hawklinkActualSequentialFalseReplay": false
+  },
+  "shadowActualNativeRecordsExact": true,
+  "shadowPrivateGameRngStateExact": true,
+  "activeChecks": {
+    "count": 14,
+    "passed": 14
+  },
+  "fixturePreconditionOrRuntimeErrors": [],
+  "browserErrors": [],
+  "queryAndProtectedFunctionChecksPass": true,
+  "rows": [
+    {
+      "label": "baseline",
+      "productSha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+      "fixturePreconditionOrRuntimeFailures": [],
+      "policyAssertionFailures": [
+        "npcCohort.twoFilesRetained",
+        "npcCohort.twoNativeCorrections",
+        "npcCohort.noFalseBirth",
+        "npcCohort.uniqueTwoEdgeMatchingApplied"
+      ]
+    },
+    {
+      "label": "shadow",
+      "productSha256": "e9af30d8d71209f9eb45d72de58ca509efd261d7126d89ab626e2873d182995d",
+      "fixturePreconditionOrRuntimeFailures": [],
+      "policyAssertionFailures": [
+        "npcCohort.twoFilesRetained",
+        "npcCohort.twoNativeCorrections",
+        "npcCohort.noFalseBirth",
+        "npcCohort.uniqueTwoEdgeMatchingApplied"
+      ]
+    },
+    {
+      "label": "active",
+      "productSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+      "fixturePreconditionOrRuntimeFailures": [],
+      "policyAssertionFailures": []
+    }
+  ],
+  "classification": "DIRECT_NATIVE_ANONYMOUS_INGRESS_NOT_NATURAL_RF",
+  "naturalRfOrWeaponEvidence": false,
+  "existingAssertionsChanged": false,
+  "oldNativeIntegrationHelperUnchanged": true,
+  "countsNotAddedToExistingDomain420": true,
+  "wallS": 51.52929731999757,
+  "releaseApproved": false
+}

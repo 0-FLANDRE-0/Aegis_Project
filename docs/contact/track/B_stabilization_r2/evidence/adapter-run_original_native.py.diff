@@ -1,0 +1,20 @@
+--- docs/contact/track/B_stabilization/run_original_native.py
++++ docs/contact/track/B_stabilization_r2/run_original_native.py
+@@ -30,7 +30,7 @@
+  walk(a,b);return rows
+ 
+ def main():
+- ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_A.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_A_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/original-native-full');ap.add_argument('--run',action='store_true');args=ap.parse_args();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
++ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B.html');ap.add_argument('--sha',required=True);ap.add_argument('--shadow',type=Path,default=R/'Aegis_SIM_v48_WIP_TRACK_B_STABLE_B_SHADOW.html');ap.add_argument('--shadow-sha',required=True);ap.add_argument('--out',type=Path,default=P/'evidence/original-native-full');ap.add_argument('--run',action='store_true');args=ap.parse_args();r1_test_inputs=module('r2_frozen_native_inputs',P/'controller_pins.py').verify();args.candidate=args.candidate.resolve();args.shadow=args.shadow.resolve();args.out.mkdir(parents=True,exist_ok=True)
+  pins=json.loads((P/'BASELINE_PINS.json').read_text());base_sha=pins['files']['Aegis_SIM_v48_WIP_TRACK_B.html'];manifest={}
+  for line in(B/'CHECKSUMS.sha256').read_text().splitlines():
+   if line.strip():digest,name=line.split(None,1);manifest[name.strip()]=digest
+@@ -46,7 +46,7 @@
+  assert refs['native-off']['fixtureSourceSha256']==refs['native-on']['fixtureSourceSha256']==sha(native_source.encode())
+  products=[('shadow-off','SHADOW',False,args.shadow,args.shadow_sha),('shadow-on','SHADOW',True,args.shadow,args.shadow_sha),('active-off','ACTIVE',False,args.candidate,args.sha),('active-on','ACTIVE',True,args.candidate,args.sha)]
+  provenance={'schema':'AEGIS_TRACK_B_STABLE_ORIGINAL_NATIVE_PROVENANCE_1','runnerSha256':sha(Path(__file__).read_bytes()),'candidateSha256':args.sha,'shadowSha256':args.shadow_sha,'oldBReferenceSha256':base_sha,'originalBSourceAndEvidence':original_source_rows,'nativeHelperCombinedSha256':sha(native_source.encode()),'cohortHelperCombinedSha256':sha(cohort_source.encode()),'nativeHelpers':[str(x.relative_to(R))for x in native_helpers],'cohortHelpers':[str(x.relative_to(R))for x in cohort_helpers],'oldNativeRunnerImportedByteUnchanged':True,'oldCohortRunnerImportedByteUnchanged':True,'oldC55AccessorFunctionSha256':sha(inspect.getsource(original_runner.c55_access_test_copy).encode()),'additionalReadOnlyPassiveAccessorSha256':sha(PASSIVE_ACCESSOR.encode()),'originalMainInvoked':False,'controllerAdaptation':'New controller uses original helper bytes and imported original C55 test-accessor function. It checks actual B mode ACTIVE plus stabilizationMode rather than the old runner main-only SHADOW guard. No game assertion or expected value changed.','nativeScope':'All23 original groups:84 checks diagnosticOFF;90 checks diagnosticON.','cohortScope':'Original14 checks; helper itself always enablesdiagnostics, so every cohort page is explicitly ON regardless of variant label.','freshContexts':8,'maxConcurrentBrowsers':1,'estimatedWallMinutes':2,'existingExpectationsChanged':False,'countsNotAddedToDomain420':True,'naturalRfOrCombatEvidence':False,'releaseApproved':False}
+- save(args.out/'PROVENANCE.json',provenance)
++ provenance['frozenR1NativeInputs']=r1_test_inputs;save(args.out/'PROVENANCE.json',provenance)
+  if not args.run:print(json.dumps({'dryRun':True,'browserRuns':0,**provenance},indent=2));return 0
+  h=support.load_harness();rows=[];browser_errors=[];started=time.perf_counter()
+  from playwright.sync_api import sync_playwright

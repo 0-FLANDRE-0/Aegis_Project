@@ -1,0 +1,689 @@
+{
+  "schema": "AEGIS_ORIGINAL_RAID_PILOT_RESULT_1",
+  "status": "OBSERVED_FOR_REVIEW_NOT_APPROVED",
+  "plan": {
+    "schema": "AEGIS_ORIGINAL_RAID_PILOT_PLAN_1",
+    "status": "PREPARED_NOT_EXECUTED",
+    "revision": "5718f2d25f2e069f9ebd7948360fcf468bcdbb0b",
+    "productSha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+    "ship": "DDG_119_LATE_FLIGHT_IIA",
+    "runs": 1,
+    "seed": 1831565813,
+    "fps": 60,
+    "timeScale": 8,
+    "horizonS": 600,
+    "maximumNativeTicks": 36001,
+    "extra600sTickPolicy": "EXACTLY_ONE_NATIVE_STEP_AFTER_36000_ONLY; MAX_LIFE_IS_NOT_KILL",
+    "earlyStop": "INITIAL_8_NATIVE_TERMINAL_OR_NATIVE_OWN_SHIP_LOST_THEN_5S; OBSERVED_AT_NATIVE_FRAME_BOUNDARIES",
+    "rawCheckpointSteps": [
+      1920,
+      7200
+    ],
+    "rawCheckpointMatchRequired": true,
+    "checkpointMismatchAction": "BLOCKED_STOP_BEFORE_LONG_HORIZON",
+    "originalFile": "docs/multiship/H4/regression_baseline.py",
+    "originalFileSha256": "9c1c7239f31e9a0a15f3d752ab9a2925729758fd0f23fb879d5b7ec6e90479e0",
+    "originalExpressionSha256": "1049cc9b70cd6e0718f33966a352cf3edfbf687fa5f64de38d2bba66c4ab2019",
+    "pairedEffectiveExpressionSha256": "3b54ea341abd67143df73dbc91aff1cd154d9f16a4958a6a9e5630b778b32d04",
+    "pilotExpressionSha256": "dec108d0a5148a9da9c0f8410239d2e7cae5f831d6cd170e7f0d27a8c8c362e1",
+    "historicalRawArchiveSha256": "a6731f2a4f1ca4502db8ed50586ba112d971e7b9b4389c890132e8b8c00cbacd",
+    "oldHelperSha256": "057c658dc4c7df790f5cddfefd09881ca678720c416e8d4220615b0919f2d069",
+    "testCopyCheckpointAccessorHelperSha256": "bc2ec043bb2e6853d6b4f7b018ad0cf9d2f406b0464f0cdfe5c6ba552a201000",
+    "newHelperSha256": "366daa62220f5a6d04a135159c4728f9c15f904d541e80437fbdac5c9650b3f6",
+    "combinedHelperSha256": "cdb682a145a6d856ec4ef6f6306e7470d337bf8c82efcb896d72b32579257493",
+    "runnerSha256": "cc0952c513939490435a908b434d5d999b21c0e798e97780c4d935247a0588a6",
+    "supportPins": {
+      "docs/contact/track/B/paired_cause.py": "65fc3ecb574078d238ede108e3739eb1a97dc23b496a3d861169b6b0e9632f2d",
+      "docs/bunkerhill/K/browser_i.py": "e9f0e64ca6483353223eb308c749f1d81117bf0864756b66e967d6d2b0167908",
+      "docs/gun/B2/phase1b/test_support/sitecustomize.py": "522af70b9d84a5595187a285d29182bf1b277837b579e6f917d14f3f61750be5"
+    },
+    "newTestNotOldRegression": true,
+    "releaseApproved": false,
+    "estimatedWallS": 344.362,
+    "estimateLimits": "120s four-page historical wall275.490 /4 *5; background accumulation can increase cost; provisional 5-10 minutes; no automatic B/CG follow-up",
+    "historical32BridgeChecks": {
+      "ownCachedScalarsExact": true,
+      "inventoryCountsExact": true,
+      "originalRngFieldsExact": true,
+      "samCountExact": true,
+      "ramCountExact": true,
+      "hostileCountExact": true
+    },
+    "rawCheckpointExpectedJsonSha256": {
+      "1920": "11df86f92baf66d57a2a1a812e518adddae6b33f1ef49020df25243b9acff4ae",
+      "7200": "f5a30b61af7cd91051930464b4170adc09e3792a5df360b26fd269c504da0378"
+    }
+  },
+  "ready": {
+    "ready": true,
+    "baseStart": {
+      "ready": true,
+      "step": 0,
+      "fixedDt": 0.016666666666666666
+    },
+    "step": 0,
+    "tag": "TEST_COPY_ONLY"
+  },
+  "instrumentation": {
+    "accessors": [
+      {
+        "anchor": "return {basis,peek:(options={})=>cache?",
+        "count": 1,
+        "kind": "TEST_ONLY_CACHE_REFERENCE_ACCESSOR"
+      },
+      {
+        "anchor": "reset();return {config:cfg,reset,haltHorizontalContact:",
+        "count": 1,
+        "kind": "TEST_ONLY_CACHE_REFERENCE_ACCESSOR"
+      },
+      {
+        "anchor": "reset();return {config,reset,step,snapshot,restorePhysical};",
+        "count": 1,
+        "kind": "TEST_ONLY_CACHE_REFERENCE_ACCESSOR"
+      }
+    ],
+    "nativeFixedTickBodyUnchanged": true,
+    "existingNativeWrapperUnchanged": true,
+    "sourceSha256": "8d2de4f64cb18e3248156e36fa454daee91b5603e03fee5a8f7bd372e0d5780e",
+    "instrumentedSourceSha256": "81857ff398c39efa4424907456b8daa636a5a98f528138e77dbbcd51134e24aa",
+    "nativeFixedTickSha256": "a4360bd84ee5401aedfca45439dd0ff78a266101948433a006906b5eb72ad5b1",
+    "nativePipelineWrapperSha256": "c4f08708d5810c3838be61e8c354e5709178929007056069674a4624b8ffc1b1"
+  },
+  "nativeSourceHashes": {
+    "pipeline": "c4f08708d5810c3838be61e8c354e5709178929007056069674a4624b8ffc1b1",
+    "retire": "192fcf3767d06da36b3e94e44cd9c4b47a1872b6d925b0851f880caf2fdb8d77",
+    "apply": "66aaa8fa5688a3e60c43673b925bdd0ef8ed2f7b207c55e946abb484ef3f8ecd",
+    "rf": "f95ea8a877291e69bc199efaa34925278531f25141e9cfd3e189e5758f8c9a48",
+    "asm": "6c8a7dd90a1f30952acb983f963665361ff7ee990ab7b585d40cecd9f2faa287",
+    "sam": "88bd6a222994efcdba9a72a75430af6ddf2854c5ad5350b21736a906db44f9bd",
+    "spawn": "464f1388a3e2b53ca6de34b2d7915434d4b11e0cf9619ea61f0ef8eddc29021f"
+  },
+  "rawCheckpointExact": {
+    "1920": true,
+    "7200": true
+  },
+  "originalRun": {
+    "steps": 9728,
+    "frames": 1216,
+    "simStepCounter": 9728,
+    "simAccumulator": 3.374384105470085e-14,
+    "pilotReason": "INITIAL_8_NATIVE_TERMINAL_PLUS_5S",
+    "extraLifetimeTick": false
+  },
+  "endStep": 9728,
+  "initial": [
+    {
+      "id": 1,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 150.5833333333453,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 23044.267495162785,
+      "launchDistKm": 16.000000000000004,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 49.58367520702721,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11027.462701088889,
+        "y": -8620.535375344301,
+        "z": 11.561416987019037
+      },
+      "velocityMps": {
+        "x": -230.86435185155594,
+        "y": -201.21972197908104,
+        "z": -81.0060584853912
+      },
+      "speedMps": 316.78021873298263,
+      "insAimM": {
+        "x": 12.378800987316668,
+        "y": -202.11848163362595
+      },
+      "flight": {
+        "timeS": 150.5833333333453,
+        "engineTimeS": 149.90000000001143,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.2291236466548364,
+        "flightPath": -0.258589195709574,
+        "cmdFlightPath": -0.24004039413957176,
+        "bodyYaw": -2.419558987380338,
+        "flightPathYaw": -2.424695619839543,
+        "cmdFlightPathYaw": -2.3944882208919935,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 17806.777742018025,
+        "normalG": 1.1678444749342067,
+        "lateralG": 0.16283666148078543,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 150.5833333333453,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 9034,
+        "timeS": 150.56666666666666,
+        "id": 1,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 2,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 157.08333333335048,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 24465.408007614315,
+      "launchDistKm": 15.999999999999998,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 52.455248424497746,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11032.17375986688,
+        "y": -8613.773249366945,
+        "z": 12.82057957713158
+      },
+      "velocityMps": {
+        "x": 166.67157442335113,
+        "y": 247.04433639261768,
+        "z": -60.02567586280556
+      },
+      "speedMps": 303.99572304098973,
+      "insAimM": {
+        "x": 311.7114687431199,
+        "y": 1.8279929692877293
+      },
+      "flight": {
+        "timeS": 157.08333333335048,
+        "engineTimeS": 156.4000000000166,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.17761933292317092,
+        "flightPath": -0.1987617987204851,
+        "cmdFlightPath": -0.1881503368772645,
+        "bodyYaw": 0.9625127599747962,
+        "flightPathYaw": 0.9772784864925992,
+        "cmdFlightPathYaw": 0.9522715183939141,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 15125.258144978088,
+        "normalG": 0.764682688186781,
+        "lateralG": -0.43062915842303934,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 157.08333333335048,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 9424,
+        "timeS": 157.06666666666666,
+        "id": 2,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 3,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 135.26666666666645,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 24017.334489151835,
+      "launchDistKm": 15.999999999999998,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 51.55271075527421,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11030.686731690292,
+        "y": -8611.852330782895,
+        "z": 10.953480648280589
+      },
+      "velocityMps": {
+        "x": -59.91643008474245,
+        "y": 390.7940936759553,
+        "z": -122.58025486713747
+      },
+      "speedMps": 413.92743461795754,
+      "insAimM": {
+        "x": -50.676486659028996,
+        "y": -143.1686711088764
+      },
+      "flight": {
+        "timeS": 135.26666666666645,
+        "engineTimeS": 134.58333333333258,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.28096855474395255,
+        "flightPath": -0.30064828945143474,
+        "cmdFlightPath": -0.27157415695111486,
+        "bodyYaw": 1.7161803140446246,
+        "flightPathYaw": 1.722931325240383,
+        "cmdFlightPathYaw": 1.706071413340025,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 34022.554165540496,
+        "normalG": 1.3376777611726345,
+        "lateralG": -0.36752636634453384,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 135.26666666666645,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 8115,
+        "timeS": 135.25,
+        "id": 3,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 4,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 153.10000000001398,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 26511.31609035656,
+      "launchDistKm": 16.000000000000004,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 56.59703384825514,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11031.121757275414,
+        "y": -8616.69549830573,
+        "z": 12.828332594272933
+      },
+      "velocityMps": {
+        "x": -360.96003110022195,
+        "y": 97.30117870108963,
+        "z": -140.81133673877238
+      },
+      "speedMps": 399.4840372063125,
+      "insAimM": {
+        "x": 19.592816940531563,
+        "y": 279.92527080142503
+      },
+      "flight": {
+        "timeS": 153.10000000001398,
+        "engineTimeS": 152.4166666666801,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.34271872556945054,
+        "flightPath": -0.36022308830796035,
+        "cmdFlightPath": -0.34551634779849993,
+        "bodyYaw": 2.880342490836597,
+        "flightPathYaw": 2.8782889206086253,
+        "cmdFlightPathYaw": 2.9034010672703268,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 33030.71797481265,
+        "normalG": 1.1038067644593579,
+        "lateralG": 0.10406709161425985,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 153.10000000001398,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 9185,
+        "timeS": 153.08333333333334,
+        "id": 4,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 5,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 146.80000000000896,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 22522.389870602638,
+      "launchDistKm": 16.000000000000004,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 48.5319744820904,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11029.769870652466,
+        "y": -8619.643194805183,
+        "z": 12.309502454587072
+      },
+      "velocityMps": {
+        "x": -196.46190685575382,
+        "y": -229.5850972129179,
+        "z": -63.56850777910801
+      },
+      "speedMps": 308.7839906616377,
+      "insAimM": {
+        "x": 125.73855646464705,
+        "y": -388.0369561725104
+      },
+      "flight": {
+        "timeS": 146.80000000000896,
+        "engineTimeS": 146.1166666666751,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.1789317485095851,
+        "flightPath": -0.20734984729196335,
+        "cmdFlightPath": -0.19084536247225617,
+        "bodyYaw": -2.2660714295569377,
+        "flightPathYaw": -2.2786051748744667,
+        "cmdFlightPathYaw": -2.252717886051732,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 16202.7024782465,
+        "normalG": 1.0681639168220742,
+        "lateralG": 0.3772743074314446,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 146.80000000000896,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 8807,
+        "timeS": 146.78333333333333,
+        "id": 5,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 6,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 135.34999999999985,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_outcomeRecorded": true,
+      "_warheadState": "DUD",
+      "cruiseAltM": 22279.937694314867,
+      "launchDistKm": 15.999999999999998,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 48.03935026495026,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": -1728.1665698575719,
+        "y": -7739.817161912001,
+        "z": 1085.4939528118532
+      },
+      "velocityMps": {
+        "x": 73.246248806116,
+        "y": 330.6854853716187,
+        "z": -45.88771842076952
+      },
+      "speedMps": 341.7946545829738,
+      "insAimM": {
+        "x": 402.53243845749,
+        "y": -11.021306506815725
+      },
+      "flight": {
+        "timeS": 135.34999999999985,
+        "engineTimeS": 134.66666666666598,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.11050608299709172,
+        "flightPath": -0.13466184541023543,
+        "cmdFlightPath": -0.13490805209194473,
+        "bodyYaw": 1.3528151623916855,
+        "flightPathYaw": 1.3528174111703706,
+        "cmdFlightPathYaw": 1.3526768287526636,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 22838.12712560377,
+        "normalG": 0.9959449440439245,
+        "lateralG": -7.434205703753709e-05,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 135.34999999999985,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 8121,
+        "timeS": 135.35,
+        "id": 6,
+        "reason": "INTERCEPT_KILL"
+      },
+      "nativeInterceptResults": [
+        {
+          "step": 8121,
+          "timeS": 135.35,
+          "targetId": 6,
+          "weapon": "ESSM",
+          "engagementTrackId": null,
+          "result": "KILL"
+        }
+      ],
+      "terminalClassification": "NATIVE_TERMINAL:INTERCEPT_KILL"
+    },
+    {
+      "id": 7,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 135.83333333333357,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 24156.487026251853,
+      "launchDistKm": 15.999999999999998,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 51.8369213635881,
+      "_passedTarget": true,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11030.924756927343,
+        "y": -8613.261602862969,
+        "z": 10.95199577420806
+      },
+      "velocityMps": {
+        "x": -67.03496724232927,
+        "y": 387.03759929766926,
+        "z": -122.15349652911739
+      },
+      "speedMps": 411.355402076565,
+      "insAimM": {
+        "x": -232.24408289532568,
+        "y": -304.35905012530736
+      },
+      "flight": {
+        "timeS": 135.83333333333357,
+        "engineTimeS": 135.1499999999997,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.2912451677859167,
+        "flightPath": -0.3015008295268302,
+        "cmdFlightPath": -0.2921444346685685,
+        "bodyYaw": 1.7330007747923428,
+        "flightPathYaw": 1.7422950860960302,
+        "cmdFlightPathYaw": 1.7200908760149503,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 33599.69752803865,
+        "normalG": 0.6758326532602039,
+        "lateralG": -0.4996451325957361,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 135.83333333333357,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 8149,
+        "timeS": 135.81666666666666,
+        "id": 7,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    },
+    {
+      "id": 8,
+      "label": "Kh-32",
+      "alive": false,
+      "life": 139.7833333333367,
+      "maxLife": 600,
+      "phase": "TERMINAL",
+      "_deathReason": "NORMAL_HIT",
+      "_wip113Outcome": "NORMAL_HIT",
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "cruiseAltM": 25005.124335177243,
+      "launchDistKm": 16.000000000000004,
+      "seekerOn": true,
+      "seekerLocked": true,
+      "_diveStarted": true,
+      "_diveStartKm": 53.54861041765256,
+      "_blindTerminal": false,
+      "positionM": {
+        "x": 11030.332982866792,
+        "y": -8617.898219615749,
+        "z": 12.344494166232769
+      },
+      "velocityMps": {
+        "x": -388.2278495974198,
+        "y": 69.51576455159744,
+        "z": -128.51995447296432
+      },
+      "speedMps": 414.81403474564695,
+      "insAimM": {
+        "x": 65.76985822361652,
+        "y": 222.53484352589336
+      },
+      "flight": {
+        "timeS": 139.7833333333367,
+        "engineTimeS": 139.10000000000284,
+        "cruisePhase": "TERMINAL_DIVE",
+        "bodyPitch": -0.29898401254832496,
+        "flightPath": -0.3150094675032521,
+        "cmdFlightPath": -0.3050236605292748,
+        "bodyYaw": 2.9734293188914087,
+        "flightPathYaw": 2.96441114832872,
+        "cmdFlightPathYaw": 2.9813719303376782,
+        "massKg": 2964.747050895704,
+        "propellantKg": 1.3470508957040837,
+        "fuelKg": 0,
+        "thrustN": 0,
+        "dragN": 33986.88036374972,
+        "normalG": 1.0891407533540303,
+        "lateralG": 0.49304786846708903,
+        "availableG": 8
+      },
+      "seeker": {
+        "mode": "TRACK",
+        "timeS": 139.7833333333367,
+        "trackValid": true
+      },
+      "nativeRetirement": {
+        "step": 8386,
+        "timeS": 139.76666666666665,
+        "id": 8,
+        "reason": "SURFACE_TARGET_IMPACT"
+      },
+      "nativeInterceptResults": [],
+      "terminalClassification": "NATIVE_TERMINAL:SURFACE_TARGET_IMPACT"
+    }
+  ],
+  "laterSpawnCount": 31,
+  "initialNativeTerminal": 8,
+  "gateFailure": null,
+  "faults": [],
+  "errors": [],
+  "restoredNativeRefs": {
+    "tick": true,
+    "retire": true,
+    "apply": true
+  },
+  "envStatus": {
+    "provenance": "GAME_ENGINE_COMPUTED",
+    "guidanceRevision": "NEAR_VERTICAL_PATH_FIX_A",
+    "envelopeMeasured": true,
+    "schema": "AEGIS_ENVELOPE_TABLE_D_3",
+    "effectiveIntervalsComplete": true,
+    "pendingEffectiveCells": 0,
+    "additionalMeasurementsRequired": false,
+    "rows": 120,
+    "targetLabel": "Kh-35U",
+    "currentProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+    "tableProfileHash": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+    "match": true,
+    "changedNativeFunctions": [],
+    "recalculationRequired": false,
+    "message": "게임 엔진 계산표 일치"
+  },
+  "lease": {
+    "slot": 0,
+    "waitS": 0.000134141999296844,
+    "scope": "COOPERATING_RUNNERS_ONLY_USE_SAME_HELPER"
+  },
+  "recordBytes": 859089,
+  "wallS": 83.71857915600413,
+  "releaseApproved": false,
+  "expectedValuesChanged": false,
+  "limitation": "ONE A/DDG pilot; B/DDG and A/B CG comparison still required; native MAX_LIFE/TIMEOUT is not kill"
+}

@@ -1,0 +1,13 @@
+--- historical-effective-expression
++++ pilot-expression
+@@ -6,8 +6,8 @@
+                         const label=Object.keys(exp.ship.damage.moduleDamage)[0];if(label)exp.ship.damage.moduleDamage[label]=40;
+                         d.importOperationalStateV48Wip11A(exp);
+                       }
+-                      const scale={idle:1,raid:8,damaged:16}[scenario],ticks={idle:240,raid:1920,damaged:480}[scenario];
+-                      d.profilerEnableV48Wip11A(true);d.profilerResetV48Wip11A();const t=performance.now(),run=d.runFramesToTicks(60,scale,ticks),elapsedMs=performance.now()-t;
++                      const scale={idle:1,raid:8,damaged:16}[scenario],ticks={idle:240,raid:36000,damaged:480}[scenario];
++                      d.profilerEnableV48Wip11A(true);d.profilerResetV48Wip11A();const t=performance.now(),run=window.__ORIGINAL_RAID_PILOT__.runFramesToTicks(60,scale,ticks,fixture),elapsedMs=performance.now()-t;
+                       const exp=d.exportOperationalStateV48Wip11A();
+                       return {fixture,scale,ticks,elapsedMs,run,profiler:d.profilerSnapshotV48Wip11A(),state:exp.ship,dynamics:d.shipDynamics(),observers:d.observerSnapshotC(),offboard:d.offboardSnapshotC(),rng:window.__HARPOON_DIAG_A__.snapshot().rng,
+                         ownership:d.runtimeOwnershipAuditV48Wip11A(),core:window.__CORE_SELFTEST_FAILURES__,faults:[window.__WIP125_DIAG__.wip150RuntimeFault(),window.__WIP125_DIAG__.wip150PresentationFault()]};

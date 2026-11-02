@@ -1,0 +1,301 @@
+{
+  "schema": "AEGIS_TRACK_B_NATIVE_SATURATION_PROVENANCE_1",
+  "runnerSha256": "33c6ae52f181c10452a4e9acbd9351edec1a108e0fa627e0c530b8a2ca64e64f",
+  "moduleSha256": "1abcb0863af7908931aa8a3f7c28cda37c10077f086eb903f387cefa7f1f86d7",
+  "candidateSha256": "a1e09f0ba815a84152b140ffeafcf139b0cbbf82911713d6c5802ed797fb0561",
+  "shadowSha256": "1faf9ec597c051fb672201db37c1e19f44344313ccb26e677154354e31dc6c5f",
+  "oldBReferenceSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "actualSourceLocations": [
+    {
+      "product": "baseline",
+      "htmlSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+      "packedMainIndex": 13,
+      "mainSha256": "616cb07bd7443031c36eece9419c4b7e249eee5d8e3494ed4539683a5b07e8be",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 4896,
+          "scopedFragmentSha256": "0b6e823b9b34ca03d3145706ec2f0e7b4937c0e1c29aff3fefbcd8ee3677a3e5",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26410,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 206,
+          "scopedFragmentSha256": "30f74ce540d59dda65a108febabb4eeb0f8e2d61bfe99d1c07b0b5d78c297e9a",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26362,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    },
+    {
+      "product": "shadow",
+      "htmlSha256": "1faf9ec597c051fb672201db37c1e19f44344313ccb26e677154354e31dc6c5f",
+      "packedMainIndex": 13,
+      "mainSha256": "df50d135ed1c465cc33338182e7e8efe0a41f80cca2ac4a69ce4cb35f791949e",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 5048,
+          "scopedFragmentSha256": "10da303f4fff906869fffb4c618ee234f7209fe932807bf74cde55005809e4cf",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26562,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 348,
+          "scopedFragmentSha256": "671bf0669b23b9310424364c6cc4d1c4c8ccb5ea28f6512fa0cca7e9c6e4793d",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26514,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    },
+    {
+      "product": "active",
+      "htmlSha256": "a1e09f0ba815a84152b140ffeafcf139b0cbbf82911713d6c5802ed797fb0561",
+      "packedMainIndex": 13,
+      "mainSha256": "796d685b5a098ac2de9acf09c07dfc393bbf5d929ad7c1b26dd695222f1ceb8d",
+      "functions": [
+        {
+          "function": "observerAcceptPlotsC",
+          "startLine": 5048,
+          "scopedFragmentSha256": "10da303f4fff906869fffb4c618ee234f7209fe932807bf74cde55005809e4cf",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "if(TRACK_A_DIAG.enabled)trackATraceEventA('CANDIDATE',plots[i],{...trackATraceContextA(surface(plots[i])?'SURFACE_RADAR':'AIR_RADAR',plots[i].source,r.entityId),route:'NPC_OBSERVER',appliedModel:surface(plots[i])?'SURFACE_POSITION_ONLY':'AIR_POLAR_DOPPLER',appliedDimension:surface(plots[i])?2:4,appliedFields:surface(plots[i])?['rangeM','azRad']:['rangeM','azRad','elRad','radialMps'],gateUnits:'NIS',trackId:id,nis,gate:64,decision:nis<=64?'ELIGIBLE':'REJECT',reason:'NATIVE_NIS'});",
+            "const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});"
+          ]
+        },
+        {
+          "function": "trackSurfacePositionAssociationNisWip13B9",
+          "startLine": 26562,
+          "scopedFragmentSha256": "12d913d7fdeeec0e58f1958e8746ac490270ae8bb1f7ac9de58089c11d618225",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": []
+        },
+        {
+          "function": "trackBSelectB",
+          "startLine": 348,
+          "scopedFragmentSha256": "671bf0669b23b9310424364c6cc4d1c4c8ccb5ea28f6512fa0cca7e9c6e4793d",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "for(const p of proposal.rejected)trackBTraceB({...context,plotIndex:p.i,trackId:p.id,nis:p.nis,gate:input.gate,...p.sanity,decision:'SANITY_REJECT',reason:p.sanity.reason});"
+          ]
+        },
+        {
+          "function": "trackEkfUpdateSurfaceRadar2D",
+          "startLine": 26514,
+          "scopedFragmentSha256": "5017a1844fed01de43a3b4fb4c7b3af7269b3bf4fc811b79335e20852aafcef0",
+          "scopeMeaning": "Existing original packer function scope, including following non-function statements until next same-indent function.",
+          "gateLines": [
+            "const surrogate={...meas,elRad:0,radialMps:0,radialVelSigmaMps:180,elSigmaDeg:20,losUz:0};",
+            "trackEkfInit(tr,surrogate);",
+            "tr._kfNis=nis;const gate=Number.isFinite(opts.nisGate)?opts.nisGate:SENSOR_MODEL.bridgeMasterE.nisGate;",
+            "if(Number.isFinite(gate)&&nis>gate){tr._kfRejectedNis=nis;tr._kfRejectedCount=(tr._kfRejectedCount??0)+1;trackRefreshDerivedQuality(tr);return false;}",
+            "const innovationCueNis=withDoppler?7.8:6.0,innovationManeuver=clamp((nis-innovationCueNis)/Math.max(6,gate-innovationCueNis),0,1),previousManeuver=Number(tr._surfaceManeuverProbabilityWip13B10)||0;"
+          ]
+        }
+      ]
+    }
+  ],
+  "helpers": [
+    {
+      "path": "docs/contact/track/B/test_support/native_support.js",
+      "sha256": "37efa43ce32a11e318bdee6f5dcda62606988349dff7c6a4bfc523419f7355b2"
+    },
+    {
+      "path": "docs/contact/track/B_stabilization/test_support/native_saturation.js",
+      "sha256": "49930d6ea824db674de3490fcd9d2c63519e6654ce2ab58fae85b380f5d2ddbc"
+    }
+  ],
+  "combinedFixtureSha256": "cb84a1c5562d039403ff4dabfbd000623b1c09274edcdb6bfad39a893aff27ef",
+  "fixtureCases": [
+    "clear13",
+    "clear16",
+    "equal13"
+  ],
+  "contexts": 3,
+  "maximumConcurrentBrowsers": 1,
+  "estimatedWallMinutes": 1,
+  "physicalRfGenerationEvidence": false,
+  "existingCoefficientsOrExpectationsChanged": false,
+  "frozenR1NativeInputs": {
+    "schema": "AEGIS_TRACK_B_R3_FROZEN_NATIVE_INPUTS_1",
+    "pinsSha256": "f7ef62cfce9a5ec2c950484fd341ecec5ea5722e5e87adf2616715eed4c3a469",
+    "status": "PASS",
+    "rows": [
+      {
+        "path": "docs/contact/track/B_stabilization/run_native_policy.py",
+        "sha256": "0c9ad77a7fb4ae2c088f177324b9c9c5a1b3aba198df5134801054c0b32815cb",
+        "expectedSha256": "0c9ad77a7fb4ae2c088f177324b9c9c5a1b3aba198df5134801054c0b32815cb",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization/run_original_native.py",
+        "sha256": "d71ce36634c9fac65a2b276f1021822e988b78bd37fa5db7f1f963d6e7ad3ae1",
+        "expectedSha256": "d71ce36634c9fac65a2b276f1021822e988b78bd37fa5db7f1f963d6e7ad3ae1",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization/run_native_saturation.py",
+        "sha256": "c28a3f289297992be5274d8a2dbe170df0946764b5a18fca1020173bd7672504",
+        "expectedSha256": "c28a3f289297992be5274d8a2dbe170df0946764b5a18fca1020173bd7672504",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization/test_support/native_policy.js",
+        "sha256": "3a2bd0db4c6ab42ece11222e1ba314645ba9941077183f1fa7c4727b2e3f572a",
+        "expectedSha256": "3a2bd0db4c6ab42ece11222e1ba314645ba9941077183f1fa7c4727b2e3f572a",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization/test_support/native_metadata.js",
+        "sha256": "42b061a5f6b08468ddb01f185a0ac5c78fcec57746b12dd4a8a3bbbd9f334141",
+        "expectedSha256": "42b061a5f6b08468ddb01f185a0ac5c78fcec57746b12dd4a8a3bbbd9f334141",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization/test_support/native_saturation.js",
+        "sha256": "49930d6ea824db674de3490fcd9d2c63519e6654ce2ab58fae85b380f5d2ddbc",
+        "expectedSha256": "49930d6ea824db674de3490fcd9d2c63519e6654ce2ab58fae85b380f5d2ddbc",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/run_native.py",
+        "sha256": "94eaaa6ca7d71093ae643126c8dba59a4c7f500567011d5ff84eb09e9a66e0c1",
+        "expectedSha256": "94eaaa6ca7d71093ae643126c8dba59a4c7f500567011d5ff84eb09e9a66e0c1",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/run_cohort_supplement.py",
+        "sha256": "a878e7ca00ca7eb76141bc34802d636e26e034e910083c1243c568b621b9cdbf",
+        "expectedSha256": "a878e7ca00ca7eb76141bc34802d636e26e034e910083c1243c568b621b9cdbf",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/test_support/native_support.js",
+        "sha256": "37efa43ce32a11e318bdee6f5dcda62606988349dff7c6a4bfc523419f7355b2",
+        "expectedSha256": "37efa43ce32a11e318bdee6f5dcda62606988349dff7c6a4bfc523419f7355b2",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/test_support/native_c55.js",
+        "sha256": "89285c1973b0f3a3197071e47071e183bea818da6e18b8b1d82012cc6905adbc",
+        "expectedSha256": "89285c1973b0f3a3197071e47071e183bea818da6e18b8b1d82012cc6905adbc",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/test_support/native_integration.js",
+        "sha256": "fd92d4efa93b1ec0101d987f33e23539d60087e5ab97051bfb7567d33e00b4b8",
+        "expectedSha256": "fd92d4efa93b1ec0101d987f33e23539d60087e5ab97051bfb7567d33e00b4b8",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/test_support/cohort_supplement.js",
+        "sha256": "e902f7736ce19fc060888d29c9ec0fb2b07073f5758ba16970ddd6f0f4d449a5",
+        "expectedSha256": "e902f7736ce19fc060888d29c9ec0fb2b07073f5758ba16970ddd6f0f4d449a5",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B/regression_runner.py",
+        "sha256": "fd7b2d57037b3b48b60ec7f1bc3bdf61d2672c4dd4f605d2dced926a01f1854a",
+        "expectedSha256": "fd7b2d57037b3b48b60ec7f1bc3bdf61d2672c4dd4f605d2dced926a01f1854a",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/A/verify_runtime.py",
+        "sha256": "f013a66d3fe6be98f59c670e49855e00e4c8f4eed628a9691ecec3406218474f",
+        "expectedSha256": "f013a66d3fe6be98f59c670e49855e00e4c8f4eed628a9691ecec3406218474f",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/run_native_policy.py",
+        "sha256": "7677681ebeae96758e05cb36ff34d18341138c7ec1275085473958b6a5bbe0b6",
+        "expectedSha256": "7677681ebeae96758e05cb36ff34d18341138c7ec1275085473958b6a5bbe0b6",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/run_original_native.py",
+        "sha256": "b94294728c63cfe85659f0fd0091617dec28a403553d95a493b61d2c609fb1e5",
+        "expectedSha256": "b94294728c63cfe85659f0fd0091617dec28a403553d95a493b61d2c609fb1e5",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/run_native_saturation.py",
+        "sha256": "a9f7865ff5b7214d66754ea973c1376036c3d4f8e2b5fb9e497c8aa368dbaf59",
+        "expectedSha256": "a9f7865ff5b7214d66754ea973c1376036c3d4f8e2b5fb9e497c8aa368dbaf59",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/controller_pins.py",
+        "sha256": "6fed74f084a1ef9c0ecc4efae5a6fa4e898b227ffaea5f0ff116c770e33049f1",
+        "expectedSha256": "6fed74f084a1ef9c0ecc4efae5a6fa4e898b227ffaea5f0ff116c770e33049f1",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/association.js",
+        "sha256": "499198392351c415cbf54d35d5731f393f650c6e1b00a694dd714ee318ed03bb",
+        "expectedSha256": "499198392351c415cbf54d35d5731f393f650c6e1b00a694dd714ee318ed03bb",
+        "exact": true
+      },
+      {
+        "path": "docs/contact/track/B_stabilization_r2/tests_residual.cjs",
+        "sha256": "eb2f65ee086c9ac35fba52ba9318aaa72affafd63444c2580659bdf2321a7624",
+        "expectedSha256": "eb2f65ee086c9ac35fba52ba9318aaa72affafd63444c2580659bdf2321a7624",
+        "exact": true
+      }
+    ],
+    "browserRuns": 0,
+    "R1SourceChanged": false
+  }
+}

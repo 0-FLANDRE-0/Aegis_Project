@@ -1,0 +1,2156 @@
+{
+  "suite": "TRACK_A_CONTRACT_UNIT",
+  "status": "PASS",
+  "fixtureOnly": true,
+  "naturalRfOrWeaponEvidence": false,
+  "module": "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/measurement-contract.js",
+  "moduleSha256": "b5fc75792e4bc7f05b7dc8f7e67f0195af3240b2f4a9aeb04b0b8bf85daf1810",
+  "assertionCount": 52,
+  "passed": 52,
+  "failed": 0,
+  "randomCalls": 0,
+  "wallClockCalls": 0,
+  "results": [
+    {
+      "name": "api.available",
+      "status": "PASS"
+    },
+    {
+      "name": "air.fourObservedChannels",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.sourceObserverAndTimestamps",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.payloadSourceFallback",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.unknownTimesNotZero",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.genuineZeroTimestampPreserved",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.packetMeasurementTimeAuthoritative",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.packetZeroTimeNotReplacedByReceipt",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.receiverGeometryPreservedInMeters",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.receiverGeometryNeverUsesOwnTruthFallback",
+      "status": "PASS"
+    },
+    {
+      "name": "surface.threeWithActualDoppler",
+      "status": "PASS"
+    },
+    {
+      "name": "surface.bridgeMasterTwoOnly",
+      "status": "PASS"
+    },
+    {
+      "name": "surface.zeroDopplerIsGenuineChannelWhenProvided",
+      "status": "PASS"
+    },
+    {
+      "name": "surface.noInventedHeightWhenPriorMissing",
+      "status": "PASS"
+    },
+    {
+      "name": "ciws.threePolarNotSixCartesian",
+      "status": "PASS"
+    },
+    {
+      "name": "visual.xyzNotPlaceholderDoppler",
+      "status": "PASS"
+    },
+    {
+      "name": "helo.rangeBearingAndSurfacePrior",
+      "status": "PASS"
+    },
+    {
+      "name": "esm.bearingOnlyNeverInventsRange",
+      "status": "PASS"
+    },
+    {
+      "name": "iff.observationDoesNotCreateAuthority",
+      "status": "PASS"
+    },
+    {
+      "name": "isar.featuresNotNewKinematicHit",
+      "status": "PASS"
+    },
+    {
+      "name": "offboard.reportedXYZNotPhysicalThreeD",
+      "status": "PASS"
+    },
+    {
+      "name": "network.reportedSixStateNotSixIndependentObservations",
+      "status": "PASS"
+    },
+    {
+      "name": "network.reconciledEstimateEpochIsNotMeasurementOrReceiptTime",
+      "status": "PASS"
+    },
+    {
+      "name": "networkSelf.notTargetObservation",
+      "status": "PASS"
+    },
+    {
+      "name": "provenance.explicitSequenceAndSourceSurvive",
+      "status": "PASS"
+    },
+    {
+      "name": "provenance.receiptDoesNotImplyIndependence",
+      "status": "PASS"
+    },
+    {
+      "name": "owner.receiverContextsDetachedAndDistinct",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthAndPolicyCanariesDropped",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.frozenInputUnchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.noReturnedAliases",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.repeatIsExact",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.normalizeNoClockOrRngRead",
+      "status": "PASS"
+    },
+    {
+      "name": "robust.nonfiniteNeverBecomesValidZero",
+      "status": "PASS"
+    },
+    {
+      "name": "robust.partialObservationMask",
+      "status": "PASS"
+    },
+    {
+      "name": "uncertainty.providedNoiseNotReplacedByFallback",
+      "status": "PASS"
+    },
+    {
+      "name": "uncertainty.missingNoiseStaysUnknown",
+      "status": "PASS"
+    },
+    {
+      "name": "uncertainty.cartesianCovarianceExactShape",
+      "status": "PASS"
+    },
+    {
+      "name": "uncertainty.networkCovarianceExactShape",
+      "status": "PASS"
+    },
+    {
+      "name": "uncertainty.ciwsVarianceExactShape",
+      "status": "PASS"
+    },
+    {
+      "name": "robust.nullPayload",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.defaultOff",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.disabledEventDoesNotRecord",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.boundedCapacityAndOverflow",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.overflowOrderAndDropAccounting",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.nativeGateResultCopiedWithoutRecalculation",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.snapshotDetached",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.queryNoStateMutation",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.clearOnlyDiagnostic",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.capacityBounds",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.privacyNoForbiddenFields",
+      "status": "PASS"
+    },
+    {
+      "name": "trace.beforeAfterStateRewhitelisted",
+      "status": "PASS"
+    },
+    {
+      "name": "global.noRandomOrWallClockCalls",
+      "status": "PASS"
+    }
+  ],
+  "records": {
+    "air": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "AIR_RADAR",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 12.5,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "rangeM",
+        "azRad",
+        "elRad",
+        "radialMps"
+      ],
+      "measurementModel": {
+        "name": "AIR_RADAR",
+        "dimension": 4,
+        "physicalObservationDimension": 4,
+        "rows": [
+          "rangeM",
+          "azRad",
+          "elRad",
+          "radialMps"
+        ]
+      },
+      "observed": {
+        "rangeM": 4123,
+        "azRad": 0.35,
+        "elRad": 0.07,
+        "radialMps": -210
+      },
+      "assumed": {},
+      "derived": {
+        "cartesianPositionM": {
+          "x": 4000,
+          "y": 1000,
+          "z": 50
+        }
+      },
+      "reported": {},
+      "observerState": {
+        "originM": {
+          "x": 500,
+          "y": 0,
+          "z": 22
+        },
+        "velocityMps": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {
+          "rangeSigmaM": 15,
+          "azSigmaDeg": 0.1,
+          "elSigmaDeg": 0.2,
+          "radialVelSigmaMps": 4
+        },
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": null,
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": 0.7,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {
+        "surface": 0.05,
+        "air": 0.85,
+        "missile": 0.1,
+        "background": 0
+      },
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 7,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "delayedReport": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "OFFBOARD_PLOT",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 4,
+      "receivedAtS": 12.8,
+      "measuredFields": [],
+      "measurementModel": {
+        "name": "REPORTED_CARTESIAN_POSITION",
+        "dimension": 3,
+        "physicalObservationDimension": null,
+        "rows": [
+          "reported.xM",
+          "reported.yM",
+          "reported.zM"
+        ]
+      },
+      "observed": {},
+      "assumed": {},
+      "derived": {},
+      "reported": {
+        "positionM": {
+          "x": 8000,
+          "y": 0,
+          "z": 8
+        },
+        "covarianceM2": [
+          100,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          16
+        ],
+        "componentObservability": "UPSTREAM_PHYSICAL_DIMENSIONS_NOT_IN_RECEIVED_SCHEMA"
+      },
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": [
+          100,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          16
+        ],
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "REPORTED_OR_RECEIVER_AGE_DERIVED",
+      "domainEvidence": {},
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 21,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "surface3": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "SURFACE_RADAR",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 12.5,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "rangeM",
+        "azRad",
+        "radialMps"
+      ],
+      "measurementModel": {
+        "name": "SURFACE_RADAR",
+        "dimension": 3,
+        "physicalObservationDimension": 3,
+        "rows": [
+          "rangeM",
+          "azRad",
+          "radialMps"
+        ]
+      },
+      "observed": {
+        "rangeM": 4123,
+        "azRad": 0.35,
+        "radialMps": -210
+      },
+      "assumed": {
+        "surfaceReferenceZM": {
+          "value": 8,
+          "role": "MODEL_PRIOR_NOT_ELEVATION"
+        }
+      },
+      "derived": {
+        "cartesianPositionM": {
+          "x": 4000,
+          "y": 1000,
+          "z": 8
+        }
+      },
+      "reported": {},
+      "observerState": {
+        "originM": {
+          "x": 500,
+          "y": 0,
+          "z": 22
+        },
+        "velocityMps": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {
+          "rangeSigmaM": 15,
+          "azSigmaDeg": 0.1,
+          "elSigmaDeg": 0.2,
+          "radialVelSigmaMps": 4
+        },
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": null,
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": 0.7,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {
+        "surface": 0.05,
+        "air": 0.85,
+        "missile": 0.1,
+        "background": 0
+      },
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 7,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "ciws": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "CIWS_LOCAL_RF",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 12.5,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "rangeM",
+        "azRad",
+        "elRad"
+      ],
+      "measurementModel": {
+        "name": "CIWS_LOCAL_RF",
+        "dimension": 3,
+        "physicalObservationDimension": 3,
+        "rows": [
+          "rangeM",
+          "azRad",
+          "elRad"
+        ]
+      },
+      "observed": {
+        "rangeM": 1000,
+        "azRad": 0.2,
+        "elRad": 0.01
+      },
+      "assumed": {},
+      "derived": {
+        "relativeCartesianM": {
+          "rxM": 980,
+          "ryM": 200,
+          "rzM": 10
+        }
+      },
+      "reported": {},
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": [
+          9,
+          25,
+          25
+        ],
+        "covarianceM2": null,
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": 0.8,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {},
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 7,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "helo": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "HELO_RADAR",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 4,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "rangeM",
+        "azRad"
+      ],
+      "measurementModel": {
+        "name": "HELO_RADAR",
+        "dimension": 2,
+        "physicalObservationDimension": 2,
+        "rows": [
+          "rangeM",
+          "azRad"
+        ]
+      },
+      "observed": {
+        "rangeM": 17000,
+        "azRad": 0.25
+      },
+      "assumed": {
+        "surfaceReferenceZM": {
+          "value": 8,
+          "role": "MODEL_PRIOR_NOT_ELEVATION"
+        }
+      },
+      "derived": {
+        "cartesianPositionM": {
+          "x": 16000,
+          "y": 4100,
+          "z": 8
+        }
+      },
+      "reported": {},
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": [
+          100,
+          0,
+          0,
+          0,
+          900,
+          0,
+          0,
+          0,
+          16
+        ],
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {
+        "surface": 0.98,
+        "air": 0.02,
+        "missile": 0,
+        "background": 0
+      },
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 7,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "esm": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "ESM_BEARING",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 12.5,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "bearingRad"
+      ],
+      "measurementModel": {
+        "name": "ESM_BEARING",
+        "dimension": 1,
+        "physicalObservationDimension": 1,
+        "rows": [
+          "bearingRad"
+        ]
+      },
+      "observed": {
+        "bearingRad": 0.75
+      },
+      "assumed": {},
+      "derived": {},
+      "reported": {
+        "emitterEvidence": {
+          "band": "IJ",
+          "family": "NAVIGATION RADAR",
+          "confidence": 0.7
+        }
+      },
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {
+          "bearingSigmaDeg": 2
+        },
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": null,
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {},
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 7,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "isar": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "ISAR_EVIDENCE",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 7,
+      "receivedAtS": 12.8,
+      "measuredFields": [
+        "lengthM",
+        "lengthSigmaM",
+        "mastPosition01",
+        "mastSigma01",
+        "quality",
+        "heightSigmaM",
+        "heightsM"
+      ],
+      "measurementModel": {
+        "name": "ISAR_FEATURE_EVIDENCE_NOT_POSITION_HIT",
+        "dimension": 0,
+        "physicalObservationDimension": 0,
+        "rows": []
+      },
+      "observed": {
+        "lengthM": 154.6,
+        "lengthSigmaM": 6,
+        "mastPosition01": 0.4,
+        "mastSigma01": 0.05,
+        "quality": 0.7,
+        "heightSigmaM": 2,
+        "heightsM": [
+          5,
+          8,
+          14,
+          20
+        ]
+      },
+      "assumed": {},
+      "derived": {},
+      "reported": {
+        "positionGateM": {
+          "x": 8000,
+          "y": 0,
+          "z": 8
+        },
+        "candidates": [
+          {
+            "classId": "BURKE_IIA",
+            "label": "Burke IIA",
+            "confidence": 0.8
+          }
+        ]
+      },
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": [
+          400,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          16
+        ],
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {},
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 3,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "offboard": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "OFFBOARD_PLOT",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 10,
+      "receivedAtS": 12.8,
+      "measuredFields": [],
+      "measurementModel": {
+        "name": "REPORTED_CARTESIAN_POSITION",
+        "dimension": 3,
+        "physicalObservationDimension": null,
+        "rows": [
+          "reported.xM",
+          "reported.yM",
+          "reported.zM"
+        ]
+      },
+      "observed": {},
+      "assumed": {},
+      "derived": {},
+      "reported": {
+        "positionM": {
+          "x": 8000,
+          "y": 200,
+          "z": 8
+        },
+        "covarianceM2": [
+          100,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          16
+        ],
+        "componentObservability": "UPSTREAM_PHYSICAL_DIMENSIONS_NOT_IN_RECEIVED_SCHEMA"
+      },
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": [
+          100,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          16
+        ],
+        "covariance": null,
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "REPORTED_OR_RECEIVER_AGE_DERIVED",
+      "domainEvidence": {
+        "surface": 0.98,
+        "air": 0.02,
+        "missile": 0,
+        "background": 0
+      },
+      "provenance": {
+        "sourceId": "H1",
+        "sequence": 19,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "network": {
+      "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+      "kind": "NETWORK_TRACK",
+      "sourceSensor": "UNIT_SENSOR",
+      "observerShip": "SELF_RECEIVER",
+      "measuredAtS": 10,
+      "receivedAtS": 12.8,
+      "measuredFields": [],
+      "measurementModel": {
+        "name": "REPORTED_FILTER_STATE",
+        "dimension": 6,
+        "physicalObservationDimension": null,
+        "rows": [
+          "reported.xM",
+          "reported.yM",
+          "reported.zM",
+          "reported.vxMps",
+          "reported.vyMps",
+          "reported.vzMps"
+        ]
+      },
+      "observed": {},
+      "assumed": {},
+      "derived": {},
+      "reported": {
+        "stateM": [
+          8000,
+          200,
+          50,
+          -100,
+          20,
+          1
+        ],
+        "covariance": [
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "stateAtS": null,
+        "componentObservability": "SENDER_FILTER_ESTIMATE_NOT_SIX_PHYSICAL_MEASUREMENTS"
+      },
+      "observerState": {
+        "originM": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "velocityMps": {
+          "x": null,
+          "y": null,
+          "z": null
+        },
+        "missingComponentsRemainUnknown": true
+      },
+      "uncertainty": {
+        "providedSigmas": {},
+        "cartesianCovarianceM2": null,
+        "relativePositionVarianceM2": null,
+        "covarianceM2": null,
+        "covariance": [
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "missingNoiseIsUnknown": true
+      },
+      "quality": null,
+      "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+      "domainEvidence": {},
+      "provenance": {
+        "sourceId": "ALLY_RADAR",
+        "sequence": 4,
+        "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+        "independentObservation": null
+      }
+    },
+    "traceOverflow": {
+      "schema": "AEGIS_TRACK_A_DIAGNOSTICS_1",
+      "enabled": true,
+      "capacity": 16,
+      "records": [
+        {
+          "serial": 33,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M33",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 34,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M34",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 35,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M35",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 36,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M36",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 37,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M37",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 38,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M38",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 39,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M39",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 40,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M40",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 41,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M41",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 42,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M42",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 43,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M43",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 44,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M44",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 45,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M45",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 46,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M46",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 47,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M47",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        },
+        {
+          "serial": 48,
+          "type": "MEASUREMENT",
+          "observerShip": "SELF",
+          "trackId": 42,
+          "decision": "ACCEPT",
+          "nis": 2,
+          "gate": 64,
+          "measurementId": "M48",
+          "measurement": {
+            "schema": "AEGIS_MEASUREMENT_CONTRACT_TRACK_A_1",
+            "kind": "SURFACE_RADAR",
+            "sourceSensor": "UNIT",
+            "observerShip": "SELF",
+            "measuredAtS": 1,
+            "receivedAtS": 1,
+            "measuredFields": [
+              "rangeM",
+              "azRad"
+            ],
+            "measurementModel": {
+              "name": "SURFACE_RADAR",
+              "dimension": 2,
+              "physicalObservationDimension": 2,
+              "rows": [
+                "rangeM",
+                "azRad"
+              ]
+            },
+            "observed": {
+              "rangeM": 1000,
+              "azRad": 0.2
+            },
+            "assumed": {
+              "surfaceReferenceZM": {
+                "value": 8,
+                "role": "MODEL_PRIOR_NOT_ELEVATION"
+              }
+            },
+            "derived": {},
+            "reported": {},
+            "observerState": {
+              "originM": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "velocityMps": {
+                "x": null,
+                "y": null,
+                "z": null
+              },
+              "missingComponentsRemainUnknown": true
+            },
+            "uncertainty": {
+              "providedSigmas": {},
+              "cartesianCovarianceM2": null,
+              "relativePositionVarianceM2": null,
+              "covarianceM2": null,
+              "covariance": null,
+              "missingNoiseIsUnknown": true
+            },
+            "quality": null,
+            "qualityOrigin": "SOURCE_PROVIDED_NOT_AUTHORITY",
+            "domainEvidence": {},
+            "provenance": {
+              "independence": "NOT_INFERRED_FROM_RECEIPT_OR_PACKET_SEQUENCE",
+              "independentObservation": null
+            }
+          }
+        }
+      ],
+      "stats": {
+        "recorded": 48,
+        "retained": 16,
+        "dropped": 32,
+        "errors": 0
+      }
+    }
+  }
+}

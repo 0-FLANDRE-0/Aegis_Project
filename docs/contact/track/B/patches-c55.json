@@ -1,0 +1,135 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "patches": [
+    {
+      "op": "module",
+      "label": "C55_SHADOW_ONLY_HELPER",
+      "path": "c55-shadow.js",
+      "anchor": "  function c55SensorSweep(m,b,dt){",
+      "placement": "before"
+    },
+    {
+      "op": "replace",
+      "label": "C55_DIAGNOSTIC_PRESWEEP_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];",
+      "after": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];\n    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_POST_RF_ACCEPTED_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      let best=null,error=Infinity;",
+      "after": "      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;\n      let best=null,error=Infinity;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_EXISTING_NATIVE_DISTANCE_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "        if(d<gate&&d<error){best=r;error=d;}",
+      "after": "        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});\n        if(d<gate&&d<error){best=r;error=d;}",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_NATIVE_RESULT_CAPTURE_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);",
+      "after": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);\n      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_SHADOW_ANALYZE_POST_NATIVE_SWEEP_0",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 0
+      },
+      "before": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n  }\n",
+      "after": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',owner.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:owner.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);\n  }\n",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_DIAGNOSTIC_PRESWEEP_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];",
+      "after": "    const o=ciwsMountStateM(m),seen=new Set(),cfg=CIWS_LOCAL_TRACK_MODEL[m.type];\n    const trackBShadow=TRACK_B_DIAG.enabled?trackBC55BeginB(b):null;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_POST_RF_ACCEPTED_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      let best=null,error=Infinity;",
+      "after": "      const trackBShadowPlot=trackBShadow?trackBC55CaptureB(trackBShadow,meas,!!src.own,seen):null;\n      let best=null,error=Infinity;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_EXISTING_NATIVE_DISTANCE_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "        if(d<gate&&d<error){best=r;error=d;}",
+      "after": "        if(trackBShadowPlot)trackBShadowPlot.nativeCandidates.push({id:r.id,distanceM:d,gate});\n        if(d<gate&&d<error){best=r;error=d;}",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_NATIVE_RESULT_CAPTURE_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);",
+      "after": "      best.ownFireEvidence=best.ownFireEvidence||src.own;c55UpdateFile(best,meas,m,mode,dt);\n      if(trackBShadowPlot)trackBShadowPlot.nativeTrackId=best.id;",
+      "count": 1
+    },
+    {
+      "op": "replace",
+      "label": "C55_SHADOW_ANALYZE_POST_NATIVE_SWEEP_1",
+      "scope": {
+        "function": "c55SensorSweep",
+        "occurrence": 1
+      },
+      "before": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n  }\n",
+      "after": "      if(TRACK_A_DIAG.enabled)trackATraceEventA('UPDATE',meas,{...trackATraceContextA('CIWS_LOCAL_RF','LOCAL_RF',ACTIVE_SHIP_RUNTIME.entityId),route:'C55',appliedModel:'RELATIVE_POSITION_DISTANCE',appliedDimension:3,appliedFields:['rxM','ryM','rzM'],gateUnits:'m',mountId:m.id,trackId:best.id,knownOwnLaunch:!!src.own,decision:trackABefore?'ACCEPT':'CREATE',finalSource:'LOCAL_RF',before:trackABefore,after:trackAStateA(best)});\n    }\n    if(trackBShadow)trackBC55AnalyzeB(trackBShadow,cfg,{observerShip:ACTIVE_SHIP_RUNTIME.entityId,mountId:m.id,timeS:simStepCounter*SIM_FIXED_DT,tick:simStepCounter},bridgeMasterEMinCostAssignmentV35);\n  }\n",
+      "count": 1
+    }
+  ],
+  "allowedChangedSymbols": [
+    "createWeaponContextD",
+    "c55SensorSweep"
+  ],
+  "allowedAddedSymbols": [
+    "trackBC55BeginB",
+    "trackBC55CaptureB",
+    "trackBC55AnalyzeB"
+  ],
+  "allowedProtectedAssociationChanges": [],
+  "behavior": "C55_SHADOW_ONLY_NATIVE_ASSOCIATION_UNCHANGED",
+  "defaultOffAllocations": "No snapshot/plot arrays or helpercalls when TRACK_B_DIAG.enabled=false; scalar null locals only",
+  "source": "/dev/shm/track-b-baseline-source.js"
+}

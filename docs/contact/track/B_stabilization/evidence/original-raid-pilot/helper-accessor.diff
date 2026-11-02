@@ -1,0 +1,10 @@
+--- original-paired120-helper
++++ test-copy-checkpoint-accessor
+@@ -18,6 +18,7 @@
+  window.__TRACK_B_PAIRED_CAUSE_120__=Object.freeze({
+   start(){if(armed||nativeTick)throw Error('PAIRED_120_INSTALLED_TWICE');nativeTick=simulateFixedTick;simulateFixedTick=function(...args){const value=nativeTick.apply(this,args);observe();return value;};if(typeof trackBSelectB==='function'){nativeSelect=trackBSelectB;trackBSelectB=function(...args){const result=nativeSelect.apply(this,args),input=args[0],t=simStepCounter*SIM_FIXED_DT;if(armed&&t>=3&&t<=3.8){edges.push({...stamp(),route:input.route,observerShip:input.observerShip,gate:input.gate,plotCount:input.plotCount,costUnits:input.costUnits??'NIS',pairs:(input.pairs??[]).map(copyPair),legacyPairs:input.legacyPairs?input.legacyPairs.map(copyPair):null,selected:result.pairs.map(copyPair),heldPlots:Array.from(result.heldPlots),heldTracks:Array.from(result.heldTracks),components:result.components.map(c=>({plots:Array.from(c.plots),tracks:Array.from(c.tracks),edgeCount:c.edgeCount,ambiguous:c.ambiguous,reason:c.reason}))});}return result;};}armed=true;rows.push(scalar());return {ready:true,step:simStepCounter,fixedDt:SIM_FIXED_DT};},
+   proof(){return {pipelineSource:String(nativeTick),baseSource:String(window.__TRACK_B_PAIRED_CAUSE_BASE_FN__),associationSource:nativeSelect?String(nativeSelect):null};},
++  checkpoint(step){return rows.find(r=>r.step===step)??null;},
+   stop(){armed=false;return {schema:'AEGIS_TRACK_B_PAIRED_CAUSE_120_1',tag:'AFTER_ACTION_TRUTH_TEST_ONLY',rows,events,edges,faults,targets:Array.from(targets.values(),outcome),step:simStepCounter,rng:SIM_RNG_STATE};}
+  });
+ })();

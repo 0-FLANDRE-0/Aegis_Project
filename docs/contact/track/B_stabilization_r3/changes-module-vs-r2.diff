@@ -1,0 +1,41 @@
+--- R2 association.js::49919839
++++ R3 association.js::1abcb086
+@@ -2,7 +2,7 @@
+ // Geometry reads anonymous measurements and receiver-owned filter estimates.
+ const TRACK_B_IMPLEMENTATION_MODE='ACTIVE';
+ const TRACK_B_STABILIZATION_MODE='ACTIVE'; // SHADOW applies frozen B; ACTIVE applies the validated candidate.
+-const TRACK_B_STABLE_POLICY=Object.freeze({provenance:'SIM_TUNED',reference:'ASSOCIATION_POLICY_NOT_RF',maxCertifiedComponentSize:128}); // Build-time ACTIVE or SHADOW; never a UI/diagnostic switch.
++const TRACK_B_STABLE_POLICY=Object.freeze({provenance:'SIM_TUNED',reference:'ASSOCIATION_POLICY_NOT_RF',maxCertifiedComponentSize:128,maxExactComponentSize:16}); // Build-time ACTIVE or SHADOW; never a UI/diagnostic switch.
+ const TRACK_B_POLICY=Object.freeze({
+   provenance:'SIM_TUNED', reference:'GAME_ASSOCIATION_POLICY_NOT_SENSOR_PHYSICS',
+   ambiguityDeltaNis:1, // Near-equal native NIS cost heuristic, not a calibrated probability.
+@@ -188,6 +188,12 @@
+       // a lower bound on every feasible alternative (including dummy costs).
+       const mins=costs.map(row=>Math.min(...row)),lower=mins.reduce((a,b)=>a+b,0),certifiedCols=new Set(),certifiedRows=new Set();
+       for(const q of base.out){let next=Infinity;for(let b=0;b<costs[q.a].length;b++)if(b!==q.b)next=Math.min(next,costs[q.a][b]);const altLower=lower-mins[q.a]+next;if(altLower>base.fullTotal+delta+TRACK_B_POLICY.numericEpsilon){chosen.push(index.get(q.a+':'+q.b));certifiedRows.add(rr[q.a]);certifiedCols.add(cc[q.b]);}}
++      // No certificate from a loose row-minimum bound does NOT prove
++      // ambiguity. Only complete <=16 parents with C=0 fall through to the
++      // unchanged exact forbidden-edge policy below. Preserve every existing
++      // R2 C>0 residual/S certificate; partial parents and >16 stay bounded.
++      const boundedExactFallback=base.count===rr.length&&certifiedRows.size===0&&rr.length<=TRACK_B_STABLE_POLICY.maxExactComponentSize&&cc.length<=TRACK_B_STABLE_POLICY.maxExactComponentSize;
++      if(!boundedExactFallback){
+       c.lowerBoundCertifiedCount=certifiedRows.size;c.exactResidualCertifiedCount=0;c.residualComponentsSolved=0;c.residualRefinementRejected=0;
+       // C is present in EVERY near-optimal global alternative. Fixing C leaves
+       // independent residual components. Only small/full-parent subproblems
+@@ -201,6 +207,7 @@
+       for(const i of rr)if(!certifiedRows.has(i))heldPlots.add(i);for(const id of cc)if(!certifiedCols.has(id))heldTracks.add(id);
+       c.certifiedCount=certifiedRows.size;c.ambiguous=certifiedRows.size<rr.length;
+       c.reason=c.exactResidualCertifiedCount>0?(c.ambiguous?'LARGE_COMPONENT_REFINED_PARTIAL_HOLD':'LARGE_COMPONENT_REFINED_EXACT'):(c.ambiguous?'LARGE_COMPONENT_UNCERTIFIED_HOLD':'LARGE_COMPONENT_CERTIFIED');components.push(c);continue;
++      }
+     }
+     for(const q of base.out){
+       const matrix=costs.map(row=>row.slice());matrix[q.a][q.b]=blocked;const alt=evaluate(matrix);
+@@ -227,7 +234,7 @@
+     while(queue.length){const i=queue.pop();if(rows.has(i))continue;rows.add(i);visited.add(i);for(const p of byRow.get(i)??[]){if(cols.has(p.id))continue;cols.add(p.id);for(const q of byCol.get(p.id)??[])if(!rows.has(q.i))queue.push(q.i);}}
+     if(rows.size>TRACK_B_POLICY.maxComponentSize||cols.size>TRACK_B_POLICY.maxComponentSize)continue;
+     const subset=[...rows].flatMap(i=>byRow.get(i));
+-    const result=trackBSolveB({...input,pairs:subset,ambiguityDeltaCost:delta},assigner);solved++;
++    const result=trackBSolveB({gate:input.gate,plotCount:input.plotCount,pairs:subset,ambiguityDeltaCost:delta},assigner);solved++;
+     if(result.pairs.some(p=>parentMap.get(rowIndex.get(p.i))!==colIndex.get(p.id))){rejected++;continue;}
+     out.push(...result.pairs);
+   }

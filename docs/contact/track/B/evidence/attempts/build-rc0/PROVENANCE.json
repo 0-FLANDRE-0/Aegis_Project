@@ -1,0 +1,122 @@
+{
+  "status": "HISTORICAL_UNAPPROVED_RC0",
+  "reason": "Three ownship SPY integration fixture failures require explicit association-path completion, not coefficient retuning",
+  "products": [
+    {
+      "path": "Aegis_SIM_v48_WIP_TRACK_B.html",
+      "sha256": "79a098a88c18c7521e54ed1f8115aac9d013321873400076b4e62482b5f78d4a",
+      "bytes": 22101439,
+      "notDuplicatedInArchive": true
+    },
+    {
+      "path": "Aegis_SIM_v48_WIP_TRACK_B_SHADOW.html",
+      "sha256": "ac96bc133ceb34fde4658ec0b7403c58dd074e9165616a4eb0b4a849507e35cf",
+      "bytes": 22101439,
+      "notDuplicatedInArchive": true
+    }
+  ],
+  "archivedFiles": [
+    {
+      "path": "BUILD.json",
+      "sha256": "0819880cb3993e830db292ef4f37886a40a6216a9e26151708aeabbde2838c0b",
+      "bytes": 207031
+    },
+    {
+      "path": "BUILD_SHADOW.json",
+      "sha256": "b14f4c14f0594879f79b4f2649581723bc8e0dd6f6e622f606a9777fcf19a849",
+      "bytes": 207038
+    },
+    {
+      "path": "SCOPE.json",
+      "sha256": "aeb2100f61eb4d9014c6b3b842f2219e3597ea45fcbd095f3f05c4352ada703b",
+      "bytes": 95017
+    },
+    {
+      "path": "SCOPE_SHADOW.json",
+      "sha256": "9ae0c3d3bd577f12346c4ec752141928bcf137db6cf07ed0d74e28e8a66eb3ab",
+      "bytes": 95017
+    },
+    {
+      "path": "patches.json",
+      "sha256": "176f800b7487a3581ff90d76cd785e46a4dd3939b75c2218d7c562e3b1b0be32",
+      "bytes": 22226
+    },
+    {
+      "path": "changes.diff",
+      "sha256": "b0cc30f352f01754f33553dbe6932f286afe25945ffba56957c77edfe4a632a8",
+      "bytes": 40003
+    },
+    {
+      "path": "changes-shadow.diff",
+      "sha256": "e495e41b8c19e839a59e2ee07f02ec7c52a079437958bb8ef4b04fc01415e5db",
+      "bytes": 40010
+    },
+    {
+      "path": "build.py",
+      "sha256": "0954a9212adb23a246fceef84c10c69cca98d3872dce4d75681a0424c345b2f8",
+      "bytes": 12264
+    },
+    {
+      "path": "check_scope.cjs",
+      "sha256": "564ae001718b79a31dac6f1af0170f63f18234cb703b04ddd2606625922775d9",
+      "bytes": 4916
+    },
+    {
+      "path": "association.js",
+      "sha256": "873828ef905b3a61da17d0978f12edd675ada54aeb17d0999e6df2923ec79b1c",
+      "bytes": 11170,
+      "source": "RECOVERED_EXACT_FROM_RC0_BUILD_CHANGE"
+    },
+    {
+      "path": "c55-shadow.js",
+      "sha256": "5c0977e800890f1bc2ba9144d14477a6722f6f207c2aa5bc6203033e2bad9d48",
+      "bytes": 4583,
+      "source": "RECOVERED_EXACT_FROM_RC0_BUILD_CHANGE"
+    }
+  ],
+  "nativeEvidence": [
+    {
+      "path": "evidence/attempts/native-integration-rc0/native_integration.js",
+      "sha256": "e91aca17f0f9bec4e3200c33fa4ebd2b24d764cd5d1c03d508eb0af4dec91df1",
+      "bytes": 15672
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/native_c55.js",
+      "sha256": "f27ccdb8622a94544f012dbac9e1001d96c49ab9038407f4f17dd8e92e5ec451",
+      "bytes": 4853
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/native_support.js",
+      "sha256": "0c76c55215ae900e8da35f13fb6d5f1c813e2c54f55136cd22949a814adb6153",
+      "bytes": 3443
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/HISTORICAL.json",
+      "sha256": "48fae172c47eae9f258210e15795b27ae9b3f9923c5d9c5b4bdf83aaa8c604ea",
+      "bytes": 469
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/baseline.json",
+      "sha256": "648e4f94005a42cb499473013eb38801d391ad795a76c09e111b0a133d4f6242",
+      "bytes": 146005
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/shadow.json",
+      "sha256": "d823d3897bc648b587c70fc000f9b7232e9323ab74af15a4972996fe81e7aae3",
+      "bytes": 174739
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/active.json",
+      "sha256": "1373fe77838d36485215310950540bd3f53744c302d62692cb458df206d9adfe",
+      "bytes": 173151
+    },
+    {
+      "path": "evidence/attempts/native-integration-rc0/SUMMARY.json",
+      "sha256": "765ca5e7bbd65610c4a776774176a0433d9a67a977b243bf77a34c6e0c1e0a7c",
+      "bytes": 3106
+    }
+  ],
+  "baselineHtmlSha256": "e2c1976a8a21eae6a494bf6caf0ec5b702663bd97721763ef7e92c6d6096d67a",
+  "fullHtmlDuplicates": false,
+  "reproduction": "Use archived build.py transform/pack with P set to this archive and archived materialized patches.json; baseline TRACK_A HTML remains the pinned input. No component files are needed for direct transform because all exact patch text and both original module files are archived."
+}

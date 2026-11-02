@@ -1,0 +1,23 @@
+{
+  "status": "INCOMPLETE_EXECUTION_ERROR",
+  "argv": [
+    "docs/contact/track/B_stabilization/battle.py",
+    "--run",
+    "--versions",
+    "candidate-active",
+    "--candidate",
+    "/dev/shm/track-b-stabilization-variants/Aegis_TRACK_B_DIAGNOSTIC_S_ONLY.html",
+    "--cases",
+    "NATURAL_SATURATION_13",
+    "--sha",
+    "ad295c1432f8405c417ca11e65e402294b8df896f7de1531ac5571e30d3c623d",
+    "--out",
+    "docs/contact/track/B_stabilization/evidence/battle-ablation/s-only"
+  ],
+  "error": "('candidate-active', 'Frozen product SHA required')",
+  "traceback": "Traceback (most recent call last):\n  File \"/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/battle.py\", line 104, in <module>\n    try:raise SystemExit(main())\n                         ^^^^^^\n  File \"/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/battle.py\", line 79, in main\n    assert pinned and file.exists()and sha(file.read_bytes())==pinned,(label,'Frozen product SHA required');products.append((label,file,pinned))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('candidate-active', 'Frozen product SHA required')\n",
+  "fixtureSha256": "bbecae524297ecb0f0c32969ad6079f4834dca4547fbcf402e551c5c81a0070b",
+  "productCodeChanged": false,
+  "expectedValuesChanged": false,
+  "releaseApproved": false
+}

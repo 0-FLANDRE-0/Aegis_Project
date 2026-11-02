@@ -1,0 +1,78 @@
+{
+  "schema": "AEGIS_TRACK_B_R2_RESIDUAL_POLICY_TEST_1",
+  "status": "FAIL",
+  "modulePath": "docs/contact/track/B_stabilization_r3/association.js",
+  "moduleSha256": "e43b58dfb6868ef19b964a246476d68998468e3c475208f6ade0c74152c91a71",
+  "testSourceSha256": "eb2f65ee086c9ac35fba52ba9318aaa72affafd63444c2580659bdf2321a7624",
+  "nativeSourcePath": "/dev/shm/track-b-baseline-source.js",
+  "nativeHungarianSha256": "67c7c70e32ab3d314abef3e7a72f824fbba83fd0c6ae56c9bac31ad820d97f34",
+  "count": 15,
+  "passed": 14,
+  "failed": 1,
+  "classification": "ACTUAL_R2_SOLVER_AND_NATIVE_HUNGARIAN_PURE_GRAPH_CONTRACTS",
+  "browserRuns": 0,
+  "R1SourceOrExpectationsChanged": false,
+  "rows": [
+    {
+      "name": "constants.originalDeltaOneAndBoundTwelvePreserved",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.partialParentCannotRefineEvenWithCertifiedAnchor",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.noCertifiedCDoesNotInvokeResidualEvenWithClearGlobalWinner",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nundefined !== 0\n\n    at Object.fn (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization_r2/tests_residual.cjs:19:155)\n    at Object.<anonymous> (/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization_r2/tests_residual.cjs:32:29)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "negative.remainingComponentAboveTwelveStaysHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactTiedResidualAtTwelveStaysHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.smallResidualNisLikelihoodConflictKeepsHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactSignalResidualNotResolvedByMetadata",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.agreeingResidualUsesExistingCertificateAndParentWinner",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.childCannotReplaceOriginalParentEdge",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.deepFrozenResidualInputDoesNotMutate",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.selectedResidualEvidenceDetached",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.repeatedResidualQueriesLeaveDiagnosticStateUntouched",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.residualPairOrderDoesNotChangeMeaning",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.largeResidualTruthCanariesIgnoredAndNotReturned",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.overallComputationBoundStillHoldsWithoutDenseRecursion",
+      "status": "PASS"
+    }
+  ]
+}

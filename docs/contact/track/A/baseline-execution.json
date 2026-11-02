@@ -1,0 +1,84 @@
+{
+  "schema": "AEGIS_TRACK_A_FRESH_BASELINE_1",
+  "html": "Aegis_SIM_v48_WIP_FRIENDLY_CONTACT_A.html",
+  "htmlSha256": "cfc74427e3d30efafec187c3fd99924f5063e74d8dbe3f8e36caebd68d149cda",
+  "baselineHead": "4ba64ba0cace9124497a710d00df1b174984ffdc",
+  "outputAdapterOnly": true,
+  "fixtureOrAssertionChanges": false,
+  "rows": [
+    {
+      "task": "d1",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "d1"
+      ],
+      "exitCode": 0,
+      "wallS": 428.99224033998325
+    },
+    {
+      "task": "repro",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "repro"
+      ],
+      "exitCode": 0,
+      "wallS": 61.886924289981835
+    },
+    {
+      "task": "trace419025",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "trace419025"
+      ],
+      "exitCode": 0,
+      "wallS": 25.427165765024256
+    },
+    {
+      "task": "contracts",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "contracts"
+      ],
+      "exitCode": 0,
+      "wallS": 12.858004514011554
+    },
+    {
+      "task": "auto-iff",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "auto-iff"
+      ],
+      "exitCode": 0,
+      "wallS": 21.64574789998005
+    },
+    {
+      "task": "idle",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/track/A/baseline_runner.py",
+        "--worker",
+        "idle"
+      ],
+      "exitCode": 0,
+      "wallS": 46.902661838015774
+    }
+  ],
+  "wallS": 597.7141573019908,
+  "releaseApproved": false
+}

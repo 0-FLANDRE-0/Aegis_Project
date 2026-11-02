@@ -1,0 +1,26 @@
+{
+  "status": "INCOMPLETE_EXECUTION_ERROR",
+  "argv": [
+    "docs/contact/track/B_stabilization/battle.py",
+    "--run",
+    "--versions",
+    "track-a",
+    "old-active",
+    "candidate-shadow",
+    "candidate-active",
+    "--cases",
+    "NATURAL_SATURATION_13",
+    "--sha",
+    "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+    "--shadow-sha",
+    "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+    "--out",
+    "docs/contact/track/B_stabilization/evidence/battle-final"
+  ],
+  "error": "('Capture exceeds 10MiB', 13747415)",
+  "traceback": "Traceback (most recent call last):\n  File \"/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/battle.py\", line 60, in <module>\n    try:raise SystemExit(main())\n                         ^^^^^^\n  File \"/dev/shm/aegis-ciws-dmg-a/docs/contact/track/B_stabilization/battle.py\", line 53, in main\n    raw=json.dumps(result,separators=(',',':')).encode();assert len(raw)<=10*1024*1024,('Capture exceeds 10MiB',len(raw));tag=label+'-'+name;(a.out/(tag+'.json.gz')).write_bytes(gzip.compress(raw,6,mtime=0));(a.out/(tag+'-PASSIVE.json.gz')).write_bytes(gzip.compress(state.encode(),6,mtime=0));row={'version':label,'case':name,'productSha256':pinned,'setupSha256':sha(json.dumps(case,sort_keys=True,separators=(',',':')).encode()),'fixtureSha256':plan['fixtureSha256'],'passiveHelperSha256':sha(passive.encode()),'passiveFinalStateSha256':sha(state.encode()),'nativeSourceHashes':sourceHashes,'qualification':result['qualification'],'postValidation':validation,'status':result['status'],'end':result['end'],'counts':result['counts'],'targets':result['targets'],'hp':result['final']['ship']['shipHP'],'inventory':result['final']['inventory'],'core':result['final']['core'],'faults':result['faults'],'recordBytes':len(raw),'wallS':time.perf_counter()-at,'lease':lease,'releaseApproved':False};rows.append(row);(a.out/(tag+'-SUMMARY.json')).write_text(json.dumps(row,indent=2)+'\\n');page.context.close();browser.close();print(json.dumps({k:row[k]for k in ['version','case','status','end','postValidation','hp','wallS']}|{'launches':row['counts']['launches'],'intercepts':row['counts']['intercepts'],'componentMaximum':row['counts']['componentMaximum'],'componentsOver12':row['counts']['componentsOver12']},ensure_ascii=False),flush=True)\n                                                                ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('Capture exceeds 10MiB', 13747415)\n",
+  "fixtureSha256": "bbecae524297ecb0f0c32969ad6079f4834dca4547fbcf402e551c5c81a0070b",
+  "productCodeChanged": false,
+  "expectedValuesChanged": false,
+  "releaseApproved": false
+}

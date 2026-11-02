@@ -1,0 +1,15 @@
+
+// AFTER_ACTION_TRUTH_TEST_ONLY. Passive observer, never a command input.
+function baselineRngSnapshotA(){return {tag:'AFTER_ACTION_TRUTH_TEST_ONLY',global:SIM_RNG_STATE,mounts:ciws.map(m=>({id:m.id,sensor:cdCopy(CIWS_C55.banks.get(m.id)?.rng??null),aim:m._gunAimRngState??null,shot:m._gunShotRngState??null}))};}
+function baselineTargetPhysicalA(em){return {tag:'AFTER_ACTION_TRUTH_TEST_ONLY',id:em?.id,structDmg:em?._structDmg??0,systems:cdCopy(em?._systemDamage??null),behavior:cdCopy(em?._wip113Behavior??null),position:em?{x:em.x,y:em.y,z:em.z,vx:em.vx,vy:em.vy,vz:em.vz}:null,flight:em?.flight?Object.fromEntries(['speedMps','flightPath','flightPathYaw','cmdFlightPath','cmdFlightPathYaw','_wip113GuidanceMode','_wip113EngineStopped','_wip113AvailableG'].filter(k=>k in em.flight).map(k=>[k,em.flight[k]])):null};}
+const baselineEmitA=cdEmit;
+cdEmit=function(){const n=CD_A.events.length,r=baselineEmitA.apply(this,arguments);if(CD_A.active&&CD_A.events.length>n)CD_A.events[CD_A.events.length-1].afterActionRng=baselineRngSnapshotA();return r;};
+cdInstall();
+const baselinePhalanxA=applyPhalanxProjectileHit;
+applyPhalanxProjectileHit=function(){if(CD_A.active)cdEmit('RNG_PHALANX_BEFORE',{targetId:arguments[0]?.id,rng:baselineRngSnapshotA(),targetPhysical:baselineTargetPhysicalA(arguments[0])});const r=baselinePhalanxA.apply(this,arguments);if(CD_A.active)cdEmit('RNG_PHALANX_AFTER',{targetId:arguments[0]?.id,result:r,rng:baselineRngSnapshotA(),targetPhysical:baselineTargetPhysicalA(arguments[0])});return r;};
+function baselineObserveRamA(native,kind){return function(rm,dt){const enabled=CD_A.active&&simStepCounter*SIM_FIXED_DT>=30,before=enabled?baselineRngSnapshotA():null,result=native.apply(this,arguments);if(enabled)cdEmit('RAM_MEASUREMENT_RNG',{tag:'AFTER_ACTION_TRUTH_TEST_ONLY',sensor:kind,ramId:rm.id,lifeS:rm.life,measurement:result?Object.fromEntries(['azRad','elRad','snr','signal','quality','compositeCount'].filter(k=>k in result).map(k=>[k,result[k]])):null,before,after:baselineRngSnapshotA(),authority:rm._ramSeekerAuthority});return result;};}
+ramRfMeasurement=baselineObserveRamA(ramRfMeasurement,'RF');ramIrMeasurement=baselineObserveRamA(ramIrMeasurement,'IR');
+const baselinePhysicalTickA=updateEnemyMissileBaseC52;
+updateEnemyMissileBaseC52=function(em,dt){const t=simStepCounter*SIM_FIXED_DT,record=CD_A.active&&t>=34.45&&t<=34.75,before=record?{rng:baselineRngSnapshotA(),targetPhysical:baselineTargetPhysicalA(em)}:null,r=baselinePhysicalTickA.apply(this,arguments);if(record)cdEmit('ASM_PHYSICAL_RNG_TRANSITION',{tag:'AFTER_ACTION_TRUTH_TEST_ONLY',before,after:{rng:baselineRngSnapshotA(),targetPhysical:baselineTargetPhysicalA(em)}});return r;};
+const baselineRandomA=simRandom;
+simRandom=function(){const before=SIM_RNG_STATE,r=baselineRandomA.apply(this,arguments),t=simStepCounter*SIM_FIXED_DT;if(CD_A.active&&t>=34.45&&t<=34.65)cdEmit('RNG_CALL_SITE',{tag:'AFTER_ACTION_TRUTH_TEST_ONLY',before,after:SIM_RNG_STATE,value:r,stack:String(new Error().stack)});return r;};

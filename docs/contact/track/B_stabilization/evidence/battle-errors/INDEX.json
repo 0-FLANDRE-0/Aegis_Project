@@ -1,0 +1,98 @@
+{
+  "schema": "AEGIS_BATTLE_TOOLING_FAILURE_INDEX_1",
+  "rows": [
+    {
+      "path": "1793555116512983829.json",
+      "sha256": "fac1acc5b897a39d246ab1ff0964663d644bd5bbd044325a9b692ebc5817ef9e",
+      "status": "INCOMPLETE_EXECUTION_ERROR",
+      "error": "Page.evaluate: ReferenceError: exportOperationalStateV48Wip11A is not defined\n    at Object.run (<anonymous>:65214:13)\n    at eval (eval at evaluate (:311:30), <anonymous>:1:43)\n    at UtilityScript.evaluate (<anonymous>:318:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "argv": [
+        "docs/contact/track/B_stabilization/battle.py",
+        "--run",
+        "--versions",
+        "track-a",
+        "--cases",
+        "PILOT_SINGLE",
+        "--out",
+        "docs/contact/track/B_stabilization/evidence/battle-pilot"
+      ],
+      "nativeOutcome": "NOT_INFERRED_FROM_TOOLING_FAILURE",
+      "rawResultLostBeforePersistence": true,
+      "releaseApproved": false
+    },
+    {
+      "path": "1793558387765145030.json",
+      "sha256": "ad6c5fa65b78daf49a336f86a3aaa17152e473a2c8ffaf0865d64915bd844dfe",
+      "status": "INCOMPLETE_EXECUTION_ERROR",
+      "error": "('Capture exceeds 10MiB', 13747415)",
+      "argv": [
+        "docs/contact/track/B_stabilization/battle.py",
+        "--run",
+        "--versions",
+        "track-a",
+        "old-active",
+        "candidate-shadow",
+        "candidate-active",
+        "--cases",
+        "NATURAL_SATURATION_13",
+        "--sha",
+        "87da98bf8f6d8bd68ef87a3d2ac75ce9c355db9e95bd192ab060d01e5bdede18",
+        "--shadow-sha",
+        "75b845f5b353c576ea191a2508578edcb29b4110a69cbf97e532df6562747d4f",
+        "--out",
+        "docs/contact/track/B_stabilization/evidence/battle-final"
+      ],
+      "nativeOutcome": "NOT_INFERRED_FROM_TOOLING_FAILURE",
+      "rawResultLostBeforePersistence": true,
+      "releaseApproved": false
+    },
+    {
+      "path": "1793560117838230494.json",
+      "sha256": "d2835f38830558bb44e1ed7f990c6832445ecf412f719fa774238be8dd5df126",
+      "status": "INCOMPLETE_EXECUTION_ERROR",
+      "error": "('candidate-active', 'Frozen product SHA required')",
+      "argv": [
+        "docs/contact/track/B_stabilization/battle.py",
+        "--run",
+        "--versions",
+        "candidate-active",
+        "--candidate",
+        "/dev/shm/track-b-stabilization-variants/Aegis_TRACK_B_DIAGNOSTIC_S_ONLY.html",
+        "--cases",
+        "NATURAL_SATURATION_13",
+        "--sha",
+        "ad295c1432f8405c417ca11e65e402294b8df896f7de1531ac5571e30d3c623d",
+        "--out",
+        "docs/contact/track/B_stabilization/evidence/battle-ablation/s-only"
+      ],
+      "nativeOutcome": "NOT_INFERRED_FROM_TOOLING_FAILURE",
+      "rawResultLostBeforePersistence": false,
+      "releaseApproved": false
+    },
+    {
+      "path": "1793560322413816913.json",
+      "sha256": "d4aea6be1e983eee6f77013749396399705a19ae758637833f222724b06a4ece",
+      "status": "INCOMPLETE_EXECUTION_ERROR",
+      "error": "('Capture exceeds 10MiB', 10913073)",
+      "argv": [
+        "docs/contact/track/B_stabilization/battle.py",
+        "--run",
+        "--versions",
+        "candidate-active",
+        "--candidate",
+        "/dev/shm/track-b-stabilization-variants/Aegis_TRACK_B_DIAGNOSTIC_LARGE_ONLY.html",
+        "--cases",
+        "NATURAL_SATURATION_13",
+        "--sha",
+        "b3496a9f33ae0a3180201df24d501c81c842d114dc18e9ac9e6406a342708182",
+        "--out",
+        "docs/contact/track/B_stabilization/evidence/battle-ablation/large-only"
+      ],
+      "nativeOutcome": "NOT_INFERRED_FROM_TOOLING_FAILURE",
+      "rawResultLostBeforePersistence": true,
+      "releaseApproved": false
+    }
+  ],
+  "meaning": "These execution/precondition failures are retained and excluded from native outcome denominators. Replays have separate pinned raw records. No game PASS/FAIL is inferred from unavailable result objects.",
+  "releaseApproved": false
+}

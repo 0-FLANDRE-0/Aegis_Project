@@ -1,0 +1,211 @@
+{
+  "version": "candidate-active",
+  "case": "CROSS_419025",
+  "productSha256": "48b023c580db02b08f165fa7ac68f973734d82e8fb4daa5981dcc90b7e04e4ab",
+  "setupSha256": "8eeeab7e872dac3ecaa353c6e1cfb66b19d76be26f54ce05789b94a9dc1b98bd",
+  "fixtureSha256": "b54e9629da0f4e4d9ca514311271ea0f07f182d6368b34b39d7e82f9c5fe7ceb",
+  "passiveHelperSha256": "2ff717024dc62eba7117bdabaa8733bc7afd38ea8b778316d5c81d9564b09bef",
+  "passiveFinalStateSha256": "3d3caf2eb2f02185de5e766c159acf3e03ef4bfc05f316d36404eb08c3dcc7b7",
+  "nativeSourceHashes": {
+    "pipeline": "c4f08708d5810c3838be61e8c354e5709178929007056069674a4624b8ffc1b1",
+    "samFlight": "88bd6a222994efcdba9a72a75430af6ddf2854c5ad5350b21736a906db44f9bd",
+    "asmFlight": "6c8a7dd90a1f30952acb983f963665361ff7ee990ab7b585d40cecd9f2faa287",
+    "pk": "b7f33926f561be2d9cc599ac3dd6f413a34fe1c3fda702eb38dd862e7727dfd9",
+    "applyPk": "66aaa8fa5688a3e60c43673b925bdd0ef8ed2f7b207c55e946abb484ef3f8ecd",
+    "association": "ea8eccfe4d31f3b0c0ced7138e65d90e0225255f8bc1646d2ecd5a1b26be5675",
+    "rfAssociation": "f95ea8a877291e69bc199efaa34925278531f25141e9cfd3e189e5758f8c9a48",
+    "spawn": "464f1388a3e2b53ca6de34b2d7915434d4b11e0cf9619ea61f0ef8eddc29021f",
+    "reset": "387970e71d1cb6bd28985fbf294bb3eb3811d0376c148545fd6ebcefe558cbc0"
+  },
+  "qualification": {
+    "startsWithZeroTracks": true,
+    "nativeSensorUpdates": true,
+    "nativeAutoWeaponRelease": true,
+    "allInitialTerminalOrPreregisteredEgress": true,
+    "endedAtPreregisteredEndpoint": true,
+    "noSamplerFault": true,
+    "noDiagnosticDrop": true
+  },
+  "postValidation": {
+    "nativeCoreZero": true,
+    "nativeRuntimeFaultNull": true,
+    "nativePresentationFaultNull": true,
+    "samplerFaultZero": true,
+    "helperEventDropZero": true,
+    "actualAssociationReturnDropZero": true,
+    "plotLineageCaptureDropZero": true,
+    "nativeTraceAErrorZero": true,
+    "nativeTraceBErrorZero": true,
+    "noInterceptorRuntimeError": true
+  },
+  "status": "QUALIFYING_COMPLETED_BATTLE",
+  "end": {
+    "reason": "ALL_INITIAL_NATIVE_TERMINAL_OR_EGRESS_PLUS_5S",
+    "step": 1469,
+    "timeS": 24.483333333333334,
+    "resolvedStep": 1169,
+    "remainingSam": 2,
+    "remainingRam": 0,
+    "remainingInitialThreats": 0
+  },
+  "counts": {
+    "ticks": 1469,
+    "events": 146,
+    "eventsDropped": 0,
+    "traceA": 23033,
+    "traceATypes": {
+      "RECEIVED": 5501,
+      "UPDATE": 3956,
+      "CANDIDATE": 12052,
+      "ASSIGNMENT": 1524
+    },
+    "traceADecisions": {
+      "NO_DETECTION": 1250,
+      "PENDING": 2266,
+      "CREATE": 22,
+      "ELIGIBLE": 4260,
+      "ASSIGN": 1215,
+      "ACCEPT": 3934,
+      "DETECTED": 1690,
+      "REJECT": 7792,
+      "ASSOCIATE_WITHOUT_HIT": 54,
+      "BEARING_ONLY": 295,
+      "NO_ASSIGNMENT": 255
+    },
+    "nativeUpdates": 3956,
+    "traceB": 1039,
+    "holds": 4,
+    "actualHeldPlotAppearances": 2,
+    "actualSelectedPairAppearances": 1049,
+    "proposalHeldPlotAppearances": 2,
+    "proposalHeldPlotsByRoute": {
+      "OWN_SPY_GLOBAL": 2
+    },
+    "associationReturnsDropped": 0,
+    "lineageRecordsDropped": 0,
+    "heldTrackTicks": 11,
+    "componentMaximum": 2,
+    "componentsOver12": 0,
+    "launches": {
+      "ESSM": 7,
+      "RAM": 1
+    },
+    "intercepts": {
+      "MISS": 2,
+      "KILL": 2,
+      "DAMAGED": 1
+    },
+    "phalanxHits": 0,
+    "shipHitRecords": 0,
+    "peakTracks": 2
+  },
+  "targets": [
+    {
+      "id": 2,
+      "label": "Kh-35U",
+      "alive": false,
+      "life": 12.30000000000019,
+      "_outcomeRecorded": true,
+      "_warheadState": "DUD",
+      "retirement": {
+        "cause": "INTERCEPT_KILL",
+        "step": 738
+      },
+      "systems": {
+        "seeker": 100,
+        "guidance": 100,
+        "fuze": 100,
+        "warhead": 100,
+        "fuel": 100,
+        "engine": 100,
+        "fins": 100
+      },
+      "behavior": {
+        "seekerFailed": false,
+        "guidanceMode": "NORMAL",
+        "engineStopped": false,
+        "fuelEngineStopped": false,
+        "finsScale": 1,
+        "availableG": 12
+      },
+      "statisticalEgress": {
+        "minRangeM": 7538.141052255145,
+        "previousRangeM": 7538.141052255145,
+        "outwardS": 0,
+        "qualified": false
+      },
+      "statisticalResolved": true
+    },
+    {
+      "id": 4,
+      "label": "Kh-35U",
+      "alive": false,
+      "life": 19.48333333333351,
+      "_outcomeRecorded": true,
+      "_warheadState": "NORMAL",
+      "retirement": {
+        "cause": "INTERCEPT_KILL",
+        "step": 1168
+      },
+      "systems": {
+        "seeker": 34,
+        "guidance": 0,
+        "fuze": 0,
+        "warhead": 0,
+        "fuel": 0,
+        "engine": 0,
+        "fins": 0
+      },
+      "behavior": {
+        "seekerFailed": false,
+        "guidanceMode": "NORMAL",
+        "engineStopped": false,
+        "fuelEngineStopped": false,
+        "finsScale": 1,
+        "availableG": 12
+      },
+      "statisticalEgress": {
+        "minRangeM": 5595.230187807343,
+        "previousRangeM": 5595.230187807343,
+        "outwardS": 0,
+        "qualified": false
+      },
+      "statisticalResolved": true
+    }
+  ],
+  "hp": 100,
+  "inventory": {
+    "vls": {
+      "fwd": {
+        "SM2": 32
+      },
+      "aft": {
+        "SM2": 40,
+        "EMPTY": 1,
+        "ESSM4": 89
+      }
+    },
+    "ciws": [
+      {
+        "id": 1,
+        "type": "GUN",
+        "ammo": 1550
+      },
+      {
+        "id": 2,
+        "type": "RAM",
+        "ammo": 10
+      }
+    ]
+  },
+  "core": [],
+  "faults": [],
+  "recordBytes": 1031036,
+  "wallS": 14.768044033000479,
+  "lease": {
+    "slot": 0,
+    "waitS": 5.13480044901371e-05,
+    "scope": "COOPERATING_RUNNERS_ONLY_USE_SAME_HELPER"
+  },
+  "releaseApproved": false
+}

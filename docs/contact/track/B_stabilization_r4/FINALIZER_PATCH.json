@@ -1,0 +1,10 @@
+{
+  "op": "replace",
+  "label": "STABLE_REACQUIRE_TASK_OWNERSHIP",
+  "scope": {
+    "function": "spyFinalizeAcceptedTrackV31"
+  },
+  "before": "    if(task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE'){",
+  "after": "    // Association metadata ownership: a coherent anonymous return for a\n    // firm neighbouring file must not inherit the scheduled file's reacquire\n    // state. Actual RF task/source, EKF correction and existing reacquisition\n    // recovery remain unchanged. Frozen B / SHADOW retain their exact path.\n    const foreignFirmReturn=TRACK_B_IMPLEMENTATION_MODE==='ACTIVE'&&TRACK_B_STABILIZATION_MODE==='ACTIVE'&&task.trackId!=null&&task.trackId!==tr.trackId&&!tr.reacquiring&&(task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE');\n    if((task.type==='TRACK_REACQUIRE'||task.type==='PRECISION_REACQUIRE')&&!foreignFirmReturn){",
+  "count": 1
+}

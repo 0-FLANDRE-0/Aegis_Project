@@ -1,0 +1,173 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_POLICY_TEST_1",
+  "status": "PASS",
+  "classification": "ACTUAL_CANDIDATE_SOLVER_WITH_NATIVE_HUNGARIAN_NO_SECOND_MODEL",
+  "testSourceSha256": "77dfcb3e27742055c5781a8eb8761ead202bcf979de261d24686508809bdfb8f",
+  "modulePath": "docs/contact/track/B_stabilization_r3/association.js",
+  "moduleSha256": "1abcb0863af7908931aa8a3f7c28cda37c10077f086eb903f387cefa7f1f86d7",
+  "nativeSourcePath": "/dev/shm/track-b-baseline-source.js",
+  "nativeAssignerSha256": "67c7c70e32ab3d314abef3e7a72f824fbba83fd0c6ae56c9bac31ad820d97f34",
+  "count": 39,
+  "passed": 39,
+  "failed": 0,
+  "existingBTestsOrExpectationsChanged": false,
+  "countsNotAddedToExistingDomain420": true,
+  "rows": [
+    {
+      "name": "policy.existingNisAmbiguityThresholdIsNotLowered",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.sameWinnerCovarianceEvidenceCanReleaseNearEqualHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.likelihoodCannotReplaceExistingNisWinner",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.equalCovarianceKeepsNearEqualHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactNisTieNotResolvedByCovarianceOrNumericId",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactNisTieAcrossIdsAndInputOrdersAlwaysHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.exactSignalAndCovarianceRemainHeld",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.reliabilityLabelsAloneCannotResolveSameSignal",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.noEvidencePreservesOriginalPolicy",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.missingOneCandidateEvidenceDoesNotFavorTheOther",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.invalidEvidenceFallsBackToOriginalHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.nonFiniteLogDetCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.differentObservationDimensionsNotCompared",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.nonIntegerObservationDimensionNotAccepted",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.missingObservationDimensionDoesNotDefaultToThree",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.differentEpochsCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.unknownEpochDoesNotBecomeCurrentEpoch",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.zeroEpochIsARealEpoch",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.nonFiniteEpochCannotResolveHold",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.evidenceCannotBypassOriginalNisGate",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.evidenceCannotBypassIndependentGeometrySanity",
+      "status": "PASS"
+    },
+    {
+      "name": "preservation.singleEligibleCandidateDoesNotNeedNewEvidence",
+      "status": "PASS"
+    },
+    {
+      "name": "preservation.clearNisWinnerStaysClearWithoutEvidence",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.partialMatchingCannotBeCertifiedByEvidence",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.missingOwnedPriorDoesNotInitializeFilter",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.mismatchedMeasurementEpochRejectedBeforeAnyNativeRead",
+      "status": "PASS"
+    },
+    {
+      "name": "metadata.unknownEpochIsNotZero",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.sameRFullPermutationLogDetCancels",
+      "status": "PASS"
+    },
+    {
+      "name": "negative.conflictingGlobalLikelihoodCannotReverseNisAssignment",
+      "status": "PASS"
+    },
+    {
+      "name": "positive.agreeingGlobalEvidenceRetainsNisOneToOneMatching",
+      "status": "PASS"
+    },
+    {
+      "name": "isolation.resolveOnlyEvidenceSupportedDisconnectedComponent",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.inputOrderCannotChooseContact",
+      "status": "PASS"
+    },
+    {
+      "name": "determinism.renamedIdsDoNotChangeSemanticPreference",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.deepFrozenInputNotMutated",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.outputDoesNotAliasEvidenceInput",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthCanariesDoNotChangeSelection",
+      "status": "PASS"
+    },
+    {
+      "name": "privacy.truthAndUnknownEvidenceFieldsNotReturned",
+      "status": "PASS"
+    },
+    {
+      "name": "purity.repeatedSolveHasNoHiddenAccumulation",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded.identical257PlotContactStillHeld",
+      "status": "PASS"
+    }
+  ]
+}

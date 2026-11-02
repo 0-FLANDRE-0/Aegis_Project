@@ -1,0 +1,73 @@
+{
+  "schema": "AEGIS_TRACK_B_STABILIZATION_SOURCE_PROOF_1",
+  "baselineHtmlSha256": "0b3e5ad90324f10057f2e500692f4f56b020ddc4f12db16423bf4d258a38e4c6",
+  "candidateHtmlSha256": "c01e2cd59ec129509e0a52f33669d226da842a81d3a3c2d97c1b0ccb378b0eba",
+  "baselineMainSha256": "616cb07bd7443031c36eece9419c4b7e249eee5d8e3494ed4539683a5b07e8be",
+  "candidateMainSha256": "3aee93a819ef888d33306d9b20a8c1439f5beab0084c1158376d27d618b60d44",
+  "stabilizationMode": "ACTIVE",
+  "legacyImplementationMode": "ACTIVE",
+  "manifestSha256": "219ccbbd4994e48f869bc101bfd2685b364626e51e994723a63a6a11e981a768",
+  "dependencies": [
+    {
+      "path": "patches.json",
+      "sha256": "5b4c46f744272a9fb152556c25be30cab1e3ec5414d22820770c80460c08cb90"
+    },
+    {
+      "path": "association.js",
+      "sha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71"
+    }
+  ],
+  "inverseMainBytesExact": true,
+  "inversePackedHtmlBytesExact": true,
+  "nonMainEnvelopeByteExact": true,
+  "nonMainEnvelopeSha256": "a0968cdcc9ce28395908a370552537cdef2ff450fb27aeaed9815f76eb4c4344",
+  "packedScriptRecordChanged": 13,
+  "patches": [
+    {
+      "label": "TRACK_B_STABILIZATION_ASSOCIATION_MODULE",
+      "scope": null,
+      "count": 1,
+      "beforeSha256": "3a4bac5b74c03033490e92f5d3d69cadd4e4214309e7479afcdfe3c5cf954e46",
+      "afterSha256": "ec66a28a8bb92888228a45a6a626007f288c440b3054e2e203730bbe9e8e4c71"
+    },
+    {
+      "label": "STABLE_NPC_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "count": 1,
+      "beforeSha256": "ad9c703da947a45cce9facdf2ff0965c13ac18fe469f9c26109af929b4c07282",
+      "afterSha256": "252725f4e98bfad801cc0fa2f6c1d3b9aa4a5c3dd0c5748f0a00b2d18849d7f8"
+    },
+    {
+      "label": "STABLE_HAWKLINK_EPOCH_CONTRACT",
+      "scope": {
+        "function": "trackBAcceptOffboardCohortB"
+      },
+      "count": 1,
+      "beforeSha256": "05984219f66ffde3c1a5aa1caf3e4b236a6b1493bd64ffab35ce127df651466d",
+      "afterSha256": "837688329b35122e40fec5b9c24ca75addc1f917eafe48e00c449e9ede0a097d"
+    },
+    {
+      "label": "STABLE_OWN_AIR_ACTUAL_INNOVATION",
+      "scope": {
+        "function": "spyGlobalAssignmentsV36"
+      },
+      "count": 1,
+      "beforeSha256": "e401553a231051b9087e109e146734de4c0f422bbac42820b1edf5ae00eff896",
+      "afterSha256": "7f371926f6068bca4462b6283de31c8183bc37416aeb2ea8119e580fcb52318b"
+    },
+    {
+      "label": "STABLE_OWN_SURFACE_POSITION_DIMENSION",
+      "scope": {
+        "function": "surfaceAssignmentsPreferEstablishedWip13B14"
+      },
+      "count": 1,
+      "beforeSha256": "310d6908bc25f58c5ecbb4e677fb1c224dd257602573ee505c4edce072115b73",
+      "afterSha256": "8e579a48704caafda9557dcac18af63ddbc36a6e0d36f87a8f7f427e4d1afdfb"
+    }
+  ],
+  "originalInputsStillPinned": true,
+  "gameCodeExecuted": false,
+  "releaseApproved": false
+}

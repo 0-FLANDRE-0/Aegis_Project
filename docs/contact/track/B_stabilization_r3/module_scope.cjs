@@ -1,0 +1,18 @@
+// Static R2 -> R3 module proof only. No solver or game execution.
+const fs=require('fs'),path=require('path'),crypto=require('crypto');
+let acorn;try{acorn=require('acorn');}catch(_){acorn=require('/workspace/aegis-performance-c/docs/performance/C/node_modules/acorn');}
+const P=__dirname,hash=x=>crypto.createHash('sha256').update(x).digest('hex');
+const old=fs.readFileSync(path.join(P,'../B_stabilization_r2/association.js'),'utf8'),now=fs.readFileSync(path.join(P,'association.js'),'utf8'),contract=JSON.parse(fs.readFileSync(path.join(P,'CHANGE_CONTRACT.json')));
+if(hash(old)!=='499198392351c415cbf54d35d5731f393f650c6e1b00a694dd714ee318ed03bb')throw Error('FROZEN_R2_MODULE_CHANGED');
+function parse(source){const ast=acorn.parse(source,{ecmaVersion:'latest'}),symbols=new Map();for(const n of ast.body){if(n.type==='FunctionDeclaration')symbols.set(n.id.name,{node:n,code:source.slice(n.start,n.end)});if(n.type==='VariableDeclaration')for(const d of n.declarations)if(d.id.type==='Identifier')symbols.set(d.id.name,{node:d,code:source.slice(d.start,d.end)});}return symbols;}
+const a=parse(old),b=parse(now),changed=[...a.keys()].filter(n=>a.get(n).code!==b.get(n)?.code),added=[...b.keys()].filter(n=>!a.has(n)),removed=[...a.keys()].filter(n=>!b.has(n)),forbiddenChanged=changed.filter(n=>!contract.allowedChangedSymbols.includes(n));
+function normalized(source,symbols){const edits=contract.allowedChangedSymbols.map(name=>symbols.get(name)?.node).filter(Boolean).sort((x,y)=>y.start-x.start);for(const n of edits)source=source.slice(0,n.start)+'SYMBOL_ALLOWED'+source.slice(n.end);return source;}
+const outsideTwoAllowedSymbolsByteExact=normalized(old,a)===normalized(now,b);
+const oa=a.get('TRACK_B_STABLE_POLICY').node.init,nb=b.get('TRACK_B_STABLE_POLICY').node.init;
+function props(source,call){return new Map(call.arguments[0].properties.map(p=>[p.key.name??p.key.value,{node:p,code:source.slice(p.start,p.end)}]));}
+const op=props(old,oa),np=props(now,nb),newPolicy=np.get('maxExactComponentSize');
+const policyOnlyComputationalLimit=oa.type===nb.type&&old.slice(oa.callee.start,oa.callee.end)===now.slice(nb.callee.start,nb.callee.end)&&oa.arguments.length===1&&nb.arguments.length===1&&np.size===op.size+1&&[...op].every(([k,v])=>np.get(k)?.code===v.code)&&newPolicy?.node.value.type==='Literal'&&newPolicy.node.value.value===16;
+const restrictedRefinerInputWhitelistOnly=b.get('trackBRefineResidualStableB').code===a.get('trackBRefineResidualStableB').code.replace('{...input,pairs:subset,ambiguityDeltaCost:delta}','{gate:input.gate,plotCount:input.plotCount,pairs:subset,ambiguityDeltaCost:delta}');
+const checks={onlyApprovedThreeSymbolsChanged:!forbiddenChanged.length,noAddedOrRemovedSymbols:!added.length&&!removed.length,outsideAllowedSymbolsByteExact:outsideTwoAllowedSymbolsByteExact,policyOnlyComputationalLimit,restrictedRefinerInputWhitelistOnly};
+const result={schema:'AEGIS_TRACK_B_STABILIZATION_R3_MODULE_SCOPE_1',pass:Object.values(checks).every(Boolean),classification:'STATIC_SOURCE_ONLY_NOT_MATH_OR_GAMEPLAY_VALIDATION',r2ModuleSha256:hash(old),r3ModuleSha256:hash(now),changeContractSha256:hash(fs.readFileSync(path.join(P,'CHANGE_CONTRACT.json'))),changed,added,removed,forbiddenChanged,checks,sharedSymbols:[...a].map(([name,value])=>({name,before:hash(value.code),after:hash(b.get(name)?.code??''),equal:value.code===b.get(name)?.code,explicitChange:contract.allowedChangedSymbols.includes(name)})),gameCodeExecuted:false,solverExecuted:false,releaseApproved:false};
+fs.writeFileSync(path.join(P,'MODULE_SCOPE.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({pass:result.pass,changed,added,removed,checks,r3ModuleSha256:hash(now)}));if(!result.pass)process.exitCode=1;

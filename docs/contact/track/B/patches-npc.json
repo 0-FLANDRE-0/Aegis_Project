@@ -1,0 +1,50 @@
+{
+  "schema": "AEGIS_TRACK_B_PATCH_MANIFEST_1",
+  "patches": [
+    {
+      "op": "replace",
+      "label": "NPC candidate geometry uses only existing measurement/filter state",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "if(nis<=64)pairs.push({i,id,nis});",
+      "after": "if(nis<=64)pairs.push({i,id,nis,sanity:trackBGeometryB(tr,plots[i],surface(plots[i])?'SURFACE':'AIR')});"
+    },
+    {
+      "op": "replace",
+      "label": "NPC pure shared selector receives native precomputed candidate graph",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);\n  const apply=",
+      "after": "  pairs.sort((a,b)=>a.nis-b.nis||a.i-b.i||a.id-b.id);\n  const trackBSelection=trackBSelectB({plotCount:plots.length,pairs,gate:64,route:'NPC_OBSERVER',observerShip:r.entityId,timeS:now,tick:simStepCounter});\n  const apply="
+    },
+    {
+      "op": "replace",
+      "label": "NPC ACTIVE selected edges then native fallback; SHADOW original loop semantics",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  for(const q of pairs){if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}}",
+      "after": "  // TRACK-B association-only: SHADOW preserves the original sorted-edge execution,\n  // including failed native corrections. ACTIVE tries selected edges, then still\n  // admissible original alternatives; each pair is corrected at most once.\n  const trackBAttempts=trackBSelection.active?[...trackBSelection.pairs,...pairs]:pairs,trackBTried=trackBSelection.active?new Map():null;\n  for(const q of trackBAttempts){\n    if(usedTracks.has(q.id)||usedPlots.has(q.i))continue;\n    if(trackBSelection.active){\n      if(trackBSelection.heldPlots.has(q.i)||trackBSelection.heldTracks.has(q.id)||q.sanity?.ok===false)continue;\n      let tried=trackBTried.get(q.i);if(!tried){tried=new Set();trackBTried.set(q.i,tried);}if(tried.has(q.id))continue;tried.add(q.id);\n    }\n    if(apply(q.id,plots[q.i],false)){usedTracks.add(q.id);usedPlots.add(q.i);}\n  }"
+    },
+    {
+      "op": "replace",
+      "label": "NPC ambiguous held observations do not create duplicate tentative tracks",
+      "scope": {
+        "function": "observerAcceptPlotsC"
+      },
+      "before": "  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){const familyCount=",
+      "after": "  for(let i=0;i<plots.length;i++)if(!usedPlots.has(i)){\n    if(trackBSelection.active&&trackBSelection.heldPlots.has(i)){o.stats.rejected++;trackBTraceB({route:'NPC_OBSERVER',observerShip:r.entityId,tick:simStepCounter,timeS:now,plotIndex:i,decision:'HOLD',reason:'ASSOCIATION_HOLD_NO_INITIATION'});continue;}\n    const familyCount="
+    }
+  ],
+  "allowedChangedSymbols": [
+    "observerAcceptPlotsC"
+  ],
+  "allowedAddedSymbols": [],
+  "allowedProtectedAssociationChanges": [
+    "observerAcceptPlotsC"
+  ],
+  "baselineMainSha256": "8d2de4f64cb18e3248156e36fa454daee91b5603e03fee5a8f7bd372e0d5780e",
+  "policyNote": "Association-only SIM_TUNED geometry/ambiguity policy is supplied by shared module; native RF/EKF/NIS gate/apply/identity/authority code remains unchanged. selection.active is frozen policy, not diagnostic state."
+}

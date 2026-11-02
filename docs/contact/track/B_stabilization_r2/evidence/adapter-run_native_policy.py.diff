@@ -1,0 +1,20 @@
+--- docs/contact/track/B_stabilization/run_native_policy.py
++++ docs/contact/track/B_stabilization_r2/run_native_policy.py
+@@ -15,14 +15,14 @@
+  raw=json.dumps(value,separators=(',',':')).encode();path.write_bytes(gzip.compress(raw,6,mtime=0));return {'path':path.name,'rawSha256':sha(raw),'gzipSha256':sha(path.read_bytes())}
+ 
+ def main():
+- ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,required=True);ap.add_argument('--sha',required=True);ap.add_argument('--mode',choices=['SHADOW','ACTIVE'],required=True);ap.add_argument('--out',type=Path,required=True);args=ap.parse_args();args.candidate=args.candidate.resolve();args.out.mkdir(parents=True,exist_ok=True)
++ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--candidate',type=Path,required=True);ap.add_argument('--sha',required=True);ap.add_argument('--mode',choices=['SHADOW','ACTIVE'],required=True);ap.add_argument('--out',type=Path,required=True);args=ap.parse_args();r1_test_inputs=module('r2_frozen_native_inputs',P/'controller_pins.py').verify();args.candidate=args.candidate.resolve();args.out.mkdir(parents=True,exist_ok=True)
+  pins=json.loads((P/'BASELINE_PINS.json').read_text());base=R/'Aegis_SIM_v48_WIP_TRACK_B.html';base_sha=pins['files'][base.name];assert sha(base.read_bytes())==base_sha;assert sha(args.candidate.read_bytes())==args.sha
+- helpers=[B/'test_support/native_support.js',B/'test_support/native_integration.js',P/'test_support/native_policy.js',P/'test_support/native_metadata.js'];helper_source='\n'.join(p.read_text()for p in helpers)
++ helpers=[B/'test_support/native_support.js',B/'test_support/native_integration.js',P.parent/'B_stabilization/test_support/native_policy.js',P.parent/'B_stabilization/test_support/native_metadata.js'];helper_source='\n'.join(p.read_text()for p in helpers)
+  support=module('stable_native_original_a',A/'verify_runtime.py');slots=module('stable_native_shared_slots',B/'regression_runner.py');h=support.load_harness()
+  old_selected=['ownExactAmbiguity','ownDopplerCrossing','spqSurfaceAmbiguityNoBirth','airThenSurfacePrior','hawklinkNativeTimeAndDelayContract']
+  products=[('baseline',False,base,base_sha),('candidate-off',False,args.candidate,args.sha),('candidate-on',True,args.candidate,args.sha)];rows=[];errors=[];started=time.perf_counter()
+  provenance={'schema':'AEGIS_TRACK_B_STABLE_NATIVE_PROVENANCE_1','runnerSha256':sha(Path(__file__).read_bytes()),'helpers':[{'path':str(p.relative_to(R)),'sha256':sha(p.read_bytes())}for p in helpers],'combinedFixtureSourceSha256':sha(helper_source.encode()),'candidateSha256':args.sha,'baselineSha256':base_sha,'candidateMode':args.mode,'actualOldFixtureSelection':old_selected,'originalBAssertionsAndHelpersChanged':False,'naturalRfOrWeaponEvidence':False}
+- save(args.out/'PROVENANCE.json',provenance)
++ provenance['frozenR1NativeInputs']=r1_test_inputs;save(args.out/'PROVENANCE.json',provenance)
+  from playwright.sync_api import sync_playwright
+  with slots.heavy_browser_slot()as lease:
+   for label,enabled,file,pin in products:

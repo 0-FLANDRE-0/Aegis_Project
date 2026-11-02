@@ -1,0 +1,29 @@
+{
+  "source": "/dev/shm/track-b-stable-base.js",
+  "rows": [
+    {
+      "token": "function wip112EnsureTargetState(",
+      "line": 22762,
+      "source": "function wip112EnsureTargetState(em){\n    if(!em||typeof em!=='object')return em;\n    if(!em._systemDamage){const d={};for(const k of WIP112_ASM_SYSTEM_KEYS)d[k]=0;Object.defineProperty(em,'_systemDamage',{value:d,writable:true,configurable:true,enumerable:true});}\n    if(!('_warheadState' in em))Object.defineProperty(em,'_warheadState',{value:'NORMAL',writable:true,configurable:true,enumerable:true});\n    if(!('_wip112ProjectedImpactMassKg' in em)){const p=ASM_PROFILES[em.label]??ASM_PROFILES['Kh-35U'];Object.defineProperty(em,'_wip112ProjectedImpactMassKg',{value:Number(p.impactMassKg)||0,writable:true,configurable:true,enumerable:false});}"
+    },
+    {
+      "token": "function wip112ApplySystemDamage(",
+      "line": 22770,
+      "source": "function wip112ApplySystemDamage(em,key,amount,meta={}){wip112EnsureTargetState(em);if(!WIP112_ASM_SYSTEM_KEYS.includes(key))return;const before=em._systemDamage[key]??0,after=clamp(before+Math.max(0,Number(amount)||0),0,100);em._systemDamage[key]=after;wip112UpdateProjectedImpactMass(em);return {system:key,before,after,delta:after-before,...meta};}\n  function wip112MaybeUpdateWarheadState(em,penetratingBySystem,rng){\n    wip112EnsureTargetState(em);if(em._warheadState==='DETONATED')return em._warheadState;\n    const fuzeN=Math.max(0,penetratingBySystem.fuze||0),warN=Math.max(0,penetratingBySystem.warhead||0);\n    if(fuzeN>0){const p=WIP112_D"
+    },
+    {
+      "token": "function wip113HasAnySystemDamage(",
+      "line": 22846,
+      "source": "function wip113HasAnySystemDamage(em){return !!em?._systemDamage&&WIP112_ASM_SYSTEM_KEYS.some(k=>(Number(em._systemDamage[k])||0)>0);}\n  function wip113GuidanceMode(dmg){const d=Number(dmg)||0;return d>=WIP113_ASM_DAMAGE_BEHAVIOR.guidanceTumbleDamage?'TUMBLE':d>=WIP113_ASM_DAMAGE_BEHAVIOR.guidanceBallisticDamage?'BALLISTIC':'NORMAL';}\n  function wip113RefreshBehavior(em){\n    if(!em||typeof em!=='object')return null;wip112EnsureTargetState(em);\n    const f=em.flight,d=em._systemDamage||{},C=WIP113_ASM_DAMAGE_BEHAVIOR;\n    const b=em._wip113Behavior||(em._wip113Behavior={active:false,seekerFailed:false,seekerFailedAtS:null,seekerFrozenYaw:null"
+    },
+    {
+      "token": "function wip113GuidanceMode(",
+      "line": 22847,
+      "source": "function wip113GuidanceMode(dmg){const d=Number(dmg)||0;return d>=WIP113_ASM_DAMAGE_BEHAVIOR.guidanceTumbleDamage?'TUMBLE':d>=WIP113_ASM_DAMAGE_BEHAVIOR.guidanceBallisticDamage?'BALLISTIC':'NORMAL';}\n  function wip113RefreshBehavior(em){\n    if(!em||typeof em!=='object')return null;wip112EnsureTargetState(em);\n    const f=em.flight,d=em._systemDamage||{},C=WIP113_ASM_DAMAGE_BEHAVIOR;\n    const b=em._wip113Behavior||(em._wip113Behavior={active:false,seekerFailed:false,seekerFailedAtS:null,seekerFrozenYaw:null,seekerFrozenPitch:null,guidanceMode:'NORMAL',engineStopped:false,fuelFire:false,fuelFireAtS:null,fuelElapsedS:0,fuelThrustScale:1,fuelEn"
+    }
+  ],
+  "meaning": "Present _systemDamage value0 is native zero damage; missing remains missing, not filled. Existing recorder fields() uses descriptors and preserves present0.",
+  "noNewNativeCalls": true,
+  "sourceSha256": "616cb07bd7443031c36eece9419c4b7e249eee5d8e3494ed4539683a5b07e8be",
+  "nativeCodesChanged": false
+}

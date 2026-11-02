@@ -1,0 +1,332 @@
+{
+  "schema": "AEGIS_TRACK_A_BASELINE_SUMMARY_1",
+  "head": "4ba64ba0cace9124497a710d00df1b174984ffdc",
+  "htmlSha256": "cfc74427e3d30efafec187c3fd99924f5063e74d8dbe3f8e36caebd68d149cda",
+  "freshNotArchived": true,
+  "baselineExecutionExitCodes": [
+    [
+      "d1",
+      0
+    ],
+    [
+      "repro",
+      0
+    ],
+    [
+      "trace419025",
+      0
+    ],
+    [
+      "contracts",
+      0
+    ],
+    [
+      "auto-iff",
+      0
+    ],
+    [
+      "idle",
+      0
+    ]
+  ],
+  "additionalExecutionExitCodes": [
+    [
+      "trace419025-cg",
+      0
+    ],
+    [
+      "paired-current",
+      1
+    ],
+    [
+      "harpoon-clock",
+      0
+    ]
+  ],
+  "reproduction": [
+    {
+      "name": "HELO_HOVER_60S",
+      "newFiles": 1,
+      "maxFiles": 1,
+      "finalFiles": 1,
+      "rng": 419010,
+      "step": 3600,
+      "archivePhysicalSamplesTrackRngEqual": true,
+      "core": [],
+      "faults": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "HELO_ROUTE_120S",
+      "newFiles": 1,
+      "maxFiles": 1,
+      "finalFiles": 1,
+      "rng": 419010,
+      "step": 7200,
+      "archivePhysicalSamplesTrackRngEqual": true,
+      "core": [],
+      "faults": [
+        null,
+        null
+      ]
+    },
+    {
+      "name": "HARPOON_ROUTE_75S",
+      "newFiles": 2,
+      "maxFiles": 2,
+      "finalFiles": 1,
+      "rng": 419010,
+      "step": 4500,
+      "archivePhysicalSamplesTrackRngEqual": true,
+      "core": [],
+      "faults": [
+        null,
+        null
+      ]
+    }
+  ],
+  "d1": {
+    "count": 30,
+    "archiveSignatureMatches": 30,
+    "hits": 8,
+    "hpZero": 1,
+    "gunRounds": 1208,
+    "ramRounds": 99,
+    "seed419025": {
+      "seed": 419025,
+      "signatureMatchesArchived": true,
+      "hits": 1,
+      "hp": 6.846598842629405,
+      "gunRounds": 68,
+      "ramRounds": 5
+    },
+    "releaseApproved": false
+  },
+  "traceFriendlySignatureMatchesD1": true,
+  "traceCgSignatureMatchesHistoricalCg": true,
+  "contractsChecks": {
+    "surfacePriorDoesNotOverwriteObservedAir": true,
+    "fastTangentialAirCanAssociate2D": true,
+    "surfaceContributionKeepsAir": true,
+    "surfaceAssumptionNotMeasuredDomain": true,
+    "initial2DAdopts3DWithoutNewId": true,
+    "accepted3DClearsSurfacePartition": true,
+    "incompatiblePlotStillFailsNativeGate": true,
+    "resolvedObjectsStayOneToOne": true,
+    "environmentTableStillMatches": true
+  },
+  "autoIffChecks": {
+    "inventoryUnchangedInAuto": true,
+    "friendlyThroughIff": true,
+    "oneFile": true,
+    "core": true
+  },
+  "idleChecks": {
+    "truthHashSame": true,
+    "retiredUiContractSame": true,
+    "core": true
+  },
+  "idleHashes": [
+    "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f",
+    "bc09d108079c46897aab41878397c3e5888443d3db3becbf2f006abd7ae4110f"
+  ],
+  "paired": {
+    "source": "fresh native CG_TURRET_A vs FRIENDLY_CONTACT_A",
+    "classification": "KNOWN_DELTA_NOT_APPROVED",
+    "totalAssertions": 42,
+    "passedAssertions": 40,
+    "cases": [
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "idle",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 3169036119,
+          "newRng": 3169036119,
+          "loadedVlsBeforeAfter": [
+            96,
+            96
+          ]
+        }
+      },
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "raid",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": false,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 2134102897,
+          "newRng": 2134102897,
+          "loadedVlsBeforeAfter": [
+            90,
+            90
+          ]
+        }
+      },
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "damaged",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 260457076,
+          "newRng": 260457076,
+          "loadedVlsBeforeAfter": [
+            96,
+            96
+          ]
+        }
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "idle",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 3169036119,
+          "newRng": 3169036119,
+          "loadedVlsBeforeAfter": [
+            122,
+            122
+          ]
+        }
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "raid",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": false,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 2134102897,
+          "newRng": 2134102897,
+          "loadedVlsBeforeAfter": [
+            115,
+            115
+          ]
+        }
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "damaged",
+        "checks": {
+          "samePhysicalState": true,
+          "sameCombatRng": true,
+          "sameHullDamageAndFixedLayout": true,
+          "raidInventoryDeltaBounded": true,
+          "sameExistingObserverState": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "observations": {
+          "oldVersionPhysicalAndRngExact": true,
+          "physicalStateExact": true,
+          "oldRng": 260457076,
+          "newRng": 260457076,
+          "loadedVlsBeforeAfter": [
+            122,
+            122
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "releaseApproved": false
+  },
+  "clockChecks": {
+    "1000.modal": true,
+    "1000.readonly": true,
+    "1000.fitsViewport": true,
+    "1000.selectionCopy": true,
+    "1000.readOnlyState": true,
+    "1000.close": true,
+    "390.modal": true,
+    "390.readonly": true,
+    "390.fitsViewport": true,
+    "390.selectionCopy": true,
+    "390.readOnlyState": true,
+    "390.close": true,
+    "1.fixedTicksExact": true,
+    "1.actualRelease": true,
+    "1.core": true,
+    "8.fixedTicksExact": true,
+    "8.actualRelease": true,
+    "8.core": true,
+    "16.fixedTicksExact": true,
+    "16.actualRelease": true,
+    "16.core": true,
+    "64.fixedTicksExact": true,
+    "64.actualRelease": true,
+    "64.core": true
+  },
+  "executionEnvironment": {
+    "python": "3.12.14",
+    "playwright": "1.62.0",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "tmpdir": "/dev/shm",
+    "stageAProductUsed": false
+  },
+  "performance": {
+    "scope": "HOST_WALL_IN_NATIVE_FIXED_TICK_LOOP_NOT_HARDWARE_CPU",
+    "runs": 30,
+    "meanMs": 6820.906666666269,
+    "medianMs": 7396.149999991059,
+    "p95Ms": 8389.09999999404,
+    "meanMsPerFixedTick": 3.6885051462766207,
+    "oneHeavyBrowserAtATime": true
+  },
+  "releaseApproved": false,
+  "expectationsChanged": false,
+  "unresolved": [
+    "CIWS419025_PRIOR_KILL_NOW_SHIP_HIT",
+    "PAIRED_OBSERVER_EXACT_STATE_DDG_AND_CG",
+    "RETIRED_EMCON_UI14_NOT_RERUN_NOT_COUNTED_PASS"
+  ]
+}
