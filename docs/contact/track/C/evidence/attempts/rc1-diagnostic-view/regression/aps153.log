@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py", line 13, in <module>
+    runpy.run_path(str(path),run_name='__main__')
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/dev/shm/aegis-ciws-dmg-a/docs/map/A/verify_regressions.py", line 75, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/map/A/verify_regressions.py", line 58, in main
+    return vp.adapted(a.only,a.html,a.out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/viewport/A/verify_regressions.py", line 39, in adapted
+    exec(compile(s,str(f),'exec'),scope)
+  File "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/G/verify_native.py", line 29, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/G/verify_native.py", line 23, in main
+    page=load_fleet(c,a.html.read_bytes(),own='DDG_119_LATE_FLIGHT_IIA',ally=None,enemy=None,errors=errors);clock.append(page.evaluate(CLOCK,scale));page.close()
+                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/gun/B2/phase1b/test_support/sitecustomize.py", line 63, in capture_evaluate
+    result=_capture_evaluate(self,expression,*args,**kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dev/shm/aegis-ciws-dmg-a/docs/map/E/legacy_test_adapter.py", line 39, in page_eval
+    return evaluate(self,expression,*a,**kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 9385, in evaluate
+    self._sync(
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_page.py", line 472, in evaluate
+    return await self._main_frame.evaluate(expression, arg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 345, in evaluate
+    await self._channel.send(
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.evaluate: Target crashed 

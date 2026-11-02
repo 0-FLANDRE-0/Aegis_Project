@@ -1,0 +1,18 @@
+{
+  "schema": "AEGIS_TRACK_C_D1_NATIVE_ENDPOINT_CONTRACT_1",
+  "writtenMonotonic": 226658.767120368,
+  "beforeCandidateD1ResultsAvailable": true,
+  "primarySameAsFrozenCombatPlan": true,
+  "referenceR4OriginalD1Runs": 30,
+  "discovery": "Original __GB_TEST__.scenario result.shipHits counts every shipHitHistory entry, including native water/ground miss records with miss:true and dmg:0. R4 has8 such legacy entries;4 are damaging physical contacts,4 are explicit misses.",
+  "primaryLeakers": "Single initial ASM. Count1 iff native SHIP_IMPACT/shipHitHistory has at least one record with miss not true. No HP inference.",
+  "primaryDamagingHitRounds": "Number of native SHIP_IMPACT callbacks with dmg>0 and miss not true, including wreck, exactly as B_statistics_r4.",
+  "secondary": "Preserve original result.shipHits legacy count and every raw record; never call explicit miss:true a ship impact.",
+  "R4LegacyCounter": 8,
+  "R4PhysicalContactLeakers": 4,
+  "R4DamagingHitRounds": 4,
+  "statisticalSeedsAndTestUnchanged": true,
+  "originalFixtureAndGameUnchanged": true,
+  "evidence": "evidence/extra-r4-d1/friendly/ciws-d1.jsonl",
+  "evidenceSha256": "85f2dbb2dfa49bc2855e9d47c9b3a2a120e983a1a2e4932e31dded07876fd5b2"
+}
