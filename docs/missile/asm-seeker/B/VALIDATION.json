@@ -1,0 +1,72 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_B_VALIDATION_1",
+  "status": "FAIL_NO_PRODUCT_PROMOTION",
+  "baselineCommit": "a36c6bf032f5af8daaf0822d822fbc08ac00a00c",
+  "baselineHtmlSha256": "9a00c8c02bd88ef1322b1b47882a2299184e174230391f9a608347f2b4fb3e5f",
+  "diagnosticHtmlSha256": "cf46907a913b777df16ddb99c23c75b89950e53cf5aa0ade224ed42ef6e69617",
+  "diagnosticMainSha256": "ba3855a70a230aff5f3ab5d0f2523f908684c94a850b6b290ccdad3c2367cec9",
+  "instrumentationInverseByteExact": true,
+  "productBehaviorChanged": false,
+  "elapsedS": 182.37601966399234,
+  "browserErrors": [],
+  "counts": {
+    "surfaceAndControlCases": 660,
+    "samArhCases": 360,
+    "cueCases": 120,
+    "totalCases": 1140
+  },
+  "resolutionAudit": {
+    "status": "CONFIRMED",
+    "physicalCause": "A discrete ship return and a beam-local sea cell are composited; the sea-cell cross extent grows with range and the composite extent is reused as broad/flat background evidence.",
+    "currentSurfaceSnapshotPasses": 160,
+    "shadowSurfaceSnapshotPasses": 80,
+    "regressionAnchor": {
+      "conditions": "stationary DDG/CG/SOV/HULK, 15 m at 10/20/30 km plus 200 m at 10 km",
+      "currentPasses": 80,
+      "shadowPasses": 0,
+      "samples": 80
+    },
+    "longRangeRepair": {
+      "conditions": "all four surface targets at 40/45/50 km, both altitudes and both speeds",
+      "shadowPasses": 0,
+      "samples": 240
+    }
+  },
+  "surfaceControls": {
+    "seaOriginalPass": 0,
+    "seaShadowPass": 0,
+    "noTargetOriginalPass": 0,
+    "noTargetShadowPass": 0,
+    "chaffOriginalPass": 20,
+    "chaffOriginalTrack": 19,
+    "chaffShadowPass": 0
+  },
+  "samArh": {
+    "paths": [
+      "ESSM_BLOCK2_AIR",
+      "SM6_BLOCK_IA_AIR",
+      "SM6_BLOCK_IA_SURFACE"
+    ],
+    "perPathPerTargetSamples": 30,
+    "aircraft": {"current": 90, "shadow": 90, "increasedFalseAcquisition": false},
+    "asm": {"current": 90, "shadow": 90, "increasedFalseAcquisition": false},
+    "seaClutter": {"current": 0, "shadow": 0, "increasedFalseAcquisition": false},
+    "chaff": {"current": 90, "shadow": 0, "increasedFalseAcquisition": false},
+    "sm6AdditionalRequirement": "PASS"
+  },
+  "cueBasket": {
+    "status": "NOT_CONFIRMED",
+    "insideSearchAndOutsideBasket": 0,
+    "outsideSearch": 0,
+    "samples": 120,
+    "productChange": false
+  },
+  "candidateDecision": {
+    "status": "REJECTED_BEFORE_ACTIVE",
+    "reason": "The prescribed neutral-axis normalization neither repairs 40-50 km acquisition nor preserves already accepted stationary surface returns. Threshold and weight fitting is prohibited.",
+    "broadRegressionRun": false,
+    "broadRegressionReason": "No product code or product HTML was produced; the candidate failed the primary shadow gate before ACTIVE promotion.",
+    "mergeAllowed": false,
+    "releaseOrTagAllowed": false
+  }
+}

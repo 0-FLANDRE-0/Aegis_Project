@@ -1,0 +1,30 @@
+{
+  "schema": "AEGIS_ASM_SEEKER_B_PLAN_1",
+  "baselineCommit": "a36c6bf032f5af8daaf0822d822fbc08ac00a00c",
+  "baselineHtml": "Aegis_SIM_v48_WIP_ASM_SEEKER_A.html",
+  "baselineHtmlSha256": "9a00c8c02bd88ef1322b1b47882a2299184e174230391f9a608347f2b4fb3e5f",
+  "diagnosticTimeLimitHours": 3,
+  "implementationValidationTimeLimitHours": 3,
+  "rangeSeeds": [629300, 629301, 629302, 629303, 629304],
+  "cueSeeds": [729300, 729301, 729302, 729303, 729304],
+  "rangesKm": [10, 20, 30, 40, 45, 50],
+  "missileAltitudesM": [15, 200],
+  "surfaceTargets": ["DDG-119", "CG-52", "SOVREMENNY_956", "SMALL_SURFACE"],
+  "surfaceSpeedsKt": [0, 15],
+  "controls": ["SEA_CLUTTER", "CHAFF", "NO_TARGET"],
+  "samArhPaths": ["ESSM_BLOCK2_AIR", "SM6_BLOCK_IA_AIR", "SM6_BLOCK_IA_SURFACE"],
+  "samArhTargets": ["AIRCRAFT", "ASM", "SEA_CLUTTER", "CHAFF"],
+  "cueRangesKm": [60, 100, 130],
+  "cueMotions": ["STRAIGHT_15KT", "STRAIGHT_30KT", "TURN_30DEG", "TURN_90DEG"],
+  "truthUse": "AFTER_ACTION_DIAGNOSTIC_ONLY",
+  "automaticFixConditions": {
+    "targetValidation": "RESOLUTION_DEPENDENT_VALIDATION_DEFECT_CONFIRMED",
+    "cueBasket": "SEARCH_SECTOR_INSIDE_AND_CUE_BASKET_OUTSIDE_FAILURE_CONFIRMED"
+  },
+  "failFast": [
+    "surface clutter false acquisition increases",
+    "chaff false acquisition increases",
+    "no-target acquisition increases",
+    "ASM_SEEKER_A ownship or neighboring-ASM false acquisition returns"
+  ]
+}
