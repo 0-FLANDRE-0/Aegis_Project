@@ -120,6 +120,13 @@ The final product was wrapped with test-only instrumentation using an inverse-by
 
 No assertion tolerance was changed. The U0 60-battle aggregate changed from 264 kills / 15 leakers / 37 egress / 4 other to 301 / 17 / 1 / 1. This is explained by the seeker-path U0 basket change: old egressing ASMs now reach acquisition/terminal more often. It is a reference aggregate rather than an assertion baseline. The preapproved record is in `EXPECTED_VALUE_UPDATES.json`.
 
+## Delivery packaging
+
+- `Aegis_SIM_v48_WIP_SEEKER_UNIFY_B_HTML.zip` contains exactly one entry: the product HTML. ZIP SHA-256 before publication is `0d89a2eb1a47a25bde1f8eb487c2db461da3f81baf74ef5df896c9ec97613d62`.
+- The extracted HTML is byte-identical to the product and has SHA-256 `b8551e5a239a407ec0ec1b3cb7fe0c45bebf025a6c5eef312dfd5ddf2519796d`.
+- The report ZIP excludes the executable HTML and contains the reports, raw regression evidence/screenshots, reproduction scripts, and `REPORT_MANIFEST_SHA256.txt`.
+- Both ZIP archives passed full CRC checks. Final package hashes are recorded in `SHA256SUMS_v48_WIP_SEEKER_UNIFY_B.txt`.
+
 ## Unresolved and next decision
 
 1. Select the U2 beam/LOS convention.
