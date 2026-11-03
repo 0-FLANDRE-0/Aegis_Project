@@ -186,6 +186,15 @@
 
 ## 8. 현재 인계 기준
 
+### 최신 시험 후보 — 시커 공통화 SEEKER_UNIFY_B (U2 SHADOW에서 판단 대기)
+
+- `main@ba9bc114` 위 별도 `seeker-unify-b`. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_B.md), [보고서](docs/missile/seeker-unify/B/REPORT.md), [U0](docs/missile/seeker-unify/B/U0_RESULTS.md), [U1](docs/missile/seeker-unify/B/U1_EQUIVALENCE.md), [U2](docs/missile/seeker-unify/B/U2_SHADOW_DIFF.md).
+- 최종 구성은 U0 ACTIVE + U1 ACTIVE + U2 SHADOW다. U0은 관측 나이에 따른 pre-EKF cue 바구니를 추가하고 방위 반폭을 기존 `searchSectorAzDeg`로 제한한다. U1은 계산을 기존 함수에 위임하는 DTO·SI 단위·read-only 프로필·RNG 어댑터 경계다.
+- U0 게이트9/9 PASS, 기준 TRACK 퇴행0·개선44·방위상한 위반0·사후 truth 첫 연관320/320 함정. U1은6경로×200건, 기준/SHADOW 합계2,400실행 차이0·truth/금지필드/RNG차이0.
+- U2는 전술 출력과 분리된 read-only SHADOW다. 빔/LOS 정규화, 셀 extent, 각도/클러스터 표현에서 `IMPLEMENTATION_DIVERGENCE`가 확인되어 ACTIVE 전환0. SAM power의 `1.02e-15` FP-order 차이도 bit-equal 게이트 때문에 전환하지 않았다. 사용자 선택 전 U3 이후로 진행하지 않는다.
+- 최종 광역회귀는 보충 지시대로 마지막에1회만 실행했다: native364/364, paired42/42, UI213/213, 실제WebGL29/29, 신규실패0. 결정성10jobs same/fresh exact, 전역RNG 동일. 기존 retired EMCON UI14는 미실행 legacy debt이며 PASS로 세지 않는다.
+- 원본22,129,963bytes / SHA `b8551e5a239a407ec0ec1b3cb7fe0c45bebf025a6c5eef312dfd5ddf2519796d`. 실행ZIP은 HTML1개, 리포트ZIP은 HTML 제외. main 직접커밋·병합, release/tag, TRACK-D/OODA/HP/방어무장 변경 없음. PR 생성까지만 하고 병합은 사용자가 한다.
+
 - 현재 안정 기준은 `Aegis_SIM_v48.html`이다.
 - 크기 `7,354,511 bytes`, SHA-256 `9e786ddb1331fcd496b6b9604cec87317667ebc501e99270cc33fd6ba1ab9e83`, Git blob SHA `f540b68f138e3ed85614c41f6794be78602229d8`.
 - v48은 `Aegis_SIM_v48_WIP15C.html`의 **byte-identical promotion**이다. 승격 과정에서 HTML 코드·상수·패킹을 변경하지 않는다.

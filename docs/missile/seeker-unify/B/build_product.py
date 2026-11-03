@@ -211,6 +211,87 @@ window.__SEEKER_COMMON_U1__=Object.freeze({{schema:'AEGIS_SEEKER_COMMON_U1_1',mo
     return one(source, anchor, layer + "\n" + anchor, "U1 common DTO boundary")
 
 
+def transform_u2(source: str, mode: str) -> str:
+    """Install read-only U2 common echo/cell calculations in SHADOW only."""
+    mode = mode.upper()
+    if mode == "NONE":
+        return source
+    if mode != "SHADOW":
+        raise ValueError("U2 has unresolved implementation divergence; ACTIVE is forbidden")
+    layer = """// SEEKER_UNIFY_B U2: WIP22 ASM + SAM ARH common echo/cell SHADOW.
+// This layer is diagnostic-only. It never supplies a tactical measurement,
+// consumes no RNG, and cannot be promoted while IMPLEMENTATION_DIVERGENCE remains.
+const SEEKER_COMMON_U2_MODE='SHADOW';
+const seekerU2Finite=(v,f=0)=>Number.isFinite(Number(v))?Number(v):f;
+const seekerU2Audit={asmSynthesisCalls:0,samSynthesisCalls:0,asmResolveCalls:0,samResolveCalls:0,
+  asmSynthesis:[],samSynthesis:[],asmCells:[],samCells:[]};
+function seekerU2Push(a,v){if(a.length<256)a.push(Object.freeze(v));}
+function seekerU2Rel(a,b){return Math.abs(a-b)/Math.max(1e-18,Math.abs(a),Math.abs(b));}
+function seekerU2Reset(){for(const k of Object.keys(seekerU2Audit))seekerU2Audit[k]=Array.isArray(seekerU2Audit[k])?[]:0;}
+function seekerU2Snapshot(){return JSON.parse(JSON.stringify(seekerU2Audit));}
+function seekerMonostaticPowerU2(q={}){
+  const rangeM=Math.max(200,seekerU2Finite(q.rangeM,200)),referenceRangeM=Math.max(1,seekerU2Finite(q.referenceRangeM,1));
+  const normalized=Math.max(0,seekerU2Finite(q.rcsM2))/Math.max(1e-9,seekerU2Finite(q.referenceRcsM2,1))
+    *Math.pow(referenceRangeM/rangeM,4)*Math.max(0,seekerU2Finite(q.txGain,1))*Math.max(0,seekerU2Finite(q.rxGain,1))
+    *Math.max(0,seekerU2Finite(q.losQ,1))**2*Math.max(0,seekerU2Finite(q.envQ,1));
+  return Object.freeze({normalizedPower:normalized,snr:normalized*Math.max(0,seekerU2Finite(q.referenceSnr,1))});
+}
+function seekerAsmPowerPairU2(em,p,src){
+  const g=src._g??asmSeekerReturnGeometry(em,src),rangeM=Math.max(1,g.rangeM),rangeKm=rangeM/1000;
+  const offGain=Math.max(.08,Math.pow(Math.cos(clamp(src._offAz/Math.max(src._halfAz,1e-6),0,1)*Math.PI/2),2)*Math.pow(Math.cos(clamp(src._offEl/Math.max(src._halfEl,1e-6),0,1)*Math.PI/2),2));
+  const lowAlt=clamp(((src.z??0)+8)/45,0,1),clutter=src._debugKind==='SEA_CLUTTER'?1:lerp(.88,1,lowAlt),weatherQ=maritimeRfWeatherPathFactorWip13A3('IJ',2*rangeKm),losQ=src._losQ??1;
+  const legacy=(Math.max(0,src.rcs??0)/Math.max(1e-9,p.refRcsM2))*Math.pow(p.snrRefKm/Math.max(.5,rangeKm),4)*losQ*clutter*offGain*weatherQ;
+  const common=seekerMonostaticPowerU2({rcsM2:src.rcs,rangeM,referenceRangeM:p.snrRefKm*1000,referenceRcsM2:p.refRcsM2,referenceSnr:1,txGain:offGain,rxGain:offGain,losQ,envQ:clutter*weatherQ}).normalizedPower;
+  return {rangeM,azRad:g.az,elRad:g.el,pathRateMps:g.radialMps,receivedPower:common,legacyPower:legacy,rcsM2:Math.max(0,src.rcs??0),rangeExtentM:Math.max(0,src.extentRangeM??0),crossExtentM:Math.max(0,src.extentCrossM??0),verticalExtentM:Math.max(0,src.extentVerticalM??0),dopplerSpreadMps:Math.max(0,src.dopplerSpreadMps??0),offGain,losQ};
+}
+function seekerSamPowerPairU2(e,p){
+  const envQ=Math.max(0,seekerU2Finite(e.clutterQ,1))*Math.max(0,seekerU2Finite(e.multipathQ,1))*Math.max(0,seekerU2Finite(e.weatherQ,1));
+  const q=seekerMonostaticPowerU2({rcsM2:e.rcsM2,rangeM:e.rangeM,referenceRangeM:p.referenceRangeKm*1000,referenceRcsM2:p.referenceRcsM2,referenceSnr:p.referenceSnr,txGain:e.txBeamGain,rxGain:e.rxBeamGain,losQ:e.losQ,envQ});
+  const oneBeam=seekerMonostaticPowerU2({rcsM2:e.rcsM2,rangeM:e.rangeM,referenceRangeM:p.referenceRangeKm*1000,referenceRcsM2:p.referenceRcsM2,referenceSnr:p.referenceSnr,txGain:e.txBeamGain,rxGain:1,losQ:e.losQ,envQ});
+  return {rangeM:e.rangeM,azRad:e.azRad,elRad:e.elRad,pathRateMps:e.dopplerPathRateMps,receivedPower:q.normalizedPower,legacyPower:Math.max(0,e.receivedPowerNorm??0),snr:q.snr,legacySnr:Math.max(0,e.snr??0),singleBeamPower:oneBeam.normalizedPower,rcsM2:Math.max(0,e.rcsM2??0),rangeExtentM:Math.max(0,e.rangeExtentM??0),crossExtentM:Math.max(0,e.crossExtentM??0),verticalExtentM:Math.max(0,e.verticalExtentM??0),dopplerSpreadMps:Math.max(0,e.dopplerSpreadMps??0)};
+}
+function seekerEchoesUnresolvedU2(a,b,p){
+  const dr=Math.abs(a.rangeM-b.rangeM),da=Math.abs(angNorm(a.azRad-b.azRad)),de=Math.abs(a.elRad-b.elRad),dv=Math.abs(a.pathRateMps-b.pathRateMps);
+  const rAllow=seekerU2Finite(p.rangeM,0)+.18*((a.rangeExtentM??0)+(b.rangeExtentM??0));
+  const aAllow=seekerU2Finite(p.angleRad,0)+.20*(Math.atan2((a.crossExtentM??0)+(b.crossExtentM??0),Math.max(1,Math.min(a.rangeM,b.rangeM))));
+  const dAllow=seekerU2Finite(p.dopplerMps,0)+.35*((a.dopplerSpreadMps??0)+(b.dopplerSpreadMps??0));
+  const anglePass=p.angleMetric==='SEPARATE_AXES'?da<=aAllow&&de<=aAllow:Math.hypot(da,de)<=aAllow;
+  return dr<=rAllow&&anglePass&&dv<=dAllow;
+}
+function seekerResolveCellsU2(echoes,p){
+  const seen=new Array(echoes.length).fill(false),cells=[];
+  for(let i=0;i<echoes.length;i++){
+    if(seen[i])continue;const idx=[i];seen[i]=true;
+    for(let q=0;q<idx.length;q++)for(let j=0;j<echoes.length;j++)if(!seen[j]&&seekerEchoesUnresolvedU2(echoes[idx[q]],echoes[j],p)){seen[j]=true;idx.push(j);}
+    const members=idx.map(k=>echoes[k]);let sw=0,range=0,azX=0,azY=0,el=0,rate=0,snr=0;
+    for(const e of members){const w=Math.max(1e-18,e.receivedPower??0);sw+=w;range+=w*e.rangeM;azX+=w*Math.cos(e.azRad);azY+=w*Math.sin(e.azRad);el+=w*e.elRad;rate+=w*e.pathRateMps;snr+=Math.max(0,e.snr??0);}
+    sw=Math.max(1e-18,sw);range/=sw;const az=Math.atan2(azY,azX);el/=sw;rate/=sw;let er=0,ec=0,ev=0,ed=0;
+    for(const e of members){const w=Math.max(1e-18,e.receivedPower??0)/sw,dc=angNorm(e.azRad-az)*range,dz=(e.elRad-el)*range;er+=w*((e.rangeM-range)**2+(e.rangeExtentM??0)**2);ec+=w*(dc*dc+(e.crossExtentM??0)**2);ev+=w*(dz*dz+(e.verticalExtentM??0)**2);ed+=w*((e.pathRateMps-rate)**2+(e.dopplerSpreadMps??0)**2);}
+    cells.push(Object.freeze({schema:'AEGIS_SEEKER_RESOLVED_CELL_U2',rangeM:range,azRad:az,elRad:el,pathRateMps:rate,receivedPower:sw,snr,rangeExtentM:Math.sqrt(Math.max(0,er)),crossExtentM:Math.sqrt(Math.max(0,ec)),verticalExtentM:Math.sqrt(Math.max(0,ev)),dopplerSpreadMps:Math.sqrt(Math.max(0,ed)),memberCount:members.length}));
+  }
+  return Object.freeze(cells);
+}
+function seekerCompareAsmCellsU2(legacy,common){
+  seekerU2Audit.asmResolveCalls++;const n=Math.max(legacy.length,common.length);
+  for(let i=0;i<n;i++){const a=legacy[i],b=common[i];if(!a||!b){seekerU2Push(seekerU2Audit.asmCells,{cellCountLegacy:legacy.length,cellCountCommon:common.length,missing:true});continue;}
+    const g=a._g;seekerU2Push(seekerU2Audit.asmCells,{memberLegacy:a._memberCount??1,memberCommon:b.memberCount,rangeRel:seekerU2Rel(g.rangeM,b.rangeM),azAbsRad:Math.abs(angNorm(g.az-b.azRad)),elAbsRad:Math.abs(g.el-b.elRad),rangeExtentRel:seekerU2Rel(a.extentRangeM??0,b.rangeExtentM),crossExtentRel:seekerU2Rel(a.extentCrossM??0,b.crossExtentM),verticalExtentRel:seekerU2Rel(a.extentVerticalM??0,b.verticalExtentM),dopplerExtentRel:seekerU2Rel(a.dopplerSpreadMps??0,b.dopplerSpreadMps)});}
+}
+function seekerCompareSamCellsU2(legacy,common){
+  seekerU2Audit.samResolveCalls++;const n=Math.max(legacy.length,common.length);
+  for(let i=0;i<n;i++){const a=legacy[i],b=common[i];if(!a||!b){seekerU2Push(seekerU2Audit.samCells,{cellCountLegacy:legacy.length,cellCountCommon:common.length,missing:true});continue;}
+    let maxR=0,maxC=0,maxV=0,maxD=0;for(const e of a){maxR=Math.max(maxR,e.rangeExtentM??0);maxC=Math.max(maxC,e.crossExtentM??0);maxV=Math.max(maxV,e.verticalExtentM??0);maxD=Math.max(maxD,e.dopplerSpreadMps??0);}
+    seekerU2Push(seekerU2Audit.samCells,{memberLegacy:a.length,memberCommon:b.memberCount,legacyExtentPolicy:'MAX_MEMBER',commonExtentPolicy:'POWER_WEIGHTED_RMS',rangeExtentRel:seekerU2Rel(maxR,b.rangeExtentM),crossExtentRel:seekerU2Rel(maxC,b.crossExtentM),verticalExtentRel:seekerU2Rel(maxV,b.verticalExtentM),dopplerExtentRel:seekerU2Rel(maxD,b.dopplerSpreadMps)});}
+}
+const _u2AsmComposite=asmSeekerCompositeReturns;asmSeekerCompositeReturns=function(em,s,p,raw){const legacy=_u2AsmComposite.apply(this,arguments),echoes=raw.map(q=>seekerAsmPowerPairU2(em,p,q)),common=seekerResolveCellsU2(echoes,{rangeM:p.unresolvedRangeM,angleRad:deg(p.unresolvedAngleDeg),dopplerMps:p.unresolvedDopplerMps,angleMetric:'SEPARATE_AXES'});seekerCompareAsmCellsU2(legacy,common);return legacy;};
+const _u2AsmMeasurement=asmSeekerEchoMeasurement;asmSeekerEchoMeasurement=function(em,s,p,src){const legacy=_u2AsmMeasurement.apply(this,arguments),q=seekerAsmPowerPairU2(em,p,src);seekerU2Audit.asmSynthesisCalls++;seekerU2Push(seekerU2Audit.asmSynthesis,{rangeM:q.rangeM,legacyPower:q.legacyPower,commonPower:q.receivedPower,relativeDifference:seekerU2Rel(q.legacyPower,q.receivedPower),beamGain:q.offGain,losQ:q.losQ,measurementPresent:!!legacy});return legacy;};
+const _u2SamClusters=_arhClusterEchoes;_arhClusterEchoes=function(echoes,p=getEssmArhProfile()){const legacy=_u2SamClusters.apply(this,arguments),commonInput=echoes.map(e=>seekerSamPowerPairU2(e,p)),common=seekerResolveCellsU2(commonInput,{rangeM:p.unresolvedRangeM,angleRad:deg(p.unresolvedAngleDeg),dopplerMps:p.unresolvedDopplerMps,angleMetric:'SPHERICAL'});seekerCompareSamCellsU2(legacy,common);return legacy;};
+const _u2SamPool=buildEssmArhEchoPool;buildEssmArhEchoPool=function(m){const legacy=_u2SamPool.apply(this,arguments),p=getSamArhProfile(m);for(const e of legacy){const q=seekerSamPowerPairU2(e,p);seekerU2Audit.samSynthesisCalls++;seekerU2Push(seekerU2Audit.samSynthesis,{rangeM:q.rangeM,legacyPower:q.legacyPower,commonPower:q.receivedPower,relativeDifference:seekerU2Rel(q.legacyPower,q.receivedPower),singleBeamRelativeDifference:seekerU2Rel(q.legacyPower,q.singleBeamPower),legacySnr:q.legacySnr,commonSnr:q.snr});}const clusters=_u2SamClusters(legacy,p),commonInput=legacy.map(e=>seekerSamPowerPairU2(e,p)),common=seekerResolveCellsU2(commonInput,{rangeM:p.unresolvedRangeM,angleRad:deg(p.unresolvedAngleDeg),dopplerMps:p.unresolvedDopplerMps,angleMetric:'SPHERICAL'});seekerCompareSamCellsU2(clusters,common);return legacy;};
+window.__SEEKER_COMMON_U2__=Object.freeze({schema:'AEGIS_SEEKER_COMMON_U2_SHADOW_1',mode:SEEKER_COMMON_U2_MODE,activeComponents:Object.freeze([]),shadowComponents:Object.freeze(['synthesizeEchoes','resolveCells']),synthesizeEchoes:Object.freeze({monostaticPower:seekerMonostaticPowerU2}),resolveCells:seekerResolveCellsU2,reset:seekerU2Reset,snapshot:seekerU2Snapshot,tacticalOutputUsed:false,rngConsumed:false,truthOutput:false});
+"""
+    anchor = "  window.__NAVAL_SIM_DIAG__ = {"
+    return one(source, anchor, layer + "\n" + anchor, "U2 shadow echo/cell layer")
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -228,6 +309,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
     parser.add_argument("--u1-mode", choices=("NONE", "SHADOW", "ACTIVE"), default="NONE")
+    parser.add_argument("--u2-mode", choices=("NONE", "SHADOW"), default="NONE")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path, default=HERE / "BUILD.json")
     args = parser.parse_args()
@@ -235,7 +317,7 @@ def main() -> None:
     raw = BASE.read_bytes()
     assert sha(raw) == BASE_SHA
     before, match = unpack(raw)
-    after = transform_u1(transform_u0(before, args.mode), args.u1_mode)
+    after = transform_u2(transform_u1(transform_u0(before, args.mode), args.u1_mode), args.u2_mode)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     assert check == after
@@ -252,6 +334,7 @@ def main() -> None:
         "baselineMainSha256": sha(before.encode()),
         "mode": args.mode,
         "u1Mode": args.u1_mode,
+        "u2Mode": args.u2_mode,
         "productHtml": args.out.name,
         "productHtmlSha256": sha(output),
         "productMainSha256": sha(after.encode()),

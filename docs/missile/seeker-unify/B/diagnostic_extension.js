@@ -68,6 +68,18 @@
     reset((Number(opts.seed)>>>0)||840000,false);
     return window.__NAVAL_SIM_DIAG__.runWip13a2AllRfSeekersFixture(opts);
   }
+  function runU2AsmCase(opts={}){
+    const api=window.__SEEKER_COMMON_U2__;if(!api)throw new Error('U2 shadow unavailable');api.reset();
+    const result=window.__SEEKER_UNIFY_A_DIAG__.runRangeCase(opts);return {result,u2:api.snapshot()};
+  }
+  function runU2CueCase(opts={}){
+    const api=window.__SEEKER_COMMON_U2__;if(!api)throw new Error('U2 shadow unavailable');api.reset();
+    const result=runCueCase(opts);return {result,u2:api.snapshot()};
+  }
+  function runU2SamCase(opts={}){
+    const api=window.__SEEKER_COMMON_U2__;if(!api)throw new Error('U2 shadow unavailable');api.reset();
+    const result=window.__SEEKER_UNIFY_A_DIAG__.runSamArhCase(opts);return {result,u2:api.snapshot()};
+  }
   function runHarpoonCueCase(opts={}){
     const seed=(Number(opts.seed)>>>0)||739300,rangeKm=Number(opts.rangeKm??100),speedKt=Number(opts.speedKt??30),turnDeg=Number(opts.turnDeg??0);reset(seed,false);
     const cfg=HARPOON_PROFILE_A.sim,baseX=worldToMeters(aircraft.x())+160000,baseY=worldToMeters(aircraft.y())+160000,targetX=baseX+rangeKm*1000,targetY=baseY,targetSpeed=speedKt*.514444;
@@ -97,5 +109,5 @@
     if(!m.alive)endedBy=m.outcome??m._deathReason??'GAME_TERMINATED';
     return {setup:{seed,rangeKm,speedKt,turnDeg,turnAtS},result:{everAcquire,everTrack,firstAcquireS,firstTrackS,finalMode:m.seeker.mode,closestM,endedBy,alive:!!m.alive,flightTimeS:ticks*SIM_FIXED_DT,scanReversals:m.seeker.scanReversals,observations:m.seeker.observations,searchBasketM:cfg.seekerSearchBasketM,memoryVelocityMps:{...memory.velocityMps}}};
   }
-  window.__SEEKER_UNIFY_B_DIAG__=Object.freeze({runCueCase,runHarpoonCueCase,runAllRfFixtureU1,cueContract});
+  window.__SEEKER_UNIFY_B_DIAG__=Object.freeze({runCueCase,runHarpoonCueCase,runAllRfFixtureU1,runU2AsmCase,runU2CueCase,runU2SamCase,cueContract});
 })();
