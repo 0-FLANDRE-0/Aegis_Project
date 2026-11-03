@@ -1,0 +1,163 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_A_VALIDATION_1",
+  "status": "PASS",
+  "baselineCommit": "a36c6bf032f5af8daaf0822d822fbc08ac00a00c",
+  "baselineHtmlSha256": "9a00c8c02bd88ef1322b1b47882a2299184e174230391f9a608347f2b4fb3e5f",
+  "productHtml": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+  "productHtmlSha256": "53864e5939ca0fce03f50fb3040c2eafccd816027ba92960b53cf7c744ac08f8",
+  "checks": {
+    "productHashMatchesBuild": true,
+    "primaryMatrixPass": true,
+    "falseAcquisitionIncreaseZero": true,
+    "horizonViolationZero": true,
+    "managedAndNpcRadarPass": true,
+    "truthReferenceExposureZero": true,
+    "forbiddenFunctionsByteEqual": true,
+    "native13Pass": true,
+    "ui213Pass": true,
+    "webgl29Pass": true,
+    "pairedOnlyPreapprovedRcsDeltas": true,
+    "toleranceChangesZero": true,
+    "referenceBattlesComplete": true,
+    "part2AuditAndDesignOnly": true
+  },
+  "primary": {
+    "counts": {
+      "asmRange": 660,
+      "samArh": 390,
+      "terminalCue": 120,
+      "shipRadar": 420
+    },
+    "terminalCueSummary": {
+      "Kh-32": {
+        "baselineTrack": 42,
+        "productTrack": 60,
+        "baselineHit": 40,
+        "productHit": 40,
+        "shots": 60
+      },
+      "Kh-35U": {
+        "baselineTrack": 41,
+        "productTrack": 42,
+        "baselineHit": 41,
+        "productHit": 42,
+        "shots": 60
+      }
+    },
+    "falseAcquisitionIncreases": 0,
+    "horizonViolations": 0
+  },
+  "radarPaths": {
+    "managedRows": 420,
+    "managedTracks": 255,
+    "npcRows": 60,
+    "npcTracks": 24
+  },
+  "broadRegression": {
+    "native13": {
+      "suiteCount": 13,
+      "expectedSuiteCount": 13,
+      "assertionCount": 364,
+      "passedAssertions": 364,
+      "expectedAssertions": 364
+    },
+    "ui213": {
+      "suite": "ui213",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/friendly/A/cpu2d_ui.py"
+      ],
+      "exitCode": 0,
+      "wallS": 447.6418540379964,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "map/E/evidence/d-ui/ui.json"
+    },
+    "webgl29": {
+      "suite": "webgl8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/envelope/D/run_observed_webgl.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/webgl8"
+      ],
+      "exitCode": 0,
+      "wallS": 274.1560324530001,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "webgl8/observed-world.json"
+    },
+    "paired": {
+      "suite": "paired-friendly",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/F/verify_regression.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_ASM_SEEKER_A.html",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/paired-friendly",
+        "--baseline-only"
+      ],
+      "exitCode": 1,
+      "wallS": 0.11435759498272091,
+      "status": "APPROVED_EXPECTATION_DELTA",
+      "reason": "Six RCS-path exact-state checks pre-approved by directive; physical/damage/inventory/fault checks unchanged",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 42,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "paired-friendly/baseline-comparison.json",
+      "rawPassedAssertions": 36,
+      "approvedDeltaAssertions": 6
+    },
+    "knownRetiredDebt": {
+      "suite": "emcon-ui",
+      "status": "INCOMPLETE",
+      "expectedAssertions": 14,
+      "executedAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": [],
+      "errors": [],
+      "reason": "Existing retired EMCON UI requires absent #lockBtn; original 14 assertions not approved or waived. Prior bounded RC1 attempt retained; no RC2 assertions executed.",
+      "evidenceScope": "LEGACY_DEBT_NOT_RC2_PASS",
+      "priorAttemptPath": "RC1/emcon-ui-execution.json",
+      "priorCandidateSha256": "2fbe5392ac5f69fb2c2b4a42efd76eb7a3fc1ec0b4d8253748c1fb0be4caded5"
+    }
+  },
+  "battleReference": {
+    "status": "PASS",
+    "jobs": 60,
+    "elapsedS": 2235.165685722837,
+    "currentResumeWallS": 1151.997266004968,
+    "totals": {
+      "kills": 301,
+      "leakers": 17,
+      "egress": 1,
+      "other": 1
+    },
+    "baselineTotals": {
+      "kills": 264,
+      "leakers": 15,
+      "egress": 37,
+      "other": 4
+    }
+  },
+  "battleFixtureProvenance": "BATTLE_FIXTURE_PROVENANCE.json",
+  "releaseDecision": {
+    "mergeAllowed": true,
+    "releaseOrTagAllowed": false
+  }
+}

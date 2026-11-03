@@ -1,0 +1,150 @@
+--- ASM_SEEKER_A/main.js
++++ SEEKER_UNIFY_A/main.js
+@@ -2134,6 +2134,29 @@
+  p15.revision='V48_WIP15B_NULKA_RELOAD'; // Explicit old operational snapshot rejection; no silent ammo padding.
+  return p15;
+ }
++// SEEKER_UNIFY_A: public-formula surface-ship RCS reference. Absolute class
++// measurements are not public. The 1974 Skolnik grazing-incidence formula is
++// used only for total beam-aspect scale; existing section/aspect distributions
++// remain authoritative. DDG reduction is SIM_TUNED from public qualitative
++// shaping evidence, never fitted to seeker range or combat results.
++const SURFACE_SHIP_RCS_BASIS_UNIFY_A=deepFreezeShipProfileV48Wip09({
++  schema:'AEGIS_SURFACE_SHIP_RCS_BASIS_SEEKER_UNIFY_A_1',
++  formula:{source:'PUBLIC_FORMULA',citation:'M. I. Skolnik, An Empirical Formula for the Radar Cross Section of Ships at Grazing Incidence, IEEE TAES-10(2), 1974, DOI:10.1109/TAES.1974.307935',coefficient:52,frequencyUnit:'MHz',displacementUnit:'1000 metric tonnes',outputUnit:'m2',expression:'52*sqrt(f_MHz)*D_kt^(3/2)'},
++  bands:{S:{frequencyMHz:3050,frequencySource:'PUBLIC_VALUE_BRIDGEMASTER_E_PROFILE'},X:{frequencyMHz:9400,frequencySource:'PUBLIC_VALUE_SPS73_PROFILE'},IJ:{frequencyMHz:10000,frequencySource:'SIM_TUNED_IJ_X_BAND_CENTRE_PUBLIC_EXACT_SEEKER_CARRIER_UNKNOWN'}},
++  profiles:{
++    DDG_119_LATE_FLIGHT_IIA:{displacementKt:9.6524456336,displacementSource:'PUBLIC_VALUE_9500_LONG_TON_FLIGHT_IIA_CONVERTED_TO_METRIC',reductionDb:15,reductionSource:'SIM_TUNED',reductionBasis:'PUBLIC_QUALITATIVE_DDG51_RCS_SHAPING__MIDPOINT_OF_DESIGN_ASSUMPTION_RANGE_10_TO_20_DB'},
++    CG_52_LATE_TICONDEROGA:{displacementKt:9.7540672,displacementSource:'PUBLIC_VALUE_9600_LONG_TON_CLASS_CONVERTED_TO_METRIC',reductionDb:0,reductionSource:'SIM_TUNED',reductionBasis:'NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__CONVENTIONAL_SPRUANCE_DERIVED_FORM_RETAINS_FORMULA'},
++    SOVREMENNY_956:{displacementKt:7.94,displacementSource:'PUBLIC_VALUE_FULL_LOAD',reductionDb:0,reductionSource:'SIM_TUNED',reductionBasis:'NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__RETAINS_FORMULA'},
++    EMPTY_CONTAINER_TEST_HULK_V1:{displacementKt:24.2,displacementSource:'SIM_TUNED_GAME_EMPTY_HULK_MASS',reductionDb:0,reductionSource:'SIM_TUNED',reductionBasis:'GENERIC_NON_LOW_OBSERVABLE_MERCHANT_HULK'}
++  },
++  resultFitting:false
++});
++function seekerUnifyBandA(tag){const s=String(tag??'IJ').toUpperCase().replace('/','');return s==='S'?'S':(s==='X'?'X':'IJ');}
++function surfaceShipRcsReferenceUnifyA(profileId,band='IJ'){
++  const p=SURFACE_SHIP_RCS_BASIS_UNIFY_A.profiles[profileId];if(!p)return null;const key=seekerUnifyBandA(band),f=SURFACE_SHIP_RCS_BASIS_UNIFY_A.bands[key].frequencyMHz,formulaM2=52*Math.sqrt(f)*Math.pow(p.displacementKt,1.5),beamReferenceM2=formulaM2*Math.pow(10,-p.reductionDb/10);
++  return {profileId,band:key,formulaM2,beamReferenceM2,reductionDb:p.reductionDb,displacementKt:p.displacementKt,source:'PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION'};
++}
++function surfaceShipRcsKnotsUnifyA(profileId,band,legacy){const ref=surfaceShipRcsReferenceUnifyA(profileId,band),beam=Math.max(.001,Number(legacy?.[2])||1),scale=ref?ref.beamReferenceM2/beam:1;return legacy.map(v=>v*scale);}
+ const DDG_119_LATE_FLIGHT_IIA_PROFILE=deepFreezeShipProfileV48Wip09(wip13c51RegisterProfile({
+   schema:'AEGIS_SHIP_PROFILE_V48_WIP11',schemaVersion:3,id:'DDG_119_LATE_FLIGHT_IIA',revision:'V48_WIP13C5',
+   identity:{classId:'ARLEIGH_BURKE',className:'Arleigh Burke-class destroyer',flight:'IIA',variant:'LATE_FLIGHT_IIA',hullNumber:'DDG-119',shipName:'USS Delbert D. Black',country:'US',basis:'DDG119_PUBLIC_PHOTO_DERIVED_AND_SIM_TUNED'},
+@@ -2595,7 +2618,7 @@
+  hp.mast={name:'마스트',x:2.52,y:0,z:R.mastHeightM,hL:.8,hW:.8,hH:1};
+  hp.flightDeck={name:'비활성 비행갑판',x:-30,y:0,z:4.9,hL:7,hW:7,hH:.1,installed:false};
+  p.geometry={...p.geometry,builderId:'SOV_VIEWER9_1_STATIC_A',lengthM:156.5,beamM:17.2,modelHullBeamM:R.modelHullBeamM,bowXM:78.25,sternXM:-78.25,deckZM:4.9,referenceHeightM:R.mastHeightM,hullStations:R.stations,hardpoints:hp,visualRegistration:{id:R.schema,authority:'OFFLINE_SI_REGISTRATION',physicsFeedback:false,liveMeshReads:false,verticalDatum:R.verticalDatum},superstructure:{horizontal:1,vertical:1,mastTopM:R.mastHeightM,mastHorizontal:1},aft:{...p.geometry.aft,flightDeckPlaneZM:4.9,hangar:{...p.geometry.aft.hangar,xAftM:-26,xFwdM:-12,interiorFloorZM:5.1,interiorCeilingZM:9.1},liferafts:{...p.geometry.aft.liferafts,xM:[-30,-33,-36],centerZM:5.3,supportDeckZM:4.9,lateralM:8}}};
+- p.signature={source:'SIM_TUNED',areaGeometrySource:'MODEL_REGISTRATION',projectedAreaLut:R.projectedAreaLut,areaToRcsScale:1.6,referenceHeightM:R.mastHeightM,provenance:'Static projected area with empirical RF scale, not measured military RCS.'};
++ p.signature={source:'PUBLIC_FORMULA_PLUS_SIM_TUNED',rcsBasisId:SURFACE_SHIP_RCS_BASIS_UNIFY_A.schema,areaGeometrySource:'MODEL_REGISTRATION',projectedAreaLut:R.projectedAreaLut,areaToRcsScale:1,referenceHeightM:R.mastHeightM,provenance:'Projected-area LUT preserves relative aspect only; absolute beam total is the public-formula RCS reference.'};
+  p.navigation={...p.navigation,maxAheadKt:32,maxAsternKt:5,propulsion:'STEAM_FIXED_PITCH',source:'SIM_TUNED',shaftResponseS:24};
+  p.sensors={modelId:'SOV_NO_SENSORS_A',installed:[],source:'SIM_TUNED',spy1dv:{searchMaxRangeKm:0,snrReferenceRangeKm:0,heightM:0},spq9b:{searchMaxRangeKm:0,rpm:0,heightM:0},spg62:{destroyThresholdPct:0},bridgeMasterE:{band:'NONE',peakPowerKw:0,nominalRpm:0,searchMaxRangeKm:0}};
+  p.geometry.funnels={revision:'SOV_SOURCE_A',basis:'MODEL_REGISTRATION',forward:{centerXM:8.6,halfLengthM:7.3,baseHalfWidthM:1.7,roofHalfWidthM:1.7,shellBottomZM:14.7,topZM:23.5},aft:{centerXM:-17.7,halfLengthM:1.5,baseHalfWidthM:1.9,roofHalfWidthM:1.9,shellBottomZM:15.8,topZM:21.6}};
+@@ -5108,10 +5131,11 @@
+       _sourceSeed:rfSeedWip13A2(id),_truthObject:r,_physicsKind:'NAVAL_SHIP'};
+   });
+ }
+-function navalRcsC(ref,band,x,y,z){if(sovHullA(ref._truthObject)){const r=ref._truthObject,a=((Math.atan2(y-r.navigation.positionWorld.y,x-r.navigation.positionWorld.x)-r.navigation.heading)*180/Math.PI%360+360)%360,rows=SOV_REG_A.projectedAreaLut,i=Math.floor(a/15),q=rows[i],next=rows[(i+1)%rows.length],area=q[1]+(next[1]-q[1])*(a%15)/15;return Math.max(1,area*resolveShipProfile(r.profileId).signature.areaToRcsScale*({S:1,X:.82,IJ:.68}[rfBandKeyWip13A2(band)]??1));}
+-  // Geometry/aspect based SIM-TUNE; no real radar cross-section assertion.
+-  const r=ref._truthObject,p=resolveShipProfile(r.profileId),n=r.navigation,a=angNorm(Math.atan2(y-n.positionWorld.y,x-n.positionWorld.x)-n.heading),beam=ref.physicalBeamM;
+-  return Math.max(1,p.geometry.lengthM*beam*(.10+.36*Math.abs(Math.sin(a)))*({S:1,X:.82,IJ:.68}[rfBandKeyWip13A2(band)]??1));
++function navalRcsC(ref,band,x,y,z){
++  const r=ref._truthObject,p=resolveShipProfile(r.profileId),n=r.navigation,a=angNorm(Math.atan2(y-n.positionWorld.y,x-n.positionWorld.x)-n.heading),basis=surfaceShipRcsReferenceUnifyA(r.profileId,band);if(!basis)return Math.max(1,p.geometry.lengthM*ref.physicalBeamM*(.10+.36*Math.abs(Math.sin(a))));
++  if(sovHullA(r)){const degA=(a*180/Math.PI%360+360)%360,rows=SOV_REG_A.projectedAreaLut,areaAt=deg=>{const u=(deg%360+360)%360,i=Math.floor(u/15),q=rows[i],next=rows[(i+1)%rows.length];return q[1]+(next[1]-q[1])*(u%15)/15;},aspect=areaAt(degA)/Math.max(1,areaAt(90));return Math.max(1,basis.beamReferenceM2*aspect);}
++  // Preserve the legacy DDG/CG NPC aspect envelope, normalized to its beam value.
++  const aspect=(.10+.36*Math.abs(Math.sin(a)))/.46;return Math.max(1,basis.beamReferenceM2*aspect);
+ }
+ function observerMountC(r,center){
+   const p=shipBodyFrameB(r).pointToWorld(center),n=r.navigation;
+@@ -28369,7 +28393,7 @@
+     signature:{
+       basis:'SIM_TUNED_ASPECT_ENVELOPES__NOT_MEASURED_CLASS_DATA',referenceHeightM:36,seekerCentroidHeightM:11.5,
+       // Aspect knots are bow, forward-quarter, beam, aft-quarter, stern.
+-      rcsM2:{S:[140,430,1900,510,230],X:[105,350,1540,410,185],IJ:[78,270,1180,325,145]},minimumM2:12
++      rcsM2:{S:surfaceShipRcsKnotsUnifyA('EMPTY_CONTAINER_TEST_HULK_V1','S',[140,430,1900,510,230]),X:surfaceShipRcsKnotsUnifyA('EMPTY_CONTAINER_TEST_HULK_V1','X',[105,350,1540,410,185]),IJ:surfaceShipRcsKnotsUnifyA('EMPTY_CONTAINER_TEST_HULK_V1','IJ',[78,270,1180,325,145])},minimumM2:12
+     },
+     protection:{basis:'SIM_TUNED_COMMERCIAL_SCANTLINGS',shellMaterial:'GRADE_A_SHIP_STEEL',yieldStrengthMPa:235,sideThicknessMm:18,bottomThicknessMm:22,weatherDeckThicknessMm:16,superstructureThicknessMm:8,watertightBulkheadThicknessMm:10,innerDeckThicknessMm:9},
+     damageModel:{
+@@ -31301,7 +31325,7 @@
+   // physical echo properties. The seeker association layer below never branches on SHIP/CHAFF identity.
+   function asmSeekerShipRfReturn(em,s){
+     if(!Number.isFinite(s._centroidLocalX)){
+-      const c=computeWeightedCentroid(em.x,em.y,em.z??10);
++      const c=computeWeightedCentroid(em.x,em.y,em.z??10,'IJ');
+       s._centroidLocalX=c.x;s._centroidLocalY=c.y;s._centroidZ=c.z??(ASM_SEEKER_PROFILES[em.label]?.aimHeightM??8);s.pickedSection=c.pickedSection;
+       s._rcsCache={totalRCS:c.rcsData.totalRCS};s._rcsCacheAgeS=0;
+       s._rcsCacheBearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x());s._rcsCacheAltM=em.z??0;
+@@ -31309,7 +31333,7 @@
+     const w=asmSeekerLocalToWorld(s._centroidLocalX,s._centroidLocalY);
+     const bearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x()),alt=em.z??0;
+     const needRcs=!s._rcsCache||s._rcsCacheAgeS>=0.10||s._rcsCacheBearing==null||Math.abs(angNorm(bearing-s._rcsCacheBearing))>deg(0.8)||Math.abs(alt-(s._rcsCacheAltM??alt))>300;
+-    if(needRcs){const rcsData=computeShipRCS(em.x,em.y,alt);s._rcsCache={totalRCS:rcsData.totalRCS};s._rcsCacheAgeS=0;s._rcsCacheBearing=bearing;s._rcsCacheAltM=alt;}
++    if(needRcs){const rcsData=computeShipRCS(em.x,em.y,alt,'IJ');s._rcsCache={totalRCS:rcsData.totalRCS};s._rcsCacheAgeS=0;s._rcsCacheBearing=bearing;s._rcsCacheAltM=alt;}
+     return {x:w.x,y:w.y,z:s._centroidZ,vx:worldSpeedToMps(shipNav.vx),vy:worldSpeedToMps(shipNav.vy),vz:0,rcs:Math.max(1,s._rcsCache?.totalRCS??1),
+       extentRangeM:0,extentCrossM:0,extentVerticalM:0,dopplerSpreadMps:0,_debugKind:'SHIP',_debugId:'SHIP'};
+   }
+@@ -31324,7 +31348,7 @@
+     const key=rfBandKeyWip13A2(band),truth=ref?._truthObject;
+     if(ref?._physicsKind==='HELICOPTER'){const a=Math.atan2(obsY-ref.y,obsX-ref.x)-(truth?.headingRad??0);return HELO_SENSOR_VALUES_E.rcsBaseM2+HELO_SENSOR_VALUES_E.rcsBroadsideM2*Math.sin(a)**2;}
+     if(ref?._physicsKind==='NAVAL_SHIP')return navalRcsC(ref,band,obsX,obsY,obsZ);
+-    if(ref?._physicsKind==='SHIP')return Math.max(1,computeShipRCS(obsX,obsY,obsZ).totalRCS);
++    if(ref?._physicsKind==='SHIP')return Math.max(1,computeShipRCS(obsX,obsY,obsZ,key).totalRCS);
+     if(ref?._physicsKind==='SURFACE_TARGET')return Math.max(.1,surfaceTargetRcsM2Wip13A(truth,key,obsX,obsY)??rfGenericSurfaceRcsM2Wip13A2(truth,key,obsX,obsY));
+     if(ref?._physicsKind==='SURFACE_CONTACT')return rfGenericSurfaceRcsM2Wip13A2(truth,key,obsX,obsY);
+     if(ref?._physicsKind==='TARGET_ASM')return Math.max(.005,getASMRcs(truth,obsX,obsY,obsZ));
+@@ -35495,6 +35519,7 @@
+     { oX:WIP199_FINAL_LAYOUT.vls.aft.x,oY:0,name:'VLS(후)',rcsBase:60,bow:0,beam:.7,stern:.7,top:.9,losPri:.2,aimHalfL:WIP199_FINAL_LAYOUT.vls.aft.spanX*.5,aimHalfW:WIP199_FINAL_LAYOUT.vls.aft.spanY*.5,aimZ:WIP199_FINAL_LAYOUT.vls.aft.z },
+     { oX:WIP199_FINAL_LAYOUT.flightDeck.x,oY:0,name:'비행갑판',rcsBase:40,bow:0,beam:.3,stern:.8,top:.8,losPri:.1,aimHalfL:WIP199_FINAL_LAYOUT.flightDeck.hL,aimHalfW:WIP199_FINAL_LAYOUT.flightDeck.hW,aimZ:WIP199_FINAL_LAYOUT.flightDeck.z }
+   ];
++  const SHIP_RCS_SECTION_BEAM_REFERENCE_UNIFY_A=shipRcsSections.reduce((sum,sec)=>sum+sec.rcsBase*sec.beam,0);
+ 
+   // Gaussian random (Box-Muller)
+   function gaussRand(mean, sigma){
+@@ -35591,7 +35616,7 @@
+   }
+ 
+   // Main RCS function: returns { totalRCS, sections[] with effectiveRCS }
+-  function computeShipRCS(observerX, observerY, observerZ){
++  function computeShipRCS(observerX, observerY, observerZ, band='IJ'){
+     const ax = aircraft.x(), ay = aircraft.y();
+     const bearing = Math.atan2(observerY - ay, observerX - ax);
+     const relBrg = angNorm(bearing - shipNav.heading);
+@@ -35601,6 +35626,7 @@
+     // Top-down factor (for diving missiles): higher altitude → more top component
+     const topFac = clamp((observerZ ?? 0) / 5000, 0, 0.8);
+     const sideFac = 1.0 - topFac;
++    const rcsReference=surfaceShipRcsReferenceUnifyA(ACTIVE_SHIP_PROFILE.id,band),sectionScale=rcsReference?rcsReference.beamReferenceM2/SHIP_RCS_SECTION_BEAM_REFERENCE_UNIFY_A:1;
+ 
+     const results = [];
+     let totalRCS = 0;
+@@ -35613,16 +35639,16 @@
+       // Sea state: clutter reduces effective RCS slightly
+       const seaW = seaStateFactor;
+       // Effective RCS for this section
+-      const effRCS = sec.rcsBase * angleW * losW * seaW;
+-      results.push({ ...sec, effRCS, angleW, losW });
++      const effRCS = sec.rcsBase * sectionScale * angleW * losW * seaW;
++      results.push({ ...sec, scaledBaseRCS:sec.rcsBase*sectionScale, effRCS, angleW, losW });
+       totalRCS += effRCS;
+     }
+-    return { totalRCS, sections: results, relBrg, absRelBrg, topFac };
++    return { totalRCS, sections: results, relBrg, absRelBrg, topFac, band:seekerUnifyBandA(band), rcsReference, sectionScale };
+   }
+ 
+   // Backward-compatible wrapper
+   function getShipRCS(observerX, observerY){
+-    return computeShipRCS(observerX, observerY, 0).totalRCS;
++    return computeShipRCS(observerX, observerY, 0, 'S').totalRCS;
+   }
+   const SHIP_RCS_TOP = 800; // legacy fallback
+ 
+@@ -35631,8 +35657,8 @@
+   // centre should remain on the reflecting structure. Fast target glint belongs in each RF
+   // measurement (angle/range noise) where the EKF can average it, not as a one-time permanent
+   // Gaussian offset that can place the aim point outside the ship silhouette.
+-  function computeWeightedCentroid(observerX, observerY, observerZ){
+-    const rcsData = computeShipRCS(observerX, observerY, observerZ);
++  function computeWeightedCentroid(observerX, observerY, observerZ, band='IJ'){
++    const rcsData = computeShipRCS(observerX, observerY, observerZ, band);
+     const total = Math.max(1, rcsData.totalRCS);
+ 
+     let roll = simRandom() * total;

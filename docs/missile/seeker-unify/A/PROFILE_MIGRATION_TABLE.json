@@ -1,0 +1,92 @@
+{
+  "schema": "AEGIS_SEEKER_COMMON_PROFILE_MIGRATION_A_1",
+  "implementationStatus": "DESIGN_ONLY",
+  "commonUnits": {
+    "distance": "m",
+    "angle": "rad",
+    "frequency": "Hz_or_band_tag",
+    "rcs": "m2",
+    "velocity": "m/s",
+    "covariance": "SI_squared",
+    "snr": "dimensionless"
+  },
+  "profiles": [
+    {
+      "weapon": "Kh-32/Kh-35U",
+      "source": "ASM_SEEKER_PROFILES",
+      "mappings": {
+        "searchMaxKm": "instrument.maxRangeM (*1000)",
+        "snrRefKm/refRcsM2": "sensitivity.referenceRangeM/referenceRcsM2",
+        "searchHz/acquireHz/trackHz/reacquireHz": "dwell.rateHzByMode",
+        "searchBeamHalfAzDeg/searchBeamHalfElDeg/trackBeamHalfAzDeg/trackBeamHalfElDeg": "antenna.halfBeamRadByMode",
+        "gimbalAzLimitDeg/gimbalUpDeg/gimbalDownDeg/gimbalSlewDegS": "antenna.gimbalRad/gimbalSlewRadS",
+        "base*Sigma/min*Sigma": "measurement.sigmaByObservable",
+        "unresolvedRangeM/unresolvedAngleDeg/unresolvedDopplerMps": "resolution.cell",
+        "gate* and nis*": "association.gatesByMode",
+        "coastAfterS/reacquireAfterS/lostAfterS/acquireHits/reacquireHits": "state.transitions",
+        "noiseJam*/deceptionJam*/hoj*": "hooks.eccmAndHoj"
+      },
+      "normalizationEqual": true,
+      "comparison": "fixed reflector scene -> raw echo, composite, measurement, EKF event bit-equal"
+    },
+    {
+      "weapon": "RGM-84D Harpoon",
+      "source": "HARPOON_PROFILE_A.sim",
+      "mappings": {
+        "seekerRangeM/seekerActivationRangeM": "instrument.maxRangeM/activation.rangeM",
+        "seekerBeamHalfRad/seekerBeamHalfElRad": "antenna.halfBeamRadByMode",
+        "seekerGimbalRad/seekerElGimbalRad/seekerSlewRadS": "antenna.gimbalRad/gimbalSlewRadS",
+        "seekerReferenceSnr/seekerReferenceRcsM2/seekerReferenceRangeM/seekerMinSnr": "sensitivity",
+        "seekerRangeSigmaM/seekerAzSigmaRad": "measurement.sigmaByObservable",
+        "seekerSearchBasketM/seekerTrackGateM": "association.gatesByMode",
+        "seekerAcquireHits/seekerAcquireGapS/seekerCoastS": "state.transitions",
+        "seekerMinSurfaceVerticalM/seekerMaxSurfaceDopplerSpreadMps": "validation.harpoonSurfaceHook"
+      },
+      "normalizationEqual": "requires adapter; current Pd is 1-exp(-snr/7)",
+      "comparison": "harpoonSeekerCoreAuditC + fixed physical scene at 5/20/40 km"
+    },
+    {
+      "weapon": "SM-2/ESSM Block 1 SARH",
+      "source": "SAM_NAV_B1_PROFILES + SARH RF profile",
+      "mappings": {
+        "tx/rx beam and gimbal": "propagation.bistatic + antenna",
+        "reference power/range/RCS": "sensitivity",
+        "range/az/el/path-rate sigma": "measurement.SARH_BISTATIC_4D",
+        "unresolved range/angle/doppler": "resolution.cell",
+        "NIS/absolute gates": "association.gatesByMode",
+        "illumination thresholds": "hooks.sarhIllumination",
+        "state timers/hit counts": "state.transitions"
+      },
+      "normalizationEqual": "must preserve two-leg power and two LOS factors",
+      "comparison": "same SPG geometry with illumination ON/OFF and clutter/chaff"
+    },
+    {
+      "weapon": "ESSM Block 2/SM-6 Block IA ARH",
+      "source": "ESSM_ARH_RF_V2_PROFILE/SM6_ARH_RF_V2_PROFILE",
+      "mappings": {
+        "rfBandTag/referenceRangeKm/referenceRcsM2/referenceSnr": "band + sensitivity",
+        "searchBeamHalfDeg/trackBeamHalfDeg/sidelobeFloor": "antenna",
+        "monopulse*": "measurement.ACTIVE_MONOSTATIC_4D.monopulse",
+        "base/min sigma": "measurement.sigmaByObservable",
+        "unresolved*": "resolution.cell",
+        "gate*/nis*": "association.gatesByMode",
+        "backgroundClutter/pdMti*/temporal*/protected*/crossMode*": "validation.eccmHooks",
+        "acquireHits/reacquireHits/coastAfterS/reacquireAfterS/lostAfterS": "state.transitions"
+      },
+      "normalizationEqual": true,
+      "comparison": "ESSM and SM-6, air and surface modes, aircraft/ASM/sea/chaff at 10..50 km"
+    },
+    {
+      "weapon": "RAM Block 1A",
+      "source": "RAM_BLK1A_SEEKER_MODEL",
+      "mappings": {
+        "rf.*": "passiveAdapters.RF",
+        "ir.*": "passiveAdapters.IR",
+        "arb.*": "hooks.ramAuthority",
+        "guidance.*": "weaponGuidanceHook"
+      },
+      "normalizationEqual": "not comparable to active radar; passive R^-2 contracts retained",
+      "comparison": "RF emitter only, IR only, dual source, dropout/takeover timing"
+    }
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "schema": "AEGIS_TRACK_A_EXISTING_REGRESSIONS_1",
+  "candidate": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+  "candidateSha256": "53864e5939ca0fce03f50fb3040c2eafccd816027ba92960b53cf7c744ac08f8",
+  "baseline": "Aegis_SIM_v48_WIP_ASM_SEEKER_A.html",
+  "baselineSha256": "9a00c8c02bd88ef1322b1b47882a2299184e174230391f9a608347f2b4fb3e5f",
+  "pairedReference": "FRIENDLY_CONTACT_A_NOT_CG_TURRET_A",
+  "defaultDiagnostic": "OFF",
+  "assertionChanges": false,
+  "expectedValuesUpdated": false,
+  "adapters": "Unchanged existing B2 test_support retired-node/output paths; existing CPU Canvas2D+real WebGL backend",
+  "gunConfiguration": "Existing non-gun regression policy: GUN_B2 flags ON, AutoAA OFF through historical test-only configuration; same as friendly baseline",
+  "rows": [
+    {
+      "suite": "emcon-ui",
+      "status": "INCOMPLETE",
+      "expectedAssertions": 14,
+      "executedAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": [],
+      "errors": [],
+      "reason": "Existing retired EMCON UI requires absent #lockBtn; original 14 assertions not approved or waived. Prior bounded RC1 attempt retained; no RC2 assertions executed.",
+      "evidenceScope": "LEGACY_DEBT_NOT_RC2_PASS",
+      "priorAttemptPath": "RC1/emcon-ui-execution.json",
+      "priorCandidateSha256": "2fbe5392ac5f69fb2c2b4a42efd76eb7a3fc1ec0b4d8253748c1fb0be4caded5"
+    },
+    {
+      "suite": "helicopter-flight",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/helicopter-flight",
+        "--only",
+        "helicopter-flight"
+      ],
+      "exitCode": 0,
+      "wallS": 332.14488680200884,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 85,
+      "executedAssertions": 85,
+      "passedAssertions": 85,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "helicopter-flight/native.json"
+    },
+    {
+      "suite": "aps153",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/aps153",
+        "--only",
+        "aps153"
+      ],
+      "exitCode": 0,
+      "wallS": 123.55830071499804,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 20,
+      "executedAssertions": 20,
+      "passedAssertions": 20,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "aps153/native.json"
+    },
+    {
+      "suite": "isar-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/isar-native",
+        "--only",
+        "isar-native"
+      ],
+      "exitCode": 0,
+      "wallS": 80.5300229829736,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 36,
+      "executedAssertions": 36,
+      "passedAssertions": 36,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-native/native.json"
+    },
+    {
+      "suite": "isar-classes",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/isar-classes",
+        "--only",
+        "isar-classes"
+      ],
+      "exitCode": 0,
+      "wallS": 44.02867630001856,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 8,
+      "executedAssertions": 8,
+      "passedAssertions": 8,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-classes/classes.json"
+    },
+    {
+      "suite": "isar-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/isar-clock",
+        "--only",
+        "isar-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 69.85189352196176,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 12,
+      "executedAssertions": 12,
+      "passedAssertions": 12,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-clock/clock.json"
+    },
+    {
+      "suite": "isar-ui",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/isar-ui",
+        "--only",
+        "isar-ui"
+      ],
+      "exitCode": 0,
+      "wallS": 72.44105716695776,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 38,
+      "executedAssertions": 38,
+      "passedAssertions": 38,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-ui/ui.json"
+    },
+    {
+      "suite": "emcon-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/emcon-native",
+        "--only",
+        "emcon-native"
+      ],
+      "exitCode": 0,
+      "wallS": 60.6698653959902,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 27,
+      "executedAssertions": 27,
+      "passedAssertions": 27,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "emcon-native/native.json"
+    },
+    {
+      "suite": "harpoon-f1",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/harpoon-f1",
+        "--only",
+        "harpoon-f1"
+      ],
+      "exitCode": 0,
+      "wallS": 66.45992371003376,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 46,
+      "executedAssertions": 46,
+      "passedAssertions": 46,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-f1/native.json"
+    },
+    {
+      "suite": "harpoon-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/harpoon-clock",
+        "--only",
+        "harpoon-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 95.56143336900277,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 24,
+      "executedAssertions": 24,
+      "passedAssertions": 24,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-clock/ui-clock.json"
+    },
+    {
+      "suite": "sov-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/sov-native",
+        "--only",
+        "sov-native"
+      ],
+      "exitCode": 0,
+      "wallS": 46.299703418975696,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 30,
+      "executedAssertions": 30,
+      "passedAssertions": 30,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-native/native.json"
+    },
+    {
+      "suite": "sov-casualty",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/sov-casualty",
+        "--only",
+        "sov-casualty"
+      ],
+      "exitCode": 0,
+      "wallS": 63.43692609400023,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 13,
+      "executedAssertions": 13,
+      "passedAssertions": 13,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-casualty/casualty.json"
+    },
+    {
+      "suite": "sov-deployment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/sov-deployment",
+        "--only",
+        "sov-deployment"
+      ],
+      "exitCode": 0,
+      "wallS": 99.3520556279691,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 15,
+      "executedAssertions": 15,
+      "passedAssertions": 15,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-deployment/deployment.json"
+    },
+    {
+      "suite": "sov-visual",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/pip/B/run_domain.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/sov-visual",
+        "--only",
+        "sov-visual"
+      ],
+      "exitCode": 0,
+      "wallS": 57.56999065296259,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 10,
+      "executedAssertions": 10,
+      "passedAssertions": 10,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-visual/visual.json"
+    },
+    {
+      "suite": "paired-friendly",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/F/verify_regression.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_ASM_SEEKER_A.html",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/paired-friendly",
+        "--baseline-only"
+      ],
+      "exitCode": 1,
+      "wallS": 0.11435759498272091,
+      "status": "APPROVED_EXPECTATION_DELTA",
+      "reason": "Six RCS-path exact-state checks pre-approved by directive; physical/damage/inventory/fault checks unchanged",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 42,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "paired-friendly/baseline-comparison.json",
+      "rawPassedAssertions": 36,
+      "approvedDeltaAssertions": 6
+    },
+    {
+      "suite": "ui213",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/contact/friendly/A/cpu2d_ui.py"
+      ],
+      "exitCode": 0,
+      "wallS": 447.6418540379964,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "map/E/evidence/d-ui/ui.json"
+    },
+    {
+      "suite": "webgl8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/dev/shm/aegis-ciws-dmg-a/docs/envelope/D/run_observed_webgl.py",
+        "/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "/workspace/aegis-seeker-unify-a/docs/missile/seeker-unify/A/evidence/regression/webgl8"
+      ],
+      "exitCode": 0,
+      "wallS": 274.1560324530001,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "webgl8/observed-world.json"
+    }
+  ],
+  "wallS": 1934.5051429469604,
+  "native13": {
+    "suiteCount": 13,
+    "expectedSuiteCount": 13,
+    "assertionCount": 364,
+    "passedAssertions": 364,
+    "expectedAssertions": 364
+  },
+  "currentVsFriendlyDomain": {
+    "totalExpected": 420,
+    "passed": 364,
+    "legacyUiIncomplete": 14,
+    "pairedExpected": 42,
+    "pairedPassed": 0
+  },
+  "inheritedCgVsFriendlyDomain": {
+    "passed": 404,
+    "observerKnownDeltaUnapproved": 2,
+    "legacyUiIncomplete": 14,
+    "total": 420,
+    "reference": "docs/contact/friendly/A/VALIDATION.json"
+  },
+  "releaseApproved": false,
+  "inheritedUnresolved": [
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "LEGACY_EMCON_UI_14_INCOMPLETE"
+  ],
+  "newFailures": [],
+  "incomplete": [
+    "emcon-ui"
+  ],
+  "approvedExpectationDeltas": [
+    "paired-friendly"
+  ],
+  "status": "PASS"
+}
