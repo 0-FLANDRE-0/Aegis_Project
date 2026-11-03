@@ -75,7 +75,11 @@ function asmCueBasketU0(em,own,p){{
   const cue=asmTargetCueU0(em),now=Math.max(0,Number(em.life)||0),rangeAgeS=Math.max(0,now-cue.rangeRefTimeS),bearingAgeS=Math.max(0,now-cue.bearingRefTimeS);
   const dx=cue.positionM.x-worldToMeters(own.x),dy=cue.positionM.y-worldToMeters(own.y),dz=cue.positionM.z-(own.z??0),rangeM=Math.max(1,Math.hypot(dx,dy,dz)),horizontalM=Math.max(1,Math.hypot(dx,dy));
   const rangeUncertaintyM=ASM_CUE_BASKET_U0.assumedMaxTargetSpeedMps*rangeAgeS,bearingUncertaintyM=ASM_CUE_BASKET_U0.assumedMaxTargetSpeedMps*bearingAgeS,rangeHalfM=Math.max(1200,.12*rangeM,rangeUncertaintyM);
-  return {{cue,rangeM,azRad:Math.atan2(dy,dx),elRad:Math.atan2(dz,horizontalM),rangeLowM:Math.max(rangeM-rangeHalfM,ASM_CUE_BASKET_U0.minAcqRangeFloorM,ASM_CUE_BASKET_U0.minAcqRangeFrac*rangeM),rangeHighM:rangeM+rangeHalfM,azHalfRad:Math.max(deg(5),Math.atan(bearingUncertaintyM/Math.max(rangeM,1))),elHalfRad:deg(4),rangeAgeS,bearingAgeS}};
+  // The uncertainty basket cannot authorize a direction the physical search
+  // pattern never illuminates. This is the existing weapon-profile half-sector,
+  // not a new tuned constant.
+  const searchHalfAzRad=Number.isFinite(Number(p?.searchSectorAzDeg))?deg(Math.max(0,Number(p.searchSectorAzDeg))):Math.PI;
+  return {{cue,rangeM,azRad:Math.atan2(dy,dx),elRad:Math.atan2(dz,horizontalM),rangeLowM:Math.max(rangeM-rangeHalfM,ASM_CUE_BASKET_U0.minAcqRangeFloorM,ASM_CUE_BASKET_U0.minAcqRangeFrac*rangeM),rangeHighM:rangeM+rangeHalfM,azHalfRad:Math.min(searchHalfAzRad,Math.max(deg(5),Math.atan(bearingUncertaintyM/Math.max(rangeM,1)))),searchHalfAzRad,elHalfRad:deg(4),rangeAgeS,bearingAgeS}};
 }}
 """
     source = one(
@@ -102,7 +106,7 @@ function asmCueBasketU0(em,own,p){{
 """
     new_association = """    if(!s._kfX){
       const basket=asmCueBasketU0(em,own,p),cueRange=basket.rangeM,cueAz=basket.azRad,cueEl=basket.elRad;
-      s.lastCueBasketU0={rangeLowM:basket.rangeLowM,rangeHighM:basket.rangeHighM,azHalfDeg:basket.azHalfRad*180/Math.PI,rangeAgeS:basket.rangeAgeS,bearingAgeS:basket.bearingAgeS,source:basket.cue.source};
+      s.lastCueBasketU0={rangeLowM:basket.rangeLowM,rangeHighM:basket.rangeHighM,azHalfDeg:basket.azHalfRad*180/Math.PI,searchSectorAzDeg:basket.searchHalfAzRad*180/Math.PI,rangeAgeS:basket.rangeAgeS,bearingAgeS:basket.bearingAgeS,source:basket.cue.source};
       for(const m of measurements){const evidence=clamp(Number(m.targetEvidence)||0,0,1);if(!arhRfCandidateAcceptedWip13B12(s.mode,evidence)){s.lastRejectedLowEvidence++;s.lowEvidenceRejectTotal=(s.lowEvidenceRejectTotal??0)+1;continue;}s.lastValidatedCandidateCount++;const rangeErr=Math.abs(m.rangeM-cueRange),azErr=Math.abs(angNorm(m.azRad-cueAz)),elErr=Math.abs(angNorm(m.elRad-cueEl)),cueRangeScaleM=Math.max(1200,cueRange*.12),cueAzScaleRad=deg(5),cueElScaleRad=deg(4);
         // U0 changes only the hard pre-EKF basket. Legacy scales below remain
         // authoritative for scoring, preserving score ordering and RNG use.
