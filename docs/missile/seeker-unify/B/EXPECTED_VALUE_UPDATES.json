@@ -1,0 +1,41 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_B_EXPECTED_VALUE_UPDATES_1",
+  "status": "USER_PREAPPROVED_SEEKER_PATH_DELTA_RECORDED",
+  "policy": {
+    "source": "SEEKER_UNIFY_B supplemental directive item 5",
+    "toleranceChanges": 0,
+    "unexplainedChangesApproved": 0,
+    "automatedRegressionExpectedValuesChanged": false
+  },
+  "records": [
+    {
+      "scope": "U0_60_BATTLE_REFERENCE",
+      "kind": "REFERENCE_AGGREGATE_NOT_ASSERTION_BASELINE",
+      "before": {
+        "build": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+        "jobs": 60,
+        "kills": 264,
+        "leakers": 15,
+        "egress": 37,
+        "other": 4
+      },
+      "after": {
+        "build": "U0_ACTIVE_DIAGNOSTIC_PRODUCT",
+        "jobs": 60,
+        "kills": 301,
+        "leakers": 17,
+        "egress": 1,
+        "other": 1
+      },
+      "cause": "U0 grows the pre-EKF target-cue range and bearing uncertainty basket by observation age while capping azimuth with each existing weapon profile searchSectorAzDeg. Previously egressing ASMs therefore reach acquisition and terminal flight more often; defense coefficients and expected-value tolerances were not changed.",
+      "firstAssociationAudit": {
+        "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+        "observed": 320,
+        "shipFirst": 320,
+        "neighborAsmFirst": 0,
+        "nonShipFirst": 0
+      },
+      "evidence": "U0_60_BATTLE_RESULTS.json"
+    }
+  ]
+}
