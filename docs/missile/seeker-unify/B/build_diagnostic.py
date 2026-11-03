@@ -14,6 +14,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 A_PROBE = ROOT / "docs/missile/seeker-unify/A/diagnostic.js"
+ASM_PROBE = ROOT / "docs/missile/asm-seeker/A/diagnostic.js"
 
 
 def sha(data: bytes) -> str:
@@ -47,7 +48,7 @@ def main() -> None:
     args = parser.parse_args()
     raw = args.base.read_bytes()
     source, match = unpack(raw)
-    modules = A_PROBE.read_text() + "\n" + (HERE / "diagnostic_extension.js").read_text()
+    modules = A_PROBE.read_text() + "\n" + ASM_PROBE.read_text() + "\n" + (HERE / "diagnostic_extension.js").read_text()
     anchor = "  window.__NAVAL_SIM_DIAG__ = {"
     assert source.count(anchor) == 1
     candidate = source.replace(anchor, modules + "\n" + anchor, 1)
