@@ -1,0 +1,66 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_A_RCS_INVENTORY_1",
+  "unitContract": "square_metres",
+  "reflectors": [
+    {
+      "kind": "own_ship",
+      "profiles": ["DDG_119_LATE_FLIGHT_IIA", "CG_52_LATE_TICONDEROGA"],
+      "provider": "computeShipRCS / computeWeightedCentroid",
+      "baseline": "shipRcsSections: section rcsBase multiplied by bow/beam/stern/top, LOS and sea-state weights; legacy section beam sum approximately 1300 m2",
+      "after": "same section and aspect ratios; all section bases receive one band/profile total-scale multiplier",
+      "bands": ["S", "X", "IJ"],
+      "consumers": ["WIP22 ASM seeker", "Harpoon RF registry path", "SAM ARH surface mode", "SPY-1D(V)", "SPQ-9B", "BridgeMaster E", "APS-153 surface radar", "ISAR RF front end", "legacy ship radar"]
+    },
+    {
+      "kind": "npc_naval_ship",
+      "profiles": ["DDG_119_LATE_FLIGHT_IIA", "CG_52_LATE_TICONDEROGA"],
+      "provider": "navalRcsC",
+      "baseline": "length*beam*(0.10+0.36*abs(sin(aspect))) with legacy band multipliers",
+      "after": "same 0.10..0.46 aspect envelope normalized to the band/profile beam reference",
+      "bands": ["S", "X", "IJ"],
+      "consumers": ["physicalRfReflectorRegistryWip13A2 common consumers"]
+    },
+    {
+      "kind": "npc_naval_ship",
+      "profiles": ["SOVREMENNY_956"],
+      "provider": "navalRcsC / SOV_REG_A.projectedAreaLut",
+      "baseline": "registered projected area * 1.6 * legacy band multiplier",
+      "after": "same projected-area aspect LUT divided by its beam entry and multiplied by band/profile beam reference",
+      "bands": ["S", "X", "IJ"],
+      "consumers": ["physicalRfReflectorRegistryWip13A2 common consumers"]
+    },
+    {
+      "kind": "surface_target",
+      "profiles": ["EMPTY_CONTAINER_TEST_HULK_V1"],
+      "provider": "surfaceTargetRcsM2Wip13A",
+      "baseline": "five aspect knots for each S/X/IJ band",
+      "after": "same five-knot ratios scaled so the beam knot equals the formula reference",
+      "bands": ["S", "X", "IJ"],
+      "consumers": ["physicalRfReflectorRegistryWip13A2 common consumers"]
+    },
+    {
+      "kind": "generic_surface_contact",
+      "profiles": ["SMALL", "MEDIUM", "LARGE"],
+      "provider": "rfGenericSurfaceRcsM2Wip13A2 / surfaceRcsM2",
+      "baseline": {"SMALL": {"bow": 7, "beam": 38, "stern": 12}, "MEDIUM": {"bow": 28, "beam": 180, "stern": 48}, "LARGE": {"bow": 110, "beam": 780, "stern": 190}},
+      "after": "unchanged: contacts do not carry a class or displacement from which the public formula can be applied without inventing truth",
+      "bands": ["S", "X", "IJ"],
+      "consumers": ["physicalRfReflectorRegistryWip13A2 common consumers"]
+    },
+    {
+      "kind": "non_ship_surface_decoy_or_clutter",
+      "profiles": ["chaff", "Nulka/decoy", "distributed sea clutter"],
+      "provider": "existing dedicated RF providers",
+      "after": "unchanged; not a surface ship and excluded from the ship RCS formula",
+      "consumers": ["seeker and shipboard RF echo fields"]
+    }
+  ],
+  "normalizationConsumers": {
+    "shipboardRadarEchoFieldWip13B13": "snrReferenceRcsM2 and apparentRcsM2 are m2",
+    "asmSeekerVisibleRfReturns": "return rcs is m2",
+    "buildEssmArhEchoPool": "reflector RCS is m2",
+    "harpoonSeekerA": "reflector RCS is m2 through the common registry path",
+    "APS153": "reflector RCS is m2 through the common echo field"
+  }
+}
+

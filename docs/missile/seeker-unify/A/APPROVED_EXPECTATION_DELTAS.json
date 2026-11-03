@@ -1,0 +1,333 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_A_PREAPPROVED_EXPECTATION_DELTAS_1",
+  "authority": "SEEKER_UNIFY_A directive section 5: RCS-path expectation changes are pre-approved when before/after and cause are recorded",
+  "toleranceChanges": 0,
+  "expectedValueChanges": 6,
+  "allDeltasWithinPreapproval": true,
+  "source": "docs/missile/seeker-unify/A/evidence/regression/paired-friendly/baseline-comparison.json",
+  "sourceSha256": "d448bc9bdb19ffd8641562023b276de4b61c7996c4c46e5d840dc7e507160cf2",
+  "cases": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "idle",
+      "rawFailedChecks": [
+        "sameCombatRng"
+      ],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 3169036119,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 660321923,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        96,
+        96
+      ],
+      "reason": "RCS normalization changes physical echo strength and the existing weighted-section draw mapping; raid observer plot/association state may therefore change. No RNG, Pd, association, damage, or weapon coefficient changed."
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "rawFailedChecks": [
+        "sameCombatRng",
+        "sameExistingObserverState"
+      ],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 2229067363,
+        "trackCount": 22,
+        "anonymousPlots": {
+          "truthPlots": 8191,
+          "falsePlots": 0,
+          "associatedPlots": 6761,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 6,
+          "rejectedPlots": 1270,
+          "surfacePlots": 154,
+          "surfaceAssociated": 154,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 619673995,
+        "trackCount": 22,
+        "anonymousPlots": {
+          "truthPlots": 7995,
+          "falsePlots": 0,
+          "associatedPlots": 6628,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 7,
+          "rejectedPlots": 1208,
+          "surfacePlots": 152,
+          "surfaceAssociated": 152,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        90,
+        90
+      ],
+      "reason": "RCS normalization changes physical echo strength and the existing weighted-section draw mapping; raid observer plot/association state may therefore change. No RNG, Pd, association, damage, or weapon coefficient changed."
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "damaged",
+      "rawFailedChecks": [],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 260457076,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 260457076,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        96,
+        96
+      ],
+      "reason": "BYTE/ASSERTION EQUAL"
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "idle",
+      "rawFailedChecks": [
+        "sameCombatRng"
+      ],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 3169036119,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 2197817876,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        122,
+        122
+      ],
+      "reason": "RCS normalization changes physical echo strength and the existing weighted-section draw mapping; raid observer plot/association state may therefore change. No RNG, Pd, association, damage, or weapon coefficient changed."
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "rawFailedChecks": [
+        "sameCombatRng",
+        "sameExistingObserverState"
+      ],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 2229067363,
+        "trackCount": 21,
+        "anonymousPlots": {
+          "truthPlots": 8399,
+          "falsePlots": 0,
+          "associatedPlots": 7068,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 6,
+          "rejectedPlots": 1218,
+          "surfacePlots": 107,
+          "surfaceAssociated": 106,
+          "surfaceNewTracks": 1,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 1655152390,
+        "trackCount": 24,
+        "anonymousPlots": {
+          "truthPlots": 8528,
+          "falsePlots": 0,
+          "associatedPlots": 7091,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 11,
+          "rejectedPlots": 1316,
+          "surfacePlots": 110,
+          "surfaceAssociated": 109,
+          "surfaceNewTracks": 1,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        114,
+        114
+      ],
+      "reason": "RCS normalization changes physical echo strength and the existing weighted-section draw mapping; raid observer plot/association state may therefore change. No RNG, Pd, association, damage, or weapon coefficient changed."
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "damaged",
+      "rawFailedChecks": [],
+      "approved": true,
+      "safetyChecks": {
+        "samePhysicalState": true,
+        "sameHullDamageAndFixedLayout": true,
+        "raidInventoryDeltaBounded": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "baseline": {
+        "globalRng": 260457076,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "product": {
+        "globalRng": 260457076,
+        "trackCount": 0,
+        "anonymousPlots": {
+          "truthPlots": 0,
+          "falsePlots": 0,
+          "associatedPlots": 0,
+          "coarseAssociations": 0,
+          "duplicateSuppressed": 0,
+          "newTracks": 0,
+          "rejectedPlots": 0,
+          "surfacePlots": 0,
+          "surfaceAssociated": 0,
+          "surfaceNewTracks": 0,
+          "surfaceRejected": 0
+        }
+      },
+      "loadedVlsBeforeAfter": [
+        122,
+        122
+      ],
+      "reason": "BYTE/ASSERTION EQUAL"
+    }
+  ]
+}
