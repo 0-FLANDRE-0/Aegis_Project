@@ -1,0 +1,78 @@
+--- SEEKER_UNIFY_A/main.js
++++ SEEKER_UNIFY_B/main.js
+@@ -31229,7 +31229,37 @@
+       evidence>=c.continuityEvidence&&Number.isFinite(stats?.nis)&&stats.nis>=0&&stats.nis<=c.continuityNis;
+   }
+ 
+-  function createAsmSeekerState(label){
++  // SEEKER_UNIFY_B U0: cue uncertainty grows only from information age.
++// These are the three frozen SIM_TUNED constants committed before effect tests;
++// no target truth, target identity, target profile, or target velocity is read.
++const ASM_CUE_BASKET_U0=Object.freeze({
++  schema:'AEGIS_ASM_CUE_BASKET_U0_1',source:'SIM_TUNED',resultFitting:false,
++  assumedMaxTargetSpeedMps:18.0,minAcqRangeFloorM:1500,minAcqRangeFrac:0.5,
++  mode:'ACTIVE'
++});
++function asmTargetCueStateU0(em){
++  // em.life is missile age, hence launch is time zero in this clock domain.
++  return em._targetCueU0??(em._targetCueU0={schema:'AEGIS_TARGET_CUE_U0_1',rangeRefTimeS:0,bearingRefTimeS:0,source:'LAUNCH',passiveCorrectionAttempts:0,passiveBearingClockUpdates:0});
++}
++function asmTargetCueU0(em){
++  const q=asmTargetCueStateU0(em);
++  return {positionM:{x:worldToMeters(em.insTgtX),y:worldToMeters(em.insTgtY),z:ASM_SEEKER_PROFILES[em.label]?.aimHeightM??5},velocityMps:null,
++    rangeRefTimeS:q.rangeRefTimeS,bearingRefTimeS:q.bearingRefTimeS,source:q.source};
++}
++function asmTargetCuePassiveBearingUpdateU0(em,measurement,profile,correctedBearingRad){
++  const q=asmTargetCueStateU0(em);q.passiveCorrectionAttempts++;
++  const sigma=Math.max(1e-9,Number(profile?.bearingErrorRad)||0),residual=Math.abs(angNorm(measurement.bearingRad-correctedBearingRad));
++  q.lastPassiveBearingResidualRad=residual;q.lastPassiveBearingConverged=residual<=3*sigma;
++  if(q.lastPassiveBearingConverged){q.bearingRefTimeS=Math.max(0,Number(em.life)||0);q.source='PASSIVE_BEARING';q.passiveBearingClockUpdates++;}
++  return q.lastPassiveBearingConverged;
++}
++function asmCueBasketU0(em,own,p){
++  const cue=asmTargetCueU0(em),now=Math.max(0,Number(em.life)||0),rangeAgeS=Math.max(0,now-cue.rangeRefTimeS),bearingAgeS=Math.max(0,now-cue.bearingRefTimeS);
++  const dx=cue.positionM.x-worldToMeters(own.x),dy=cue.positionM.y-worldToMeters(own.y),dz=cue.positionM.z-(own.z??0),rangeM=Math.max(1,Math.hypot(dx,dy,dz)),horizontalM=Math.max(1,Math.hypot(dx,dy));
++  const rangeUncertaintyM=ASM_CUE_BASKET_U0.assumedMaxTargetSpeedMps*rangeAgeS,bearingUncertaintyM=ASM_CUE_BASKET_U0.assumedMaxTargetSpeedMps*bearingAgeS,rangeHalfM=Math.max(1200,.12*rangeM,rangeUncertaintyM);
++  return {cue,rangeM,azRad:Math.atan2(dy,dx),elRad:Math.atan2(dz,horizontalM),rangeLowM:Math.max(rangeM-rangeHalfM,ASM_CUE_BASKET_U0.minAcqRangeFloorM,ASM_CUE_BASKET_U0.minAcqRangeFrac*rangeM),rangeHighM:rangeM+rangeHalfM,azHalfRad:Math.max(deg(5),Math.atan(bearingUncertaintyM/Math.max(rangeM,1))),elHalfRad:deg(4),rangeAgeS,bearingAgeS};
++}
++function createAsmSeekerState(label){
+     const p=ASM_SEEKER_PROFILES[label]??ASM_SEEKER_PROFILES['Kh-35U'];
+     return {profileId:p.id,mode:'OFF',timeS:0,dwellAccS:0,scanTimeS:0,
+       gimbalAz:0,gimbalEl:0,cmdGimbalAz:0,cmdGimbalEl:0,
+@@ -31250,6 +31280,7 @@
+       lastDeceptionPhase:'OFF',lastDeceptionRangePullM:0,lastDeceptionDopplerBiasMps:0,lastDeceptionReplaySnr:0,
+       lastGuidanceSource:'INS',lastHojMode:'OFF',lastHojDirectJOverN:0,lastHojAzSigmaDeg:null,lastHojElSigmaDeg:null,
+       lastHojBearingDeg:null,lastHojElevationDeg:null,lastHojAzRateDegS:0,lastHojPd:0,lastHojRxGain:0,
++      lastCueBasketU0:null,cueLegacyPassCountU0:0,cueExpandedPassCountU0:0,cueExpandedOnlyCountU0:0,
+       deception:null,hoj:null};
+   }
+   function asmEnsureSeeker(em){
+@@ -31885,12 +31916,14 @@
+     s.lastCandidateCount=measurements.length;s.lastValidatedCandidateCount=0;s.lastRejectedLowEvidence=0;s.lastAcquireEvidenceHoldWip15B1=false;if(!measurements.length)return null;
+     let scored=[];
+     if(!s._kfX){
+-      const dx=worldToMeters(em.insTgtX-own.x),dy=worldToMeters(em.insTgtY-own.y),dz=(p.aimHeightM??5)-(own.z??0),cueRange=Math.max(1,Math.hypot(dx,dy,dz)),cueAz=Math.atan2(dy,dx),cueEl=Math.atan2(dz,Math.max(1,Math.hypot(dx,dy)));
++      const basket=asmCueBasketU0(em,own,p),cueRange=basket.rangeM,cueAz=basket.azRad,cueEl=basket.elRad;
++      s.lastCueBasketU0={rangeLowM:basket.rangeLowM,rangeHighM:basket.rangeHighM,azHalfDeg:basket.azHalfRad*180/Math.PI,rangeAgeS:basket.rangeAgeS,bearingAgeS:basket.bearingAgeS,source:basket.cue.source};
+       for(const m of measurements){const evidence=clamp(Number(m.targetEvidence)||0,0,1);if(!arhRfCandidateAcceptedWip13B12(s.mode,evidence)){s.lastRejectedLowEvidence++;s.lowEvidenceRejectTotal=(s.lowEvidenceRejectTotal??0)+1;continue;}s.lastValidatedCandidateCount++;const rangeErr=Math.abs(m.rangeM-cueRange),azErr=Math.abs(angNorm(m.azRad-cueAz)),elErr=Math.abs(angNorm(m.elRad-cueEl)),cueRangeScaleM=Math.max(1200,cueRange*.12),cueAzScaleRad=deg(5),cueElScaleRad=deg(4);
+-        // ASM_SEEKER_A: before an EKF exists, the launch cue is an acquisition
+-        // basket, not merely a soft score. Reuse the existing residual scales;
+-        // no RF/Pd/noise/beam/gimbal or guidance coefficient changes.
+-        if(rangeErr>cueRangeScaleM||azErr>cueAzScaleRad||elErr>cueElScaleRad)continue;
++        // U0 changes only the hard pre-EKF basket. Legacy scales below remain
++        // authoritative for scoring, preserving score ordering and RNG use.
++        const legacyPass=rangeErr<=cueRangeScaleM&&azErr<=cueAzScaleRad&&elErr<=cueElScaleRad,expandedPass=m.rangeM>=basket.rangeLowM&&m.rangeM<=basket.rangeHighM&&azErr<=basket.azHalfRad&&elErr<=basket.elHalfRad;
++        if(legacyPass)s.cueLegacyPassCountU0++;if(expandedPass)s.cueExpandedPassCountU0++;if(expandedPass&&!legacyPass)s.cueExpandedOnlyCountU0++;
++        if((ASM_CUE_BASKET_U0.mode==='ACTIVE'?!expandedPass:!legacyPass))continue;
+         const score=5*Math.log1p(Math.max(0,m.snr))+18*(evidence-.5)-4*clamp(rangeErr/cueRangeScaleM,0,4)-5*clamp(azErr/cueAzScaleRad,0,4)-3*clamp(elErr/cueElScaleRad,0,4);scored.push({m,score,stats:null,rangeErr,azErr,elErr,dopErr:0});}
+     }else{
+       for(const m of measurements){
+@@ -42917,7 +42950,7 @@
+     const meas=asmPassiveRfMeasurementB2(em);if(!meas?.available)return false;
+     const p=ASM_PASSIVE_RF_B2_PROFILES[em.label],o=missileNavB2Kinematics(em),dx=em.insTgtX-o.x,dy=em.insTgtY-o.y;
+     const r=Math.hypot(dx,dy),az=Math.atan2(dy,dx),corrected=az+angNorm(meas.bearingRad-az)*p.correctionGain*meas.confidence*dt;
+-    em.insTgtX=o.x+Math.cos(corrected)*r;em.insTgtY=o.y+Math.sin(corrected)*r;return true;
++    em.insTgtX=o.x+Math.cos(corrected)*r;em.insTgtY=o.y+Math.sin(corrected)*r;asmTargetCuePassiveBearingUpdateU0(em,meas,p,corrected);return true;
+   }
+   function asmTargetMemoryDriftB2(em,amplitudeWorld){
+     if(em._c52InsMemory)return;

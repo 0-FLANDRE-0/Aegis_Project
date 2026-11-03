@@ -26,8 +26,8 @@ They are frozen before any U0 outcome/effect test and are not to be fitted to re
 | `minAcqRangeFloorM` | 1500 m | `SIM_TUNED`; reject salvo neighbours at hundreds of metres |
 | `minAcqRangeFrac` | 0.5 | `SIM_TUNED`; prevent the lower edge dropping below half cue range |
 
-Machine-readable copy: `U0_FROZEN_CONSTANTS.json`. The commit containing this file is
-recorded here after the pre-test commit is created.
+Machine-readable copy: `U0_FROZEN_CONSTANTS.json`. Pre-effect-test freeze commit:
+`3bdcde42ce8deac0d6962e6b50ddedcfde7991b8`.
 
 ## Ordered work
 
