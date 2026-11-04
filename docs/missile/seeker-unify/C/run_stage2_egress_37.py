@@ -2,6 +2,7 @@
 """Replay the frozen TRACK-C 37 egress missiles against Stage 2."""
 from __future__ import annotations
 
+import argparse
 import gzip
 import hashlib
 import importlib.util
@@ -18,6 +19,7 @@ EVIDENCE = HERE / "evidence/beam-stage2-egress-37"
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 ORIG = Path("/dev/shm/seeker-unify-track-c")
 sys.path[:0] = [
+    "/dev/shm/seeker-unify-track-c/docs/missile/fuze-zem/A",
     "/dev/shm/aegis-ciws-dmg-a/docs/pip/B",
     "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/H",
     "/dev/shm/aegis-ciws-dmg-a/docs/multiship/G",
@@ -82,8 +84,16 @@ EXPRESSION = """c=>{const r=__TRACK_STABLE_BATTLE__.run(c),focus=new Set(c.asmSe
 
 
 def main() -> int:
-    diagnostic = Path("/dev/shm/seeker_c_stage2_asm_diag.html")
-    build = json.loads((HERE / "BEAM_STAGE2_ASM_DIAGNOSTIC_BUILD.json").read_text())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--diagnostic", type=Path, default=Path("/dev/shm/seeker_c_stage2_asm_diag.html"))
+    parser.add_argument("--build-receipt", type=Path, default=HERE / "BEAM_STAGE2_ASM_DIAGNOSTIC_BUILD.json")
+    parser.add_argument("--evidence", type=Path, default=EVIDENCE)
+    parser.add_argument("--plan", type=Path, default=HERE / "BEAM_STAGE2_EGRESS_37_PLAN.json")
+    parser.add_argument("--progress", type=Path, default=HERE / "BEAM_STAGE2_EGRESS_37_PROGRESS.json")
+    parser.add_argument("--out", type=Path, default=HERE / "BEAM_STAGE2_EGRESS_37_RESULTS.json")
+    args = parser.parse_args()
+    diagnostic = args.diagnostic
+    build = json.loads(args.build_receipt.read_text())
     assert sha(diagnostic) == build["outputSha256"]
     inst = module("seeker_unify_c_stage2_track_instrument", ORIG / "docs/contact/track/C/instrument.py")
     probed, probe = inst.physical_probe(diagnostic.read_bytes())
@@ -103,12 +113,13 @@ def main() -> int:
         "productCodeChanged": False,
         "truthUse": "AFTER_ACTION_ONLY",
     }
-    save(HERE / "BEAM_STAGE2_EGRESS_37_PLAN.json", plan)
+    save(args.plan, plan)
+    args.evidence.mkdir(parents=True, exist_ok=True)
     rows = []
     started = time.monotonic()
     with sync_playwright() as pw:
         for job in plan_jobs:
-            path = EVIDENCE / (job["id"] + ".json.gz")
+            path = args.evidence / (job["id"] + ".json.gz")
             if path.exists():
                 data = json.loads(gzip.decompress(path.read_bytes()))
                 rows.append({"id": job["id"], "status": "CACHED", "sha256": sha(path), "targets": data["targets"], "end": data["end"]})
@@ -130,7 +141,7 @@ def main() -> int:
             finally:
                 browser.close()
             rows.append(row)
-            save(HERE / "BEAM_STAGE2_EGRESS_37_PROGRESS.json", {"completed": len(rows), "planned": len(plan_jobs), "elapsedS": time.monotonic() - started, "rows": rows})
+            save(args.progress, {"completed": len(rows), "planned": len(plan_jobs), "elapsedS": time.monotonic() - started, "rows": rows})
             print(json.dumps({name: row.get(name) for name in ("id", "status", "wallS", "error")}), flush=True)
             if row["status"] != "VALID":
                 break
@@ -141,7 +152,7 @@ def main() -> int:
         "jobs": len(plan_jobs), "missiles": sum(len(row["focusIds"]) for row in plan_jobs),
         "elapsedS": time.monotonic() - started, "rows": rows,
     }
-    save(HERE / "BEAM_STAGE2_EGRESS_37_RESULTS.json", result)
+    save(args.out, result)
     print(json.dumps({"status": result["status"], "jobs": result["jobs"], "missiles": result["missiles"], "elapsedS": result["elapsedS"]}))
     return 0 if result["status"] == "PASS" else 1
 

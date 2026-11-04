@@ -43,13 +43,18 @@ def main() -> None:
     parser.add_argument("--base", type=Path, default=ROOT / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html")
     parser.add_argument("--out", type=Path, default=Path("/dev/shm/seeker_c_stage2_asm_diag.html"))
     parser.add_argument("--receipt", type=Path, default=HERE / "BEAM_STAGE2_ASM_DIAGNOSTIC_BUILD.json")
+    parser.add_argument("--build-receipt", type=Path, default=HERE / "BUILD.json")
     args = parser.parse_args()
-    build = json.loads((HERE / "BUILD.json").read_text())
+    build = json.loads(args.build_receipt.read_text())
     raw = args.base.read_bytes()
     assert sha(raw) == build["productHtmlSha256"]
     source, match = unpack(raw)
     assert sha(source.encode()) == build["productMainSha256"]
     observer = (ROOT / "docs/missile/asm-seeker/A/diagnostic.js").read_text()
+    fixture_old = "const em=enemyMissiles.at(-1);D.missileIds.add(em.id);em.insTgtX=targetX;em.insTgtY=targetY;em.seekerOn=true;"
+    fixture_new = "const em=enemyMissiles.at(-1);D.missileIds.add(em.id);em.insTgtX=targetX;em.insTgtY=targetY;if(em._cueLaunchA){em._cueLaunchA.positionM={x:worldToMeters(targetX),y:worldToMeters(targetY)};em._cueLaunchA.timeS=0;delete em._targetCueA;}em.seekerOn=true;"
+    assert observer.count(fixture_old) == 1
+    observer = observer.replace(fixture_old, fixture_new, 1)
     anchor = "  window.__NAVAL_SIM_DIAG__ = {"
     assert source.count(anchor) == 1
     candidate = source.replace(anchor, observer + "\n" + anchor, 1)
@@ -59,7 +64,7 @@ def main() -> None:
     assert check == candidate
     args.out.write_bytes(output)
     receipt = {
-        "schema": "AEGIS_SEEKER_UNIFY_C_STAGE2_ASM_DIAGNOSTIC_BUILD_1",
+        "schema": f"AEGIS_SEEKER_UNIFY_C_STAGE{build.get('completedStage', 2)}_ASM_DIAGNOSTIC_BUILD_1",
         "base": args.base.name,
         "baseSha256": sha(raw),
         "baseMainSha256": sha(source.encode()),
@@ -67,6 +72,7 @@ def main() -> None:
         "outputSha256": sha(output),
         "outputMainSha256": sha(candidate.encode()),
         "observerSha256": sha(observer.encode()),
+        "fixtureCompatibilityPatch": "controlled targetX/Y is mirrored into _cueLaunchA; product source unchanged",
         "inverseByteExact": True,
         "testOnlyInstrumentation": True,
     }

@@ -4,6 +4,8 @@
 Stage 1 promotes U2 from diagnostic SHADOW to an ACTIVE common dispatcher.
 Stage 2 applies the audited monostatic ASM beam/LOS definition while retaining
 all numeric profile values, RF thresholds, RNG paths, and truth boundaries.
+Stage 3 replaces point drift/gain rotation with CUE_A covariance prediction,
+anonymous passive-RF angle measurements, provenance and threat-mode plumbing.
 """
 from __future__ import annotations
 
@@ -39,6 +41,14 @@ def one(source: str, old: str, new: str, label: str) -> str:
     if count != 1:
         raise AssertionError(f"{label}: expected one anchor, got {count}")
     return source.replace(old, new, 1)
+
+
+def replace_between(source: str, start_marker: str, end_marker: str, replacement: str, label: str) -> str:
+    if source.count(start_marker) != 1 or source.count(end_marker) < 1:
+        raise AssertionError(f"{label}: marker mismatch")
+    start = source.index(start_marker)
+    end = source.index(end_marker, start)
+    return source[:start] + replacement.rstrip() + "\n" + source[end:]
 
 
 def remove_b_u2_shadow(source: str) -> str:
@@ -142,6 +152,110 @@ window.__SEEKER_COMMON_U2__=Object.freeze({schema:'AEGIS_SEEKER_COMMON_U2_ACTIVE
     return one(source, anchor, layer + "\n" + anchor, "U2 ACTIVE common layer")
 
 
+def transform_cue_a(source: str) -> str:
+    core = (HERE / "cue_a_core.js").read_text()
+    passive = (HERE / "cue_a_passive.js").read_text()
+    ui = (HERE / "cue_a_ui.js").read_text()
+
+    source = replace_between(
+        source,
+        "// SEEKER_UNIFY_B U0: cue uncertainty grows only from information age.",
+        "function createAsmSeekerState(label){",
+        core,
+        "CUE_A core",
+    )
+    source = replace_between(
+        source,
+        "  const ASM_PASSIVE_RF_B2_PROFILES=Object.freeze({",
+        "  function missileNavB2Init(m,force=false){",
+        passive,
+        "CUE_A passive RF",
+    )
+    source = one(source, "function heloMountUiA(){", ui + "\nfunction heloMountUiA(){", "CUE_A UI definitions")
+    source = one(
+        source,
+        "apsMountPerformanceUiF(panel);isarMountUiF2(panel);harpoonJournalMountF1(panel);",
+        "apsMountPerformanceUiF(panel);isarMountUiF2(panel);harpoonJournalMountF1(panel);cueAMountUiC(panel);",
+        "CUE_A debug UI mount",
+    )
+
+    source = one(
+        source,
+        "    em.flight=createAsmFlightState(em.label,em.speedMps,em.vz,em.heading);\n    if(!isSupersonic)em.kh35=em.flight;",
+        "    em.flight=createAsmFlightState(em.label,em.speedMps,em.vz,em.heading);\n"
+        "    if(!isSupersonic)em.kh35=em.flight;\n"
+        "    em._cueLaunchA={source:'AIRCRAFT_LAST_KNOWN_UNRESOLVED',positionM:{x:worldToMeters(em.insTgtX),y:worldToMeters(em.insTgtY)},velocityMps:null,covariance:{positionSigmaM:worldToMeters(insErrWorld),velocitySigmaMps:ASM_CUE_A_SPEC.vmaxMps},timeS:0};",
+        "launch cue metadata",
+    )
+    source = one(
+        source,
+        "    missileNavB2Update(em,dt);\n    const _w113=wip113RefreshBehavior(em);",
+        "    missileNavB2Update(em,dt);\n    asmTargetCuePredictA(em);\n    const _w113=wip113RefreshBehavior(em);",
+        "fixed-step cue prediction",
+    )
+
+    source = one(
+        source,
+        "return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,worldFrame:",
+        "return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:",
+        "save threat mode",
+    )
+    source = one(
+        source,
+        "    if(src.shipId!==ACTIVE_SHIP_RUNTIME.entityId)operationalErrorV48Wip11B(errors,'SHIP_ID');",
+        "    if(src.shipId!==ACTIVE_SHIP_RUNTIME.entityId)operationalErrorV48Wip11B(errors,'SHIP_ID');\n"
+        "    if(!ASM_CUE_THREAT_MODES_A.includes(src.threatAssumptionMode))operationalErrorV48Wip11B(errors,'THREAT_ASSUMPTION_MODE');",
+        "validate threat mode",
+    )
+    source = one(
+        source,
+        "    const harpoonMigrations=[];gunB1MigrateSave(src,harpoonMigrations);",
+        "    const harpoonMigrations=[];if(!Object.hasOwn(src,'threatAssumptionMode')){src.threatAssumptionMode='MAX_THREAT';harpoonMigrations.push({id:'LEGACY_THREAT_ASSUMPTION_MODE_C',policy:'DEFAULT_MAX_THREAT'});}\n"
+        "    gunB1MigrateSave(src,harpoonMigrations);",
+        "migrate threat mode",
+    )
+    source = one(
+        source,
+        "  function applyPreparedOperationalStateV48Wip11B(src,validation,options={}){\n    gunB1ResetAuto();",
+        "  function applyPreparedOperationalStateV48Wip11B(src,validation,options={}){\n    setThreatAssumptionModeC(src.threatAssumptionMode);gunB1ResetAuto();",
+        "restore threat mode",
+    )
+
+    old_boundary = "const payload=asmPassiveRfMeasurementB2(em),allowed=['source','sequence','sampleTimeS','available','bearingRad','confidence'];"
+    new_boundary = "const payload=asmPassiveRfMeasurementB2(em),allowed=['source','sequence','sampleTimeS','available','bearingRad','elevationRad','snr','bearingSigmaRad','elevationSigmaRad','confidence','emitterClass','band','directRangeEstimateM','directRangeSigmaM'];"
+    source = one(source, old_boundary, new_boundary, "anonymous passive payload fields")
+    source = one(
+        source,
+        "passivePayloadNoPositionOrRange:Object.keys(payload??{}).every(k=>allowed.includes(k))",
+        "passivePayloadNoTruthOrIdentity:Object.keys(payload??{}).every(k=>allowed.includes(k))",
+        "boundary semantic name",
+    )
+
+    # CUE_A adds launch-memory metadata to spawnEnemyMissile, which is one of
+    # ENV_D's conservative profile-hash inputs.  The added field does not alter
+    # the frozen straight/constant-velocity ENV_D target, any SAM flight
+    # function, or a measured range cell.  Keep those measured rows and update
+    # only their exact integrity expectation to the Stage-3 function hash.
+    # This is the directive's pre-approved seeker-path expectation update; no
+    # acceptance tolerance or envelope value is changed.
+    source = one(
+        source,
+        '"profileHash":"fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121"',
+        '"profileHash":"06b12b074b8a7461e121a00c109b41fa085510de0ab25654b78f2dd2b9f591e8"',
+        "ENV_D CUE_A profile-hash expectation",
+    )
+    old_spawn_hash = '"spawnEnemyMissile":"464f1388a3e2b53ca6de34b2d7915434d4b11e0cf9619ea61f0ef8eddc29021f"'
+    new_spawn_hash = '"spawnEnemyMissile":"cc18263e2b72d6a8ac7b5c49b492e65891a03012b56b41de170f1c37498327ec"'
+    # The same exact expectation is stored once in the published table and
+    # once in ENV_D.capture()'s runtime fingerprint input.  They must advance
+    # together; historical nested tables do not contain this key.
+    spawn_hash_occurrences = source.count(old_spawn_hash)
+    if spawn_hash_occurrences != 2:
+        raise AssertionError(f"ENV_D CUE_A native source expectation: expected 2 anchors, got {spawn_hash_occurrences}")
+    source = source.replace(old_spawn_hash, new_spawn_hash)
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -165,7 +279,7 @@ def main() -> None:
     if sha(raw) != BASE_SHA:
         raise AssertionError(f"baseline SHA mismatch: {sha(raw)}")
     before, match = unpack(raw)
-    after = transform_u2_active(before)
+    after = transform_cue_a(transform_u2_active(before))
     output = repack(raw, after, match)
     check, _ = unpack(output)
     assert check == after
@@ -175,18 +289,26 @@ def main() -> None:
     (HERE / "changes.diff").write_text(diff)
     profile_options = json.loads((HERE / "U2_FROZEN_PROFILE_OPTIONS.json").read_text())
     build = {
-        "schema": "AEGIS_SEEKER_UNIFY_C_BUILD_2",
+        "schema": "AEGIS_SEEKER_UNIFY_C_BUILD_3",
         "baselineCommit": "052846b10199e0b198be574d339b552bd7484658",
         "baselineHtml": BASE.name,
         "baselineHtmlSha256": sha(raw),
         "baselineMainSha256": sha(before.encode()),
-        "completedStage": 2,
+        "completedStage": 3,
         "u2Mode": "ACTIVE",
         "stage1ProfileOptions": profile_options,
         "activeProfileOptions": json.loads((HERE / "BEAM_STAGE2_OPTIONS.json").read_text()),
         "productHtml": args.out.name,
         "productHtmlSha256": sha(output),
         "productMainSha256": sha(after.encode()),
+        "envDProfileHashExpectationUpdate": {
+            "before": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+            "after": "06b12b074b8a7461e121a00c109b41fa085510de0ab25654b78f2dd2b9f591e8",
+            "nativeFunction": "spawnEnemyMissile",
+            "nativeFunctionBefore": "464f1388a3e2b53ca6de34b2d7915434d4b11e0cf9619ea61f0ef8eddc29021f",
+            "nativeFunctionAfter": "cc18263e2b72d6a8ac7b5c49b492e65891a03012b56b41de170f1c37498327ec",
+            "cause": "CUE_A launch-memory metadata in spawnEnemyMissile; no measured row, flight coefficient, or tolerance changed",
+        },
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
     }
     args.receipt.write_text(json.dumps(build, indent=2) + "\n")

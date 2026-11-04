@@ -1,0 +1,31 @@
+{
+  "suite": "paired-friendly",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-u",
+    "/dev/shm/aegis-ciws-dmg-a/docs/helicopter/F/verify_regression.py",
+    "/workspace/aegis-seeker-unify-b/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html",
+    "/workspace/aegis-seeker-unify-b/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+    "/workspace/aegis-seeker-unify-b/docs/missile/seeker-unify/C/evidence/regression-stage3/paired-friendly",
+    "--baseline-only"
+  ],
+  "exitCode": 1,
+  "wallS": 182.40155223300098,
+  "status": "FAIL",
+  "reason": "Original assertion/worker failure or incomplete output",
+  "expectedAssertions": 42,
+  "executedAssertions": 42,
+  "passedAssertions": 34,
+  "failedAssertions": [
+    "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+    "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+    "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+    "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+    "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+    "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+    "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+  ],
+  "errors": [],
+  "resultPath": "paired-friendly/baseline-comparison.json"
+}
