@@ -1,0 +1,46 @@
+{
+  "probe": {
+    "schema": "AEGIS_TRACK_C_PHYSICAL_TEST_PROBES_1",
+    "productSha256": "dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec",
+    "instrumentedSha256": "bf5bb731d001c353945ecf42310a2a0c5269a79472d87b7c669d199ba40216ef",
+    "hooks": [
+      {
+        "function": "shipboardRadarEchoFieldWip13B13",
+        "occurrence": 0,
+        "originalFunctionSha256": "377dedec7488cd0c8044f2e181d7c5bc22435c2db112bc83cbb4cc4213b1b65c"
+      },
+      {
+        "function": "c55SensorSweep",
+        "occurrence": 0,
+        "originalFunctionSha256": "5eb42f1723225595377b244a42136d1a24a72b4284c4b532e790300a89a46a69"
+      },
+      {
+        "function": "c55SensorSweep",
+        "occurrence": 1,
+        "originalFunctionSha256": "5644a84c65c52a896b64b1ba957acced7f58867cdae47af552c0c85d1ecf3bb1"
+      }
+    ],
+    "productFileModified": false,
+    "nativePhysicsExpressionsChanged": false,
+    "afterActionOnly": true
+  },
+  "rows": [
+    {
+      "id": "S13-419027-ASM",
+      "status": "INCOMPLETE",
+      "wallS": 60.05624380300287,
+      "error": "Page.evaluate: Target crashed ",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/aegis-seeker-unify-b/docs/missile/asm-seeker/A/run_s3_battles.py\", line 119, in worker\n    value = page.evaluate(EXPR, job[\"case\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 9385, in evaluate\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_page.py\", line 472, in evaluate\n    return await self._main_frame.evaluate(expression, arg)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_frame.py\", line 345, in evaluate\n    await self._channel.send(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 76, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.Error: Page.evaluate: Target crashed \n"
+    }
+  ],
+  "errors": [
+    {
+      "id": "S13-419027-ASM",
+      "status": "INCOMPLETE",
+      "wallS": 60.05624380300287,
+      "error": "Page.evaluate: Target crashed ",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/aegis-seeker-unify-b/docs/missile/asm-seeker/A/run_s3_battles.py\", line 119, in worker\n    value = page.evaluate(EXPR, job[\"case\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 9385, in evaluate\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_page.py\", line 472, in evaluate\n    return await self._main_frame.evaluate(expression, arg)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_frame.py\", line 345, in evaluate\n    await self._channel.send(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 76, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.Error: Page.evaluate: Target crashed \n"
+    }
+  ],
+  "elapsedS": 60.48135153501062
+}
