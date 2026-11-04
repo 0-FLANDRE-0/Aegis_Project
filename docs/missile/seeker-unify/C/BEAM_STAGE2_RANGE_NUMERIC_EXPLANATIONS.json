@@ -1,0 +1,1696 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_BEAM_STAGE2_RANGE_EXPLANATION_1",
+  "status": "PASS",
+  "method": "actual Stage-2 measurement path with read-only AFTER_ACTION_DIAGNOSTIC observer",
+  "input": "/dev/shm/seeker_c_stage2_explain_diag.html",
+  "inputSha256": "da31a6963dd22b82e47ffc8ea463ff47e9d8bd6b717d7854df6bd28840f5b78a",
+  "formula": "stage2CleanSnr = stage1CleanSnr * oneWayBeamGain * oneWayLosQ",
+  "cases": 6,
+  "rows": [
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629300,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 20,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629300,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 20,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1800:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1249.5849576935875,
+            "rangeM": 20000.89932694855,
+            "rangeExtentM": 59.71827421353717,
+            "crossExtentM": 185.5011544048824,
+            "verticalExtentM": 11.854719883030832
+          },
+          "measurement": {
+            "snr": 26.87655688588016,
+            "pd": 0.998,
+            "score": 0.5366777018618486,
+            "pass": false,
+            "features": {
+              "score": 0.5366777018618486,
+              "crossCompact": 0.10613200929889373,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.07303926074184167,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.332167379449231,
+              "surfaceRelativeDopplerMps": 0.0038957458457389293
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 2693
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 13,
+        "rangeKm": {
+          "min": 20.000435076658466,
+          "median": 20.000700220251296,
+          "max": 20.000899326948552
+        },
+        "beamNorm": {
+          "azP50": 0.40100953649722626,
+          "azP90": 0.6362234484129521,
+          "elP50": 0.00537794906648937,
+          "elP90": 0.005465817282452924
+        },
+        "offGain": {
+          "min": 0.1488013306287551,
+          "median": 0.4396400362750155,
+          "max": 0.999926287812119
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.1488013306287551,
+          "median": 0.4396400362750155,
+          "p90": 0.9998149413011422,
+          "max": 0.999926287812119
+        },
+        "cleanSnr": {
+          "stage1Median": 15.930489179992726,
+          "stage2Median": 7.003680840970745,
+          "stage1P90": 26.876296027327047,
+          "stage2P90": 26.871322335768724
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 13,
+          "rangeKm": {
+            "min": 20.000435076658466,
+            "median": 20.000700220251296,
+            "max": 20.000899326948552
+          },
+          "beamNorm": {
+            "azP50": 0.40100953649722626,
+            "azP90": 0.6362234484129521,
+            "elP50": 0.00537794906648937,
+            "elP90": 0.005465817282452924
+          },
+          "offGain": {
+            "min": 0.1488013306287551,
+            "median": 0.4396400362750155,
+            "max": 0.999926287812119
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.1488013306287551,
+            "median": 0.4396400362750155,
+            "p90": 0.9998149413011422,
+            "max": 0.999926287812119
+          },
+          "cleanSnr": {
+            "stage1Median": 15.930489179992726,
+            "stage2Median": 7.003680840970745,
+            "stage1P90": 26.876296027327047,
+            "stage2P90": 26.871322335768724
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000899326948552,
+          "azNorm": 0,
+          "elNorm": 0.005465817282452924,
+          "offGain": 0.999926287812119,
+          "los": 1,
+          "addedFactor": 0.999926287812119,
+          "stage1CleanSnr": 26.8785381617351,
+          "stage2CleanSnr": 26.876556885880156,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000895008870565,
+          "azNorm": 0.025470431178208595,
+          "elNorm": 0.005541837102979875,
+          "offGain": 0.9983244894758077,
+          "los": 1,
+          "addedFactor": 0.9983244894758077,
+          "stage1CleanSnr": 26.83136024015296,
+          "stage2CleanSnr": 26.786404013692188,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000700220251296,
+          "azNorm": 0.1181786002153297,
+          "elNorm": 0.005330790880114993,
+          "offGain": 0.9658661217343759,
+          "los": 1,
+          "addedFactor": 0.9658661217343759,
+          "stage1CleanSnr": 28.655223556113942,
+          "stage2CleanSnr": 27.677109643575307,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000886622620833,
+          "azNorm": 0.40100953649722626,
+          "elNorm": 0.00540734855171348,
+          "offGain": 0.6529524500628692,
+          "los": 1,
+          "addedFactor": 0.6529524500628692,
+          "stage1CleanSnr": 17.98027064897559,
+          "stage2CleanSnr": 11.740261773042107,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00085819231429,
+          "azNorm": 0.7478764460442753,
+          "elNorm": 0.005670060368703296,
+          "offGain": 0.1488013306287551,
+          "los": 1,
+          "addedFactor": 0.1488013306287551,
+          "stage1CleanSnr": 3.962595902226018,
+          "stage2CleanSnr": 0.5896395429952839,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000470694921955,
+          "azNorm": 0.6362234418792003,
+          "elNorm": 0.0053785715665661035,
+          "offGain": 0.29247195254764813,
+          "los": 1,
+          "addedFactor": 0.29247195254764813,
+          "stage1CleanSnr": 10.702469887867563,
+          "stage2CleanSnr": 3.130172265187035,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898987954987,
+          "azNorm": 0.006788583634427968,
+          "elNorm": 0.005377946529829511,
+          "offGain": 0.9998149413314519,
+          "los": 1,
+          "addedFactor": 0.9998149413314519,
+          "stage1CleanSnr": 26.876296027327047,
+          "stage2CleanSnr": 26.871322335768724,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000435076658466,
+          "azNorm": 0.5385049051151015,
+          "elNorm": 0.004703699919309701,
+          "offGain": 0.43964003577688743,
+          "los": 1,
+          "addedFactor": 0.43964003577688743,
+          "stage1CleanSnr": 15.93048915943281,
+          "stage2CleanSnr": 7.0036808239963575,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000470694894247,
+          "azNorm": 0.6362234484259451,
+          "elNorm": 0.005378565852052775,
+          "offGain": 0.2924719432365031,
+          "los": 1,
+          "addedFactor": 0.2924719432365031,
+          "stage1CleanSnr": 10.702469545713496,
+          "stage2CleanSnr": 3.130172065464321,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898987954766,
+          "azNorm": 0.006788586539344844,
+          "elNorm": 0.005377944005164193,
+          "offGain": 0.9998149413011422,
+          "los": 1,
+          "addedFactor": 0.9998149413011422,
+          "stage1CleanSnr": 26.87629602634073,
+          "stage2CleanSnr": 26.871322333967978,
+          "detected": true
+        }
+      ]
+    },
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629302,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 20,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629302,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 20,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1800:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1249.5849576935875,
+            "rangeM": 20000.89932694855,
+            "rangeExtentM": 59.71827421353717,
+            "crossExtentM": 185.5011544048824,
+            "verticalExtentM": 11.854719883030832
+          },
+          "measurement": {
+            "snr": 26.87655688588016,
+            "pd": 0.998,
+            "score": 0.5366777018618486,
+            "pass": false,
+            "features": {
+              "score": 0.5366777018618486,
+              "crossCompact": 0.10613200929889373,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.07303926074184167,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.332167379449231,
+              "surfaceRelativeDopplerMps": 0.0038957458457389293
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 2668
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 13,
+        "rangeKm": {
+          "min": 20.00045553369838,
+          "median": 20.00070048447573,
+          "max": 20.000899326948552
+        },
+        "beamNorm": {
+          "azP50": 0.40080621956423096,
+          "azP90": 0.6396582386384521,
+          "elP50": 0.005470395632837905,
+          "elP90": 0.005506773660233887
+        },
+        "offGain": {
+          "min": 0.14926857204329966,
+          "median": 0.44153562941365887,
+          "max": 0.999926287812119
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.14926857204329966,
+          "median": 0.44153562941365887,
+          "p90": 0.9996338249756831,
+          "max": 0.999926287812119
+        },
+        "cleanSnr": {
+          "stage1Median": 16.008554780301804,
+          "stage2Median": 7.068347310923595,
+          "stage1P90": 26.87076521376341,
+          "stage2P90": 26.860925813046595
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 13,
+          "rangeKm": {
+            "min": 20.00045553369838,
+            "median": 20.00070048447573,
+            "max": 20.000899326948552
+          },
+          "beamNorm": {
+            "azP50": 0.40080621956423096,
+            "azP90": 0.6396582386384521,
+            "elP50": 0.005470395632837905,
+            "elP90": 0.005506773660233887
+          },
+          "offGain": {
+            "min": 0.14926857204329966,
+            "median": 0.44153562941365887,
+            "max": 0.999926287812119
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.14926857204329966,
+            "median": 0.44153562941365887,
+            "p90": 0.9996338249756831,
+            "max": 0.999926287812119
+          },
+          "cleanSnr": {
+            "stage1Median": 16.008554780301804,
+            "stage2Median": 7.068347310923595,
+            "stage1P90": 26.87076521376341,
+            "stage2P90": 26.860925813046595
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000899326948552,
+          "azNorm": 0,
+          "elNorm": 0.005465817282452924,
+          "offGain": 0.999926287812119,
+          "los": 1,
+          "addedFactor": 0.999926287812119,
+          "stage1CleanSnr": 26.8785381617351,
+          "stage2CleanSnr": 26.876556885880156,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000895015281266,
+          "azNorm": 0.025453805916657354,
+          "elNorm": 0.005542295769671557,
+          "offGain": 0.9983265635399586,
+          "los": 1,
+          "addedFactor": 0.9983265635399586,
+          "stage1CleanSnr": 26.831417375495455,
+          "stage2CleanSnr": 26.786516703384713,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00070048447573,
+          "azNorm": 0.11810674992677163,
+          "elNorm": 0.00533221249465449,
+          "offGain": 0.9659070170671065,
+          "los": 1,
+          "addedFactor": 0.9659070170671065,
+          "stage1CleanSnr": 28.65648132302651,
+          "stage2CleanSnr": 27.679496394363788,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000886478901435,
+          "azNorm": 0.40080621956423096,
+          "elNorm": 0.0054131920028005175,
+          "offGain": 0.6532563448902076,
+          "los": 1,
+          "addedFactor": 0.6532563448902076,
+          "stage1CleanSnr": 17.988705916947517,
+          "stage2CleanSnr": 11.751236276609985,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000858082168893,
+          "azNorm": 0.7474587371818154,
+          "elNorm": 0.005685966731828344,
+          "offGain": 0.14926857204329966,
+          "los": 1,
+          "addedFactor": 0.14926857204329966,
+          "stage1CleanSnr": 3.975051324004051,
+          "stage2CleanSnr": 0.5933502349329124,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00045553372831,
+          "azNorm": 0.6396582321346086,
+          "elNorm": 0.005470401287705869,
+          "offGain": 0.28757499624502103,
+          "los": 1,
+          "addedFactor": 0.28757499624502103,
+          "stage1CleanSnr": 10.522611862726977,
+          "stage2CleanSnr": 3.0260400669115244,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898555608416,
+          "azNorm": 0.010867458148436558,
+          "elNorm": 0.005506771118475874,
+          "offGain": 0.9996338250645808,
+          "los": 1,
+          "addedFactor": 0.9996338250645808,
+          "stage1CleanSnr": 26.87076521376341,
+          "stage2CleanSnr": 26.860925813046595,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00045587086565,
+          "azNorm": 0.5372900107698138,
+          "elNorm": 0.004619475341987876,
+          "offGain": 0.44153562887995806,
+          "los": 1,
+          "addedFactor": 0.44153562887995806,
+          "stage1CleanSnr": 16.008554758448444,
+          "stage2CleanSnr": 7.068347292730778,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000455533698684,
+          "azNorm": 0.6396582386526803,
+          "elNorm": 0.005470395632837905,
+          "offGain": 0.28757498702080203,
+          "los": 1,
+          "addedFactor": 0.28757498702080203,
+          "stage1CleanSnr": 10.522611524164917,
+          "stage2CleanSnr": 3.0260398724866677,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898555608025,
+          "azNorm": 0.01086746108281259,
+          "elNorm": 0.005506768599595505,
+          "offGain": 0.9996338249756831,
+          "los": 1,
+          "addedFactor": 0.9996338249756831,
+          "stage1CleanSnr": 26.870765210661485,
+          "stage2CleanSnr": 26.860925807557056,
+          "detected": true
+        }
+      ]
+    },
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629303,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 20,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629303,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 20,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1800:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1249.5849576935875,
+            "rangeM": 20000.89932694855,
+            "rangeExtentM": 59.71827421353717,
+            "crossExtentM": 185.5011544048824,
+            "verticalExtentM": 11.854719883030832
+          },
+          "measurement": {
+            "snr": 26.87655688588016,
+            "pd": 0.998,
+            "score": 0.5366777018618486,
+            "pass": false,
+            "features": {
+              "score": 0.5366777018618486,
+              "crossCompact": 0.10613200929889373,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.07303926074184167,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.332167379449231,
+              "surfaceRelativeDopplerMps": 0.0038957458457389293
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 2711
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 13,
+        "rangeKm": {
+          "min": 20.000435500477792,
+          "median": 20.00070022556202,
+          "max": 20.000899326948552
+        },
+        "beamNorm": {
+          "azP50": 0.40100543469960503,
+          "azP90": 0.6362930729763382,
+          "elP50": 0.005542744678738274,
+          "elP90": 0.005592261728385941
+        },
+        "offGain": {
+          "min": 0.14881063094902772,
+          "median": 0.43967830399321545,
+          "max": 0.999926287812119
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.14881063094902772,
+          "median": 0.43967830399321545,
+          "p90": 0.9998063668803446,
+          "max": 0.999926287812119
+        },
+        "cleanSnr": {
+          "stage1Median": 15.932063488008643,
+          "stage2Median": 7.004982653519872,
+          "stage1P90": 26.876058403806006,
+          "stage2P90": 26.87085430954853
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 13,
+          "rangeKm": {
+            "min": 20.000435500477792,
+            "median": 20.00070022556202,
+            "max": 20.000899326948552
+          },
+          "beamNorm": {
+            "azP50": 0.40100543469960503,
+            "azP90": 0.6362930729763382,
+            "elP50": 0.005542744678738274,
+            "elP90": 0.005592261728385941
+          },
+          "offGain": {
+            "min": 0.14881063094902772,
+            "median": 0.43967830399321545,
+            "max": 0.999926287812119
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.14881063094902772,
+            "median": 0.43967830399321545,
+            "p90": 0.9998063668803446,
+            "max": 0.999926287812119
+          },
+          "cleanSnr": {
+            "stage1Median": 15.932063488008643,
+            "stage2Median": 7.004982653519872,
+            "stage1P90": 26.876058403806006,
+            "stage2P90": 26.87085430954853
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000899326948552,
+          "azNorm": 0,
+          "elNorm": 0.005465817282452924,
+          "offGain": 0.999926287812119,
+          "los": 1,
+          "addedFactor": 0.999926287812119,
+          "stage1CleanSnr": 26.8785381617351,
+          "stage2CleanSnr": 26.876556885880156,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000895009000843,
+          "azNorm": 0.025470095138204765,
+          "elNorm": 0.005542744678738274,
+          "offGain": 0.9983245068833267,
+          "los": 1,
+          "addedFactor": 0.9983245068833267,
+          "stage1CleanSnr": 26.831360728616332,
+          "stage2CleanSnr": 26.786404968404558,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00070022556202,
+          "azNorm": 0.11817714021119602,
+          "elNorm": 0.005334275708650916,
+          "offGain": 0.9658668651263149,
+          "los": 1,
+          "addedFactor": 0.9658668651263149,
+          "stage1CleanSnr": 28.65524644892756,
+          "stage2CleanSnr": 27.67715305704763,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000886619724874,
+          "azNorm": 0.40100543469960503,
+          "elNorm": 0.005419201972780265,
+          "offGain": 0.6529583768714082,
+          "los": 1,
+          "addedFactor": 0.6529583768714082,
+          "stage1CleanSnr": 17.980435163764636,
+          "stage2CleanSnr": 11.74047575997335,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000858190052245,
+          "azNorm": 0.7478680167656017,
+          "elNorm": 0.0056997339542462526,
+          "offGain": 0.14881063094902772,
+          "los": 1,
+          "addedFactor": 0.14881063094902772,
+          "stage1CleanSnr": 3.962843819381683,
+          "stage2CleanSnr": 0.589713289114643,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00047039286868,
+          "azNorm": 0.6362930664431614,
+          "elNorm": 0.005560473224545757,
+          "offGain": 0.29237102629706924,
+          "los": 1,
+          "addedFactor": 0.29237102629706924,
+          "stage1CleanSnr": 10.698760280265246,
+          "stage2CleanSnr": 3.12800752324747,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00089898116893,
+          "azNorm": 0.0068709114839014115,
+          "elNorm": 0.005592261728385941,
+          "offGain": 0.9998063669091916,
+          "los": 1,
+          "addedFactor": 0.9998063669091916,
+          "stage1CleanSnr": 26.876058403806006,
+          "stage2CleanSnr": 26.87085430954853,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000435500477792,
+          "azNorm": 0.5384804302709639,
+          "elNorm": 0.004693344888709534,
+          "offGain": 0.4396783034944038,
+          "los": 1,
+          "addedFactor": 0.4396783034944038,
+          "stage1CleanSnr": 15.932063467422761,
+          "stage2CleanSnr": 7.004982636521608,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000470392840985,
+          "azNorm": 0.636293072989357,
+          "elNorm": 0.005560467507190407,
+          "offGain": 0.2923710169891961,
+          "los": 1,
+          "addedFactor": 0.2923710169891961,
+          "stage1CleanSnr": 10.698759938238176,
+          "stage2CleanSnr": 3.1280073236659645,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898981168714,
+          "azNorm": 0.006870914389422102,
+          "elNorm": 0.0055922592039613795,
+          "offGain": 0.9998063668803446,
+          "los": 1,
+          "addedFactor": 0.9998063668803446,
+          "stage1CleanSnr": 26.876058402846706,
+          "stage2CleanSnr": 26.870854307814124,
+          "detected": true
+        }
+      ]
+    },
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629304,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 20,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629304,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 20,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1800:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1249.5849576935875,
+            "rangeM": 20000.89932694855,
+            "rangeExtentM": 59.71827421353717,
+            "crossExtentM": 185.5011544048824,
+            "verticalExtentM": 11.854719883030832
+          },
+          "measurement": {
+            "snr": 26.87655688588016,
+            "pd": 0.998,
+            "score": 0.5366777018618486,
+            "pass": false,
+            "features": {
+              "score": 0.5366777018618486,
+              "crossCompact": 0.10613200929889373,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.07303926074184167,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.332167379449231,
+              "surfaceRelativeDopplerMps": 0.0038957458457389293
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 2697
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 13,
+        "rangeKm": {
+          "min": 20.00044505751778,
+          "median": 20.000700346563505,
+          "max": 20.000899326948552
+        },
+        "beamNorm": {
+          "azP50": 0.40091237875818225,
+          "azP90": 0.6378707292322601,
+          "elP50": 0.0053316761539897615,
+          "elP90": 0.005465817282452924
+        },
+        "offGain": {
+          "min": 0.14902459340885524,
+          "median": 0.44053084862275643,
+          "max": 0.999926287812119
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.14902459340885524,
+          "median": 0.44053084862275643,
+          "p90": 0.9997415265873344,
+          "max": 0.999926287812119
+        },
+        "cleanSnr": {
+          "stage1Median": 15.96725833362712,
+          "stage2Median": 7.034069863891535,
+          "stage1P90": 26.87410129316255,
+          "stage2P90": 26.86715505408793
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 13,
+          "rangeKm": {
+            "min": 20.00044505751778,
+            "median": 20.000700346563505,
+            "max": 20.000899326948552
+          },
+          "beamNorm": {
+            "azP50": 0.40091237875818225,
+            "azP90": 0.6378707292322601,
+            "elP50": 0.0053316761539897615,
+            "elP90": 0.005465817282452924
+          },
+          "offGain": {
+            "min": 0.14902459340885524,
+            "median": 0.44053084862275643,
+            "max": 0.999926287812119
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.14902459340885524,
+            "median": 0.44053084862275643,
+            "p90": 0.9997415265873344,
+            "max": 0.999926287812119
+          },
+          "cleanSnr": {
+            "stage1Median": 15.96725833362712,
+            "stage2Median": 7.034069863891535,
+            "stage1P90": 26.87410129316255,
+            "stage2P90": 26.86715505408793
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000899326948552,
+          "azNorm": 0,
+          "elNorm": 0.005465817282452924,
+          "offGain": 0.999926287812119,
+          "los": 1,
+          "addedFactor": 0.999926287812119,
+          "stage1CleanSnr": 26.8785381617351,
+          "stage2CleanSnr": 26.876556885880156,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00089501193464,
+          "azNorm": 0.025462486305376567,
+          "elNorm": 0.005541603289436979,
+          "offGain": 0.9983254931665967,
+          "los": 1,
+          "addedFactor": 0.9983254931665967,
+          "stage1CleanSnr": 26.831387882658827,
+          "stage2CleanSnr": 26.78645854029962,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000700346563505,
+          "azNorm": 0.11814426943252097,
+          "elNorm": 0.0053297278018671675,
+          "offGain": 0.9658857091649471,
+          "los": 1,
+          "addedFactor": 0.9658857091649471,
+          "stage1CleanSnr": 28.65582590222572,
+          "stage2CleanSnr": 27.678252723278547,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.0008865539816,
+          "azNorm": 0.40091237875818225,
+          "elNorm": 0.005404219047801629,
+          "offGain": 0.6530977813276108,
+          "los": 1,
+          "addedFactor": 0.6530977813276108,
+          "stage1CleanSnr": 17.98430481370403,
+          "stage2CleanSnr": 11.74550957254957,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00085813969084,
+          "azNorm": 0.747676839348125,
+          "elNorm": 0.005662857050423343,
+          "offGain": 0.14902459340885524,
+          "los": 1,
+          "addedFactor": 0.14902459340885524,
+          "stage1CleanSnr": 3.9685474820361577,
+          "stage2CleanSnr": 0.5914111749341746,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00046356515965,
+          "azNorm": 0.6378707227120696,
+          "elNorm": 0.005333324784404406,
+          "offGain": 0.29012107171912654,
+          "los": 1,
+          "addedFactor": 0.29012107171912654,
+          "stage1CleanSnr": 10.616099521301761,
+          "stage2CleanSnr": 3.0799541705969733,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898803913035,
+          "azNorm": 0.008737240547062264,
+          "elNorm": 0.005331673614713448,
+          "offGain": 0.999741526646832,
+          "los": 1,
+          "addedFactor": 0.999741526646832,
+          "stage1CleanSnr": 26.87410129316255,
+          "stage2CleanSnr": 26.86715505408793,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00044505751778,
+          "azNorm": 0.5379338964327668,
+          "elNorm": 0.004666348675216808,
+          "offGain": 0.44053084810764587,
+          "los": 1,
+          "addedFactor": 0.44053084810764587,
+          "stage1CleanSnr": 15.967258312437085,
+          "stage2CleanSnr": 7.034069846331768,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.00046356513101,
+          "azNorm": 0.637870729245855,
+          "elNorm": 0.005333319100559217,
+          "offGain": 0.29012106244769487,
+          "los": 1,
+          "addedFactor": 0.29012106244769487,
+          "stage1CleanSnr": 10.616099180787446,
+          "stage2CleanSnr": 3.0799539733801566,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 20.000898803912744,
+          "azNorm": 0.008737243466038784,
+          "elNorm": 0.0053316710929467845,
+          "offGain": 0.9997415265873344,
+          "los": 1,
+          "addedFactor": 0.9997415265873344,
+          "stage1CleanSnr": 26.874101291113647,
+          "stage2CleanSnr": 26.867155050440612,
+          "detected": true
+        }
+      ]
+    },
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629301,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 30,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629301,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 30,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1900:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1224.7155285778904,
+            "rangeM": 30000.59839453295,
+            "rangeExtentM": 58.249168138314914,
+            "crossExtentM": 260.50785238490283,
+            "verticalExtentM": 11.902822125534325
+          },
+          "measurement": {
+            "snr": 4.749477344868487,
+            "pd": 0.9753897517925815,
+            "score": 0.46551815796775764,
+            "pass": false,
+            "features": {
+              "score": 0.46551815796775764,
+              "crossCompact": 0.037446902484883283,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.12496697472800966,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.51641217615392,
+              "surfaceRelativeDopplerMps": 0.0014958148041728236
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 1775
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 7,
+        "rangeKm": {
+          "min": 29.999771596151565,
+          "median": 30.000510240662685,
+          "max": 30.00059839453295
+        },
+        "beamNorm": {
+          "azP50": 0.414113277507974,
+          "azP90": 0.6309997043033541,
+          "elP50": 0.0036855270578339434,
+          "elP90": 0.0037343116090095677
+        },
+        "offGain": {
+          "min": 0.1474366199287481,
+          "median": 0.4612977155842288,
+          "max": 0.9999666471254598
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.1474366199287481,
+          "median": 0.4612977155842288,
+          "p90": 0.9996250469715992,
+          "max": 0.9999666471254598
+        },
+        "cleanSnr": {
+          "stage1Median": 3.3773932072222457,
+          "stage2Median": 1.5579837711213138,
+          "stage1P90": 4.74833540918646,
+          "stage2P90": 4.7465550060019694
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 7,
+          "rangeKm": {
+            "min": 29.999771596151565,
+            "median": 30.000510240662685,
+            "max": 30.00059839453295
+          },
+          "beamNorm": {
+            "azP50": 0.414113277507974,
+            "azP90": 0.6309997043033541,
+            "elP50": 0.0036855270578339434,
+            "elP90": 0.0037343116090095677
+          },
+          "offGain": {
+            "min": 0.1474366199287481,
+            "median": 0.4612977155842288,
+            "max": 0.9999666471254598
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.1474366199287481,
+            "median": 0.4612977155842288,
+            "p90": 0.9996250469715992,
+            "max": 0.9999666471254598
+          },
+          "cleanSnr": {
+            "stage1Median": 3.3773932072222457,
+            "stage2Median": 1.5579837711213138,
+            "stage1P90": 4.74833540918646,
+            "stage2P90": 4.7465550060019694
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00059839453295,
+          "azNorm": 0,
+          "elNorm": 0.0036766236126760323,
+          "offGain": 0.9999666471254598,
+          "los": 1,
+          "addedFactor": 0.9999666471254598,
+          "stage1CleanSnr": 4.7496357588740645,
+          "stage2CleanSnr": 4.749477344868487,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00058974550989,
+          "azNorm": 0.02775573591111024,
+          "elNorm": 0.003723416389139793,
+          "offGain": 0.9980662232125009,
+          "los": 1,
+          "addedFactor": 0.9980662232125009,
+          "stage1CleanSnr": 4.446173724838733,
+          "stage2CleanSnr": 4.437575817296452,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000510240662685,
+          "azNorm": 0.14685453486521907,
+          "elNorm": 0.003755842284245928,
+          "offGain": 0.9476916029478487,
+          "los": 1,
+          "addedFactor": 0.9476916029478487,
+          "stage1CleanSnr": 4.145034072820659,
+          "stage2CleanSnr": 3.92821398474486,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000583063716757,
+          "azNorm": 0.414113277507974,
+          "elNorm": 0.0032379045506148417,
+          "offGain": 0.6332631234585944,
+          "los": 1,
+          "addedFactor": 0.6332631234585944,
+          "stage1CleanSnr": 4.873148804985924,
+          "stage2CleanSnr": 3.0859854333239025,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00053270124208,
+          "azNorm": 0.7491052517520512,
+          "elNorm": 0.0037808517286551783,
+          "offGain": 0.1474366199287481,
+          "los": 1,
+          "addedFactor": 0.1474366199287481,
+          "stage1CleanSnr": 0.7437839531808567,
+          "stage2CleanSnr": 0.10966099201422773,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 29.999771596211318,
+          "azNorm": 0.524656573571423,
+          "elNorm": 0.0030443736856455013,
+          "offGain": 0.4612977155842288,
+          "los": 1,
+          "addedFactor": 0.4612977155842288,
+          "stage1CleanSnr": 3.3773932072222457,
+          "stage2CleanSnr": 1.5579837711213138,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.0005969337711,
+          "azNorm": 0.01174896610690259,
+          "elNorm": 0.0037343089587252953,
+          "offGain": 0.9996250470964723,
+          "los": 1,
+          "addedFactor": 0.9996250470964723,
+          "stage1CleanSnr": 4.74833540918646,
+          "stage2CleanSnr": 4.746555007037862,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000013420226402,
+          "azNorm": 0.630999705361638,
+          "elNorm": 0.0036855270578339434,
+          "offGain": 0.2999758016466527,
+          "los": 1,
+          "addedFactor": 0.2999758016466527,
+          "stage1CleanSnr": 2.2139319823500956,
+          "stage2CleanSnr": 0.6641260211966329,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 29.999771596151565,
+          "azNorm": 0.5246565745344981,
+          "elNorm": 0.0030443758547391135,
+          "offGain": 0.46129771406097214,
+          "los": 1,
+          "addedFactor": 0.46129771406097214,
+          "stage1CleanSnr": 3.377393197449854,
+          "stage2CleanSnr": 1.557983761468695,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00059693377033,
+          "azNorm": 0.011748969105604646,
+          "elNorm": 0.0037343063018918676,
+          "offGain": 0.9996250469715992,
+          "los": 1,
+          "addedFactor": 0.9996250469715992,
+          "stage1CleanSnr": 4.7483354087433405,
+          "stage2CleanSnr": 4.7465550060019694,
+          "detected": true
+        }
+      ]
+    },
+    {
+      "kind": "range",
+      "setup": {
+        "seed": 629302,
+        "kind": "DDG",
+        "control": "TARGET",
+        "rangeKm": 30,
+        "altM": 200,
+        "speedKt": 0,
+        "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+      },
+      "result": {
+        "setup": {
+          "seed": 629302,
+          "kind": "DDG",
+          "control": "TARGET",
+          "rangeKm": 30,
+          "altM": 200,
+          "speedKt": 0,
+          "targetId": "NAVAL:SHIP_SCENARIO_ENEMY_A"
+        },
+        "snapshot": {
+          "rawCount": 46,
+          "echoCount": 45,
+          "targetRaw": {
+            "kind": null,
+            "id": null,
+            "rcs": 1072.0167180949632
+          },
+          "targetEcho": {
+            "kind": "COMPOSITE",
+            "id": "+SEA:IJ:1900:1600",
+            "members": [
+              null,
+              "SEA_CLUTTER"
+            ],
+            "rcs": 1224.7155285778904,
+            "rangeM": 30000.59839453295,
+            "rangeExtentM": 58.249168138314914,
+            "crossExtentM": 260.50785238490283,
+            "verticalExtentM": 11.902822125534325
+          },
+          "measurement": {
+            "snr": 4.749477344868487,
+            "pd": 0.9753897517925815,
+            "score": 0.46551815796775764,
+            "pass": false,
+            "features": {
+              "score": 0.46551815796775764,
+              "crossCompact": 0.037446902484883283,
+              "rangeCompact": 1,
+              "verticalStructure": 1,
+              "kinematicContrast": 0,
+              "dopplerCompact": 1,
+              "broadPenalty": 0.12496697472800966,
+              "flatSurfacePenalty": 0,
+              "estimatedAltitudeM": 10.51641217615392,
+              "surfaceRelativeDopplerMps": 0.0014958148041728236
+            }
+          }
+        },
+        "result": {
+          "everAcquire": false,
+          "everTrack": false,
+          "firstAcquireS": null,
+          "firstTrackS": null,
+          "finalMode": "SEARCH",
+          "rejectReason": "NO_VISIBLE_RF_RETURN",
+          "lowEvidenceRejectTotal": 1752
+        }
+      },
+      "summary": {
+        "attempts": 14,
+        "detections": 11,
+        "rangeKm": {
+          "min": 29.999779113151543,
+          "median": 30.000510214345923,
+          "max": 30.00059839453295
+        },
+        "beamNorm": {
+          "azP50": 0.4141465602449035,
+          "azP90": 0.6319385100466304,
+          "elP50": 0.003644982410353691,
+          "elP90": 0.003723211969753836
+        },
+        "offGain": {
+          "min": 0.1473246839001437,
+          "median": 0.461487659346393,
+          "max": 0.9999666471254598
+        },
+        "los": {
+          "min": 1,
+          "median": 1,
+          "max": 1
+        },
+        "addedFactor": {
+          "min": 0.1473246839001437,
+          "median": 0.461487659346393,
+          "p90": 0.9996814331908338,
+          "max": 0.9999666471254598
+        },
+        "cleanSnr": {
+          "stage1Median": 3.3786233025510715,
+          "stage2Median": 1.5591929597074743,
+          "stage1P90": 4.748558512152837,
+          "stage2P90": 4.747045778618048
+        }
+      },
+      "byMode": {
+        "SEARCH": {
+          "attempts": 14,
+          "detections": 11,
+          "rangeKm": {
+            "min": 29.999779113151543,
+            "median": 30.000510214345923,
+            "max": 30.00059839453295
+          },
+          "beamNorm": {
+            "azP50": 0.4141465602449035,
+            "azP90": 0.6319385100466304,
+            "elP50": 0.003644982410353691,
+            "elP90": 0.003723211969753836
+          },
+          "offGain": {
+            "min": 0.1473246839001437,
+            "median": 0.461487659346393,
+            "max": 0.9999666471254598
+          },
+          "los": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "addedFactor": {
+            "min": 0.1473246839001437,
+            "median": 0.461487659346393,
+            "p90": 0.9996814331908338,
+            "max": 0.9999666471254598
+          },
+          "cleanSnr": {
+            "stage1Median": 3.3786233025510715,
+            "stage2Median": 1.5591929597074743,
+            "stage1P90": 4.748558512152837,
+            "stage2P90": 4.747045778618048
+          }
+        }
+      },
+      "firstTen": [
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00059839453295,
+          "azNorm": 0,
+          "elNorm": 0.0036766236126760323,
+          "offGain": 0.9999666471254598,
+          "los": 1,
+          "addedFactor": 0.9999666471254598,
+          "stage1CleanSnr": 4.7496357588740645,
+          "stage2CleanSnr": 4.749477344868487,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00058974423692,
+          "azNorm": 0.027760104323898152,
+          "elNorm": 0.003723211969753836,
+          "offGain": 0.9980656293552976,
+          "los": 1,
+          "addedFactor": 0.9980656293552976,
+          "stage1CleanSnr": 4.446171211471756,
+          "stage2CleanSnr": 4.437570668398965,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000510214345923,
+          "azNorm": 0.1468765675864738,
+          "elNorm": 0.0037547535735270926,
+          "offGain": 0.9476762148960106,
+          "los": 1,
+          "addedFactor": 0.9476762148960106,
+          "stage1CleanSnr": 4.144966977626745,
+          "stage2CleanSnr": 3.928086616226271,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00058316237405,
+          "azNorm": 0.4141465602449035,
+          "elNorm": 0.0032377509237373667,
+          "offGain": 0.6332127367651054,
+          "los": 1,
+          "addedFactor": 0.6332127367651054,
+          "stage1CleanSnr": 4.87275298118759,
+          "stage2CleanSnr": 3.08548925079812,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000532754857197,
+          "azNorm": 0.7492057790549354,
+          "elNorm": 0.0037758936775276987,
+          "offGain": 0.1473246839001437,
+          "los": 1,
+          "addedFactor": 0.1473246839001437,
+          "stage1CleanSnr": 0.7432174627847608,
+          "stage2CleanSnr": 0.10949427777383168,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 29.999779113210973,
+          "azNorm": 0.524535155515115,
+          "elNorm": 0.003073918802949425,
+          "offGain": 0.461487659346393,
+          "los": 1,
+          "addedFactor": 0.461487659346393,
+          "stage1CleanSnr": 3.3786233025510715,
+          "stage2CleanSnr": 1.5591929597074743,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000597178597932,
+          "azNorm": 0.010745993025705601,
+          "elNorm": 0.0036944367181546505,
+          "offGain": 0.9996814333010274,
+          "los": 1,
+          "addedFactor": 0.9996814333010274,
+          "stage1CleanSnr": 4.748558512152837,
+          "stage2CleanSnr": 4.747045779542742,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.00001041871365,
+          "azNorm": 0.6319385111001785,
+          "elNorm": 0.003644981531862694,
+          "offGain": 0.2986253962392346,
+          "los": 1,
+          "addedFactor": 0.2986253962392346,
+          "stage1CleanSnr": 2.2039228281317396,
+          "stage2CleanSnr": 0.6581473278315353,
+          "detected": false
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 29.999779113151543,
+          "azNorm": 0.5245351565084945,
+          "elNorm": 0.0030739209574126235,
+          "offGain": 0.46148765777558326,
+          "los": 1,
+          "addedFactor": 0.46148765777558326,
+          "stage1CleanSnr": 3.3786232922317287,
+          "stage2CleanSnr": 1.5591929496380506,
+          "detected": true
+        },
+        {
+          "timeS": 0,
+          "mode": "SEARCH",
+          "rangeKm": 30.000597178597214,
+          "azNorm": 0.010745996017138803,
+          "elNorm": 0.0036944340623088633,
+          "offGain": 0.9996814331908338,
+          "los": 1,
+          "addedFactor": 0.9996814331908338,
+          "stage1CleanSnr": 4.748558511751276,
+          "stage2CleanSnr": 4.747045778618048,
+          "detected": true
+        }
+      ]
+    }
+  ],
+  "uncaptured": [],
+  "unexpectedTrack": [],
+  "pageErrors": [],
+  "elapsedS": 13.405249154999183,
+  "truthUse": "diagnostic source tags select the synthetic target after measurement formation; no tactical feedback"
+}

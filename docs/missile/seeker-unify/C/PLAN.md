@@ -24,3 +24,18 @@ The values in `U2_FROZEN_PROFILE_OPTIONS.json` are provenance `LEGACY_EQUIVALENC
 
 No Stage 2 or Stage 3 constant is introduced or adjusted during the Stage 1 equivalence gate.
 
+## Stage 2 checkpoint
+
+- Product: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html`
+- Product SHA-256: `dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec`
+- Main-script SHA-256: `53799ce92aebd732581661c682ccec903eda36b521a0c9452f1ec6a3c9ae06a8`
+- Gate: `PASS` (`BEAM_FIX_RESULTS.json`)
+- Physical decision: legacy ASM active-seeker beam/LOS semantics were undocumented or unclear, so the existing values are frozen as one-way `SIM_TUNED` values and applied with `TX_RX_SEPARATE` as required by the directive.
+- No beamwidth, sensitivity, RCS, threshold, search-sector, cue-basket, HOJ, or passive-RF tuning was made.
+- 1,590 matrix page errors 0; new false acquisitions 0; SAM and ship-radar exact differences 0.
+- Six target and thirty full-cue TRACK regressions are all captured by numeric evidence. Unexplained failures: 0.
+- S1 100 cases: TRACK 40 → 40, ownship-first 0, neighboring-ASM-first 0.
+- TRACK-C replay: 16 battles / 37 missiles `PASS`, neighboring-ASM-first 0.
+- Reference battles: 60/60 `PASS`, first associations 320/320 intended ship, neighboring/non-ship 0/0. Totals 301/17/1/1 → 300/17/1/2; leakers and egress unchanged, one net intercept kill became `GUIDANCE_CONTROL_LOSS_MISS`.
+- Broad regression remains intentionally deferred until Stage 3 completes or reaches a stopping gate.
+

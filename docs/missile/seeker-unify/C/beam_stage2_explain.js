@@ -22,7 +22,8 @@
       // range and a deliberately broad ship-scale RCS floor.  Neither value is
       // returned to, or consumed by, the product seeker.
       const expectedRangeKm=Number(job?.setup?.rangeKm);
-      const rangeComposite=src?._debugKind==='COMPOSITE'&&Number.isFinite(expectedRangeKm)
+      const anonymousDiagnosticMember=src?._debugMembers?.some(member=>member==null)===true;
+      const rangeComposite=src?._debugKind==='COMPOSITE'&&anonymousDiagnosticMember&&Number.isFinite(expectedRangeKm)
         &&Math.abs(rKm-expectedRangeKm)<=Math.max(2,expectedRangeKm*.05)&&(Number(src?.rcs)||0)>50;
       const ship=src?._debugKind==='SHIP'||src?._debugMembers?.includes('SHIP')||rangeComposite;
       if(!ship)return original.apply(this,arguments);
@@ -35,7 +36,7 @@
       return out;
     };
     let result;
-    try{result=job.kind==='range'?__SEEKER_UNIFY_A_DIAG__.runRangeCase(job.setup):__SEEKER_UNIFY_A_DIAG__.runCueCase(job.setup);}
+    try{result=job.kind==='range'?__SEEKER_UNIFY_A_DIAG__.runRangeCase(job.setup):__SEEKER_UNIFY_B_DIAG__.runCueCase(job.setup);}
     finally{asmSeekerEchoMeasurement=original;}
     const byMode={};for(const mode of [...new Set(attempts.map(q=>q.mode))])byMode[mode]=summarize(attempts.filter(q=>q.mode===mode));
     return {kind:job.kind,setup:job.setup,result,summary:summarize(attempts),byMode,firstTen:attempts.slice(0,10)};
