@@ -1,0 +1,975 @@
+{
+  "schema": "AEGIS_CUE_A_1_STAGE2_RESULTS_1",
+  "status": "PASS",
+  "implementationCommit": "48a268f79e1f40e46c2d7ab96f9ead721276f2a2",
+  "mode": "MAX_THREAT",
+  "gates": {
+    "passiveEquipmentBandBeamTests": true,
+    "cueMatrixKeysExact240": true,
+    "cueMatrixPageErrorsZero": true,
+    "trackRegressionsZero": true,
+    "shipHitRegressionsZero": true,
+    "insideSearchOutsideBasketDidNotIncrease": true,
+    "falseAcquisitionIncreaseZero": true,
+    "falseAcquisitionControlsBitExact": true,
+    "s1NoRegressionOrWrongFirstAssociation": true,
+    "egress37NoNeighborFirstAssociation": true,
+    "determinismExact": true,
+    "truthFunctionScopeAndHojAudit": true
+  },
+  "product": {
+    "file": "Aegis_SIM_v48_WIP_CUE_A_1.html",
+    "sha256": "83e3d76a50b6db4616cd7b5dcb013361617477dd90dfa4ea6352248ada84932c"
+  },
+  "cueMatrix": {
+    "cases": 240,
+    "comparisons": {
+      "Kh-35U|EMCON_OFF": {
+        "stage1": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          }
+        },
+        "stage2": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          }
+        }
+      },
+      "Kh-35U|EMCON_ON": {
+        "stage1": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          }
+        },
+        "stage2": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          }
+        }
+      },
+      "Kh-32|EMCON_OFF": {
+        "stage1": {
+          "cases": 60,
+          "acquire": 44,
+          "track": 40,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 20,
+            "SUCCESS": 40
+          }
+        },
+        "stage2": {
+          "cases": 60,
+          "acquire": 54,
+          "track": 45,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 15,
+            "SUCCESS": 45
+          }
+        }
+      },
+      "Kh-32|EMCON_ON": {
+        "stage1": {
+          "cases": 60,
+          "acquire": 48,
+          "track": 44,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 16,
+            "SUCCESS": 44
+          }
+        },
+        "stage2": {
+          "cases": 60,
+          "acquire": 48,
+          "track": 44,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 16,
+            "SUCCESS": 44
+          }
+        }
+      }
+    },
+    "outcomeChanges": [
+      {
+        "setup": {
+          "seed": 729300,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 15,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 93.2262660573442,
+          "bearingSigmaDeg": 0.452407045281169
+        },
+        "after": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 93.19619172849345,
+          "bearingSigmaDeg": 1.5080260665517664
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729300,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 92.56177462750436,
+          "bearingSigmaDeg": 0.4524242789134568
+        },
+        "after": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 92.50935266736171,
+          "bearingSigmaDeg": 1.5080854966289374
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729300,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 30,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 92.63280816214976,
+          "bearingSigmaDeg": 0.45242242488266643
+        },
+        "after": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 92.53927942775067,
+          "bearingSigmaDeg": 1.508082888825307
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729300,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 90,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 93.16848288592647,
+          "bearingSigmaDeg": 0.45240853415884547
+        },
+        "after": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 93.05224545705521,
+          "bearingSigmaDeg": 1.5080384493069652
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729302,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 15,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 90.76156684916614,
+          "bearingSigmaDeg": 0.45247223183708574
+        },
+        "after": {
+          "acquire": true,
+          "track": true,
+          "shipHit": false,
+          "failure": "SUCCESS",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 90.90292546066655,
+          "bearingSigmaDeg": 1.5082279929298423
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729302,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 90.24889359899551,
+          "bearingSigmaDeg": 0.4524862371612565
+        },
+        "after": {
+          "acquire": true,
+          "track": true,
+          "shipHit": false,
+          "failure": "SUCCESS",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 90.3634382531549,
+          "bearingSigmaDeg": 1.5082769808516827
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729302,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 30,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 90.20933228059533,
+          "bearingSigmaDeg": 0.45248732450419266
+        },
+        "after": {
+          "acquire": true,
+          "track": true,
+          "shipHit": false,
+          "failure": "SUCCESS",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 90.24940912475394,
+          "bearingSigmaDeg": 1.5082874099943484
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729302,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 30,
+          "turnDeg": 90,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 90.55245849541981,
+          "bearingSigmaDeg": 0.452477925208549
+        },
+        "after": {
+          "acquire": true,
+          "track": true,
+          "shipHit": false,
+          "failure": "SUCCESS",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 90.49232724510394,
+          "bearingSigmaDeg": 1.5082652241787968
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729303,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 15,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 94.45089085665771,
+          "bearingSigmaDeg": 0.45237591813432776
+        },
+        "after": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 94.58205334245365,
+          "bearingSigmaDeg": 1.5079087731653098
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      },
+      {
+        "setup": {
+          "seed": 729304,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 15,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failure": "OTHER",
+          "band": "S",
+          "snr": 93.59749141920292,
+          "bearingSigmaDeg": 0.45239752378092724
+        },
+        "after": {
+          "acquire": true,
+          "track": true,
+          "shipHit": false,
+          "failure": "SUCCESS",
+          "family": "SHIP SEARCH RADAR",
+          "band": "S",
+          "frequencyMHz": 3000,
+          "snr": 93.58396237699486,
+          "bearingSigmaDeg": 1.507992898207885
+        },
+        "cause": "The 3 GHz SPY observation uses the directive wavelength factor k=10/3 for sigma and receive half-width. The wider observable acceptance changed deterministic passive angle updates; no family outside the allow-list was selected."
+      }
+    ],
+    "trackRegressions": [],
+    "shipHitRegressions": [],
+    "insideSearchOutsideBasket": {
+      "stage1": 0,
+      "stage2": 0,
+      "delta": 0
+    }
+  },
+  "passiveRf": {
+    "checks": {
+      "stage2ContractActive": true,
+      "beamSweepCrossingAndFloor": true,
+      "equipmentRowsComplete": true,
+      "allOffReceivesNothing": true,
+      "contaminantSelectionsZero": true,
+      "contaminantRowsComplete": true,
+      "hojFunctionsByteEqual": true,
+      "rangeAccuracyRowsComplete": true,
+      "multiEmitterRowsComplete": true,
+      "confirmedOnlyStaticScenes": true,
+      "pageErrorsZero": true
+    },
+    "summary": {
+      "equipmentBefore": {
+        "Kh-35U": {
+          "ALL_ON": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.3630183325514757,
+            "meanAbsElevationErrorDeg": 0.49217812176671527,
+            "meanReceiveIntervalS": 0.2
+          },
+          "SPY_OFF": {
+            "cases": 15,
+            "availableSamples": 15,
+            "families": {
+              "null": 15
+            },
+            "meanAbsBearingErrorDeg": 0.35064456909501446,
+            "meanAbsElevationErrorDeg": 0.5174040476670625,
+            "meanReceiveIntervalS": 1.0
+          },
+          "SPQ_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.35749858455870975,
+            "meanAbsElevationErrorDeg": 0.4831637918999801,
+            "meanReceiveIntervalS": 0.2
+          },
+          "NAV_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.36287271542537264,
+            "meanAbsElevationErrorDeg": 0.49407959068119717,
+            "meanReceiveIntervalS": 0.2
+          },
+          "ALL_OFF": {
+            "cases": 15,
+            "availableSamples": 0,
+            "families": {},
+            "meanAbsBearingErrorDeg": null,
+            "meanAbsElevationErrorDeg": null,
+            "meanReceiveIntervalS": null
+          }
+        },
+        "Kh-32": {
+          "ALL_ON": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.2565280494226715,
+            "meanAbsElevationErrorDeg": 0.26389849036623764,
+            "meanReceiveIntervalS": 0.2
+          },
+          "SPY_OFF": {
+            "cases": 15,
+            "availableSamples": 55,
+            "families": {
+              "null": 55
+            },
+            "meanAbsBearingErrorDeg": 0.2899081580343743,
+            "meanAbsElevationErrorDeg": 0.2907445986869014,
+            "meanReceiveIntervalS": 0.6571428571428573
+          },
+          "SPQ_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.23807247466168296,
+            "meanAbsElevationErrorDeg": 0.24499128396520314,
+            "meanReceiveIntervalS": 0.2
+          },
+          "NAV_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "null": 180
+            },
+            "meanAbsBearingErrorDeg": 0.25645524085962024,
+            "meanAbsElevationErrorDeg": 0.26524012387906926,
+            "meanReceiveIntervalS": 0.2
+          },
+          "ALL_OFF": {
+            "cases": 15,
+            "availableSamples": 0,
+            "families": {},
+            "meanAbsBearingErrorDeg": null,
+            "meanAbsElevationErrorDeg": null,
+            "meanReceiveIntervalS": null
+          }
+        }
+      },
+      "equipmentAfter": {
+        "Kh-35U": {
+          "ALL_ON": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 180
+            },
+            "meanAbsBearingErrorDeg": 1.192146181524466,
+            "meanAbsElevationErrorDeg": 1.627944053130231,
+            "meanReceiveIntervalS": 0.2
+          },
+          "SPY_OFF": {
+            "cases": 15,
+            "availableSamples": 30,
+            "families": {
+              "SURFACE SEARCH RADAR": 30
+            },
+            "meanAbsBearingErrorDeg": 0.39239678931776795,
+            "meanAbsElevationErrorDeg": 0.5378791310000709,
+            "meanReceiveIntervalS": 0.44000000000000006
+          },
+          "SPQ_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 180
+            },
+            "meanAbsBearingErrorDeg": 1.192146181524466,
+            "meanAbsElevationErrorDeg": 1.627944053130231,
+            "meanReceiveIntervalS": 0.2
+          },
+          "NAV_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 180
+            },
+            "meanAbsBearingErrorDeg": 1.192146181524466,
+            "meanAbsElevationErrorDeg": 1.627944053130231,
+            "meanReceiveIntervalS": 0.2
+          },
+          "ALL_OFF": {
+            "cases": 15,
+            "availableSamples": 0,
+            "families": {},
+            "meanAbsBearingErrorDeg": null,
+            "meanAbsElevationErrorDeg": null,
+            "meanReceiveIntervalS": null
+          }
+        },
+        "Kh-32": {
+          "ALL_ON": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 168,
+              "SURFACE SEARCH RADAR": 12
+            },
+            "meanAbsBearingErrorDeg": 0.7625356912569586,
+            "meanAbsElevationErrorDeg": 0.8028411266788404,
+            "meanReceiveIntervalS": 0.2
+          },
+          "SPY_OFF": {
+            "cases": 15,
+            "availableSamples": 60,
+            "families": {
+              "SURFACE SEARCH RADAR": 60
+            },
+            "meanAbsBearingErrorDeg": 0.2570694704748432,
+            "meanAbsElevationErrorDeg": 0.2634105422092849,
+            "meanReceiveIntervalS": 0.44000000000000006
+          },
+          "SPQ_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 180
+            },
+            "meanAbsBearingErrorDeg": 0.7945445731905459,
+            "meanAbsElevationErrorDeg": 0.8306829719038404,
+            "meanReceiveIntervalS": 0.2
+          },
+          "NAV_OFF": {
+            "cases": 15,
+            "availableSamples": 180,
+            "families": {
+              "SHIP SEARCH RADAR": 168,
+              "SURFACE SEARCH RADAR": 12
+            },
+            "meanAbsBearingErrorDeg": 0.7625356912569586,
+            "meanAbsElevationErrorDeg": 0.8028411266788404,
+            "meanReceiveIntervalS": 0.2
+          },
+          "ALL_OFF": {
+            "cases": 15,
+            "availableSamples": 0,
+            "families": {},
+            "meanAbsBearingErrorDeg": null,
+            "meanAbsElevationErrorDeg": null,
+            "meanReceiveIntervalS": null
+          }
+        }
+      },
+      "contaminantsSelectedAfter": [],
+      "rangeBefore": {
+        "Kh-35U": {
+          "cases": 15,
+          "availableSamples": 300,
+          "meanOfCaseMeanErrorM": 68659.68802731554,
+          "meanCaseRmseM": 129250.98932520546
+        },
+        "Kh-32": {
+          "cases": 15,
+          "availableSamples": 300,
+          "meanOfCaseMeanErrorM": 1295.5674515583291,
+          "meanCaseRmseM": 6966.127577068647
+        }
+      },
+      "rangeAfter": {
+        "Kh-35U": {
+          "cases": 15,
+          "availableSamples": 300,
+          "meanOfCaseMeanErrorM": 256097.58975074245,
+          "meanCaseRmseM": 439910.8062256404
+        },
+        "Kh-32": {
+          "cases": 15,
+          "availableSamples": 300,
+          "meanOfCaseMeanErrorM": 8876.92541596064,
+          "meanCaseRmseM": 26364.729440582483
+        }
+      },
+      "confirmedOnly": {
+        "kh32PassiveDisabled": true,
+        "kh35OnlyXBandSelected": true,
+        "performance": "UNVERIFIED"
+      }
+    }
+  },
+  "falseAcquisitionControls": {
+    "cases": 180,
+    "bitExactDifferences": [],
+    "newFalseAcquisitions": []
+  },
+  "s1": {
+    "cases": 100,
+    "baselineTrack": 50,
+    "candidateTrack": 50,
+    "trackRegressions": [],
+    "ownshipFirstSelections": [],
+    "neighborAsmFirstSelections": [],
+    "pageErrors": [],
+    "pass": true
+  },
+  "egress37": {
+    "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+    "jobs": 16,
+    "missiles": 37,
+    "missingEvidence": [],
+    "firstFamilies": {
+      "INTENDED_OWNSHIP": 37
+    },
+    "neighborAsmFirstAssociations": [],
+    "rows": [
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 24,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419021-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419023-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419032-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S6-419039-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419021-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419023-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 24,
+        "family": "INTENDED_OWNSHIP"
+      },
+      {
+        "battleId": "S13-419029-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP"
+      }
+    ],
+    "pass": true
+  },
+  "determinism": {
+    "schema": "AEGIS_CUE_A_1_STAGE1B_DETERMINISM_1",
+    "status": "PASS",
+    "inputSha256": "adbe34cf661b0250ad980c34095637f25dcf8e4e2b4bc44d017bccf1f2983a7e",
+    "mode": "MAX_THREAT",
+    "cases": 6,
+    "pageErrors": [],
+    "mismatches": [],
+    "elapsedS": 43.84064338299868,
+    "firstSha256": "bc7910a5940d50f6ae5c407e33e4e86ae320af07b2ee7ecdaa41948122e3df02",
+    "secondSha256": "bc7910a5940d50f6ae5c407e33e4e86ae320af07b2ee7ecdaa41948122e3df02"
+  },
+  "scope": {
+    "status": "PASS",
+    "checks": {
+      "functionScopeExact": true,
+      "allOtherResolvedFunctionsByteEqual": true,
+      "hojByteEqual": true,
+      "familyFilterBeforeGeometry": true,
+      "candidateContainsNoTruthIdentityOrCoordinates": true,
+      "measurementPayloadContainsNoTruthIdentityOrCoordinates": true,
+      "isolatedHashSaltsPreserved": true,
+      "pageErrorsZero": true
+    },
+    "unchangedSharedFunctions": 3093,
+    "unexpected": {
+      "changed": [],
+      "missingChanged": [],
+      "added": [],
+      "missingAdded": [],
+      "removed": [],
+      "protectedChanged": [],
+      "candidateIdentityTokens": [],
+      "payloadIdentityTokens": [],
+      "gameRngTokens": [],
+      "pageErrors": []
+    }
+  },
+  "elapsedS": {
+    "passive": 33.09298903099989,
+    "cueMatrix": 681.7858779649996,
+    "controls": 35.34335891900082,
+    "s1": 81.07187751899983,
+    "egress": 834.1765612470008,
+    "determinism": 43.84064338299868
+  },
+  "confirmedOnly": {
+    "performance": "UNVERIFIED",
+    "kh32PassiveDisabled": true,
+    "kh35OnlyXBandSelected": true
+  },
+  "truthUse": "AFTER_ACTION_TRUTH_TEST_ONLY for angle error and first-association audit; never consumed by simulation",
+  "gameCodeChangedByFinalizer": false
+}
