@@ -1,0 +1,2781 @@
+{
+  "schema": "AEGIS_CUE_A_1_STAGE1B_RESULTS_1",
+  "status": "PASS",
+  "implementationCommit": "46889420995ddb545e64f02d700eb2bbdd3ba9f4",
+  "product": {
+    "file": "Aegis_SIM_v48_WIP_CUE_A_1.html",
+    "sha256": "a1c7ad560a47aaea0e82c90639b6db4e0e9b44eabe9289a8f002523270eabaac"
+  },
+  "baseline": {
+    "commit": "4faeb4e079b7baddcb1e1b8c1b892af804565938",
+    "productSha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7"
+  },
+  "mode": "MAX_THREAT",
+  "gates": {
+    "exactDiscreteSingerAndDtIndependence": true,
+    "cueMatrixKeysExact240": true,
+    "cueMatrixPageErrorsZero": true,
+    "trackRegressionsZero": true,
+    "shipHitRegressionsZero": true,
+    "insideSearchOutsideBasketDidNotIncrease": true,
+    "falseAcquisitionControlIncreaseZero": true,
+    "falseAcquisitionControlsBitExact": true,
+    "s1NoTrackRegressionOrWrongFirstAssociation": true,
+    "egress37NoNeighborFirstAssociation": true,
+    "determinismExact": true,
+    "truthAndFunctionScopeAudit": true
+  },
+  "singer": {
+    "method": "VAN_LOAN_HIGHAM_PADE13",
+    "checks": {
+      "corePass": true,
+      "pageErrorsZero": true,
+      "zeroVelocityAnchor3529_28": true,
+      "unknownVelocityAnchor3883_33": true,
+      "zeroVelocityDtRelativeErrorLe1e6": true,
+      "unknownVelocityDtRelativeErrorLe1e6": true,
+      "fixedTickCaseCount12": true,
+      "velocityVarianceCapped81": true,
+      "capFormulaExact": true,
+      "deterministicExact": true,
+      "passiveDoesNotMoveCapReference": true,
+      "dlPositionMovesCapReference": true
+    },
+    "relativeErrors": {
+      "velocitySigma0": 4.0600585702273683e-13,
+      "velocitySigma9": 3.7566488296390054e-13
+    },
+    "dt": {
+      "one0": {
+        "positionSigmaM": 3529.2813585273075,
+        "velocitySigmaMps": 36.44532919734831,
+        "accelerationSigmaMps2": 0.3000000000000647,
+        "durationS": 180,
+        "stepS": 180,
+        "covariance": [
+          12455826.907648357,
+          0,
+          119543.5818272632,
+          0,
+          259.4759593961834,
+          0,
+          0,
+          12455826.907648357,
+          0,
+          119543.5818272632,
+          0,
+          259.4759593961834,
+          119543.5818272632,
+          0,
+          1328.2620203030888,
+          0,
+          5.131149830823193,
+          0,
+          0,
+          119543.5818272632,
+          0,
+          1328.2620203030888,
+          0,
+          5.131149830823193,
+          259.4759593961834,
+          0,
+          5.131149830823193,
+          0,
+          0.09000000000003881,
+          0,
+          0,
+          259.4759593961834,
+          0,
+          5.131149830823193,
+          0,
+          0.09000000000003881
+        ]
+      },
+      "tick0": {
+        "positionSigmaM": 3529.2813585258746,
+        "velocitySigmaMps": 36.44532919733512,
+        "accelerationSigmaMps2": 0.3,
+        "durationS": 180,
+        "stepS": 0.016666666666666666,
+        "covariance": [
+          12455826.907638244,
+          0,
+          119543.58182716744,
+          0,
+          259.47595939529015,
+          0,
+          0,
+          12455826.907638244,
+          0,
+          119543.58182716744,
+          0,
+          259.47595939529015,
+          119543.58182717043,
+          0,
+          1328.262020302128,
+          0,
+          5.131149830815051,
+          0,
+          0,
+          119543.58182717043,
+          0,
+          1328.262020302128,
+          0,
+          5.131149830815051,
+          259.4759593953337,
+          0,
+          5.131149830814692,
+          0,
+          0.09,
+          0,
+          0,
+          259.4759593953337,
+          0,
+          5.131149830814692,
+          0,
+          0.09
+        ]
+      },
+      "one9": {
+        "positionSigmaM": 3883.3267835257384,
+        "velocitySigmaMps": 37.540138789076,
+        "accelerationSigmaMps2": 0.3000000000000647,
+        "durationS": 180,
+        "stepS": 180,
+        "covariance": [
+          15080226.907648357,
+          0,
+          134123.5818272632,
+          0,
+          259.4759593961834,
+          0,
+          0,
+          15080226.907648357,
+          0,
+          134123.5818272632,
+          0,
+          259.4759593961834,
+          134123.5818272632,
+          0,
+          1409.2620203030888,
+          0,
+          5.131149830823193,
+          0,
+          0,
+          134123.5818272632,
+          0,
+          1409.2620203030888,
+          0,
+          5.131149830823193,
+          259.4759593961834,
+          0,
+          5.131149830823193,
+          0,
+          0.09000000000003881,
+          0,
+          0,
+          259.4759593961834,
+          0,
+          5.131149830823193,
+          0,
+          0.09000000000003881
+        ]
+      },
+      "tick9": {
+        "positionSigmaM": 3883.3267835242796,
+        "velocitySigmaMps": 37.54013878906301,
+        "accelerationSigmaMps2": 0.3,
+        "durationS": 180,
+        "stepS": 0.016666666666666666,
+        "covariance": [
+          15080226.907637028,
+          0,
+          134123.58182716367,
+          0,
+          259.47595939529015,
+          0,
+          0,
+          15080226.907637028,
+          0,
+          134123.58182716367,
+          0,
+          259.47595939529015,
+          134123.58182716704,
+          0,
+          1409.262020302113,
+          0,
+          5.131149830815051,
+          0,
+          0,
+          134123.58182716704,
+          0,
+          1409.262020302113,
+          0,
+          5.131149830815051,
+          259.4759593953337,
+          0,
+          5.131149830814692,
+          0,
+          0.09,
+          0,
+          0,
+          259.4759593953337,
+          0,
+          5.131149830814692,
+          0,
+          0.09
+        ]
+      }
+    },
+    "velocityTable": [
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": false,
+          "seconds": 60,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 3600,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            339014.1632519146,
+            0,
+            3769.9852955268743,
+            0,
+            61.62701047723694,
+            0,
+            0,
+            339014.1632519146,
+            0,
+            3769.9852955268743,
+            0,
+            61.62701047723694,
+            3769.9852955268743,
+            0,
+            81,
+            0,
+            2.0535552576377585,
+            0,
+            0,
+            3769.9852955268743,
+            0,
+            81,
+            0,
+            2.0535552576377585,
+            61.62701047723694,
+            0,
+            2.0535552576377585,
+            0,
+            0.08999999999999689,
+            0,
+            0,
+            61.62701047723694,
+            0,
+            2.0535552576377585,
+            0,
+            0.08999999999999689
+          ],
+          "timeS": 60,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 582.2492277812952,
+          "velocityMps": 9,
+          "accelerationMps2": 0.2999999999999948
+        },
+        "basket": {
+          "capM": 1980,
+          "rangeHalfM": 12000.000014999998,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 582.2492277812952,
+          "crossSigmaM": 582.2492277812952
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": false,
+          "seconds": 120,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 7200,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            937126.22221702,
+            0,
+            5997.471506743668,
+            0,
+            102.26873909499041,
+            0,
+            0,
+            937126.22221702,
+            0,
+            5997.471506743668,
+            0,
+            102.26873909499041,
+            5997.471506743668,
+            0,
+            81,
+            0,
+            2.1070948407837387,
+            0,
+            0,
+            5997.471506743668,
+            0,
+            81,
+            0,
+            2.1070948407837387,
+            102.26873909499041,
+            0,
+            2.1070948407837387,
+            0,
+            0.08999999999999955,
+            0,
+            0,
+            102.26873909499041,
+            0,
+            2.1070948407837387,
+            0,
+            0.08999999999999955
+          ],
+          "timeS": 120,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 968.0527992919705,
+          "velocityMps": 9,
+          "accelerationMps2": 0.29999999999999927
+        },
+        "basket": {
+          "capM": 3060,
+          "rangeHalfM": 12000.000014999998,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 968.0527992919705,
+          "crossSigmaM": 968.0527992919705
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": false,
+          "seconds": 180,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 10800,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            1735045.0110478618,
+            0,
+            7150.5677401074045,
+            0,
+            117.58394051725278,
+            0,
+            0,
+            1735045.0110478618,
+            0,
+            7150.5677401074045,
+            0,
+            117.58394051725278,
+            7150.5677401074045,
+            0,
+            81,
+            0,
+            2.1079709709768117,
+            0,
+            0,
+            7150.5677401074045,
+            0,
+            81,
+            0,
+            2.1079709709768117,
+            117.58394051725278,
+            0,
+            2.1079709709768117,
+            0,
+            0.090000000000007,
+            0,
+            0,
+            117.58394051725278,
+            0,
+            2.1079709709768117,
+            0,
+            0.090000000000007
+          ],
+          "timeS": 180,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 1317.2110730812515,
+          "velocityMps": 9,
+          "accelerationMps2": 0.3000000000000117
+        },
+        "basket": {
+          "capM": 4140,
+          "rangeHalfM": 12000.000014999998,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 1317.2110730812515,
+          "crossSigmaM": 1317.2110730812515
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": true,
+          "seconds": 60,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 3600,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100900,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            241817.63852901268,
+            0,
+            3289.8935531670822,
+            0,
+            69.00870206709342,
+            0,
+            0,
+            241817.63852901268,
+            0,
+            3289.8935531670822,
+            0,
+            69.00870206709342,
+            3289.8935531670822,
+            0,
+            81.00000000000001,
+            0,
+            2.1302273165105143,
+            0,
+            0,
+            3289.8935531670822,
+            0,
+            81.00000000000001,
+            0,
+            2.1302273165105143,
+            69.00870206709342,
+            0,
+            2.1302273165105143,
+            0,
+            0.08999999999999689,
+            0,
+            0,
+            69.00870206709342,
+            0,
+            2.1302273165105143,
+            0,
+            0.08999999999999689
+          ],
+          "timeS": 60,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 491.74956891593985,
+          "velocityMps": 9,
+          "accelerationMps2": 0.2999999999999948
+        },
+        "basket": {
+          "capM": 1980,
+          "rangeHalfM": 12108.000014866202,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 491.74956891593985,
+          "crossSigmaM": 491.74956891593985
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": true,
+          "seconds": 120,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 7200,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 101800,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            821005.280813611,
+            0,
+            6020.37236846824,
+            0,
+            105.50431635917849,
+            0,
+            0,
+            821005.280813611,
+            0,
+            6020.37236846824,
+            0,
+            105.50431635917849,
+            6020.37236846824,
+            0,
+            80.99999999999999,
+            0,
+            2.108344407289917,
+            0,
+            0,
+            6020.37236846824,
+            0,
+            80.99999999999999,
+            0,
+            2.108344407289917,
+            105.50431635917849,
+            0,
+            2.108344407289917,
+            0,
+            0.08999999999999955,
+            0,
+            0,
+            105.50431635917849,
+            0,
+            2.108344407289917,
+            0,
+            0.08999999999999955
+          ],
+          "timeS": 120,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 906.0934172664599,
+          "velocityMps": 9,
+          "accelerationMps2": 0.29999999999999927
+        },
+        "basket": {
+          "capM": 3060,
+          "rangeHalfM": 12216.000014734775,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 906.0934172664599,
+          "crossSigmaM": 906.0934172664599
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-35U",
+          "known": true,
+          "seconds": 180,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 10800,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-35U",
+          "positionM": {
+            "x": 102700,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            1625494.7061743534,
+            0,
+            7209.865993916976,
+            0,
+            118.78269106203777,
+            0,
+            0,
+            1625494.7061743534,
+            0,
+            7209.865993916976,
+            0,
+            118.78269106203777,
+            7209.865993916976,
+            0,
+            81.00000000000001,
+            0,
+            2.107991221177955,
+            0,
+            0,
+            7209.865993916976,
+            0,
+            81.00000000000001,
+            0,
+            2.107991221177955,
+            118.78269106203777,
+            0,
+            2.107991221177955,
+            0,
+            0.090000000000007,
+            0,
+            0,
+            118.78269106203777,
+            0,
+            2.107991221177955,
+            0,
+            0.090000000000007
+          ],
+          "timeS": 180,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 1274.94890335823,
+          "velocityMps": 9,
+          "accelerationMps2": 0.3000000000000117
+        },
+        "basket": {
+          "capM": 4140,
+          "rangeHalfM": 12324.000014605646,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 1274.94890335823,
+          "crossSigmaM": 1274.94890335823
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": false,
+          "seconds": 60,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 3600,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            339014.1632519146,
+            0,
+            3769.9852955268743,
+            0,
+            61.62701047723694,
+            0,
+            0,
+            339014.1632519146,
+            0,
+            3769.9852955268743,
+            0,
+            61.62701047723694,
+            3769.9852955268743,
+            0,
+            81,
+            0,
+            2.0535552576377585,
+            0,
+            0,
+            3769.9852955268743,
+            0,
+            81,
+            0,
+            2.0535552576377585,
+            61.62701047723694,
+            0,
+            2.0535552576377585,
+            0,
+            0.08999999999999689,
+            0,
+            0,
+            61.62701047723694,
+            0,
+            2.0535552576377585,
+            0,
+            0.08999999999999689
+          ],
+          "timeS": 60,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 582.2492277812952,
+          "velocityMps": 9,
+          "accelerationMps2": 0.2999999999999948
+        },
+        "basket": {
+          "capM": 1980,
+          "rangeHalfM": 12000,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 582.2492277812952,
+          "crossSigmaM": 582.2492277812952
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": false,
+          "seconds": 120,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 7200,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            937126.22221702,
+            0,
+            5997.471506743668,
+            0,
+            102.26873909499041,
+            0,
+            0,
+            937126.22221702,
+            0,
+            5997.471506743668,
+            0,
+            102.26873909499041,
+            5997.471506743668,
+            0,
+            81,
+            0,
+            2.1070948407837387,
+            0,
+            0,
+            5997.471506743668,
+            0,
+            81,
+            0,
+            2.1070948407837387,
+            102.26873909499041,
+            0,
+            2.1070948407837387,
+            0,
+            0.08999999999999955,
+            0,
+            0,
+            102.26873909499041,
+            0,
+            2.1070948407837387,
+            0,
+            0.08999999999999955
+          ],
+          "timeS": 120,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 968.0527992919705,
+          "velocityMps": 9,
+          "accelerationMps2": 0.29999999999999927
+        },
+        "basket": {
+          "capM": 3060,
+          "rangeHalfM": 12000,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 968.0527992919705,
+          "crossSigmaM": 968.0527992919705
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": false,
+          "seconds": 180,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 10800,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            81,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 0,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            1735045.0110478618,
+            0,
+            7150.5677401074045,
+            0,
+            117.58394051725278,
+            0,
+            0,
+            1735045.0110478618,
+            0,
+            7150.5677401074045,
+            0,
+            117.58394051725278,
+            7150.5677401074045,
+            0,
+            81,
+            0,
+            2.1079709709768117,
+            0,
+            0,
+            7150.5677401074045,
+            0,
+            81,
+            0,
+            2.1079709709768117,
+            117.58394051725278,
+            0,
+            2.1079709709768117,
+            0,
+            0.090000000000007,
+            0,
+            0,
+            117.58394051725278,
+            0,
+            2.1079709709768117,
+            0,
+            0.090000000000007
+          ],
+          "timeS": 180,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 1317.2110730812515,
+          "velocityMps": 9,
+          "accelerationMps2": 0.3000000000000117
+        },
+        "basket": {
+          "capM": 4140,
+          "rangeHalfM": 12000,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 1317.2110730812515,
+          "crossSigmaM": 1317.2110730812515
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": true,
+          "seconds": 60,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 3600,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100900,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            241817.63852901268,
+            0,
+            3289.8935531670822,
+            0,
+            69.00870206709342,
+            0,
+            0,
+            241817.63852901268,
+            0,
+            3289.8935531670822,
+            0,
+            69.00870206709342,
+            3289.8935531670822,
+            0,
+            81.00000000000001,
+            0,
+            2.1302273165105143,
+            0,
+            0,
+            3289.8935531670822,
+            0,
+            81.00000000000001,
+            0,
+            2.1302273165105143,
+            69.00870206709342,
+            0,
+            2.1302273165105143,
+            0,
+            0.08999999999999689,
+            0,
+            0,
+            69.00870206709342,
+            0,
+            2.1302273165105143,
+            0,
+            0.08999999999999689
+          ],
+          "timeS": 60,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 491.74956891593985,
+          "velocityMps": 9,
+          "accelerationMps2": 0.2999999999999948
+        },
+        "basket": {
+          "capM": 1980,
+          "rangeHalfM": 12108,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 491.74956891593985,
+          "crossSigmaM": 491.74956891593985
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": true,
+          "seconds": 120,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 7200,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 101800,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            821005.280813611,
+            0,
+            6020.37236846824,
+            0,
+            105.50431635917849,
+            0,
+            0,
+            821005.280813611,
+            0,
+            6020.37236846824,
+            0,
+            105.50431635917849,
+            6020.37236846824,
+            0,
+            80.99999999999999,
+            0,
+            2.108344407289917,
+            0,
+            0,
+            6020.37236846824,
+            0,
+            80.99999999999999,
+            0,
+            2.108344407289917,
+            105.50431635917849,
+            0,
+            2.108344407289917,
+            0,
+            0.08999999999999955,
+            0,
+            0,
+            105.50431635917849,
+            0,
+            2.108344407289917,
+            0,
+            0.08999999999999955
+          ],
+          "timeS": 120,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 906.0934172664599,
+          "velocityMps": 9,
+          "accelerationMps2": 0.29999999999999927
+        },
+        "basket": {
+          "capM": 3060,
+          "rangeHalfM": 12216,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 906.0934172664599,
+          "crossSigmaM": 906.0934172664599
+        }
+      },
+      {
+        "setup": {
+          "label": "Kh-32",
+          "known": true,
+          "seconds": 180,
+          "rangeM": 100000,
+          "speedMps": 15,
+          "ticks": 10800,
+          "dt": 0.016666666666666666
+        },
+        "initial": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 100000,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            90000,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.09
+          ],
+          "timeS": 0,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "final": {
+          "schema": "AEGIS_ASM_CUE_A_1",
+          "missileId": 981001,
+          "label": "Kh-32",
+          "positionM": {
+            "x": 102700,
+            "y": 0
+          },
+          "velocityMps": {
+            "x": 15,
+            "y": 0
+          },
+          "accelerationMps2": {
+            "x": 0,
+            "y": 0
+          },
+          "covariance": [
+            1625494.7061743534,
+            0,
+            7209.865993916976,
+            0,
+            118.78269106203777,
+            0,
+            0,
+            1625494.7061743534,
+            0,
+            7209.865993916976,
+            0,
+            118.78269106203777,
+            7209.865993916976,
+            0,
+            81.00000000000001,
+            0,
+            2.107991221177955,
+            0,
+            0,
+            7209.865993916976,
+            0,
+            81.00000000000001,
+            0,
+            2.107991221177955,
+            118.78269106203777,
+            0,
+            2.107991221177955,
+            0,
+            0.090000000000007,
+            0,
+            0,
+            118.78269106203777,
+            0,
+            2.107991221177955,
+            0,
+            0.090000000000007
+          ],
+          "timeS": 180,
+          "capRefTimeS": 0,
+          "capRefSigmaM": 300,
+          "source": "DIAGNOSTIC_OBSERVATION",
+          "updates": 0,
+          "passiveUpdates": 0,
+          "dlUpdates": 0,
+          "lastMeasurement": null
+        },
+        "sigma": {
+          "positionM": 1274.94890335823,
+          "velocityMps": 9,
+          "accelerationMps2": 0.3000000000000117
+        },
+        "basket": {
+          "capM": 4140,
+          "rangeHalfM": 12324,
+          "rangeHalfLimiter": "FRACTION_0_12",
+          "azHalfDeg": 5,
+          "azHalfLimiter": "FLOOR_5_DEG",
+          "rangeSigmaM": 1274.94890335823,
+          "crossSigmaM": 1274.94890335823
+        }
+      }
+    ],
+    "capReference": {
+      "initial": {
+        "schema": "AEGIS_ASM_CUE_A_1",
+        "missileId": 981001,
+        "label": "Kh-35U",
+        "positionM": {
+          "x": 100000,
+          "y": 0
+        },
+        "velocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "accelerationMps2": {
+          "x": 0,
+          "y": 0
+        },
+        "covariance": [
+          98315.33753770473,
+          0,
+          811.0130081939715,
+          0,
+          4.02990799134788,
+          0,
+          0,
+          98315.33753770473,
+          0,
+          811.0130081939715,
+          0,
+          4.02990799134788,
+          811.0130081939715,
+          0,
+          81,
+          0,
+          0.7885621579799212,
+          0,
+          0,
+          811.0130081939715,
+          0,
+          81,
+          0,
+          0.7885621579799212,
+          4.02990799134788,
+          0,
+          0.7885621579799212,
+          0,
+          0.09,
+          0,
+          0,
+          4.02990799134788,
+          0,
+          0.7885621579799212,
+          0,
+          0.09
+        ],
+        "timeS": 10,
+        "capRefTimeS": 0,
+        "capRefSigmaM": 300,
+        "source": "DIAGNOSTIC_OBSERVATION",
+        "updates": 0,
+        "passiveUpdates": 0,
+        "dlUpdates": 0,
+        "lastMeasurement": null
+      },
+      "passive": {
+        "schema": "AEGIS_ASM_CUE_A_1",
+        "missileId": 981001,
+        "label": "Kh-35U",
+        "positionM": {
+          "x": 100019.08265901633,
+          "y": 9.54132950816437
+        },
+        "velocityMps": {
+          "x": 1.9058823529411764,
+          "y": 0.9529411764705882
+        },
+        "accelerationMps2": {
+          "x": 0.01855440371717462,
+          "y": 0.00927720185858731
+        },
+        "covariance": [
+          90577.19519111844,
+          0,
+          38.165318032657524,
+          0,
+          -3.4940233956077167,
+          0,
+          0,
+          90577.19519111844,
+          0,
+          38.165318032657524,
+          0,
+          -3.4940233956077167,
+          38.165318032657524,
+          0,
+          3.8117647058823536,
+          0,
+          0.037108807434349245,
+          0,
+          0,
+          38.165318032657524,
+          0,
+          3.8117647058823536,
+          0,
+          0.037108807434349245,
+          -3.4940233956077167,
+          0,
+          0.037108807434349245,
+          0,
+          0.08268434968237705,
+          0,
+          0,
+          -3.4940233956077167,
+          0,
+          0.037108807434349245,
+          0,
+          0.08268434968237705
+        ],
+        "timeS": 10,
+        "capRefTimeS": 0,
+        "capRefSigmaM": 300,
+        "source": "PASSIVE_RF",
+        "updates": 1,
+        "passiveUpdates": 0,
+        "dlUpdates": 0,
+        "lastMeasurement": {
+          "source": "PASSIVE_RF",
+          "timeS": 10
+        }
+      },
+      "dl": {
+        "schema": "AEGIS_ASM_CUE_A_1",
+        "missileId": 981001,
+        "label": "Kh-35U",
+        "positionM": {
+          "x": 100095.26871458464,
+          "y": 47.634357292321056
+        },
+        "velocityMps": {
+          "x": 1.9379838662888023,
+          "y": 0.9689919331444022
+        },
+        "accelerationMps2": {
+          "x": 0.015615519818053394,
+          "y": 0.007807759909026597
+        },
+        "covariance": [
+          5296.102879335114,
+          0,
+          2.231549015146779,
+          0,
+          -0.20429764166242115,
+          0,
+          0,
+          5296.102879335114,
+          0,
+          2.231549015146779,
+          0,
+          -0.20429764166242115,
+          2.231549015146779,
+          0,
+          3.796623767594613,
+          0,
+          0.03849495578410359,
+          0,
+          0,
+          2.231549015146779,
+          0,
+          3.796623767594613,
+          0,
+          0.03849495578410359,
+          -0.20429764166242115,
+          0,
+          0.03849495578410359,
+          0,
+          0.08255744821755287,
+          0,
+          0,
+          -0.20429764166242115,
+          0,
+          0.03849495578410359,
+          0,
+          0.08255744821755287
+        ],
+        "timeS": 10,
+        "capRefTimeS": 10,
+        "capRefSigmaM": 75,
+        "source": "DL",
+        "updates": 2,
+        "passiveUpdates": 0,
+        "dlUpdates": 1,
+        "lastMeasurement": {
+          "source": "DL",
+          "timeS": 10
+        }
+      }
+    }
+  },
+  "cueMatrix": {
+    "cases": 240,
+    "comparisons": {
+      "Kh-35U|EMCON_OFF": {
+        "baseline": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          },
+          "failureReasons": {
+            "TRACK_ACQUIRED": 60
+          }
+        },
+        "candidate": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          },
+          "failureReasons": {
+            "TRACK_ACQUIRED": 60
+          }
+        }
+      },
+      "Kh-35U|EMCON_ON": {
+        "baseline": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          },
+          "failureReasons": {
+            "TRACK_ACQUIRED": 60
+          }
+        },
+        "candidate": {
+          "cases": 60,
+          "acquire": 60,
+          "track": 60,
+          "shipHit": 59,
+          "failureCategories": {
+            "SUCCESS": 60
+          },
+          "failureReasons": {
+            "TRACK_ACQUIRED": 60
+          }
+        }
+      },
+      "Kh-32|EMCON_OFF": {
+        "baseline": {
+          "cases": 60,
+          "acquire": 45,
+          "track": 40,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 20,
+            "SUCCESS": 40
+          },
+          "failureReasons": {
+            "INSIDE_BASKET_WITHOUT_TRACK": 20,
+            "TRACK_ACQUIRED": 40
+          }
+        },
+        "candidate": {
+          "cases": 60,
+          "acquire": 44,
+          "track": 40,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 20,
+            "SUCCESS": 40
+          },
+          "failureReasons": {
+            "INSIDE_BASKET_WITHOUT_TRACK": 20,
+            "TRACK_ACQUIRED": 40
+          }
+        }
+      },
+      "Kh-32|EMCON_ON": {
+        "baseline": {
+          "cases": 60,
+          "acquire": 48,
+          "track": 44,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 16,
+            "SUCCESS": 44
+          },
+          "failureReasons": {
+            "INSIDE_BASKET_WITHOUT_TRACK": 16,
+            "TRACK_ACQUIRED": 44
+          }
+        },
+        "candidate": {
+          "cases": 60,
+          "acquire": 48,
+          "track": 44,
+          "shipHit": 40,
+          "failureCategories": {
+            "OTHER": 16,
+            "SUCCESS": 44
+          },
+          "failureReasons": {
+            "INSIDE_BASKET_WITHOUT_TRACK": 16,
+            "TRACK_ACQUIRED": 44
+          }
+        }
+      }
+    },
+    "outcomeChanges": [
+      {
+        "setup": {
+          "seed": 729300,
+          "label": "Kh-32",
+          "rangeKm": 60,
+          "speedKt": 15,
+          "turnDeg": 0,
+          "turnAtS": 16.666666666666668,
+          "emcon": false,
+          "threatMode": "MAX_THREAT"
+        },
+        "before": {
+          "acquire": true,
+          "track": false,
+          "shipHit": false,
+          "failureCategory": "OTHER",
+          "firstAcquireS": 7.966666666666667,
+          "basket": {
+            "rangeLowM": 44914.99372358289,
+            "rangeHighM": 57164.53746637822,
+            "rangeHalfM": 6124.771871397665,
+            "azHalfDeg": 5,
+            "searchSectorAzDeg": 20,
+            "rangeAgeS": 0,
+            "source": "PASSIVE_RF"
+          }
+        },
+        "after": {
+          "acquire": false,
+          "track": false,
+          "shipHit": false,
+          "failureCategory": "OTHER",
+          "firstAcquireS": null,
+          "basketAtFirstAcquire": null,
+          "finalBasket": {
+            "rangeLowM": 24135.202724845316,
+            "rangeHighM": 30717.530740712224,
+            "rangeHalfM": 3291.164007933454,
+            "azHalfDeg": 5,
+            "searchSectorAzDeg": 20,
+            "rangeAgeS": 49.183333333331824,
+            "source": "PASSIVE_RF"
+          }
+        },
+        "afterActionGeometry": {
+          "before": {
+            "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+            "category": "OTHER",
+            "reason": "INSIDE_BASKET_WITHOUT_TRACK",
+            "dwells": 941,
+            "insideSearchSectorDwells": 940,
+            "outsideSearchSectorDwells": 1,
+            "insideBasketDwells": 940,
+            "insideSectorOutsideBasketDwells": 0,
+            "minAzErrorDeg": 0.001268961872227999,
+            "maxAzErrorDeg": 20.27622118502712,
+            "minRangeResidualM": 3018.6075791802177
+          },
+          "after": {
+            "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+            "category": "OTHER",
+            "reason": "INSIDE_BASKET_WITHOUT_TRACK",
+            "dwells": 933,
+            "insideSearchSectorDwells": 932,
+            "outsideSearchSectorDwells": 1,
+            "insideBasketDwells": 932,
+            "insideSectorOutsideBasketDwells": 0,
+            "minAzErrorDeg": 8.513945597987567e-05,
+            "maxAzErrorDeg": 80.76355321389403,
+            "minRangeResidualM": 3018.690719429891
+          }
+        },
+        "explanation": "Transient ACQUIRE disappeared, but TRACK/hit/failure class did not change. Candidate truth remained in the basket; this is not an inside-search/outside-basket exclusion."
+      }
+    ],
+    "trackRegressions": [],
+    "shipHitRegressions": [],
+    "insideSearchOutsideBasket": {
+      "baseline": 0,
+      "candidate": 0,
+      "delta": 0
+    },
+    "threeSigmaInsExceptions": []
+  },
+  "falseAcquisitionControls": {
+    "cases": 180,
+    "bitExactDifferences": [],
+    "newFalseAcquisitions": []
+  },
+  "s1": {
+    "cases": 100,
+    "baselineTrack": 50,
+    "candidateTrack": 50,
+    "trackRegressions": [],
+    "trackImprovements": [],
+    "ownshipFirstSelections": [],
+    "neighborAsmFirstSelections": [],
+    "changedRows": 10,
+    "pageErrors": [],
+    "pass": true
+  },
+  "egress37": {
+    "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+    "jobs": 16,
+    "missiles": 37,
+    "missingEvidence": [],
+    "firstFamilies": {
+      "INTENDED_OWNSHIP": 37
+    },
+    "neighborAsmFirstAssociations": [],
+    "noAssociation": [],
+    "rows": [
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 24,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:0:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419021-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419023-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419032-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-2:1+SEA:IJ:1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419039-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419021-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-2:-1+SEA:IJ:2:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419023-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:2:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:0:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 24,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1+SEA:IJ:2:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419029-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      }
+    ],
+    "pass": true
+  },
+  "determinism": {
+    "schema": "AEGIS_CUE_A_1_STAGE1B_DETERMINISM_1",
+    "status": "PASS",
+    "inputSha256": "04ea767b73cca1b494337841c6c204f85d3f43858a7b93d38896d2e562518394",
+    "mode": "MAX_THREAT",
+    "cases": 6,
+    "pageErrors": [],
+    "mismatches": [],
+    "elapsedS": 45.64236501600044,
+    "firstSha256": "3f2665f8b9b2b70d85f07db89c5f4349ad05a38d3fca74cc1fa9df0e5f00a242",
+    "secondSha256": "3f2665f8b9b2b70d85f07db89c5f4349ad05a38d3fca74cc1fa9df0e5f00a242"
+  },
+  "scope": {
+    "status": "PASS",
+    "checks": {
+      "declaredScopeExact": true,
+      "allOtherResolvedFunctionsByteEqual": true,
+      "protectedRfPdRcsBeamEkfHojGuidanceStable": true,
+      "cueConsumerTruthTokensZero": true,
+      "cueConsumerGameRngTokensZero": true,
+      "c52FixedMemoryGuardPreserved": true,
+      "pageErrorsZero": true
+    },
+    "unchangedSharedFunctions": 3074,
+    "unexpected": {
+      "changed": [],
+      "removed": [],
+      "added": [],
+      "missingExpectedChanged": [],
+      "missingExpectedRemoved": [],
+      "missingExpectedAdded": [],
+      "missingProtected": [],
+      "protectedChanged": [],
+      "truthTokens": [],
+      "rngTokens": [],
+      "pageErrors": []
+    }
+  },
+  "elapsedS": {
+    "model": 11.542819391000194,
+    "cueMatrix": 602.6828525769997,
+    "controls": 30.81009582600018,
+    "s1": 73.61754356300025,
+    "egress": 829.1420231800003,
+    "determinism": 45.64236501600044
+  },
+  "truthUse": "AFTER_ACTION_TRUTH_TEST_ONLY for failure and first-association audit; never consumed by simulation",
+  "gameCodeChangedByFinalizer": false
+}
