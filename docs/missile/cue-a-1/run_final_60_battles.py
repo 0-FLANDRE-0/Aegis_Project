@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 SOURCE = ROOT / "docs/missile/seeker-unify/C/run_stage2_60_battles.py"
 RESULT = HERE / "CUE_A_1_60_BATTLE_RESULTS.json"
 PRIOR = ROOT / "docs/missile/seeker-unify/C/CUE_A_60_BATTLE_RESULTS.json"

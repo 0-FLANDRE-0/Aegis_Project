@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 SOURCE = ROOT / "docs/missile/seeker-unify/B/run_regressions.py"
 HARNESS_ROOT = Path("/workspace/aegis-ui-a")
 BASELINE = Path("/workspace/aegis-seeker-unify-a/Aegis_SIM_v48_WIP_SEEKER_UNIFY_A.html")
