@@ -1,0 +1,22 @@
+--- SEEKER_UNIFY_C/main.js
++++ CUE_A_1_STAGE1A/main.js
+@@ -31727,8 +31727,8 @@
+ // The options document pre-existing implementation differences. They are
+ // LEGACY_EQUIVALENCE provenance, not hardware claims or tuned coefficients.
+ const SEEKER_U2_PROFILE_OPTIONS=Object.freeze({
+-  ASM_WIP22:Object.freeze({provenance:'SIM_TUNED',definition:'ONE_WAY_PATTERN_AND_LOS_WITH_ROUND_TRIP_WEATHER_PATH',beamConvention:'TX_RX_SEPARATE',extentPolicy:'POWER_WEIGHTED_RMS',angularPolicy:'AXIS_SEPARATE_COMPOSITE',oneWaySidelobeFloor:.08}),
+-  SAM_ARH:Object.freeze({provenance:'LEGACY_EQUIVALENCE',beamConvention:'TX_RX_SEPARATE',extentPolicy:'MAX_MEMBER',angularPolicy:'SPHERICAL_MEMBER_PRESERVING'})
++  ASM_WIP22:Object.freeze({provenance:'SIM_TUNED',definition:'ONE_WAY_PATTERN_AND_LOS_WITH_ROUND_TRIP_WEATHER_PATH',beamConvention:'TX_RX_SEPARATE',extentPolicy:'POWER_WEIGHTED_RMS',angularPolicy:'AXIS_SEPARATE_COMPOSITE',oneWaySidelobeFloor:.08,rangeFloorKm:.5,rangeFloorProvenance:'LEGACY_EQUIVALENCE'}),
++  SAM_ARH:Object.freeze({provenance:'LEGACY_EQUIVALENCE',beamConvention:'TX_RX_SEPARATE',extentPolicy:'MAX_MEMBER',angularPolicy:'SPHERICAL_MEMBER_PRESERVING',rangeFloorKm:.20,rangeFloorProvenance:'LEGACY_EQUIVALENCE'})
+ });
+ function seekerSynthesizeMonostaticPowerU2(family,q){
+   const option=SEEKER_U2_PROFILE_OPTIONS[family];if(!option)throw new Error('UNKNOWN_SEEKER_U2_PROFILE:'+family);
+@@ -31742,7 +31742,7 @@
+   if(option.beamConvention==='TX_RX_SEPARATE'){
+     // Preserve _arhNormalizedMonostaticPower operation order exactly.
+     return Math.max(0,q.rcsM2)/Math.max(1e-9,q.referenceRcsM2)
+-      *Math.pow(q.referenceRangeKm/Math.max(.20,q.rangeKm),4)
++      *Math.pow(q.referenceRangeKm/Math.max(option.rangeFloorKm,q.rangeKm),4)
+       *Math.max(0,q.txGain)*Math.max(0,q.rxGain)*Math.max(0,q.losTxQ)*Math.max(0,q.losRxQ)*Math.max(0,q.envQ);
+   }
+   throw new Error('UNKNOWN_SEEKER_U2_BEAM_CONVENTION:'+option.beamConvention);
