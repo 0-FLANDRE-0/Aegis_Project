@@ -60,6 +60,37 @@ def transform_stage1a(source: str) -> str:
     return source
 
 
+def transform_stage1b(source: str) -> str:
+    """Replace the 4-state white-acceleration cue with the frozen Singer model."""
+    start_anchor = "  // SEEKER_UNIFY_C Stage 3: CUE_A target-memory filter."
+    end_anchor = "function createAsmSeekerState(label){"
+    start = source.find(start_anchor)
+    end = source.find(end_anchor, start)
+    if start < 0 or end < 0:
+        raise AssertionError("CUE_A core anchors missing")
+    core = (HERE / "cue_a_1_core.js").read_text().rstrip() + "\n"
+    source = source[:start] + "  " + core + source[end:]
+    source = one(
+        source,
+        "covariance:{positionSigmaM:worldToMeters(insErrWorld),velocitySigmaMps:ASM_CUE_A_SPEC.vmaxMps},timeS:0",
+        "covariance:{positionSigmaM:worldToMeters(insErrWorld),velocitySigmaMps:ASM_CUE_A_SPEC.unknownVelocityAxisSigmaMps},timeS:0",
+        "unknown-velocity launch covariance",
+    )
+    source = one(
+        source,
+        "const dx=q.x[0]-own.posM.x,dy=q.x[1]-own.posM.y,r2=Math.max(1,dx*dx+dy*dy),r=Math.sqrt(r2),Re=ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM,zEff=ASM_CUE_A_SPEC.assumedEmitterHeightM-own.posM.z-r2/(2*Re),el=Math.atan2(zEff,r),Haz=[-dy/r2,dx/r2,0,0],dhdr=(r*(-r/Re)-zEff)/Math.max(1,r2+zEff*zEff),Hel=[dhdr*dx/r,dhdr*dy/r,0,0];\n  const variance=H=>{let v=0;for(let i=0;i<4;i++)for(let j=0;j<4;j++)v+=H[i]*q.P[i*4+j]*H[j];return Math.max(0,v);};",
+        "const dx=q.x[0]-own.posM.x,dy=q.x[1]-own.posM.y,r2=Math.max(1,dx*dx+dy*dy),r=Math.sqrt(r2),Re=ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM,zEff=ASM_CUE_A_SPEC.assumedEmitterHeightM-own.posM.z-r2/(2*Re),el=Math.atan2(zEff,r),Haz=[-dy/r2,dx/r2,0,0,0,0],dhdr=(r*(-r/Re)-zEff)/Math.max(1,r2+zEff*zEff),Hel=[dhdr*dx/r,dhdr*dy/r,0,0,0,0];\n  const variance=H=>{let v=0;for(let i=0;i<6;i++)for(let j=0;j<6;j++)v+=H[i]*q.P[i*6+j]*H[j];return Math.max(0,v);};",
+        "six-state passive-angle covariance",
+    )
+    source = one(
+        source,
+        "  passiveProfile:label=>ASM_PASSIVE_RF_B2_PROFILES[label]?{...ASM_PASSIVE_RF_B2_PROFILES[label]}:null,\n  truthOutput:false",
+        "  passiveProfile:label=>ASM_PASSIVE_RF_B2_PROFILES[label]?{...ASM_PASSIVE_RF_B2_PROFILES[label]}:null,\n  singerDiagnostic:options=>asmCueSingerPredictDiagnosticA(options),\n  truthOutput:false",
+        "read-only Singer diagnostic API",
+    )
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -76,26 +107,37 @@ def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--through", choices=("stage1a",), default="stage1a")
+    parser.add_argument("--through", choices=("stage1a", "stage1b"), default="stage1a")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
-    parser.add_argument("--receipt", type=Path, default=HERE / "BUILD_STAGE1A.json")
+    parser.add_argument("--receipt", type=Path)
     args = parser.parse_args()
 
     raw = BASE.read_bytes()
     if sha(raw) != BASE_SHA:
         raise AssertionError(f"baseline SHA mismatch: {sha(raw)}")
     before, match = unpack(raw)
-    after = transform_stage1a(before)
+    after_stage1a = transform_stage1a(before)
+    after = transform_stage1b(after_stage1a) if args.through == "stage1b" else after_stage1a
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
         raise AssertionError("repacked main script mismatch")
     args.out.write_bytes(output)
 
-    diff = "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_C/main.js", tofile="CUE_A_1_STAGE1A/main.js"))
-    (HERE / "changes-stage1a.diff").write_text(diff)
+    if args.through == "stage1a":
+        diff = "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_C/main.js", tofile="CUE_A_1_STAGE1A/main.js"))
+        diff_path = HERE / "changes-stage1a.diff"
+        receipt = args.receipt or HERE / "BUILD_STAGE1A.json"
+    else:
+        diff = "".join(difflib.unified_diff(after_stage1a.splitlines(True), after.splitlines(True), fromfile="CUE_A_1_STAGE1A/main.js", tofile="CUE_A_1_STAGE1B/main.js"))
+        diff_path = HERE / "changes-stage1b-implementation.diff"
+        receipt = args.receipt or HERE / "BUILD_STAGE1B_IMPLEMENTATION.json"
+    # A unified diff uses a single-space prefix for an empty context line. This
+    # artifact is for review rather than patch application, so remove only that
+    # prefix to keep the repository whitespace audit clean.
+    diff_path.write_text("".join("\n" if line == " \n" else line for line in diff.splitlines(True)))
     build = {
-        "schema": "AEGIS_CUE_A_1_BUILD_STAGE1A_1",
+        "schema": "AEGIS_CUE_A_1_BUILD_STAGE1B_IMPLEMENTATION_1" if args.through == "stage1b" else "AEGIS_CUE_A_1_BUILD_STAGE1A_1",
         "baselineCommit": "4faeb4e079b7baddcb1e1b8c1b892af804565938",
         "baselineHtml": BASE.name,
         "baselineHtmlSha256": sha(raw),
@@ -108,9 +150,20 @@ def main() -> None:
             "ASM_WIP22": {"km": 0.5, "provenance": "LEGACY_EQUIVALENCE"},
             "SAM_ARH": {"km": 0.20, "provenance": "LEGACY_EQUIVALENCE"},
         },
+        "singer": ({
+            "stateOrder": ["px", "py", "vx", "vy", "ax", "ay"],
+            "accelerationSigmaMps2": 0.3,
+            "tauS": 60,
+            "unknownVelocityAxisSigmaMps": 9,
+            "velocityVarianceCapM2ps2": 81,
+            "discretization": "VAN_LOAN_HIGHAM_PADE13",
+            "constantsFrozenBeforeEffectTests": True,
+        } if args.through == "stage1b" else None),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
     }
-    args.receipt.write_text(json.dumps(build, indent=2) + "\n")
+    if build["singer"] is None:
+        del build["singer"]
+    receipt.write_text(json.dumps(build, indent=2) + "\n")
     print(json.dumps(build, indent=2))
 
 

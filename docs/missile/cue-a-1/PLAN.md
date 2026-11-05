@@ -47,6 +47,6 @@ The directive permits only these new values. They must be committed before the c
 
 - Stage 0: `PASS`. Both paired runs completed with page/harness errors 0 and an exact Stage-2 replay. Physical-state and VLS deltas occur in C Stage 3 only; combat RNG and existing-observer deltas occur in both B→Stage 2 and Stage 2→final. No product, expected value, or tolerance changed.
 - Stage 1a: `PASS`. Candidate SHA-256 `3e7c882be6b39416937f00e3b31d4139666efedcd1fc994d2251945220818c5e`; SAM 24/24 bit exact, ASM bit exact at and above 0.5 km, and all observed differences confined below 0.5 km. Protected functions are byte-identical and reversing the three intended edits restores the baseline main exactly.
-- Stage 1b: pending.
+- Stage 1b implementation: constants and exact-discrete Singer code prepared; effect tests intentionally pending until the implementation commit is frozen and pushed.
 - Stage 2: pending.
 - Final broad regression: not run.
