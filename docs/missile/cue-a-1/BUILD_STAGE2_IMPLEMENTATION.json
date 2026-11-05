@@ -1,0 +1,60 @@
+{
+  "schema": "AEGIS_CUE_A_1_BUILD_STAGE2_IMPLEMENTATION_1",
+  "baselineCommit": "4faeb4e079b7baddcb1e1b8c1b892af804565938",
+  "baselineHtml": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+  "baselineHtmlSha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7",
+  "baselineMainSha256": "509ec3a5919f42239fb0022d19f8ed226b7a18521519af55887b6e5e29b163af",
+  "through": "stage2",
+  "productHtml": "Aegis_SIM_v48_WIP_CUE_A_1.html",
+  "productHtmlSha256": "83e3d76a50b6db4616cd7b5dcb013361617477dd90dfa4ea6352248ada84932c",
+  "productMainSha256": "c5b998b676ffd135abf545e1c633f7f86c2384172eac0eadb7ee3e3f30fd3af9",
+  "rangeFloors": {
+    "ASM_WIP22": {
+      "km": 0.5,
+      "provenance": "LEGACY_EQUIVALENCE"
+    },
+    "SAM_ARH": {
+      "km": 0.2,
+      "provenance": "LEGACY_EQUIVALENCE"
+    }
+  },
+  "singer": {
+    "stateOrder": [
+      "px",
+      "py",
+      "vx",
+      "vy",
+      "ax",
+      "ay"
+    ],
+    "accelerationSigmaMps2": 0.3,
+    "tauS": 60,
+    "unknownVelocityAxisSigmaMps": 9,
+    "velocityVarianceCapM2ps2": 81,
+    "discretization": "VAN_LOAN_HIGHAM_PADE13",
+    "constantsFrozenBeforeEffectTests": true
+  },
+  "passiveRf": {
+    "allowedFamilies": [
+      "SHIP SEARCH RADAR",
+      "SURFACE SEARCH RADAR",
+      "NAVIGATION RADAR"
+    ],
+    "maxThreatMHz": [
+      2000,
+      18000
+    ],
+    "confirmedOnlyMHz": [
+      8000,
+      12000
+    ],
+    "bandCenterMHz": {
+      "S": 3000,
+      "IJ": 10000
+    },
+    "accuracyReferenceMHz": 10000,
+    "rotatingBeam": "SWEPT_GAUSSIAN_MINUS_3DB_FULL_WIDTH",
+    "constantsFrozenBeforeEffectTests": true
+  },
+  "changedSourceLines": 88
+}

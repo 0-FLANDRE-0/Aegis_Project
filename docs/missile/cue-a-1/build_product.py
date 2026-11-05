@@ -91,6 +91,31 @@ def transform_stage1b(source: str) -> str:
     return source
 
 
+def transform_stage2(source: str) -> str:
+    """Restrict passive RF to ship radars and apply the frozen band/beam model."""
+    start_anchor = "// SEEKER_UNIFY_C Stage 3: anonymous passive-RF bearing/elevation measurements."
+    end_anchor = "  function missileNavB2Init(m,force=false){"
+    start = source.find(start_anchor)
+    end = source.find(end_anchor, start)
+    if start < 0 or end < 0:
+        raise AssertionError("passive RF anchors missing")
+    passive = (HERE / "cue_a_1_passive.js").read_text().rstrip() + "\n"
+    source = source[:start] + passive + source[end:]
+    source = one(
+        source,
+        "if(o.enabled.SPY&&spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:'S',power:2500,family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',beamAz:null});",
+        "if(o.enabled.SPY&&spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:'S',frequencyMHz:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?p.sensors.spy1dv.frequencyMHz:null,frequencyProvenance:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:2500,family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',beamAz:null});",
+        "SPY passive emitter metadata",
+    )
+    source = one(
+        source,
+        "for(const [key,hp]of [['SPQ','spq9b'],['NAV','bridgeMasterE']])if(o.enabled[key]&&observerHealthC(r,p.geometry.hardpoints[hp].name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,p.geometry.hardpoints[hp]),band:key==='SPQ'?'IJ':electronicBandF(p.sensors.bridgeMasterE.band),power:key==='SPQ'?650:120,family:key==='SPQ'?'SURFACE SEARCH RADAR':'NAVIGATION RADAR',emitterClass:'SEARCH_RADAR',beamAz:r.navigation.heading+(own?(key==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[key]),double:key==='SPQ'});",
+        "for(const [key,hp]of [['SPQ','spq9b'],['NAV','bridgeMasterE']]){const spec=p.sensors[hp];if(o.enabled[key]&&observerHealthC(r,p.geometry.hardpoints[hp].name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,p.geometry.hardpoints[hp]),band:key==='SPQ'?'IJ':electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:key==='SPQ'?650:120,family:key==='SPQ'?'SURFACE SEARCH RADAR':'NAVIGATION RADAR',emitterClass:'SEARCH_RADAR',beamAz:r.navigation.heading+(own?(key==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[key]),beamwidthDeg:key==='SPQ'?.6:spec.horizontalBeamwidthDeg,beamwidthProvenance:key==='SPQ'?'SIM_TUNED_EXISTING_OBSERVATION_MODEL':String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec.rpm??spec.nominalRpm),double:key==='SPQ'});}",
+        "rotating ship-radar passive metadata",
+    )
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -107,7 +132,7 @@ def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--through", choices=("stage1a", "stage1b"), default="stage1a")
+    parser.add_argument("--through", choices=("stage1a", "stage1b", "stage2"), default="stage1a")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path)
     args = parser.parse_args()
@@ -117,7 +142,8 @@ def main() -> None:
         raise AssertionError(f"baseline SHA mismatch: {sha(raw)}")
     before, match = unpack(raw)
     after_stage1a = transform_stage1a(before)
-    after = transform_stage1b(after_stage1a) if args.through == "stage1b" else after_stage1a
+    after_stage1b = transform_stage1b(after_stage1a) if args.through in ("stage1b", "stage2") else None
+    after = transform_stage2(after_stage1b) if args.through == "stage2" else (after_stage1b if args.through == "stage1b" else after_stage1a)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
@@ -128,16 +154,20 @@ def main() -> None:
         diff = "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_C/main.js", tofile="CUE_A_1_STAGE1A/main.js"))
         diff_path = HERE / "changes-stage1a.diff"
         receipt = args.receipt or HERE / "BUILD_STAGE1A.json"
-    else:
+    elif args.through == "stage1b":
         diff = "".join(difflib.unified_diff(after_stage1a.splitlines(True), after.splitlines(True), fromfile="CUE_A_1_STAGE1A/main.js", tofile="CUE_A_1_STAGE1B/main.js"))
         diff_path = HERE / "changes-stage1b-implementation.diff"
         receipt = args.receipt or HERE / "BUILD_STAGE1B_IMPLEMENTATION.json"
+    else:
+        diff = "".join(difflib.unified_diff(after_stage1b.splitlines(True), after.splitlines(True), fromfile="CUE_A_1_STAGE1B/main.js", tofile="CUE_A_1_STAGE2/main.js"))
+        diff_path = HERE / "changes-stage2-implementation.diff"
+        receipt = args.receipt or HERE / "BUILD_STAGE2_IMPLEMENTATION.json"
     # A unified diff uses a single-space prefix for an empty context line. This
     # artifact is for review rather than patch application, so remove only that
     # prefix to keep the repository whitespace audit clean.
     diff_path.write_text("".join("\n" if line == " \n" else line for line in diff.splitlines(True)))
     build = {
-        "schema": "AEGIS_CUE_A_1_BUILD_STAGE1B_IMPLEMENTATION_1" if args.through == "stage1b" else "AEGIS_CUE_A_1_BUILD_STAGE1A_1",
+        "schema": {"stage1a": "AEGIS_CUE_A_1_BUILD_STAGE1A_1", "stage1b": "AEGIS_CUE_A_1_BUILD_STAGE1B_IMPLEMENTATION_1", "stage2": "AEGIS_CUE_A_1_BUILD_STAGE2_IMPLEMENTATION_1"}[args.through],
         "baselineCommit": "4faeb4e079b7baddcb1e1b8c1b892af804565938",
         "baselineHtml": BASE.name,
         "baselineHtmlSha256": sha(raw),
@@ -158,11 +188,22 @@ def main() -> None:
             "velocityVarianceCapM2ps2": 81,
             "discretization": "VAN_LOAN_HIGHAM_PADE13",
             "constantsFrozenBeforeEffectTests": True,
-        } if args.through == "stage1b" else None),
+        } if args.through in ("stage1b", "stage2") else None),
+        "passiveRf": ({
+            "allowedFamilies": ["SHIP SEARCH RADAR", "SURFACE SEARCH RADAR", "NAVIGATION RADAR"],
+            "maxThreatMHz": [2000, 18000],
+            "confirmedOnlyMHz": [8000, 12000],
+            "bandCenterMHz": {"S": 3000, "IJ": 10000},
+            "accuracyReferenceMHz": 10000,
+            "rotatingBeam": "SWEPT_GAUSSIAN_MINUS_3DB_FULL_WIDTH",
+            "constantsFrozenBeforeEffectTests": True,
+        } if args.through == "stage2" else None),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
     }
     if build["singer"] is None:
         del build["singer"]
+    if build["passiveRf"] is None:
+        del build["passiveRf"]
     receipt.write_text(json.dumps(build, indent=2) + "\n")
     print(json.dumps(build, indent=2))
 
