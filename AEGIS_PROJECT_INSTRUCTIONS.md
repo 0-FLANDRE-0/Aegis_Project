@@ -186,6 +186,15 @@
 
 ## 8. 현재 인계 기준
 
+### 최신 PR 후보 — CUE_A-1 cue 필터·중기 수동 RF 정비
+
+- 기준은 `seeker-unify-c@4faeb4e079b7baddcb1e1b8c1b892af804565938`, 작업 브랜치는 `cue-a-1`이다. 제품은 [Aegis_SIM_v48_WIP_CUE_A_1.html](Aegis_SIM_v48_WIP_CUE_A_1.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_CUE_A_1.md](AEGIS_PLAN_STATUS_v48_WIP_CUE_A_1.md), 전체 판정은 [REPORT.md](docs/missile/cue-a-1/REPORT.md)를 따른다.
+- ASM 전용 0.5 km 하한을 복구하고, cue 예측을 정확 이산 Singer 모델(τ 60 s)로 교체했다. 속도 미상 축 σ와 공분산은 9 m/s로 제한하며 바구니 상한은 물리 최대 이동거리와 마지막 절대위치 3σ를 사용한다.
+- 중기 수동 RF는 관측된 함정 탐색·수상탐색·항해 레이더 family만 사용한다. 2–18 GHz MAX_THREAT 수신, 장비 주파수/대역 중심, 10 GHz 기준 파장비 정확도, 회전 빔의 swept 판정을 적용했다. 재머·눌카는 기존 HOJ에만 남고 관련 함수는 동일하다.
+- 단계 0/1/2 게이트를 모두 통과했다. 최종 광역 회귀는 지시대로 1회 실행해 native13 364/364, 실제 WebGL 29/29를 통과했다. ENV_D의 옛 함수 해시 메타데이터만 후속 정정했으며 측정행·조건·시드·허용오차·게임 함수 변경은 0, 제한 UI 재검사는 213/213이다. 60전투 참고값은 301격추/19유출/0이탈/0기타이고 최초 연관 320/320은 함정이다.
+- 최종 HTML은 22,137,235 bytes, SHA-256 `0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a`. CONFIRMED_ONLY 성능은 `UNVERIFIED`다. 기존 `#lockBtn` 14, `CIWS_SEED_419025_FAIL`, CG observer 차이 2건은 면제하지 않은 상속 부채다.
+- 이 후보는 PR까지만 진행한다. main 병합·release·tag는 하지 않는다.
+
 ### 최신 시험 후보 — 시커 공통화 SEEKER_UNIFY_B (U2 SHADOW에서 판단 대기)
 
 - `main@ba9bc114` 위 별도 `seeker-unify-b`. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_B.md), [보고서](docs/missile/seeker-unify/B/REPORT.md), [U0](docs/missile/seeker-unify/B/U0_RESULTS.md), [U1](docs/missile/seeker-unify/B/U1_EQUIVALENCE.md), [U2](docs/missile/seeker-unify/B/U2_SHADOW_DIFF.md).

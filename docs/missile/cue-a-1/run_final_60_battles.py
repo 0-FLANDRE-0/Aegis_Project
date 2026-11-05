@@ -6,6 +6,7 @@ import importlib.util
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 
@@ -33,6 +34,17 @@ def prepare_harness() -> Path:
         assert source.exists(), source
         if not target.exists() or target.read_bytes() != source.read_bytes():
             shutil.copy2(source, target)
+    # The imported B adapter creates its historical alias at import time,
+    # before the C adapter redirects PRODUCT.  Keep that alias non-broken so a
+    # prior dry-run cannot make pathlib.exists() false while the link remains.
+    temp_product = TEMP_HARNESS / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html"
+    source_product = ROOT / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html"
+    assert source_product.exists(), source_product
+    if temp_product.is_symlink() or temp_product.exists():
+        if temp_product.resolve() != source_product.resolve():
+            temp_product.unlink()
+    if not temp_product.exists():
+        temp_product.symlink_to(source_product)
     return b_dir / "run_60_battles.py"
 
 
@@ -71,8 +83,9 @@ def main() -> int:
         return loaded
 
     module.load_runner = load_runner
+    worker_mode = "--worker" in sys.argv
     code = module.main()
-    if code == 0:
+    if code == 0 and not worker_mode:
         data = json.loads(RESULT.read_text())
         data.update({
             "schema": "AEGIS_CUE_A_1_60_BATTLE_REFERENCE_1",

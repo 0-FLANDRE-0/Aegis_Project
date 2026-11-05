@@ -17,6 +17,10 @@ ROOT = HERE.parents[2]
 BASE = ROOT / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html"
 DEFAULT_OUT = ROOT / "Aegis_SIM_v48_WIP_CUE_A_1.html"
 BASE_SHA = "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7"
+ENV_D_PROFILE_BEFORE = "06b12b074b8a7461e121a00c109b41fa085510de0ab25654b78f2dd2b9f591e8"
+ENV_D_PROFILE_AFTER = "21bca2832d8b2c88f73336eff02c97ccb81844e136944aad8d36c89811c2d2df"
+ENV_D_SPAWN_BEFORE = "cc18263e2b72d6a8ac7b5c49b492e65891a03012b56b41de170f1c37498327ec"
+ENV_D_SPAWN_AFTER = "e487448cdc6af8032c6e6cbfa6204ce57a354e2610cabeec6272f253444a2e09"
 
 
 def sha(data: bytes) -> str:
@@ -116,6 +120,28 @@ def transform_stage2(source: str) -> str:
     return source
 
 
+def transform_env_d_metadata(source: str) -> str:
+    """Advance only ENV_D's exact integrity expectations after Stage 2.
+
+    The frozen 120 measured rows, conditions, seeds, and tolerances are not
+    changed.  Stage 2 adds observed emitter metadata in spawnEnemyMissile, an
+    ENV_D conservative fingerprint input, without changing the ideal target
+    trajectory or any SAM flight function.
+    """
+    source = one(
+        source,
+        f'"profileHash":"{ENV_D_PROFILE_BEFORE}"',
+        f'"profileHash":"{ENV_D_PROFILE_AFTER}"',
+        "ENV_D CUE_A-1 profile-hash expectation",
+    )
+    old_spawn = f'"spawnEnemyMissile":"{ENV_D_SPAWN_BEFORE}"'
+    new_spawn = f'"spawnEnemyMissile":"{ENV_D_SPAWN_AFTER}"'
+    count = source.count(old_spawn)
+    if count != 2:
+        raise AssertionError(f"ENV_D spawn expectation: expected 2 anchors, got {count}")
+    return source.replace(old_spawn, new_spawn)
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -135,6 +161,7 @@ def main() -> None:
     parser.add_argument("--through", choices=("stage1a", "stage1b", "stage2"), default="stage1a")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path)
+    parser.add_argument("--diff-path", type=Path)
     args = parser.parse_args()
 
     raw = BASE.read_bytes()
@@ -143,7 +170,7 @@ def main() -> None:
     before, match = unpack(raw)
     after_stage1a = transform_stage1a(before)
     after_stage1b = transform_stage1b(after_stage1a) if args.through in ("stage1b", "stage2") else None
-    after = transform_stage2(after_stage1b) if args.through == "stage2" else (after_stage1b if args.through == "stage1b" else after_stage1a)
+    after = transform_env_d_metadata(transform_stage2(after_stage1b)) if args.through == "stage2" else (after_stage1b if args.through == "stage1b" else after_stage1a)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
@@ -152,15 +179,15 @@ def main() -> None:
 
     if args.through == "stage1a":
         diff = "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_C/main.js", tofile="CUE_A_1_STAGE1A/main.js"))
-        diff_path = HERE / "changes-stage1a.diff"
+        diff_path = args.diff_path or HERE / "changes-stage1a.diff"
         receipt = args.receipt or HERE / "BUILD_STAGE1A.json"
     elif args.through == "stage1b":
         diff = "".join(difflib.unified_diff(after_stage1a.splitlines(True), after.splitlines(True), fromfile="CUE_A_1_STAGE1A/main.js", tofile="CUE_A_1_STAGE1B/main.js"))
-        diff_path = HERE / "changes-stage1b-implementation.diff"
+        diff_path = args.diff_path or HERE / "changes-stage1b-implementation.diff"
         receipt = args.receipt or HERE / "BUILD_STAGE1B_IMPLEMENTATION.json"
     else:
         diff = "".join(difflib.unified_diff(after_stage1b.splitlines(True), after.splitlines(True), fromfile="CUE_A_1_STAGE1B/main.js", tofile="CUE_A_1_STAGE2/main.js"))
-        diff_path = HERE / "changes-stage2-implementation.diff"
+        diff_path = args.diff_path or HERE / "changes-stage2-implementation.diff"
         receipt = args.receipt or HERE / "BUILD_STAGE2_IMPLEMENTATION.json"
     # A unified diff uses a single-space prefix for an empty context line. This
     # artifact is for review rather than patch application, so remove only that
@@ -198,12 +225,26 @@ def main() -> None:
             "rotatingBeam": "SWEPT_GAUSSIAN_MINUS_3DB_FULL_WIDTH",
             "constantsFrozenBeforeEffectTests": True,
         } if args.through == "stage2" else None),
+        "envDMetadataExpectationUpdate": ({
+            "profileHashBefore": ENV_D_PROFILE_BEFORE,
+            "profileHashAfter": ENV_D_PROFILE_AFTER,
+            "nativeFunction": "spawnEnemyMissile",
+            "nativeFunctionBefore": ENV_D_SPAWN_BEFORE,
+            "nativeFunctionAfter": ENV_D_SPAWN_AFTER,
+            "measuredRowsChanged": 0,
+            "conditionsChanged": 0,
+            "seedsChanged": 0,
+            "tolerancesChanged": 0,
+            "cause": "Stage 2 observed emitter frequency/beam metadata only",
+        } if args.through == "stage2" else None),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
     }
     if build["singer"] is None:
         del build["singer"]
     if build["passiveRf"] is None:
         del build["passiveRf"]
+    if build["envDMetadataExpectationUpdate"] is None:
+        del build["envDMetadataExpectationUpdate"]
     receipt.write_text(json.dumps(build, indent=2) + "\n")
     print(json.dumps(build, indent=2))
 
