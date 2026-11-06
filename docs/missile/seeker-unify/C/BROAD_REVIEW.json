@@ -1,0 +1,390 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_BROAD_REVIEW_1",
+  "status": "PASS",
+  "policy": "Raw broad evidence remains immutable. Only directive-preapproved seeker-path expectation deltas are reviewed; tolerances remain unchanged.",
+  "rawBroadCandidateSha256": "b5183a7821c8d26aa737a1352b87cb26083cd5495d93c703402bfe65d473d898",
+  "finalCandidateSha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7",
+  "checks": {
+    "rawBroadFailuresAreExpectedSuitesOnly": true,
+    "pairedRawDifferenceSetExact": true,
+    "pairedNonRaidExact": true,
+    "pairedRaidSafetyInvariants": true,
+    "pairedNoPageErrors": true,
+    "scopeAuditPass": true,
+    "passiveUsesNoGameRng": true,
+    "native364Pass": true,
+    "webgl29Pass": true,
+    "postBroadUi213Pass": true,
+    "postBroadUiUsesFinalProduct": true,
+    "envDStatusPass": true,
+    "metadataOnlyCorrectionPass": true,
+    "trackCEgress37Pass": true,
+    "battle60ReferencePass": true,
+    "battle60WrongFirstAssociationsZero": true,
+    "assertionToleranceChangesZero": true
+  },
+  "rawBroadNewFailures": [
+    "paired-friendly",
+    "ui213"
+  ],
+  "rawPaired": {
+    "passed": 34,
+    "expected": 42,
+    "reviewedChanges": 8
+  },
+  "reviewedPairedExpectationUpdates": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "checks": [
+        "samePhysicalState",
+        "sameCombatRng",
+        "raidInventoryDeltaBounded",
+        "sameExistingObserverState"
+      ],
+      "before": {
+        "physicalStateSha256": "9ed85206056160f3dc84cc2ca3956601ad94fd20d240d10c28f6833485bc2589",
+        "combatRng": 619673995,
+        "loadedVls": 90,
+        "observerStateSha256": "43d054f9a47edaef6e570333df1f0b12e121583b978eaa1107b3e81f1ff4b390",
+        "shipHP": 100,
+        "targets": [
+          {
+            "id": 1,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 2,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 3,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 4,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 5,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 6,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 7,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 8,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          }
+        ],
+        "intercepts": 0,
+        "entityCounts": {
+          "harpoons": 0,
+          "harpoonBoosters": 0,
+          "lifeRafts": 0,
+          "activeDecoys": 0,
+          "ships": 1,
+          "aircraft": 11,
+          "surfaceContacts": 1,
+          "hostileMissiles": 8,
+          "asmWreckage": 0,
+          "waterSurfaceEvents": 0,
+          "ordnance": 6,
+          "ramOrdnance": 0,
+          "ciwsProjectiles": 0,
+          "mainGunProjectiles": 0,
+          "tracks": 22,
+          "esmContacts": 36,
+          "terrain": 16
+        }
+      },
+      "after": {
+        "physicalStateSha256": "a9feb1256331deb59cb52a1c214b68b034421e878299258bb49ae71602e44218",
+        "combatRng": 2945097295,
+        "loadedVls": 88,
+        "observerStateSha256": "3480c40b6179de3337dcce71f0006cbf94e95aad4e93e5a7b3cd2a57e22c6d47",
+        "shipHP": 100,
+        "targets": [
+          {
+            "id": 1,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 2,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 3,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 4,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 5,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 6,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 7,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 8,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          }
+        ],
+        "intercepts": 0,
+        "entityCounts": {
+          "harpoons": 0,
+          "harpoonBoosters": 0,
+          "lifeRafts": 0,
+          "activeDecoys": 0,
+          "ships": 1,
+          "aircraft": 10,
+          "surfaceContacts": 1,
+          "hostileMissiles": 8,
+          "asmWreckage": 0,
+          "waterSurfaceEvents": 0,
+          "ordnance": 8,
+          "ramOrdnance": 0,
+          "ciwsProjectiles": 0,
+          "mainGunProjectiles": 0,
+          "tracks": 23,
+          "esmContacts": 30,
+          "terrain": 16
+        }
+      },
+      "unchangedSafetyChecks": {
+        "sameHullDamageAndFixedLayout": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "classification": "PREAPPROVED_SEEKER_PATH_EXPECTATION_CHANGE",
+      "cause": "CUE_A changes hostile ASM launch memory, fixed-tick cue prediction and anonymous passive-RF updates; only raid cases instantiate that path. Idle and damaged paired cases remain exact."
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "checks": [
+        "samePhysicalState",
+        "sameCombatRng",
+        "raidInventoryDeltaBounded",
+        "sameExistingObserverState"
+      ],
+      "before": {
+        "physicalStateSha256": "27d44382cfec8951d08d2f611686586386a2759f44881a78f1b45fe011b555fa",
+        "combatRng": 1655152390,
+        "loadedVls": 114,
+        "observerStateSha256": "cba2be8e815e13371e05296d0b9b84405f2c53ddebd934a6f155270791034861",
+        "shipHP": 100,
+        "targets": [
+          {
+            "id": 1,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 2,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 3,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 4,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 5,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 6,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 7,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 8,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          }
+        ],
+        "intercepts": 0,
+        "entityCounts": {
+          "harpoons": 0,
+          "harpoonBoosters": 0,
+          "lifeRafts": 0,
+          "activeDecoys": 0,
+          "ships": 1,
+          "aircraft": 13,
+          "surfaceContacts": 1,
+          "hostileMissiles": 8,
+          "asmWreckage": 0,
+          "waterSurfaceEvents": 0,
+          "ordnance": 8,
+          "ramOrdnance": 0,
+          "ciwsProjectiles": 0,
+          "mainGunProjectiles": 0,
+          "tracks": 24,
+          "esmContacts": 37,
+          "terrain": 16
+        }
+      },
+      "after": {
+        "physicalStateSha256": "e072ab4596b912c8ef372ba5884f3389339c4a8ef397891f2f973f722c2a5979",
+        "combatRng": 2996625611,
+        "loadedVls": 115,
+        "observerStateSha256": "5f372e79d9341628660a05c8546d643acae8bb554d5b435c80e032eb34f1962d",
+        "shipHP": 100,
+        "targets": [
+          {
+            "id": 1,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 2,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 3,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 4,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 5,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 6,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 7,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          },
+          {
+            "id": 8,
+            "label": "Kh-32",
+            "alive": true,
+            "reason": null
+          }
+        ],
+        "intercepts": 0,
+        "entityCounts": {
+          "harpoons": 0,
+          "harpoonBoosters": 0,
+          "lifeRafts": 0,
+          "activeDecoys": 0,
+          "ships": 1,
+          "aircraft": 13,
+          "surfaceContacts": 1,
+          "hostileMissiles": 8,
+          "asmWreckage": 0,
+          "waterSurfaceEvents": 0,
+          "ordnance": 7,
+          "ramOrdnance": 0,
+          "ciwsProjectiles": 0,
+          "mainGunProjectiles": 0,
+          "tracks": 22,
+          "esmContacts": 27,
+          "terrain": 16
+        }
+      },
+      "unchangedSafetyChecks": {
+        "sameHullDamageAndFixedLayout": true,
+        "sameExistingOffboardPorts": true,
+        "bothFaultFree": true
+      },
+      "classification": "PREAPPROVED_SEEKER_PATH_EXPECTATION_CHANGE",
+      "cause": "CUE_A changes hostile ASM launch memory, fixed-tick cue prediction and anonymous passive-RF updates; only raid cases instantiate that path. Idle and damaged paired cases remain exact."
+    }
+  ],
+  "postBroadUi": {
+    "passed": 213,
+    "expected": 213,
+    "elapsedS": 489.5747569330015
+  },
+  "inheritedUnresolved": [
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "LEGACY_EMCON_UI_14_INCOMPLETE"
+  ],
+  "assertionToleranceChanges": 0
+}

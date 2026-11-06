@@ -1,0 +1,36 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_POST_BROAD_METADATA_AUDIT_1",
+  "status": "PASS",
+  "before": {
+    "file": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C_BROAD.html",
+    "sha256": "b5183a7821c8d26aa737a1352b87cb26083cd5495d93c703402bfe65d473d898"
+  },
+  "after": {
+    "file": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+    "sha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7"
+  },
+  "checks": {
+    "normalizedMainExact": true,
+    "profileHashChangedExactlyOnce": true,
+    "spawnExpectationChangedExactlyTwice": true,
+    "measuredRowsExact": true,
+    "conditionsExact": true,
+    "seedsExact": true,
+    "normalizedTableExact": true
+  },
+  "changes": {
+    "profileHash": {
+      "before": "fa87852960ef276597cd43653d3d112da07cd844448d5ee6ad703c4791043121",
+      "after": "06b12b074b8a7461e121a00c109b41fa085510de0ab25654b78f2dd2b9f591e8"
+    },
+    "nativeSourceHashes.spawnEnemyMissile": {
+      "before": "464f1388a3e2b53ca6de34b2d7915434d4b11e0cf9619ea61f0ef8eddc29021f",
+      "after": "cc18263e2b72d6a8ac7b5c49b492e65891a03012b56b41de170f1c37498327ec"
+    },
+    "measuredRowsChanged": 0,
+    "conditionsChanged": 0,
+    "tolerancesChanged": 0,
+    "gameplayFunctionSourceChangedAfterBroad": 0
+  },
+  "reason": "CUE_A launch-memory metadata changes the conservative ENV_D integrity input without changing its straight-target measurements."
+}

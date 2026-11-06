@@ -1,0 +1,786 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_BEAM_FIX_RESULTS_1",
+  "status": "PASS",
+  "stage": 2,
+  "product": {
+    "file": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+    "sha256": "dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec",
+    "mainSha256": "53799ce92aebd732581661c682ccec903eda36b521a0c9452f1ec6a3c9ae06a8"
+  },
+  "implementation": {
+    "before": "COMBINED_SINGLE",
+    "after": "TX_RX_SEPARATE",
+    "beamPattern": "same one-way SIM_TUNED pattern applied once on transmit and once on receive",
+    "los": "same LOS quality applied once outbound and once inbound",
+    "sidelobeFloor": 0.08,
+    "sidelobeFloorChanged": false,
+    "hojAndPassiveRfChanged": false,
+    "resultFitting": false
+  },
+  "gates": {
+    "matrixPageErrorsZero": true,
+    "falseAcquisitionIncreaseZero": true,
+    "samExactDifferencesZero": true,
+    "shipRadarExactDifferencesZero": true,
+    "targetRegressionsNumericallyExplained": true,
+    "cueRegressionsNumericallyExplained": true,
+    "s1TrackCountPreserved": true,
+    "s1OwnshipFirstZero": true,
+    "s1NeighborAsmFirstZero": true,
+    "egressReplayPass": true,
+    "battleReferencePass": true,
+    "battleNeighborAsmFirstZero": true,
+    "battleNonShipFirstZero": true,
+    "determinismPass": true,
+    "rcsPhysicalInputsPreserved": true
+  },
+  "matrix1590": {
+    "cases": {
+      "rangeCases": 660,
+      "samArhCases": 390,
+      "cueCases": 120,
+      "radarCases": 420
+    },
+    "falseAcquisitions": {
+      "rows": 180,
+      "before": 20,
+      "after": 17,
+      "new": []
+    },
+    "targetTrackRegressions": 6,
+    "targetNumericExplanations": 6,
+    "samExactDifferences": 0,
+    "radarExactDifferences": 0,
+    "acquireTrackRangeDistributions": {
+      "before": {
+        "DDG_15m_acquire": {
+          "count": 30,
+          "minM": 9986.000613358683,
+          "medianM": 19986.386139458606,
+          "maxM": 29986.38603725936,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_15m_track": {
+          "count": 30,
+          "minM": 9967.333947840705,
+          "medianM": 19968.233917070527,
+          "maxM": 29968.233814716416,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_200m_acquire": {
+          "count": 28,
+          "minM": 9987.778944790478,
+          "medianM": 19944.890780598424,
+          "maxM": 29986.978300181283,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_200m_track": {
+          "count": 28,
+          "minM": 9969.115609108854,
+          "medianM": 19916.89203289509,
+          "maxM": 29968.826436374056,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        }
+      },
+      "after": {
+        "DDG_15m_acquire": {
+          "count": 30,
+          "minM": 9986.000613358683,
+          "medianM": 19986.386139458606,
+          "maxM": 29986.38603725936,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_15m_track": {
+          "count": 30,
+          "minM": 9967.333947840705,
+          "medianM": 19968.233917070527,
+          "maxM": 29959.157703445002,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_200m_acquire": {
+          "count": 22,
+          "minM": 9987.778944790478,
+          "medianM": 19987.27472457271,
+          "maxM": 29986.978300181283,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        },
+        "DDG_200m_track": {
+          "count": 22,
+          "minM": 9969.115609108854,
+          "medianM": 19969.12330992139,
+          "maxM": 29968.826436374056,
+          "method": "fixture kinematics from recorded first-mode time; diagnostic-only"
+        }
+      }
+    }
+  },
+  "cue240": {
+    "trackRegressions": 30,
+    "trackImprovements": 0,
+    "numericExplanations": 30,
+    "summary": [
+      {
+        "label": "Kh-32",
+        "emcon": false,
+        "shots": 60,
+        "stage1Track": 60,
+        "stage2Track": 44
+      },
+      {
+        "label": "Kh-32",
+        "emcon": true,
+        "shots": 60,
+        "stage1Track": 60,
+        "stage2Track": 46
+      },
+      {
+        "label": "Kh-35U",
+        "emcon": false,
+        "shots": 60,
+        "stage1Track": 60,
+        "stage2Track": 60
+      },
+      {
+        "label": "Kh-35U",
+        "emcon": true,
+        "shots": 60,
+        "stage1Track": 60,
+        "stage2Track": 60
+      }
+    ]
+  },
+  "s1": {
+    "cases": 100,
+    "stage1Track": 40,
+    "stage2Track": 40,
+    "ownshipFirst": 0,
+    "neighborAsmFirst": 0
+  },
+  "egress37": {
+    "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+    "jobs": 16,
+    "missiles": 37,
+    "missingEvidence": [],
+    "firstFamilies": {
+      "INTENDED_OWNSHIP": 36,
+      "NONE": 1
+    },
+    "neighborAsmFirstAssociations": [],
+    "noAssociation": [
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 24
+      }
+    ],
+    "rows": [
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419027-C",
+        "missileId": 24,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:0:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419021-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419023-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419025-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419032-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 8,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419033-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S6-419039-C",
+        "missileId": 12,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419020-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419021-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-2:-1+SEA:IJ:2:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419022-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419023-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 14,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 18,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419024-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 10,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:1:1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 16,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:-2:0+SEA:IJ:2:0",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419025-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP+SEA:IJ:0:-1",
+        "debugKind": "COMPOSITE"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 22,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419026-C",
+        "missileId": 26,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      },
+      {
+        "battleId": "S13-419028-C",
+        "missileId": 24,
+        "family": "NONE",
+        "debugId": "",
+        "debugKind": ""
+      },
+      {
+        "battleId": "S13-419029-C",
+        "missileId": 20,
+        "family": "INTENDED_OWNSHIP",
+        "debugId": "SHIP",
+        "debugKind": "SHIP"
+      }
+    ],
+    "pass": true,
+    "note": "SHIP is the intended defended ship in this inbound-ASM replay; only neighboring ASM first selection is forbidden here."
+  },
+  "battle60": {
+    "status": "PASS",
+    "jobs": 60,
+    "elapsedS": 2186.1989329069766,
+    "firstAssociationAudit": {
+      "tag": "AFTER_ACTION_TRUTH_TEST_ONLY",
+      "observed": 320,
+      "families": {
+        "SHIP": 320
+      },
+      "neighborAsmFirstAssociations": 0,
+      "nonShipFirstAssociations": 0,
+      "neighborRows": [],
+      "nonShipRows": []
+    },
+    "comparisonToStage1": {
+      "stage1CorrectedTotals": {
+        "kills": 301,
+        "leakers": 17,
+        "egress": 1,
+        "other": 1
+      },
+      "stage2Totals": {
+        "kills": 300,
+        "leakers": 17,
+        "egress": 1,
+        "other": 2
+      },
+      "net": {
+        "kills": -1,
+        "leakers": 0,
+        "egress": 0,
+        "other": 1
+      },
+      "changedOutcomes": [
+        {
+          "battleId": "S13-419020-ASM",
+          "missileId": 18,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419020-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419020-ASM",
+          "missileId": 26,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419021-ASM",
+          "missileId": 24,
+          "before": {
+            "category": "EGRESS",
+            "cause": null
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419021-ASM",
+          "missileId": 26,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419022-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "PHALANX_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419022-ASM",
+          "missileId": 24,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419022-ASM",
+          "missileId": 26,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419023-ASM",
+          "missileId": 20,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419023-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419026-ASM",
+          "missileId": 16,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "PHALANX_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419026-ASM",
+          "missileId": 20,
+          "before": {
+            "category": "OTHER",
+            "cause": "GUIDANCE_CONTROL_LOSS_MISS"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419026-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "DUD_PENETRATION"
+          }
+        },
+        {
+          "battleId": "S13-419027-ASM",
+          "missileId": 18,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "OTHER",
+            "cause": "GUIDANCE_CONTROL_LOSS_MISS"
+          }
+        },
+        {
+          "battleId": "S13-419027-ASM",
+          "missileId": 24,
+          "before": {
+            "category": "KILL",
+            "cause": "WARHEAD_AIRBURST"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419028-ASM",
+          "missileId": 20,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419028-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "KILL",
+            "cause": "WARHEAD_AIRBURST"
+          },
+          "after": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          }
+        },
+        {
+          "battleId": "S13-419028-ASM",
+          "missileId": 24,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "EGRESS",
+            "cause": null
+          }
+        },
+        {
+          "battleId": "S13-419028-ASM",
+          "missileId": 26,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419029-ASM",
+          "missileId": 20,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419029-ASM",
+          "missileId": 22,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        },
+        {
+          "battleId": "S13-419029-ASM",
+          "missileId": 24,
+          "before": {
+            "category": "LEAKER",
+            "cause": "NORMAL_HIT"
+          },
+          "after": {
+            "category": "OTHER",
+            "cause": "GUIDANCE_CONTROL_LOSS_MISS"
+          }
+        },
+        {
+          "battleId": "S6-419026-ASM",
+          "missileId": 8,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "WARHEAD_AIRBURST"
+          }
+        },
+        {
+          "battleId": "S6-419038-ASM",
+          "missileId": 6,
+          "before": {
+            "category": "KILL",
+            "cause": "INTERCEPT_STRUCTURAL_FAILURE"
+          },
+          "after": {
+            "category": "KILL",
+            "cause": "INTERCEPT_KILL"
+          }
+        }
+      ],
+      "transitionCounts": {
+        "EGRESS->KILL": 1,
+        "KILL->KILL": 4,
+        "KILL->LEAKER": 8,
+        "KILL->OTHER": 1,
+        "LEAKER->EGRESS": 1,
+        "LEAKER->KILL": 6,
+        "LEAKER->LEAKER": 1,
+        "LEAKER->OTHER": 1,
+        "OTHER->KILL": 1
+      },
+      "netInterpretation": "One net INTERCEPT_KILL became GUIDANCE_CONTROL_LOSS_MISS. Leakers and egress did not increase; the reference battle harm count is unchanged."
+    }
+  },
+  "numericExplanation": {
+    "formula": "stage2Signal = stage1Signal * rxBeamGain * losQ",
+    "rangeCases": 6,
+    "cueCases": 30,
+    "rangeUnexplained": 0,
+    "cueUnexplained": 0
+  },
+  "truthUse": "AFTER_ACTION_ONLY for association/outcome audits; never consumed by product simulation",
+  "gameCodeChangedByFinalizer": false
+}

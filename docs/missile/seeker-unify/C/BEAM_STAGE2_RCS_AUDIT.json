@@ -1,0 +1,603 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_BEAM_STAGE2_RCS_AUDIT_1",
+  "status": "PASS",
+  "input": "/dev/shm/seeker_c_stage2_diag.html",
+  "inputSha256": "9009a1a8a8aaab0770ccfd19b51c080beb4b31b0c1cd3f362999490fea441dcf",
+  "baseline": "docs/missile/seeker-unify/B/U0_1590_ACTIVE.json",
+  "candidate": {
+    "DDG": {
+      "schema": "AEGIS_SEEKER_UNIFY_A_RCS_AUDIT_1",
+      "basis": {
+        "schema": "AEGIS_SURFACE_SHIP_RCS_BASIS_SEEKER_UNIFY_A_1",
+        "formula": {
+          "source": "PUBLIC_FORMULA",
+          "citation": "M. I. Skolnik, An Empirical Formula for the Radar Cross Section of Ships at Grazing Incidence, IEEE TAES-10(2), 1974, DOI:10.1109/TAES.1974.307935",
+          "coefficient": 52,
+          "frequencyUnit": "MHz",
+          "displacementUnit": "1000 metric tonnes",
+          "outputUnit": "m2",
+          "expression": "52*sqrt(f_MHz)*D_kt^(3/2)"
+        },
+        "bands": {
+          "S": {
+            "frequencyMHz": 3050,
+            "frequencySource": "PUBLIC_VALUE_BRIDGEMASTER_E_PROFILE"
+          },
+          "X": {
+            "frequencyMHz": 9400,
+            "frequencySource": "PUBLIC_VALUE_SPS73_PROFILE"
+          },
+          "IJ": {
+            "frequencyMHz": 10000,
+            "frequencySource": "SIM_TUNED_IJ_X_BAND_CENTRE_PUBLIC_EXACT_SEEKER_CARRIER_UNKNOWN"
+          }
+        },
+        "profiles": {
+          "DDG_119_LATE_FLIGHT_IIA": {
+            "displacementKt": 9.6524456336,
+            "displacementSource": "PUBLIC_VALUE_9500_LONG_TON_FLIGHT_IIA_CONVERTED_TO_METRIC",
+            "reductionDb": 15,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "PUBLIC_QUALITATIVE_DDG51_RCS_SHAPING__MIDPOINT_OF_DESIGN_ASSUMPTION_RANGE_10_TO_20_DB"
+          },
+          "CG_52_LATE_TICONDEROGA": {
+            "displacementKt": 9.7540672,
+            "displacementSource": "PUBLIC_VALUE_9600_LONG_TON_CLASS_CONVERTED_TO_METRIC",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__CONVENTIONAL_SPRUANCE_DERIVED_FORM_RETAINS_FORMULA"
+          },
+          "SOVREMENNY_956": {
+            "displacementKt": 7.94,
+            "displacementSource": "PUBLIC_VALUE_FULL_LOAD",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__RETAINS_FORMULA"
+          },
+          "EMPTY_CONTAINER_TEST_HULK_V1": {
+            "displacementKt": 24.2,
+            "displacementSource": "SIM_TUNED_GAME_EMPTY_HULK_MASS",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "GENERIC_NON_LOW_OBSERVABLE_MERCHANT_HULK"
+          }
+        },
+        "resultFitting": false
+      },
+      "activeProfile": "DDG_119_LATE_FLIGHT_IIA",
+      "sectionBeamLegacyM2": 1028,
+      "own": {
+        "S": {
+          "BOW": {
+            "totalRcsM2": 1031.8136067523487,
+            "band": "S",
+            "sectionScale": 2.6492088361852124,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "S",
+              "formulaM2": 86121.04869543266,
+              "beamReferenceM2": 2723.3866835983986,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 2897.4794831108766,
+            "band": "S",
+            "sectionScale": 2.6492088361852124,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "S",
+              "formulaM2": 86121.04869543266,
+              "beamReferenceM2": 2723.3866835983986,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 919.9572119266123,
+            "band": "S",
+            "sectionScale": 2.6492088361852124,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "S",
+              "formulaM2": 86121.04869543266,
+              "beamReferenceM2": 2723.3866835983986,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 2322.55194911748,
+            "band": "S",
+            "sectionScale": 2.6492088361852124,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "S",
+              "formulaM2": 86121.04869543266,
+              "beamReferenceM2": 2723.3866835983986,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        },
+        "X": {
+          "BOW": {
+            "totalRcsM2": 1811.4037305899508,
+            "band": "X",
+            "sectionScale": 4.650827181938432,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "X",
+              "formulaM2": 151190.086919127,
+              "beamReferenceM2": 4781.050343032708,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 5086.679522995094,
+            "band": "X",
+            "sectionScale": 4.650827181938432,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "X",
+              "formulaM2": 151190.086919127,
+              "beamReferenceM2": 4781.050343032708,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 1615.0338731353445,
+            "band": "X",
+            "sectionScale": 4.650827181938432,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "X",
+              "formulaM2": 151190.086919127,
+              "beamReferenceM2": 4781.050343032708,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 4077.363622255593,
+            "band": "X",
+            "sectionScale": 4.650827181938432,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "X",
+              "formulaM2": 151190.086919127,
+              "beamReferenceM2": 4781.050343032708,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        },
+        "IJ": {
+          "BOW": {
+            "totalRcsM2": 1868.3202932829151,
+            "band": "IJ",
+            "sectionScale": 4.79696196812921,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "IJ",
+              "formulaM2": 155940.66787210127,
+              "beamReferenceM2": 4931.276903236828,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 5246.509332926685,
+            "band": "IJ",
+            "sectionScale": 4.79696196812921,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "IJ",
+              "formulaM2": 155940.66787210127,
+              "beamReferenceM2": 4931.276903236828,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 1665.780250179423,
+            "band": "IJ",
+            "sectionScale": 4.79696196812921,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "IJ",
+              "formulaM2": 155940.66787210127,
+              "beamReferenceM2": 4931.276903236828,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 4205.4794687171325,
+            "band": "IJ",
+            "sectionScale": 4.79696196812921,
+            "reference": {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "band": "IJ",
+              "formulaM2": 155940.66787210127,
+              "beamReferenceM2": 4931.276903236828,
+              "reductionDb": 15,
+              "displacementKt": 9.6524456336,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        }
+      },
+      "hulk": {
+        "id": "EMPTY_CONTAINER_TEST_HULK_V1",
+        "lengthM": 210,
+        "beamM": 32.2,
+        "rcsM2": {
+          "S": [
+            25191.309693236333,
+            77373.30834351158,
+            341882.0601224931,
+            91768.34245393235,
+            41385.72306745969
+          ],
+          "X": [
+            40922.192844470104,
+            136407.309481567,
+            600192.1617188948,
+            159791.41967840708,
+            72101.00644025685
+          ],
+          "IJ": [
+            40920.31686433832,
+            141647.25068424802,
+            619050.9474348617,
+            170501.32026807632,
+            76069.81981191097
+          ]
+        }
+      },
+      "genericContacts": {
+        "SMALL": {
+          "bow": 7,
+          "beam": 38,
+          "stern": 12
+        },
+        "MEDIUM": {
+          "bow": 28,
+          "beam": 180,
+          "stern": 48
+        },
+        "LARGE": {
+          "bow": 110,
+          "beam": 780,
+          "stern": 190
+        },
+        "source": "SIM_TUNED surfaceRcsM2; no class/displacement metadata"
+      },
+      "consumers": {
+        "registry": "function physicalRfReflectorRegistryWip13A2(opts={}){\n    const band=rfBandKeyWip13A2(opts.band),hasExclude=opts.excludeObject!=null,exclude=opts.excludeObject??null,out=[],push=(q)=>{if(q&&(!hasExclude||q._truthObject!==exclude))out.push(q);};\n    const shipId=`SHIP:${ACTIVE_SHIP_RUNTIME.entityId}`,shipBeam=Math.max(...ACTIVE_SHIP_PROFILE.geometry.hullStations.map(q=>Math.abs(q[1])))*2;\n    push({rfId:shipId,x:aircraft.x(),y:aircraft.y(),z:8,vx:shipNav.vx??0,vy:shipNav.vy??0,vz:0,extentRangeM:ACTIVE_SHIP_PROFILE.geometry.lengthM*.30,extentCrossM:shipBeam*.45,extentVerticalM:12,dopplerSpreadMps:.8,_sourceSeed:rfSeedWip13A2(shipId),_truthObject:ownshipReference,_physicsKind:'SHIP',_debugSourceKind:'SHIP',_debugSourceId:shipId});\n    for(const q of surfaceContacts){if(!q?.alive)continue;const tp=surfaceTargetProfileWip13A(q.profileId),sink=q.targetRuntime?.attitude?.draftM??0,centroidZ=q.targetRuntime?(tp?.signature?.seekerCentroidHeightM??11.5):Math.max(2,(q.radarHeightM??8)*.55),kind=q.targetRuntime?'SURFACE_TARGET':'SURFACE_CONTACT',id=`SFC:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:Math.max(.8,centroidZ-sink),vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(6,(q.lengthM??60)*.32),extentCrossM:Math.max(3,(q.widthM??12)*.45),extentVerticalM:Math.max(2,(q.radarHeightM??8)*.45),physicalLengthM:Math.max(1,q.lengthM??60),physicalBeamM:Math.max(1,q.widthM??12),headingRad:Number(q.heading)||0,dopplerSpreadMps:.8,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:kind,_debugSourceKind:kind,_debugSourceId:id});}\n    for(const q of targetPool){if(!q?.alive)continue;const id=`AIR:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??1000,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(1,(q.lengthM??16)*.25),extentCrossM:Math.max(1,(q.widthM??10)*.25),extentVerticalM:2,dopplerSpreadMps:1.5,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'TARGET_AIR',_debugSourceKind:'AIR_OBJECT',_debugSourceId:id});}\n    for(const q of enemyMissiles){if(!q?.alive||q===exclude)continue;const ap=ASM_PROFILES[q.label]??ASM_PROFILES['Kh-35U'],id=`ASM:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??5,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(.5,(ap.length??5)*.5),extentCrossM:Math.max(.15,ap.diameter??.5),extentVerticalM:Math.max(.15,ap.diameter??.5),dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'TARGET_ASM',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const [pool,prefix] of [[missiles,'SAM'],[ramMissiles,'RAM']])for(const q of pool){if(q===exclude||q?.dead||q?.alive===false||!(Number(q?.rcsM2)>0))continue;const id=`${prefix}:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??5,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,rcsM2:Number(q.rcsM2),extentRangeM:.5,extentCrossM:.3,extentVerticalM:.3,dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'RF_ORDNANCE',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const m of harpoonWorldA()){if(!m.alive||m===exclude)continue;const id='HARPOON:'+m.id;push({rfId:id,x:m.x,y:m.y,z:m.z,vx:m.vx,vy:m.vy,vz:m.vz,rcsM2:m.rcsM2,extentRangeM:1.9,extentCrossM:.45,extentVerticalM:.18,dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:m,_physicsKind:'RF_ORDNANCE',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const [rows,prefix] of [[getOwnChaffRadarReturns(),'OWN'],[getAirChaffRadarReturns(),'AIR']])for(const c of rows){const id=`CHAFF:${prefix}:${c.id}`;push({rfId:id,x:c.x,y:c.y,z:c.z??20,vx:c.vx??0,vy:c.vy??0,vz:c.vz??0,rcsM2:Math.max(.001,c.rcsM2??0),extentRangeM:Math.max(0,c.radiusM??0),extentCrossM:Math.max(0,c.radiusM??0),extentVerticalM:Math.max(0,(c.verticalThicknessM??0)*.5),dopplerSpreadMps:Math.max(0,c.dopplerSpreadMps??0),_sourceSeed:rfSeedWip13A2(id),_truthObject:null,_physicsKind:'CHAFF',_debugSourceKind:'CHAFF',_debugSourceId:id});}\n    if(opts.includeNavalShips||physicalShipsB().length)out.push(...navalReflectorsC());\n    out.push(...navalOrdnanceReflectorsD());\n    out.push(...heloPhysicalReflectorsE());\n    // Terrain is an extended fixed background. Stable coast/interior cells avoid one artificial\n    // centroid target and remain bounded enough for every radar-seeker dwell.\n    for(const isl of terrainIslands)for(const row of terrainRfReflectorsWip13C9(isl,band,opts.terrainCache!==false))push(row);\n    return out;\n  }",
+        "shipboard": "function shipboardRadarEchoFieldWip13B13(opts={}){\n    const random=()=>opts.rngState?observerRandomC(opts.rngState):shipboardRadarRandomWip13B13(opts.radarId),normal=()=>opts.rngState?observerNormalC(opts.rngState):shipboardRadarRandnWip13B13(opts.radarId);\n    const radarId=String(opts.radarId??'SPY1DV'),band=rfBandKeyWip13A2(opts.band),rx=opts.receiver??{},rxX=Number(rx.x)||0,rxY=Number(rx.y)||0,rxZ=Math.max(.2,Number(rx.z)||5),rxVx=Number(rx.vxMps)||0,rxVy=Number(rx.vyMps)||0,rxVz=Number(rx.vzMps)||0;\n    const beamAz=Number(opts.beamAz)||0,beamEl=Number(opts.beamEl)||0,halfAz=clamp(Math.abs(Number(opts.beamHalfAzRad)||deg(2)),deg(.05),Math.PI),halfEl=clamp(Math.abs(Number(opts.beamHalfElRad)||deg(3)),deg(.05),Math.PI/2),maxRangeKm=Math.max(.2,Number(opts.maxRangeKm)||60),minRangeM=Math.max(10,Number(opts.minRangeM)||80),rangeResolutionM=Math.max(2,Number(opts.rangeResolutionM)||40);\n    const seaField=opts.includeSea===false?null:{receiver:{x:rxX,y:rxY,z:rxZ},beamAz,beamEl,beamHalfAzRad:Math.min(halfAz,deg(8)),beamHalfElRad:Math.min(halfEl,deg(18)),maxRangeKm,focusRangeM:Number(opts.focusRangeM),rangeResolutionM,azimuthCells:Number(opts.seaAzimuthCells),rangeCells:Number(opts.seaRangeCells),rangeResolutionFloorM:opts.aps153F?1:undefined,seaClutterModelF:opts.seaClutterModelF,minRangeM:opts.aps153F?opts.minRangeM:undefined,maxRangeLimitM:opts.aps153F?maxRangeKm*1000:undefined};\n    const scene=opts.aps153F?.diagnosticReflectors?[...opts.aps153F.diagnosticReflectors,...(seaField?maritimeRfSeaClutterFieldWip13A3({...seaField,band}):[])]:shipboardRadarPhysicalSceneWip13B13(band,seaField),candidates=[];\n    for(const ref of scene){\n      if(ref._physicsKind==='NAVAL_SHIP'&&ref._truthObject.entityId===(opts.observerShipId??ACTIVE_SHIP_RUNTIME.entityId))continue;\n      if(ref._physicsKind==='SHIP'&&opts.observerShipId&&opts.observerShipId===ACTIVE_SHIP_RUNTIME.entityId)continue;\n      const dx=worldToMeters((Number(ref.x)||0)-rxX),dy=worldToMeters((Number(ref.y)||0)-rxY),dz=(Number(ref.z)||0)-rxZ,h=Math.max(1,Math.hypot(dx,dy)),rangeM=Math.hypot(h,dz);if(rangeM<minRangeM||rangeM>maxRangeKm*1000)continue;\n      const az=Math.atan2(dy,dx),el=Math.atan2(dz,h),azOff=Math.abs(angNorm(az-beamAz)),elOff=Math.abs(el-beamEl);if(azOff>halfAz||elOff>halfEl)continue;\n      const physicalGate=typeof opts.physicalEchoGate==='function'?opts.physicalEchoGate(ref,{azRad:az,elRad:el,horizontalRangeM:h,rangeM}):null;if(physicalGate===false)continue;\n      const beamGain=physicalGate?.beamGain01??Math.exp(-2.7726*((azOff/Math.max(1e-6,halfAz))**2+(elOff/Math.max(1e-6,halfEl))**2)),losQ=terrainAwareRadarLOS(rxX,rxY,rxZ,ref.x,ref.y,physicalGate?.propagationHeightM??ref.z??0,Number(opts.losMarginM)||1.4);if(losQ<=.005)continue;\n      const rcsM2=rfReflectorRcsM2Wip13A2(ref,band,rxX,rxY,rxZ),weatherQ=maritimeRfWeatherPathFactorWip13A3(band,2*rangeM/1000),refRangeKm=Math.max(1,Number(opts.snrReferenceRangeKm)||35),refRcsM2=Math.max(.001,Number(opts.snrReferenceRcsM2)||1),health=clamp(Number(opts.health??1),.001,1),signal=Math.max(0,(rcsM2/refRcsM2)*Math.pow(refRangeKm/Math.max(.25,rangeM/1000),4)*health*beamGain*losQ*weatherQ*(opts.signalScale01??1));\n      // Background membership is used only here to integrate receiver clutter energy.  It is not\n      // copied into the echo or exposed to channel/classification authority.\n      const distributed=ref._physicsKind==='SEA_CLUTTER'||ref._physicsKind==='TERRAIN_CLUTTER';candidates.push({ref,dx,dy,dz,h,rangeM,az,el,beamGain,losQ,rcsM2,signal,distributed,scanOrdinalF:physicalGate?.scanOrdinalF});\n    }\n    const electronic=electronicRadarInterferenceF(opts);\n    const clutterLeakRaw=Number(opts.clutterLeak01),receiverNoiseRaw=Number(opts.receiverNoiseNorm),maxDistributedRaw=Number(opts.maxDistributedEchoes),distributedCandidates=candidates.filter(q=>q.distributed),discreteCandidates=candidates.filter(q=>!q.distributed),clutterSignal=distributedCandidates.reduce((sum,q)=>sum+q.signal,0),clutterReject=Math.max(.000001,Number.isFinite(clutterLeakRaw)?clutterLeakRaw:.015),noise=Math.max(.000001,Number.isFinite(receiverNoiseRaw)?receiverNoiseRaw:.035),maxDistributedEchoes=Math.max(0,Math.floor(Number.isFinite(maxDistributedRaw)?maxDistributedRaw:4)),cfarBackground=distributedCandidates.slice().sort((a,b)=>b.signal-a.signal).slice(0,maxDistributedEchoes),extractionCandidates=[...discreteCandidates,...cfarBackground],echoes=[];\n    for(const q of extractionCandidates){\n      // Pulse compression and angle processing make clutter local in measurement space.  A very\n      // strong near-range sea cell must not raise the noise floor of every distant/high-elevation\n      // range bin in the dwell.  This kernel is intentionally receiver-observable only.\n      const rangeCellM=Math.max(rangeResolutionM,Number(q.ref.extentRangeM)||rangeResolutionM),localClutter=distributedCandidates.reduce((sum,c)=>{\n        const dr=Math.abs(c.rangeM-q.rangeM),da=Math.abs(angNorm(c.az-q.az)),de=Math.abs(c.el-q.el),rangeWeight=Math.exp(-.5*(dr/Math.max(20,rangeCellM*1.35))**2),azWeight=Math.exp(-.5*(da/Math.max(deg(.08),halfAz*.32))**2),elWeight=Math.exp(-.5*(de/Math.max(deg(.08),halfEl*.28))**2);return sum+c.signal*rangeWeight*azWeight*elWeight;\n      },0),interference=noise*(1+electronic.noise)+localClutter*clutterReject*(q.distributed ? .65 : 1),receiverF=opts.isarF?isarReceiverF2({opts,rangeM:q.rangeM,horizontalRangeM:q.h,signal:q.signal,localClutter,distributed:q.distributed,beamGain:q.beamGain,weatherQ:maritimeRfWeatherPathFactorWip13A3(band,2*q.rangeM/1000)}):opts.aps153F?apsCfarPhysicalF({opts,rangeM:q.rangeM,horizontalRangeM:q.h,signal:q.signal,localClutter,distributed:q.distributed,beamGain:q.beamGain,weatherQ:maritimeRfWeatherPathFactorWip13A3(band,2*q.rangeM/1000)}):null,snr=receiverF?.snr??q.signal/Math.max(1e-9,interference),pd=receiverF?.pd??clamp(snr/(snr+Math.max(.1,Number(opts.pdHalfSnr)||1)),.0001,.9995);if(random()>pd)continue;\n      const quality=clamp(pd*q.losQ,.03,1),qs=1/Math.sqrt(Math.max(.04,quality)),rangeSigmaM=receiverF?.rangeSigmaM??Math.max(1,(Number(opts.rangeSigmaM)||25)*qs),azSigmaDeg=receiverF?.azSigmaDeg??Math.max(.002,(Number(opts.azSigmaDeg)||.08)*qs),elSigmaDeg=Math.max(.003,(Number(opts.elSigmaDeg)||.12)*qs),dopplerSigmaMps=Math.max(.05,(Number(opts.dopplerSigmaMps)||3)*qs),rangeM=Math.max(minRangeM,q.rangeM+normal()*rangeSigmaM+Math.min(350,electronic.replay*12)),azRad=q.az+normal()*deg(azSigmaDeg),elRad=q.el+normal()*deg(elSigmaDeg),ce=Math.cos(elRad),x=rxX+metersToWorld(rangeM*ce*Math.cos(azRad)),y=rxY+metersToWorld(rangeM*ce*Math.sin(azRad)),z=rxZ+rangeM*Math.sin(elRad),ux=q.dx/q.rangeM,uy=q.dy/q.rangeM,uz=q.dz/q.rangeM,refVx=worldSpeedToMps(Number(q.ref.vx)||0),refVy=worldSpeedToMps(Number(q.ref.vy)||0),refVz=Number(q.ref.vz)||0,trueRadial=(refVx-rxVx)*ux+(refVy-rxVy)*uy+(refVz-rxVz)*uz,radialMps=trueRadial+normal()*dopplerSigmaMps,sea=shipboardRadarSeaStateAtWip13B13(x,y),seaRadial=(sea.orb.vx-rxVx)*ux+(sea.orb.vy-rxVy)*uy+(sea.orb.vz-rxVz)*uz,extentNoise=()=>clamp(1+normal()*.08/Math.sqrt(Math.max(.08,quality)),.55,1.55),physicalLengthM=Number(q.ref.physicalLengthM),physicalBeamM=Number(q.ref.physicalBeamM),hasOrientedFootprint=physicalLengthM>0&&physicalBeamM>0&&Number.isFinite(Number(q.ref.headingRad)),aspect=hasOrientedFootprint?angNorm(q.az-Number(q.ref.headingRad)):0,rangeExtentBaseM=hasOrientedFootprint?.5*(Math.abs(Math.cos(aspect))*physicalLengthM+Math.abs(Math.sin(aspect))*physicalBeamM):(Number(q.ref.extentRangeM)||1),crossExtentBaseM=hasOrientedFootprint?.5*(Math.abs(Math.sin(aspect))*physicalLengthM+Math.abs(Math.cos(aspect))*physicalBeamM):(Number(q.ref.extentCrossM)||1);\n      echoes.push({...(opts.isarF?{isarFeatures:isarPhysicalSampleF2(q.ref,{azRad:q.az},opts.isarF,normal,snr)}:{}),...(opts.aps153F?{scanOrdinalF:q.scanOrdinalF}:{}),schema:'AEGIS_ANONYMOUS_RF_ECHO_V48_WIP13B13',radarId,band,x,y,z,rangeM,azRad,elRad,radialMps,surfaceRelativeDopplerMps:radialMps-seaRadial,dopplerSpreadMps:Math.max(.05,(Number(q.ref.dopplerSpreadMps)||.3)*extentNoise()),apparentRcsM2:Math.max(.001,q.rcsM2*extentNoise()),rangeExtentM:Math.max(.05,rangeExtentBaseM*extentNoise()),crossExtentM:Math.max(.05,crossExtentBaseM*extentNoise()),verticalExtentM:Math.max(.05,(Number(q.ref.extentVerticalM)||1)*extentNoise()),estimatedSurfaceHeightM:z-sea.z,snr,pd,quality,rangeSigmaM,azSigmaDeg,elSigmaDeg,radialVelSigmaMps:dopplerSigmaMps,losUx:Math.cos(elRad)*Math.cos(azRad),losUy:Math.cos(elRad)*Math.sin(azRad),losUz:Math.sin(elRad),sensorXWorld:rxX,sensorYWorld:rxY,sensorZM:rxZ,sensorVxMps:rxVx,sensorVyMps:rxVy,sensorVzMps:rxVz});\n    }\n    if(opts.aps153F)echoes.push(...apsNoiseEchoesF(opts,random,normal));\n    return {schema:'AEGIS_ANONYMOUS_RF_DWELL_V48_WIP13B13',radarId,band,sceneCount:scene.length,candidateCount:candidates.length,discreteCandidateCount:discreteCandidates.length,distributedCandidateCount:distributedCandidates.length,backgroundExtractionCount:cfarBackground.length,echoes,clutterSignal,truthFieldsExposed:false};\n  }",
+        "asm": "function asmSeekerShipRfReturn(em,s){\n    if(!Number.isFinite(s._centroidLocalX)){\n      const c=computeWeightedCentroid(em.x,em.y,em.z??10,'IJ');\n      s._centroidLocalX=c.x;s._centroidLocalY=c.y;s._centroidZ=c.z??(ASM_SEEKER_PROFILES[em.label]?.aimHeightM??8);s.pickedSection=c.pickedSection;\n      s._rcsCache={totalRCS:c.rcsData.totalRCS};s._rcsCacheAgeS=0;\n      s._rcsCacheBearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x());s._rcsCacheAltM=em.z??0;\n    }\n    const w=asmSeekerLocalToWorld(s._centroidLocalX,s._centroidLocalY);\n    const bearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x()),alt=em.z??0;\n    const needRcs=!s._rcsCache||s._rcsCacheAgeS>=0.10||s._rcsCacheBearing==null||Math.abs(angNorm(bearing-s._rcsCacheBearing))>deg(0.8)||Math.abs(alt-(s._rcsCacheAltM??alt))>300;\n    if(needRcs){const rcsData=computeShipRCS(em.x,em.y,alt,'IJ');s._rcsCache={totalRCS:rcsData.totalRCS};s._rcsCacheAgeS=0;s._rcsCacheBearing=bearing;s._rcsCacheAltM=alt;}\n    return {x:w.x,y:w.y,z:s._centroidZ,vx:worldSpeedToMps(shipNav.vx),vy:worldSpeedToMps(shipNav.vy),vz:0,rcs:Math.max(1,s._rcsCache?.totalRCS??1),\n      extentRangeM:0,extentCrossM:0,extentVerticalM:0,dopplerSpreadMps:0,_debugKind:'SHIP',_debugId:'SHIP'};\n  }",
+        "sam": "function(...a){return seekerDelegateU1('SAM_ARH_RAW_ECHO',_u1SamPool,this,a,v=>seekerDtoListU1(v,q=>seekerEchoSampleU1(q))).value;}"
+      }
+    },
+    "CG": {
+      "schema": "AEGIS_SEEKER_UNIFY_A_RCS_AUDIT_1",
+      "basis": {
+        "schema": "AEGIS_SURFACE_SHIP_RCS_BASIS_SEEKER_UNIFY_A_1",
+        "formula": {
+          "source": "PUBLIC_FORMULA",
+          "citation": "M. I. Skolnik, An Empirical Formula for the Radar Cross Section of Ships at Grazing Incidence, IEEE TAES-10(2), 1974, DOI:10.1109/TAES.1974.307935",
+          "coefficient": 52,
+          "frequencyUnit": "MHz",
+          "displacementUnit": "1000 metric tonnes",
+          "outputUnit": "m2",
+          "expression": "52*sqrt(f_MHz)*D_kt^(3/2)"
+        },
+        "bands": {
+          "S": {
+            "frequencyMHz": 3050,
+            "frequencySource": "PUBLIC_VALUE_BRIDGEMASTER_E_PROFILE"
+          },
+          "X": {
+            "frequencyMHz": 9400,
+            "frequencySource": "PUBLIC_VALUE_SPS73_PROFILE"
+          },
+          "IJ": {
+            "frequencyMHz": 10000,
+            "frequencySource": "SIM_TUNED_IJ_X_BAND_CENTRE_PUBLIC_EXACT_SEEKER_CARRIER_UNKNOWN"
+          }
+        },
+        "profiles": {
+          "DDG_119_LATE_FLIGHT_IIA": {
+            "displacementKt": 9.6524456336,
+            "displacementSource": "PUBLIC_VALUE_9500_LONG_TON_FLIGHT_IIA_CONVERTED_TO_METRIC",
+            "reductionDb": 15,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "PUBLIC_QUALITATIVE_DDG51_RCS_SHAPING__MIDPOINT_OF_DESIGN_ASSUMPTION_RANGE_10_TO_20_DB"
+          },
+          "CG_52_LATE_TICONDEROGA": {
+            "displacementKt": 9.7540672,
+            "displacementSource": "PUBLIC_VALUE_9600_LONG_TON_CLASS_CONVERTED_TO_METRIC",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__CONVENTIONAL_SPRUANCE_DERIVED_FORM_RETAINS_FORMULA"
+          },
+          "SOVREMENNY_956": {
+            "displacementKt": 7.94,
+            "displacementSource": "PUBLIC_VALUE_FULL_LOAD",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "NO_PUBLIC_CLASS_SPECIFIC_REDUCTION_VALUE__RETAINS_FORMULA"
+          },
+          "EMPTY_CONTAINER_TEST_HULK_V1": {
+            "displacementKt": 24.2,
+            "displacementSource": "SIM_TUNED_GAME_EMPTY_HULK_MASS",
+            "reductionDb": 0,
+            "reductionSource": "SIM_TUNED",
+            "reductionBasis": "GENERIC_NON_LOW_OBSERVABLE_MERCHANT_HULK"
+          }
+        },
+        "resultFitting": false
+      },
+      "activeProfile": "CG_52_LATE_TICONDEROGA",
+      "sectionBeamLegacyM2": 1028,
+      "own": {
+        "S": {
+          "BOW": {
+            "totalRcsM2": 33006.25055804494,
+            "band": "S",
+            "sectionScale": 85.10180345029002,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "S",
+              "formulaM2": 87484.65394689814,
+              "beamReferenceM2": 87484.65394689814,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 93077.12027263928,
+            "band": "S",
+            "sectionScale": 85.10180345029002,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "S",
+              "formulaM2": 87484.65394689814,
+              "beamReferenceM2": 87484.65394689814,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 33852.942572482985,
+            "band": "S",
+            "sectionScale": 85.10180345029002,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "S",
+              "formulaM2": 87484.65394689814,
+              "beamReferenceM2": 87484.65394689814,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 74608.44791741642,
+            "band": "S",
+            "sectionScale": 85.10180345029002,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "S",
+              "formulaM2": 87484.65394689814,
+              "beamReferenceM2": 87484.65394689814,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        },
+        "X": {
+          "BOW": {
+            "totalRcsM2": 57944.23043306424,
+            "band": "X",
+            "sectionScale": 149.40074761660645,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "X",
+              "formulaM2": 153583.96854987144,
+              "beamReferenceM2": 153583.96854987144,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 163401.8409827919,
+            "band": "X",
+            "sectionScale": 149.40074761660645,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "X",
+              "formulaM2": 153583.96854987144,
+              "beamReferenceM2": 153583.96854987144,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 59430.64335064645,
+            "band": "X",
+            "sectionScale": 149.40074761660645,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "X",
+              "formulaM2": 153583.96854987144,
+              "beamReferenceM2": 153583.96854987144,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 130979.10320887178,
+            "band": "X",
+            "sectionScale": 149.40074761660645,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "X",
+              "formulaM2": 153583.96854987144,
+              "beamReferenceM2": 153583.96854987144,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        },
+        "IJ": {
+          "BOW": {
+            "totalRcsM2": 59764.91036677783,
+            "band": "IJ",
+            "sectionScale": 154.0951052987157,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "IJ",
+              "formulaM2": 158409.76824707974,
+              "beamReferenceM2": 158409.76824707974,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "BEAM": {
+            "totalRcsM2": 168536.13046745246,
+            "band": "IJ",
+            "sectionScale": 154.0951052987157,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "IJ",
+              "formulaM2": 158409.76824707974,
+              "beamReferenceM2": 158409.76824707974,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "STERN": {
+            "totalRcsM2": 61298.02823068566,
+            "band": "IJ",
+            "sectionScale": 154.0951052987157,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "IJ",
+              "formulaM2": 158409.76824707974,
+              "beamReferenceM2": 158409.76824707974,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          },
+          "TOP": {
+            "totalRcsM2": 135094.62986555367,
+            "band": "IJ",
+            "sectionScale": 154.0951052987157,
+            "reference": {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "band": "IJ",
+              "formulaM2": 158409.76824707974,
+              "beamReferenceM2": 158409.76824707974,
+              "reductionDb": 0,
+              "displacementKt": 9.7540672,
+              "source": "PUBLIC_FORMULA_PLUS_SIM_TUNED_REDUCTION"
+            }
+          }
+        }
+      },
+      "hulk": {
+        "id": "EMPTY_CONTAINER_TEST_HULK_V1",
+        "lengthM": 210,
+        "beamM": 32.2,
+        "rcsM2": {
+          "S": [
+            25191.309693236333,
+            77373.30834351158,
+            341882.0601224931,
+            91768.34245393235,
+            41385.72306745969
+          ],
+          "X": [
+            40922.192844470104,
+            136407.309481567,
+            600192.1617188948,
+            159791.41967840708,
+            72101.00644025685
+          ],
+          "IJ": [
+            40920.31686433832,
+            141647.25068424802,
+            619050.9474348617,
+            170501.32026807632,
+            76069.81981191097
+          ]
+        }
+      },
+      "genericContacts": {
+        "SMALL": {
+          "bow": 7,
+          "beam": 38,
+          "stern": 12
+        },
+        "MEDIUM": {
+          "bow": 28,
+          "beam": 180,
+          "stern": 48
+        },
+        "LARGE": {
+          "bow": 110,
+          "beam": 780,
+          "stern": 190
+        },
+        "source": "SIM_TUNED surfaceRcsM2; no class/displacement metadata"
+      },
+      "consumers": {
+        "registry": "function physicalRfReflectorRegistryWip13A2(opts={}){\n    const band=rfBandKeyWip13A2(opts.band),hasExclude=opts.excludeObject!=null,exclude=opts.excludeObject??null,out=[],push=(q)=>{if(q&&(!hasExclude||q._truthObject!==exclude))out.push(q);};\n    const shipId=`SHIP:${ACTIVE_SHIP_RUNTIME.entityId}`,shipBeam=Math.max(...ACTIVE_SHIP_PROFILE.geometry.hullStations.map(q=>Math.abs(q[1])))*2;\n    push({rfId:shipId,x:aircraft.x(),y:aircraft.y(),z:8,vx:shipNav.vx??0,vy:shipNav.vy??0,vz:0,extentRangeM:ACTIVE_SHIP_PROFILE.geometry.lengthM*.30,extentCrossM:shipBeam*.45,extentVerticalM:12,dopplerSpreadMps:.8,_sourceSeed:rfSeedWip13A2(shipId),_truthObject:ownshipReference,_physicsKind:'SHIP',_debugSourceKind:'SHIP',_debugSourceId:shipId});\n    for(const q of surfaceContacts){if(!q?.alive)continue;const tp=surfaceTargetProfileWip13A(q.profileId),sink=q.targetRuntime?.attitude?.draftM??0,centroidZ=q.targetRuntime?(tp?.signature?.seekerCentroidHeightM??11.5):Math.max(2,(q.radarHeightM??8)*.55),kind=q.targetRuntime?'SURFACE_TARGET':'SURFACE_CONTACT',id=`SFC:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:Math.max(.8,centroidZ-sink),vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(6,(q.lengthM??60)*.32),extentCrossM:Math.max(3,(q.widthM??12)*.45),extentVerticalM:Math.max(2,(q.radarHeightM??8)*.45),physicalLengthM:Math.max(1,q.lengthM??60),physicalBeamM:Math.max(1,q.widthM??12),headingRad:Number(q.heading)||0,dopplerSpreadMps:.8,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:kind,_debugSourceKind:kind,_debugSourceId:id});}\n    for(const q of targetPool){if(!q?.alive)continue;const id=`AIR:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??1000,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(1,(q.lengthM??16)*.25),extentCrossM:Math.max(1,(q.widthM??10)*.25),extentVerticalM:2,dopplerSpreadMps:1.5,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'TARGET_AIR',_debugSourceKind:'AIR_OBJECT',_debugSourceId:id});}\n    for(const q of enemyMissiles){if(!q?.alive||q===exclude)continue;const ap=ASM_PROFILES[q.label]??ASM_PROFILES['Kh-35U'],id=`ASM:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??5,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,extentRangeM:Math.max(.5,(ap.length??5)*.5),extentCrossM:Math.max(.15,ap.diameter??.5),extentVerticalM:Math.max(.15,ap.diameter??.5),dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'TARGET_ASM',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const [pool,prefix] of [[missiles,'SAM'],[ramMissiles,'RAM']])for(const q of pool){if(q===exclude||q?.dead||q?.alive===false||!(Number(q?.rcsM2)>0))continue;const id=`${prefix}:${q.id}`;push({rfId:id,x:q.x,y:q.y,z:q.z??5,vx:q.vx??0,vy:q.vy??0,vz:q.vz??0,rcsM2:Number(q.rcsM2),extentRangeM:.5,extentCrossM:.3,extentVerticalM:.3,dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:q,_physicsKind:'RF_ORDNANCE',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const m of harpoonWorldA()){if(!m.alive||m===exclude)continue;const id='HARPOON:'+m.id;push({rfId:id,x:m.x,y:m.y,z:m.z,vx:m.vx,vy:m.vy,vz:m.vz,rcsM2:m.rcsM2,extentRangeM:1.9,extentCrossM:.45,extentVerticalM:.18,dopplerSpreadMps:1,_sourceSeed:rfSeedWip13A2(id),_truthObject:m,_physicsKind:'RF_ORDNANCE',_debugSourceKind:'RF_OBJECT',_debugSourceId:id});}\n    for(const [rows,prefix] of [[getOwnChaffRadarReturns(),'OWN'],[getAirChaffRadarReturns(),'AIR']])for(const c of rows){const id=`CHAFF:${prefix}:${c.id}`;push({rfId:id,x:c.x,y:c.y,z:c.z??20,vx:c.vx??0,vy:c.vy??0,vz:c.vz??0,rcsM2:Math.max(.001,c.rcsM2??0),extentRangeM:Math.max(0,c.radiusM??0),extentCrossM:Math.max(0,c.radiusM??0),extentVerticalM:Math.max(0,(c.verticalThicknessM??0)*.5),dopplerSpreadMps:Math.max(0,c.dopplerSpreadMps??0),_sourceSeed:rfSeedWip13A2(id),_truthObject:null,_physicsKind:'CHAFF',_debugSourceKind:'CHAFF',_debugSourceId:id});}\n    if(opts.includeNavalShips||physicalShipsB().length)out.push(...navalReflectorsC());\n    out.push(...navalOrdnanceReflectorsD());\n    out.push(...heloPhysicalReflectorsE());\n    // Terrain is an extended fixed background. Stable coast/interior cells avoid one artificial\n    // centroid target and remain bounded enough for every radar-seeker dwell.\n    for(const isl of terrainIslands)for(const row of terrainRfReflectorsWip13C9(isl,band,opts.terrainCache!==false))push(row);\n    return out;\n  }",
+        "shipboard": "function shipboardRadarEchoFieldWip13B13(opts={}){\n    const random=()=>opts.rngState?observerRandomC(opts.rngState):shipboardRadarRandomWip13B13(opts.radarId),normal=()=>opts.rngState?observerNormalC(opts.rngState):shipboardRadarRandnWip13B13(opts.radarId);\n    const radarId=String(opts.radarId??'SPY1DV'),band=rfBandKeyWip13A2(opts.band),rx=opts.receiver??{},rxX=Number(rx.x)||0,rxY=Number(rx.y)||0,rxZ=Math.max(.2,Number(rx.z)||5),rxVx=Number(rx.vxMps)||0,rxVy=Number(rx.vyMps)||0,rxVz=Number(rx.vzMps)||0;\n    const beamAz=Number(opts.beamAz)||0,beamEl=Number(opts.beamEl)||0,halfAz=clamp(Math.abs(Number(opts.beamHalfAzRad)||deg(2)),deg(.05),Math.PI),halfEl=clamp(Math.abs(Number(opts.beamHalfElRad)||deg(3)),deg(.05),Math.PI/2),maxRangeKm=Math.max(.2,Number(opts.maxRangeKm)||60),minRangeM=Math.max(10,Number(opts.minRangeM)||80),rangeResolutionM=Math.max(2,Number(opts.rangeResolutionM)||40);\n    const seaField=opts.includeSea===false?null:{receiver:{x:rxX,y:rxY,z:rxZ},beamAz,beamEl,beamHalfAzRad:Math.min(halfAz,deg(8)),beamHalfElRad:Math.min(halfEl,deg(18)),maxRangeKm,focusRangeM:Number(opts.focusRangeM),rangeResolutionM,azimuthCells:Number(opts.seaAzimuthCells),rangeCells:Number(opts.seaRangeCells),rangeResolutionFloorM:opts.aps153F?1:undefined,seaClutterModelF:opts.seaClutterModelF,minRangeM:opts.aps153F?opts.minRangeM:undefined,maxRangeLimitM:opts.aps153F?maxRangeKm*1000:undefined};\n    const scene=opts.aps153F?.diagnosticReflectors?[...opts.aps153F.diagnosticReflectors,...(seaField?maritimeRfSeaClutterFieldWip13A3({...seaField,band}):[])]:shipboardRadarPhysicalSceneWip13B13(band,seaField),candidates=[];\n    for(const ref of scene){\n      if(ref._physicsKind==='NAVAL_SHIP'&&ref._truthObject.entityId===(opts.observerShipId??ACTIVE_SHIP_RUNTIME.entityId))continue;\n      if(ref._physicsKind==='SHIP'&&opts.observerShipId&&opts.observerShipId===ACTIVE_SHIP_RUNTIME.entityId)continue;\n      const dx=worldToMeters((Number(ref.x)||0)-rxX),dy=worldToMeters((Number(ref.y)||0)-rxY),dz=(Number(ref.z)||0)-rxZ,h=Math.max(1,Math.hypot(dx,dy)),rangeM=Math.hypot(h,dz);if(rangeM<minRangeM||rangeM>maxRangeKm*1000)continue;\n      const az=Math.atan2(dy,dx),el=Math.atan2(dz,h),azOff=Math.abs(angNorm(az-beamAz)),elOff=Math.abs(el-beamEl);if(azOff>halfAz||elOff>halfEl)continue;\n      const physicalGate=typeof opts.physicalEchoGate==='function'?opts.physicalEchoGate(ref,{azRad:az,elRad:el,horizontalRangeM:h,rangeM}):null;if(physicalGate===false)continue;\n      const beamGain=physicalGate?.beamGain01??Math.exp(-2.7726*((azOff/Math.max(1e-6,halfAz))**2+(elOff/Math.max(1e-6,halfEl))**2)),losQ=terrainAwareRadarLOS(rxX,rxY,rxZ,ref.x,ref.y,physicalGate?.propagationHeightM??ref.z??0,Number(opts.losMarginM)||1.4);if(losQ<=.005)continue;\n      const rcsM2=rfReflectorRcsM2Wip13A2(ref,band,rxX,rxY,rxZ),weatherQ=maritimeRfWeatherPathFactorWip13A3(band,2*rangeM/1000),refRangeKm=Math.max(1,Number(opts.snrReferenceRangeKm)||35),refRcsM2=Math.max(.001,Number(opts.snrReferenceRcsM2)||1),health=clamp(Number(opts.health??1),.001,1),signal=Math.max(0,(rcsM2/refRcsM2)*Math.pow(refRangeKm/Math.max(.25,rangeM/1000),4)*health*beamGain*losQ*weatherQ*(opts.signalScale01??1));\n      // Background membership is used only here to integrate receiver clutter energy.  It is not\n      // copied into the echo or exposed to channel/classification authority.\n      const distributed=ref._physicsKind==='SEA_CLUTTER'||ref._physicsKind==='TERRAIN_CLUTTER';candidates.push({ref,dx,dy,dz,h,rangeM,az,el,beamGain,losQ,rcsM2,signal,distributed,scanOrdinalF:physicalGate?.scanOrdinalF});\n    }\n    const electronic=electronicRadarInterferenceF(opts);\n    const clutterLeakRaw=Number(opts.clutterLeak01),receiverNoiseRaw=Number(opts.receiverNoiseNorm),maxDistributedRaw=Number(opts.maxDistributedEchoes),distributedCandidates=candidates.filter(q=>q.distributed),discreteCandidates=candidates.filter(q=>!q.distributed),clutterSignal=distributedCandidates.reduce((sum,q)=>sum+q.signal,0),clutterReject=Math.max(.000001,Number.isFinite(clutterLeakRaw)?clutterLeakRaw:.015),noise=Math.max(.000001,Number.isFinite(receiverNoiseRaw)?receiverNoiseRaw:.035),maxDistributedEchoes=Math.max(0,Math.floor(Number.isFinite(maxDistributedRaw)?maxDistributedRaw:4)),cfarBackground=distributedCandidates.slice().sort((a,b)=>b.signal-a.signal).slice(0,maxDistributedEchoes),extractionCandidates=[...discreteCandidates,...cfarBackground],echoes=[];\n    for(const q of extractionCandidates){\n      // Pulse compression and angle processing make clutter local in measurement space.  A very\n      // strong near-range sea cell must not raise the noise floor of every distant/high-elevation\n      // range bin in the dwell.  This kernel is intentionally receiver-observable only.\n      const rangeCellM=Math.max(rangeResolutionM,Number(q.ref.extentRangeM)||rangeResolutionM),localClutter=distributedCandidates.reduce((sum,c)=>{\n        const dr=Math.abs(c.rangeM-q.rangeM),da=Math.abs(angNorm(c.az-q.az)),de=Math.abs(c.el-q.el),rangeWeight=Math.exp(-.5*(dr/Math.max(20,rangeCellM*1.35))**2),azWeight=Math.exp(-.5*(da/Math.max(deg(.08),halfAz*.32))**2),elWeight=Math.exp(-.5*(de/Math.max(deg(.08),halfEl*.28))**2);return sum+c.signal*rangeWeight*azWeight*elWeight;\n      },0),interference=noise*(1+electronic.noise)+localClutter*clutterReject*(q.distributed ? .65 : 1),receiverF=opts.isarF?isarReceiverF2({opts,rangeM:q.rangeM,horizontalRangeM:q.h,signal:q.signal,localClutter,distributed:q.distributed,beamGain:q.beamGain,weatherQ:maritimeRfWeatherPathFactorWip13A3(band,2*q.rangeM/1000)}):opts.aps153F?apsCfarPhysicalF({opts,rangeM:q.rangeM,horizontalRangeM:q.h,signal:q.signal,localClutter,distributed:q.distributed,beamGain:q.beamGain,weatherQ:maritimeRfWeatherPathFactorWip13A3(band,2*q.rangeM/1000)}):null,snr=receiverF?.snr??q.signal/Math.max(1e-9,interference),pd=receiverF?.pd??clamp(snr/(snr+Math.max(.1,Number(opts.pdHalfSnr)||1)),.0001,.9995);if(random()>pd)continue;\n      const quality=clamp(pd*q.losQ,.03,1),qs=1/Math.sqrt(Math.max(.04,quality)),rangeSigmaM=receiverF?.rangeSigmaM??Math.max(1,(Number(opts.rangeSigmaM)||25)*qs),azSigmaDeg=receiverF?.azSigmaDeg??Math.max(.002,(Number(opts.azSigmaDeg)||.08)*qs),elSigmaDeg=Math.max(.003,(Number(opts.elSigmaDeg)||.12)*qs),dopplerSigmaMps=Math.max(.05,(Number(opts.dopplerSigmaMps)||3)*qs),rangeM=Math.max(minRangeM,q.rangeM+normal()*rangeSigmaM+Math.min(350,electronic.replay*12)),azRad=q.az+normal()*deg(azSigmaDeg),elRad=q.el+normal()*deg(elSigmaDeg),ce=Math.cos(elRad),x=rxX+metersToWorld(rangeM*ce*Math.cos(azRad)),y=rxY+metersToWorld(rangeM*ce*Math.sin(azRad)),z=rxZ+rangeM*Math.sin(elRad),ux=q.dx/q.rangeM,uy=q.dy/q.rangeM,uz=q.dz/q.rangeM,refVx=worldSpeedToMps(Number(q.ref.vx)||0),refVy=worldSpeedToMps(Number(q.ref.vy)||0),refVz=Number(q.ref.vz)||0,trueRadial=(refVx-rxVx)*ux+(refVy-rxVy)*uy+(refVz-rxVz)*uz,radialMps=trueRadial+normal()*dopplerSigmaMps,sea=shipboardRadarSeaStateAtWip13B13(x,y),seaRadial=(sea.orb.vx-rxVx)*ux+(sea.orb.vy-rxVy)*uy+(sea.orb.vz-rxVz)*uz,extentNoise=()=>clamp(1+normal()*.08/Math.sqrt(Math.max(.08,quality)),.55,1.55),physicalLengthM=Number(q.ref.physicalLengthM),physicalBeamM=Number(q.ref.physicalBeamM),hasOrientedFootprint=physicalLengthM>0&&physicalBeamM>0&&Number.isFinite(Number(q.ref.headingRad)),aspect=hasOrientedFootprint?angNorm(q.az-Number(q.ref.headingRad)):0,rangeExtentBaseM=hasOrientedFootprint?.5*(Math.abs(Math.cos(aspect))*physicalLengthM+Math.abs(Math.sin(aspect))*physicalBeamM):(Number(q.ref.extentRangeM)||1),crossExtentBaseM=hasOrientedFootprint?.5*(Math.abs(Math.sin(aspect))*physicalLengthM+Math.abs(Math.cos(aspect))*physicalBeamM):(Number(q.ref.extentCrossM)||1);\n      echoes.push({...(opts.isarF?{isarFeatures:isarPhysicalSampleF2(q.ref,{azRad:q.az},opts.isarF,normal,snr)}:{}),...(opts.aps153F?{scanOrdinalF:q.scanOrdinalF}:{}),schema:'AEGIS_ANONYMOUS_RF_ECHO_V48_WIP13B13',radarId,band,x,y,z,rangeM,azRad,elRad,radialMps,surfaceRelativeDopplerMps:radialMps-seaRadial,dopplerSpreadMps:Math.max(.05,(Number(q.ref.dopplerSpreadMps)||.3)*extentNoise()),apparentRcsM2:Math.max(.001,q.rcsM2*extentNoise()),rangeExtentM:Math.max(.05,rangeExtentBaseM*extentNoise()),crossExtentM:Math.max(.05,crossExtentBaseM*extentNoise()),verticalExtentM:Math.max(.05,(Number(q.ref.extentVerticalM)||1)*extentNoise()),estimatedSurfaceHeightM:z-sea.z,snr,pd,quality,rangeSigmaM,azSigmaDeg,elSigmaDeg,radialVelSigmaMps:dopplerSigmaMps,losUx:Math.cos(elRad)*Math.cos(azRad),losUy:Math.cos(elRad)*Math.sin(azRad),losUz:Math.sin(elRad),sensorXWorld:rxX,sensorYWorld:rxY,sensorZM:rxZ,sensorVxMps:rxVx,sensorVyMps:rxVy,sensorVzMps:rxVz});\n    }\n    if(opts.aps153F)echoes.push(...apsNoiseEchoesF(opts,random,normal));\n    return {schema:'AEGIS_ANONYMOUS_RF_DWELL_V48_WIP13B13',radarId,band,sceneCount:scene.length,candidateCount:candidates.length,discreteCandidateCount:discreteCandidates.length,distributedCandidateCount:distributedCandidates.length,backgroundExtractionCount:cfarBackground.length,echoes,clutterSignal,truthFieldsExposed:false};\n  }",
+        "asm": "function asmSeekerShipRfReturn(em,s){\n    if(!Number.isFinite(s._centroidLocalX)){\n      const c=computeWeightedCentroid(em.x,em.y,em.z??10,'IJ');\n      s._centroidLocalX=c.x;s._centroidLocalY=c.y;s._centroidZ=c.z??(ASM_SEEKER_PROFILES[em.label]?.aimHeightM??8);s.pickedSection=c.pickedSection;\n      s._rcsCache={totalRCS:c.rcsData.totalRCS};s._rcsCacheAgeS=0;\n      s._rcsCacheBearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x());s._rcsCacheAltM=em.z??0;\n    }\n    const w=asmSeekerLocalToWorld(s._centroidLocalX,s._centroidLocalY);\n    const bearing=Math.atan2(em.y-aircraft.y(),em.x-aircraft.x()),alt=em.z??0;\n    const needRcs=!s._rcsCache||s._rcsCacheAgeS>=0.10||s._rcsCacheBearing==null||Math.abs(angNorm(bearing-s._rcsCacheBearing))>deg(0.8)||Math.abs(alt-(s._rcsCacheAltM??alt))>300;\n    if(needRcs){const rcsData=computeShipRCS(em.x,em.y,alt,'IJ');s._rcsCache={totalRCS:rcsData.totalRCS};s._rcsCacheAgeS=0;s._rcsCacheBearing=bearing;s._rcsCacheAltM=alt;}\n    return {x:w.x,y:w.y,z:s._centroidZ,vx:worldSpeedToMps(shipNav.vx),vy:worldSpeedToMps(shipNav.vy),vz:0,rcs:Math.max(1,s._rcsCache?.totalRCS??1),\n      extentRangeM:0,extentCrossM:0,extentVerticalM:0,dopplerSpreadMps:0,_debugKind:'SHIP',_debugId:'SHIP'};\n  }",
+        "sam": "function(...a){return seekerDelegateU1('SAM_ARH_RAW_ECHO',_u1SamPool,this,a,v=>seekerDtoListU1(v,q=>seekerEchoSampleU1(q))).value;}"
+      }
+    }
+  },
+  "physicalDifferences": {},
+  "consumerDifferences": {
+    "DDG": [
+      "sam"
+    ],
+    "CG": [
+      "sam"
+    ]
+  },
+  "allowedConsumerDifference": {
+    "sam": "Stage-1 U2 ACTIVE adapter replaces the B shadow-era SAM function body; it does not alter RCS inputs"
+  },
+  "unexpectedConsumerDifferences": {},
+  "pageErrors": []
+}
