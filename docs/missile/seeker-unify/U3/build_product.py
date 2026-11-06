@@ -37,6 +37,13 @@ def one(source: str, old: str, new: str, label: str) -> str:
     return source.replace(old, new, 1)
 
 
+def exact(source: str, old: str, new: str, count: int, label: str) -> str:
+    actual = source.count(old)
+    if actual != count:
+        raise AssertionError(f"{label}: expected {count} anchors, got {actual}")
+    return source.replace(old, new)
+
+
 def transform_a(source: str, mode: str) -> str:
     """Connect Harpoon power/pre-resolved cells to U2 without changing behavior."""
     source = one(
@@ -87,6 +94,90 @@ function seekerU3HarpoonSnapshotA(){{return Object.freeze({{mode:SEEKER_U3_HARPO
     return source
 
 
+def transform_b(source: str) -> str:
+    """Route observed-track memory through CUE_A; preserve route prior at 4 km."""
+    anchor = "function runCoreUnitSelfTests(){"
+    source = one(source, anchor, (HERE / "harpoon_cue_b.js").read_text().rstrip() + "\n" + anchor, "B cue adapter")
+    source = one(
+        source,
+        "stateEpoch:'RELEASE_CURRENT_EKF',stateAgeS:0,observationAgeS:Math.max(0,Number(tr.sensorAge)||0),launchStep:simStepCounter,identity:normalizeTrackOperatorIdentityA3(tr._operatorIdentity),\n    truthUsed:false,updatesAfterRelease:false});",
+        "stateEpoch:'RELEASE_CURRENT_EKF',stateAgeS:0,observationAgeS:Math.max(0,Number(tr.sensorAge)||0),launchStep:simStepCounter,identity:normalizeTrackOperatorIdentityA3(tr._operatorIdentity),\n    cueSource:'LOCAL_SURFACE_OBSERVATION',positionVelocityOwner:'SHIP_EKF_RELEASE_SNAPSHOT',covarianceOwner:'SHIP_EKF_RELEASE_SNAPSHOT',timeOwner:'SIM_FIXED_STEP_RELEASE',\n    truthUsed:false,updatesAfterRelease:false});",
+        "B observed memory ownership",
+    )
+    source = one(
+        source,
+        "searchCenterM,routeLengthM:pathM,plannedLengthM:pathM+cfg.routeSearchAheadM+cfg.routeTurnReserveM,\n    seekerActivation:'AFTER_FINAL_INS_WAYPOINT_PLANE',dataLink:false,updatesAfterRelease:false,truthUsed:false});",
+        "searchCenterM,routeLengthM:pathM,plannedLengthM:pathM+cfg.routeSearchAheadM+cfg.routeTurnReserveM,\n    cueSource:'ROUTE_PLAN_PRIOR',observationUpdate:false,planSearchRadiusM:cfg.seekerSearchBasketM,\n    seekerActivation:'AFTER_FINAL_INS_WAYPOINT_PLANE',dataLink:false,updatesAfterRelease:false,truthUsed:false});",
+        "B route-program provenance",
+    )
+    source = exact(
+        source,
+        "launchStep:simStepCounter,identity:'COORDINATE_SEARCH',truthUsed:false,updatesAfterRelease:false});",
+        "launchStep:simStepCounter,identity:'COORDINATE_SEARCH',cueSource:'ROUTE_PLAN_PRIOR',observationUpdate:false,\n    positionVelocityOwner:'OPERATOR_ROUTE_PLAN',covarianceOwner:'NONE_NOT_A_MEASUREMENT',timeOwner:'RELEASE_FIXED_COORDINATE',truthUsed:false,updatesAfterRelease:false});",
+        3,
+        "B route-memory provenance copies",
+    )
+    source = exact(
+        source,
+        "return {ok:true,reason:null,trackId:tr?.trackId??null,tubeId,rangeKm:program.plannedLengthM/1000,memory,routeProgram:program,\n    muzzleM:muzzle,axis,authority:{ok:true,mode:'MANUAL_COORDINATE_SEARCH'},truthUsed:false};",
+        "const cueHandoff=harpoonCueHandoffB(memory,0);\n  return {ok:true,reason:null,trackId:tr?.trackId??null,tubeId,rangeKm:program.plannedLengthM/1000,memory,routeProgram:program,\n    predictionSigmaM:cueHandoff.predictionSigmaM,searchBasketM:cueHandoff.searchBasketM,cueHandoff,\n    muzzleM:muzzle,axis,authority:{ok:true,mode:'MANUAL_COORDINATE_SEARCH'},truthUsed:false};",
+        3,
+        "B route gate copies",
+    )
+    source = exact(
+        source,
+        "const P=tr._kfP,t=Math.max(0,(readiness.rangeKm*1000-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps),\n    sigma=2*Math.sqrt(Math.max(P[0]+t*(P[3]+P[18])+t*t*P[21],P[7]+t*(P[10]+P[25])+t*t*P[28],0)+80**2+(t*t*.04)**2);\n  if(!Number.isFinite(sigma)||sigma>cfg.acquisitionBasketM)return bad('INS_PREDICTION_BASKET_INSUFFICIENT',{predictionSigmaM:sigma});",
+        "const memory=harpoonMemoryA(tr),t=Math.max(0,(readiness.rangeKm*1000-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps),cueHandoff=harpoonCueHandoffB(memory,t),\n    sigma=cueHandoff.predictionSigmaM,searchBasketM=cueHandoff.searchBasketM;\n  if(!cueHandoff.feasible)return bad(cueHandoff.reason,{predictionSigmaM:sigma,searchBasketM,physicalSearchLimitM:cueHandoff.physicalSearchLimitM,cueSource:cueHandoff.source});",
+        3,
+        "B track gate copies",
+    )
+    source = exact(
+        source,
+        "const result={ok:true,reason:null,trackId:Number(trackId),tubeId,predictionSigmaM:sigma,rangeKm:readiness.rangeKm,\n    memory:harpoonMemoryA(tr),muzzleM:muzzle,axis,authority,truthUsed:false};",
+        "const result={ok:true,reason:null,trackId:Number(trackId),tubeId,predictionSigmaM:sigma,searchBasketM,cueHandoff,rangeKm:readiness.rangeKm,\n    memory,muzzleM:muzzle,axis,authority,truthUsed:false};",
+        3,
+        "B track result copies",
+    )
+    source = exact(
+        source,
+        "route:gate.routeProgram?{program:gate.routeProgram,index:0,completed:false,passes:[],previousInsM:{x:pos.x,y:pos.y}}:null,\n    memory:gate.memory,massKg:HARPOON_PROFILE_A.public.launchMassKg",
+        "route:gate.routeProgram?{program:gate.routeProgram,index:0,completed:false,passes:[],previousInsM:{x:pos.x,y:pos.y}}:null,\n    memory:gate.memory,cueHandoff:gate.cueHandoff,massKg:HARPOON_PROFILE_A.public.launchMassKg",
+        2,
+        "B missile cue ownership",
+    )
+    source = one(
+        source,
+        "cueGate=m.route?cfg.seekerSearchBasketM:Math.min(cfg.seekerSearchBasketM,Math.max(250,3*Math.sqrt(lambda+75**2+(t*t*.04)**2))),",
+        "cueHandoff=m.route?harpoonCueHandoffB(m.memory,0):(m.cueHandoff??=harpoonCueHandoffB(m.memory,time+Math.max(0,(rangeToBasket-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps))),\n    cueGate=m.route?cfg.seekerSearchBasketM:cueHandoff.searchBasketM,",
+        "B runtime dynamic basket",
+    )
+    source = one(
+        source,
+        "const P=m.memory.covariance,t=time,cxx=Math.max(0,P[0]+t*(P[3]+P[18])+t*t*P[21]),cyy=Math.max(0,P[7]+t*(P[10]+P[25])+t*t*P[28]),\n    cxy=P[1]+t*(P[4]+P[19])+t*t*P[22],lambda=(cxx+cyy+Math.hypot(cxx-cyy,2*cxy))*.5,\n    cueHandoff=",
+        "const cueHandoff=",
+        "B remove legacy covariance shortcut",
+    )
+    source = one(
+        source,
+        "terminal<HARPOON_PROFILE_A.sim.seekerSearchBasketM+ATTACK_POLICY_H3.protectedMarginM+sigma",
+        "terminal<(gate.searchBasketM??HARPOON_PROFILE_A.sim.seekerSearchBasketM)+ATTACK_POLICY_H3.protectedMarginM+sigma",
+        "B protected-zone consumer",
+    )
+    source = one(
+        source,
+        "predictionSigmaM:gate.predictionSigmaM??null,launchEmcon:",
+        "predictionSigmaM:gate.predictionSigmaM??null,searchBasketM:gate.searchBasketM??null,cueSource:gate.cueHandoff?.source??null,launchEmcon:",
+        "B journal consumer",
+    )
+    source = one(
+        source,
+        "predictionSigmaM:gate.predictionSigmaM??null,...(path.ok?",
+        "predictionSigmaM:gate.predictionSigmaM??null,searchBasketM:gate.searchBasketM??null,...(path.ok?",
+        "B AI diagnostic consumer",
+    )
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -103,7 +194,7 @@ def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--through", choices=("A",), default="A")
+    parser.add_argument("--through", choices=("A", "B"), default="A")
     parser.add_argument("--a-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path)
@@ -114,7 +205,12 @@ def main() -> None:
     if sha(raw) != BASE_SHA:
         raise AssertionError(f"baseline SHA mismatch: {sha(raw)}")
     before, match = unpack(raw)
-    after = transform_a(before, args.a_mode)
+    after_a = transform_a(before, args.a_mode)
+    after = after_a
+    if args.through in ("B",):
+        if args.a_mode != "ACTIVE":
+            raise AssertionError("B requires Commit A ACTIVE")
+        after = transform_b(after)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
@@ -124,19 +220,26 @@ def main() -> None:
     diff = "".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="CUE_A_1/main.js", tofile=f"SEEKER_UNIFY_U3_A_{args.a_mode}/main.js"))
     diff_path = args.diff_path or HERE / f"changes-A-{args.a_mode.lower()}.diff"
     diff_path.write_text("".join("\n" if line == " \n" else line for line in diff.splitlines(True)))
+    stage_diff_path = None
+    if args.through == "B":
+        stage_diff = "".join(difflib.unified_diff(after_a.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_U3_A/main.js", tofile="SEEKER_UNIFY_U3_B/main.js"))
+        stage_diff_path = HERE / "changes-B.diff"
+        stage_diff_path.write_text("".join("\n" if line == " \n" else line for line in stage_diff.splitlines(True)))
     receipt = args.receipt or HERE / f"BUILD_A_{args.a_mode}.json"
     build = {
-        "schema": "AEGIS_SEEKER_UNIFY_U3_BUILD_A_1",
+        "schema": f"AEGIS_SEEKER_UNIFY_U3_BUILD_{args.through}_1",
         "baselineCommit": "be19f46794705a18bfd69feba99d7a4b00dd4a0c",
         "baselineHtml": BASE.name,
         "baselineHtmlSha256": sha(raw),
         "baselineMainSha256": sha(before.encode()),
         "through": args.through,
         "harpoonU2Mode": args.a_mode,
+        "harpoonCueMode": "CUE_A_ACTIVE" if args.through in ("B",) else "NOT_CONNECTED",
         "productHtml": args.out.name,
         "productHtmlSha256": sha(output),
         "productMainSha256": sha(after.encode()),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
+        "stageDiff": str(stage_diff_path.relative_to(ROOT)) if stage_diff_path else None,
         "gameplayConstantsAdded": 0,
         "rngContract": "HARPOON_EXISTING_CALL_ORDER_UNCHANGED_COMMON_LAYER_CONSUMES_ZERO",
         "truthOutput": False,

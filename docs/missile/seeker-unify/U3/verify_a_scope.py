@@ -23,7 +23,20 @@ def function_source(source: str, name: str) -> str:
     match = re.search(rf"function\s+{re.escape(name)}\s*\(", source)
     if not match:
         raise AssertionError(f"function missing: {name}")
-    brace = source.find("{", match.start())
+    paren=source.find("(",match.start());pdepth=0;quote=None;escaped=False;close=-1
+    for index in range(paren,len(source)):
+        char=source[index]
+        if quote:
+            if escaped:escaped=False
+            elif char=="\\":escaped=True
+            elif char==quote:quote=None
+            continue
+        if char in "'\"`":quote=char
+        elif char=="(":pdepth+=1
+        elif char==")":
+            pdepth-=1
+            if pdepth==0:close=index;break
+    brace = source.find("{", close+1)
     depth = 0
     quote = None
     escaped = False
