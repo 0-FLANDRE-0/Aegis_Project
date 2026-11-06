@@ -7,7 +7,7 @@
 | IMPLEMENTED | YES — commits A–D are ACTIVE and the PR #72 B correction restores the legacy 250 m general-track floor without restoring the 4 km cap. |
 | TESTED | YES — correction-specific launch/stale/consumer gates and C/D limited gates passed, followed by exactly one new MAX_THREAT broad regression. |
 | APPROVED | The user-approved A–D contracts passed their gates. No expectation or tolerance was changed. |
-| UNRESOLVED | Four paired exact-state assertions remain raw FAIL but are attributed to the intended D policy; inherited debts and `CONFIRMED_ONLY` performance remain unresolved. |
+| UNRESOLVED | Four paired exact-state assertions remain raw FAIL but are attributed to the intended D policy; inherited debts, `CONFIRMED_ONLY` performance, and the unrelated WIP12D Actions debt remain unresolved. |
 | RELEASE | NO — PR #72 is OPEN; no merge, release, or tag. |
 
 ## Build
@@ -100,6 +100,24 @@ Only the 22 jobs that invoke `npx playwright install` are pinned to
 `ubuntu-24.04`; contract/static/WebGL/3D jobs remain on `ubuntu-latest`.
 `ACTIONS_RUNNER_GATE.json` parses the workflow and verifies this exact split.
 
+The automatically triggered corrected run
+[`42264252460`](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42264252460)
+completed against head `48e32eb`: 29 success, one failure and two cancelled.
+The compatibility correction itself passed: the previous run failed all 22
+Playwright install steps, whereas the corrected run succeeded in all 21 that
+were reached, with zero install failures. The remaining Playwright job never
+entered installation because its PR merge-ref checkout consumed the entire
+12-minute job limit.
+
+The one executed-test failure is the workflow's fixed
+`Aegis_SIM_v48_WIP12D.html`, not the U3 product. Its existing CIWS B1
+`timeScaleDeterminism` assertion recorded 42 gun rounds at 1x and 47 at both
+8x and 16x despite 360 fixed steps in every case. The other cancelled job also
+exhausted its five-minute limit in `actions/checkout`; neither cancelled job
+entered its test. No rerun, expectation update or tolerance change was made.
+The workflow therefore remains non-green for explicitly separated reasons;
+this report does not relabel it PASS. See `ACTIONS_RUN_RESULT.json`.
+
 ## Information and state boundaries
 
 - No target/entity/platform ID or truth position is emitted into the U2, CUE,
@@ -130,6 +148,7 @@ Only the 22 jobs that invoke `npx playwright install` are pinned to
 - Stage D: `D_GATE.json`, `D_SCOPE.json`, `D_REPORT.md`
 - Final: `REGRESSION_RESULTS.json`, `FINAL_REGRESSION_REVIEW.json`,
   `B_CORRECTION_REGRESSION_COMPARISON.json`, `PAIR_STAGE_ATTRIBUTION.json`,
+  `ACTIONS_RUNNER_GATE.json`, `ACTIONS_RUN_RESULT.json`,
   `evidence/pair-stage-attribution/`,
   `evidence/final-regression/` (pre-correction),
   `evidence/final-regression-b-correction/` (this correction)

@@ -44,4 +44,4 @@
 - 보정본 최종 광역 1회: native364/364, UI213/213, WebGL29/29 PASS.
 - paired raw38/42의 4건은 D ACTIVE raid 경로로 단계 분리. 기대값 갱신0, 물리·손상·VLS·최종 결과 동일.
 - 상세와 잔여는 `docs/missile/seeker-unify/U3/FINAL_REPORT.md`, `BACKLOG.md`를 따른다.
-- PR Actions의 Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다.
+- PR Actions의 Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`에서 설치 도달 21/21 성공(기존 22/22 실패 해소). 전체는 29 success / 1 WIP12D CIWS 배속 결정성 failure / 2 checkout-timeout cancelled이며 재실행하지 않았다.

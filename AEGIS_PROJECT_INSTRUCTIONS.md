@@ -192,7 +192,7 @@
 - A는 하푼의 기존 monostatic RF와 익명 셀 순서를 U2 공통 프로필에 연결했다. B는 발사 트랙 메모리의 위치·속도·공분산·시각을 CUE_A에 넘기고 일반 추적 4 km 상한만 제거했다. 기존 250 m 하한은 `LEGACY_HARPOON_NATIVE_250M_FLOOR`로 보존한다. 경로점 4 km는 `ROUTE_PLAN_PRIOR`이며 관측 업데이트가 아니다.
 - C는 ASM HOJ legacy 상태/RNG를 보존한 공통 포트와 하푼 terminal HOJ를 추가했다. 하푼 기능은 `ASSUMED_THREAT`, MAX_THREAT ON/CONFIRMED_ONLY OFF이며 중기 수동 RF는 없다. D는 기존 Mahalanobis gate 통과 후보를 `d² + ln(det(S))`로 고른다.
 - 단계 게이트와 B 보정 제한 시험은 모두 PASS. 225 m raw basket→250 m, 4,800 m 무상한, 실제 일반 추적 발사 cueHandoff/시커/보호 소비, 실제 sensor-dropout stale 거부를 증명했다. 보정본 MAX_THREAT 광역은 1회 실행해 native364/364, UI213/213, 실제WebGL29/29 PASS. paired raw38/42의 raid 4건은 보정 전과 동일하며 C 시점42/42와 D SHADOW exact를 통해 D ACTIVE의 의도된 후보 순위 변화로 분리했다. 원본 assertion은 유지했고 기대값·허용오차 변경은 0이다.
-- 최종 HTML 22,143,303 bytes, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. Playwright 1.55를 쓰는 22개 Actions job은 `ubuntu-24.04`로 고정했다. CONFIRMED_ONLY 성능은 UNVERIFIED다. 상속 부채와 raw paired 4건을 숨기거나 PASS로 바꾸지 않는다.
+- 최종 HTML 22,143,303 bytes, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. Playwright 1.55를 쓰는 22개 Actions job은 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`은 설치 도달 21/21 성공으로 Ubuntu 26.04 호환 실패를 해소했으나, 고정 WIP12D CIWS 배속 결정성 1건과 checkout 시간제한 2건 때문에 전체 비녹색이다. 재실행·기대값/허용오차 변경은 없다. CONFIRMED_ONLY 성능은 UNVERIFIED다. 상속 부채와 raw paired 4건을 숨기거나 PASS로 바꾸지 않는다.
 - 다음은 기존 로드맵의 `EMITTER_A`다. U3 브랜치는 PR 생성까지만 하며 병합·release·tag는 사용자가 결정한다.
 
 ### 최신 PR 후보 — CUE_A-1 cue 필터·중기 수동 RF 정비

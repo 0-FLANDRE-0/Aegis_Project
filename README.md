@@ -5,7 +5,7 @@
 - 하푼 RF 관측을 U2 공통 프로필에 연결하고 일반 트랙의 고정 4 km 상한만 제거했다. 기존 250 m 하한은 복구·명명했으며, 발사 트랙 위치·속도·공분산·시각을 CUE_A에 전달한다. 경로점은 기존 4 km `ROUTE_PLAN_PRIOR`로 분리했다.
 - 하푼 terminal HOJ는 `ASSUMED_THREAT`: MAX_THREAT에서만 활성, CONFIRMED_ONLY에서는 신호 합성 전 비활성이다. 미사일별 독립 상태/RNG이며 중기 수동 RF는 추가하지 않았다.
 - 기존 Mahalanobis gate 뒤 수동 RF 후보를 `d² + ln(det(S))`로 선택한다. emitter ID·플랫폼·truth 위치와 RNG는 선택에 쓰지 않는다. 새 보상 상수·저장 스키마 변경 없음.
-- 단계 A–D와 B 보정 게이트 PASS. 보정본 최종 광역은 지시대로 1회: native 364/364, UI 213/213, 실제 WebGL 29/29 PASS. paired는 보정 전과 같은 raw 38/42이며 두 함종 raid의 combat RNG/observer exact-state 4건을 D의 의도된 후보 변경으로 단계 분리했다. 물리·손상·VLS·최종 결과는 동일하고 기대값/허용오차 갱신은 0이다. Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다.
+- 단계 A–D와 B 보정 게이트 PASS. 보정본 최종 광역은 지시대로 1회: native 364/364, UI 213/213, 실제 WebGL 29/29 PASS. paired는 보정 전과 같은 raw 38/42이며 두 함종 raid의 combat RNG/observer exact-state 4건을 D의 의도된 후보 변경으로 단계 분리했다. 물리·손상·VLS·최종 결과는 동일하고 기대값/허용오차 갱신은 0이다. Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`은 도달한 설치 21/21 성공으로 호환 문제를 해소했으나, U3가 아닌 WIP12D CIWS 배속 결정성 1건 실패와 checkout 시간제한 2건 때문에 전체는 29 success / 1 failure / 2 cancelled다. 재실행·기대값 갱신 없음.
 - 제품 22,143,303 bytes / SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. CONFIRMED_ONLY 성능과 기존 `#lockBtn` 14, CIWS seed 419025, paired observer 부채는 UNRESOLVED. main 병합·release·tag 없음; PR까지만 진행한다.
 
 ## 최신 시험 후보 — 고각 발사 인계 LAUNCH_HANDOFF_A (회귀 승인 보류)

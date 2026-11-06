@@ -37,3 +37,5 @@
 - `#lockBtn` 14건 미실행 (INCOMPLETE)
 - `CIWS_SEED_419025_FAIL`
 - `CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2`
+- Actions 고정 WIP12D `ciws-b1-closure` 배속 결정성: 같은 360 fixed step에서 1x 42발, 8x/16x 47발. U3 제품 경로는 아니며 기대값/허용오차를 바꾸지 않았다.
+- Actions PR merge-ref checkout 시간 제한: `residual-overpenetration-wip12d-contract` 5분, `ciws-b3-damage` 12분에서 테스트 진입 전 취소. Playwright 1.55 설치 호환 문제와는 별개다.

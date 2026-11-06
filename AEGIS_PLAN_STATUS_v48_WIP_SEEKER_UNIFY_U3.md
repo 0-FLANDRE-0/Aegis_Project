@@ -5,7 +5,7 @@
 - IMPLEMENTED: A–D ACTIVE
 - TESTED: 단계별 게이트 + B 보정 제한 게이트 + 보정본 MAX_THREAT 광역 회귀 1회
 - APPROVED: 사용자 확정 계약과 각 단계 게이트
-- UNRESOLVED: paired raw 4건, 상속 부채, CONFIRMED_ONLY 성능, 후속 EMITTER_A
+- UNRESOLVED: paired raw 4건, 상속 부채, CONFIRMED_ONLY 성능, WIP12D Actions 부채, 후속 EMITTER_A
 - RELEASE: 아님. PR #72 OPEN이며 병합·release·tag는 사용자 결정 전 금지
 
 ## 기준과 결과물
@@ -40,6 +40,8 @@
   물리·손상·VLS·최종 결과는 동일하며 기대값/허용오차 변경은 0이다.
 - `#lockBtn` 14는 상속 INCOMPLETE로 유지했고 PASS로 계산하지 않았다.
 - Actions: Playwright 1.55를 실행하는 22개 job만 `ubuntu-24.04`로 고정했다. 나머지 job은 `ubuntu-latest` 유지.
+  자동 실행 `42264252460`에서 설치에 도달한 21/21은 성공해 기존 22/22 설치 실패를 해소했다.
+  전체는 29 success / 1 failure / 2 cancelled로 비녹색이다. 실패는 U3가 아닌 고정 WIP12D의 기존 CIWS 배속 결정성(42 vs 47발), 취소는 checkout이 5/12분 job 제한을 소진한 경우다. 재실행·기대값/허용오차 변경은 없다.
 
 ## 다음
 
