@@ -42,5 +42,23 @@
         functionContracts:{common:seekerUpdateHojTrackU3.toString(),harpoon:harpoonUpdateHojC.toString(),guidance:harpoonHojGuidanceActiveC.toString()}};
     }finally{asmHojEmitterSignal=originalSignal;setThreatAssumptionModeC(priorMode);SIM_RNG_STATE=globalBefore;simStepCounter=stepBefore;}
   }
-  window.__SEEKER_U3_DIAG__=Object.freeze({cueMatrixB,contractB,hojExerciseC});
+  function passiveSelectionD(){
+    if(typeof seekerU3PassiveRfSelectionD!=='function')return {available:false};
+    const candidate=(overrides={})=>({family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',band:'IJ',frequencyMHz:10000,frequencyProvenance:'DIAGNOSTIC_OBSERVATION',
+      worldAz:.1,worldEl:-.02,snr:12,bearingSigmaRad:.01,elevationSigmaRad:.015,d2:.3,innovationDet:1e-4,selectionScore:.3+Math.log(1e-4),receivedW:1e-8,txGain:1,rxGain:1,los:1,...overrides});
+    const broad=candidate({family:'BROAD_UNCERTAINTY',d2:.2,innovationDet:1e-2,selectionScore:.2+Math.log(1e-2),frequencyMHz:11000}),
+      precise=candidate({family:'PRECISE_OBSERVATION',d2:.8,innovationDet:1e-8,selectionScore:.8+Math.log(1e-8),frequencyMHz:9000}),
+      policy=seekerU3PassiveRfSelectionD([broad,precise]),tieA=candidate({family:'TIE_A',d2:.5,innovationDet:1e-6,selectionScore:.5+Math.log(1e-6),frequencyMHz:10000}),
+      tieB=candidate({family:'TIE_B',d2:.5,innovationDet:1e-6,selectionScore:.5+Math.log(1e-6),frequencyMHz:9000}),
+      tieForward=seekerU3PassiveRfSelectionD([tieA,tieB]),tieReverse=seekerU3PassiveRfSelectionD([tieB,tieA]),audit=seekerU3PassiveRfAuditSnapshotD();
+    const selected=seekerU3PassiveRfObservableSignatureD(policy.selected),ranked=seekerU3PassiveRfObservableSignatureD(policy.ranked),legacy=seekerU3PassiveRfObservableSignatureD(policy.legacy),
+      tieForwardSignature=seekerU3PassiveRfObservableSignatureD(tieForward.ranked),tieReverseSignature=seekerU3PassiveRfObservableSignatureD(tieReverse.ranked);
+    const checks={legacyPrefersLowerD2:legacy.family==='BROAD_UNCERTAINTY',newPolicyPrefersLowerScore:ranked.family==='PRECISE_OBSERVATION',
+      activeOrShadowOutput:SEEKER_U3_PASSIVE_RF_MODE_D==='ACTIVE'?selected.family==='PRECISE_OBSERVATION':selected.family==='BROAD_UNCERTAINTY',
+      formulaExact:ranked.selectionScore===ranked.d2+Math.log(ranked.innovationDet),deterministicTie:JSON.stringify(tieForwardSignature)===JSON.stringify(tieReverseSignature)&&tieForwardSignature.frequencyMHz===9000,
+      observableOnly:Object.keys(ranked).every(key=>!/(sourceId|entityId|platformId|truth|point|position)/i.test(key)),rngFree:audit.rngConsumed===false&&audit.truthFieldsUsed===false};
+    return {available:true,mode:SEEKER_U3_PASSIVE_RF_MODE_D,checks,pass:Object.values(checks).every(Boolean),legacy,ranked,selected,tieForward:tieForwardSignature,tieReverse:tieReverseSignature,audit};
+  }
+  function passiveAuditD(){return typeof seekerU3PassiveRfAuditSnapshotD==='function'?seekerU3PassiveRfAuditSnapshotD():null;}
+  window.__SEEKER_U3_DIAG__=Object.freeze({cueMatrixB,contractB,hojExerciseC,passiveSelectionD,passiveAuditD});
 })();

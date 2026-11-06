@@ -16,6 +16,7 @@ MODULES = [
     ROOT / "docs/missile/seeker-unify/A/diagnostic.js",
     ROOT / "docs/missile/asm-seeker/A/diagnostic.js",
     ROOT / "docs/missile/seeker-unify/B/diagnostic_extension.js",
+    ROOT / "docs/missile/cue-a-1/cue_a_1_stage2_diagnostic.js",
     HERE / "diagnostic_extension.js",
 ]
 

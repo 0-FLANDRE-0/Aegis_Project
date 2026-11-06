@@ -280,6 +280,26 @@ def transform_c(source: str, mode: str) -> str:
     return source
 
 
+def transform_d(source: str, mode: str) -> str:
+    """Rank anonymous passive-RF candidates after the unchanged CUE gate."""
+    anchor = "function asmPassiveRfMeasurementB2(em){"
+    helper = (HERE / "passive_rf_d.js").read_text().replace("__MODE__", mode).rstrip() + "\n"
+    source = one(source, anchor, helper + anchor, "D passive-RF selector")
+    source = one(
+        source,
+        "const bearingSigmaRad=p.bearingErrorRad*frequencyScale*Math.sqrt(1+1/Math.max(1,snr)),elevationSigmaRad=bearingSigmaRad*(1+.75*Math.exp(-Math.abs(worldEl)/deg(2))),Sa=Math.max(1e-12,prediction.varAz+bearingSigmaRad**2),Se=Math.max(1e-12,prediction.varEl+elevationSigmaRad**2),dAz=angNorm(worldAz-prediction.az),dEl=angNorm(worldEl-prediction.el),d2=dAz*dAz/Sa+dEl*dEl/Se;if(d2>ASM_CUE_A_SPEC.basketSigma**2){rejections.basket++;continue;}\n      candidates.push({family,emitterClass:String(source.emitterClass||'UNKNOWN'),band:String(source.band||'IJ'),frequencyMHz:frequency.frequencyMHz,frequencyProvenance:frequency.provenance,frequencyScale,worldAz,worldEl,snr,bearingSigmaRad,elevationSigmaRad,d2,receivedW,txGain,rxGain,los});",
+        "const bearingSigmaRad=p.bearingErrorRad*frequencyScale*Math.sqrt(1+1/Math.max(1,snr)),elevationSigmaRad=bearingSigmaRad*(1+.75*Math.exp(-Math.abs(worldEl)/deg(2))),Sa=Math.max(1e-12,prediction.varAz+bearingSigmaRad**2),Se=Math.max(1e-12,prediction.varEl+elevationSigmaRad**2),dAz=angNorm(worldAz-prediction.az),dEl=angNorm(worldEl-prediction.el),d2=dAz*dAz/Sa+dEl*dEl/Se;if(d2>ASM_CUE_A_SPEC.basketSigma**2){rejections.basket++;continue;}\n      const innovationDet=Sa*Se,selectionScore=d2+Math.log(innovationDet);\n      candidates.push({family,emitterClass:String(source.emitterClass||'UNKNOWN'),band:String(source.band||'IJ'),frequencyMHz:frequency.frequencyMHz,frequencyProvenance:frequency.provenance,frequencyScale,worldAz,worldEl,snr,bearingSigmaRad,elevationSigmaRad,d2,innovationDet,selectionScore,receivedW,txGain,rxGain,los});",
+        "D score after unchanged Mahalanobis gate",
+    )
+    source = one(
+        source,
+        "candidates.sort((a,b)=>a.d2-b.d2);const best=candidates[0];",
+        "const selection=seekerU3PassiveRfSelectionD(candidates),best=selection.selected;",
+        "D passive-RF ranked selection",
+    )
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -296,9 +316,10 @@ def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--through", choices=("A", "B", "C"), default="A")
+    parser.add_argument("--through", choices=("A", "B", "C", "D"), default="A")
     parser.add_argument("--a-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
     parser.add_argument("--c-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
+    parser.add_argument("--d-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--diff-path", type=Path)
@@ -310,13 +331,18 @@ def main() -> None:
     before, match = unpack(raw)
     after_a = transform_a(before, args.a_mode)
     after = after_a
-    if args.through in ("B", "C"):
+    if args.through in ("B", "C", "D"):
         if args.a_mode != "ACTIVE":
             raise AssertionError("B requires Commit A ACTIVE")
         after = transform_b(after)
     after_b = after
-    if args.through == "C":
+    if args.through in ("C", "D"):
         after = transform_c(after, args.c_mode)
+    after_c = after
+    if args.through == "D":
+        if args.c_mode != "ACTIVE":
+            raise AssertionError("D requires Commit C ACTIVE")
+        after = transform_d(after, args.d_mode)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
@@ -327,8 +353,8 @@ def main() -> None:
     diff_path = args.diff_path or HERE / f"changes-A-{args.a_mode.lower()}.diff"
     diff_path.write_text("".join("\n" if line == " \n" else line for line in diff.splitlines(True)))
     stage_diff_path = None
-    if args.through in ("B", "C"):
-        stage_before = after_a if args.through == "B" else after_b
+    if args.through in ("B", "C", "D"):
+        stage_before = {"B": after_a, "C": after_b, "D": after_c}[args.through]
         stage_diff = "".join(difflib.unified_diff(stage_before.splitlines(True), after.splitlines(True), fromfile=f"SEEKER_UNIFY_U3_{chr(ord(args.through)-1)}/main.js", tofile=f"SEEKER_UNIFY_U3_{args.through}/main.js"))
         stage_diff_path = HERE / f"changes-{args.through}.diff"
         stage_diff_path.write_text("".join("\n" if line == " \n" else line for line in stage_diff.splitlines(True)))
@@ -341,15 +367,16 @@ def main() -> None:
         "baselineMainSha256": sha(before.encode()),
         "through": args.through,
         "harpoonU2Mode": args.a_mode,
-        "harpoonCueMode": "CUE_A_ACTIVE" if args.through in ("B", "C") else "NOT_CONNECTED",
-        "hojCommonMode": args.c_mode if args.through == "C" else "NOT_CONNECTED",
+        "harpoonCueMode": "CUE_A_ACTIVE" if args.through in ("B", "C", "D") else "NOT_CONNECTED",
+        "hojCommonMode": args.c_mode if args.through in ("C", "D") else "NOT_CONNECTED",
+        "passiveRfSelectionMode": args.d_mode if args.through == "D" else "NOT_CONNECTED",
         "productHtml": args.out.name,
         "productHtmlSha256": sha(output),
         "productMainSha256": sha(after.encode()),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
         "stageDiff": str(stage_diff_path.relative_to(ROOT)) if stage_diff_path else None,
         "gameplayConstantsAdded": 0,
-        "rngContract": ("ASM_GLOBAL_STREAM_LEGACY_EQUIVALENT__HARPOON_MISSILE_OWNED_STREAM_ONLY_WHEN_ASSUMED_HOJ_SIGNAL_ACCEPTED" if args.through == "C" else "HARPOON_EXISTING_CALL_ORDER_UNCHANGED_COMMON_LAYER_CONSUMES_ZERO"),
+        "rngContract": ("PASSIVE_RF_SELECTOR_CONSUMES_ZERO__HOJ_STREAMS_UNCHANGED" if args.through == "D" else ("ASM_GLOBAL_STREAM_LEGACY_EQUIVALENT__HARPOON_MISSILE_OWNED_STREAM_ONLY_WHEN_ASSUMED_HOJ_SIGNAL_ACCEPTED" if args.through == "C" else "HARPOON_EXISTING_CALL_ORDER_UNCHANGED_COMMON_LAYER_CONSUMES_ZERO")),
         "truthOutput": False,
     }
     receipt.write_text(json.dumps(build, indent=2) + "\n")
