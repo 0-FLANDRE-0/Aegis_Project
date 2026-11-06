@@ -1,0 +1,35 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U3_B_CORRECTION_REGRESSION_COMPARISON_1",
+  "priorProductSha256": "3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea",
+  "correctedProductSha256": "243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835",
+  "priorRawResultSha256": "6c2ec8248bd0a7ad17f33f44db9f2f134d4aa02cab749e85f1462a5001d2af5f",
+  "correctedRawResultSha256": "d9b3c58cc55fa334d437ef9592528fa701529eba919c85cb2ae62b863dd19b43",
+  "checks": {
+    "suiteStatusVectorsEqual": true,
+    "assertionCountVectorsEqual": true,
+    "failedAssertionVectorsEqual": true,
+    "errorVectorsEqual": true,
+    "reasonVectorsEqual": true,
+    "pairedCheckNamesAndValuesEqual": true,
+    "newFailures": 0
+  },
+  "results": {
+    "native13": {"prior": "364/364", "corrected": "364/364"},
+    "paired": {
+      "prior": "38/42 RAW_FAIL_REVIEWED",
+      "corrected": "38/42 RAW_FAIL_REVIEWED",
+      "failedAssertions": [
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+        "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+        "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+      ]
+    },
+    "ui": {"prior": "213/213", "corrected": "213/213"},
+    "webgl": {"prior": "29/29", "corrected": "29/29"},
+    "legacyEmconUi": {"prior": "0/14 INCOMPLETE", "corrected": "0/14 INCOMPLETE"}
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "comparisonMethod": "Structural comparison of prior committed REGRESSION_RESULTS.json and corrected result; paired case check maps compared separately. Runtime-only fields such as wall time, product hash and artifact paths are excluded."
+}

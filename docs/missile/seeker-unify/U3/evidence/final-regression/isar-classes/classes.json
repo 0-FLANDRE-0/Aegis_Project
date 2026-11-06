@@ -1,0 +1,906 @@
+{
+  "pass": true,
+  "checks": {
+    "BURKE_IIA.realRF": true,
+    "BURKE_IIA.measuredClass": true,
+    "BURKE_IIA.anonymous": true,
+    "BURKE_IIA.core": true,
+    "TICONDEROGA.realRF": true,
+    "TICONDEROGA.measuredClass": true,
+    "TICONDEROGA.anonymous": true,
+    "TICONDEROGA.core": true
+  },
+  "rows": [
+    {
+      "begin": {
+        "ok": true,
+        "mode": "ISAR"
+      },
+      "target": {
+        "ok": true,
+        "mode": "ISAR",
+        "positionM": {
+          "x": 19994.050511555582,
+          "y": 2.000750963758899,
+          "z": 0
+        },
+        "bearingRad": 0.00010006731532084562
+      },
+      "isar": {
+        "schema": "AEGIS_ISAR_AUDIT_F2",
+        "aircraft": [
+          {
+            "id": "SHIP_CG52_OWN:H1",
+            "isar": {
+              "status": "RESULT",
+              "previousMode": "SHORT",
+              "elapsedS": 16,
+              "integrationS": 16,
+              "progress01": 1,
+              "quality": 0.7970186493207597,
+              "bearingRad": 0.00010006731532084562,
+              "pointM": {
+                "x": 19994.050511555582,
+                "y": 2.000750963758899,
+                "z": 0
+              },
+              "samples": 32,
+              "result": {
+                "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                "sourceId": "H1",
+                "sequence": 1,
+                "measuredAtS": 25.5,
+                "positionM": {
+                  "x": 19999.686872023485,
+                  "y": -4.588441656551387,
+                  "z": 0
+                },
+                "covarianceM2": [
+                  9.2500039960125,
+                  0.017417459944919663,
+                  0,
+                  0.017417459944919663,
+                  85.1676581240907,
+                  0,
+                  0,
+                  0,
+                  73
+                ],
+                "result": {
+                  "candidates": [
+                    {
+                      "classId": "BURKE_IIA",
+                      "label": "Burke IIA급",
+                      "confidence": 0.4949997709831871
+                    },
+                    {
+                      "classId": "SOVREMENNY_956",
+                      "label": "Sovremenny급",
+                      "confidence": 0.2393775720886411
+                    },
+                    {
+                      "classId": "TICONDEROGA",
+                      "label": "Ticonderoga급",
+                      "confidence": 0.04651234679035624
+                    },
+                    {
+                      "classId": "LARGE_MERCHANT",
+                      "label": "대형 상선",
+                      "confidence": 4.0857828668951145e-10
+                    }
+                  ],
+                  "quality": 0.7970186493207597,
+                  "lengthM": 146.07514455793083,
+                  "lengthSigmaM": 4.965208689849955,
+                  "heightsM": [
+                    0,
+                    11.034491531952328,
+                    15.690564173801963,
+                    17.501263864698572,
+                    20.47112708475958,
+                    19.86973967502915,
+                    39.736208219882286,
+                    44.0724857533274,
+                    19.314384713522564,
+                    10.590945461545395,
+                    10.370865368776869,
+                    10.95898175415358
+                  ],
+                  "heightSigmaM": 3.1151383577213085,
+                  "mastPosition01": 0.5752373744003307,
+                  "mastSigma01": 0.02870568946623116,
+                  "crossResolutionM": 2.0356679776893234,
+                  "rangeResolutionM": 2,
+                  "deltaThetaRad": 0.007859827916614144
+                }
+              },
+              "buffered": 0,
+              "stats": {
+                "completed": 1,
+                "sent": 1,
+                "bufferDropped": 0,
+                "rejected": 0
+              },
+              "reason": "COMPLETE"
+            },
+            "searchWindow": {
+              "mode": "SHORT",
+              "turn": 17,
+              "transitionS": 0,
+              "azimuthRad": 1.1309733552923256,
+              "contacts": [
+                {
+                  "id": 3,
+                  "mask": 5,
+                  "lastAtS": 9.45
+                }
+              ]
+            }
+          },
+          {
+            "id": "SHIP_CG52_OWN:H2",
+            "isar": null,
+            "searchWindow": null
+          }
+        ],
+        "receivers": [
+          {
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "receiver": {
+              "queue": [],
+              "history": [
+                {
+                  "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                  "sourceId": "H1",
+                  "sequence": 1,
+                  "measuredAtS": 25.5,
+                  "positionM": {
+                    "x": 19999.686872023485,
+                    "y": -4.588441656551387,
+                    "z": 0
+                  },
+                  "covarianceM2": [
+                    9.2500039960125,
+                    0.017417459944919663,
+                    0,
+                    0.017417459944919663,
+                    85.1676581240907,
+                    0,
+                    0,
+                    0,
+                    73
+                  ],
+                  "result": {
+                    "candidates": [
+                      {
+                        "classId": "BURKE_IIA",
+                        "label": "Burke IIA급",
+                        "confidence": 0.4949997709831871
+                      },
+                      {
+                        "classId": "SOVREMENNY_956",
+                        "label": "Sovremenny급",
+                        "confidence": 0.2393775720886411
+                      },
+                      {
+                        "classId": "TICONDEROGA",
+                        "label": "Ticonderoga급",
+                        "confidence": 0.04651234679035624
+                      },
+                      {
+                        "classId": "LARGE_MERCHANT",
+                        "label": "대형 상선",
+                        "confidence": 4.0857828668951145e-10
+                      }
+                    ],
+                    "quality": 0.7970186493207597,
+                    "lengthM": 146.07514455793083,
+                    "lengthSigmaM": 4.965208689849955,
+                    "heightsM": [
+                      0,
+                      11.034491531952328,
+                      15.690564173801963,
+                      17.501263864698572,
+                      20.47112708475958,
+                      19.86973967502915,
+                      39.736208219882286,
+                      44.0724857533274,
+                      19.314384713522564,
+                      10.590945461545395,
+                      10.370865368776869,
+                      10.95898175415358
+                    ],
+                    "heightSigmaM": 3.1151383577213085,
+                    "mastPosition01": 0.5752373744003307,
+                    "mastSigma01": 0.02870568946623116,
+                    "crossResolutionM": 2.0356679776893234,
+                    "rangeResolutionM": 2,
+                    "deltaThetaRad": 0.007859827916614144
+                  },
+                  "availableAtS": 26.4
+                }
+              ],
+              "lastSequence": {
+                "H1": 1
+              },
+              "accepted": 1,
+              "rejected": 0,
+              "associated": 0
+            }
+          },
+          {
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "receiver": null
+          }
+        ]
+      },
+      "h": {
+        "id": "SHIP_CG52_OWN:H1",
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "slot": 0,
+        "bay": "PORT",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "state": "ARRIVED_HOVER",
+        "stateTick": 0,
+        "visible": true,
+        "onboard": false,
+        "localM": {
+          "x": -25.3,
+          "y": -4.847,
+          "z": 9.84
+        },
+        "positionM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "airVelocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": 1.5707963267948966,
+        "motionBearingRad": 1.5707963267948966,
+        "iffOn": true,
+        "radarOn": true,
+        "radarMode": "SHORT",
+        "targetAltitudeM": 300,
+        "pitchRad": 0,
+        "bankRad": 0,
+        "engine01": [
+          1,
+          1
+        ],
+        "rotor01": 1,
+        "rotorAngleRad": 4.188790204786645,
+        "tail01": 1,
+        "blades01": 1,
+        "waypointM": null,
+        "departPointM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "localYawRad": 0,
+        "navigationMode": "ROUTE",
+        "route": [],
+        "routeIndex": 0,
+        "holdPointM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "followPointM": null,
+        "motion": {
+          "airSpeedMps": 0,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        },
+        "sensorsE": {
+          "iffOn": true,
+          "radarOn": true,
+          "iffRepliesReceived": 54,
+          "lastIffReplyAtS": 26.5,
+          "radar": {
+            "mode": "SHORT",
+            "enabled": true,
+            "emitting": true,
+            "status": "ACTIVE",
+            "transitionRemainingS": 0,
+            "azimuthRad": 1.1309733552923256,
+            "periodS": 0.5555555555555556,
+            "turn": 17,
+            "attempts": 1728,
+            "plots": 9,
+            "confirmedCount": 1,
+            "candidateCount": 4,
+            "lastPlotAtS": 8.9,
+            "lastSweepAtS": 9.45,
+            "minRangeM": 91,
+            "maxRangeM": 29600,
+            "resolutionM": 15,
+            "beamWidthRad": 0.03665191429188092,
+            "targetMastHeightM": 30,
+            "instrumentM": 29598.479690686818,
+            "horizonM": 93926.6626410506,
+            "minimumM": 0,
+            "blindM": 357.526077778263,
+            "effectiveM": 29598.479690686818,
+            "factor": "INSTRUMENT",
+            "surfaceOnly": true,
+            "geometryOnlyLimit": true,
+            "isar": {
+              "status": "RESULT",
+              "previousMode": "SHORT",
+              "elapsedS": 16,
+              "integrationS": 16,
+              "progress01": 1,
+              "quality": 0.7970186493207597,
+              "bearingRad": 0.00010006731532084562,
+              "pointM": {
+                "x": 19994.050511555582,
+                "y": 2.000750963758899,
+                "z": 0
+              },
+              "samples": 32,
+              "result": {
+                "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                "sourceId": "H1",
+                "sequence": 1,
+                "measuredAtS": 25.5,
+                "positionM": {
+                  "x": 19999.686872023485,
+                  "y": -4.588441656551387,
+                  "z": 0
+                },
+                "covarianceM2": [
+                  9.2500039960125,
+                  0.017417459944919663,
+                  0,
+                  0.017417459944919663,
+                  85.1676581240907,
+                  0,
+                  0,
+                  0,
+                  73
+                ],
+                "result": {
+                  "candidates": [
+                    {
+                      "classId": "BURKE_IIA",
+                      "label": "Burke IIA급",
+                      "confidence": 0.4949997709831871
+                    },
+                    {
+                      "classId": "SOVREMENNY_956",
+                      "label": "Sovremenny급",
+                      "confidence": 0.2393775720886411
+                    },
+                    {
+                      "classId": "TICONDEROGA",
+                      "label": "Ticonderoga급",
+                      "confidence": 0.04651234679035624
+                    },
+                    {
+                      "classId": "LARGE_MERCHANT",
+                      "label": "대형 상선",
+                      "confidence": 4.0857828668951145e-10
+                    }
+                  ],
+                  "quality": 0.7970186493207597,
+                  "lengthM": 146.07514455793083,
+                  "lengthSigmaM": 4.965208689849955,
+                  "heightsM": [
+                    0,
+                    11.034491531952328,
+                    15.690564173801963,
+                    17.501263864698572,
+                    20.47112708475958,
+                    19.86973967502915,
+                    39.736208219882286,
+                    44.0724857533274,
+                    19.314384713522564,
+                    10.590945461545395,
+                    10.370865368776869,
+                    10.95898175415358
+                  ],
+                  "heightSigmaM": 3.1151383577213085,
+                  "mastPosition01": 0.5752373744003307,
+                  "mastSigma01": 0.02870568946623116,
+                  "crossResolutionM": 2.0356679776893234,
+                  "rangeResolutionM": 2,
+                  "deltaThetaRad": 0.007859827916614144
+                }
+              },
+              "buffered": 0,
+              "stats": {
+                "completed": 1,
+                "sent": 1,
+                "bufferDropped": 0,
+                "rejected": 0
+              },
+              "reason": "COMPLETE"
+            }
+          },
+          "link": {
+            "connected": true,
+            "reason": "CONNECTED",
+            "rangeM": 20.617075064921465,
+            "horizonM": 94150.77378573373,
+            "motherHeightM": 30.598836241756214,
+            "sequence": 9,
+            "attemptedTotal": 9,
+            "transmittedTotal": 9,
+            "rejectedTotal": 0,
+            "selfRejectedTotal": 0,
+            "lastTransmitS": 8.9,
+            "lastTransitionS": 0,
+            "recentPlotCount": 0
+          }
+        },
+        "airSpeedKt": 0,
+        "groundSpeedKt": 0,
+        "altitudeM": 300,
+        "headingDeg": 180,
+        "distanceM": 0,
+        "etaS": 0,
+        "remainingS": null
+      },
+      "core": []
+    },
+    {
+      "begin": {
+        "ok": true,
+        "mode": "ISAR"
+      },
+      "target": {
+        "ok": true,
+        "mode": "ISAR",
+        "positionM": {
+          "x": 19994.067599844297,
+          "y": 2.000749954337448,
+          "z": 0
+        },
+        "bearingRad": 0.000100067179310472
+      },
+      "isar": {
+        "schema": "AEGIS_ISAR_AUDIT_F2",
+        "aircraft": [
+          {
+            "id": "SHIP_CG52_OWN:H1",
+            "isar": {
+              "status": "RESULT",
+              "previousMode": "SHORT",
+              "elapsedS": 16,
+              "integrationS": 16,
+              "progress01": 1,
+              "quality": 0.794463797532326,
+              "bearingRad": 0.000100067179310472,
+              "pointM": {
+                "x": 19994.067599844297,
+                "y": 2.000749954337448,
+                "z": 0
+              },
+              "samples": 32,
+              "result": {
+                "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                "sourceId": "H1",
+                "sequence": 1,
+                "measuredAtS": 25.5,
+                "positionM": {
+                  "x": 19999.686882909213,
+                  "y": -4.588441659048852,
+                  "z": 0
+                },
+                "covarianceM2": [
+                  9.25000399601935,
+                  0.01741748979965158,
+                  0,
+                  0.01741748979965158,
+                  85.16778825221147,
+                  0,
+                  0,
+                  0,
+                  73
+                ],
+                "result": {
+                  "candidates": [
+                    {
+                      "classId": "TICONDEROGA",
+                      "label": "Ticonderoga급",
+                      "confidence": 0.3809119325323776
+                    },
+                    {
+                      "classId": "SOVREMENNY_956",
+                      "label": "Sovremenny급",
+                      "confidence": 0.24395629582923398
+                    },
+                    {
+                      "classId": "BURKE_IIA",
+                      "label": "Burke IIA급",
+                      "confidence": 0.20164689965362595
+                    },
+                    {
+                      "classId": "LARGE_MERCHANT",
+                      "label": "대형 상선",
+                      "confidence": 3.4333133386322436e-08
+                    }
+                  ],
+                  "quality": 0.794463797532326,
+                  "lengthM": 163.12248717510104,
+                  "lengthSigmaM": 5.406894220131037,
+                  "heightsM": [
+                    3.2373642578728834,
+                    10.175941680294038,
+                    14.114409322329127,
+                    22.854732784359307,
+                    28.7797940413284,
+                    48.298836773142376,
+                    26.24553585538265,
+                    43.33371269402698,
+                    23.586665263828408,
+                    11.254408652103958,
+                    11.114702261650814,
+                    12.459776956440912
+                  ],
+                  "heightSigmaM": 3.1540265498515545,
+                  "mastPosition01": 0.442661049408444,
+                  "mastSigma01": 0.028203154352936327,
+                  "crossResolutionM": 2.069630504386044,
+                  "rangeResolutionM": 2,
+                  "deltaThetaRad": 0.007730848557794329
+                }
+              },
+              "buffered": 0,
+              "stats": {
+                "completed": 1,
+                "sent": 1,
+                "bufferDropped": 0,
+                "rejected": 0
+              },
+              "reason": "COMPLETE"
+            },
+            "searchWindow": {
+              "mode": "SHORT",
+              "turn": 17,
+              "transitionS": 0,
+              "azimuthRad": 1.1309733552923256,
+              "contacts": [
+                {
+                  "id": 3,
+                  "mask": 5,
+                  "lastAtS": 9.45
+                }
+              ]
+            }
+          },
+          {
+            "id": "SHIP_CG52_OWN:H2",
+            "isar": null,
+            "searchWindow": null
+          }
+        ],
+        "receivers": [
+          {
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "receiver": {
+              "queue": [],
+              "history": [
+                {
+                  "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                  "sourceId": "H1",
+                  "sequence": 1,
+                  "measuredAtS": 25.5,
+                  "positionM": {
+                    "x": 19999.686882909213,
+                    "y": -4.588441659048852,
+                    "z": 0
+                  },
+                  "covarianceM2": [
+                    9.25000399601935,
+                    0.01741748979965158,
+                    0,
+                    0.01741748979965158,
+                    85.16778825221147,
+                    0,
+                    0,
+                    0,
+                    73
+                  ],
+                  "result": {
+                    "candidates": [
+                      {
+                        "classId": "TICONDEROGA",
+                        "label": "Ticonderoga급",
+                        "confidence": 0.3809119325323776
+                      },
+                      {
+                        "classId": "SOVREMENNY_956",
+                        "label": "Sovremenny급",
+                        "confidence": 0.24395629582923398
+                      },
+                      {
+                        "classId": "BURKE_IIA",
+                        "label": "Burke IIA급",
+                        "confidence": 0.20164689965362595
+                      },
+                      {
+                        "classId": "LARGE_MERCHANT",
+                        "label": "대형 상선",
+                        "confidence": 3.4333133386322436e-08
+                      }
+                    ],
+                    "quality": 0.794463797532326,
+                    "lengthM": 163.12248717510104,
+                    "lengthSigmaM": 5.406894220131037,
+                    "heightsM": [
+                      3.2373642578728834,
+                      10.175941680294038,
+                      14.114409322329127,
+                      22.854732784359307,
+                      28.7797940413284,
+                      48.298836773142376,
+                      26.24553585538265,
+                      43.33371269402698,
+                      23.586665263828408,
+                      11.254408652103958,
+                      11.114702261650814,
+                      12.459776956440912
+                    ],
+                    "heightSigmaM": 3.1540265498515545,
+                    "mastPosition01": 0.442661049408444,
+                    "mastSigma01": 0.028203154352936327,
+                    "crossResolutionM": 2.069630504386044,
+                    "rangeResolutionM": 2,
+                    "deltaThetaRad": 0.007730848557794329
+                  },
+                  "availableAtS": 26.4
+                }
+              ],
+              "lastSequence": {
+                "H1": 1
+              },
+              "accepted": 1,
+              "rejected": 0,
+              "associated": 0
+            }
+          },
+          {
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "receiver": null
+          }
+        ]
+      },
+      "h": {
+        "id": "SHIP_CG52_OWN:H1",
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "slot": 0,
+        "bay": "PORT",
+        "profileId": "MH60R_POINT_MASS_A1",
+        "state": "ARRIVED_HOVER",
+        "stateTick": 0,
+        "visible": true,
+        "onboard": false,
+        "localM": {
+          "x": -25.3,
+          "y": -4.847,
+          "z": 9.84
+        },
+        "positionM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "airVelocityMps": {
+          "x": 0,
+          "y": 0
+        },
+        "groundVelocityMps": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "headingRad": 1.5707963267948966,
+        "motionBearingRad": 1.5707963267948966,
+        "iffOn": true,
+        "radarOn": true,
+        "radarMode": "SHORT",
+        "targetAltitudeM": 300,
+        "pitchRad": 0,
+        "bankRad": 0,
+        "engine01": [
+          1,
+          1
+        ],
+        "rotor01": 1,
+        "rotorAngleRad": 4.188790204786645,
+        "tail01": 1,
+        "blades01": 1,
+        "waypointM": null,
+        "departPointM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "localYawRad": 0,
+        "navigationMode": "ROUTE",
+        "route": [],
+        "routeIndex": 0,
+        "holdPointM": {
+          "x": 0,
+          "y": 0,
+          "z": 300
+        },
+        "followPointM": null,
+        "motion": {
+          "airSpeedMps": 0,
+          "groundSpeedMps": 0,
+          "stopDistanceM": 0,
+          "braking": true,
+          "turnRateRadS": 0,
+          "longitudinalAccelMps2": 0
+        },
+        "sensorsE": {
+          "iffOn": true,
+          "radarOn": true,
+          "iffRepliesReceived": 54,
+          "lastIffReplyAtS": 26.5,
+          "radar": {
+            "mode": "SHORT",
+            "enabled": true,
+            "emitting": true,
+            "status": "ACTIVE",
+            "transitionRemainingS": 0,
+            "azimuthRad": 1.1309733552923256,
+            "periodS": 0.5555555555555556,
+            "turn": 17,
+            "attempts": 1728,
+            "plots": 9,
+            "confirmedCount": 1,
+            "candidateCount": 4,
+            "lastPlotAtS": 8.9,
+            "lastSweepAtS": 9.45,
+            "minRangeM": 91,
+            "maxRangeM": 29600,
+            "resolutionM": 15,
+            "beamWidthRad": 0.03665191429188092,
+            "targetMastHeightM": 30,
+            "instrumentM": 29598.479690686818,
+            "horizonM": 93926.6626410506,
+            "minimumM": 0,
+            "blindM": 357.526077778263,
+            "effectiveM": 29598.479690686818,
+            "factor": "INSTRUMENT",
+            "surfaceOnly": true,
+            "geometryOnlyLimit": true,
+            "isar": {
+              "status": "RESULT",
+              "previousMode": "SHORT",
+              "elapsedS": 16,
+              "integrationS": 16,
+              "progress01": 1,
+              "quality": 0.794463797532326,
+              "bearingRad": 0.000100067179310472,
+              "pointM": {
+                "x": 19994.067599844297,
+                "y": 2.000749954337448,
+                "z": 0
+              },
+              "samples": 32,
+              "result": {
+                "schema": "AEGIS_OFFBOARD_ISAR_C_1",
+                "sourceId": "H1",
+                "sequence": 1,
+                "measuredAtS": 25.5,
+                "positionM": {
+                  "x": 19999.686882909213,
+                  "y": -4.588441659048852,
+                  "z": 0
+                },
+                "covarianceM2": [
+                  9.25000399601935,
+                  0.01741748979965158,
+                  0,
+                  0.01741748979965158,
+                  85.16778825221147,
+                  0,
+                  0,
+                  0,
+                  73
+                ],
+                "result": {
+                  "candidates": [
+                    {
+                      "classId": "TICONDEROGA",
+                      "label": "Ticonderoga급",
+                      "confidence": 0.3809119325323776
+                    },
+                    {
+                      "classId": "SOVREMENNY_956",
+                      "label": "Sovremenny급",
+                      "confidence": 0.24395629582923398
+                    },
+                    {
+                      "classId": "BURKE_IIA",
+                      "label": "Burke IIA급",
+                      "confidence": 0.20164689965362595
+                    },
+                    {
+                      "classId": "LARGE_MERCHANT",
+                      "label": "대형 상선",
+                      "confidence": 3.4333133386322436e-08
+                    }
+                  ],
+                  "quality": 0.794463797532326,
+                  "lengthM": 163.12248717510104,
+                  "lengthSigmaM": 5.406894220131037,
+                  "heightsM": [
+                    3.2373642578728834,
+                    10.175941680294038,
+                    14.114409322329127,
+                    22.854732784359307,
+                    28.7797940413284,
+                    48.298836773142376,
+                    26.24553585538265,
+                    43.33371269402698,
+                    23.586665263828408,
+                    11.254408652103958,
+                    11.114702261650814,
+                    12.459776956440912
+                  ],
+                  "heightSigmaM": 3.1540265498515545,
+                  "mastPosition01": 0.442661049408444,
+                  "mastSigma01": 0.028203154352936327,
+                  "crossResolutionM": 2.069630504386044,
+                  "rangeResolutionM": 2,
+                  "deltaThetaRad": 0.007730848557794329
+                }
+              },
+              "buffered": 0,
+              "stats": {
+                "completed": 1,
+                "sent": 1,
+                "bufferDropped": 0,
+                "rejected": 0
+              },
+              "reason": "COMPLETE"
+            }
+          },
+          "link": {
+            "connected": true,
+            "reason": "CONNECTED",
+            "rangeM": 20.617075064921465,
+            "horizonM": 94150.77378573373,
+            "motherHeightM": 30.598836241756214,
+            "sequence": 9,
+            "attemptedTotal": 9,
+            "transmittedTotal": 9,
+            "rejectedTotal": 0,
+            "selfRejectedTotal": 0,
+            "lastTransmitS": 8.9,
+            "lastTransitionS": 0,
+            "recentPlotCount": 0
+          }
+        },
+        "airSpeedKt": 0,
+        "groundSpeedKt": 0,
+        "altitudeM": 300,
+        "headingDeg": 180,
+        "distanceM": 0,
+        "etaS": 0,
+        "remainingS": null
+      },
+      "core": []
+    }
+  ],
+  "errors": [],
+  "htmlSha256": "3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea",
+  "limits": "Friendly physical DDG/CG staged at20km, actual shared physical/RF synthesis. Expected class is test-only; no truth sent to target command or classifier."
+}

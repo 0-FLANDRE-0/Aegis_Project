@@ -1,0 +1,61 @@
+--- SEEKER_UNIFY_U3_C/main.js
++++ SEEKER_UNIFY_U3_D/main.js
+@@ -43259,6 +43259,44 @@
+   const sec2=1/Math.max(1e-12,Math.cos(elevationRad)**2),drde=-rangeM*sec2/den,drdh=1/den,sigmaM=Math.hypot(drde*elevationSigmaRad,drdh*ASM_CUE_A_SPEC.assumedEmitterHeightSigmaM);
+   return {rangeM,sigmaM:Number.isFinite(sigmaM)?sigmaM:null};
+ }
++// SEEKER_UNIFY_U3 Commit D: rank only already-gated, anonymous passive-RF
++// measurements.  The innovation covariance is diagonal in this producer, so
++// det(S)=Sa*Se and the approved score is d^2 + ln(det(S)).
++const SEEKER_U3_PASSIVE_RF_MODE_D='ACTIVE';
++const SEEKER_U3_PASSIVE_RF_AUDIT_D={comparisons:0,differences:0,tiesResolved:0,lastDifference:null};
++function seekerU3PassiveRfObservableSignatureD(candidate){
++  if(!candidate)return null;
++  return Object.freeze({family:candidate.family,emitterClass:candidate.emitterClass,band:candidate.band,
++    frequencyMHz:candidate.frequencyMHz,worldAz:candidate.worldAz,worldEl:candidate.worldEl,
++    snr:candidate.snr,bearingSigmaRad:candidate.bearingSigmaRad,elevationSigmaRad:candidate.elevationSigmaRad,
++    d2:candidate.d2,innovationDet:candidate.innovationDet,selectionScore:candidate.selectionScore});
++}
++function seekerU3PassiveRfLegacyCompareD(a,b){return a.d2-b.d2;}
++function seekerU3PassiveRfCandidateCompareD(a,b){
++  const numeric=['selectionScore','d2','innovationDet','frequencyMHz','worldAz','worldEl','bearingSigmaRad','elevationSigmaRad','snr','receivedW'];
++  for(const key of numeric){const delta=Number(a[key])-Number(b[key]);if(delta!==0)return delta;}
++  for(const key of ['family','emitterClass','band','frequencyProvenance']){const delta=String(a[key]??'').localeCompare(String(b[key]??''),'en');if(delta!==0)return delta;}
++  return 0; // Observationally identical candidates produce the same tactical measurement.
++}
++function seekerU3PassiveRfSelectionD(candidates){
++  const legacy=[...candidates].sort(seekerU3PassiveRfLegacyCompareD)[0]??null,
++    ranked=[...candidates].sort(seekerU3PassiveRfCandidateCompareD)[0]??null;
++  if(SEEKER_U3_PASSIVE_RF_MODE_D==='SHADOW'&&legacy&&ranked){
++    SEEKER_U3_PASSIVE_RF_AUDIT_D.comparisons++;
++    const legacySignature=seekerU3PassiveRfObservableSignatureD(legacy),rankedSignature=seekerU3PassiveRfObservableSignatureD(ranked);
++    if(JSON.stringify(legacySignature)!==JSON.stringify(rankedSignature)){
++      SEEKER_U3_PASSIVE_RF_AUDIT_D.differences++;
++      SEEKER_U3_PASSIVE_RF_AUDIT_D.lastDifference=Object.freeze({legacy:legacySignature,ranked:rankedSignature});
++    }
++    const ordered=[...candidates].sort(seekerU3PassiveRfCandidateCompareD);
++    if(ordered.length>1&&ordered[0].selectionScore===ordered[1].selectionScore)SEEKER_U3_PASSIVE_RF_AUDIT_D.tiesResolved++;
++  }
++  return Object.freeze({legacy,ranked,selected:SEEKER_U3_PASSIVE_RF_MODE_D==='ACTIVE'?ranked:legacy});
++}
++function seekerU3PassiveRfAuditSnapshotD(){return Object.freeze({mode:SEEKER_U3_PASSIVE_RF_MODE_D,
++  comparisons:SEEKER_U3_PASSIVE_RF_AUDIT_D.comparisons,differences:SEEKER_U3_PASSIVE_RF_AUDIT_D.differences,
++  tiesResolved:SEEKER_U3_PASSIVE_RF_AUDIT_D.tiesResolved,lastDifference:SEEKER_U3_PASSIVE_RF_AUDIT_D.lastDifference,
++  score:'d2 + ln(det(S))',gateOwner:'asmPassiveRfMeasurementB2',truthFieldsUsed:false,rngConsumed:false});}
+ function asmPassiveRfMeasurementB2(em){
+   const p=ASM_PASSIVE_RF_B2_PROFILES[em.label],timeS=Number(em.life)||0;if(!p||!asmCueFeatureEnabledA(em.label,'passiveRfBearingElevation'))return null;
+   const s=em._passiveRfB2??(em._passiveRfB2={nextS:timeS,sequence:0,sample:null,lastAppliedSequence:0,lastSynthesisTimeS:timeS-p.cadenceS});
+@@ -43275,9 +43313,10 @@
+       const horizontalM=Math.max(1,Math.hypot(dx,dy)),rangeM=Math.max(100,Math.hypot(dx,dy,dz)),worldAz=Math.atan2(dy,dx),worldEl=Math.atan2(dz,horizontalM)-horizontalM/(2*ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM),los=terrainAwareRadarLOS(em.x,em.y,em.z??0,source.point.x,source.point.y,source.point.z??0);if(los<=.005){rejections.los++;continue;}
+       const txGain=asmPassiveEmitterGainA(source,angNorm(worldAz+Math.PI),sampleIntervalS),rxGain=asmPassiveReceiverGainA(em,p,worldAz,worldEl,prediction,frequencyScale),weather=maritimeRfWeatherPathFactorWip13A3(source.band,rangeM/1000),receivedW=source.power*txGain*.008*rxGain*los*weather/(4*Math.PI*rangeM*rangeM),snr=receivedW/p.passiveRxSensitivityW;if(!(snr>=1)){rejections.sensitivity++;continue;}
+       const bearingSigmaRad=p.bearingErrorRad*frequencyScale*Math.sqrt(1+1/Math.max(1,snr)),elevationSigmaRad=bearingSigmaRad*(1+.75*Math.exp(-Math.abs(worldEl)/deg(2))),Sa=Math.max(1e-12,prediction.varAz+bearingSigmaRad**2),Se=Math.max(1e-12,prediction.varEl+elevationSigmaRad**2),dAz=angNorm(worldAz-prediction.az),dEl=angNorm(worldEl-prediction.el),d2=dAz*dAz/Sa+dEl*dEl/Se;if(d2>ASM_CUE_A_SPEC.basketSigma**2){rejections.basket++;continue;}
+-      candidates.push({family,emitterClass:String(source.emitterClass||'UNKNOWN'),band:String(source.band||'IJ'),frequencyMHz:frequency.frequencyMHz,frequencyProvenance:frequency.provenance,frequencyScale,worldAz,worldEl,snr,bearingSigmaRad,elevationSigmaRad,d2,receivedW,txGain,rxGain,los});
+-    }
+-    candidates.sort((a,b)=>a.d2-b.d2);const best=candidates[0];
++      const innovationDet=Sa*Se,selectionScore=d2+Math.log(innovationDet);
++      candidates.push({family,emitterClass:String(source.emitterClass||'UNKNOWN'),band:String(source.band||'IJ'),frequencyMHz:frequency.frequencyMHz,frequencyProvenance:frequency.provenance,frequencyScale,worldAz,worldEl,snr,bearingSigmaRad,elevationSigmaRad,d2,innovationDet,selectionScore,receivedW,txGain,rxGain,los});
++    }
++    const selection=seekerU3PassiveRfSelectionD(candidates),best=selection.selected;
+     if(best){
+       const bearingRad=angNorm(best.worldAz+_samB1HashSigned(em,0x6e51,s.sequence)*best.bearingSigmaRad),elevationRad=angNorm(best.worldEl+_samB1HashSigned(em,0x6e52,s.sequence)*best.elevationSigmaRad),direct=asmPassiveDirectRangeEstimateA(elevationRad,best.elevationSigmaRad,ownEst.posM.z);
+       s.sample={source:'PASSIVE_RF_CUE_A',sequence:s.sequence,sampleTimeS:timeS,available:true,bearingRad,elevationRad,snr:best.snr,bearingSigmaRad:best.bearingSigmaRad,elevationSigmaRad:best.elevationSigmaRad,confidence:clamp(best.snr/(best.snr+1),0,1),emitterClass:best.emitterClass,family:best.family,band:best.band,frequencyMHz:best.frequencyMHz,frequencyProvenance:best.frequencyProvenance,directRangeEstimateM:direct.rangeM,directRangeSigmaM:direct.sigmaM};

@@ -1,0 +1,92 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U3_ACTIONS_RESULT_1",
+  "repository": "0-FLANDRE-0/Aegis_Project",
+  "pullRequest": 72,
+  "branch": "seeker-unify-u3",
+  "headSha": "48e32eb02aa792880adb9f95c9588924e4ffcaaf",
+  "workflow": ".github/workflows/aegis-smoke.yml",
+  "correctedRun": {
+    "id": 42264252460,
+    "url": "https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42264252460",
+    "createdAt": "2026-11-06T17:43:35Z",
+    "updatedAt": "2026-11-06T17:59:51Z",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": {
+      "total": 32,
+      "success": 29,
+      "failure": 1,
+      "cancelled": 2
+    }
+  },
+  "playwright155Compatibility": {
+    "result": "PASS",
+    "staticRunnerContract": {
+      "playwrightJobsPinnedUbuntu2404": 22,
+      "nonPlaywrightJobsRetainedUbuntuLatest": 10,
+      "gate": "ACTIONS_RUNNER_GATE.json"
+    },
+    "previousRun": {
+      "id": 42244733534,
+      "headSha": "d46e47bdef3a578ff8c373ad5be4060f3ce0a40f",
+      "playwrightInstallJobs": 22,
+      "playwrightInstallFailures": 22,
+      "cause": "ubuntu-latest resolved to Ubuntu 26.04, unsupported by Playwright 1.55 Chromium dependency installation"
+    },
+    "correctedRun": {
+      "playwrightJobs": 22,
+      "installReached": 21,
+      "installSuccess": 21,
+      "installFailure": 0,
+      "installSkipped": 1,
+      "skippedReason": "ciws-b3-damage exhausted its 12-minute job limit while actions/checkout fetched the PR merge ref; Playwright installation was never entered"
+    }
+  },
+  "nonCompatibilityOutcomes": {
+    "failed": [
+      {
+        "job": "ciws-b1-closure",
+        "runner": "ubuntu-24.04",
+        "playwrightInstall": "success",
+        "simulatorUnderTest": "Aegis_SIM_v48_WIP12D.html",
+        "check": "timeScaleDeterminism",
+        "details": {
+          "x1": {
+            "simSteps": 360,
+            "gunRoundsSpent": 42
+          },
+          "x8": {
+            "simSteps": 360,
+            "gunRoundsSpent": 47
+          },
+          "x16": {
+            "simSteps": 360,
+            "gunRoundsSpent": 47
+          }
+        },
+        "classification": "PRE_EXISTING_WIP12D_TEST_DEBT_NOT_U3_PRODUCT",
+        "u3ProductPathUsed": false
+      }
+    ],
+    "cancelled": [
+      {
+        "job": "residual-overpenetration-wip12d-contract",
+        "runner": "ubuntu-latest (Ubuntu 26.04)",
+        "jobTimeoutMinutes": 5,
+        "stage": "actions/checkout@v4 fetch",
+        "testEntered": false
+      },
+      {
+        "job": "ciws-b3-damage",
+        "runner": "ubuntu-24.04",
+        "jobTimeoutMinutes": 12,
+        "stage": "actions/checkout@v4 fetch",
+        "testEntered": false
+      }
+    ]
+  },
+  "rerunRequested": false,
+  "rerunPerformed": false,
+  "expectationOrToleranceChanged": false,
+  "prMerged": false
+}

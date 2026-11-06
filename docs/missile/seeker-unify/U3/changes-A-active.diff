@@ -1,0 +1,80 @@
+--- CUE_A_1/main.js
++++ SEEKER_UNIFY_U3_A_ACTIVE/main.js
+@@ -31798,10 +31798,16 @@
+ // LEGACY_EQUIVALENCE provenance, not hardware claims or tuned coefficients.
+ const SEEKER_U2_PROFILE_OPTIONS=Object.freeze({
+   ASM_WIP22:Object.freeze({provenance:'SIM_TUNED',definition:'ONE_WAY_PATTERN_AND_LOS_WITH_ROUND_TRIP_WEATHER_PATH',beamConvention:'TX_RX_SEPARATE',extentPolicy:'POWER_WEIGHTED_RMS',angularPolicy:'AXIS_SEPARATE_COMPOSITE',oneWaySidelobeFloor:.08,rangeFloorKm:.5,rangeFloorProvenance:'LEGACY_EQUIVALENCE'}),
+-  SAM_ARH:Object.freeze({provenance:'LEGACY_EQUIVALENCE',beamConvention:'TX_RX_SEPARATE',extentPolicy:'MAX_MEMBER',angularPolicy:'SPHERICAL_MEMBER_PRESERVING',rangeFloorKm:.20,rangeFloorProvenance:'LEGACY_EQUIVALENCE'})
++  SAM_ARH:Object.freeze({provenance:'LEGACY_EQUIVALENCE',beamConvention:'TX_RX_SEPARATE',extentPolicy:'MAX_MEMBER',angularPolicy:'SPHERICAL_MEMBER_PRESERVING',rangeFloorKm:.20,rangeFloorProvenance:'LEGACY_EQUIVALENCE'}),
++  HARPOON:Object.freeze({provenance:'LEGACY_EQUIVALENCE',beamConvention:'HARPOON_NATIVE_MONOSTATIC',extentPolicy:'PRE_RESOLVED_ANONYMOUS',angularPolicy:'BODY_RELATIVE_MEASUREMENT',maxCells:96})
+ });
+ function seekerSynthesizeMonostaticPowerU2(family,q){
+   const option=SEEKER_U2_PROFILE_OPTIONS[family];if(!option)throw new Error('UNKNOWN_SEEKER_U2_PROFILE:'+family);
++  if(option.beamConvention==='HARPOON_NATIVE_MONOSTATIC'){
++    // Preserve the RGM-84D multiplication order exactly; referenceSnr is part
++    // of the legacy Harpoon profile rather than a normalized unit-power path.
++    return q.referenceSnr*(q.rcsM2/q.referenceRcsM2)*(q.referenceRangeM/q.rangeM)**4*q.txRxGain*q.losQ*q.pathQ;
++  }
+   if(option.beamConvention==='COMBINED_SINGLE'){
+     // Preserve the WIP22 multiplication order exactly: one combined pattern,
+     // one LOS factor, residual environment, then weather/path propagation.
+@@ -31819,10 +31825,21 @@
+ }
+ function seekerResolveCellsU2(family,self,args){
+   const option=SEEKER_U2_PROFILE_OPTIONS[family];if(!option)throw new Error('UNKNOWN_SEEKER_U2_PROFILE:'+family);
++  if(option.extentPolicy==='PRE_RESOLVED_ANONYMOUS'&&option.angularPolicy==='BODY_RELATIVE_MEASUREMENT')return seekerResolveHarpoonCellsLegacyEquivalentU3.apply(self,args);
+   if(option.extentPolicy==='POWER_WEIGHTED_RMS'&&option.angularPolicy==='AXIS_SEPARATE_COMPOSITE')return seekerResolveAsmCellsLegacyEquivalentU2.apply(self,args);
+   if(option.extentPolicy==='MAX_MEMBER'&&option.angularPolicy==='SPHERICAL_MEMBER_PRESERVING')return seekerResolveSamCellsLegacyEquivalentU2.apply(self,args);
+   throw new Error('UNSUPPORTED_SEEKER_U2_CELL_POLICY:'+family);
+ }
++// SEEKER_UNIFY_U3 Commit A: Harpoon uses the U2 common profile contract.
++const SEEKER_U3_HARPOON_RF_MODE_A='ACTIVE';
++const SEEKER_U3_HARPOON_AUDIT_A={powerComparisons:0,powerMismatches:0,cellComparisons:0,cellMismatches:0,maxAbsPowerDifference:0};
++function seekerResolveHarpoonCellsLegacyEquivalentU3(observations,maxCells=96){return observations.sort((a,b)=>b.snr-a.snr).slice(0,maxCells);}
++function seekerU3HarpoonCompareNumberA(kind,legacy,common){
++  if(kind==='power'){SEEKER_U3_HARPOON_AUDIT_A.powerComparisons++;const d=Math.abs(legacy-common);SEEKER_U3_HARPOON_AUDIT_A.maxAbsPowerDifference=Math.max(SEEKER_U3_HARPOON_AUDIT_A.maxAbsPowerDifference,d);if(!Object.is(legacy,common))SEEKER_U3_HARPOON_AUDIT_A.powerMismatches++;}
++}
++function seekerU3HarpoonCompareCellsA(legacy,common){SEEKER_U3_HARPOON_AUDIT_A.cellComparisons++;if(JSON.stringify(legacy)!==JSON.stringify(common))SEEKER_U3_HARPOON_AUDIT_A.cellMismatches++;}
++function seekerU3HarpoonSnapshotA(){return Object.freeze({mode:SEEKER_U3_HARPOON_RF_MODE_A,...SEEKER_U3_HARPOON_AUDIT_A,rngConsumedByCommonLayer:false,truthOutput:false,tacticalOutputUsed:SEEKER_U3_HARPOON_RF_MODE_A==='ACTIVE'});}
++
+ function seekerResolvedCellStatisticsU2(members,weightOf){
+   // Read-only superset for diagnostics/future adapters: both weighted RMS and
+   // member maxima are available without changing either tactical return type.
+@@ -55447,7 +55464,8 @@
+ function seekerU2ActiveSnapshot(){return {mode:'ACTIVE',profileOptions:SEEKER_U2_PROFILE_OPTIONS,shadowComputations:0,auditArrayCount:0};}
+ window.__SEEKER_COMMON_U2__=Object.freeze({schema:'AEGIS_SEEKER_COMMON_U2_ACTIVE_1',mode:'ACTIVE',profileOptions:SEEKER_U2_PROFILE_OPTIONS,
+   synthesizeMonostaticPower:seekerSynthesizeMonostaticPowerU2,resolveCells:seekerResolveCellsU2,cellStatistics:seekerResolvedCellStatisticsU2,
+-  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells']),shadowComponents:Object.freeze([]),reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,
++  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells']),shadowComponents:Object.freeze([]),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON']),reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,
++  harpoonMode:SEEKER_U3_HARPOON_RF_MODE_A,harpoonSnapshot:seekerU3HarpoonSnapshotA,
+   tacticalOutputUsed:true,rngConsumed:false,truthOutput:false});
+
+   window.__NAVAL_SIM_DIAG__ = {
+@@ -57432,7 +57450,12 @@
+     if(range<25||range>cfg.seekerRangeM||Math.abs(off)>cfg.seekerBeamHalfRad||Math.abs(el-beamEl)>cfg.seekerBeamHalfElRad||Math.abs(bodyAz)>cfg.seekerGimbalRad||Math.abs(bodyEl)>cfg.seekerElGimbalRad)continue;
+     const los=terrainAwareRadarLOS(m.x,m.y,m.z,q.x,q.y,q.z??0,1.4);if(los<=.01)continue;
+     const rcs=rfReflectorRcsM2Wip13A2(q,'IJ',m.x,m.y,m.z),gain=Math.exp(-2.7726*(off/cfg.seekerBeamHalfRad)**2),
+-      weather=maritimeRfWeatherPathFactorWip13A3('IJ',range*.002),snr=cfg.seekerReferenceSnr*(rcs/cfg.seekerReferenceRcsM2)*(cfg.seekerReferenceRangeM/range)**4*gain*los*weather;
++      weather=maritimeRfWeatherPathFactorWip13A3('IJ',range*.002),commonSnr=seekerSynthesizeMonostaticPowerU2('HARPOON',{referenceSnr:cfg.seekerReferenceSnr,rcsM2:rcs,referenceRcsM2:cfg.seekerReferenceRcsM2,referenceRangeM:cfg.seekerReferenceRangeM,rangeM:range,txRxGain:gain,losQ:los,pathQ:weather});
++    let snr=commonSnr;
++    if(SEEKER_U3_HARPOON_RF_MODE_A==='SHADOW'){
++      const legacySnr=cfg.seekerReferenceSnr*(rcs/cfg.seekerReferenceRcsM2)*(cfg.seekerReferenceRangeM/range)**4*gain*los*weather;
++      seekerU3HarpoonCompareNumberA('power',legacySnr,commonSnr);snr=legacySnr;
++    }
+     if(snr<cfg.seekerMinSnr||harpoonRandomA(m)>clamp(1-Math.exp(-snr/7),.05,.997))continue;
+     const rvx=worldSpeedToMps(q.vx??0)-m.velocityMps.x,rvy=worldSpeedToMps(q.vy??0)-m.velocityMps.y,rvz=(q.vz??0)-m.velocityMps.z,
+       radial=(rvx*dx+rvy*dy+rvz*dz)/range,noise=Math.sqrt(12/Math.max(3,snr));
+@@ -57441,8 +57464,11 @@
+       radialMps:radial+harpoonNoiseA(m)*.6*noise,verticalExtentM:Math.max(0,(q.extentVerticalM??0)+harpoonNoiseA(m)*.35),
+       rangeExtentM:Math.max(0,(q.extentRangeM??0)+harpoonNoiseA(m)*2),dopplerSpreadMps:q.dopplerSpreadMps??0,snr,noiseScale:noise});
+   }
+-  // Bound retained observations irrespective of terrain/scenario size.
+-  return out.sort((a,b)=>b.snr-a.snr).slice(0,96);
++  const common=seekerResolveCellsU2('HARPOON',this,[out.slice(),96]);
++  if(SEEKER_U3_HARPOON_RF_MODE_A==='SHADOW'){
++    const legacy=out.slice().sort((a,b)=>b.snr-a.snr).slice(0,96);seekerU3HarpoonCompareCellsA(legacy,common);return legacy;
++  }
++  return common;
+ }
+ // Independent RF seeker. Diagnostic observation injection is never used by the live caller.
+ function harpoonSeekerA(m,dt,diagnosticObservations=null){

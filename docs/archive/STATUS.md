@@ -1,9 +1,11 @@
-# 현재 상태 (2026-11-06 기준)
+# 현재 상태 (2026-11-06 SEEKER_UNIFY_U3 기준)
 
 ## 레포
 
-- `main` `2293c895` (PR #70 `cue-a-1` 병합). 바로 앞은 PR #69 `seeker-unify-c` 병합 `ac05c551`
-- 최신 제품: `Aegis_SIM_v48_WIP_CUE_A_1.html`, SHA-256 `0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a`
+- `main` `be19f467` (PR #71 문서 아카이브 병합; 부모에 PR #70 `cue-a-1` 포함)
+- 최신 PR: [#72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN (`seeker-unify-u3`)
+- 기준 제품: `Aegis_SIM_v48_WIP_CUE_A_1.html`, SHA-256 `0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a`
+- 후보 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -30,12 +32,16 @@
 | SEEKER_UNIFY_B (PR #68) | U0 cue 바구니 시간 확장, U1 공통 DTO | main |
 | SEEKER_UNIFY_C (PR #69) | U2 ACTIVE, 대함 시커 빔·LOS 왕복 보정, CUE_A(cue 필터·수동 RF·위협 가정 스위치) | main |
 | CUE_A-1 (PR #70) | Singer cue 필터(τ=60 s, 정확 이산화), 바구니 상한, 수동 RF 함정 레이더 family·대역·회전 레이더, 0.5 km 거리 하한 원복 | main |
-| **U3 하푼** | 설계 대화 중 (`DESIGN_NOTES.md`) | 다음 |
+| **U3 하푼** | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | PR #72 OPEN, 게이트 완료 |
 
-## CUE_A-1 결과 요약
+## U3 결과 요약
 
-- Kh-35U: TRACK/명중 60/59, EMCON OFF·ON 모두 C와 같음
-- Kh-32: EMCON OFF에서 TRACK +5 (S대역 빔이 넓어진 효과), 명중 40으로 같음
-- 오획득 증가 0, 이웃 ASM 최초 연관 0, 혼입(아군 시커·눌카·재머·항공기 레이더) 선택 0/50
-- 60 전투(참고) 301/19/0/0
-- 검토에서 나온 후속 과제는 `BACKLOG.md`에 있다.
+- A–D 단계 게이트 PASS. 각 단계 SHADOW 확인 뒤 ACTIVE 전환.
+- 일반 하푼 track cue의 고정 4 km 상한만 제거; 기존 250 m 하한 복구·명명; route prior 4 km 유지.
+- 하푼 HOJ는 ASSUMED_THREAT, MAX_THREAT ON/CONFIRMED_ONLY OFF.
+- 수동 RF 후보는 gate 뒤 `d² + ln(det(S))`; truth/RNG 사용 0.
+- 보정 제한 시험: 225→250 m, 4,800 m 무상한, 실제 발사 cueHandoff/시커/보호 소비, 실제 stale 거부 PASS.
+- 보정본 최종 광역 1회: native364/364, UI213/213, WebGL29/29 PASS.
+- paired raw38/42의 4건은 D ACTIVE raid 경로로 단계 분리. 기대값 갱신0, 물리·손상·VLS·최종 결과 동일.
+- 상세와 잔여는 `docs/missile/seeker-unify/U3/FINAL_REPORT.md`, `BACKLOG.md`를 따른다.
+- PR Actions의 Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`에서 설치 도달 21/21 성공(기존 22/22 실패 해소). 전체는 29 success / 1 WIP12D CIWS 배속 결정성 failure / 2 checkout-timeout cancelled이며 재실행하지 않았다.
