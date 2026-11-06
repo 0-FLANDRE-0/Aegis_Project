@@ -1,0 +1,165 @@
+--- SEEKER_UNIFY_U3_B/main.js
++++ SEEKER_UNIFY_U3_C/main.js
+@@ -13664,7 +13664,7 @@
+     wingDeploy01:0,tailDeploy01:0,tailCommandRad:0,thrustN:0,pathM:0,tubeCleared:false,fuzeArmed:false,
+     rng:rfSeedWip13A2('HARPOON:'+BATTLESPACE.seed+':'+serial),seeker:{active:false,mode:'OFF',timerS:0,azRelRad:0,
+       elRelRad:0,scanDirection:1,scanReversals:0,scanBoundsRad:[0,0],
+-      candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0},history:[],outcome:null,rcsM2:.06};
++      candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0,hoj:null},history:[],outcome:null,rcsM2:.06};
+   tube.loaded=false;tube.capOpen01=1;r.releaseCooldownS=cfg.releaseIntervalS;r.lastResult='RELEASED:'+serial;r.routeDraft={editing:false,pointsM:[]};
+   r.launches.push(harpoonLaunchRecordC(m,gate,tracks));if(r.launches.length>32)r.launches.shift();
+   harpoonJournalReleaseF1(ACTIVE_SHIP_RUNTIME,m,gate,gate.routeProgram?null:tracks.get(gate.trackId));
+@@ -31262,7 +31262,8 @@
+ });
+ const ASM_CUE_FEATURES_A=Object.freeze({
+   'Kh-35U':Object.freeze({passiveRfBearingElevation:'PUBLIC_CONFIRMED'}),
+-  'Kh-32':Object.freeze({passiveRfBearingElevation:'ASSUMED_THREAT'})
++  'Kh-32':Object.freeze({passiveRfBearingElevation:'ASSUMED_THREAT'}),
++  'RGM-84D':Object.freeze({terminalHoj:'ASSUMED_THREAT'})
+ });
+ const ASM_CUE_THREAT_MODES_A=Object.freeze(['MAX_THREAT','CONFIRMED_ONLY']);
+ let THREAT_ASSUMPTION_MODE='MAX_THREAT';
+@@ -31458,7 +31459,7 @@
+     return s.hoj;
+   }
+   function asmShipHojEmitterSignal15B(em,s,p){return electronicHojF(em,s,p);}
+-  function asmUpdateHojTrack(em,s,p,dt){
++  function asmUpdateHojTrackLegacyU3(em,s,p,dt){
+     const h=asmEnsureHojState(s);h.ageS+=dt;
+     // Predict angular track continuously; measurement updates occur at the HOJ receiver revisit rate.
+     if(h.valid){h.worldAz=angNorm(h.worldAz+h.azRate*dt);h.worldEl=clamp(h.worldEl+h.elRate*dt,-deg(70),deg(70));}
+@@ -31491,6 +31492,57 @@
+     }
+     return h;
+   }
++// SEEKER_UNIFY_U3 Commit C: common HOJ angular-track state machine.
++const SEEKER_U3_HOJ_MODE_C='ACTIVE';
++const SEEKER_U3_HOJ_AUDIT_C={comparisons:0,mismatches:0,rngMismatches:0};
++function seekerEnsureHojStateU3(s){
++  if(!s.hoj)s.hoj={mode:'OFF',valid:false,dwellAccS:0,missAgeS:999,acquireHits:0,ageS:0,
++    worldAz:0,worldEl:0,azRate:0,elRate:0,lastDirectJOverN:0,lastPd:0,lastAzSigmaDeg:null,lastElSigmaDeg:null,
++    lastRxGain:0,lastNoiseRawW:0,lastDeceptionRawW:0,lastLosQ:0,lastMeasureStep:-1,everTracked:false,everGuidance:false,guidanceSwitches:0,lastGuidanceActive:false,maxDirectJOverN:0};
++  return s.hoj;
++}
++function seekerUpdateHojTrackU3(em,s,p,dt,ports){
++  const h=ports.ensure(s);h.ageS+=dt;
++  if(h.valid){h.worldAz=angNorm(h.worldAz+h.azRate*dt);h.worldEl=clamp(h.worldEl+h.elRate*dt,-deg(70),deg(70));}
++  if(!p.hojEnabled||!ports.enabled()){h.mode='OFF';h.valid=false;h.acquireHits=0;h.missAgeS=999;return h;}
++  h.dwellAccS+=dt;const period=1/Math.max(1,p.hojHz??40);if(h.dwellAccS+1e-9<period)return h;h.dwellAccS%=period;
++  const sig=ports.signal(em,s,p);h.lastDirectJOverN=sig.directJOverN??0;h.maxDirectJOverN=Math.max(h.maxDirectJOverN??0,h.lastDirectJOverN);h.lastRxGain=sig.rxGain??0;h.lastNoiseRawW=sig.noiseRawW??0;h.lastDeceptionRawW=sig.deceptionRawW??0;h.lastLosQ=sig.losQ??0;
++  let accepted=false;
++  if(sig.active&&(sig.directJOverN??0)>=Math.max(0.01,p.hojMinDirectJOverN??2)){
++    const q=Math.sqrt(clamp(sig.directJOverN,0.15,250)),offPenalty=1+0.9*(1-clamp(sig.rxGain,0,1));
++    const sa=Math.max(p.hojMinAzSigmaDeg??0.05,(p.hojBaseAzSigmaDeg??0.36)/q*offPenalty),se=Math.max(p.hojMinElSigmaDeg??0.075,(p.hojBaseElSigmaDeg??0.55)/q*offPenalty);
++    const pd=clamp(1-Math.exp(-0.55*sig.directJOverN),0.02,0.999);h.lastPd=pd;h.lastAzSigmaDeg=sa;h.lastElSigmaDeg=se;
++    if(ports.uniform()<=pd){
++      const mz=angNorm(sig.worldAz+ports.normal()*deg(sa)),me=clamp(sig.worldEl+ports.normal()*deg(se),-deg(70),deg(70));
++      if(!h.valid){h.worldAz=mz;h.worldEl=me;h.azRate=0;h.elRate=0;h.valid=true;h.mode='ACQUIRE';h.acquireHits=1;}
++      else{
++        const a=clamp(p.hojFilterAlpha??0.5,0.05,0.95),b=clamp(p.hojFilterBeta??0.1,0,0.5);
++        const ez=angNorm(mz-h.worldAz),ee=me-h.worldEl;h.worldAz=angNorm(h.worldAz+a*ez);h.worldEl=clamp(h.worldEl+a*ee,-deg(70),deg(70));
++        h.azRate=clamp(h.azRate+b*ez/Math.max(1e-4,period),-deg(35),deg(35));h.elRate=clamp(h.elRate+b*ee/Math.max(1e-4,period),-deg(25),deg(25));
++        if(h.mode==='OFF')h.mode='ACQUIRE';h.acquireHits++;
++      }
++      h.missAgeS=0;h.lastMeasureStep=simStepCounter;accepted=true;
++      if(h.acquireHits>=Math.max(1,p.hojAcquireHits??2)){h.mode='TRACK';h.everTracked=true;h.acquireHits=Math.max(1,p.hojAcquireHits??2);}
++    }
++  }else{h.lastPd=0;h.lastAzSigmaDeg=null;h.lastElSigmaDeg=null;}
++  if(!accepted){
++    h.missAgeS+=period;
++    if(h.mode==='ACQUIRE'&&h.missAgeS>(p.hojAcquireTimeoutS??0.5)){h.mode='OFF';h.valid=false;h.acquireHits=0;}
++    else if(h.mode==='TRACK'&&h.missAgeS>(p.hojCoastAfterS??0.28))h.mode='COAST';
++    else if(h.mode==='COAST'&&h.missAgeS>(p.hojLostAfterS??1.35)){h.mode='OFF';h.valid=false;h.acquireHits=0;h.azRate=0;h.elRate=0;}
++  }
++  return h;
++}
++function asmUpdateHojTrack(em,s,p,dt){
++  const ports={ensure:seekerEnsureHojStateU3,enabled:()=>!!em.seekerOn,signal:asmHojEmitterSignal,uniform:simRandom,normal:randn};
++  if(SEEKER_U3_HOJ_MODE_C==='ACTIVE')return seekerUpdateHojTrackU3(em,s,p,dt,ports);
++  const rngBefore=SIM_RNG_STATE>>>0,shadow=structuredClone(s);seekerUpdateHojTrackU3(em,shadow,p,dt,{...ports,ensure:seekerEnsureHojStateU3});const rngShadow=SIM_RNG_STATE>>>0;
++  SIM_RNG_STATE=rngBefore;const result=asmUpdateHojTrackLegacyU3(em,s,p,dt),rngLegacy=SIM_RNG_STATE>>>0;SEEKER_U3_HOJ_AUDIT_C.comparisons++;
++  if(JSON.stringify(shadow.hoj)!==JSON.stringify(s.hoj))SEEKER_U3_HOJ_AUDIT_C.mismatches++;
++  if(rngShadow!==rngLegacy)SEEKER_U3_HOJ_AUDIT_C.rngMismatches++;
++  return result;
++}
++function seekerU3HojAuditSnapshotC(){return Object.freeze({mode:SEEKER_U3_HOJ_MODE_C,...SEEKER_U3_HOJ_AUDIT_C,dynamicAuditArrays:0});}
+   function asmHojGuidanceActive(s,p){
+     const h=asmEnsureHojState(s);if(!h.valid||(h.mode!=='TRACK'&&h.mode!=='COAST'))return false;
+     const rfFirm=!!(s._kfX&&s.trackValid&&s.mode==='TRACK'&&s.missAgeS<Math.max(0.05,(p.coastAfterS??0.3)*0.65));
+@@ -53279,6 +53331,26 @@
+     predictionSigmaM:2*sigma.majorSigmaM,searchBasketM,minorSigmaM:sigma.minorSigmaM,majorAxisRad:sigma.angleRad,
+     physicalSearchLimitM,feasible,reason:feasible?null:'INS_PREDICTION_BASKET_INSUFFICIENT',truthUsed:false});
+ }
++// RGM-84D HOJ is not confirmed by the public material used in this project.
++// Capability provenance is ASSUMED_THREAT. Numerical behavior reuses the
++// existing Kh-35U game abstraction without claiming real Harpoon performance.
++const HARPOON_HOJ_C_PROFILE=Object.freeze({...ASM_SEEKER_PROFILES['Kh-35U'],id:'RGM84D_TERMINAL_HOJ_GAME_ABSTRACTION',
++  capabilityProvenance:ASM_CUE_FEATURE_PROVENANCE_A.ASSUMED_THREAT,parameterProvenance:'SIM_TUNED_REUSE_EXISTING_GAME_ABSTRACTION'});
++function harpoonHojEnabledC(){return asmCueFeatureEnabledA('RGM-84D','terminalHoj');}
++function harpoonHojEmitterSignalC(m,s,p){
++  const receiver={x:m.x,y:m.y,z:m.z,seekerOn:s.active,heading:m.yawRad,flight:{bodyPitch:m.pitchRad}},view={gimbalAz:s.azRelRad,gimbalEl:s.elRelRad};
++  return asmHojEmitterSignal(receiver,view,p);
++}
++function harpoonUpdateHojC(m,dt){
++  const s=m.seeker,p=HARPOON_HOJ_C_PROFILE;
++  return seekerUpdateHojTrackU3(m,s,p,dt,{ensure:seekerEnsureHojStateU3,enabled:()=>s.active&&harpoonHojEnabledC(),
++    signal:()=>harpoonHojEmitterSignalC(m,s,p),uniform:()=>harpoonRandomA(m),normal:()=>harpoonNoiseA(m)});
++}
++function harpoonHojGuidanceActiveC(m){
++  const s=m.seeker,h=seekerEnsureHojStateU3(s);if(!harpoonHojEnabledC()||!h.valid||(h.mode!=='TRACK'&&h.mode!=='COAST'))return false;
++  const rfFirm=!!(s.lock&&s.mode==='TRACK'&&s.missedS<Math.max(.05,HARPOON_PROFILE_A.sim.seekerCoastS*.65));return !rfFirm;
++}
++function harpoonHojSnapshotC(m){const h=seekerEnsureHojStateU3(m.seeker);return {enabled:harpoonHojEnabledC(),provenance:HARPOON_HOJ_C_PROFILE.capabilityProvenance,mode:h.mode,valid:h.valid,guidanceActive:harpoonHojGuidanceActiveC(m),everTracked:h.everTracked,everGuidance:h.everGuidance,lastDirectJOverN:h.lastDirectJOverN,rng:m.rng>>>0};}
+ function runCoreUnitSelfTests(){
+     const failures = [];
+     const near = (a,b,eps=1e-9) => Math.abs(a-b) <= eps * Math.max(1,Math.abs(a),Math.abs(b));
+@@ -57489,7 +57561,7 @@
+     wingDeploy01:0,tailDeploy01:0,tailCommandRad:0,thrustN:0,pathM:0,tubeCleared:false,fuzeArmed:false,
+     rng:rfSeedWip13A2('HARPOON:'+BATTLESPACE.seed+':'+serial),seeker:{active:false,mode:'OFF',timerS:0,azRelRad:0,
+       elRelRad:0,scanDirection:1,scanReversals:0,scanBoundsRad:[0,0],
+-      candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0},history:[],outcome:null,rcsM2:.06};
++      candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0,hoj:null},history:[],outcome:null,rcsM2:.06};
+   tube.loaded=false;tube.capOpen01=1;r.releaseCooldownS=cfg.releaseIntervalS;r.lastResult='RELEASED:'+serial;r.routeDraft={editing:false,pointsM:[]};
+   r.launches.push(harpoonLaunchRecordC(m,gate));if(r.launches.length>32)r.launches.shift();
+   harpoonJournalReleaseF1(ACTIVE_SHIP_RUNTIME,m,gate,gate.routeProgram?null:tracks.get(gate.trackId));
+@@ -57540,6 +57612,7 @@
+     rangeToBasket=Math.hypot(pred.x-m.navPositionM.x,pred.y-m.navPositionM.y);
+   if(!s.active&&m.ageS>=cfg.boosterBurnS&&(m.route?m.route.completed:rangeToBasket<=cfg.seekerActivationRangeM)){s.active=true;s.mode='SEARCH';s.missedS=0;}
+   if(!s.active)return;
++  harpoonUpdateHojC(m,dt);
+   const cueHandoff=m.route?harpoonCueHandoffB(m.memory,0):(m.cueHandoff??=harpoonCueHandoffB(m.memory,time+Math.max(0,(rangeToBasket-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps))),
+     cueGate=m.route?cfg.seekerSearchBasketM:cueHandoff.searchBasketM,
+     desired=angNorm(Math.atan2(cue.y-m.navPositionM.y,cue.x-m.navPositionM.x)-nav.yawRad),
+@@ -57645,10 +57718,10 @@
+   if(m.tubeCleared){m.wingDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.wingDeployS,0,1);m.tailDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.tailDeployS,0,1);}
+   if(m.boosterAttached&&m.ageS+1e-9>=cfg.boosterBurnS)harpoonSeparateBoosterA(m);
+   harpoonRouteStepE(m);harpoonSeekerA(m,dt);
+-  const lock=m.seeker.lock,pred=harpoonPredictionA(m.memory,m.ageS,m.navPositionM),terminal=lock&&['TRACK','COAST'].includes(m.seeker.mode),
+-    tgo=terminal?Math.hypot(lock.x-m.navPositionM.x,lock.y-m.navPositionM.y)/Math.max(50,Math.hypot(m.ins.velocityMps.x,m.ins.velocityMps.y)):pred.tgoS,
+-    aim=terminal?{x:lock.x+lock.vx*(tgo+m.seeker.missedS),y:lock.y+lock.vy*(tgo+m.seeker.missedS)}:harpoonRouteAimE(m,pred),
+-    targetYaw=Math.atan2(aim.y-m.navPositionM.y,aim.x-m.navPositionM.x),
++  const lock=m.seeker.lock,pred=harpoonPredictionA(m.memory,m.ageS,m.navPositionM),rfTerminal=lock&&['TRACK','COAST'].includes(m.seeker.mode),hojTerminal=harpoonHojGuidanceActiveC(m),terminal=rfTerminal||hojTerminal,
++    tgo=rfTerminal?Math.hypot(lock.x-m.navPositionM.x,lock.y-m.navPositionM.y)/Math.max(50,Math.hypot(m.ins.velocityMps.x,m.ins.velocityMps.y)):pred.tgoS,
++    aim=rfTerminal?{x:lock.x+lock.vx*(tgo+m.seeker.missedS),y:lock.y+lock.vy*(tgo+m.seeker.missedS)}:harpoonRouteAimE(m,pred),
++    targetYaw=hojTerminal?seekerEnsureHojStateU3(m.seeker).worldAz:Math.atan2(aim.y-m.navPositionM.y,aim.x-m.navPositionM.x),
+     desiredVz=clamp(((terminal?cfg.terminalHeightM:cfg.cruiseHeightM)-m.radarAltitudeM)*.35,-40,20),
+     targetPitch=Math.asin(clamp(desiredVz/Math.max(50,Math.hypot(...Object.values(m.ins.velocityMps))),-.32,.25)),
+     rho=asmAirDensityKgM3(m.positionM.z),q=.5*rho*m.speedMps*m.speedMps,
+@@ -57658,7 +57731,7 @@
+   if(!m.boosterAttached){
+     yawRate=clamp(angNorm(targetYaw-m.ins.yawRad)*.9,-maxRate,maxRate);
+     pitchRate=clamp((targetPitch-m.ins.pitchRad)*1.2,-maxRate,maxRate);
+-    m.phase=terminal?'TERMINAL_ARH':(m.seeker.active?'INS_SEARCH':'INS_CRUISE');
++    m.phase=hojTerminal?'TERMINAL_HOJ':(rfTerminal?'TERMINAL_ARH':(m.seeker.active?'INS_SEARCH':'INS_CRUISE'));
+   }
+   // Point-mass wind-axis dynamics. Lift supplies gravity compensation and bounded
+   // turn acceleration; thrust/drag/gravity change speed, never a prescribed speed.
+@@ -57731,7 +57804,7 @@
+   worldXM:m.positionM.x,worldYM:m.positionM.y,
+   headingRad:m.yawRad,pitchRad:m.pitchRad,lifeS:m.ageS,phase:m.phase,speedMps:m.speedMps,boosterAttached:m.boosterAttached,wingDeploy01:m.wingDeploy01,
+   tailDeploy01:m.tailDeploy01,tailCommandRad:m.tailCommandRad,thrustN:m.thrustN,tubeCleared:m.tubeCleared,tubeId:m.tubeId,
+-  seekerMode:m.seeker.mode,motorActive:m.thrustN>20,guidanceState:m.phase,guidanceAuthority:['TRACK','COAST'].includes(m.seeker.mode)?'ARH':'INS',launchMuzzleM:{...m.launchMuzzleM},launchRearM:{...m.launchRearM},
++  seekerMode:m.seeker.mode,motorActive:m.thrustN>20,guidanceState:m.phase,guidanceAuthority:harpoonHojGuidanceActiveC(m)?'HOJ':(['TRACK','COAST'].includes(m.seeker.mode)?'ARH':'INS'),launchMuzzleM:{...m.launchMuzzleM},launchRearM:{...m.launchRearM},
+   seeker:{active:m.seeker.active,type:'ARH',mode:m.seeker.mode,locked:m.seeker.mode==='TRACK',quality:clamp(m.seeker.lockCount/8,0,1),
+     azRelRad:m.yawRad+m.seeker.azRelRad,elRad:m.pitchRad+m.seeker.elRelRad,fovFullDeg:16,fovAzFullDeg:16,fovElFullDeg:20,
+     outerFovAzFullDeg:90,outerFovElFullDeg:60,outerAzRelRad:m.yawRad,outerElRad:m.pitchRad,

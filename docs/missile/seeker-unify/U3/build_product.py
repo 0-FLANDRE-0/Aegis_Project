@@ -44,6 +44,59 @@ def exact(source: str, old: str, new: str, count: int, label: str) -> str:
     return source.replace(old, new)
 
 
+def function_span(source: str, name: str) -> tuple[int, int]:
+    match = re.search(rf"function\s+{re.escape(name)}\s*\(", source)
+    if not match:
+        raise AssertionError(f"function missing: {name}")
+    paren = source.find("(", match.start())
+    depth = 0
+    quote = None
+    escaped = False
+    close = -1
+    for index in range(paren, len(source)):
+        char = source[index]
+        if quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in "'\"`":
+            quote = char
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                close = index
+                break
+    brace = source.find("{", close + 1)
+    depth = 0
+    quote = None
+    escaped = False
+    for index in range(brace, len(source)):
+        char = source[index]
+        if quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in "'\"`":
+            quote = char
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return match.start(), index + 1
+    raise AssertionError(f"unterminated function: {name}")
+
+
 def transform_a(source: str, mode: str) -> str:
     """Connect Harpoon power/pre-resolved cells to U2 without changing behavior."""
     source = one(
@@ -178,6 +231,55 @@ def transform_b(source: str) -> str:
     return source
 
 
+def transform_c(source: str, mode: str) -> str:
+    """Move HOJ angular tracking behind a common port and add Harpoon policy."""
+    source = one(
+        source,
+        "  'Kh-32':Object.freeze({passiveRfBearingElevation:'ASSUMED_THREAT'})\n});",
+        "  'Kh-32':Object.freeze({passiveRfBearingElevation:'ASSUMED_THREAT'}),\n  'RGM-84D':Object.freeze({terminalHoj:'ASSUMED_THREAT'})\n});",
+        "C Harpoon capability provenance",
+    )
+    start, end = function_span(source, "asmUpdateHojTrack")
+    original = source[start:end]
+    legacy = original.replace("function asmUpdateHojTrack(", "function asmUpdateHojTrackLegacyU3(", 1)
+    common = (HERE / "hoj_common_c.js").read_text().replace("__MODE__", mode).rstrip()
+    source = source[:start] + legacy + "\n" + common + source[end:]
+    anchor = "function runCoreUnitSelfTests(){"
+    source = one(source, anchor, (HERE / "harpoon_hoj_c.js").read_text().rstrip() + "\n" + anchor, "C Harpoon HOJ adapter")
+    source = exact(
+        source,
+        "candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0},history:[],outcome:null,rcsM2:.06};",
+        "candidate:null,lock:null,lockCount:0,missedS:0,lastObservations:[],observations:0,hoj:null},history:[],outcome:null,rcsM2:.06};",
+        2,
+        "C Harpoon state ownership copies",
+    )
+    source = one(
+        source,
+        "if(!s.active)return;\n  const cueHandoff=",
+        "if(!s.active)return;\n  harpoonUpdateHojC(m,dt);\n  const cueHandoff=",
+        "C terminal-only Harpoon HOJ update",
+    )
+    source = one(
+        source,
+        "const lock=m.seeker.lock,pred=harpoonPredictionA(m.memory,m.ageS,m.navPositionM),terminal=lock&&['TRACK','COAST'].includes(m.seeker.mode),\n    tgo=terminal?Math.hypot(lock.x-m.navPositionM.x,lock.y-m.navPositionM.y)/Math.max(50,Math.hypot(m.ins.velocityMps.x,m.ins.velocityMps.y)):pred.tgoS,\n    aim=terminal?{x:lock.x+lock.vx*(tgo+m.seeker.missedS),y:lock.y+lock.vy*(tgo+m.seeker.missedS)}:harpoonRouteAimE(m,pred),\n    targetYaw=Math.atan2(aim.y-m.navPositionM.y,aim.x-m.navPositionM.x),",
+        "const lock=m.seeker.lock,pred=harpoonPredictionA(m.memory,m.ageS,m.navPositionM),rfTerminal=lock&&['TRACK','COAST'].includes(m.seeker.mode),hojTerminal=harpoonHojGuidanceActiveC(m),terminal=rfTerminal||hojTerminal,\n    tgo=rfTerminal?Math.hypot(lock.x-m.navPositionM.x,lock.y-m.navPositionM.y)/Math.max(50,Math.hypot(m.ins.velocityMps.x,m.ins.velocityMps.y)):pred.tgoS,\n    aim=rfTerminal?{x:lock.x+lock.vx*(tgo+m.seeker.missedS),y:lock.y+lock.vy*(tgo+m.seeker.missedS)}:harpoonRouteAimE(m,pred),\n    targetYaw=hojTerminal?seekerEnsureHojStateU3(m.seeker).worldAz:Math.atan2(aim.y-m.navPositionM.y,aim.x-m.navPositionM.x),",
+        "C Harpoon guidance source",
+    )
+    source = one(
+        source,
+        "m.phase=terminal?'TERMINAL_ARH':(m.seeker.active?'INS_SEARCH':'INS_CRUISE');",
+        "m.phase=hojTerminal?'TERMINAL_HOJ':(rfTerminal?'TERMINAL_ARH':(m.seeker.active?'INS_SEARCH':'INS_CRUISE'));",
+        "C Harpoon phase",
+    )
+    source = one(
+        source,
+        "guidanceState:m.phase,guidanceAuthority:['TRACK','COAST'].includes(m.seeker.mode)?'ARH':'INS'",
+        "guidanceState:m.phase,guidanceAuthority:harpoonHojGuidanceActiveC(m)?'HOJ':(['TRACK','COAST'].includes(m.seeker.mode)?'ARH':'INS')",
+        "C render guidance source",
+    )
+    return source
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0)
     encoded = base64.b64encode(packed)
@@ -194,8 +296,9 @@ def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--through", choices=("A", "B"), default="A")
+    parser.add_argument("--through", choices=("A", "B", "C"), default="A")
     parser.add_argument("--a-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
+    parser.add_argument("--c-mode", choices=("SHADOW", "ACTIVE"), default="ACTIVE")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--diff-path", type=Path)
@@ -207,10 +310,13 @@ def main() -> None:
     before, match = unpack(raw)
     after_a = transform_a(before, args.a_mode)
     after = after_a
-    if args.through in ("B",):
+    if args.through in ("B", "C"):
         if args.a_mode != "ACTIVE":
             raise AssertionError("B requires Commit A ACTIVE")
         after = transform_b(after)
+    after_b = after
+    if args.through == "C":
+        after = transform_c(after, args.c_mode)
     output = repack(raw, after, match)
     check, _ = unpack(output)
     if check != after:
@@ -221,9 +327,10 @@ def main() -> None:
     diff_path = args.diff_path or HERE / f"changes-A-{args.a_mode.lower()}.diff"
     diff_path.write_text("".join("\n" if line == " \n" else line for line in diff.splitlines(True)))
     stage_diff_path = None
-    if args.through == "B":
-        stage_diff = "".join(difflib.unified_diff(after_a.splitlines(True), after.splitlines(True), fromfile="SEEKER_UNIFY_U3_A/main.js", tofile="SEEKER_UNIFY_U3_B/main.js"))
-        stage_diff_path = HERE / "changes-B.diff"
+    if args.through in ("B", "C"):
+        stage_before = after_a if args.through == "B" else after_b
+        stage_diff = "".join(difflib.unified_diff(stage_before.splitlines(True), after.splitlines(True), fromfile=f"SEEKER_UNIFY_U3_{chr(ord(args.through)-1)}/main.js", tofile=f"SEEKER_UNIFY_U3_{args.through}/main.js"))
+        stage_diff_path = HERE / f"changes-{args.through}.diff"
         stage_diff_path.write_text("".join("\n" if line == " \n" else line for line in stage_diff.splitlines(True)))
     receipt = args.receipt or HERE / f"BUILD_A_{args.a_mode}.json"
     build = {
@@ -234,14 +341,15 @@ def main() -> None:
         "baselineMainSha256": sha(before.encode()),
         "through": args.through,
         "harpoonU2Mode": args.a_mode,
-        "harpoonCueMode": "CUE_A_ACTIVE" if args.through in ("B",) else "NOT_CONNECTED",
+        "harpoonCueMode": "CUE_A_ACTIVE" if args.through in ("B", "C") else "NOT_CONNECTED",
+        "hojCommonMode": args.c_mode if args.through == "C" else "NOT_CONNECTED",
         "productHtml": args.out.name,
         "productHtmlSha256": sha(output),
         "productMainSha256": sha(after.encode()),
         "changedSourceLines": sum(1 for line in diff.splitlines() if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))),
         "stageDiff": str(stage_diff_path.relative_to(ROOT)) if stage_diff_path else None,
         "gameplayConstantsAdded": 0,
-        "rngContract": "HARPOON_EXISTING_CALL_ORDER_UNCHANGED_COMMON_LAYER_CONSUMES_ZERO",
+        "rngContract": ("ASM_GLOBAL_STREAM_LEGACY_EQUIVALENT__HARPOON_MISSILE_OWNED_STREAM_ONLY_WHEN_ASSUMED_HOJ_SIGNAL_ACCEPTED" if args.through == "C" else "HARPOON_EXISTING_CALL_ORDER_UNCHANGED_COMMON_LAYER_CONSUMES_ZERO"),
         "truthOutput": False,
     }
     receipt.write_text(json.dumps(build, indent=2) + "\n")

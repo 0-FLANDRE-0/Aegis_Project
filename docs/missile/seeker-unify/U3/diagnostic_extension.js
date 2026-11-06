@@ -22,5 +22,25 @@
     return {schema:'AEGIS_SEEKER_UNIFY_U3_B_DIAGNOSTIC_1',spec:HARPOON_CUE_B_SPEC,checks,pass:Object.values(checks).every(Boolean),packet,horizons,overOld,overPhysical,route,missing,coreAudits:{harpoon:harpoonCoreAuditA(),seeker:harpoonSeekerCoreAuditC()}};
   }
   function contractB(){return {spec:HARPOON_CUE_B_SPEC,packet:harpoonCuePacketB.toString(),predict:harpoonCuePredictB.toString(),handoff:harpoonCueHandoffB.toString(),routeProgram:harpoonRouteProgramE.toString(),routeGate:harpoonRouteGateE.toString(),gate:harpoonGateA.toString(),seeker:harpoonSeekerA.toString(),journal:harpoonJournalReleaseF1.toString(),attackGuard:attackPathGuardH3.toString()};}
-  window.__SEEKER_U3_DIAG__=Object.freeze({cueMatrixB,contractB});
+  function hojExerciseC(){
+    if(typeof seekerUpdateHojTrackU3!=='function')return {available:false};
+    const priorMode=THREAT_ASSUMPTION_MODE,originalSignal=asmHojEmitterSignal,globalBefore=SIM_RNG_STATE>>>0,stepBefore=simStepCounter,
+      signal={active:true,noiseW:1,directJOverN:35,rxGain:1,worldAz:.31,worldEl:-.02,noiseRawW:35,deceptionRawW:0,losQ:1};
+    try{
+      asmHojEmitterSignal=()=>({...signal});SIM_RNG_STATE=0x735103;const auditBefore=seekerU3HojAuditSnapshotC();
+      const asmState={hoj:null,gimbalAz:0,gimbalEl:0,_kfX:null,trackValid:false,mode:'SEARCH',missAgeS:999},asmMissile={seekerOn:true,x:0,y:0,z:20,heading:0,flight:{bodyPitch:0}};
+      for(let i=0;i<90;i++){asmUpdateHojTrack(asmMissile,asmState,ASM_SEEKER_PROFILES['Kh-35U'],SIM_FIXED_DT);simStepCounter++;}
+      const asmResult=structuredClone(asmState.hoj),auditAfter=seekerU3HojAuditSnapshotC(),asmAudit={mode:auditAfter.mode,comparisons:auditAfter.comparisons-auditBefore.comparisons,mismatches:auditAfter.mismatches-auditBefore.mismatches,rngMismatches:auditAfter.rngMismatches-auditBefore.rngMismatches,dynamicAuditArrays:auditAfter.dynamicAuditArrays};
+      const makeHarpoon=seed=>({id:seed,x:0,y:0,z:15,yawRad:0,pitchRad:0,rng:seed>>>0,seeker:{active:true,mode:'SEARCH',azRelRad:0,elRelRad:0,lock:null,missedS:999,hoj:null}});
+      setThreatAssumptionModeC('MAX_THREAT');const max=makeHarpoon(0x735104),maxStart=max.rng;for(let i=0;i<90;i++){harpoonUpdateHojC(max,SIM_FIXED_DT);simStepCounter++;}const maxResult=harpoonHojSnapshotC(max);
+      setThreatAssumptionModeC('CONFIRMED_ONLY');const confirmed=makeHarpoon(0x735104),confirmedStart=confirmed.rng;for(let i=0;i<90;i++){harpoonUpdateHojC(confirmed,SIM_FIXED_DT);simStepCounter++;}const confirmedResult=harpoonHojSnapshotC(confirmed);
+      const checks={asmTrack:asmResult.mode==='TRACK'&&asmResult.valid,harpoonMaxThreatTrack:maxResult.mode==='TRACK'&&maxResult.valid&&maxResult.guidanceActive,
+        confirmedOnlyOff:confirmedResult.enabled===false&&confirmedResult.mode==='OFF'&&!confirmedResult.valid,confirmedOnlyConsumesNoRng:confirmed.rng===confirmedStart,
+        harpoonUsesIndependentRng:max.rng!==maxStart,stateObjectsIsolated:asmState.hoj!==max.seeker.hoj&&max.seeker.hoj!==confirmed.seeker.hoj,
+        assumedThreat:maxResult.provenance==='ASSUMED_THREAT',noMidcoursePassiveRf:!harpoonUpdateHojC.toString().includes('asmPassiveRfMeasurementB2')};
+      return {available:true,mode:SEEKER_U3_HOJ_MODE_C,checks,pass:Object.values(checks).every(Boolean),asmResult,asmAudit,maxThreat:maxResult,confirmedOnly:confirmedResult,
+        functionContracts:{common:seekerUpdateHojTrackU3.toString(),harpoon:harpoonUpdateHojC.toString(),guidance:harpoonHojGuidanceActiveC.toString()}};
+    }finally{asmHojEmitterSignal=originalSignal;setThreatAssumptionModeC(priorMode);SIM_RNG_STATE=globalBefore;simStepCounter=stepBefore;}
+  }
+  window.__SEEKER_U3_DIAG__=Object.freeze({cueMatrixB,contractB,hojExerciseC});
 })();
