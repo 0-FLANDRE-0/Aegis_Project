@@ -79,3 +79,4 @@ is independently `ASSUMED_THREAT`.
 - Expected-value updates: 0. Tolerance changes: 0. Unexplained failures: 0.
 - Final product SHA-256:
   `3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea`.
+- Pull request: [#72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN; not merged.

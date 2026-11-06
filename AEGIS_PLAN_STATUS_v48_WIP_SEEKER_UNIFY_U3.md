@@ -6,7 +6,7 @@
 - TESTED: 단계별 게이트 + 최종 MAX_THREAT 광역 회귀 1회
 - APPROVED: 사용자 확정 계약과 각 단계 게이트
 - UNRESOLVED: paired raw 4건, 상속 부채, CONFIRMED_ONLY 성능, 후속 EMITTER_A
-- RELEASE: 아님. PR 후보이며 병합·release·tag는 사용자 결정 전 금지
+- RELEASE: 아님. PR #72 OPEN이며 병합·release·tag는 사용자 결정 전 금지
 
 ## 기준과 결과물
 
@@ -44,4 +44,4 @@
 
 - 우선순위는 기존 로드맵의 `EMITTER_A`다.
 - `EMCON_B`, 적 항공기 재제작, Kh-32 60 km 조사, TRACK-D/OODA는 U3에 포함하지 않았다.
-- PR 병합은 사용자가 결정한다.
+- PR #72 병합은 사용자가 결정한다.

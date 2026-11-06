@@ -8,7 +8,7 @@
 | TESTED | YES — each stage gate ran, followed by one MAX_THREAT broad regression. |
 | APPROVED | The user-approved A–D contracts passed their gates. No expectation or tolerance was changed. |
 | UNRESOLVED | Four paired exact-state assertions remain raw FAIL but are attributed to the intended D policy; inherited debts and `CONFIRMED_ONLY` performance remain unresolved. |
-| RELEASE | NO — branch/PR candidate only; no merge, release, or tag. |
+| RELEASE | NO — PR #72 is OPEN; no merge, release, or tag. |
 
 ## Build
 

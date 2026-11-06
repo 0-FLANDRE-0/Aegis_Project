@@ -1,6 +1,6 @@
-## 최신 PR 후보 — SEEKER_UNIFY_U3 하푼 시커 공통화
+## 최신 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
 
-- `main@be19f467` 위 `seeker-unify-u3`. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md), [최종 보고서](docs/missile/seeker-unify/U3/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U3/).
+- `main@be19f467` 위 `seeker-unify-u3`, [PR #72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md), [최종 보고서](docs/missile/seeker-unify/U3/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U3/).
 - [실행 HTML ZIP](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3_HTML.zip) · [리포트 ZIP](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3_REPORT.zip). 원격 push 뒤 검증한 GitHub 직접 다운로드 링크는 PR/최종 인계에 기록한다.
 - 하푼 RF 관측을 U2 공통 프로필에 연결하고 일반 트랙의 고정 4 km 상한을 제거했다. 발사 트랙 위치·속도·공분산·시각을 CUE_A에 전달하며, 경로점은 기존 4 km `ROUTE_PLAN_PRIOR`로 분리했다.
 - 하푼 terminal HOJ는 `ASSUMED_THREAT`: MAX_THREAT에서만 활성, CONFIRMED_ONLY에서는 신호 합성 전 비활성이다. 미사일별 독립 상태/RNG이며 중기 수동 RF는 추가하지 않았다.
