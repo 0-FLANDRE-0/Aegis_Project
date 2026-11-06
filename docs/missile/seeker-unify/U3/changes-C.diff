@@ -86,7 +86,7 @@
    function asmHojGuidanceActive(s,p){
      const h=asmEnsureHojState(s);if(!h.valid||(h.mode!=='TRACK'&&h.mode!=='COAST'))return false;
      const rfFirm=!!(s._kfX&&s.trackValid&&s.mode==='TRACK'&&s.missAgeS<Math.max(0.05,(p.coastAfterS??0.3)*0.65));
-@@ -53279,6 +53331,26 @@
+@@ -53283,6 +53335,26 @@
      predictionSigmaM:2*sigma.majorSigmaM,searchBasketM,minorSigmaM:sigma.minorSigmaM,majorAxisRad:sigma.angleRad,
      physicalSearchLimitM,feasible,reason:feasible?null:'INS_PREDICTION_BASKET_INSUFFICIENT',truthUsed:false});
  }
@@ -113,7 +113,7 @@
  function runCoreUnitSelfTests(){
      const failures = [];
      const near = (a,b,eps=1e-9) => Math.abs(a-b) <= eps * Math.max(1,Math.abs(a),Math.abs(b));
-@@ -57489,7 +57561,7 @@
+@@ -57493,7 +57565,7 @@
      wingDeploy01:0,tailDeploy01:0,tailCommandRad:0,thrustN:0,pathM:0,tubeCleared:false,fuzeArmed:false,
      rng:rfSeedWip13A2('HARPOON:'+BATTLESPACE.seed+':'+serial),seeker:{active:false,mode:'OFF',timerS:0,azRelRad:0,
        elRelRad:0,scanDirection:1,scanReversals:0,scanBoundsRad:[0,0],
@@ -122,7 +122,7 @@
    tube.loaded=false;tube.capOpen01=1;r.releaseCooldownS=cfg.releaseIntervalS;r.lastResult='RELEASED:'+serial;r.routeDraft={editing:false,pointsM:[]};
    r.launches.push(harpoonLaunchRecordC(m,gate));if(r.launches.length>32)r.launches.shift();
    harpoonJournalReleaseF1(ACTIVE_SHIP_RUNTIME,m,gate,gate.routeProgram?null:tracks.get(gate.trackId));
-@@ -57540,6 +57612,7 @@
+@@ -57544,6 +57616,7 @@
      rangeToBasket=Math.hypot(pred.x-m.navPositionM.x,pred.y-m.navPositionM.y);
    if(!s.active&&m.ageS>=cfg.boosterBurnS&&(m.route?m.route.completed:rangeToBasket<=cfg.seekerActivationRangeM)){s.active=true;s.mode='SEARCH';s.missedS=0;}
    if(!s.active)return;
@@ -130,7 +130,7 @@
    const cueHandoff=m.route?harpoonCueHandoffB(m.memory,0):(m.cueHandoff??=harpoonCueHandoffB(m.memory,time+Math.max(0,(rangeToBasket-cfg.seekerActivationRangeM)/cfg.cruiseSpeedMps))),
      cueGate=m.route?cfg.seekerSearchBasketM:cueHandoff.searchBasketM,
      desired=angNorm(Math.atan2(cue.y-m.navPositionM.y,cue.x-m.navPositionM.x)-nav.yawRad),
-@@ -57645,10 +57718,10 @@
+@@ -57649,10 +57722,10 @@
    if(m.tubeCleared){m.wingDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.wingDeployS,0,1);m.tailDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.tailDeployS,0,1);}
    if(m.boosterAttached&&m.ageS+1e-9>=cfg.boosterBurnS)harpoonSeparateBoosterA(m);
    harpoonRouteStepE(m);harpoonSeekerA(m,dt);
@@ -145,7 +145,7 @@
      desiredVz=clamp(((terminal?cfg.terminalHeightM:cfg.cruiseHeightM)-m.radarAltitudeM)*.35,-40,20),
      targetPitch=Math.asin(clamp(desiredVz/Math.max(50,Math.hypot(...Object.values(m.ins.velocityMps))),-.32,.25)),
      rho=asmAirDensityKgM3(m.positionM.z),q=.5*rho*m.speedMps*m.speedMps,
-@@ -57658,7 +57731,7 @@
+@@ -57662,7 +57735,7 @@
    if(!m.boosterAttached){
      yawRate=clamp(angNorm(targetYaw-m.ins.yawRad)*.9,-maxRate,maxRate);
      pitchRate=clamp((targetPitch-m.ins.pitchRad)*1.2,-maxRate,maxRate);
@@ -154,7 +154,7 @@
    }
    // Point-mass wind-axis dynamics. Lift supplies gravity compensation and bounded
    // turn acceleration; thrust/drag/gravity change speed, never a prescribed speed.
-@@ -57731,7 +57804,7 @@
+@@ -57735,7 +57808,7 @@
    worldXM:m.positionM.x,worldYM:m.positionM.y,
    headingRad:m.yawRad,pitchRad:m.pitchRad,lifeS:m.ageS,phase:m.phase,speedMps:m.speedMps,boosterAttached:m.boosterAttached,wingDeploy01:m.wingDeploy01,
    tailDeploy01:m.tailDeploy01,tailCommandRad:m.tailCommandRad,thrustN:m.thrustN,tubeCleared:m.tubeCleared,tubeId:m.tubeId,

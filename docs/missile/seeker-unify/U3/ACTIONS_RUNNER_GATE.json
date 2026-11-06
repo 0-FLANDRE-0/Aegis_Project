@@ -1,0 +1,177 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U3_ACTIONS_RUNNER_GATE_1",
+  "status": "PASS",
+  "cause": "ubuntu-latest resolved ubuntu-26.04, unsupported by Playwright 1.55 Chromium dependency installer",
+  "resolution": "Pin only jobs invoking npx playwright install to ubuntu-24.04",
+  "checks": {
+    "yamlParses": true,
+    "expectedPlaywrightJobCount": true,
+    "allPlaywrightJobsPinned": true,
+    "nonPlaywrightJobsNotMassPinned": true,
+    "noUbuntu2604": true
+  },
+  "playwrightJobs": [
+    {
+      "job": "ciws-b1-closure",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ciws-b2-maneuver",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ciws-b3-damage",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-mass-ledger",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-impact-penetration",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-structural-fatigue",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-stability-maneuver",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-wave-flooding",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-interior-topology",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-crew-damage",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "bridgemaster-e",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "ship-profile",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "aft-geometry-wip11",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "material-protection-wip11",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "runtime-safety-wip11b",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "asm-wreckage-wip11c",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "terminal-ballistics-wip12a",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "live-terminal-effects-wip12b",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "internal-terminal-effects-wip12c",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "residual-overpenetration-wip12d",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "naval-armor-fuze-wip12e-rev5",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    },
+    {
+      "job": "terminal-hardening-wip12f",
+      "runner": "ubuntu-24.04",
+      "usesPlaywrightInstall": true
+    }
+  ],
+  "nonPlaywrightJobs": [
+    {
+      "job": "asm-wreckage-wip11c-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "terminal-ballistics-wip12a-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "live-terminal-effects-wip12b-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "internal-terminal-effects-wip12c-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "residual-overpenetration-wip12d-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "naval-armor-fuze-wip12e-rev5-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "terminal-hardening-wip12f-contract",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "static-smoke",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "webgl-render-probe",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    },
+    {
+      "job": "aegis-3d-render",
+      "runner": "ubuntu-latest",
+      "usesPlaywrightInstall": false
+    }
+  ]
+}

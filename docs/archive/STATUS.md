@@ -5,7 +5,7 @@
 - `main` `be19f467` (PR #71 문서 아카이브 병합; 부모에 PR #70 `cue-a-1` 포함)
 - 최신 PR: [#72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN (`seeker-unify-u3`)
 - 기준 제품: `Aegis_SIM_v48_WIP_CUE_A_1.html`, SHA-256 `0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a`
-- 후보 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea`
+- 후보 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -37,9 +37,11 @@
 ## U3 결과 요약
 
 - A–D 단계 게이트 PASS. 각 단계 SHADOW 확인 뒤 ACTIVE 전환.
-- 일반 하푼 track cue의 고정 4 km 상한 제거; route prior 4 km 유지.
+- 일반 하푼 track cue의 고정 4 km 상한만 제거; 기존 250 m 하한 복구·명명; route prior 4 km 유지.
 - 하푼 HOJ는 ASSUMED_THREAT, MAX_THREAT ON/CONFIRMED_ONLY OFF.
 - 수동 RF 후보는 gate 뒤 `d² + ln(det(S))`; truth/RNG 사용 0.
-- 최종 광역 1회: native364/364, UI213/213, WebGL29/29 PASS.
+- 보정 제한 시험: 225→250 m, 4,800 m 무상한, 실제 발사 cueHandoff/시커/보호 소비, 실제 stale 거부 PASS.
+- 보정본 최종 광역 1회: native364/364, UI213/213, WebGL29/29 PASS.
 - paired raw38/42의 4건은 D ACTIVE raid 경로로 단계 분리. 기대값 갱신0, 물리·손상·VLS·최종 결과 동일.
 - 상세와 잔여는 `docs/missile/seeker-unify/U3/FINAL_REPORT.md`, `BACKLOG.md`를 따른다.
+- PR Actions의 Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다.

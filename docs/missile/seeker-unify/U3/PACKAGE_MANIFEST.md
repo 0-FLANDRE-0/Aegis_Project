@@ -11,9 +11,10 @@
 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3_REPORT.zip` intentionally excludes the
 executable HTML. It contains:
 
-- `docs/missile/seeker-unify/U3/`: A–D gate reports and JSON, raw final
-  regression evidence, Commit C/D paired attribution evidence, diffs and
-  deterministic reproduction tools;
+- `docs/missile/seeker-unify/U3/`: A–D gate reports and JSON, the B correction
+  launch/stale/scope/Actions gates, both preserved pre-correction evidence and
+  the single correction broad-regression evidence, Commit C/D paired
+  attribution evidence, diffs and deterministic reproduction tools;
 - root handoff files: `AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md`,
   `README.md`, and `AEGIS_PROJECT_INSTRUCTIONS.md`;
 - current archive decisions/status/backlog/roadmap;

@@ -253,7 +253,7 @@
      if(best){
        const bearingRad=angNorm(best.worldAz+_samB1HashSigned(em,0x6e51,s.sequence)*best.bearingSigmaRad),elevationRad=angNorm(best.worldEl+_samB1HashSigned(em,0x6e52,s.sequence)*best.elevationSigmaRad),direct=asmPassiveDirectRangeEstimateA(elevationRad,best.elevationSigmaRad,ownEst.posM.z);
        s.sample={source:'PASSIVE_RF_CUE_A',sequence:s.sequence,sampleTimeS:timeS,available:true,bearingRad,elevationRad,snr:best.snr,bearingSigmaRad:best.bearingSigmaRad,elevationSigmaRad:best.elevationSigmaRad,confidence:clamp(best.snr/(best.snr+1),0,1),emitterClass:best.emitterClass,family:best.family,band:best.band,frequencyMHz:best.frequencyMHz,frequencyProvenance:best.frequencyProvenance,directRangeEstimateM:direct.rangeM,directRangeSigmaM:direct.sigmaM};
-@@ -53205,7 +53316,81 @@
+@@ -53205,7 +53316,85 @@
    function shipProfileSnapshotV48Wip09(){return JSON.parse(JSON.stringify(ACTIVE_SHIP_PROFILE));}
    window.__AEGIS_ACTIVE_SHIP_PROFILE__=ACTIVE_SHIP_PROFILE;
 
@@ -265,6 +265,9 @@
 +const HARPOON_CUE_B_SPEC=Object.freeze({
 +  schema:'AEGIS_HARPOON_CUE_B_1',source:'SIM_TUNED',resultFitting:false,
 +  filterSchema:ASM_CUE_A_SPEC.schema,basketSigma:ASM_CUE_A_SPEC.basketSigma,
++  // Restored legacy Harpoon acquisition floor. U3 removes only the 4 km cap;
++  // 250 m already bounded the native covariance basket before U3.
++  trackBasketFloorM:250,trackBasketFloorProvenance:'LEGACY_HARPOON_NATIVE_250M_FLOOR',
 +  trackSource:'LOCAL_SURFACE_OBSERVATION',routeSource:'ROUTE_PLAN_PRIOR',
 +  covarianceStateOrder:'x,y,vx,vy,ax,ay',truthUsed:false
 +});
@@ -304,7 +307,8 @@
 +      feasible:true,reason:null,truthUsed:false});
 +  }
 +  const horizon=Math.max(0,Number(predictionHorizonS)||0),q=harpoonCuePredictB(memory,horizon),sigma=harpoonCueHorizontalSigmaB(q?.P),cfg=HARPOON_PROFILE_A.sim,
-+    searchBasketM=ASM_CUE_A_SPEC.basketSigma*sigma.majorSigmaM,
++    covarianceBasketM=ASM_CUE_A_SPEC.basketSigma*sigma.majorSigmaM,
++    searchBasketM=Math.max(HARPOON_CUE_B_SPEC.trackBasketFloorM,covarianceBasketM),
 +    physicalSearchLimitM=Math.min(cfg.seekerRangeM,Math.tan(cfg.seekerGimbalRad)*cfg.seekerActivationRangeM),
 +    feasible=!!q&&Number.isFinite(searchBasketM)&&searchBasketM<=physicalSearchLimitM;
 +  return Object.freeze({schema:HARPOON_CUE_B_SPEC.schema,source:'LOCAL_SURFACE_OBSERVATION',observationUpdate:true,
@@ -336,7 +340,7 @@
      const failures = [];
      const near = (a,b,eps=1e-9) => Math.abs(a-b) <= eps * Math.max(1,Math.abs(a),Math.abs(b));
      try{const audit=runtimeOwnershipAuditV48Wip11A();if(!audit.pass)failures.push('V48 WIP11A runtime ownership audit '+JSON.stringify(audit.checks));if(SIM_SUBSYSTEM_PROFILER_V48_WIP11A.snapshot().enabled)failures.push('V48 WIP11A profiler must default disabled');}
-@@ -55447,7 +55632,8 @@
+@@ -55447,7 +55636,8 @@
  function seekerU2ActiveSnapshot(){return {mode:'ACTIVE',profileOptions:SEEKER_U2_PROFILE_OPTIONS,shadowComputations:0,auditArrayCount:0};}
  window.__SEEKER_COMMON_U2__=Object.freeze({schema:'AEGIS_SEEKER_COMMON_U2_ACTIVE_1',mode:'ACTIVE',profileOptions:SEEKER_U2_PROFILE_OPTIONS,
    synthesizeMonostaticPower:seekerSynthesizeMonostaticPowerU2,resolveCells:seekerResolveCellsU2,cellStatistics:seekerResolvedCellStatisticsU2,
@@ -346,7 +350,7 @@
    tacticalOutputUsed:true,rngConsumed:false,truthOutput:false});
 
    window.__NAVAL_SIM_DIAG__ = {
-@@ -57232,6 +57418,7 @@
+@@ -57232,6 +57422,7 @@
    return deepFreezeShipProfileV48Wip09({schema:'HARPOON_FROZEN_LAUNCH_TRACK_A1',trackId:tr.trackId??null,
      positionM:{x:x[0],y:x[1],z:x[2]},velocityMps:{x:x[3],y:x[4],z:x[5]},covariance:Array.from(tr._kfP),
      stateEpoch:'RELEASE_CURRENT_EKF',stateAgeS:0,observationAgeS:Math.max(0,Number(tr.sensorAge)||0),launchStep:simStepCounter,identity:normalizeTrackOperatorIdentityA3(tr._operatorIdentity),
@@ -354,7 +358,7 @@
      truthUsed:false,updatesAfterRelease:false});
  }
  function harpoonPredictionA(memory,ageS,ownPositionM){
-@@ -57265,6 +57452,7 @@
+@@ -57265,6 +57456,7 @@
      searchCenterM={x:last.x+dx/d*cfg.routeSearchAheadM,y:last.y+dy/d*cfg.routeSearchAheadM,z:0};
    return deepFreezeShipProfileV48Wip09({schema:'HARPOON_PRELAUNCH_COORDINATE_ROUTE_E1',pointsM:points,startM:{x:startM.x,y:startM.y},
      searchCenterM,routeLengthM:pathM,plannedLengthM:pathM+cfg.routeSearchAheadM+cfg.routeTurnReserveM,
@@ -362,7 +366,7 @@
      seekerActivation:'AFTER_FINAL_INS_WAYPOINT_PLANE',dataLink:false,updatesAfterRelease:false,truthUsed:false});
  }
  function harpoonRouteGateE(trackId,tubeId,options={}){
-@@ -57286,8 +57474,11 @@
+@@ -57286,8 +57478,11 @@
    // Fixed geographic search box, not a long extrapolation of an uncertain moving track.
    const memory=deepFreezeShipProfileV48Wip09({schema:'HARPOON_FROZEN_COORDINATE_CUE_E1',trackId:null,positionM:{...program.searchCenterM},
      velocityMps:{x:0,y:0,z:0},covariance:Array(36).fill(0),stateEpoch:'RELEASE_FIXED_COORDINATE',stateAgeS:0,observationAgeS:0,
@@ -375,7 +379,7 @@
      muzzleM:muzzle,axis,authority:{ok:true,mode:'MANUAL_COORDINATE_SEARCH'},truthUsed:false};
  }
  // Missile-owned execution: INS position and immutable program only, no ground truth.
-@@ -57331,17 +57522,17 @@
+@@ -57331,17 +57526,17 @@
    if(Number(tr.sensorAge)>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
    const readiness=surfaceMissileTrackReadinessWip13C4(tr,{minRangeKm:cfg.minLaunchRangeKm,maxRangeKm:cfg.maxLaunchRangeKm,includeOffboardAgeF1:true});
    if(!readiness.ok)return bad(readiness.reason);if(readiness.measurementAgeS>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
@@ -398,7 +402,7 @@
    if(options.attackH3){const safe=attackFinalGuardH3(ACTIVE_SHIP_RUNTIME,tr,options.attackH3,result);if(!safe.ok)return bad(safe.reason);}
    return result;
  }
-@@ -57405,11 +57596,11 @@
+@@ -57405,11 +57600,11 @@
      launchRearM:shipGameFrameV1().pointToWorld(harpoonTubeSpecA(pending.tubeId).rear),tubeId:pending.tubeId,
      carrierVelocityMps:{x:point.vxMps,y:point.vyMps,z:point.vzMps},canisterSpeedMps:4,
      route:gate.routeProgram?{program:gate.routeProgram,index:0,completed:false,passes:[],previousInsM:{x:pos.x,y:pos.y}}:null,
@@ -412,7 +416,7 @@
    tube.loaded=false;tube.capOpen01=1;r.releaseCooldownS=cfg.releaseIntervalS;r.lastResult='RELEASED:'+serial;r.routeDraft={editing:false,pointsM:[]};
    r.launches.push(harpoonLaunchRecordC(m,gate));if(r.launches.length>32)r.launches.shift();
    harpoonJournalReleaseF1(ACTIVE_SHIP_RUNTIME,m,gate,gate.routeProgram?null:tracks.get(gate.trackId));
-@@ -57432,7 +57623,12 @@
+@@ -57432,7 +57627,12 @@
      if(range<25||range>cfg.seekerRangeM||Math.abs(off)>cfg.seekerBeamHalfRad||Math.abs(el-beamEl)>cfg.seekerBeamHalfElRad||Math.abs(bodyAz)>cfg.seekerGimbalRad||Math.abs(bodyEl)>cfg.seekerElGimbalRad)continue;
      const los=terrainAwareRadarLOS(m.x,m.y,m.z,q.x,q.y,q.z??0,1.4);if(los<=.01)continue;
      const rcs=rfReflectorRcsM2Wip13A2(q,'IJ',m.x,m.y,m.z),gain=Math.exp(-2.7726*(off/cfg.seekerBeamHalfRad)**2),
@@ -426,7 +430,7 @@
      if(snr<cfg.seekerMinSnr||harpoonRandomA(m)>clamp(1-Math.exp(-snr/7),.05,.997))continue;
      const rvx=worldSpeedToMps(q.vx??0)-m.velocityMps.x,rvy=worldSpeedToMps(q.vy??0)-m.velocityMps.y,rvz=(q.vz??0)-m.velocityMps.z,
        radial=(rvx*dx+rvy*dy+rvz*dz)/range,noise=Math.sqrt(12/Math.max(3,snr));
-@@ -57441,8 +57637,11 @@
+@@ -57441,8 +57641,11 @@
        radialMps:radial+harpoonNoiseA(m)*.6*noise,verticalExtentM:Math.max(0,(q.extentVerticalM??0)+harpoonNoiseA(m)*.35),
        rangeExtentM:Math.max(0,(q.extentRangeM??0)+harpoonNoiseA(m)*2),dopplerSpreadMps:q.dopplerSpreadMps??0,snr,noiseScale:noise});
    }
@@ -440,7 +444,7 @@
  }
  // Independent RF seeker. Diagnostic observation injection is never used by the live caller.
  function harpoonSeekerA(m,dt,diagnosticObservations=null){
-@@ -57452,9 +57651,9 @@
+@@ -57452,9 +57655,9 @@
      rangeToBasket=Math.hypot(pred.x-m.navPositionM.x,pred.y-m.navPositionM.y);
    if(!s.active&&m.ageS>=cfg.boosterBurnS&&(m.route?m.route.completed:rangeToBasket<=cfg.seekerActivationRangeM)){s.active=true;s.mode='SEARCH';s.missedS=0;}
    if(!s.active)return;
@@ -453,7 +457,7 @@
      desired=angNorm(Math.atan2(cue.y-m.navPositionM.y,cue.x-m.navPositionM.x)-nav.yawRad),
      half=Math.min(cfg.seekerGimbalRad,Math.max(cfg.seekerMinSweepRad,Math.atan2(cueGate,Math.max(1000,rangeToBasket)))),
      lo=clamp(desired-half,-cfg.seekerGimbalRad,cfg.seekerGimbalRad),hi=clamp(desired+half,-cfg.seekerGimbalRad,cfg.seekerGimbalRad);
-@@ -57558,10 +57757,10 @@
+@@ -57558,10 +57761,10 @@
    if(m.tubeCleared){m.wingDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.wingDeployS,0,1);m.tailDeploy01=clamp((m.ageS-m.clearAgeS)/cfg.tailDeployS,0,1);}
    if(m.boosterAttached&&m.ageS+1e-9>=cfg.boosterBurnS)harpoonSeparateBoosterA(m);
    harpoonRouteStepE(m);harpoonSeekerA(m,dt);
@@ -468,7 +472,7 @@
      desiredVz=clamp(((terminal?cfg.terminalHeightM:cfg.cruiseHeightM)-m.radarAltitudeM)*.35,-40,20),
      targetPitch=Math.asin(clamp(desiredVz/Math.max(50,Math.hypot(...Object.values(m.ins.velocityMps))),-.32,.25)),
      rho=asmAirDensityKgM3(m.positionM.z),q=.5*rho*m.speedMps*m.speedMps,
-@@ -57571,7 +57770,7 @@
+@@ -57571,7 +57774,7 @@
    if(!m.boosterAttached){
      yawRate=clamp(angNorm(targetYaw-m.ins.yawRad)*.9,-maxRate,maxRate);
      pitchRate=clamp((targetPitch-m.ins.pitchRad)*1.2,-maxRate,maxRate);
@@ -477,7 +481,7 @@
    }
    // Point-mass wind-axis dynamics. Lift supplies gravity compensation and bounded
    // turn acceleration; thrust/drag/gravity change speed, never a prescribed speed.
-@@ -57644,7 +57843,7 @@
+@@ -57644,7 +57847,7 @@
    worldXM:m.positionM.x,worldYM:m.positionM.y,
    headingRad:m.yawRad,pitchRad:m.pitchRad,lifeS:m.ageS,phase:m.phase,speedMps:m.speedMps,boosterAttached:m.boosterAttached,wingDeploy01:m.wingDeploy01,
    tailDeploy01:m.tailDeploy01,tailCommandRad:m.tailCommandRad,thrustN:m.thrustN,tubeCleared:m.tubeCleared,tubeId:m.tubeId,
@@ -486,7 +490,7 @@
    seeker:{active:m.seeker.active,type:'ARH',mode:m.seeker.mode,locked:m.seeker.mode==='TRACK',quality:clamp(m.seeker.lockCount/8,0,1),
      azRelRad:m.yawRad+m.seeker.azRelRad,elRad:m.pitchRad+m.seeker.elRelRad,fovFullDeg:16,fovAzFullDeg:16,fovElFullDeg:20,
      outerFovAzFullDeg:90,outerFovElFullDeg:60,outerAzRelRad:m.yawRad,outerElRad:m.pitchRad,
-@@ -65552,17 +65751,17 @@
+@@ -65552,17 +65755,17 @@
    if(Number(tr.sensorAge)>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
    const readiness=surfaceMissileTrackReadinessWip13C4(tr,{minRangeKm:cfg.minLaunchRangeKm,maxRangeKm:cfg.maxLaunchRangeKm,includeOffboardAgeF1:true});
    if(!readiness.ok)return bad(readiness.reason);if(readiness.measurementAgeS>cfg.maxTrackAgeS)return bad('SURFACE_TRACK_COAST_EXPIRED');
@@ -509,7 +513,7 @@
    if(options.attackH3){const safe=attackFinalGuardH3(ACTIVE_SHIP_RUNTIME,tr,options.attackH3,result);if(!safe.ok)return bad(safe.reason);}
    return result;
  }
-@@ -65598,8 +65797,11 @@
+@@ -65598,8 +65801,11 @@
    // Fixed geographic search box, not a long extrapolation of an uncertain moving track.
    const memory=deepFreezeShipProfileV48Wip09({schema:'HARPOON_FROZEN_COORDINATE_CUE_E1',trackId:null,positionM:{...program.searchCenterM},
      velocityMps:{x:0,y:0,z:0},covariance:Array(36).fill(0),stateEpoch:'RELEASE_FIXED_COORDINATE',stateAgeS:0,observationAgeS:0,

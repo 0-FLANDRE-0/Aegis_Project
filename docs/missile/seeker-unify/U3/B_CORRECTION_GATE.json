@@ -1,0 +1,763 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U3_B_CORRECTION_GATE_1",
+  "status": "PASS",
+  "inputSha256": "8e1c0733c4fd88ee0ee1f8db616fbca0ff76151bbf01831e5ed096d4f7717fa8",
+  "elapsedS": 101.82503679100046,
+  "checks": {
+    "matrix": true,
+    "legacy225To250": true,
+    "largeCovarianceNotClipped": true,
+    "routePriorSeparateAndFixed": true,
+    "floorLiveLaunch": true,
+    "largeLiveLaunch": true,
+    "liveCueHandoff": true,
+    "seekerConsumesDynamicBasket": true,
+    "attackGuardConsumesDynamicBasket": true,
+    "actualStaleRejected": true,
+    "deterministic": true,
+    "noPageErrors": true,
+    "attackConsumerContractPresent": true
+  },
+  "matrix": {
+    "schema": "AEGIS_SEEKER_UNIFY_U3_B_DIAGNOSTIC_2",
+    "spec": {
+      "schema": "AEGIS_HARPOON_CUE_B_1",
+      "source": "SIM_TUNED",
+      "resultFitting": false,
+      "filterSchema": "AEGIS_ASM_CUE_A_1",
+      "basketSigma": 3,
+      "trackBasketFloorM": 250,
+      "trackBasketFloorProvenance": "LEGACY_HARPOON_NATIVE_250M_FLOOR",
+      "trackSource": "LOCAL_SURFACE_OBSERVATION",
+      "routeSource": "ROUTE_PLAN_PRIOR",
+      "covarianceStateOrder": "x,y,vx,vy,ax,ay",
+      "truthUsed": false
+    },
+    "checks": {
+      "packetMapped": true,
+      "allFinite": true,
+      "covarianceGrows": true,
+      "legacy250mFloorRestored": true,
+      "fixed4kmRemoved": true,
+      "physicalLimitRetained": true,
+      "routePriorIsNotObservation": true,
+      "missingRejected": true,
+      "deterministic": true,
+      "noTruthFields": true
+    },
+    "pass": true,
+    "packet": {
+      "schema": "AEGIS_ASM_CUE_A_1",
+      "x": [
+        100000,
+        20000,
+        12,
+        3,
+        0,
+        0
+      ],
+      "P": [
+        5625,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5625,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.0016,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.0016,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.09,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.09
+      ],
+      "timeS": 0,
+      "source": "LOCAL_SURFACE_OBSERVATION",
+      "truthUsed": false
+    },
+    "nominalCovarianceBasketM": 225,
+    "horizons": [
+      {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 0,
+        "positionM": {
+          "x": 100000,
+          "y": 20000
+        },
+        "velocityMps": {
+          "x": 12,
+          "y": 3
+        },
+        "predictionSigmaM": 150,
+        "searchBasketM": 250,
+        "minorSigmaM": 75,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 30,
+        "positionM": {
+          "x": 100360,
+          "y": 20090
+        },
+        "velocityMps": {
+          "x": 12,
+          "y": 3
+        },
+        "predictionSigmaM": 294.30837931362476,
+        "searchBasketM": 441.46256897043713,
+        "minorSigmaM": 147.15418965681238,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 120,
+        "positionM": {
+          "x": 101440,
+          "y": 20360
+        },
+        "velocityMps": {
+          "x": 12,
+          "y": 3
+        },
+        "predictionSigmaM": 3433.0846734653574,
+        "searchBasketM": 5149.627010198036,
+        "minorSigmaM": 1716.5423367326787,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 300,
+        "positionM": {
+          "x": 103600,
+          "y": 20900
+        },
+        "velocityMps": {
+          "x": 12,
+          "y": 3
+        },
+        "predictionSigmaM": 16767.14159341207,
+        "searchBasketM": 25150.712390118104,
+        "minorSigmaM": 8383.570796706035,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": false,
+        "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+        "truthUsed": false
+      }
+    ],
+    "overOld": {
+      "schema": "AEGIS_HARPOON_CUE_B_1",
+      "source": "LOCAL_SURFACE_OBSERVATION",
+      "observationUpdate": true,
+      "horizonS": 0,
+      "positionM": {
+        "x": 100000,
+        "y": 20000
+      },
+      "velocityMps": {
+        "x": 12,
+        "y": 3
+      },
+      "predictionSigmaM": 3200,
+      "searchBasketM": 4800,
+      "minorSigmaM": 1600,
+      "majorAxisRad": 0,
+      "physicalSearchLimitM": 13999.999999999998,
+      "feasible": true,
+      "reason": null,
+      "truthUsed": false
+    },
+    "overPhysical": {
+      "schema": "AEGIS_HARPOON_CUE_B_1",
+      "source": "LOCAL_SURFACE_OBSERVATION",
+      "observationUpdate": true,
+      "horizonS": 0,
+      "positionM": {
+        "x": 100000,
+        "y": 20000
+      },
+      "velocityMps": {
+        "x": 12,
+        "y": 3
+      },
+      "predictionSigmaM": 12000,
+      "searchBasketM": 18000,
+      "minorSigmaM": 6000,
+      "majorAxisRad": 0,
+      "physicalSearchLimitM": 13999.999999999998,
+      "feasible": false,
+      "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+      "truthUsed": false
+    },
+    "route": {
+      "schema": "AEGIS_HARPOON_CUE_B_1",
+      "source": "ROUTE_PLAN_PRIOR",
+      "observationUpdate": false,
+      "horizonS": 0,
+      "predictionSigmaM": 2666.6666666666665,
+      "searchBasketM": 4000,
+      "physicalSearchLimitM": 4000,
+      "feasible": true,
+      "reason": null,
+      "truthUsed": false
+    },
+    "missing": {
+      "schema": "AEGIS_HARPOON_CUE_B_1",
+      "source": "LOCAL_SURFACE_OBSERVATION",
+      "observationUpdate": true,
+      "horizonS": 30,
+      "positionM": null,
+      "velocityMps": null,
+      "predictionSigmaM": NaN,
+      "searchBasketM": NaN,
+      "minorSigmaM": NaN,
+      "majorAxisRad": NaN,
+      "physicalSearchLimitM": 13999.999999999998,
+      "feasible": false,
+      "reason": "INS_PREDICTION_BASKET_INSUFFICIENT",
+      "truthUsed": false
+    },
+    "coreAudits": {
+      "harpoon": {
+        "schema": "HARPOON_A_CORE_AUDIT",
+        "checks": {
+          "profileImmutable": true,
+          "sourceEightUniqueTubes": true,
+          "sourceAxisUnitAndUpward": true,
+          "sourceCapsComplete": true,
+          "isolatedDetachedInventory": true,
+          "ddgNoInstallation": true,
+          "modelRigidRoles": true,
+          "trackMemoryDeepCopiedAndFrozen": true,
+          "insPredictionLeadsStoredVelocity": true,
+          "protectedIdentityDenied": true,
+          "manualAuthorityOnly": true,
+          "saveNormalAndDuplicateBoundary": true,
+          "warheadFillSeparatedFromAssembly": true,
+          "modelCreditRetained": true
+        },
+        "pass": true
+      },
+      "seeker": {
+        "schema": "HARPOON_C_SEEKER_AUDIT",
+        "checks": {
+          "firstHitIsAcquisition": true,
+          "secondHitStillNoGuidanceLock": true,
+          "confirmedRepeatedObservationsTrack": true,
+          "noReturnCoasts": true,
+          "coastTimeoutReentersSearch": true,
+          "searchReversesBothDirections": true,
+          "hardAzElStops": true,
+          "noPrematureActivation": true,
+          "beyondGimbalCannotAcquire": true,
+          "singleEchoExpires": true
+        },
+        "pass": true
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "floor-general-track",
+      "options": {
+        "rangeKm": 8,
+        "posSigmaM": 75
+      }
+    },
+    {
+      "name": "large-covariance-general-track",
+      "options": {
+        "rangeKm": 8,
+        "posSigmaM": 1600
+      }
+    },
+    {
+      "name": "stale-general-track",
+      "options": {
+        "rangeKm": 8,
+        "posSigmaM": 75,
+        "stale": true
+      }
+    }
+  ],
+  "first": [
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "FLOOR_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "posSigmaM": 75,
+      "expectedBasket": 250,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "searchBasketM": 250,
+        "predictionSigmaM": 150,
+        "cueSource": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "physicalSearchLimitM": 13999.999999999998
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A1"
+      },
+      "releaseTicks": 11,
+      "missileId": 1,
+      "releaseCue": {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 0,
+        "positionM": {
+          "x": 7998.417744373734,
+          "y": 80.40612420660898
+        },
+        "velocityMps": {
+          "x": 0.07118873377899357,
+          "y": 3.9645952179535424
+        },
+        "predictionSigmaM": 150,
+        "searchBasketM": 250,
+        "minorSigmaM": 75,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      "releaseRouteUsed": false,
+      "attackConsumer": {
+        "pass": true,
+        "dynamicWider": false,
+        "dynamicSearchBasketM": 250,
+        "fallbackSearchBasketM": 4000,
+        "distance": 2640.3378511905958,
+        "dynamicThreshold": 765.3378511905955,
+        "fixedThreshold": 4515.337851190596,
+        "dynamic": {
+          "ok": true,
+          "routeLengthM": 8003.22644091034,
+          "flightTimeEstimateS": 27.69282505505308,
+          "turnRad": 0,
+          "searchCenterM": {
+            "x": 8000.389161524166,
+            "y": 190.19696599149648
+          },
+          "protectedContacts": 1
+        },
+        "fixedFallback": {
+          "ok": false,
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH"
+        }
+      },
+      "seekerTicks": 192,
+      "seekerConsumer": {
+        "active": true,
+        "actual": [
+          -0.1957712515725755,
+          0.22310776890606357
+        ],
+        "dynamic": [
+          -0.1957712515725755,
+          0.22310776890606357
+        ],
+        "fixed4000": [
+          -0.46684782122342794,
+          0.494184338556916
+        ],
+        "dynamicMatch": true,
+        "distinctFromFixed4000": true,
+        "rangeToBasket": 7673.6109911277035
+      },
+      "routePriorUsed": false
+    },
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "LARGE_COVARIANCE_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "posSigmaM": 1600,
+      "expectedBasket": 4800,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "searchBasketM": 4800,
+        "predictionSigmaM": 3200,
+        "cueSource": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "physicalSearchLimitM": 13999.999999999998
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A1"
+      },
+      "releaseTicks": 11,
+      "missileId": 1,
+      "releaseCue": {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 0,
+        "positionM": {
+          "x": 7998.417744373734,
+          "y": 80.40612420660898
+        },
+        "velocityMps": {
+          "x": 0.07118873377899357,
+          "y": 3.9645952179535424
+        },
+        "predictionSigmaM": 3200,
+        "searchBasketM": 4800,
+        "minorSigmaM": 1600,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      "releaseRouteUsed": false,
+      "attackConsumer": {
+        "pass": true,
+        "dynamicWider": true,
+        "dynamicSearchBasketM": 4800,
+        "fallbackSearchBasketM": 4000,
+        "distance": 4915.337851190596,
+        "dynamicThreshold": 5315.337851190596,
+        "fixedThreshold": 4515.337851190596,
+        "dynamic": {
+          "ok": false,
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH"
+        },
+        "fixedFallback": {
+          "ok": true,
+          "routeLengthM": 8003.22644091034,
+          "flightTimeEstimateS": 27.69282505505308,
+          "turnRad": 0,
+          "searchCenterM": {
+            "x": 8000.389161524166,
+            "y": 190.19696599149648
+          },
+          "protectedContacts": 1
+        }
+      },
+      "seekerTicks": 192,
+      "seekerConsumer": {
+        "active": true,
+        "actual": [
+          -0.5453051690894041,
+          0.5726416864228921
+        ],
+        "dynamic": [
+          -0.5453051690894041,
+          0.5726416864228921
+        ],
+        "fixed4000": [
+          -0.46684782122342794,
+          0.494184338556916
+        ],
+        "dynamicMatch": true,
+        "distinctFromFixed4000": true,
+        "rangeToBasket": 7673.6109911277035
+      },
+      "routePriorUsed": false
+    },
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "STALE_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "staleEvidence": {
+        "ticks": 615,
+        "dropoutMask": {
+          "spy": false,
+          "spq": false,
+          "bme": false
+        },
+        "trackRetained": true,
+        "sensorAge": 10.266666666666756,
+        "maxTrackAgeS": 10
+      },
+      "gate": {
+        "ok": false,
+        "reason": "SURFACE_TRACK_COAST_EXPIRED",
+        "truthUsed": false
+      },
+      "pendingCreated": false,
+      "routePriorUsed": false
+    }
+  ],
+  "second": [
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "FLOOR_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "posSigmaM": 75,
+      "expectedBasket": 250,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "searchBasketM": 250,
+        "predictionSigmaM": 150,
+        "cueSource": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "physicalSearchLimitM": 13999.999999999998
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A1"
+      },
+      "releaseTicks": 11,
+      "missileId": 1,
+      "releaseCue": {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 0,
+        "positionM": {
+          "x": 7998.417744373734,
+          "y": 80.40612420660898
+        },
+        "velocityMps": {
+          "x": 0.07118873377899357,
+          "y": 3.9645952179535424
+        },
+        "predictionSigmaM": 150,
+        "searchBasketM": 250,
+        "minorSigmaM": 75,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      "releaseRouteUsed": false,
+      "attackConsumer": {
+        "pass": true,
+        "dynamicWider": false,
+        "dynamicSearchBasketM": 250,
+        "fallbackSearchBasketM": 4000,
+        "distance": 2640.3378511905958,
+        "dynamicThreshold": 765.3378511905955,
+        "fixedThreshold": 4515.337851190596,
+        "dynamic": {
+          "ok": true,
+          "routeLengthM": 8003.22644091034,
+          "flightTimeEstimateS": 27.69282505505308,
+          "turnRad": 0,
+          "searchCenterM": {
+            "x": 8000.389161524166,
+            "y": 190.19696599149648
+          },
+          "protectedContacts": 1
+        },
+        "fixedFallback": {
+          "ok": false,
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH"
+        }
+      },
+      "seekerTicks": 192,
+      "seekerConsumer": {
+        "active": true,
+        "actual": [
+          -0.1957712515725755,
+          0.22310776890606357
+        ],
+        "dynamic": [
+          -0.1957712515725755,
+          0.22310776890606357
+        ],
+        "fixed4000": [
+          -0.46684782122342794,
+          0.494184338556916
+        ],
+        "dynamicMatch": true,
+        "distinctFromFixed4000": true,
+        "rangeToBasket": 7673.6109911277035
+      },
+      "routePriorUsed": false
+    },
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "LARGE_COVARIANCE_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "posSigmaM": 1600,
+      "expectedBasket": 4800,
+      "gate": {
+        "ok": true,
+        "reason": null,
+        "searchBasketM": 4800,
+        "predictionSigmaM": 3200,
+        "cueSource": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "physicalSearchLimitM": 13999.999999999998
+      },
+      "request": {
+        "ok": true,
+        "pending": true,
+        "tubeId": "MK141-A1"
+      },
+      "releaseTicks": 11,
+      "missileId": 1,
+      "releaseCue": {
+        "schema": "AEGIS_HARPOON_CUE_B_1",
+        "source": "LOCAL_SURFACE_OBSERVATION",
+        "observationUpdate": true,
+        "horizonS": 0,
+        "positionM": {
+          "x": 7998.417744373734,
+          "y": 80.40612420660898
+        },
+        "velocityMps": {
+          "x": 0.07118873377899357,
+          "y": 3.9645952179535424
+        },
+        "predictionSigmaM": 3200,
+        "searchBasketM": 4800,
+        "minorSigmaM": 1600,
+        "majorAxisRad": 0,
+        "physicalSearchLimitM": 13999.999999999998,
+        "feasible": true,
+        "reason": null,
+        "truthUsed": false
+      },
+      "releaseRouteUsed": false,
+      "attackConsumer": {
+        "pass": true,
+        "dynamicWider": true,
+        "dynamicSearchBasketM": 4800,
+        "fallbackSearchBasketM": 4000,
+        "distance": 4915.337851190596,
+        "dynamicThreshold": 5315.337851190596,
+        "fixedThreshold": 4515.337851190596,
+        "dynamic": {
+          "ok": false,
+          "reason": "PROTECTED_ATTACK_CORRIDOR_OR_SEARCH"
+        },
+        "fixedFallback": {
+          "ok": true,
+          "routeLengthM": 8003.22644091034,
+          "flightTimeEstimateS": 27.69282505505308,
+          "turnRad": 0,
+          "searchCenterM": {
+            "x": 8000.389161524166,
+            "y": 190.19696599149648
+          },
+          "protectedContacts": 1
+        }
+      },
+      "seekerTicks": 192,
+      "seekerConsumer": {
+        "active": true,
+        "actual": [
+          -0.5453051690894041,
+          0.5726416864228921
+        ],
+        "dynamic": [
+          -0.5453051690894041,
+          0.5726416864228921
+        ],
+        "fixed4000": [
+          -0.46684782122342794,
+          0.494184338556916
+        ],
+        "dynamicMatch": true,
+        "distinctFromFixed4000": true,
+        "rangeToBasket": 7673.6109911277035
+      },
+      "routePriorUsed": false
+    },
+    {
+      "schema": "AEGIS_SEEKER_UNIFY_U3_B_LAUNCH_FLOW_1",
+      "case": "STALE_GENERAL_TRACK",
+      "pass": true,
+      "trackId": 300000001,
+      "tubeId": "MK141-A1",
+      "staleEvidence": {
+        "ticks": 615,
+        "dropoutMask": {
+          "spy": false,
+          "spq": false,
+          "bme": false
+        },
+        "trackRetained": true,
+        "sensorAge": 10.266666666666756,
+        "maxTrackAgeS": 10
+      },
+      "gate": {
+        "ok": false,
+        "reason": "SURFACE_TRACK_COAST_EXPIRED",
+        "truthUsed": false
+      },
+      "pendingCreated": false,
+      "routePriorUsed": false
+    }
+  ],
+  "pageErrors": {
+    "bootstrap": [],
+    "floor-general-track-first": [],
+    "large-covariance-general-track-first": [],
+    "stale-general-track-first": [],
+    "floor-general-track-second": [],
+    "large-covariance-general-track-second": [],
+    "stale-general-track-second": []
+  },
+  "contractEvidence": {
+    "attackGuardUsesDynamic": true,
+    "seekerFunctionToStringWrapped": true,
+    "seekerEvidence": "LIVE_SCAN_BOUNDS_MATCH_DYNAMIC_AND_DIFFER_FROM_FIXED_4000"
+  }
+}

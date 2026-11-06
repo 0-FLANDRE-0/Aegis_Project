@@ -44,3 +44,11 @@
 - 하푼 HOJ는 공개 확인 전 `ASSUMED_THREAT`; MAX_THREAT ON, CONFIRMED_ONLY OFF다. 하푼 중기 수동 RF는 추가하지 않는다.
 - A–D는 단계마다 push/readback하며 마지막에 광역 회귀를 한 번만 실행한다. PR까지만 진행하고 병합은 사용자가 결정한다.
 - 최종 paired exact-state 4건은 원본 expectation을 바꾸지 않는다. C 42/42와 D SHADOW exact로 D ACTIVE 순위 변경에 귀속하고 raw FAIL 증거를 보존한다.
+
+## 2026-11-06 (SEEKER_UNIFY_U3 PR #72 보정)
+
+- 일반 추적 covariance search basket에서 pre-U3의 250 m 하한을 복구한다. 제거 대상은 4 km 상한뿐이며 새 튜닝 상수를 만들지 않는다.
+- 실제 일반 추적 발사에서 동적 basket의 cueHandoff·시커·보호 판정 전달을 증명하고, 경로점 `ROUTE_PLAN_PRIOR` 시험과 분리한다.
+- stale 관측은 실제 센서 dropout으로 만들고 상위 발사 게이트의 거부를 증명한다.
+- Playwright 1.55를 실행하는 Actions job만 `ubuntu-24.04`로 고정하며 단순 재실행으로 처리하지 않는다.
+- 보정 제한 시험 뒤 보정본 광역 회귀는 한 번만 실행한다. PR #72는 병합하지 않는다.

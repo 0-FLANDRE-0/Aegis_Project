@@ -61,7 +61,7 @@ env:
 
 jobs:
   ciws-b1-closure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Check out repository
@@ -114,7 +114,7 @@ jobs:
           retention-days: 14
 
   ciws-b2-maneuver:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -167,7 +167,7 @@ jobs:
           retention-days: 14
 
   ciws-b3-damage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -220,7 +220,7 @@ jobs:
           retention-days: 14
 
   ship-mass-ledger:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -273,7 +273,7 @@ jobs:
           retention-days: 14
 
   ship-impact-penetration:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -326,7 +326,7 @@ jobs:
           retention-days: 14
 
   ship-structural-fatigue:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -379,7 +379,7 @@ jobs:
           retention-days: 14
 
   ship-stability-maneuver:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -432,7 +432,7 @@ jobs:
           retention-days: 14
 
   ship-wave-flooding:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -485,7 +485,7 @@ jobs:
           retention-days: 14
 
   ship-interior-topology:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -538,7 +538,7 @@ jobs:
           retention-days: 14
 
   ship-crew-damage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -592,7 +592,7 @@ jobs:
           retention-days: 14
 
   bridgemaster-e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -646,7 +646,7 @@ jobs:
           retention-days: 14
 
   ship-profile:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -694,7 +694,7 @@ jobs:
           retention-days: 14
 
   aft-geometry-wip11:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -739,7 +739,7 @@ jobs:
           retention-days: 14
 
   material-protection-wip11:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -787,7 +787,7 @@ jobs:
           retention-days: 14
 
   runtime-safety-wip11b:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -849,7 +849,7 @@ jobs:
         run: npm run test:asm-wreckage-contract
 
   asm-wreckage-wip11c:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -909,7 +909,7 @@ jobs:
         run: npm run test:terminal-ballistics-contract
 
   terminal-ballistics-wip12a:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -970,7 +970,7 @@ jobs:
         run: npm run test:live-terminal-effects-contract
 
   live-terminal-effects-wip12b:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       SIM_FILE: archive/v48/WIP12B/Aegis_SIM_v48_WIP12B.html
@@ -1033,7 +1033,7 @@ jobs:
         run: npm run test:internal-terminal-effects-contract
 
   internal-terminal-effects-wip12c:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       SIM_FILE: archive/v48/WIP12C/Aegis_SIM_v48_WIP12C.html
@@ -1094,7 +1094,7 @@ jobs:
         run: npm run test:residual-overpenetration-contract
 
   residual-overpenetration-wip12d:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check out repository
@@ -1158,7 +1158,7 @@ jobs:
         run: npm run test:naval-armor-fuze-contract
 
   naval-armor-fuze-wip12e-rev5:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
       SIM_FILE: Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html
@@ -1222,7 +1222,7 @@ jobs:
         run: npm run test:terminal-hardening-contract
 
   terminal-hardening-wip12f:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
       SIM_FILE: Aegis_SIM_v48_WIP12F.html

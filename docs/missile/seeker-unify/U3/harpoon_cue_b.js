@@ -5,6 +5,9 @@
 const HARPOON_CUE_B_SPEC=Object.freeze({
   schema:'AEGIS_HARPOON_CUE_B_1',source:'SIM_TUNED',resultFitting:false,
   filterSchema:ASM_CUE_A_SPEC.schema,basketSigma:ASM_CUE_A_SPEC.basketSigma,
+  // Restored legacy Harpoon acquisition floor. U3 removes only the 4 km cap;
+  // 250 m already bounded the native covariance basket before U3.
+  trackBasketFloorM:250,trackBasketFloorProvenance:'LEGACY_HARPOON_NATIVE_250M_FLOOR',
   trackSource:'LOCAL_SURFACE_OBSERVATION',routeSource:'ROUTE_PLAN_PRIOR',
   covarianceStateOrder:'x,y,vx,vy,ax,ay',truthUsed:false
 });
@@ -44,7 +47,8 @@ function harpoonCueHandoffB(memory,predictionHorizonS){
       feasible:true,reason:null,truthUsed:false});
   }
   const horizon=Math.max(0,Number(predictionHorizonS)||0),q=harpoonCuePredictB(memory,horizon),sigma=harpoonCueHorizontalSigmaB(q?.P),cfg=HARPOON_PROFILE_A.sim,
-    searchBasketM=ASM_CUE_A_SPEC.basketSigma*sigma.majorSigmaM,
+    covarianceBasketM=ASM_CUE_A_SPEC.basketSigma*sigma.majorSigmaM,
+    searchBasketM=Math.max(HARPOON_CUE_B_SPEC.trackBasketFloorM,covarianceBasketM),
     physicalSearchLimitM=Math.min(cfg.seekerRangeM,Math.tan(cfg.seekerGimbalRad)*cfg.seekerActivationRangeM),
     feasible=!!q&&Number.isFinite(searchBasketM)&&searchBasketM<=physicalSearchLimitM;
   return Object.freeze({schema:HARPOON_CUE_B_SPEC.schema,source:'LOCAL_SURFACE_OBSERVATION',observationUpdate:true,

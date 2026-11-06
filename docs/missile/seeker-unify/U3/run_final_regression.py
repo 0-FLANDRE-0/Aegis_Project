@@ -13,7 +13,7 @@ HARNESS_ROOT = Path("/workspace/aegis-ui-a")
 HARNESS = Path("/workspace/aegis-asm-seeker-a/docs/missile/asm-seeker/A/asm_seeker_regression_runner.py")
 PRODUCT = REPO / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html"
 BASELINE = REPO / "Aegis_SIM_v48_WIP_CUE_A_1.html"
-PRODUCT_SHA = "3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea"
+PRODUCT_SHA = "243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835"
 BASELINE_SHA = "0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a"
 
 
@@ -23,7 +23,7 @@ runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
 runner.P = HERE
 runner.R = HARNESS_ROOT
-runner.E = HERE / "evidence/final-regression"
+runner.E = HERE / "evidence/final-regression-b-correction"
 runner.HTML = PRODUCT
 runner.BASE = BASELINE
 runner.EXPECTED = PRODUCT_SHA

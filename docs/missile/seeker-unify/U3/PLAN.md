@@ -73,10 +73,13 @@ is independently `ASSUMED_THREAT`.
 - B checkpoint: PASS, remote `c9062a4b06c8473f1379ae26a08a7c05aaff966a`.
 - C checkpoint: PASS, remote `9e1406137b9486f359698b9742652cf683f4ca3c`.
 - D checkpoint: PASS, remote `217e96eff2f46a27d4955348d2e9f8ed824cf9f1`.
-- Final MAX_THREAT broad regression executed exactly once: native 364/364,
+- PR #72 B correction restored the pre-U3 250 m general-track floor while
+  keeping the 4 km cap removed. Actual launch, seeker/protection consumer and
+  sensor-dropout stale gates passed; C/D limited gates remained PASS.
+- Corrected-product MAX_THREAT broad regression executed exactly once: native 364/364,
   UI 213/213 and WebGL 29/29 PASS; paired raw 38/42 with four retained,
   stage-attributed D-policy exact-state differences.
 - Expected-value updates: 0. Tolerance changes: 0. Unexplained failures: 0.
 - Final product SHA-256:
-  `3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea`.
+  `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`.
 - Pull request: [#72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN; not merged.
