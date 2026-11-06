@@ -1,12 +1,18 @@
 # 백로그
 
-## 다음 지시서(U3)에 넣을 것
+## U3에서 완료
 
-- **수동 RF 방사원 선택을 우도 기준으로 바꾸기**
+- **수동 RF 방사원 선택을 우도 기준으로 바꾸기 — 완료**
   - 지금은 게이트 거리(d²)가 가장 작은 방사원을 고른다. 이러면 σ가 큰(흐릿한) S대역 SPY가 오히려 유리해진다.
   - 근거: CUE_A-1에서 Kh-35U 방위 오차가 ALL_ON(SPY 선택) 1.19°, SPY_OFF(SPQ-9B 선택) 0.39°
-  - 수정안: `d² + ln|S|`(음의 로그우도) 최소로 고른다
+  - 적용: 기존 gate 뒤 `d² + ln|S|` 최소, 관측값 동점 순서. truth/RNG 사용 0
 - **ENV_D 무결성 메타데이터는 해당 단계 안에서 갱신한다.** 광역 회귀 뒤 제품을 고치는 일이 C와 CUE_A-1에서 두 번 반복됐다.
+
+## U3 이후
+
+- **EMITTER_A**: `electronicPhysicalEmittersF`의 함종별 하드코딩을 ShipProfile 선언형 장비 등록으로 이전. U3에서는 범위 밖으로 보존했다.
+- **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
+- **U3 paired raw 4건**: DDG/CG raid의 combat RNG/observer exact-state. D ACTIVE 정책 변화로 원인 분리됐으나 원본 expectation은 갱신하지 않았다.
 
 ## 별도 조사
 

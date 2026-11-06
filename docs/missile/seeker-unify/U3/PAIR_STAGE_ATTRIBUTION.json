@@ -1,0 +1,55 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U3_PAIRED_STAGE_ATTRIBUTION_1",
+  "baseline": {
+    "product": "Aegis_SIM_v48_WIP_CUE_A_1.html",
+    "sha256": "0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a"
+  },
+  "commitC": {
+    "productSha256": "afb66b909b0d9f8fcb3611d0b25a75ffd14db0a673c87e3185a2159ac7b8071b",
+    "rawEvidence": "evidence/pair-stage-attribution/commit-c-baseline-comparison.json",
+    "rawEvidenceSha256": "cc6429b08df8781eafb0e6618f84981773d64a19ef7a72c39a06175e38119891",
+    "checksPassed": 42,
+    "checksExpected": 42,
+    "failed": []
+  },
+  "commitD": {
+    "productSha256": "3eecf254b9a586398fb2236068cca722912730d8dc492275f06157407ed6e2ea",
+    "rawEvidence": "evidence/final-regression/paired-friendly/baseline-comparison.json",
+    "rawEvidenceSha256": "3c9f9268e5c33e910e472d9b5b32f82fe7c68f984ace5e1583a4007f108efe87",
+    "checksPassed": 38,
+    "checksExpected": 42,
+    "failed": [
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+      "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+      "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+    ]
+  },
+  "cases": [
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "scenario": "raid",
+      "baselineCombatRng": 4148992623,
+      "candidateCombatRng": 3287818063,
+      "baselineObserverSha256": "4fd58ffe237dec531bb715a915b8c59a1378d481262ea381f501f22970cdf94b",
+      "candidateObserverSha256": "6c231e39cb77b85fdea83fec6591e3639ccb06f7402cde9845aae1db68b4ba2b",
+      "loadedVlsBeforeAfter": [89, 89],
+      "unchanged": ["physicalState", "hullDamageAndFixedLayout", "inventoryBound", "offboardPorts", "faultState", "finalTargetOutcomes", "sensorSpecificRng"]
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "scenario": "raid",
+      "baselineCombatRng": 709110536,
+      "candidateCombatRng": 519651324,
+      "baselineObserverSha256": "bd5a5fb897878831756b0e7bd6f2eb724e632d2a8927609fb75c718b7ffa84cb",
+      "candidateObserverSha256": "d056aa4a26230109e6149612f0631eb1d611e1f08414cb3f3d9235d623508229",
+      "loadedVlsBeforeAfter": [115, 115],
+      "unchanged": ["physicalState", "hullDamageAndFixedLayout", "inventoryBound", "offboardPorts", "faultState", "finalTargetOutcomes", "sensorSpecificRng"]
+    }
+  ],
+  "cause": "Commit D changes which already-gated anonymous passive-RF emitter measurement is applied. Incoming ASM cue/trajectory history therefore changes track revisit scheduling and downstream global combat RNG call order in raid scenes. Commit C is 42/42 against the same baseline, and Commit D SHADOW is tactically exact to Commit C.",
+  "classification": "INTENDED_ACTIVE_POLICY_DELTA_RAW_ASSERTIONS_RETAINED",
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "unexplainedFailures": 0
+}

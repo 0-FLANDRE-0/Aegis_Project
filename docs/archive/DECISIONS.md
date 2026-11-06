@@ -35,3 +35,12 @@
 - 다음 작업은 U3 하푼. 수동 RF 우도 선택을 U3에 포함한다
 - 하푼 cue 계산을 공통 CUE_A 필터로 바꾼다
 - 레포 안에 작업 아카이브(`docs/archive/`)를 운영한다
+
+## 2026-11-06 (SEEKER_UNIFY_U3 실행 확정)
+
+- 일반 하푼 추적은 고정 4 km 상한을 제거하고 발사 트랙의 위치·속도·공분산·관측 시각을 CUE_A에 입력한다. 새 대체 거리 상수는 만들지 않는다.
+- 경로점 모드는 기존 4 km 탐색 반경을 `ROUTE_PLAN_PRIOR`로 유지하고 실제 센서 관측으로 위장하지 않는다.
+- 수동 RF 후보는 기존 Mahalanobis gate 통과 뒤 `d² + ln(det(S))` 최솟값을 사용한다. 동점은 관측 가능한 값으로 결정하며 emitter/platform/truth ID·위치는 쓰지 않는다.
+- 하푼 HOJ는 공개 확인 전 `ASSUMED_THREAT`; MAX_THREAT ON, CONFIRMED_ONLY OFF다. 하푼 중기 수동 RF는 추가하지 않는다.
+- A–D는 단계마다 push/readback하며 마지막에 광역 회귀를 한 번만 실행한다. PR까지만 진행하고 병합은 사용자가 결정한다.
+- 최종 paired exact-state 4건은 원본 expectation을 바꾸지 않는다. C 42/42와 D SHADOW exact로 D ACTIVE 순위 변경에 귀속하고 raw FAIL 증거를 보존한다.
