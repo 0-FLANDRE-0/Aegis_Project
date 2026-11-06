@@ -1,0 +1,176 @@
+// CUE_A-1 Stage 1b: exact-discrete Singer target-memory filter.
+// Guidance consumes only launch information and anonymous measurements. Physical
+// emitter/target geometry is confined to sensor synthesis and diagnostic code.
+const ASM_CUE_A_SPEC=Object.freeze({
+  schema:'AEGIS_ASM_CUE_A_1',source:'SIM_TUNED',resultFitting:false,
+  cueManeuverAccelSigmaMps2:.3,cueManeuverTauS:60,cueManeuverTauProvenance:'SIM_TUNED',
+  basketSigma:3,vmaxMps:18,unknownVelocityAxisSigmaMps:9,velocityUncertaintyProvenance:'SIM_TUNED',
+  basketCapProvenance:'PUBLIC_FORMULA',singerDiscretization:'VAN_LOAN_HIGHAM_PADE13',
+  assumedEmitterHeightM:25,assumedEmitterHeightSigmaM:8,
+  minAcqRangeFloorM:1500,minAcqRangeFrac:.5,
+  rangeHalfFloorM:1200,rangeHalfFraction:.12,azHalfFloorRad:deg(5),elHalfRad:deg(4),
+  propagationEffectiveEarthRadiusM:APS_F.effectiveEarthRadiusM
+});
+const ASM_CUE_FEATURE_PROVENANCE_A=Object.freeze({
+  PUBLIC_CONFIRMED:'PUBLIC_CONFIRMED',ASSUMED_THREAT:'ASSUMED_THREAT',NOT_EQUIPPED:'NOT_EQUIPPED'
+});
+const ASM_CUE_FEATURES_A=Object.freeze({
+  'Kh-35U':Object.freeze({passiveRfBearingElevation:'PUBLIC_CONFIRMED'}),
+  'Kh-32':Object.freeze({passiveRfBearingElevation:'ASSUMED_THREAT'})
+});
+const ASM_CUE_THREAT_MODES_A=Object.freeze(['MAX_THREAT','CONFIRMED_ONLY']);
+let THREAT_ASSUMPTION_MODE='MAX_THREAT';
+function setThreatAssumptionModeC(mode){
+  if(!ASM_CUE_THREAT_MODES_A.includes(mode))throw Error('THREAT_ASSUMPTION_MODE');
+  THREAT_ASSUMPTION_MODE=mode;cueAUpdateUiC();return mode;
+}
+function asmCueFeatureEnabledA(label,key){
+  const provenance=ASM_CUE_FEATURES_A[label]?.[key]??ASM_CUE_FEATURE_PROVENANCE_A.NOT_EQUIPPED;
+  return provenance===ASM_CUE_FEATURE_PROVENANCE_A.PUBLIC_CONFIRMED||
+    (provenance===ASM_CUE_FEATURE_PROVENANCE_A.ASSUMED_THREAT&&THREAT_ASSUMPTION_MODE==='MAX_THREAT');
+}
+function asmCueEnabledAssumptionsA(){
+  const out=[];for(const [label,features] of Object.entries(ASM_CUE_FEATURES_A))for(const [feature,provenance] of Object.entries(features))
+    if(provenance==='ASSUMED_THREAT'&&asmCueFeatureEnabledA(label,feature))out.push({label,feature,provenance});return out;
+}
+// COMPAT_REQUIRED: legacy callers still inspect mode on ASM_CUE_BASKET_U0.
+const ASM_CUE_BASKET_U0=Object.freeze({...ASM_CUE_A_SPEC,mode:'ACTIVE'});
+
+// Numerical-method constants from Higham's order-13 scaling-and-squaring Padé
+// approximant. They are not physical or SIM_TUNED coefficients.
+const ASM_CUE_PADE13_B_A=Object.freeze([
+  64764752532480000,32382376266240000,7771770303897600,1187353796428800,
+  129060195264000,10559470521600,670442572800,33522128640,1323241920,
+  40840800,960960,16380,182,1
+]);
+function asmCueMatIdentityA(n){const out=new Array(n*n).fill(0);for(let i=0;i<n;i++)out[i*n+i]=1;return out;}
+function asmCueMatMulA(a,b,n){const out=new Array(n*n).fill(0);for(let r=0;r<n;r++)for(let k=0;k<n;k++){const v=a[r*n+k];if(v===0)continue;for(let c=0;c<n;c++)out[r*n+c]+=v*b[k*n+c];}return out;}
+function asmCueMatLinearA(terms,n){const out=new Array(n*n).fill(0);for(const [scale,m] of terms)for(let i=0;i<out.length;i++)out[i]+=scale*m[i];return out;}
+function asmCueMatSolveA(left,right,n){
+  const rows=Array.from({length:n},(_,r)=>[...left.slice(r*n,(r+1)*n),...right.slice(r*n,(r+1)*n)]);
+  for(let c=0;c<n;c++){
+    let pivot=c;for(let r=c+1;r<n;r++)if(Math.abs(rows[r][c])>Math.abs(rows[pivot][c]))pivot=r;
+    if(!(Math.abs(rows[pivot][c])>1e-30))throw Error('SINGER_PADE_SINGULAR');
+    if(pivot!==c)[rows[c],rows[pivot]]=[rows[pivot],rows[c]];
+    const d=rows[c][c];for(let j=c;j<2*n;j++)rows[c][j]/=d;
+    for(let r=0;r<n;r++)if(r!==c){const f=rows[r][c];if(f===0)continue;for(let j=c;j<2*n;j++)rows[r][j]-=f*rows[c][j];}
+  }
+  const out=new Array(n*n);for(let r=0;r<n;r++)for(let c=0;c<n;c++)out[r*n+c]=rows[r][n+c];return out;
+}
+function asmCueMatrixExpA(input,n){
+  // Van Loan exact discretization uses this stable matrix exponential. Padé is
+  // a rational approximation to exp(), not the forbidden dynamics Taylor step.
+  let norm1=0;for(let c=0;c<n;c++){let sum=0;for(let r=0;r<n;r++)sum+=Math.abs(input[r*n+c]);norm1=Math.max(norm1,sum);}
+  const theta13=5.371920351148152,s=Math.max(0,Math.ceil(Math.log2(Math.max(1,norm1/theta13)))),scale=2**(-s);
+  let a=input.map(v=>v*scale),a2=asmCueMatMulA(a,a,n),a4=asmCueMatMulA(a2,a2,n),a6=asmCueMatMulA(a4,a2,n),I=asmCueMatIdentityA(n),b=ASM_CUE_PADE13_B_A;
+  let uInner=asmCueMatMulA(a6,asmCueMatLinearA([[b[13],a6],[b[11],a4],[b[9],a2]],n),n);
+  uInner=asmCueMatLinearA([[1,uInner],[b[7],a6],[b[5],a4],[b[3],a2],[b[1],I]],n);
+  const u=asmCueMatMulA(a,uInner,n);
+  let v=asmCueMatMulA(a6,asmCueMatLinearA([[b[12],a6],[b[10],a4],[b[8],a2]],n),n);
+  v=asmCueMatLinearA([[1,v],[b[6],a6],[b[4],a4],[b[2],a2],[b[0],I]],n);
+  let out=asmCueMatSolveA(asmCueMatLinearA([[1,v],[-1,u]],n),asmCueMatLinearA([[1,v],[1,u]],n),n);
+  for(let i=0;i<s;i++)out=asmCueMatMulA(out,out,n);return out;
+}
+const ASM_SINGER_DISCRETE_CACHE_A=new Map();
+function asmSingerAxisDiscreteA(dt){
+  const key=Number(dt).toPrecision(15);if(ASM_SINGER_DISCRETE_CACHE_A.has(key))return ASM_SINGER_DISCRETE_CACHE_A.get(key);
+  const tau=ASM_CUE_A_SPEC.cueManeuverTauS,alpha=1/tau,q=2*ASM_CUE_A_SPEC.cueManeuverAccelSigmaMps2**2/tau,n=6,m=new Array(n*n).fill(0);
+  // Van Loan block matrix [A GqG'; 0 -A'] * dt for one [p,v,a] axis.
+  m[1]=dt;m[8]=dt;m[14]=-alpha*dt;m[17]=q*dt;m[27]=-dt;m[34]=-dt;m[35]=alpha*dt;
+  const e=asmCueMatrixExpA(m,n),F=new Array(9),Y=new Array(9);for(let r=0;r<3;r++)for(let c=0;c<3;c++){F[r*3+c]=e[r*n+c];Y[r*3+c]=e[r*n+3+c];}
+  const Q=new Array(9).fill(0);for(let r=0;r<3;r++)for(let c=0;c<3;c++)for(let k=0;k<3;k++)Q[r*3+c]+=Y[r*3+k]*F[c*3+k];
+  for(let r=0;r<3;r++)for(let c=r+1;c<3;c++){const v=.5*(Q[r*3+c]+Q[c*3+r]);Q[r*3+c]=v;Q[c*3+r]=v;}
+  const value=Object.freeze({F:Object.freeze(F),Q:Object.freeze(Q)});ASM_SINGER_DISCRETE_CACHE_A.set(key,value);return value;
+}
+function asmSingerDiscreteA(dt){
+  const key=`xy:${Number(dt).toPrecision(15)}`;if(ASM_SINGER_DISCRETE_CACHE_A.has(key))return ASM_SINGER_DISCRETE_CACHE_A.get(key);
+  const axis=asmSingerAxisDiscreteA(dt),F=new Array(36).fill(0),Q=new Array(36).fill(0);
+  for(const ids of [[0,2,4],[1,3,5]])for(let r=0;r<3;r++)for(let c=0;c<3;c++){F[ids[r]*6+ids[c]]=axis.F[r*3+c];Q[ids[r]*6+ids[c]]=axis.Q[r*3+c];}
+  const value=Object.freeze({F:Object.freeze(F),Q:Object.freeze(Q)});ASM_SINGER_DISCRETE_CACHE_A.set(key,value);return value;
+}
+function asmCueCovariancePredictA(P,model){
+  const FP=new Array(36).fill(0),next=new Array(36).fill(0);for(let r=0;r<6;r++)for(let c=0;c<6;c++)for(let k=0;k<6;k++)FP[r*6+c]+=model.F[r*6+k]*P[k*6+c];
+  for(let r=0;r<6;r++)for(let c=0;c<6;c++)for(let k=0;k<6;k++)next[r*6+c]+=FP[r*6+k]*model.F[c*6+k];
+  for(let i=0;i<36;i++)next[i]+=model.Q[i];return next;
+}
+function asmCueSymmetrizeA(P){
+  for(let r=0;r<6;r++)for(let c=r+1;c<6;c++){const v=.5*((Number(P[r*6+c])||0)+(Number(P[c*6+r])||0));P[r*6+c]=v;P[c*6+r]=v;}
+  for(let i=0;i<6;i++)P[i*6+i]=Math.max(1e-12,Number(P[i*6+i])||0);return P;
+}
+function asmCueInitialPacketA(em){
+  const launch=em._cueLaunchA??{},positionM=launch.positionM??{},velocityMps=launch.velocityMps??null,cov=launch.covariance??{};
+  const fallbackSigma=Math.max(1,Number(missileNavB2ProfileFor(em)?.initialPosErrorM)||1),velocityKnown=!!(velocityMps&&Number.isFinite(velocityMps.x)&&Number.isFinite(velocityMps.y));
+  const posSigma=Math.max(1,Number(cov.positionSigmaM)||fallbackSigma),velSigma=velocityKnown?Math.max(1e-6,Number(cov.velocitySigmaMps)||ASM_CUE_A_SPEC.unknownVelocityAxisSigmaMps):ASM_CUE_A_SPEC.unknownVelocityAxisSigmaMps;
+  return {positionM:{x:Number.isFinite(positionM.x)?positionM.x:worldToMeters(em.insTgtX),y:Number.isFinite(positionM.y)?positionM.y:worldToMeters(em.insTgtY)},
+    velocityMps:velocityKnown?{x:velocityMps.x,y:velocityMps.y}:null,positionSigmaM:posSigma,velocitySigmaMps:velSigma,
+    timeS:Math.max(0,Number(launch.timeS)||0),source:String(launch.source||'LAUNCH')};
+}
+function asmTargetCueStateA(em){
+  if(em._targetCueA)return em._targetCueA;const a=asmCueInitialPacketA(em),vx=a.velocityMps?.x??0,vy=a.velocityMps?.y??0,ps2=a.positionSigmaM**2,vs2=a.velocitySigmaMps**2,as2=ASM_CUE_A_SPEC.cueManeuverAccelSigmaMps2**2,P=new Array(36).fill(0);
+  P[0]=ps2;P[7]=ps2;P[14]=vs2;P[21]=vs2;P[28]=as2;P[35]=as2;
+  return em._targetCueA={schema:ASM_CUE_A_SPEC.schema,x:[a.positionM.x,a.positionM.y,vx,vy,0,0],P,timeS:a.timeS,lastPredictLifeS:a.timeS,
+    capRefTimeS:a.timeS,capRefSigmaM:a.positionSigmaM,source:a.source,updates:0,passiveUpdates:0,dlUpdates:0,lastMeasurement:null,lastPassiveBearingResidualRad:null,lastPassiveBearingConverged:false};
+}
+function asmCueApplyBoundsA(q){
+  const v=Math.hypot(q.x[2],q.x[3]),lim=ASM_CUE_A_SPEC.vmaxMps;if(v>lim&&v>0){q.x[2]*=lim/v;q.x[3]*=lim/v;}
+  const cap=ASM_CUE_A_SPEC.unknownVelocityAxisSigmaMps**2;for(const index of [2,3]){const variance=q.P[index*6+index];if(variance>cap){const k=Math.sqrt(cap/variance);for(let c=0;c<6;c++)q.P[index*6+c]*=k;for(let r=0;r<6;r++)q.P[r*6+index]*=k;}}
+  return asmCueSymmetrizeA(q.P),q;
+}
+function asmCueSyncAimA(em,q){if(!em._c52InsMemory){em.insTgtX=metersToWorld(q.x[0]);em.insTgtY=metersToWorld(q.x[1]);}return q;}
+function asmTargetCuePredictA(em){
+  const q=asmTargetCueStateA(em);if(em._c52InsMemory)return q;
+  const now=Math.max(0,Number(em.life)||0),dt=Math.max(0,now-(Number(q.lastPredictLifeS)||0));if(dt<=1e-12)return asmCueSyncAimA(em,q);
+  const model=asmSingerDiscreteA(dt),nextX=new Array(6).fill(0);for(let r=0;r<6;r++)for(let k=0;k<6;k++)nextX[r]+=model.F[r*6+k]*q.x[k];q.x=nextX;q.P=asmCueCovariancePredictA(q.P,model);
+  asmCueApplyBoundsA(q);q.lastPredictLifeS=now;q.timeS=now;return asmCueSyncAimA(em,q);
+}
+function asmCueScalarUpdateA(q,H,z,R,wrap=false,predictedOverride=null){
+  let predicted=predictedOverride==null?NaN:Number(predictedOverride);if(!Number.isFinite(predicted)){predicted=0;for(let i=0;i<6;i++)predicted+=H[i]*q.x[i];}const residual=wrap?angNorm(z-predicted):z-predicted;
+  const PH=new Array(6).fill(0);for(let i=0;i<6;i++)for(let j=0;j<6;j++)PH[i]+=q.P[i*6+j]*H[j];
+  let S=Math.max(1e-12,Number(R)||0);for(let i=0;i<6;i++)S+=H[i]*PH[i];if(!Number.isFinite(S)||S<=0)return {ok:false,residual,S};
+  const K=PH.map(v=>v/S),old=[...q.P];for(let i=0;i<6;i++)q.x[i]+=K[i]*residual;
+  for(let i=0;i<6;i++)for(let j=0;j<6;j++){let hp=0;for(let k=0;k<6;k++)hp+=H[k]*old[k*6+j];q.P[i*6+j]=old[i*6+j]-K[i]*hp;}
+  asmCueSymmetrizeA(q.P);asmCueApplyBoundsA(q);return {ok:true,residual,S,nis:residual*residual/S};
+}
+function asmCueUpdateA(em,packet){
+  if(!em||em._c52InsMemory||!packet||!['DL','PASSIVE_RF'].includes(packet.source))return {ok:false,reason:em?._c52InsMemory?'FIXED_C52_MEMORY':'CUE_UPDATE_PACKET'};
+  const q=asmTargetCuePredictA(em),cov=packet.covariance??{},pos=packet.positionM,vel=packet.velocityMps,updates=[];
+  if(pos&&Number.isFinite(pos.x)&&Number.isFinite(pos.y)){
+    const s=Math.max(1,Number(cov.positionSigmaM)||1),R=s*s;updates.push(asmCueScalarUpdateA(q,[1,0,0,0,0,0],pos.x,R));updates.push(asmCueScalarUpdateA(q,[0,1,0,0,0,0],pos.y,R));
+    if(packet.source==='DL'){q.capRefTimeS=Number.isFinite(packet.timeS)?packet.timeS:q.timeS;q.capRefSigmaM=s;}
+  }
+  if(vel&&Number.isFinite(vel.x)&&Number.isFinite(vel.y)){
+    const s=Math.max(1e-3,Number(cov.velocitySigmaMps)||1e-3),R=s*s;updates.push(asmCueScalarUpdateA(q,[0,0,1,0,0,0],vel.x,R));updates.push(asmCueScalarUpdateA(q,[0,0,0,1,0,0],vel.y,R));
+  }
+  if(!updates.length)return {ok:false,reason:'NO_POSITION_OR_VELOCITY'};q.source=packet.source;q.updates++;if(packet.source==='DL')q.dlUpdates++;q.lastMeasurement={source:packet.source,timeS:Number.isFinite(packet.timeS)?packet.timeS:q.timeS};asmCueSyncAimA(em,q);return {ok:true,updates:updates.length,state:asmTargetCueSnapshotA(em)};
+}
+function asmCueAngularUpdateA(em,measurement){
+  if(!em||em._c52InsMemory||!measurement?.available)return {ok:false,reason:'PASSIVE_MEASUREMENT'};const q=asmTargetCuePredictA(em),own=missileNavB2OwnState(em),dx=q.x[0]-own.posM.x,dy=q.x[1]-own.posM.y,r2=Math.max(1,dx*dx+dy*dy),r=Math.sqrt(r2),zEff=ASM_CUE_A_SPEC.assumedEmitterHeightM-own.posM.z-r2/(2*ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM),den=r2+zEff*zEff;
+  const predictedBearing=Math.atan2(dy,dx),HAz=[-dy/r2,dx/r2,0,0,0,0],bearing=asmCueScalarUpdateA(q,HAz,measurement.bearingRad,measurement.bearingSigmaRad**2,true,predictedBearing);
+  const dx2=q.x[0]-own.posM.x,dy2=q.x[1]-own.posM.y,rB=Math.max(1,Math.hypot(dx2,dy2)),zB=ASM_CUE_A_SPEC.assumedEmitterHeightM-own.posM.z-rB*rB/(2*ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM),denB=rB*rB+zB*zB,dhdr=(rB*(-rB/ASM_CUE_A_SPEC.propagationEffectiveEarthRadiusM)-zB)/Math.max(1,denB),dh=(rB/Math.max(1,denB))*ASM_CUE_A_SPEC.assumedEmitterHeightSigmaM;
+  const predictedElevation=Math.atan2(zB,rB),HEl=[dhdr*dx2/rB,dhdr*dy2/rB,0,0,0,0],elevation=asmCueScalarUpdateA(q,HEl,measurement.elevationRad,measurement.elevationSigmaRad**2+dh*dh,true,predictedElevation);
+  q.source='PASSIVE_RF';q.updates++;q.passiveUpdates++;q.lastMeasurement={source:'PASSIVE_RF',timeS:measurement.sampleTimeS,bearingResidualRad:bearing.residual,elevationResidualRad:elevation.residual,snr:measurement.snr,emitterClass:measurement.emitterClass,band:measurement.band,directRangeEstimateM:measurement.directRangeEstimateM,directRangeSigmaM:measurement.directRangeSigmaM};q.lastPassiveBearingResidualRad=Math.abs(bearing.residual);q.lastPassiveBearingConverged=bearing.ok&&bearing.nis<=ASM_CUE_A_SPEC.basketSigma**2;asmCueSyncAimA(em,q);return {ok:bearing.ok&&elevation.ok,bearing,elevation};
+}
+function asmTargetCueStateU0(em){return asmTargetCueStateA(em);}
+function asmTargetCueU0(em){
+  const q=asmTargetCuePredictA(em);return {positionM:{x:q.x[0],y:q.x[1],z:ASM_SEEKER_PROFILES[em.label]?.aimHeightM??5},velocityMps:{x:q.x[2],y:q.x[3]},covariance:[...q.P],rangeRefTimeS:q.capRefTimeS,bearingRefTimeS:q.timeS,source:q.source};
+}
+function asmTargetCuePassiveBearingUpdateU0(em,measurement,profile,correctedBearingRad){
+  const q=asmTargetCueStateA(em);q.lastPassiveBearingResidualRad=Math.abs(angNorm(measurement.bearingRad-correctedBearingRad));q.lastPassiveBearingConverged=q.lastPassiveBearingResidualRad<=ASM_CUE_A_SPEC.basketSigma*Math.max(1e-9,Number(profile?.bearingErrorRad)||0);return q.lastPassiveBearingConverged;
+}
+function asmCueBasketU0(em,own,p){
+  const cue=asmTargetCueU0(em),q=asmTargetCueStateA(em),now=Math.max(0,Number(em.life)||0),dx=cue.positionM.x-worldToMeters(own.x),dy=cue.positionM.y-worldToMeters(own.y),dz=cue.positionM.z-(own.z??0),rangeM=Math.max(1,Math.hypot(dx,dy,dz)),horizontalM=Math.max(1,Math.hypot(dx,dy)),ux=dx/horizontalM,uy=dy/horizontalM,cx=-uy,cy=ux;
+  const P=q.P,varRange=Math.max(0,ux*ux*P[0]+2*ux*uy*P[1]+uy*uy*P[7]),varCross=Math.max(0,cx*cx*P[0]+2*cx*cy*P[1]+cy*cy*P[7]),rangeSigmaM=Math.sqrt(varRange),crossSigmaM=Math.sqrt(varCross),capAgeS=Math.max(0,now-q.capRefTimeS),capM=ASM_CUE_A_SPEC.vmaxMps*capAgeS+ASM_CUE_A_SPEC.basketSigma*q.capRefSigmaM,threeSigmaRangeM=ASM_CUE_A_SPEC.basketSigma*rangeSigmaM,cappedSigmaRangeM=Math.min(threeSigmaRangeM,capM),fractionHalfM=ASM_CUE_A_SPEC.rangeHalfFraction*rangeM,rangeHalfM=Math.max(ASM_CUE_A_SPEC.rangeHalfFloorM,fractionHalfM,cappedSigmaRangeM);
+  const searchHalfAzRad=Number.isFinite(Number(p?.searchSectorAzDeg))?deg(Math.max(0,Number(p.searchSectorAzDeg))):Math.PI,threeSigmaAzRad=Math.atan2(ASM_CUE_A_SPEC.basketSigma*crossSigmaM,horizontalM),capAzRad=Math.atan2(capM,horizontalM),azHalfRad=Math.min(searchHalfAzRad,Math.max(ASM_CUE_A_SPEC.azHalfFloorRad,Math.min(threeSigmaAzRad,capAzRad)));
+  const rangeHalfLimiter=rangeHalfM===ASM_CUE_A_SPEC.rangeHalfFloorM?'FLOOR_1200':rangeHalfM===fractionHalfM?'FRACTION_0_12':threeSigmaRangeM>capM?'CAP':'THREE_SIGMA';
+  const azHalfLimiter=azHalfRad===searchHalfAzRad?'SEARCH_SECTOR':azHalfRad===ASM_CUE_A_SPEC.azHalfFloorRad?'FLOOR_5_DEG':threeSigmaAzRad>capAzRad?'CAP':'THREE_SIGMA';
+  return {cue,rangeM,azRad:Math.atan2(dy,dx),elRad:Math.atan2(dz,horizontalM),rangeLowM:Math.max(rangeM-rangeHalfM,ASM_CUE_A_SPEC.minAcqRangeFloorM,ASM_CUE_A_SPEC.minAcqRangeFrac*rangeM),rangeHighM:rangeM+rangeHalfM,azHalfRad,searchHalfAzRad,elHalfRad:ASM_CUE_A_SPEC.elHalfRad,rangeAgeS:capAgeS,bearingAgeS:Math.max(0,now-q.timeS),rangeSigmaM,crossSigmaM,capM,rangeHalfM,rangeHalfLimiter,azHalfLimiter};
+}
+function asmCueSingerPredictDiagnosticA(options={}){
+  const finiteOr=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback,positionSigmaM=Math.max(0,finiteOr(options.positionSigmaM,0)),velocitySigmaMps=Math.max(0,finiteOr(options.velocitySigmaMps,0)),accelerationSigmaMps2=Math.max(0,finiteOr(options.accelerationSigmaMps2,ASM_CUE_A_SPEC.cueManeuverAccelSigmaMps2)),durationS=Math.max(0,finiteOr(options.durationS,0)),stepS=options.stepS==null?durationS:Math.max(1e-9,finiteOr(options.stepS,0)),P=new Array(36).fill(0);
+  P[0]=positionSigmaM**2;P[7]=positionSigmaM**2;P[14]=velocitySigmaMps**2;P[21]=velocitySigmaMps**2;P[28]=accelerationSigmaMps2**2;P[35]=accelerationSigmaMps2**2;
+  let elapsed=0,current=P;while(elapsed+1e-12<durationS){const dt=Math.min(stepS,durationS-elapsed);current=asmCueCovariancePredictA(current,asmSingerDiscreteA(dt));elapsed+=dt;}
+  return {positionSigmaM:Math.sqrt(Math.max(0,current[0])),velocitySigmaMps:Math.sqrt(Math.max(0,current[14])),accelerationSigmaMps2:Math.sqrt(Math.max(0,current[28])),durationS,stepS,covariance:current};
+}
+function asmTargetCueSnapshotA(em){
+  const q=asmTargetCueStateA(em);return {schema:q.schema,missileId:em.id,label:em.label,positionM:{x:q.x[0],y:q.x[1]},velocityMps:{x:q.x[2],y:q.x[3]},accelerationMps2:{x:q.x[4],y:q.x[5]},covariance:[...q.P],timeS:q.timeS,capRefTimeS:q.capRefTimeS,capRefSigmaM:q.capRefSigmaM,source:q.source,updates:q.updates,passiveUpdates:q.passiveUpdates,dlUpdates:q.dlUpdates,lastMeasurement:q.lastMeasurement?{...q.lastMeasurement}:null};
+}

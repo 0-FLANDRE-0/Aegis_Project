@@ -1,0 +1,297 @@
+{
+  "schema": "AEGIS_CUE_A_1_PAIRED_STAGE_ATTRIBUTION_1",
+  "status": "PASS",
+  "policy": "No product or expected value changed. Truth is used only after the run for diagnostic attribution.",
+  "products": {
+    "B": {
+      "sha256": "b8551e5a239a407ec0ec1b3cb7fe0c45bebf025a6c5eef312dfd5ddf2519796d"
+    },
+    "C_STAGE2": {
+      "sha256": "dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec"
+    },
+    "C_FINAL": {
+      "sha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7"
+    }
+  },
+  "gates": {
+    "productHashesMatchDirective": true,
+    "harnessErrorsZero": true,
+    "shipsExact": true,
+    "stage2ReplayExact": true,
+    "allEightFinalChangesAttributed": true,
+    "safetyChecksRemainTrue": true
+  },
+  "rawRuns": [
+    {
+      "label": "b-to-stage2",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/aegis-ui-a/docs/helicopter/F/verify_regression.py",
+        "/workspace/aegis-cue-a-1/Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html",
+        "/dev/shm/aegis-cue-stage2/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "/dev/shm/cue-a1-stage0/b-to-stage2",
+        "--baseline-only"
+      ],
+      "exitCode": 1,
+      "baseline": {
+        "path": "/workspace/aegis-cue-a-1/Aegis_SIM_v48_WIP_SEEKER_UNIFY_B.html",
+        "sha256": "b8551e5a239a407ec0ec1b3cb7fe0c45bebf025a6c5eef312dfd5ddf2519796d"
+      },
+      "candidate": {
+        "path": "/dev/shm/aegis-cue-stage2/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "sha256": "dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec"
+      },
+      "resultSha256": "0e776f3139a92c3addb05700c845a1db4e02d046227acd5a38e4c739e2a4fbc7",
+      "errors": [],
+      "assertions": 42
+    },
+    {
+      "label": "stage2-to-final",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/aegis-ui-a/docs/helicopter/F/verify_regression.py",
+        "/dev/shm/aegis-cue-stage2/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "/workspace/aegis-cue-a-1/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "/dev/shm/cue-a1-stage0/stage2-to-final",
+        "--baseline-only"
+      ],
+      "exitCode": 1,
+      "baseline": {
+        "path": "/dev/shm/aegis-cue-stage2/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "sha256": "dca6d886b9980b87d3c776e85ae4ff8839eb42128669cbc150b212e0dcaf18ec"
+      },
+      "candidate": {
+        "path": "/workspace/aegis-cue-a-1/Aegis_SIM_v48_WIP_SEEKER_UNIFY_C.html",
+        "sha256": "efba68cafa07ee3d2d986a80d59bcf169f51dbba59453dd4aab31ed8110fb4b7"
+      },
+      "resultSha256": "81145d1a7363337e83ac067dd11a8f159b529ad4134ef2c6f6334be3ba0d3d3e",
+      "errors": [],
+      "assertions": 42
+    }
+  ],
+  "rows": [
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "check": "samePhysicalState",
+      "metric": "physicalStateSha256",
+      "B": "27d44382cfec8951d08d2f611686586386a2759f44881a78f1b45fe011b555fa",
+      "C_STAGE2": "27d44382cfec8951d08d2f611686586386a2759f44881a78f1b45fe011b555fa",
+      "C_FINAL": "e072ab4596b912c8ef372ba5884f3389339c4a8ef397891f2f973f722c2a5979",
+      "changedIn": [
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "CUE_A_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "check": "sameCombatRng",
+      "metric": "combatRng",
+      "B": 1655152390,
+      "C_STAGE2": 1502733940,
+      "C_FINAL": 2996625611,
+      "changedIn": [
+        "B_TO_C_STAGE2",
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "BOTH_STAGE2_AND_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "check": "raidInventoryDeltaBounded",
+      "metric": "loadedVls",
+      "B": 114,
+      "C_STAGE2": 114,
+      "C_FINAL": 115,
+      "changedIn": [
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "CUE_A_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "CG_52_LATE_TICONDEROGA",
+      "check": "sameExistingObserverState",
+      "metric": "observerStateSha256",
+      "B": "cba2be8e815e13371e05296d0b9b84405f2c53ddebd934a6f155270791034861",
+      "C_STAGE2": "1cc8687d69aa406a0bf1bb51e4d0c27b58f28a645de75fd418a4b9e20597d841",
+      "C_FINAL": "5f372e79d9341628660a05c8546d643acae8bb554d5b435c80e032eb34f1962d",
+      "changedIn": [
+        "B_TO_C_STAGE2",
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "BOTH_STAGE2_AND_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "check": "samePhysicalState",
+      "metric": "physicalStateSha256",
+      "B": "9ed85206056160f3dc84cc2ca3956601ad94fd20d240d10c28f6833485bc2589",
+      "C_STAGE2": "9ed85206056160f3dc84cc2ca3956601ad94fd20d240d10c28f6833485bc2589",
+      "C_FINAL": "a9feb1256331deb59cb52a1c214b68b034421e878299258bb49ae71602e44218",
+      "changedIn": [
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "CUE_A_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "check": "sameCombatRng",
+      "metric": "combatRng",
+      "B": 619673995,
+      "C_STAGE2": 1502733940,
+      "C_FINAL": 2945097295,
+      "changedIn": [
+        "B_TO_C_STAGE2",
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "BOTH_STAGE2_AND_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "check": "raidInventoryDeltaBounded",
+      "metric": "loadedVls",
+      "B": 90,
+      "C_STAGE2": 90,
+      "C_FINAL": 88,
+      "changedIn": [
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "CUE_A_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    },
+    {
+      "ship": "DDG_119_LATE_FLIGHT_IIA",
+      "check": "sameExistingObserverState",
+      "metric": "observerStateSha256",
+      "B": "43d054f9a47edaef6e570333df1f0b12e121583b978eaa1107b3e81f1ff4b390",
+      "C_STAGE2": "ad7d20cd37ba45ccc58872c829b4f860e5a6fcaaf2f05ff5f7d7bd23db54187a",
+      "C_FINAL": "3480c40b6179de3337dcce71f0006cbf94e95aad4e93e5a7b3cd2a57e22c6d47",
+      "changedIn": [
+        "B_TO_C_STAGE2",
+        "C_STAGE2_TO_C_FINAL"
+      ],
+      "cause": "BOTH_STAGE2_AND_STAGE3",
+      "matchesExistingBToFinalRecord": true,
+      "attributed": true,
+      "stage2ReplayExact": true,
+      "safetyChecks": {
+        "bToStage2": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        },
+        "stage2ToFinal": {
+          "sameHullDamageAndFixedLayout": true,
+          "sameExistingOffboardPorts": true,
+          "bothFaultFree": true
+        }
+      }
+    }
+  ],
+  "assertionToleranceChanges": 0
+}

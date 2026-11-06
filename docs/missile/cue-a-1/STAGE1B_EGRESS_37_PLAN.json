@@ -1,0 +1,2677 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_C_STAGE2_EGRESS_REPLAY_PLAN_1",
+  "inputHtml": "cue-a1-stage1b-asm-diag.html",
+  "inputSha256": "3d117621d7b118439444bc45d476cfc69aa4cf6b6b70afa069e4a6b3a50ccea6",
+  "instrumentedSha256": "c6d5f68117670ee0cdf182a2787f5963c3bf38536b13921f5f3ff3f53505cf74",
+  "physicalProbe": {
+    "schema": "AEGIS_TRACK_C_PHYSICAL_TEST_PROBES_1",
+    "productSha256": "3d117621d7b118439444bc45d476cfc69aa4cf6b6b70afa069e4a6b3a50ccea6",
+    "instrumentedSha256": "7ec824746027582d9af7790a4ac59d7b0ea834de32caa7fad991c2ef50a95ec2",
+    "hooks": [
+      {
+        "function": "shipboardRadarEchoFieldWip13B13",
+        "occurrence": 0,
+        "originalFunctionSha256": "377dedec7488cd0c8044f2e181d7c5bc22435c2db112bc83cbb4cc4213b1b65c"
+      },
+      {
+        "function": "c55SensorSweep",
+        "occurrence": 0,
+        "originalFunctionSha256": "5eb42f1723225595377b244a42136d1a24a72b4284c4b532e790300a89a46a69"
+      },
+      {
+        "function": "c55SensorSweep",
+        "occurrence": 1,
+        "originalFunctionSha256": "5644a84c65c52a896b64b1ba957acced7f58867cdae47af552c0c85d1ecf3bb1"
+      }
+    ],
+    "productFileModified": false,
+    "nativePhysicsExpressionsChanged": false,
+    "afterActionOnly": true
+  },
+  "helperSha256": "309ec9871a759b358942a57169294fd12de0a75a437bbb013012a5c7d231104c",
+  "jobs": [
+    {
+      "id": "S13-419027-C",
+      "scenario": "S13",
+      "seed": 419027,
+      "focusIds": [
+        8,
+        16,
+        22,
+        24
+      ],
+      "prior": [
+        {
+          "id": 8,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8468,
+            "timeS": 141.13333333333333,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.458317396537,
+            "outwardS": 102.44999999999547,
+            "lastAccepted": {
+              "step": 1405,
+              "timeS": 23.416666666666668,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:10",
+              "mode": "SEARCH",
+              "snr": 11306.650078049814
+            }
+          }
+        },
+        {
+          "id": 16,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8571,
+            "timeS": 142.85,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.538914335953,
+            "outwardS": 103.49999999999541,
+            "lastAccepted": {
+              "step": 1711,
+              "timeS": 28.516666666666666,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 896.4095599711198
+            }
+          }
+        },
+        {
+          "id": 22,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8680,
+            "timeS": 144.66666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.795621411613,
+            "outwardS": 103.14999999999543,
+            "lastAccepted": {
+              "step": 2454,
+              "timeS": 40.9,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "SEARCH",
+              "snr": 4915654.826354065
+            }
+          }
+        },
+        {
+          "id": 24,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8734,
+            "timeS": 145.56666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.158949225464,
+            "outwardS": 103.61666666666207,
+            "lastAccepted": {
+              "step": 1617,
+              "timeS": 26.95,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:18",
+              "mode": "TRACK",
+              "snr": 2149.002282584294
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419027",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419027,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          8,
+          16,
+          22,
+          24
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419021-C",
+      "scenario": "S6",
+      "seed": 419021,
+      "focusIds": [
+        12
+      ],
+      "prior": [
+        {
+          "id": 12,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8477,
+            "timeS": 141.28333333333333,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.41244944166,
+            "outwardS": 102.71666666666212,
+            "lastAccepted": {
+              "step": 1878,
+              "timeS": 31.3,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:8",
+              "mode": "SEARCH",
+              "snr": 10301.650223752828
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419021",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419021,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          12
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419023-C",
+      "scenario": "S6",
+      "seed": 419023,
+      "focusIds": [
+        10
+      ],
+      "prior": [
+        {
+          "id": 10,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8519,
+            "timeS": 141.98333333333332,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.30278365646,
+            "outwardS": 103.14999999999543,
+            "lastAccepted": {
+              "step": 1876,
+              "timeS": 31.266666666666666,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0+SEA:IJ:1:1",
+              "mode": "TRACK",
+              "snr": 6775.796458072282
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419023",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419023,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          10
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419025-C",
+      "scenario": "S6",
+      "seed": 419025,
+      "focusIds": [
+        8,
+        12
+      ],
+      "prior": [
+        {
+          "id": 8,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8481,
+            "timeS": 141.35,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.88960350746,
+            "outwardS": 102.5833333333288,
+            "lastAccepted": {
+              "step": 1801,
+              "timeS": 30.016666666666666,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0",
+              "mode": "TRACK",
+              "snr": 9756.772506111633
+            }
+          }
+        },
+        {
+          "id": 12,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8539,
+            "timeS": 142.31666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.140746876466,
+            "outwardS": 102.74999999999545,
+            "lastAccepted": {
+              "step": 1967,
+              "timeS": 32.78333333333333,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:1",
+              "mode": "TRACK",
+              "snr": 10422.206909586943
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419025",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419025,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          8,
+          12
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419032-C",
+      "scenario": "S6",
+      "seed": 419032,
+      "focusIds": [
+        8
+      ],
+      "prior": [
+        {
+          "id": 8,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8473,
+            "timeS": 141.21666666666667,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.54459559627,
+            "outwardS": 103.08333333332877,
+            "lastAccepted": {
+              "step": 1647,
+              "timeS": 27.45,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0",
+              "mode": "TRACK",
+              "snr": 17664.751262183498
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419032",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419032,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          8
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419033-C",
+      "scenario": "S6",
+      "seed": 419033,
+      "focusIds": [
+        8,
+        10
+      ],
+      "prior": [
+        {
+          "id": 8,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8505,
+            "timeS": 141.75,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.85142668484,
+            "outwardS": 103.04999999999544,
+            "lastAccepted": {
+              "step": 1895,
+              "timeS": 31.583333333333332,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:1:1+SEA:IJ:0:0+SEA:IJ:1:0+SEA:IJ:0:-2",
+              "mode": "TRACK",
+              "snr": 16217.107098870538
+            }
+          }
+        },
+        {
+          "id": 10,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8402,
+            "timeS": 140.03333333333333,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.313797479088,
+            "outwardS": 102.93333333332878,
+            "lastAccepted": {
+              "step": 1042,
+              "timeS": 17.366666666666667,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:8",
+              "mode": "SEARCH",
+              "snr": 667.2146338964704
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419033",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419033,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          8,
+          10
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S6-419039-C",
+      "scenario": "S6",
+      "seed": 419039,
+      "focusIds": [
+        12
+      ],
+      "prior": [
+        {
+          "id": 12,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8542,
+            "timeS": 142.36666666666667,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.029320413538,
+            "outwardS": 103.09999999999543,
+            "lastAccepted": {
+              "step": 1891,
+              "timeS": 31.516666666666666,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0+SEA:IJ:1:0+SEA:IJ:1:1",
+              "mode": "TRACK",
+              "snr": 12957.386690880336
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S6_419039",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419039,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          12
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419020-C",
+      "scenario": "S13",
+      "seed": 419020,
+      "focusIds": [
+        16,
+        18
+      ],
+      "prior": [
+        {
+          "id": 16,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8550,
+            "timeS": 142.5,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.90933551316,
+            "outwardS": 103.1166666666621,
+            "lastAccepted": {
+              "step": 1902,
+              "timeS": 31.7,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:1:1+SEA:IJ:0:0+SEA:IJ:1:0",
+              "mode": "TRACK",
+              "snr": 11077.768076804728
+            }
+          }
+        },
+        {
+          "id": 18,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8515,
+            "timeS": 141.91666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.59674840272,
+            "outwardS": 102.98333333332877,
+            "lastAccepted": {
+              "step": 227,
+              "timeS": 3.783333333333333,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:16",
+              "mode": "TRACK",
+              "snr": 7745.9452511581485
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419020",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419020,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          16,
+          18
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419021-C",
+      "scenario": "S13",
+      "seed": 419021,
+      "focusIds": [
+        26
+      ],
+      "prior": [
+        {
+          "id": 26,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8761,
+            "timeS": 146.01666666666665,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.063033381142,
+            "outwardS": 103.83333333332872,
+            "lastAccepted": {
+              "step": 2237,
+              "timeS": 37.28333333333333,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:8",
+              "mode": "COAST",
+              "snr": 208.03020993927666
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419021",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419021,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          26
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419022-C",
+      "scenario": "S13",
+      "seed": 419022,
+      "focusIds": [
+        10,
+        14,
+        16,
+        18,
+        20,
+        22,
+        26
+      ],
+      "prior": [
+        {
+          "id": 10,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8478,
+            "timeS": 141.3,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.699683751795,
+            "outwardS": 102.61666666666213,
+            "lastAccepted": {
+              "step": 1756,
+              "timeS": 29.266666666666666,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:1:0",
+              "mode": "REACQUIRE",
+              "snr": 5646.644066439508
+            }
+          }
+        },
+        {
+          "id": 14,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8592,
+            "timeS": 143.2,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.825434747414,
+            "outwardS": 103.1166666666621,
+            "lastAccepted": {
+              "step": 1947,
+              "timeS": 32.45,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:1+SEA:IJ:0:0",
+              "mode": "TRACK",
+              "snr": 10287.78767664691
+            }
+          }
+        },
+        {
+          "id": 16,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8599,
+            "timeS": 143.31666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.595239127724,
+            "outwardS": 102.88333333332878,
+            "lastAccepted": {
+              "step": 2150,
+              "timeS": 35.833333333333336,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:1",
+              "mode": "TRACK",
+              "snr": 50896.911280076005
+            }
+          }
+        },
+        {
+          "id": 18,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8627,
+            "timeS": 143.78333333333333,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.56167193536,
+            "outwardS": 103.33333333332875,
+            "lastAccepted": {
+              "step": 2164,
+              "timeS": 36.06666666666666,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 781.5533599876346
+            }
+          }
+        },
+        {
+          "id": 20,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8638,
+            "timeS": 143.96666666666667,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.529483039503,
+            "outwardS": 103.19999999999543,
+            "lastAccepted": {
+              "step": 2194,
+              "timeS": 36.56666666666666,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:1+SEA:IJ:0:0+SEA:IJ:0:-1+SEA:IJ:1:1+SEA:IJ:1:2+SEA:IJ:-1:-2+SEA:IJ:0:-2",
+              "mode": "TRACK",
+              "snr": 114710.34709179787
+            }
+          }
+        },
+        {
+          "id": 22,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8562,
+            "timeS": 142.7,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.766865994938,
+            "outwardS": 102.56666666666213,
+            "lastAccepted": {
+              "step": 2812,
+              "timeS": 46.86666666666667,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:10",
+              "mode": "SEARCH",
+              "snr": 156.2356971294357
+            }
+          }
+        },
+        {
+          "id": 26,
+          "cause": "OTHER",
+          "reason": "No unambiguous decoy-only causal signal; mixed/other RF or coast retained. No hidden-state causal guess.",
+          "qualified": {
+            "step": 8792,
+            "timeS": 146.53333333333333,
+            "mode": "TRACK",
+            "trackValid": true,
+            "guidance": "RF_EKF",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.88094307199,
+            "outwardS": 103.1166666666621,
+            "lastAccepted": {
+              "step": 1405,
+              "timeS": 23.416666666666668,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 1799.0793927150487
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419022",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419022,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          10,
+          14,
+          16,
+          18,
+          20,
+          22,
+          26
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419023-C",
+      "scenario": "S13",
+      "seed": 419023,
+      "focusIds": [
+        16
+      ],
+      "prior": [
+        {
+          "id": 16,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8535,
+            "timeS": 142.25,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.492000983955,
+            "outwardS": 103.19999999999543,
+            "lastAccepted": {
+              "step": 1731,
+              "timeS": 28.849999999999998,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0",
+              "mode": "TRACK",
+              "snr": 6276.1314203785105
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419023",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419023,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          16
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419024-C",
+      "scenario": "S13",
+      "seed": 419024,
+      "focusIds": [
+        14,
+        18,
+        20,
+        26
+      ],
+      "prior": [
+        {
+          "id": 14,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8640,
+            "timeS": 144,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.445181051513,
+            "outwardS": 103.24999999999542,
+            "lastAccepted": {
+              "step": 2210,
+              "timeS": 36.833333333333336,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "TRACK",
+              "snr": 2680067.648979773
+            }
+          }
+        },
+        {
+          "id": 18,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8428,
+            "timeS": 140.46666666666667,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.754216916783,
+            "outwardS": 107.44999999999519,
+            "lastAccepted": {
+              "step": 1425,
+              "timeS": 23.75,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 9470.743123024626
+            }
+          }
+        },
+        {
+          "id": 20,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8598,
+            "timeS": 143.3,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.51767143482,
+            "outwardS": 103.08333333332877,
+            "lastAccepted": {
+              "step": 2272,
+              "timeS": 37.86666666666667,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "TRACK",
+              "snr": 12018819.89352417
+            }
+          }
+        },
+        {
+          "id": 26,
+          "cause": "OTHER",
+          "reason": "No unambiguous decoy-only causal signal; mixed/other RF or coast retained. No hidden-state causal guess.",
+          "qualified": {
+            "step": 8780,
+            "timeS": 146.33333333333334,
+            "mode": "TRACK",
+            "trackValid": true,
+            "guidance": "RF_EKF",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.340075249827,
+            "outwardS": 104.39999999999536,
+            "lastAccepted": {
+              "step": 2655,
+              "timeS": 44.25,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 8056.455493548435
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419024",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419024,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          14,
+          18,
+          20,
+          26
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419025-C",
+      "scenario": "S13",
+      "seed": 419025,
+      "focusIds": [
+        10,
+        16,
+        20,
+        22,
+        26
+      ],
+      "prior": [
+        {
+          "id": 10,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8562,
+            "timeS": 142.7,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.10483409694,
+            "outwardS": 103.14999999999543,
+            "lastAccepted": {
+              "step": 2023,
+              "timeS": 33.71666666666667,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:1:1+SEA:IJ:0:0+SEA:IJ:0:-1",
+              "mode": "TRACK",
+              "snr": 39911.56577995525
+            }
+          }
+        },
+        {
+          "id": 16,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8230,
+            "timeS": 137.16666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.556451235032,
+            "outwardS": 102.03333333332883,
+            "lastAccepted": {
+              "step": 1315,
+              "timeS": 21.916666666666668,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "SEARCH",
+              "snr": 723.8599880703763
+            }
+          }
+        },
+        {
+          "id": 20,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8459,
+            "timeS": 140.98333333333332,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.925960649976,
+            "outwardS": 101.88333333332884,
+            "lastAccepted": {
+              "step": 1208,
+              "timeS": 20.133333333333333,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:18",
+              "mode": "SEARCH",
+              "snr": 3410.2761576600733
+            }
+          }
+        },
+        {
+          "id": 22,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8630,
+            "timeS": 143.83333333333334,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.323659132904,
+            "outwardS": 102.88333333332878,
+            "lastAccepted": {
+              "step": 2314,
+              "timeS": 38.56666666666666,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "TRACK",
+              "snr": 10782007.12931008
+            }
+          }
+        },
+        {
+          "id": 26,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8560,
+            "timeS": 142.66666666666666,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.524060459116,
+            "outwardS": 102.99999999999544,
+            "lastAccepted": {
+              "step": 1493,
+              "timeS": 24.883333333333333,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:0",
+              "mode": "TRACK",
+              "snr": 808.890573173138
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419025",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419025,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          10,
+          16,
+          20,
+          22,
+          26
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419026-C",
+      "scenario": "S13",
+      "seed": 419026,
+      "focusIds": [
+        22,
+        26
+      ],
+      "prior": [
+        {
+          "id": 22,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8616,
+            "timeS": 143.6,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30003.886563037304,
+            "outwardS": 103.09999999999543,
+            "lastAccepted": {
+              "step": 2190,
+              "timeS": 36.5,
+              "members": [
+                "SHIP",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER",
+                "SEA_CLUTTER"
+              ],
+              "debugId": "SHIP+SEA:IJ:0:1+SEA:IJ:0:0+SEA:IJ:0:-1+SEA:IJ:1:2+SEA:IJ:-1:-2",
+              "mode": "TRACK",
+              "snr": 207704.41124510206
+            }
+          }
+        },
+        {
+          "id": 26,
+          "cause": "OTHER",
+          "reason": "No unambiguous decoy-only causal signal; mixed/other RF or coast retained. No hidden-state causal guess.",
+          "qualified": {
+            "step": 8799,
+            "timeS": 146.65,
+            "mode": "TRACK",
+            "trackValid": true,
+            "guidance": "RF_EKF",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30001.03159917351,
+            "outwardS": 104.49999999999535,
+            "lastAccepted": {
+              "step": 2499,
+              "timeS": 41.65,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:22",
+              "mode": "SEARCH",
+              "snr": 151.4552841937825
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419026",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419026,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          22,
+          26
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419028-C",
+      "scenario": "S13",
+      "seed": 419028,
+      "focusIds": [
+        20,
+        24
+      ],
+      "prior": [
+        {
+          "id": 20,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8661,
+            "timeS": 144.35,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30000.863039877753,
+            "outwardS": 103.39999999999542,
+            "lastAccepted": {
+              "step": 2390,
+              "timeS": 39.833333333333336,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "TRACK",
+              "snr": 70321924.42303063
+            }
+          }
+        },
+        {
+          "id": 24,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8795,
+            "timeS": 146.58333333333334,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30002.366313481463,
+            "outwardS": 104.04999999999538,
+            "lastAccepted": {
+              "step": 2386,
+              "timeS": 39.766666666666666,
+              "members": [
+                "SHIP"
+              ],
+              "debugId": "SHIP",
+              "mode": "TRACK",
+              "snr": 8656463.647942496
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419028",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419028,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          20,
+          24
+        ],
+        "lineageOn": true
+      }
+    },
+    {
+      "id": "S13-419029-C",
+      "scenario": "S13",
+      "seed": 419029,
+      "focusIds": [
+        20
+      ],
+      "prior": [
+        {
+          "id": 20,
+          "cause": "SEEKER_LOSS",
+          "reason": "Native seeker had no valid track or remained in search/reacquisition at qualified egress.",
+          "qualified": {
+            "step": 8541,
+            "timeS": 142.35,
+            "mode": "SEARCH",
+            "trackValid": false,
+            "guidance": "INS",
+            "blind": false,
+            "seekerOn": true,
+            "alive": true,
+            "rangeM": 30004.316371912402,
+            "outwardS": 103.21666666666209,
+            "lastAccepted": {
+              "step": 90,
+              "timeS": 1.5,
+              "members": [
+                "RF_OBJECT"
+              ],
+              "debugId": "ASM:14",
+              "mode": "TRACK",
+              "snr": 5421.971028457626
+            }
+          }
+        }
+      ],
+      "case": {
+        "id": "S13_419029",
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "seed": 419029,
+        "maxSeconds": 600,
+        "asms": [
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.8,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.88,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 10.96,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.040000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.120000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.200000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.280000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.360000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.440000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.520000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.600000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.680000000000001,
+            "altM": 10,
+            "speedMps": 280
+          },
+          {
+            "label": "Kh-35U",
+            "bearingDeg": 90,
+            "rangeKm": 11.760000000000002,
+            "altM": 10,
+            "speedMps": 280
+          }
+        ],
+        "egressKm": 30,
+        "egressOutwardS": 10,
+        "checkpointSeconds": [],
+        "asmSeekerFocusIds": [
+          20
+        ],
+        "lineageOn": true
+      }
+    }
+  ],
+  "jobCount": 16,
+  "missileCount": 37,
+  "productCodeChanged": false,
+  "truthUse": "AFTER_ACTION_ONLY"
+}
