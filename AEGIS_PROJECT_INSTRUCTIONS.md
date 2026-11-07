@@ -2,6 +2,14 @@
 
 이 문서는 AEGIS 함정 방위 시뮬레이터를 이어서 개발할 때 사용하는 고정 작업 규칙이다. 대화 기억보다 현재 제공된 최신 HTML, 상태 계획표, 이 문서를 우선 기준으로 삼는다.
 
+## 현재 인계 기준 (2026-11-07)
+
+- 기준 main: `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합).
+- 현재 후보: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`, 브랜치 `emitter-a`.
+- EMITTER_A는 DDG/CG ShipProfile 방사원 등록과 공통 ShipRuntime 어댑터를 ACTIVE로 전환했고, SOV 메타데이터는 비활성 등록만 했다. 세부 계약·검증·잔여는 `AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md`와 `docs/electronic/emitter/A/FINAL_REPORT.md`를 따른다.
+- 다음 계획은 EMCON_B다. 범주·장비별 방사 통제를 새 레지스트리 위에 구현하되 EMITTER_A 호환 출력과 기존 상태 소유권을 보존한다.
+- 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
+
 ## 1. 기준 파일과 버전 규칙
 
 - 시뮬레이터 파일명은 `Aegis_SIM_v버전.html` 형식을 사용한다.
@@ -186,14 +194,14 @@
 
 ## 8. 현재 인계 기준
 
-### 최신 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
+### 최신 후보 — EMITTER_A 함정 방사원 공통 등록
 
-- 기준은 `main@be19f46794705a18bfd69feba99d7a4b00dd4a0c`, 작업 브랜치는 `seeker-unify-u3`, [PR #72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72)는 OPEN이다. 제품은 [Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md), 전체 판정은 [FINAL_REPORT.md](docs/missile/seeker-unify/U3/FINAL_REPORT.md)를 따른다.
-- A는 하푼의 기존 monostatic RF와 익명 셀 순서를 U2 공통 프로필에 연결했다. B는 발사 트랙 메모리의 위치·속도·공분산·시각을 CUE_A에 넘기고 일반 추적 4 km 상한만 제거했다. 기존 250 m 하한은 `LEGACY_HARPOON_NATIVE_250M_FLOOR`로 보존한다. 경로점 4 km는 `ROUTE_PLAN_PRIOR`이며 관측 업데이트가 아니다.
-- C는 ASM HOJ legacy 상태/RNG를 보존한 공통 포트와 하푼 terminal HOJ를 추가했다. 하푼 기능은 `ASSUMED_THREAT`, MAX_THREAT ON/CONFIRMED_ONLY OFF이며 중기 수동 RF는 없다. D는 기존 Mahalanobis gate 통과 후보를 `d² + ln(det(S))`로 고른다.
-- 단계 게이트와 B 보정 제한 시험은 모두 PASS. 225 m raw basket→250 m, 4,800 m 무상한, 실제 일반 추적 발사 cueHandoff/시커/보호 소비, 실제 sensor-dropout stale 거부를 증명했다. 보정본 MAX_THREAT 광역은 1회 실행해 native364/364, UI213/213, 실제WebGL29/29 PASS. paired raw38/42의 raid 4건은 보정 전과 동일하며 C 시점42/42와 D SHADOW exact를 통해 D ACTIVE의 의도된 후보 순위 변화로 분리했다. 원본 assertion은 유지했고 기대값·허용오차 변경은 0이다.
-- 최종 HTML 22,143,303 bytes, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. Playwright 1.55를 쓰는 22개 Actions job은 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`은 설치 도달 21/21 성공으로 Ubuntu 26.04 호환 실패를 해소했으나, 고정 WIP12D CIWS 배속 결정성 1건과 checkout 시간제한 2건 때문에 전체 비녹색이다. 재실행·기대값/허용오차 변경은 없다. CONFIRMED_ONLY 성능은 UNVERIFIED다. 상속 부채와 raw paired 4건을 숨기거나 PASS로 바꾸지 않는다.
-- 다음은 기존 로드맵의 `EMITTER_A`다. U3 브랜치는 PR 생성까지만 하며 병합·release·tag는 사용자가 결정한다.
+- 기준은 PR #72가 병합된 `main@5d0b4ea03f0bb51db1b5d72562f15ce818074b4e`, 작업 브랜치는 `emitter-a`다. 제품은 [Aegis_SIM_v48_WIP_EMITTER_A.html](Aegis_SIM_v48_WIP_EMITTER_A.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), 전체 판정은 [FINAL_REPORT.md](docs/electronic/emitter/A/FINAL_REPORT.md)를 따른다.
+- DDG/CG의 SPY·SPQ·항해 레이더·ECM을 불변 ShipProfile 장비 등록으로 이전하고 기존 ShipRuntime observer/EW 상태를 읽는 공통 어댑터를 ACTIVE로 전환했다. 기존 출력 필드·순서·호환 전력·RNG·저장 스키마는 유지한다.
+- SOV는 기존 SOV_A 센서 메타데이터 11행만 `REGISTERED_INACTIVE`로 등록했다. 실제 방출·ESM·자체 탐지·공격과 미확인 RF 값은 추가하지 않았다.
+- A–D 게이트 PASS. 최종 MAX_THREAT 광역은 지시대로 1회 실행해 Native364/364, U3 paired42/42, UI213/213, 실제WebGL29/29 PASS이며 신규 실패·기대값·허용오차 변경은 0이다. 제한 게이트10/10과 strict JSON 감사도 통과했다.
+- 최종 HTML 22,146,163 bytes, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`. 상속된 CIWS/checkout/legacy EMCON/CONFIRMED_ONLY 부채는 해결된 것으로 취급하지 않는다.
+- 다음은 `EMCON_B`다. EMITTER_A는 PR까지만 제출하며 main 병합·release·tag는 사용자가 결정한다.
 
 ### 최신 PR 후보 — CUE_A-1 cue 필터·중기 수동 RF 정비
 

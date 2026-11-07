@@ -1,11 +1,11 @@
-# 현재 상태 (2026-11-06 SEEKER_UNIFY_U3 기준)
+# 현재 상태 (2026-11-07 EMITTER_A 기준)
 
 ## 레포
 
-- `main` `be19f467` (PR #71 문서 아카이브 병합; 부모에 PR #70 `cue-a-1` 포함)
-- 최신 PR: [#72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN (`seeker-unify-u3`)
-- 기준 제품: `Aegis_SIM_v48_WIP_CUE_A_1.html`, SHA-256 `0449d3192cc4cafbda3686669e3738a36b7a7d8aeda205b5cbd3e614061b814a`
-- 후보 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
+- `main` `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합)
+- 작업 브랜치: `emitter-a` (PR 제출 전)
+- 기준 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
+- 후보 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -32,9 +32,18 @@
 | SEEKER_UNIFY_B (PR #68) | U0 cue 바구니 시간 확장, U1 공통 DTO | main |
 | SEEKER_UNIFY_C (PR #69) | U2 ACTIVE, 대함 시커 빔·LOS 왕복 보정, CUE_A(cue 필터·수동 RF·위협 가정 스위치) | main |
 | CUE_A-1 (PR #70) | Singer cue 필터(τ=60 s, 정확 이산화), 바구니 상한, 수동 RF 함정 레이더 family·대역·회전 레이더, 0.5 km 거리 하한 원복 | main |
-| **U3 하푼** | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | PR #72 OPEN, 게이트 완료 |
+| U3 하푼 | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | main (PR #72) |
+| **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 구현·최종 검증 완료, PR 제출 전 |
 
-## U3 결과 요약
+## EMITTER_A 결과 요약
+
+- DDG/CG SHADOW exact 뒤 ACTIVE 전환. 물리 출력·receiver plot·RNG·UI·작전 저장 계약 보존.
+- SOV 기존 11행 메타데이터만 비활성 등록. 방출/ESM/자체 탐지/공격 0, RF 값 추가 0.
+- A–D 게이트 PASS. 최종 광역 1회: Native 364/364, U3 paired 42/42, UI 213/213, WebGL 29/29 PASS.
+- 신규 실패·기대값·허용오차 변경 0. 제품/범위/부채는 `docs/electronic/emitter/A/FINAL_REPORT.md` 참조.
+- 다음은 EMCON_B. EMITTER_A는 main 병합·release·tag 전이며 PR까지만 제출한다.
+
+## U3 결과 요약 (병합 기준)
 
 - A–D 단계 게이트 PASS. 각 단계 SHADOW 확인 뒤 ACTIVE 전환.
 - 일반 하푼 track cue의 고정 4 km 상한만 제거; 기존 250 m 하한 복구·명명; route prior 4 km 유지.

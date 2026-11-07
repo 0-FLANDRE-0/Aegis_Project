@@ -52,3 +52,13 @@
 - stale 관측은 실제 센서 dropout으로 만들고 상위 발사 게이트의 거부를 증명한다.
 - Playwright 1.55를 실행하는 Actions job만 `ubuntu-24.04`로 고정하며 단순 재실행으로 처리하지 않는다.
 - 보정 제한 시험 뒤 보정본 광역 회귀는 한 번만 실행한다. PR #72는 병합하지 않는다.
+
+## 2026-11-07 (EMITTER_A)
+
+- PR #72 병합본을 기준으로 EMITTER_A를 별도 `emitter-a` 브랜치에서 진행한다.
+- DDG/CG의 기존 물리 방출 출력·순서·RNG·전력 호환 단위를 유지하며 ShipProfile 불변 장비 등록 → SHADOW exact → ACTIVE 순서로 전환한다.
+- 장비 범주와 관측 `emitterClass`를 분리한다. 최소 범주는 AIR_SEARCH, SURFACE_SEARCH, NAV, FIRE_CONTROL, ECM이다.
+- mutable 방사 상태는 기존 ShipRuntime observer/EW 소유자를 유지하고 이중 상태나 저장 스키마를 추가하지 않는다.
+- SOV는 기존 SOV_A 메타데이터만 비활성 등록한다. 공개 근거 없는 RF 값을 만들거나 방출·탐지·EW·공격 기능을 활성화하지 않는다.
+- 마지막 MAX_THREAT 광역 회귀는 한 번만 실행한다. CONFIRMED_ONLY는 기능 비활성/제한 장면만 확인하고 성능은 UNVERIFIED로 남긴다.
+- 최종 산출물은 HTML ZIP과 보고서 ZIP을 분리하고 원격 전체 bytes/SHA readback 후 PR까지만 생성한다. 병합·release·tag는 사용자가 결정한다.
