@@ -1,0 +1,49 @@
+{
+  "schema": "AEGIS_EMITTER_A_FINAL_REGRESSION_REVIEW_1",
+  "status": "PASS_WITH_INHERITED_INCOMPLETE",
+  "product": "Aegis_SIM_v48_WIP_EMITTER_A.html",
+  "productSha256": "04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6",
+  "baseline": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html",
+  "baselineSha256": "243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835",
+  "mode": "MAX_THREAT",
+  "broadRunsExecuted": 1,
+  "wallS": 2020.1518852309964,
+  "results": {
+    "native13": {"passed": 364, "expected": 364, "status": "PASS"},
+    "pairedAgainstU3": {"passed": 42, "expected": 42, "status": "PASS"},
+    "ui": {"passed": 213, "expected": 213, "status": "PASS"},
+    "webgl": {"passed": 29, "expected": 29, "status": "PASS"},
+    "legacyEmconUi": {"passed": 0, "expected": 14, "status": "INCOMPLETE_INHERITED_NOT_EXECUTED_AS_PASS"}
+  },
+  "stageGates": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS"
+  },
+  "finalLimitedGate": {"passed": 10, "expected": 10, "status": "PASS", "deterministicRepeatExact": true},
+  "performance": {
+    "status": "PASS_ABSOLUTE_COST_BOUNDED",
+    "baselineMedianNsPerCall": 15478.00000011921,
+    "activeMedianNsPerCall": 32101.99999988079,
+    "ratio": 2.0740405736938587,
+    "outputExact": true,
+    "rngUnchanged": true,
+    "note": "Microbenchmark cost increased but remained 0.032 ms/call; UI and WebGL broad regressions passed."
+  },
+  "confirmedOnly": "UNVERIFIED_PERFORMANCE__FEATURE_OFF_STATIC_AND_LIMITED_SCENE_INHERITED_AND_RECHECKED_IN_C_GATE",
+  "rawResult": "REGRESSION_RESULTS.json",
+  "rawResultSha256": "425579269da271cc74107d201295c253f07acac09015ecd5842e06bc52125828",
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "unexplainedFailures": 0,
+  "inheritedUnresolved": [
+    "LEGACY_EMCON_UI_14_INCOMPLETE",
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "U3_PAIRED_RAW_4_INTENTIONAL_DIFFERENCE_RETAINED_IN_U3_EVIDENCE",
+    "ACTIONS_WIP12D_CIWS_SPEED_DETERMINISM_1",
+    "ACTIONS_CHECKOUT_TIMEOUT_2",
+    "CONFIRMED_ONLY_PERFORMANCE_UNVERIFIED"
+  ]
+}

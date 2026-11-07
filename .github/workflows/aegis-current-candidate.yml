@@ -1,0 +1,108 @@
+name: AEGIS current candidate
+
+on:
+  pull_request:
+    paths:
+      - 'AEGIS_CURRENT_PRODUCT.json'
+      - 'Aegis_SIM_v48_WIP_*.html'
+      - 'docs/electronic/emitter/A/**'
+      - '.github/workflows/aegis-current-candidate.yml'
+      - 'docs/pip/B/browser_backend.py'
+      - 'docs/bunkerhill/K/browser_i.py'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  current-candidate-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository once
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked Playwright and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Validate current product manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/current-candidate
+          python3 docs/electronic/emitter/A/validate_current_product.py \
+            --out artifacts/current-candidate/manifest-validation.json
+          node - <<'NODE' >> "$GITHUB_ENV"
+          const m = require('./AEGIS_CURRENT_PRODUCT.json');
+          console.log(`PRODUCT_PATH=${m.path}`);
+          console.log(`BASELINE_PATH=${m.baselinePath}`);
+          NODE
+
+      - name: Rebuild manifest-selected candidate exactly
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/electronic/emitter/A/build_product.py \
+            --stage D --mode ACTIVE \
+            --out /tmp/aegis-current-candidate.html \
+            --receipt artifacts/current-candidate/rebuild.json \
+            --diff artifacts/current-candidate/rebuild.diff
+          cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
+          python3 docs/electronic/emitter/A/verify_scope.py \
+            --product "$PRODUCT_PATH" --stage D \
+            --out artifacts/current-candidate/scope.json
+
+      - name: Audit script, JSON and ACTIVE call structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/electronic/emitter/A/run_candidate_static_gate.py \
+            --out artifacts/current-candidate/static-gate.json \
+            --main-out artifacts/current-candidate/main.js
+          node --check artifacts/current-candidate/main.js
+
+      - name: Build disposable candidate diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
+            --base "$PRODUCT_PATH" \
+            --out /tmp/aegis-current-candidate-diagnostic.html \
+            --receipt artifacts/current-candidate/diagnostic-build.json \
+            --extra docs/electronic/emitter/A/d_diagnostic.js \
+            --extra docs/electronic/emitter/A/final_diagnostic.js \
+            --extra docs/electronic/emitter/A/closure_diagnostic.js
+          python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
+            --base "$BASELINE_PATH" \
+            --out /tmp/aegis-current-baseline-diagnostic.html \
+            --receipt artifacts/current-candidate/baseline-diagnostic-build.json
+
+      - name: Run final limited Chromium candidate gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          node docs/electronic/emitter/A/run_candidate_browser_gate.mjs \
+            --html /tmp/aegis-current-candidate-diagnostic.html \
+            --baseline-html /tmp/aegis-current-baseline-diagnostic.html \
+            --out artifacts/current-candidate/browser-gate.json
+          sha256sum "$PRODUCT_PATH" "$BASELINE_PATH" \
+            > artifacts/current-candidate/SHA256SUMS
+
+      - name: Upload current-candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-current-candidate-${{ github.sha }}
+          path: artifacts/current-candidate/
+          if-no-files-found: error
+          retention-days: 30

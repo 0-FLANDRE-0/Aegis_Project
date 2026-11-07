@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Fail-closed validation of the repository current-product manifest."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+REPO_ROOT = HERE.parents[3]
+MANIFEST = REPO_ROOT / "AEGIS_CURRENT_PRODUCT.json"
+EXPECTED_KEYS = {
+    "schema", "stage", "path", "sha256", "bytes", "baselinePath",
+    "baselineSha256", "branch", "pullRequest", "release",
+}
+
+
+def digest(path: Path) -> str:
+    value = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            value.update(chunk)
+    return value.hexdigest()
+
+
+def repository_file(relative: object) -> Path:
+    if not isinstance(relative, str) or not relative or Path(relative).is_absolute():
+        raise AssertionError("manifest path must be a non-empty repository-relative string")
+    resolved = (REPO_ROOT / relative).resolve()
+    if resolved.parent != REPO_ROOT or resolved.suffix.lower() != ".html":
+        raise AssertionError(f"manifest product must be a root HTML file: {relative!r}")
+    return resolved
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", type=Path)
+    args = parser.parse_args()
+    raw = MANIFEST.read_text(encoding="utf-8")
+    manifest = json.loads(raw, parse_constant=lambda value: (_ for _ in ()).throw(
+        ValueError(f"non-finite JSON constant: {value}")))
+    if not isinstance(manifest, dict) or set(manifest) != EXPECTED_KEYS:
+        raise AssertionError("current-product manifest schema keys differ")
+    if manifest["schema"] != "AEGIS_CURRENT_PRODUCT_1" or manifest["stage"] != "EMITTER_A":
+        raise AssertionError("current-product schema or stage mismatch")
+    if not isinstance(manifest["bytes"], int) or manifest["bytes"] <= 0:
+        raise AssertionError("manifest bytes must be a positive integer")
+    if manifest["branch"] != "emitter-a" or manifest["pullRequest"] != 73 or manifest["release"] is not False:
+        raise AssertionError("manifest publication metadata mismatch")
+    product = repository_file(manifest["path"])
+    baseline = repository_file(manifest["baselinePath"])
+    checks = {
+        "strictJson": True,
+        "schemaExact": True,
+        "productExists": product.is_file(),
+        "productBytesExact": product.is_file() and product.stat().st_size == manifest["bytes"],
+        "productSha256Exact": product.is_file() and digest(product) == manifest["sha256"],
+        "baselineExists": baseline.is_file(),
+        "baselineSha256Exact": baseline.is_file() and digest(baseline) == manifest["baselineSha256"],
+    }
+    result = {
+        "schema": "AEGIS_CURRENT_PRODUCT_VALIDATION_1",
+        "status": "PASS" if all(checks.values()) else "FAIL",
+        "manifest": manifest,
+        "checks": checks,
+        "resolved": {
+            "product": product.relative_to(REPO_ROOT).as_posix(),
+            "baseline": baseline.relative_to(REPO_ROOT).as_posix(),
+        },
+    }
+    text = json.dumps(result, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
+    if args.out:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(text, encoding="utf-8")
+    print(text, end="")
+    raise SystemExit(0 if result["status"] == "PASS" else 1)
+
+
+if __name__ == "__main__":
+    main()

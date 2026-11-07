@@ -1,0 +1,80 @@
+{
+  "schema": "AEGIS_EMITTER_A_CANDIDATE_ACTIONS_1",
+  "status": "PASS",
+  "workflow": "AEGIS current candidate",
+  "workflowFile": ".github/workflows/aegis-current-candidate.yml",
+  "run": {
+    "id": 42373876872,
+    "number": 4,
+    "url": "https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872",
+    "jobId": 128407385559,
+    "headSha": "d775cf7a7c0e20efe6669b65f2fb08cb6dfb8277",
+    "pullRequestMergeSha": "09bf86bbe029036bfd1dd1c9bcb56aba1ed41627",
+    "conclusion": "success",
+    "startedAtUtc": "2026-11-07T12:45:23Z",
+    "completedAtUtc": "2026-11-07T12:51:11Z"
+  },
+  "artifact": {
+    "id": 13574348831,
+    "name": "aegis-current-candidate-09bf86bbe029036bfd1dd1c9bcb56aba1ed41627",
+    "bytes": 5931653,
+    "uploadedZipSha256": "94223f60e32e8e5c91370fb0918b3e90c51287da1b9d38de14d08ea5a9d0c63b",
+    "retentionDays": 30
+  },
+  "checks": {
+    "manifestValidation": true,
+    "rebuildExact": true,
+    "staticAudit": true,
+    "strictJson": true,
+    "coreSelftest": true,
+    "pageErrorsZero": true,
+    "consoleErrorsZero": true,
+    "ddgCgSnapshotsExact": true,
+    "mixedSnapshotExact": true,
+    "activeLegacyCallsZero": true,
+    "declaredOncePerShip": true,
+    "resolverRngExact": true,
+    "anonymousReceiverNoTruth": true,
+    "saveRoundTripExact": true,
+    "sovPhysicalEmissionZero": true
+  },
+  "comparisonContract": {
+    "baselineAuthority": "AEGIS_CURRENT_PRODUCT.json#baselinePath",
+    "candidateAuthority": "AEGIS_CURRENT_PRODUCT.json#path",
+    "sameChromiumEngine": true,
+    "rounding": false,
+    "numericTolerance": 0,
+    "reason": "Chromium 140 and Chromium 151 differed only in four libm last-bit values; the pinned baseline and candidate are therefore executed in one engine and compared as exact JSON."
+  },
+  "priorAttempts": [
+    {
+      "runId": 42371717706,
+      "number": 1,
+      "conclusion": "failure",
+      "reason": "cross-Chromium mixed snapshot last-bit mismatch"
+    },
+    {
+      "runId": 42372113845,
+      "number": 2,
+      "conclusion": "failure",
+      "reason": "cross-Chromium mixed snapshot last-bit mismatch"
+    },
+    {
+      "runId": 42373118873,
+      "number": 3,
+      "conclusion": "failure",
+      "reason": "cross-Chromium mixed snapshot last-bit mismatch; pausing before departure proved timing was not the cause"
+    }
+  ],
+  "legacyWorkflow": {
+    "name": "AEGIS legacy regression matrix",
+    "historicalSuccessRunId": 42339215166,
+    "historicalRunNumber": 163,
+    "historicalConclusion": "success",
+    "historicalJobsPassed": 32,
+    "candidateApproval": false,
+    "finalHeadAutoRunId": 42372113844,
+    "finalHeadAutoRunConclusion": "cancelled",
+    "cancellationReason": "Directive forbids treating or rerunning the fixed historical 32-job matrix as current-candidate approval."
+  }
+}

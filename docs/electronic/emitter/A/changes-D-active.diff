@@ -1,0 +1,152 @@
+--- U3/main.js
++++ EMITTER_A_D_ACTIVE/main.js
+@@ -2119,0 +2120,53 @@
++// EMITTER_A immutable ShipProfile equipment registration.
++// Category describes installed equipment role; emitterClass remains an
++// observation/output classification and is intentionally separate.
++const SHIP_EMITTER_CATEGORIES_A=Object.freeze(['AIR_SEARCH','SURFACE_SEARCH','NAV','FIRE_CONTROL','ECM']);
++const SHIP_EMITTER_COMPATIBILITY_A=Object.freeze({
++  schema:'AEGIS_SHIP_EMITTER_COMPATIBILITY_A_1',
++  units:'LEGACY_GAME_COMPATIBILITY_POWER__NOT_WATTS_OR_ERP',
++  spyPower:2500,spqPower:650,navPower:120,ecmPowerPerResource:2000,
++  provenance:'EXISTING_ELECTRONIC_PHYSICAL_EMITTERS_F_VALUES__NO_RETUNING'
++});
++function shipEmitterEquipmentRegistryA(profileId){
++  const cg=profileId==='CG_52_LATE_TICONDEROGA';
++  if(!cg&&profileId!=='DDG_119_LATE_FLIGHT_IIA')throw Error('SHIP_EMITTER_PROFILE_UNSUPPORTED:'+profileId);
++  const entries=[
++    {id:cg?'AN_SPY_1A_MODERNIZED':'AN_SPY_1DV',order:10,category:'AIR_SEARCH',outputKind:'RADAR',
++      enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_SPY_FACE',bandMode:'FIXED',band:'S',
++      power:SHIP_EMITTER_COMPATIBILITY_A.spyPower,powerProvenance:'LEGACY_COMPATIBILITY_UNIT_2500',
++      family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',beamMode:'OMNIDIRECTIONAL_NULL',
++      provenance:'EXISTING_PROFILE_SENSOR_AND_OBSERVER_FACE_REGISTRATION'},
++    {id:cg?'AN_SPQ_9':'AN_SPQ_9B',order:20,category:'SURFACE_SEARCH',outputKind:'RADAR',
++      enabledKey:'SPQ',sensorKey:'spq9b',hardpointKey:'spq9b',mountKind:'PROFILE_HARDPOINT',bandMode:'FIXED',band:'IJ',
++      power:SHIP_EMITTER_COMPATIBILITY_A.spqPower,powerProvenance:'LEGACY_COMPATIBILITY_UNIT_650',
++      family:'SURFACE SEARCH RADAR',emitterClass:'SEARCH_RADAR',rotorKey:'SPQ',beamwidthDeg:.6,
++      beamwidthProvenance:'SIM_TUNED_EXISTING_OBSERVATION_MODEL',rpmField:'rpm',double:true,
++      provenance:cg?'CG52_EXISTING_SPQ9_PROFILE_AND_REGISTERED_HARDPOINT':'DDG119_EXISTING_SPQ9B_PROFILE_AND_REGISTERED_HARDPOINT'},
++    {id:cg?'AN_SPS_73':'BRIDGEMASTER_E',order:30,category:'NAV',outputKind:'RADAR',
++      enabledKey:'NAV',sensorKey:'bridgeMasterE',hardpointKey:'bridgeMasterE',mountKind:'PROFILE_HARDPOINT',bandMode:'SENSOR_PROFILE',
++      power:SHIP_EMITTER_COMPATIBILITY_A.navPower,powerProvenance:'LEGACY_COMPATIBILITY_UNIT_120',
++      family:'NAVIGATION RADAR',emitterClass:'SEARCH_RADAR',rotorKey:'NAV',beamwidthField:'horizontalBeamwidthDeg',
++      beamwidthProvenanceMode:'SENSOR_PROFILE',rpmField:'nominalRpm',double:false,
++      provenance:cg?'CG52_EXISTING_SPS73_PROFILE_AND_REGISTERED_HARDPOINT':'DDG119_EXISTING_BRIDGEMASTER_E_PROFILE_AND_REGISTERED_HARDPOINT'},
++    {id:'AN_SLQ_32_EA',order:40,category:'ECM',outputKind:'ECM',mountKind:'FIRST_AVAILABLE_EW_POD',bandMode:'FIXED',band:'IJ',
++      powerPerResource:SHIP_EMITTER_COMPATIBILITY_A.ecmPowerPerResource,powerProvenance:'LEGACY_COMPATIBILITY_UNIT_2000_X_RESOURCE_USED',
++      family:'RF INTERFERENCE',emitterClass:'JAMMER',beamMode:'EW_OPERATOR_BEARING',
++      provenance:cg?'CG52_REGISTERED_TWIN_SLQ32_PODS_SHARED_EXISTING_ALLOCATOR':'DDG119_LEGACY_RF_REFERENCE_SHARED_EXISTING_ALLOCATOR'}
++  ];
++  return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,
++    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,entries,
++    mutableStateOwner:'ShipRuntime.observerC + ShipRuntime.ew; profile definitions are immutable',
++    outputContract:'AEGIS_RECEIVER_EW_F_1_LEGACY_EXACT'};
++}
++function shipEmitterSovRegistryA(registration){
++  const category=role=>role==='AIR_SEARCH'?'AIR_SEARCH':role==='ASM_TARGETING_RADAR'?'SURFACE_SEARCH':
++    (String(role).includes('FIRE_CONTROL')||String(role).includes('ILLUMINATOR'))?'FIRE_CONTROL':'SURFACE_SEARCH';
++  const entries=registration.sensors.map((q,i)=>({id:String(q.id).toUpperCase(),order:(i+1)*10,category:category(q.role),
++    outputKind:'REGISTERED_INACTIVE',physicalEmission:false,installed:false,active:false,
++    system:q.system,nato:q.nato??null,role:q.role,hardpointM:{x:q.simPosM[0],y:q.simPosM[1],z:q.simPosM[2]},
++    confidence:q.confidence,provenance:q.basis??'MODEL_REGISTRATION'}));
++  return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',
++    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,entries,
++    mutableStateOwner:'NONE_NOT_INSTALLED',outputContract:'NO_PHYSICAL_EMISSION__NO_ESM_OUTPUT__NO_OWN_DETECTION',
++    provenance:'SOV_A_EXISTING_MODEL_REGISTRATION_ONLY__UNVERIFIED_AND_INACTIVE'};
++}
+@@ -2145,0 +2199 @@
++ p15.equipment={...(p15.equipment??{}),registryId:'AEGIS_DDG119_EQUIPMENT_EMITTER_A',emitters:shipEmitterEquipmentRegistryA('DDG_119_LATE_FLIGHT_IIA')};
+@@ -2420 +2474 @@
+-      secondaryRadars:R.radars,ew:{moduleId:E.SLQ32_CG52_LATE_V1.id,pods:R.ewPods},
++      secondaryRadars:R.radars,emitters:shipEmitterEquipmentRegistryA('CG_52_LATE_TICONDEROGA'),ew:{moduleId:E.SLQ32_CG52_LATE_V1.id,pods:R.ewPods},
+@@ -2637 +2691 @@
+- p.equipment={registryId:'SOV_INACTIVE_ONLY_A',guns:[],closeIn:[],illuminators:[],secondaryRadars:[],ew:{pods:[],installed:false},inactiveHardpoints:R.inactiveHardpoints,sensorRegistration:R.sensorRegistration};
++ p.equipment={registryId:'SOV_INACTIVE_ONLY_A',guns:[],closeIn:[],illuminators:[],secondaryRadars:[],ew:{pods:[],installed:false},inactiveHardpoints:R.inactiveHardpoints,sensorRegistration:R.sensorRegistration,emitters:shipEmitterSovRegistryA(R.sensorRegistration)};
+@@ -2996,0 +3051,68 @@
++// EMITTER_A common runtime resolver. ACTIVE is replaced at build time.
++const SHIP_EMITTER_MODE_A='ACTIVE';
++const SHIP_EMITTER_AUDIT_A={schema:'AEGIS_SHIP_EMITTER_SHADOW_A_1',mode:SHIP_EMITTER_MODE_A,comparisons:0,mismatches:0,
++  perProfile:{},examples:[],rngConsumed:false,tacticalOutputUsed:SHIP_EMITTER_MODE_A==='ACTIVE'};
++function shipEmitterRegistryA(r){return resolveShipProfile(r.profileId).equipment?.emitters??null;}
++function shipEmitterRegistryValidateA(profile){
++  const registry=profile.equipment?.emitters;if(!registry)return {ok:false,reason:'NO_REGISTRY'};
++  const ids=new Set(),orders=new Set();
++  for(const q of registry.entries){
++    if(!q||typeof q.id!=='string'||ids.has(q.id)||!Number.isFinite(q.order)||orders.has(q.order)||!SHIP_EMITTER_CATEGORIES_A.includes(q.category))return {ok:false,reason:'ENTRY_SCHEMA'};
++    ids.add(q.id);orders.add(q.order);
++  }
++  return {ok:true,reason:null,profileId:profile.id,registryId:registry.registryId,physicalEmission:registry.physicalEmission,entries:registry.entries.length};
++}
++function electronicShipPhysicalEmittersLegacyA(r){
++  const out=[];
++  if(sovNoEquipmentA(r))return out;const own=r===ACTIVE_SHIP_RUNTIME,o=observerC(r),silent=own?emconActive:o.emcon;
++  if(!silent&&!shipEquipmentOfflineV1(r)){
++    const p=resolveShipProfile(r.profileId),spy=o.normals.filter(q=>observerHealthC(r,q.moduleName)>.05);
++    if(o.enabled.SPY&&spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:'S',frequencyMHz:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?p.sensors.spy1dv.frequencyMHz:null,frequencyProvenance:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:2500,family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',beamAz:null});
++    for(const [key,hp]of [['SPQ','spq9b'],['NAV','bridgeMasterE']]){const spec=p.sensors[hp];if(o.enabled[key]&&observerHealthC(r,p.geometry.hardpoints[hp].name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,p.geometry.hardpoints[hp]),band:key==='SPQ'?'IJ':electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:key==='SPQ'?650:120,family:key==='SPQ'?'SURFACE SEARCH RADAR':'NAVIGATION RADAR',emitterClass:'SEARCH_RADAR',beamAz:r.navigation.heading+(own?(key==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[key]),beamwidthDeg:key==='SPQ'?.6:spec.horizontalBeamwidthDeg,beamwidthProvenance:key==='SPQ'?'SIM_TUNED_EXISTING_OBSERVATION_MODEL':String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec.rpm??spec.nominalRpm),double:key==='SPQ'});}
++  }
++  const a=electronicAllocatorF(r),settings=electronicSettingsF(r),pods=electronicPodsF(r);
++  if(a.resourceUsed>.001&&(settings.noiseRequested||settings.deceptionRequested)&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:'IJ',power:2000*a.resourceUsed,family:'RF INTERFERENCE',emitterClass:'JAMMER',beamAz:settings.bearingRad});
++  return out;
++}
++function electronicShipPhysicalEmittersDeclaredA(r){
++  const out=[],registry=shipEmitterRegistryA(r);
++  if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;
++  if(!registry)throw Error('SHIP_EMITTER_REGISTRY_REQUIRED:'+r.profileId);
++  const own=r===ACTIVE_SHIP_RUNTIME,o=observerC(r),silent=own?emconActive:o.emcon,p=resolveShipProfile(r.profileId);
++  if(!silent&&!shipEquipmentOfflineV1(r)){
++    const spy=o.normals.filter(q=>observerHealthC(r,q.moduleName)>.05);
++    for(const q of registry.entries){
++      if(q.outputKind!=='RADAR'||!o.enabled[q.enabledKey])continue;
++      const spec=p.sensors[q.sensorKey];
++      if(q.mountKind==='FIRST_HEALTHY_SPY_FACE'){
++        if(spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:q.band,frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:null});
++        continue;
++      }
++      const hp=p.geometry.hardpoints[q.hardpointKey];
++      if(observerHealthC(r,hp.name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,hp),band:q.bandMode==='FIXED'?q.band:electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:r.navigation.heading+(own?(q.rotorKey==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[q.rotorKey]),beamwidthDeg:q.beamwidthDeg??spec[q.beamwidthField],beamwidthProvenance:q.beamwidthProvenance??String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec[q.rpmField]),double:q.double});
++    }
++  }
++  const a=electronicAllocatorF(r),settings=electronicSettingsF(r),pods=electronicPodsF(r),ecm=registry.entries.find(q=>q.outputKind==='ECM');
++  if(ecm&&a.resourceUsed>.001&&(settings.noiseRequested||settings.deceptionRequested)&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:ecm.band,power:ecm.powerPerResource*a.resourceUsed,family:ecm.family,emitterClass:ecm.emitterClass,beamAz:settings.bearingRad});
++  return out;
++}
++function shipEmitterEqualA(a,b){
++  if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object')return false;
++  const ak=Object.keys(a),bk=Object.keys(b);if(ak.length!==bk.length||ak.some((k,i)=>k!==bk[i]))return false;
++  return ak.every(k=>shipEmitterEqualA(a[k],b[k]));
++}
++function shipEmitterComparableA(rows){return rows.map(row=>Object.fromEntries(Object.entries(row).map(([k,v])=>[k,k==='ship'?v?.entityId??null:v])));}
++function shipEmitterShadowCompareA(r,legacy,declared){
++  SHIP_EMITTER_AUDIT_A.comparisons++;const p=SHIP_EMITTER_AUDIT_A.perProfile[r.profileId]??={comparisons:0,mismatches:0};p.comparisons++;
++  if(shipEmitterEqualA(legacy,declared))return;
++  SHIP_EMITTER_AUDIT_A.mismatches++;p.mismatches++;
++  if(SHIP_EMITTER_AUDIT_A.examples.length<32)SHIP_EMITTER_AUDIT_A.examples.push({profileId:r.profileId,entityId:r.entityId,legacy:shipEmitterComparableA(legacy),declared:shipEmitterComparableA(declared)});
++}
++function shipEmitterRuntimeSnapshotA(r){
++  const o=observerC(r),settings=electronicSettingsF(r),a=electronicAllocatorF(r);
++  return {schema:'AEGIS_SHIP_EMITTER_RUNTIME_A_1',entityId:r.entityId,profileId:r.profileId,registryId:shipEmitterRegistryA(r)?.registryId??null,
++    stateOwners:{radar:'ShipRuntime.observerC',ecm:'ShipRuntime.ew'},enabled:{...o.enabled},emcon:r===ACTIVE_SHIP_RUNTIME?emconActive:o.emcon,
++    rotors:{SPQ:r===ACTIVE_SHIP_RUNTIME?spq9bRotorAngle:o.rotors.SPQ,NAV:r===ACTIVE_SHIP_RUNTIME?bridgeMasterERotorAngle:o.rotors.NAV},
++    ecm:{noiseRequested:settings.noiseRequested,deceptionRequested:settings.deceptionRequested,bearingRad:settings.bearingRad,resourceUsed:a.resourceUsed},
++    duplicateMutableState:false};
++}
+@@ -3000,8 +3122,4 @@
+-    if(sovNoEquipmentA(r))continue;const own=r===ACTIVE_SHIP_RUNTIME,o=observerC(r),silent=own?emconActive:o.emcon;
+-    if(!silent&&!shipEquipmentOfflineV1(r)){
+-      const p=resolveShipProfile(r.profileId),spy=o.normals.filter(q=>observerHealthC(r,q.moduleName)>.05);
+-      if(o.enabled.SPY&&spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:'S',frequencyMHz:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?p.sensors.spy1dv.frequencyMHz:null,frequencyProvenance:Number.isFinite(p.sensors.spy1dv.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:2500,family:'SHIP SEARCH RADAR',emitterClass:'SEARCH_RADAR',beamAz:null});
+-      for(const [key,hp]of [['SPQ','spq9b'],['NAV','bridgeMasterE']]){const spec=p.sensors[hp];if(o.enabled[key]&&observerHealthC(r,p.geometry.hardpoints[hp].name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,p.geometry.hardpoints[hp]),band:key==='SPQ'?'IJ':electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:key==='SPQ'?650:120,family:key==='SPQ'?'SURFACE SEARCH RADAR':'NAVIGATION RADAR',emitterClass:'SEARCH_RADAR',beamAz:r.navigation.heading+(own?(key==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[key]),beamwidthDeg:key==='SPQ'?.6:spec.horizontalBeamwidthDeg,beamwidthProvenance:key==='SPQ'?'SIM_TUNED_EXISTING_OBSERVATION_MODEL':String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec.rpm??spec.nominalRpm),double:key==='SPQ'});}
+-    }
+-    const a=electronicAllocatorF(r),settings=electronicSettingsF(r),pods=electronicPodsF(r);
+-    if(a.resourceUsed>.001&&(settings.noiseRequested||settings.deceptionRequested)&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:'IJ',power:2000*a.resourceUsed,family:'RF INTERFERENCE',emitterClass:'JAMMER',beamAz:settings.bearingRad});
++    if(SHIP_EMITTER_MODE_A==='SHADOW'){
++      const legacy=electronicShipPhysicalEmittersLegacyA(r);
++      const declared=electronicShipPhysicalEmittersDeclaredA(r);shipEmitterShadowCompareA(r,legacy,declared);out.push(...legacy);
++    }else out.push(...electronicShipPhysicalEmittersDeclaredA(r));
+@@ -3017,0 +3136,5 @@
++function shipEmitterAuditSnapshotA(){return {schema:SHIP_EMITTER_AUDIT_A.schema,mode:SHIP_EMITTER_MODE_A,comparisons:SHIP_EMITTER_AUDIT_A.comparisons,mismatches:SHIP_EMITTER_AUDIT_A.mismatches,perProfile:structuredClone(SHIP_EMITTER_AUDIT_A.perProfile),examples:structuredClone(SHIP_EMITTER_AUDIT_A.examples),rngConsumed:false,tacticalOutputUsed:SHIP_EMITTER_MODE_A==='ACTIVE'};}
++window.__SHIP_EMITTERS_A__=Object.freeze({schema:'AEGIS_SHIP_EMITTER_PUBLIC_A_1',mode:SHIP_EMITTER_MODE_A,categories:SHIP_EMITTER_CATEGORIES_A,
++  compatibility:SHIP_EMITTER_COMPATIBILITY_A,definitions:id=>resolveShipProfile(id)?.equipment?.emitters??null,
++  validate:id=>shipEmitterRegistryValidateA(resolveShipProfile(id)),runtime:id=>shipEmitterRuntimeSnapshotA(ENGAGEMENT_RUNTIME.ships.get(String(id))),
++  audit:shipEmitterAuditSnapshotA,physical:()=>shipEmitterComparableA(electronicPhysicalEmittersF())});

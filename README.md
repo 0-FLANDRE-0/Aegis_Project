@@ -1,12 +1,20 @@
-## 최신 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
+## 최신 작업 — EMITTER_A 함정 방사원 공통 등록
 
-- `main@be19f467` 위 `seeker-unify-u3`, [PR #72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) OPEN. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md), [최종 보고서](docs/missile/seeker-unify/U3/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U3/).
+- 병합된 U3 `main@5d0b4ea0` 위 `emitter-a`, [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN. [실행 HTML](Aegis_SIM_v48_WIP_EMITTER_A.html), [실행 HTML ZIP](Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip), [리포트 ZIP](Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), [최종 보고서](docs/electronic/emitter/A/FINAL_REPORT.md), [단계 증거](docs/electronic/emitter/A/).
+- DDG-119/CG-52의 SPY·SPQ·항해 레이더·ECM 선언을 불변 ShipProfile 장비 레지스트리로 옮기고, 기존 ShipRuntime observer/EW 상태를 읽는 공통 ACTIVE 어댑터를 적용했다. 기존 출력 순서·필드·RNG·전력 호환 단위는 그대로다.
+- 소브레멘니는 기존 SOV_A 센서 메타데이터 11행만 비활성 등록했다. 실제 방출·ESM·자체 탐지·공격 기능과 RF 수치는 추가하지 않았다.
+- A–D 게이트 PASS. pre-closure 광역은 지시대로 1회: Native 364/364, U3 paired 42/42, UI 213/213, 실제 WebGL 29/29 PASS; 신규 실패·기대값·허용오차 변경 0. 종료 보정 뒤 ACTIVE legacy 호출 0·declared 1회/함정, exact 출력/RNG, clean-clone portability와 전용 candidate Actions [run 42373876872](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872) PASS. 광역은 반복하지 않았다.
+- 제품 22,146,163 bytes / SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`. 구형 EMCON UI 14건은 inherited INCOMPLETE다. PR #73은 열려 있으며 main 병합·release·tag는 하지 않았다. 다음 작업은 EMCON_B다.
+
+## 병합 완료 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
+
+- `main@5d0b4ea0`에 [PR #72](https://github.com/0-FLANDRE-0/Aegis_Project/pull/72) 병합 완료. [HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U3.md), [최종 보고서](docs/missile/seeker-unify/U3/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U3/).
 - [실행 HTML ZIP](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3_HTML.zip) · [리포트 ZIP](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3_REPORT.zip). 원격 push 뒤 검증한 GitHub 직접 다운로드 링크는 PR/최종 인계에 기록한다.
 - 하푼 RF 관측을 U2 공통 프로필에 연결하고 일반 트랙의 고정 4 km 상한만 제거했다. 기존 250 m 하한은 복구·명명했으며, 발사 트랙 위치·속도·공분산·시각을 CUE_A에 전달한다. 경로점은 기존 4 km `ROUTE_PLAN_PRIOR`로 분리했다.
 - 하푼 terminal HOJ는 `ASSUMED_THREAT`: MAX_THREAT에서만 활성, CONFIRMED_ONLY에서는 신호 합성 전 비활성이다. 미사일별 독립 상태/RNG이며 중기 수동 RF는 추가하지 않았다.
 - 기존 Mahalanobis gate 뒤 수동 RF 후보를 `d² + ln(det(S))`로 선택한다. emitter ID·플랫폼·truth 위치와 RNG는 선택에 쓰지 않는다. 새 보상 상수·저장 스키마 변경 없음.
 - 단계 A–D와 B 보정 게이트 PASS. 보정본 최종 광역은 지시대로 1회: native 364/364, UI 213/213, 실제 WebGL 29/29 PASS. paired는 보정 전과 같은 raw 38/42이며 두 함종 raid의 combat RNG/observer exact-state 4건을 D의 의도된 후보 변경으로 단계 분리했다. 물리·손상·VLS·최종 결과는 동일하고 기대값/허용오차 갱신은 0이다. Playwright 1.55 job 22개는 Ubuntu 26.04 비호환을 피해 `ubuntu-24.04`로 고정했다. 자동 실행 `42264252460`은 도달한 설치 21/21 성공으로 호환 문제를 해소했으나, U3가 아닌 WIP12D CIWS 배속 결정성 1건 실패와 checkout 시간제한 2건 때문에 전체는 29 success / 1 failure / 2 cancelled다. 재실행·기대값 갱신 없음.
-- 제품 22,143,303 bytes / SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. CONFIRMED_ONLY 성능과 기존 `#lockBtn` 14, CIWS seed 419025, paired observer 부채는 UNRESOLVED. main 병합·release·tag 없음; PR까지만 진행한다.
+- 제품 22,143,303 bytes / SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`. CONFIRMED_ONLY 성능과 기존 `#lockBtn` 14, CIWS seed 419025, paired observer 부채는 UNRESOLVED. PR #72로 main 병합 완료; release/tag는 없음.
 
 ## 최신 시험 후보 — 고각 발사 인계 LAUNCH_HANDOFF_A (회귀 승인 보류)
 

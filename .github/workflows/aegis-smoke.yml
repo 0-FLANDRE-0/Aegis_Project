@@ -1,10 +1,14 @@
-name: AEGIS smoke check
+name: AEGIS legacy regression matrix
 
 on:
   pull_request:
     paths:
-      - 'Aegis_SIM_v*.html'
-      - '.github/workflows/aegis-smoke.yml'
+      - 'Aegis_SIM_v48_WIP12D.html'
+      - 'Aegis_SIM_v48_WIP12E_REV5_NAVAL_ARMOR_FUZE_COUPLING.html'
+      - 'Aegis_SIM_v48_WIP12F.html'
+      - 'Aegis_SIM_v48_WIP_STARTUP_A.html'
+      - 'Aegis_SIM_v48_WIP16A.html'
+      - 'Aegis_SIM_v48_WIP16B.html'
       - 'tests/ciws-b1-closure.spec.js'
       - 'tests/ciws-b2-maneuver.spec.js'
       - 'tests/ciws-b3-damage.spec.js'
@@ -42,6 +46,9 @@ on:
       - 'WIP12F_SHA256SUMS.txt'
       - 'tests/wip10-visual-probe.cjs'
       - 'archive/v48/WIP11C/**'
+      - 'archive/v48/WIP10/**'
+      - 'archive/v48/WIP11A/**'
+      - 'archive/v48/WIP11B/**'
       - 'archive/v48/WIP12A/**'
       - 'archive/v48/WIP12B/**'
       - 'archive/v48/WIP12C/**'
@@ -53,7 +60,9 @@ permissions:
   contents: read
 
 env:
+  # Historical fixed-product matrix. This workflow is not current-candidate approval.
   SIM_FILE: Aegis_SIM_v48_WIP12D.html
+  LEGACY_STATIC_SIM_FILE: Aegis_SIM_v48_WIP_STARTUP_A.html
   BASELINE_SIM_FILE: archive/v48/WIP10/Aegis_SIM_v48_WIP10.html
   SAFETY_BASELINE_SIM_FILE: archive/v48/WIP11A/Aegis_SIM_v48_WIP11A.html
   WRECK_BASELINE_SIM_FILE: archive/v48/WIP11B/Aegis_SIM_v48_WIP11B.html
@@ -1272,11 +1281,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Validate latest simulator source
+      - name: Validate fixed legacy simulator source
         shell: bash
         run: |
           set -euo pipefail
-          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          sim_file="$LEGACY_STATIC_SIM_FILE"
           test -n "$sim_file"
           SIM_FILE="$sim_file" python3 - <<'PY'
           import os
@@ -1305,7 +1314,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          sim_file="$LEGACY_STATIC_SIM_FILE"
           cp "$sim_file" index.html
           python3 -m http.server 4173 >/tmp/aegis-http.log 2>&1 &
           server_pid=$!
@@ -1443,11 +1452,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Prepare latest simulator
+      - name: Prepare fixed legacy simulator
         shell: bash
         run: |
           set -euo pipefail
-          sim_file="$(find . -maxdepth 1 -type f -name 'Aegis_SIM_v*.html' -printf '%f\n' | sort -V | tail -n 1)"
+          sim_file="$LEGACY_STATIC_SIM_FILE"
           test -n "$sim_file"
           # Verify the actual startup upload before running the integrated 3D job.
           if test -f Aegis_SIM_v48_WIP_STARTUP_A.html && test -f docs/ship-startup/A/build_startup.py; then

@@ -13,7 +13,8 @@
 
 ## U3 이후
 
-- **EMITTER_A**: `electronicPhysicalEmittersF`의 함종별 하드코딩을 ShipProfile 선언형 장비 등록으로 이전. U3에서는 범위 밖으로 보존했다.
+- **EMITTER_A — 종료 검증 완료 후보**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. ACTIVE legacy 호출 제거, 전용 candidate Actions와 원격 산출물 검증까지 완료했으며 PR/사용자 병합만 남아 있다.
+- **EMCON_B — 다음**: EMITTER_A 범주/장비 등록을 읽어 범주 단위 및 장비별 방사 통제와 자동 UI를 설계한다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
 - **U3 paired raw 4건**: DDG/CG raid의 combat RNG/observer exact-state. D ACTIVE 정책 변화로 원인 분리됐으나 원본 expectation은 갱신하지 않았다.
 
