@@ -140,8 +140,8 @@
 -    }
 -    const a=electronicAllocatorF(r),settings=electronicSettingsF(r),pods=electronicPodsF(r);
 -    if(a.resourceUsed>.001&&(settings.noiseRequested||settings.deceptionRequested)&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:'IJ',power:2000*a.resourceUsed,family:'RF INTERFERENCE',emitterClass:'JAMMER',beamAz:settings.bearingRad});
-+    const legacy=electronicShipPhysicalEmittersLegacyA(r);
 +    if(SHIP_EMITTER_MODE_A==='SHADOW'){
++      const legacy=electronicShipPhysicalEmittersLegacyA(r);
 +      const declared=electronicShipPhysicalEmittersDeclaredA(r);shipEmitterShadowCompareA(r,legacy,declared);out.push(...legacy);
 +    }else out.push(...electronicShipPhysicalEmittersDeclaredA(r));
 @@ -3017,0 +3136,5 @@

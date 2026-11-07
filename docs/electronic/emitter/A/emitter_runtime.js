@@ -69,8 +69,8 @@ function shipEmitterRuntimeSnapshotA(r){
 function electronicPhysicalEmittersF(){
   const out=[];
   for(const r of electronicShipsF()){
-    const legacy=electronicShipPhysicalEmittersLegacyA(r);
     if(SHIP_EMITTER_MODE_A==='SHADOW'){
+      const legacy=electronicShipPhysicalEmittersLegacyA(r);
       const declared=electronicShipPhysicalEmittersDeclaredA(r);shipEmitterShadowCompareA(r,legacy,declared);out.push(...legacy);
     }else out.push(...electronicShipPhysicalEmittersDeclaredA(r));
   }
