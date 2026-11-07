@@ -9,10 +9,11 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-PRODUCT = HERE.parents[3] / "Aegis_SIM_v48_WIP_EMITTER_A.html"
+REPO_ROOT = HERE.parents[3]
+PRODUCT = REPO_ROOT / "Aegis_SIM_v48_WIP_EMITTER_A.html"
 DIAG = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_D_DIAGNOSTIC.html")
 EXPECTED = json.loads((HERE / "BASELINE_AUDIT.json").read_text())
-sys.path[:0] = ["/workspace/aegis-ui-a/docs/pip/B", "/workspace/aegis-ui-a/docs/bunkerhill/K"]
+sys.path[:0] = [str(REPO_ROOT / "docs/pip/B"), str(REPO_ROOT / "docs/bunkerhill/K")]
 import browser_backend
 
 browser_backend.install()

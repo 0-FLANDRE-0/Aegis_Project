@@ -8,9 +8,10 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+REPO_ROOT = HERE.parents[3]
 ACTIVE = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_CLOSURE_ACTIVE.html")
 SHADOW = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_CLOSURE_SHADOW.html")
-sys.path[:0] = ["/workspace/aegis-ui-a/docs/pip/B", "/workspace/aegis-ui-a/docs/bunkerhill/K"]
+sys.path[:0] = [str(REPO_ROOT / "docs/pip/B"), str(REPO_ROOT / "docs/bunkerhill/K")]
 import browser_backend
 
 browser_backend.install()

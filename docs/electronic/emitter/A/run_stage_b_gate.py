@@ -9,12 +9,13 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-BASELINE = HERE.parents[3] / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html"
+REPO_ROOT = HERE.parents[3]
+BASELINE = REPO_ROOT / "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html"
 SHADOW = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_B_SHADOW.html")
 BASE_DIAG = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_U3_DIAGNOSTIC.html")
 SHADOW_DIAG = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_B_DIAGNOSTIC.html")
 EXPECTED = json.loads((HERE / "BASELINE_AUDIT.json").read_text())
-sys.path[:0] = ["/workspace/aegis-ui-a/docs/pip/B", "/workspace/aegis-ui-a/docs/bunkerhill/K"]
+sys.path[:0] = [str(REPO_ROOT / "docs/pip/B"), str(REPO_ROOT / "docs/bunkerhill/K")]
 import browser_backend
 
 browser_backend.install()

@@ -8,9 +8,10 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-PRODUCT = HERE.parents[3] / "Aegis_SIM_v48_WIP_EMITTER_A.html"
+REPO_ROOT = HERE.parents[3]
+PRODUCT = REPO_ROOT / "Aegis_SIM_v48_WIP_EMITTER_A.html"
 DIAG = Path("/tmp/Aegis_SIM_v48_WIP_EMITTER_A_FINAL_DIAGNOSTIC.html")
-sys.path[:0] = ["/workspace/aegis-ui-a/docs/pip/B", "/workspace/aegis-ui-a/docs/bunkerhill/K"]
+sys.path[:0] = [str(REPO_ROOT / "docs/pip/B"), str(REPO_ROOT / "docs/bunkerhill/K")]
 import browser_backend
 
 browser_backend.install()
@@ -24,13 +25,14 @@ def strict(value: object) -> str:
 
 def capture(browser, body: bytes, ship: str, errors: list[str]) -> dict:
     page = load(browser, body, ship=ship, errors=errors)
+    core = page.evaluate("()=>__EMITTER_A_FINAL_DIAG__.coreSelftest()")
     contract = page.evaluate("()=>__EMITTER_A_FINAL_DIAG__.contract()")
     edge = page.evaluate("()=>__EMITTER_A_FINAL_DIAG__.edge()")
     sov_enemy = page.evaluate("()=>__EMITTER_A_D_DIAG__.sovScene('ENEMY')")
     sov_snapshot = page.evaluate("()=>__EMITTER_A_FINAL_DIAG__.sovSnapshot()")
     threat = page.evaluate("()=>__SEEKER_U3_DIAG__.hojExerciseC()")
     page.close()
-    return {"contract": contract, "edge": edge, "sovEnemy": sov_enemy,
+    return {"core": core, "contract": contract, "edge": edge, "sovEnemy": sov_enemy,
             "sovSnapshot": sov_snapshot, "threat": threat}
 
 
@@ -47,6 +49,7 @@ def main() -> None:
     profiles = first["DDG_119_LATE_FLIGHT_IIA"]["contract"]["profiles"]
     checks = {
         "pageErrorsZero": not errors,
+        "candidateCoreSelftest": all(q["core"]["pass"] for q in first.values()),
         "deterministicRepeatExact": first == second,
         "profileSchemaAndRefsValid": all(q["frozen"] and q["uniqueIds"] and q["uniqueOrders"] and all(all(r[k] for k in ("sensorOk", "hardpointOk", "enabledKeyOk", "mountKindOk")) for r in q["refs"]) for q in profiles),
         "runtimeIsolation": all(q["edge"]["command"]["ok"] and q["edge"]["ownBefore"] == q["edge"]["ownAfter"] and q["edge"]["allyAfter"] == {"enabled": {"SPY": False, "SPQ": False, "NAV": False}, "emcon": True} for q in first.values()),

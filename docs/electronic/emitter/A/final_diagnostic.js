@@ -14,6 +14,20 @@ function emitterAFinalContractA(){
     receiverKeys:['bearing','bearingSigmaDeg','strength','quality','band','type','emitterClass','measuredAtS'],
     protectedConsumerContracts:{receiver:String(electronicReceiverPlotsF),hoj:String(electronicHojF),radarInterference:String(electronicRadarInterferenceF)}};
 }
+function emitterACoreSelftestA(){
+  const profileIds=['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA','SOVREMENNY_956'];
+  const audit=shipEmitterAuditSnapshotA();
+  const checks={
+    packagingReady:window.C55Packaging?.ready===true&&!window.C55Packaging?.error,
+    runtimeFaultAbsent:window.__WIP125_DIAG__?.wip150RuntimeFault?.()===null,
+    presentationFaultAbsent:window.__WIP125_DIAG__?.wip150PresentationFault?.()===null,
+    registriesValid:profileIds.every(id=>shipEmitterRegistryValidateA(resolveShipProfile(id)).ok),
+    activeAuthority:SHIP_EMITTER_MODE_A==='ACTIVE'&&audit.tacticalOutputUsed===true,
+    activeComparatorIdle:audit.comparisons===0&&audit.mismatches===0,
+  };
+  return {schema:'AEGIS_EMITTER_A_CORE_SELFTEST_1',checks,passed:Object.values(checks).filter(Boolean).length,
+    total:Object.keys(checks).length,pass:Object.values(checks).every(Boolean)};
+}
 function emitterAFinalEdgeA(){
   const config={...MULTISHIP_DEPLOYMENT_STATE_A.draft,targetShip:'NONE',enemyAircraftEnabled:false,
     allyProfileId:'DDG_119_LATE_FLIGHT_IIA',enemyProfileId:null,neutralProfileId:null,allyEmcon:false,enemyEmcon:false};
@@ -34,4 +48,4 @@ function emitterAFinalEdgeA(){
   return {schema:'AEGIS_EMITTER_A_FINAL_EDGE_1',command,ownBefore,ownAfter,allyAfter,maxJammer,wrap,
     anonymousPlots:{count:plots.length,keys:plotKeys,forbiddenPresent:plots.some(q=>forbidden.some(k=>Object.hasOwn(q,k)))}};
 }
-window.__EMITTER_A_FINAL_DIAG__=Object.freeze({contract:emitterAFinalContractA,edge:emitterAFinalEdgeA,sovSnapshot:sovSnapshotA});
+window.__EMITTER_A_FINAL_DIAG__=Object.freeze({coreSelftest:emitterACoreSelftestA,contract:emitterAFinalContractA,edge:emitterAFinalEdgeA,sovSnapshot:sovSnapshotA});
