@@ -8,7 +8,7 @@
 | TESTED | A–D gates PASS; one final MAX_THREAT broad regression; DDG/CG mixed/same-class scenes; save/restore and UI ownership; SOV enemy/neutral inactive scenes; performance probe. |
 | APPROVED | Directive-defined categories, compatibility units, SHADOW→ACTIVE promotion and inactive-only SOV scope. No expectation or tolerance update was needed. |
 | UNRESOLVED | Inherited debts listed below; CONFIRMED_ONLY performance; SOV real electronic capability; future category-level EMCON_B. |
-| RELEASE | Not released. No tag, release, main commit or merge. PR is submitted for user decision only. |
+| RELEASE | Not released. No tag, release, main commit or merge. [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) is OPEN for user decision. |
 
 | Target | IMPLEMENTED | TESTED | APPROVED | UNRESOLVED | INHERITED_DEBT | RELEASE |
 |---|---|---|---|---|---|---|
@@ -111,6 +111,6 @@ category/equipment-level controls; it is not implemented here.
 - Report/evidence ZIP: `Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip`
 - Checksums: `SHA256SUMS_v48_WIP_EMITTER_A.txt`
 
-Exact sizes and hashes are in `PACKAGE_MANIFEST.md`. GitHub remote byte-for-byte
-readback and PR metadata are recorded after publication without rebuilding the
-archives.
+Exact sizes and hashes are in `PACKAGE_MANIFEST.md`. PR #73 is OPEN. GitHub
+remote byte-for-byte readback metadata is recorded after publication without
+recursively rebuilding the archives.

@@ -3,7 +3,7 @@
 ## 레포
 
 - `main` `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합)
-- 작업 브랜치: `emitter-a` (PR 제출 전)
+- 작업 브랜치: `emitter-a` ([PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN)
 - 기준 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
 - 후보 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
@@ -33,7 +33,7 @@
 | SEEKER_UNIFY_C (PR #69) | U2 ACTIVE, 대함 시커 빔·LOS 왕복 보정, CUE_A(cue 필터·수동 RF·위협 가정 스위치) | main |
 | CUE_A-1 (PR #70) | Singer cue 필터(τ=60 s, 정확 이산화), 바구니 상한, 수동 RF 함정 레이더 family·대역·회전 레이더, 0.5 km 거리 하한 원복 | main |
 | U3 하푼 | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | main (PR #72) |
-| **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 구현·최종 검증 완료, PR 제출 전 |
+| **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 구현·최종 검증 완료, PR #73 OPEN |
 
 ## EMITTER_A 결과 요약
 
@@ -41,7 +41,7 @@
 - SOV 기존 11행 메타데이터만 비활성 등록. 방출/ESM/자체 탐지/공격 0, RF 값 추가 0.
 - A–D 게이트 PASS. 최종 광역 1회: Native 364/364, U3 paired 42/42, UI 213/213, WebGL 29/29 PASS.
 - 신규 실패·기대값·허용오차 변경 0. 제품/범위/부채는 `docs/electronic/emitter/A/FINAL_REPORT.md` 참조.
-- 다음은 EMCON_B. EMITTER_A는 main 병합·release·tag 전이며 PR까지만 제출한다.
+- 다음은 EMCON_B. EMITTER_A PR #73은 OPEN이며 main 병합·release·tag는 하지 않았다.
 
 ## U3 결과 요약 (병합 기준)
 

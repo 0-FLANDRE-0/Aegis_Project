@@ -5,7 +5,7 @@
 - Bytes: `22146163`
 - Base: merged SEEKER_UNIFY_U3 (`243c196a…8835`)
 - Branch: `emitter-a`
-- State: IMPLEMENTED + TESTED; PR pending user merge decision; RELEASE=false
+- State: IMPLEMENTED + TESTED; [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN, pending user merge decision; RELEASE=false
 
 ## Completed
 
@@ -30,4 +30,4 @@
 - category/equipment-level EMCON UI and policy (EMCON_B);
 - inherited debts listed in `docs/electronic/emitter/A/FINAL_REPORT.md`.
 
-No main direct commit, merge, release or tag is authorized by this status.
+PR #73 is open. No main direct commit, merge, release or tag is authorized by this status.

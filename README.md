@@ -1,10 +1,10 @@
 ## 최신 작업 — EMITTER_A 함정 방사원 공통 등록
 
-- 병합된 U3 `main@5d0b4ea0` 위 `emitter-a`. [실행 HTML](Aegis_SIM_v48_WIP_EMITTER_A.html), [실행 HTML ZIP](Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip), [리포트 ZIP](Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), [최종 보고서](docs/electronic/emitter/A/FINAL_REPORT.md), [단계 증거](docs/electronic/emitter/A/).
+- 병합된 U3 `main@5d0b4ea0` 위 `emitter-a`, [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN. [실행 HTML](Aegis_SIM_v48_WIP_EMITTER_A.html), [실행 HTML ZIP](Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip), [리포트 ZIP](Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), [최종 보고서](docs/electronic/emitter/A/FINAL_REPORT.md), [단계 증거](docs/electronic/emitter/A/).
 - DDG-119/CG-52의 SPY·SPQ·항해 레이더·ECM 선언을 불변 ShipProfile 장비 레지스트리로 옮기고, 기존 ShipRuntime observer/EW 상태를 읽는 공통 ACTIVE 어댑터를 적용했다. 기존 출력 순서·필드·RNG·전력 호환 단위는 그대로다.
 - 소브레멘니는 기존 SOV_A 센서 메타데이터 11행만 비활성 등록했다. 실제 방출·ESM·자체 탐지·공격 기능과 RF 수치는 추가하지 않았다.
 - A–D 게이트 PASS. 최종 광역은 지시대로 1회: Native 364/364, U3 paired 42/42, UI 213/213, 실제 WebGL 29/29 PASS; 신규 실패·기대값·허용오차 변경 0. 구형 EMCON UI 14건은 inherited INCOMPLETE다.
-- 제품 22,146,163 bytes / SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`. PR까지만 제출하고 main 병합·release·tag는 사용자가 결정한다. 다음 작업은 EMCON_B다.
+- 제품 22,146,163 bytes / SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`. PR #73은 열려 있으며 main 병합·release·tag는 하지 않았다. 다음 작업은 EMCON_B다.
 
 ## 병합 완료 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
 
