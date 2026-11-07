@@ -29,8 +29,11 @@ async function load(browser, ship) {
   await page.waitForFunction(() => window.C55Packaging?.ready && window.__WIP125_DIAG__ &&
     window.__EMITTER_A_BASELINE__ && window.__EMITTER_A_CLOSURE_DIAG__, null, { timeout: 120000 });
   await page.evaluate(() => {
-    document.getElementById('wip125DepartBtn').click();
+    // Freeze the fixed-step loop before departure.  Pausing after the click
+    // leaves a runner-speed-dependent window in which the first RAF can
+    // advance the wave pose used by the exact mixed-fleet snapshot.
     window.__NAVAL_SIM_DIAG__.ciwsB1Closure.setPaused(true);
+    document.getElementById('wip125DepartBtn').click();
   });
   return page;
 }
