@@ -5,7 +5,7 @@
 - `main` `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합)
 - 작업 브랜치: `emitter-a` ([PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN)
 - 기준 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
-- 후보 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`
+- 후보 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -40,6 +40,8 @@
 - DDG/CG SHADOW exact 뒤 ACTIVE 전환. 물리 출력·receiver plot·RNG·UI·작전 저장 계약 보존.
 - SOV 기존 11행 메타데이터만 비활성 등록. 방출/ESM/자체 탐지/공격 0, RF 값 추가 0.
 - A–D 게이트 PASS. 최종 광역 1회: Native 364/364, U3 paired 42/42, UI 213/213, WebGL 29/29 PASS.
+- 종료 보정: ACTIVE legacy resolver 0, declared resolver 1회/함정. exact 출력/RNG, performance 1.0345×, clean-clone portability PASS.
+- 전용 `AEGIS current candidate` Actions run `42373876872` PASS. 기존 광역은 pre-closure 증거이며 반복·재표기하지 않았다.
 - 신규 실패·기대값·허용오차 변경 0. 제품/범위/부채는 `docs/electronic/emitter/A/FINAL_REPORT.md` 참조.
 - 다음은 EMCON_B. EMITTER_A PR #73은 OPEN이며 main 병합·release·tag는 하지 않았다.
 

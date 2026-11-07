@@ -62,3 +62,11 @@
 - SOV는 기존 SOV_A 메타데이터만 비활성 등록한다. 공개 근거 없는 RF 값을 만들거나 방출·탐지·EW·공격 기능을 활성화하지 않는다.
 - 마지막 MAX_THREAT 광역 회귀는 한 번만 실행한다. CONFIRMED_ONLY는 기능 비활성/제한 장면만 확인하고 성능은 UNVERIFIED로 남긴다.
 - 최종 산출물은 HTML ZIP과 보고서 ZIP을 분리하고 원격 전체 bytes/SHA readback 후 PR까지만 생성한다. 병합·release·tag는 사용자가 결정한다.
+
+## 2026-11-07 (EMITTER_A PR #73 종료)
+
+- ACTIVE에서는 legacy resolver를 호출하지 않고 declared resolver만 함정당 정확히 1회 호출한다. SHADOW는 legacy/declared를 각각 1회 호출하고 legacy를 전술 권위로 유지한다.
+- 종료 뒤 광역 회귀는 반복하지 않는다. SHA `04bfb9c9…98c6`의 364/364·42/42·213/213·29/29는 pre-closure 광역 증거로 보존하고, SHA `3a5886b4…c2be`는 exact call/output/RNG·성능·한정 Chromium candidate 게이트로 마감한다.
+- 현재 후보의 단일 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 `AEGIS current candidate` workflow만 후보 승인을 담당하며, 고정 과거 제품을 검사한 legacy Actions는 후보 승인으로 해석하지 않는다.
+- 서로 다른 Chromium 버전의 libm 최하위 비트는 반올림이나 허용오차로 숨기지 않는다. manifest에 고정된 U3 기준과 후보를 동일 Chromium에서 실행해 전체 JSON exact로 비교한다.
+- PR #73은 사용자 결정 전 병합하지 않으며 main 직접 커밋·release·tag를 만들지 않는다.

@@ -2,13 +2,20 @@
 
 | File | Bytes | SHA-256 | Contents |
 |---|---:|---|---|
-| `Aegis_SIM_v48_WIP_EMITTER_A.html` | 22,146,163 | `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6` | Executable product |
-| `Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip` | 16,465,554 | `31ccaf3470462fc275a8ae7be63f55c8eaa9402f3a3e85d6ec3b771c02c8ac91` | Exactly one executable HTML |
-| `Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip` | 37,212,629 | `8e0e427e3aad9c3ca1ccdb01adce9a3dd8e1122f3c7179a519af86c33827774a` | Reports, raw/normalized evidence, screenshots, diffs and reproduction tools; no executable product HTML |
+| `Aegis_SIM_v48_WIP_EMITTER_A.html` | 22,146,163 | `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be` | Executable product |
+| `Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip` | 16,465,529 | `ba0e58b0aa48331c4a70c481406efd8933eea9c3e5f706e20dc90e39c17102e8` | Exactly one executable HTML |
+| `Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip` | 37,250,226 | `e89965405ad68da794e572182d425e9d5520d92ba668425304b6dc28f50153cc` | Reports, raw/normalized evidence, screenshots, diffs and reproduction tools; no executable product HTML |
 
-Both ZIP archives passed `unzip -t`. The WebGL harness's two permissive raw
+Both ZIP archives passed `unzip -t`; the executable ZIP contains exactly one
+HTML whose extracted SHA is the product SHA, while the report ZIP contains
+zero HTML files. The WebGL harness's two permissive raw
 files containing JavaScript `-Infinity` sentinels are preserved verbatim as
 `.raw.txt`; strict-JSON report copies use `null` with a normalization receipt.
+
+Candidate Actions authority: `AEGIS_CURRENT_PRODUCT.json`; dedicated workflow
+run [42373876872](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872)
+PASS. The 364/364 + 42/42 + 213/213 + 29/29 broad result belongs to the
+pre-closure product and was not rerun for packaging.
 
 PR metadata: [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73),
 OPEN and unmerged. Remote readback is recorded separately after publication so

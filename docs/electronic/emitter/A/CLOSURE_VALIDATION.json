@@ -1,0 +1,80 @@
+{
+  "schema": "AEGIS_EMITTER_A_PR73_CLOSURE_VALIDATION_1",
+  "status": "PASS",
+  "product": {
+    "path": "Aegis_SIM_v48_WIP_EMITTER_A.html",
+    "bytes": 22146163,
+    "sha256": "3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be",
+    "baselinePath": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html",
+    "baselineSha256": "243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835"
+  },
+  "preClosureBroadRegression": {
+    "scope": "HISTORICAL_PRE_CLOSURE_ONLY",
+    "productSha256": "04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6",
+    "maxThreat": true,
+    "native": "364/364",
+    "paired": "42/42",
+    "ui": "213/213",
+    "webgl": "29/29",
+    "newFailures": 0,
+    "expectationUpdates": 0,
+    "toleranceUpdates": 0,
+    "wallSeconds": 2020.1518852309964,
+    "rerunAfterClosure": false
+  },
+  "finalClosureTargetedValidation": {
+    "callGate": {
+      "status": "PASS",
+      "activeLegacyCalls": 0,
+      "activeDeclaredCalls": "shipCount",
+      "shadowLegacyCalls": "shipCount",
+      "shadowDeclaredCalls": "shipCount",
+      "activeAndShadowOutputExact": true,
+      "rngExact": true
+    },
+    "scenes": {
+      "ddg": "exact",
+      "cg": "exact",
+      "ddgCg": "exact",
+      "cgDdg": "exact",
+      "ddgDdg": "exact",
+      "cgCg": "exact"
+    },
+    "performance": {
+      "status": "PASS",
+      "iterationsPerRun": 50000,
+      "runs": 7,
+      "baselineMedianNsPerCall": 15644.000000059605,
+      "activeMedianNsPerCall": 16183.999999761581,
+      "deltaNsPerCall": 539.9999997019768,
+      "ratio": 1.0345180260611044,
+      "outputExact": true,
+      "rngUnchanged": true
+    },
+    "portableCleanClone": true,
+    "absoluteWorkspaceDependencies": 0,
+    "candidateActionsRunId": 42373876872,
+    "candidateActionsPass": true
+  },
+  "preserved": {
+    "receiverRfPhysics": true,
+    "jammerHoj": true,
+    "observerStateOwnership": true,
+    "saveSchema": true,
+    "arhEvidenceAcceptance": true,
+    "expectationsChanged": false,
+    "tolerancesChanged": false
+  },
+  "inheritedDebt": [
+    "legacy #lockBtn EMCON UI 14 assertions INCOMPLETE",
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "U3 raw paired four intentional differences",
+    "CONFIRMED_ONLY performance UNVERIFIED"
+  ],
+  "release": false,
+  "tagCreated": false,
+  "mainModified": false,
+  "pullRequest": 73,
+  "mergeAuthorized": false
+}

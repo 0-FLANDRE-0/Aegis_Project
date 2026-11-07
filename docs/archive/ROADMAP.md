@@ -5,7 +5,7 @@
    - 하푼 HOJ 추가: ECCM. 기존 ASM HOJ 훅을 재사용하고 하푼 프로필을 둔다
    - 하푼 미사일 쪽 중기 수동 RF는 넣지 않는다. 공개 자료상 수동 RF는 발사 함정 ESM 쪽이다
    - 함께 넣을 것: 수동 RF 우도 선택 (`BACKLOG.md`)
-2. **EMITTER_A** — 구현·검증 완료, PR/사용자 병합 대기
+2. **EMITTER_A** — 구현·PR 종료 검증 완료, PR/사용자 병합 대기
    - ShipProfile이 장비별 방사원을 데이터로 선언한다: 범주(AIR_SEARCH/SURFACE_SEARCH/NAV/FIRE_CONTROL/ECM), 대역, 출력, 안테나 형식·회전, 장착점, 손상 모듈, 의존 시스템
    - `electronicPhysicalEmittersF`의 SPY/SPQ/NAV 하드코딩을 프로필 기반으로 바꾼다. 출력 계약은 유지한다(DDG·CG 분기 커버리지 동등성)
    - 소브레멘니 방사원은 별도 커밋으로 추가한다

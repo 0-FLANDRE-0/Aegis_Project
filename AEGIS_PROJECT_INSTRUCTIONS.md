@@ -5,7 +5,7 @@
 ## 현재 인계 기준 (2026-11-07)
 
 - 기준 main: `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합).
-- 현재 후보: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`, 브랜치 `emitter-a`.
+- 현재 후보: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`, 브랜치 `emitter-a`.
 - EMITTER_A는 DDG/CG ShipProfile 방사원 등록과 공통 ShipRuntime 어댑터를 ACTIVE로 전환했고, SOV 메타데이터는 비활성 등록만 했다. 세부 계약·검증·잔여는 `AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md`와 `docs/electronic/emitter/A/FINAL_REPORT.md`를 따른다.
 - 다음 계획은 EMCON_B다. 범주·장비별 방사 통제를 새 레지스트리 위에 구현하되 EMITTER_A 호환 출력과 기존 상태 소유권을 보존한다.
 - 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
@@ -199,8 +199,8 @@
 - 기준은 PR #72가 병합된 `main@5d0b4ea03f0bb51db1b5d72562f15ce818074b4e`, 작업 브랜치는 `emitter-a`, 제출본은 [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN이다. 제품은 [Aegis_SIM_v48_WIP_EMITTER_A.html](Aegis_SIM_v48_WIP_EMITTER_A.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), 전체 판정은 [FINAL_REPORT.md](docs/electronic/emitter/A/FINAL_REPORT.md)를 따른다.
 - DDG/CG의 SPY·SPQ·항해 레이더·ECM을 불변 ShipProfile 장비 등록으로 이전하고 기존 ShipRuntime observer/EW 상태를 읽는 공통 어댑터를 ACTIVE로 전환했다. 기존 출력 필드·순서·호환 전력·RNG·저장 스키마는 유지한다.
 - SOV는 기존 SOV_A 센서 메타데이터 11행만 `REGISTERED_INACTIVE`로 등록했다. 실제 방출·ESM·자체 탐지·공격과 미확인 RF 값은 추가하지 않았다.
-- A–D 게이트 PASS. 최종 MAX_THREAT 광역은 지시대로 1회 실행해 Native364/364, U3 paired42/42, UI213/213, 실제WebGL29/29 PASS이며 신규 실패·기대값·허용오차 변경은 0이다. 제한 게이트10/10과 strict JSON 감사도 통과했다.
-- 최종 HTML 22,146,163 bytes, SHA-256 `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`. 상속된 CIWS/checkout/legacy EMCON/CONFIRMED_ONLY 부채는 해결된 것으로 취급하지 않는다.
+- A–D 게이트 PASS. pre-closure MAX_THREAT 광역은 지시대로 1회 실행해 Native364/364, U3 paired42/42, UI213/213, 실제WebGL29/29 PASS이며 신규 실패·기대값·허용오차 변경은 0이다. 종료 보정 뒤 ACTIVE legacy 호출0, declared 1회/함정, exact 출력/RNG, clean-clone portability와 전용 candidate Actions run42373876872가 PASS했다. 광역은 반복하지 않았다.
+- 최종 HTML 22,146,163 bytes, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`. 상속된 CIWS/checkout/legacy EMCON/CONFIRMED_ONLY 부채는 해결된 것으로 취급하지 않는다.
 - 다음은 `EMCON_B`다. EMITTER_A PR #73은 OPEN이며 main 병합·release·tag는 하지 않았다.
 
 ### 최신 PR 후보 — CUE_A-1 cue 필터·중기 수동 RF 정비

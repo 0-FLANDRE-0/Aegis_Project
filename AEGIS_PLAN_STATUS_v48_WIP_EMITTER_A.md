@@ -1,7 +1,7 @@
 # AEGIS v48 WIP EMITTER_A status
 
 - Product: `Aegis_SIM_v48_WIP_EMITTER_A.html`
-- SHA-256: `04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`
+- SHA-256: `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - Bytes: `22146163`
 - Base: merged SEEKER_UNIFY_U3 (`243c196a…8835`)
 - Branch: `emitter-a`
@@ -15,6 +15,12 @@
 - Commit D: existing SOV metadata registered inactive, no electronic capability.
 - Final one-time MAX_THREAT broad regression: Native 364/364, paired 42/42,
   UI 213/213, WebGL 29/29 PASS; new failures 0.
+- PR closure: ACTIVE legacy resolver calls 0, declared calls once per ship;
+  SHADOW retains both calls and legacy authority. Closure call/RNG/output,
+  performance, clean-clone portability and strict candidate gates PASS.
+- Dedicated `AEGIS current candidate` Actions
+  [run 42373876872](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872)
+  PASS. The pre-closure broad run was not repeated or relabelled.
 
 ## Preserved
 

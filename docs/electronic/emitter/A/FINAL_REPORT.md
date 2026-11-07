@@ -5,7 +5,7 @@
 | State | Result |
 |---|---|
 | IMPLEMENTED | DDG-119/CG-52 immutable ShipProfile equipment emitter registries; shared ShipRuntime adapter; public read-only registry/runtime/audit API; SOV existing metadata registered inactive. |
-| TESTED | A–D gates PASS; one final MAX_THREAT broad regression; DDG/CG mixed/same-class scenes; save/restore and UI ownership; SOV enemy/neutral inactive scenes; performance probe. |
+| TESTED | A–D gates PASS; one pre-closure MAX_THREAT broad regression; final closure call/performance/Chromium candidate gates PASS; DDG/CG mixed/same-class scenes; save/restore and UI ownership; SOV enemy/neutral inactive scenes. |
 | APPROVED | Directive-defined categories, compatibility units, SHADOW→ACTIVE promotion and inactive-only SOV scope. No expectation or tolerance update was needed. |
 | UNRESOLVED | Inherited debts listed below; CONFIRMED_ONLY performance; SOV real electronic capability; future category-level EMCON_B. |
 | RELEASE | Not released. No tag, release, main commit or merge. [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) is OPEN for user decision. |
@@ -28,7 +28,7 @@
 ## Result
 
 `Aegis_SIM_v48_WIP_EMITTER_A.html` is 22,146,163 bytes, SHA-256
-`04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`.
+`3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`.
 It is generated reproducibly from merged U3 product SHA-256
 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`.
 
@@ -67,9 +67,11 @@ Scope proofs use a pinned-base, fail-closed exact-anchor transform and protected
 function hashes. Receiver RF physics, jammer/HOJ, observer, save/import, ARH
 evidence and acceptance functions are byte-identical. See `SCOPE_B/C/D.json`.
 
-## Final broad regression
+## Pre-closure broad regression
 
-The directive-required broad run was executed exactly once in `MAX_THREAT`:
+The directive-required broad run was executed exactly once in `MAX_THREAT` on
+the pre-closure candidate SHA-256
+`04bfb9c991929bed5800e7899f2ffb79087bfd20b79300c9bb01628b7edc98c6`:
 
 | Suite | Result |
 |---|---:|
@@ -84,13 +86,49 @@ changed: 0. `CONFIRMED_ONLY` remains performance-UNVERIFIED by the inherited
 policy; its assumed Harpoon HOJ feature-off/no-RNG behavior was rechecked in the
 Commit C limited gate.
 
+This broad result is historical evidence for the pre-closure candidate. It was
+not rerun or relabelled as a broad result for the final closure product.
+
+## Final closure validation
+
+The final product removes the unconditional legacy resolver invocation from
+ACTIVE mode. ACTIVE now calls only the declared resolver once per ship;
+SHADOW still calls legacy and declared once per ship and retains legacy as the
+tactical authority. The closure-only gates proved:
+
+- DDG, CG, mixed DDG+CG/CG+DDG, and duplicate DDG+DDG/CG+CG outputs exact;
+- ACTIVE legacy calls `0`, ACTIVE declared calls `shipCount`;
+- SHADOW legacy and declared calls both `shipCount`;
+- anonymous ESM plots, HOJ, passive RF, RNG, save/import and SOV inactive
+  behavior preserved;
+- no absolute `/workspace/aegis-*` dependency in closure validation scripts;
+- a clean GitHub partial clone rebuilt the candidate exactly and passed the
+  static, limited and Chromium gates without another checkout.
+
+The dedicated `AEGIS current candidate` workflow selects the product only via
+`AEGIS_CURRENT_PRODUCT.json`. Run
+[#4 / 42373876872](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872)
+passed every step on `ubuntu-24.04`, Node 22 and locked Playwright 1.55. Its
+Chromium gate compares the pinned U3 baseline and the candidate in the same
+browser engine, without rounding or tolerance, to avoid cross-version libm
+last-bit differences. Candidate artifact ID `13574348831`, uploaded ZIP digest
+`94223f60e32e8e5c91370fb0918b3e90c51287da1b9d38de14d08ea5a9d0c63b`.
+
+Legacy Actions run
+[#163 / 42339215166](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42339215166)
+was 32/32 successful but exercised fixed historical products and is not
+candidate approval. The final-head legacy matrix auto-run `42372113844` was
+therefore intentionally cancelled; it is not presented as a failure or as
+candidate evidence.
+
 ## Performance
 
-The isolated physical-emitter query median increased from 15.48 µs to 32.10
-µs/call (2.07×). The absolute candidate cost is 0.032 ms/call, output and RNG
-are exact, and the full UI/WebGL gates passed. This is reported as a measurable
-microbenchmark overhead, not hidden as “no change.” No tuning was applied after
-the result.
+Before closure the isolated physical-emitter query median was 32.102 µs/call
+against a 15.478 µs baseline (2.074×). Removing the ACTIVE legacy call reduced
+the final median to 16.184 µs/call against a same-run 15.644 µs baseline:
+`+0.540 µs`, `1.0345×`, or `0.0162 ms/call`. Output and RNG remained exact.
+The earlier broad UI/WebGL results remain the frame-level guard; the broad suite
+was not repeated after this performance-only call-path closure.
 
 ## Inherited unresolved items
 
