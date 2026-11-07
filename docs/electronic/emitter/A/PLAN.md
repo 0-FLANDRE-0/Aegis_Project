@@ -39,4 +39,3 @@ emitters.
 - Nulka, aircraft, or missile-emitter migration
 - TRACK-D/OODA or NPC tactical doctrine
 - save-schema changes
-

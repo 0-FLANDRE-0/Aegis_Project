@@ -61,4 +61,3 @@ legacy output and the predecessor producer/receiver source strings.
 All checks passed with zero page errors. The diagnostic HTML was injected into
 a temporary copy and is not a product artifact; inverse removal of the probe is
 byte-exact to the pinned U3 main script.
-
