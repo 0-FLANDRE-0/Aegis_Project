@@ -82,6 +82,10 @@ jobs:
             --extra docs/electronic/emitter/A/d_diagnostic.js \
             --extra docs/electronic/emitter/A/final_diagnostic.js \
             --extra docs/electronic/emitter/A/closure_diagnostic.js
+          python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
+            --base "$BASELINE_PATH" \
+            --out /tmp/aegis-current-baseline-diagnostic.html \
+            --receipt artifacts/current-candidate/baseline-diagnostic-build.json
 
       - name: Run final limited Chromium candidate gate
         shell: bash
@@ -89,6 +93,7 @@ jobs:
           set -euo pipefail
           node docs/electronic/emitter/A/run_candidate_browser_gate.mjs \
             --html /tmp/aegis-current-candidate-diagnostic.html \
+            --baseline-html /tmp/aegis-current-baseline-diagnostic.html \
             --out artifacts/current-candidate/browser-gate.json
           sha256sum "$PRODUCT_PATH" "$BASELINE_PATH" \
             > artifacts/current-candidate/SHA256SUMS
