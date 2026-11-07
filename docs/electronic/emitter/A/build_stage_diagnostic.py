@@ -31,13 +31,15 @@ def main() -> None:
     parser.add_argument("--base", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument("--extra", action="append", type=Path, default=[])
     args = parser.parse_args()
     raw = args.base.read_bytes()
     match = re.search(rb'data-c55-index="13">([^<]+)', raw)
     if not match:
         raise AssertionError("packed main script missing")
     source = gzip.decompress(base64.b64decode(match[1])).decode()
-    modules = "\n".join(path.read_text() for path in MODULES)
+    module_paths = [*MODULES, *args.extra]
+    modules = "\n".join(path.read_text() for path in module_paths)
     anchor = "  window.__NAVAL_SIM_DIAG__ = {"
     if source.count(anchor) != 1:
         raise AssertionError("diagnostic anchor mismatch")
@@ -53,7 +55,8 @@ def main() -> None:
     output = output[:meta.start(1)] + json.dumps(records, separators=(",", ":")).encode() + output[meta.end(1):]
     args.out.write_bytes(output)
     receipt = {"schema":"AEGIS_EMITTER_A_STAGE_DIAGNOSTIC_BUILD_1","baseSha256":sha(raw),"outputSha256":sha(output),
-        "modulesSha256":sha(modules.encode()),"inverseByteExact":candidate.replace(modules+"\n","",1)==source,"testOnlyInstrumentation":True}
+        "modulesSha256":sha(modules.encode()),"modulePaths":[str(q) for q in module_paths],
+        "inverseByteExact":candidate.replace(modules+"\n","",1)==source,"testOnlyInstrumentation":True}
     args.receipt.write_text(json.dumps(receipt, indent=2)+"\n")
     print(json.dumps(receipt))
 
