@@ -139,7 +139,8 @@ jobs:
               ;;
             ESM_A)
               python3 docs/electronic/esm/A/run_candidate_static_gate.py \
-                --out artifacts/current-candidate/static-gate.json
+                --out artifacts/current-candidate/static-gate.json \
+                --main-out artifacts/current-candidate/main.js
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
