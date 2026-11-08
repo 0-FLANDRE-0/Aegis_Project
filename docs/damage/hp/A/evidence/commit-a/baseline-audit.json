@@ -1,0 +1,432 @@
+{
+  "schema": "AEGIS_HP_A_BASELINE_AUDIT_1",
+  "product": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html",
+  "productBytes": 22195923,
+  "productSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+  "packedMainBytes": 40920242,
+  "packedMainSha256": "e06c2e6133b66fe8be2f6c1305b39473a7776176680390a45673e7487e9a462e",
+  "hpABaseMain": "82617839e64ea6b70d33ca55b13b3114cca62f3e",
+  "functionHashes": {
+    "computeShipStatus": [
+      "854eea02d5c7b69b5734d503561fb9266b4e84abc3aa56b547f134bb1119ffc7"
+    ],
+    "createShipSurvivalV1": [
+      "6fdacc934e286cd0697552b519bb610cd44a35e06d220da42219f105b7fa382f"
+    ],
+    "shipEquipmentOfflineV1": [
+      "da7f8f7f4aa65264b3fbae667675c895dbf41be6e608c00a54e9b402d57590d0",
+      "da7f8f7f4aa65264b3fbae667675c895dbf41be6e608c00a54e9b402d57590d0",
+      "08177b53489a57a304b17d9844a3f981691d83dc15a960a68f540fd02350638d"
+    ],
+    "damageFloodTickV1": [
+      "00b88ec677b6d759f3f911064246fc5591b5fc370ff5036eeba623418c79d1d3"
+    ],
+    "damageFloodImpactV1": [
+      "4067c6e95a1a967a13aeddfaf93b59f3cae864f513505db52a92506fdc8d402a"
+    ],
+    "getShipLongitudinalStrengthV48Wip03": [
+      "5dbbde8b9124856fd89e59936dd97b7396fbd66b4eafee61fe087611aa83b754",
+      "2257027ecf09ad0a1859b5f4c34d6299ee6e64f83afd7918e70d41e8b9b8891f"
+    ],
+    "exportOperationalState": [
+      "776724ff244c161f1dd094d9334e9f03a6b838a8e8fbf28708cbb7703624f95f"
+    ],
+    "applyPreparedOperationalStateV48Wip11B": [
+      "9c8816302d8bfec78a991e68ac1994c11f6325fa7d15fcd4c7423d47187f4305"
+    ],
+    "restoreOnePhysicalFleetF": [
+      "95d7ab02ea1fec7bdd55cb03622eb53f97de89b3bf323d862d0a77cd63b08094"
+    ]
+  },
+  "shipHpOccurrences": [
+    {
+      "line": 15552,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "ship:{inventory:exportWeaponInventoryD(r),navigation:maneuverExportNavigationH2(r),shipHP:r.health.shipHP,",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 15552,
+      "token": "r.health.shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "ship:{inventory:exportWeaponInventoryD(r),navigation:maneuverExportNavigationH2(r),shipHP:r.health.shipHP,",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 15589,
+      "token": "r.health.shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "r.clock={...q.clock};r.health.shipHP=src.shipHP;const f=r.flooding,fs=src.damage.flooding;",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 15589,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "r.clock={...q.clock};r.health.shipHP=src.shipHP;const f=r.flooding,fs=src.damage.flooding;",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 15649,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "if(role==='PLAYER')runtime.health={get shipHP(){return shipHP;}};",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 15649,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "if(role==='PLAYER')runtime.health={get shipHP(){return shipHP;}};",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 15703,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "r.health={shipHP:100};r.clock={tick:0,timeS:0};",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 25590,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "cascade.residualSupplement=residualSupplement;if(residualSupplement.accepted&&!owner){const status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);}const visual=wip12bVisualFromTrace(trace,options.dud?'DUD':'CONTACT_DIRECT_ACTION'),blastEnvelope=options.dud?null:wip12dLegacyBlastEnvelope(hit,detonation,stop,direction);if(blastEnvelope)visual.blastEnvelope=blastEnvelope;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 26850,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const impulse=v48Wip02TransferredImpulse(impact,localDir,true),impactResponse=getShipDynamicsV15().impactImpulse({pointLocal:entry,impulseLocal:impulse,source:`${w.sourceLabel} WRECK`,impactState:impact}),status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 33796,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 33835,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const status=computeShipStatus();shipHP=floodAttitudePreviewV1.snapshot().irreversible?0:Math.max(0,100-status.overall);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 33884,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "let shipHP = 100;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 35391,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "function resetModules(){for(const cells of Object.values(vlsCells))for(const c of cells)delete c.incident;shipHP=100;WIP12E_BLAST_TRACES.length=0;wip12fResetArmorPatches();getDamageFloodV1().reset();getWaveFloodEnvironmentV48Wip05().reset({preserveConfig:true});shipCrewV21?.reset();shipMassLedgerV32?.reset();if(shipMassLedgerV32)shipMassLedgerV32.syncCrew(getShipCrewV21().snapshot().groups,0,true);shipMassLossV16?.reset();shipMassLossCacheV16=null;shipMassLossIgnoreV16=new Set(shipHitHistory);if(damageControlV1)damageControlV1.reset();damageControlAccumulatorV1=0;interiorTopologyAccumulatorV48Wip06=0;if(shipLongitudinalStrengthV48Wip03)shipLongitudinalStrengthV48Wip03.reset();if(shipInteriorTopologyV48Wip06)shipInteriorTopologyV48Wip06.reset();floodAttitudePreviewV1.reset();shipGamePreviousPoseV1=null;shipGamePoseDtV1=0;damageFloodTickV1.lastState='NORMAL';updateShipSurvivalBannerV1(floodAttitudePreviewV1.snapshot());}",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 35402,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const survival=survivalModel.snapshot();const hp=survival.irreversible?0:Math.max(0,100-computeShipStatus(runtime).overall);if(own)shipHP=hp;else runtime.health.shipHP=hp;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 35402,
+      "token": "runtime.health.shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const survival=survivalModel.snapshot();const hp=survival.irreversible?0:Math.max(0,100-computeShipStatus(runtime).overall);if(own)shipHP=hp;else runtime.health.shipHP=hp;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 49979,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "lines.push(`HDG:${String(Math.round(hdgDeg)).padStart(3,'0')}° SPD:${(shipNav.speed/0.514444).toFixed(0)}kt HP:${Math.round(shipHP)}%`);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 50016,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "lines.push(`SM2(${act.length}) ASM(${asmKnown}) W${waveNumber} HP:${Math.round(shipHP)}%`);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 50367,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const hpCol2 = shipHP > 50 ? HUD_GREEN : (shipHP > 20 ? 'rgba(255,200,0,0.9)' : 'rgba(255,60,60,0.9)');",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 50367,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const hpCol2 = shipHP > 50 ? HUD_GREEN : (shipHP > 20 ? 'rgba(255,200,0,0.9)' : 'rgba(255,60,60,0.9)');",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 50369,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "c.fillText(`HP:${Math.round(shipHP)}%`, plotX + plotW, plotY + plotH + 16);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 51287,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "return {rngState:SIM_RNG_STATE>>>0,simStepCounter,shipHP,selectedLockId,emconActive,shipDamage:getShipDamageEffects(),",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 52001,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "const endCounts=getVlsCounts(),outcomes=refs.map(e=>wip113ClassifyOutcome(e)),endHits=shipHitHistory.filter(h=>!h.miss).length;return {mode,operatorFollow,ticks,timeS:ticks*SIM_FIXED_DT,targetCount:refs.length,outcomes,airKills:outcomes.filter(x=>x==='AIR_KILL').length,harmlessMisses:outcomes.filter(x=>x==='GUIDANCE_CONTROL_LOSS_MISS'||x==='PROPULSION_LOSS_SEA_IMPACT').length,shipHits:endHits-startHits,shipHP,startCounts,endCounts,spent:{SM2:startCounts.sm2Total-endCounts.sm2Total,SM2ER:startCounts.sm2erTotal-endCounts.sm2erTotal,SM6:startCounts.sm6Total-endCounts.sm6Total,ESSM:startCounts.essmTotal-endCounts.essmTotal},autoFireLog:wip119AutonomyState.fireLog.slice(startFireLog).map(x=>({...x})),responses:[...wip119AutonomyState.responses.values()].map(x=>({...x}))};",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 52272,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "shipHP = 100; resetModules();",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 52381,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts','esmRawHistoryEstimatorAndQueue'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),esmA:esmExportStateA(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 52420,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "if(!operationalFiniteV48Wip11B(src.ship?.shipHP)||src.ship.shipHP<0||src.ship.shipHP>100)operationalErrorV48Wip11B(errors,'SHIP_HP');",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 52420,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "if(!operationalFiniteV48Wip11B(src.ship?.shipHP)||src.ship.shipHP<0||src.ship.shipHP>100)operationalErrorV48Wip11B(errors,'SHIP_HP');",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 52420,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "if(!operationalFiniteV48Wip11B(src.ship?.shipHP)||src.ship.shipHP<0||src.ship.shipHP>100)operationalErrorV48Wip11B(errors,'SHIP_HP');",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 52474,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 52474,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 52543,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const ownChaffCartridges=f.cartridges,ownChaffs=f.chaff,ciws=f.ciws,ciwsBullets=f.bullets,mainGunProjectilesWip13B3=f.shells,shipNav=f.shipNav,spyScheduler=f.spy,radar=f.radar,shipHP=f.hp,lockCursor=f.cursor,selectedLockId=f.lockId;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 53435,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "const hpRatio = clamp(shipHP / 100, 0, 1);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 53445,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "ctx.fillText(`HP:${Math.round(shipHP)}%`, ax, by + barH + 9*sym);",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 53461,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "const frame={ready:true,step:simStepCounter,tracks:new Map(),missiles:missiles.filter(pipOwnFilterA).map(pipCopyMissileA),ramMissiles:ramMissiles.filter(pipOwnFilterA).map(m=>pipCopyFieldsA(m,['id','alive','x','y','vx','vy'])),esm:new Map(),terrain:[],helos:new Map(),network:[],rafts:[],cursor:{x:lockCursor.x,y:lockCursor.y},lockId:selectedLockId,hp:shipHP,radar:{rangeWorld:radar.rangeWorld,mode:radar.mode},shipNav:{heading:shipNav.heading,trail:shipNav.trail},spy:{beamHistory:spyScheduler.beamHistory.map(b=>pipCopyFieldsA(b,['ageS','holdS','type','rangeWorld','azHalfRad','ok','azWorld','trackId','elRad','code'])),faces:Object.fromEntries(Object.entries(spyScheduler.faces).map(([k,v])=>[k,pipCopyFieldsA(v,['load01','lastTask'])]))}};",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 55974,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "shipHP=100;resetModules();shipHitHistory.length=0;shipLastHit=null;",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 56981,
+      "token": "shipHP",
+      "classification": "DISPLAY_ONLY",
+      "source": "_resetShipTest: () => { BATTLESPACE_DIAG_BYPASS=true; shipHP=100; resetModules(); shipHitHistory.length=0; shipLastHit=null; enemyMissiles.length=0; resetAsmWreckageV48Wip11C(); wip12bResetTerminalEvents(); resetMainGunProjectilesWip13B3(); ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts(); missiles.length=0; ramMissiles.length=0; ramMissileSerial=1; ciwsBullets.length=0; tracks.clear(); SPG62_ENGAGEMENT_STATE.clear(); resetSurfaceContacts(); resetMk36Srboc();resetNulka15B(); chaffs.length=0; flares.length=0; esmContacts.clear(); resetSoftKillThreatManager(); sensorDwellTimers.clear();c55ResetLocal(); resetSpySchedulerState(); selectedLockId=null; return true; },",
+      "reason": "Numeric presentation or display projection."
+    },
+    {
+      "line": 56997,
+      "token": "shipHP",
+      "classification": "LEGACY_COMPATIBILITY",
+      "source": "shipHP,",
+      "reason": "Serialized or exposed compatibility value."
+    },
+    {
+      "line": 57783,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "shipHP = 0;",
+      "reason": "Direct zero assignment bypasses survival authority."
+    },
+    {
+      "line": 66463,
+      "token": "r.health.shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "function update(now){if(now-lastStatus>=250){lastStatus=now;const r=ACTIVE_SHIP_RUNTIME,p=resolveShipProfile(r.profileId),identity=p.identity??{};const hull=identity.hullNumber??p.id,speed=(shipNav.speed/.514444).toFixed(compact()?0:1)+'/'+shipNav.targetSpeedKt.toFixed(0)+'kt',heading=Math.round(shipHdgDeg()).toString().padStart(3,'0')+'°',health=r.health.shipHP>0?'생존':'상실';ship.textContent=compact()?hull+' · '+health+'\\n'+speed+' · '+heading:hull+' '+(identity.shipName??'')+'\\n'+speed+' · '+heading+' · '+health;if(window.__MAP_A__)ship.textContent=window.__MAP_A__.controlLabel(hull)+'\\n'+speed+' · '+heading;ship.title=hull+' '+(identity.shipName??'')+' · '+speed+' · '+heading+' · '+health;const rows=inventoryRows(),signature=JSON.stringify(rows);if(signature!==inventorySignature){inventorySignature=signature;inventory.replaceChildren();for(const row of rows){const cell=make('span','ui-ammo-a');cell.append(make('strong','',String(row.qty)),make('span','',row.name));inventory.append(cell);}window.__MAP_B__?.inventoryRendered();window.__MAP_E__?.inventoryRendered();}clockText.textContent=new Date(simStepCounter*SIM_FIXED_DT*1000).toISOString().slice(11,19);refreshChips();pause.classList.toggle('active',worldTimeScale===0);",
+      "reason": "Survival label is inferred from display HP."
+    }
+  ],
+  "invalidAuthorityUseCount": 6,
+  "invalidAuthorityUses": [
+    {
+      "line": 15589,
+      "token": "r.health.shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "r.clock={...q.clock};r.health.shipHP=src.shipHP;const f=r.flooding,fs=src.damage.flooding;",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 15589,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "r.clock={...q.clock};r.health.shipHP=src.shipHP;const f=r.flooding,fs=src.damage.flooding;",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 52474,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 52474,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};",
+      "reason": "Stored compatibility HP is trusted during restore."
+    },
+    {
+      "line": 57783,
+      "token": "shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "shipHP = 0;",
+      "reason": "Direct zero assignment bypasses survival authority."
+    },
+    {
+      "line": 66463,
+      "token": "r.health.shipHP",
+      "classification": "INVALID_AUTHORITY_USE",
+      "source": "function update(now){if(now-lastStatus>=250){lastStatus=now;const r=ACTIVE_SHIP_RUNTIME,p=resolveShipProfile(r.profileId),identity=p.identity??{};const hull=identity.hullNumber??p.id,speed=(shipNav.speed/.514444).toFixed(compact()?0:1)+'/'+shipNav.targetSpeedKt.toFixed(0)+'kt',heading=Math.round(shipHdgDeg()).toString().padStart(3,'0')+'°',health=r.health.shipHP>0?'생존':'상실';ship.textContent=compact()?hull+' · '+health+'\\n'+speed+' · '+heading:hull+' '+(identity.shipName??'')+'\\n'+speed+' · '+heading+' · '+health;if(window.__MAP_A__)ship.textContent=window.__MAP_A__.controlLabel(hull)+'\\n'+speed+' · '+heading;ship.title=hull+' '+(identity.shipName??'')+' · '+speed+' · '+heading+' · '+health;const rows=inventoryRows(),signature=JSON.stringify(rows);if(signature!==inventorySignature){inventorySignature=signature;inventory.replaceChildren();for(const row of rows){const cell=make('span','ui-ammo-a');cell.append(make('strong','',String(row.qty)),make('span','',row.name));inventory.append(cell);}window.__MAP_B__?.inventoryRendered();window.__MAP_E__?.inventoryRendered();}clockText.textContent=new Date(simStepCounter*SIM_FIXED_DT*1000).toISOString().slice(11,19);refreshChips();pause.classList.toggle('active',worldTimeScale===0);",
+      "reason": "Survival label is inferred from display HP."
+    }
+  ],
+  "consumerOwnership": [
+    {
+      "consumer": "NPC save export",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Serialized display field; not authority."
+    },
+    {
+      "consumer": "NPC save restore",
+      "classification": "INVALID_AUTHORITY_USE",
+      "reason": "Stored HP is written before physical state restore."
+    },
+    {
+      "consumer": "player health facade getter",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Compatibility projection exposed to old UI/tests."
+    },
+    {
+      "consumer": "prepared runtime initialization",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Initial display cache only."
+    },
+    {
+      "consumer": "impact-time HP projections",
+      "classification": "DISPLAY_ONLY",
+      "reason": "Four duplicated immediate display calculations."
+    },
+    {
+      "consumer": "damageFloodTickV1 HP projection",
+      "classification": "DISPLAY_ONLY",
+      "reason": "Fixed-tick display calculation; currently permits false zero."
+    },
+    {
+      "consumer": "HUD and damage panels",
+      "classification": "DISPLAY_ONLY",
+      "reason": "Numeric presentation only."
+    },
+    {
+      "consumer": "AAR / battle diagnostics",
+      "classification": "DISPLAY_ONLY",
+      "reason": "Recorded display value, not physical loss authority."
+    },
+    {
+      "consumer": "player save export",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Serialized compatibility field."
+    },
+    {
+      "consumer": "player save validation",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Legacy field shape validation."
+    },
+    {
+      "consumer": "player save restore",
+      "classification": "INVALID_AUTHORITY_USE",
+      "reason": "Stored HP overwrites derived display cache."
+    },
+    {
+      "consumer": "test reset/snapshot",
+      "classification": "LEGACY_COMPATIBILITY",
+      "reason": "Deterministic diagnostics."
+    },
+    {
+      "consumer": "ammo-cookoff direct assignment",
+      "classification": "INVALID_AUTHORITY_USE",
+      "reason": "Direct HP=0 announces loss without survival authority."
+    },
+    {
+      "consumer": "bottom status bar survival label",
+      "classification": "INVALID_AUTHORITY_USE",
+      "reason": "HP>0 is used as 생존/상실 authority."
+    }
+  ],
+  "authorityFinding": {
+    "physicalSurvival": "createShipSurvivalV1 snapshot state/lost/irreversible",
+    "missionExecution": "shipEquipmentOfflineV1 plus existing crew combatUnavailable gates",
+    "display": "shipHP/runtime.health.shipHP",
+    "defect": "display projection can reach zero before survival becomes irreversible; restore and bottom-bar paths also trust display HP"
+  }
+}
