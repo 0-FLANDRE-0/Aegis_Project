@@ -7,6 +7,7 @@ on:
       - 'Aegis_SIM_v48_WIP_EMITTER_A.html'
       - 'Aegis_SIM_v48_WIP_EMCON_B.html'
       - 'Aegis_SIM_v48_WIP_ESM_A.html'
+      - 'Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html'
       - 'docs/electronic/emitter/A/build_product.py'
       - 'docs/electronic/emitter/A/build_stage_diagnostic.py'
       - 'docs/electronic/emitter/A/validate_current_product.py'
@@ -39,6 +40,7 @@ on:
       - 'docs/electronic/emcon/B/emcon_lifecycle.js'
       - 'docs/electronic/emcon/B/stage_e_diagnostic.js'
       - 'docs/electronic/esm/A/**'
+      - 'docs/missile/seeker-unify/U4/**'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
       - 'docs/bunkerhill/K/browser_i.py'
@@ -112,6 +114,13 @@ jobs:
                 --receipt artifacts/current-candidate/rebuild.json \
                 --diff artifacts/current-candidate/rebuild.diff
               ;;
+            SEEKER_UNIFY_U4)
+              python3 docs/missile/seeker-unify/U4/build_product.py \
+                --through C --mode ACTIVE \
+                --out /tmp/aegis-current-candidate.html \
+                --receipt artifacts/current-candidate/rebuild.json \
+                --diff artifacts/current-candidate/rebuild.diff
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
           cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
@@ -139,6 +148,12 @@ jobs:
               ;;
             ESM_A)
               python3 docs/electronic/esm/A/run_candidate_static_gate.py \
+                --out artifacts/current-candidate/static-gate.json \
+                --main-out artifacts/current-candidate/main.js
+              ;;
+            SEEKER_UNIFY_U4)
+              python3 docs/missile/seeker-unify/U4/run_candidate_static_gate.py \
+                --product "$PRODUCT_PATH" \
                 --out artifacts/current-candidate/static-gate.json \
                 --main-out artifacts/current-candidate/main.js
               ;;
@@ -180,9 +195,19 @@ jobs:
               cp /tmp/Aegis_SIM_v48_WIP_ESM_A_E_DIAG.html /tmp/aegis-current-candidate-diagnostic.html
               cp /tmp/Aegis_SIM_v48_WIP_EMCON_B_E_BASELINE_DIAG.html /tmp/aegis-current-baseline-diagnostic.html
               ;;
+            SEEKER_UNIFY_U4)
+              cp "$PRODUCT_PATH" /tmp/aegis-current-candidate-diagnostic.html
+              cp "$BASELINE_PATH" /tmp/aegis-current-baseline-diagnostic.html
+              python3 docs/missile/seeker-unify/U4/build_product.py \
+                --through C --mode SHADOW \
+                --out /tmp/aegis-current-u4-shadow.html \
+                --receipt artifacts/current-candidate/shadow-rebuild.json \
+                --diff artifacts/current-candidate/shadow-rebuild.diff
+              cp artifacts/current-candidate/rebuild.json artifacts/current-candidate/diagnostic-build.json
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
-          if [ "$CANDIDATE_STAGE" != "ESM_A" ]; then
+          if [ "$CANDIDATE_STAGE" != "ESM_A" ] && [ "$CANDIDATE_STAGE" != "SEEKER_UNIFY_U4" ]; then
             python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
                 --base "$BASELINE_PATH" \
                 --out /tmp/aegis-current-baseline-diagnostic.html \
@@ -230,6 +255,13 @@ jobs:
               cp docs/electronic/esm/A/E_GATE.json artifacts/current-candidate/browser-gate.json
               python3 docs/map/E/verify_emcon_ui.py \
                 "$PRODUCT_PATH" artifacts/current-candidate/current-emcon-ui
+              ;;
+            SEEKER_UNIFY_U4)
+              python3 docs/missile/seeker-unify/U4/run_c_gate.py \
+                --baseline "$BASELINE_PATH" \
+                --shadow /tmp/aegis-current-u4-shadow.html \
+                --active "$PRODUCT_PATH" \
+                --out artifacts/current-candidate/browser-gate.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac

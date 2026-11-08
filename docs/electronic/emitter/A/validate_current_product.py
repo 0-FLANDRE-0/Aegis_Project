@@ -30,6 +30,11 @@ STAGE_POLICY = {
         "pullRequest": 75,
         "baselineSha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee",
     },
+    "SEEKER_UNIFY_U4": {
+        "branch": "seeker-unify-u4",
+        "pullRequest": 76,
+        "baselineSha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
+    },
 }
 
 

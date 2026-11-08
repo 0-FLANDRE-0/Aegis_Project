@@ -1,0 +1,1024 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U4_FINAL_SCENES_1",
+  "status": "FAIL",
+  "candidate": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html",
+  "candidateSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+  "threatAssumptionMode": "MAX_THREAT",
+  "elapsedS": 42.239312692021485,
+  "checks": {
+    "pageAndConsoleErrorsZero": true,
+    "candidateTwoRunDeterministic": true,
+    "coreSelfTestsZero": true,
+    "maxThreatMode": true,
+    "asmActualFlightAcquiresAndTracks": true,
+    "harpoonContractsPass": true,
+    "sm2SarhActualFlightIntercepts": true,
+    "essmSarhToArhActualFlightIntercepts": true,
+    "sm6DualModeActualFlightFinite": true,
+    "ramActualSchedulerFlightTerminates": true,
+    "ramDirectRfIrFlightFinite": true,
+    "oneEightSixteenPhysicsExact": false,
+    "sixtyFourPhysicsExact": false,
+    "sixtyFourStepCapObserved": false,
+    "lifecycleStateMatrixPass": true,
+    "anonymousContractPass": true,
+    "commonLayerNoRngOrSaveSchema": true,
+    "esmRuntimeAndUiPresent": false,
+    "esmHasNoTruthOrAuthority": true
+  },
+  "first": {
+    "result": {
+      "core": [],
+      "threatMode": "MAX_THREAT",
+      "asm": {
+        "label": "Kh-35U",
+        "seed": 108041,
+        "durationS": 20,
+        "everAcquire": true,
+        "everTrack": true,
+        "acquireTimeS": 3.1166666666666667,
+        "coastEntries": 0,
+        "reacquireEntries": 0,
+        "reacquireSuccesses": 0,
+        "deathReason": null,
+        "shipHit": false
+      },
+      "harpoon": {
+        "seeker": {
+          "schema": "HARPOON_C_SEEKER_AUDIT",
+          "checks": {
+            "firstHitIsAcquisition": true,
+            "secondHitStillNoGuidanceLock": true,
+            "confirmedRepeatedObservationsTrack": true,
+            "noReturnCoasts": true,
+            "coastTimeoutReentersSearch": true,
+            "searchReversesBothDirections": true,
+            "hardAzElStops": true,
+            "noPrematureActivation": true,
+            "beyondGimbalCannotAcquire": true,
+            "singleEchoExpires": true
+          },
+          "pass": true
+        },
+        "core": {
+          "schema": "HARPOON_A_CORE_AUDIT",
+          "checks": {
+            "profileImmutable": true,
+            "sourceEightUniqueTubes": true,
+            "sourceAxisUnitAndUpward": true,
+            "sourceCapsComplete": true,
+            "isolatedDetachedInventory": true,
+            "ddgNoInstallation": true,
+            "modelRigidRoles": true,
+            "trackMemoryDeepCopiedAndFrozen": true,
+            "insPredictionLeadsStoredVelocity": true,
+            "protectedIdentityDenied": true,
+            "manualAuthorityOnly": true,
+            "saveNormalAndDuplicateBoundary": true,
+            "warheadFillSeparatedFromAssembly": true,
+            "modelCreditRetained": true
+          },
+          "pass": true
+        },
+        "selection": {
+          "schema": "HARPOON_D_SELECTION_AUDIT",
+          "checks": {
+            "leastObservedTurn": true,
+            "stableTubeTieBreak": true,
+            "blockedTubeSkipped": true,
+            "noEligibleTube": true,
+            "emptyInstallation": true,
+            "detachedInputUnchanged": true
+          },
+          "pass": true
+        }
+      },
+      "sm2": {
+        "label": "Kh-35U",
+        "seed": 107241,
+        "durationS": 24.05,
+        "prox": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "targetAlive": false,
+        "sarhSamples": 0,
+        "sarhEkfErrorMedianM": null
+      },
+      "essm": {
+        "weapon": "ESSM",
+        "label": "Kh-35U",
+        "speedKt": 0,
+        "seed": 107341,
+        "durationS": 13.233333333333333,
+        "prox": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "targetAlive": false,
+        "intercept": true
+      },
+      "sm6": {
+        "seed": 146041,
+        "error": null,
+        "success": true,
+        "prox": true,
+        "kill": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "durationS": 15.466666666666667,
+        "firstActiveAtS": 3.466666666666667,
+        "firstArhTrackAtS": 3.533333333333333,
+        "finalArhProfileId": "SM6_BLKIA_ARH_RF_V2_WORKING"
+      },
+      "ram": {
+        "weapon": "RAM",
+        "label": "Kh-35U",
+        "speedKt": 0,
+        "seed": 107441,
+        "durationS": 20.8,
+        "prox": false,
+        "result": null,
+        "terminalReason": null,
+        "shipHit": true,
+        "targetAlive": false,
+        "intercept": false
+      },
+      "ramDirect": {
+        "wip": "WIP146",
+        "seed": 146041,
+        "emitter": true,
+        "rangeM": 6000,
+        "targetAltM": 12,
+        "targetSpeedMps": 280,
+        "launch": {
+          "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+          "azDeg": 0,
+          "elDeg": 12,
+          "speedMps": 50,
+          "mountHeightM": 12.241264019813764,
+          "initialVelPitchDeg": 11.999988252445114
+        },
+        "transient": {
+          "configured": {
+            "minTimeS": 0.35,
+            "minQPa": 3000,
+            "minSpeedMps": 90,
+            "blockDownwardPitch": true
+          },
+          "endedAtS": 0.35000000000000026
+        },
+        "seaClearance": {
+          "configured": {
+            "enabled": true,
+            "minClearanceM": 6,
+            "predictS": 0.6,
+            "terminalReleaseRangeM": 350,
+            "fadeRangeM": 1200
+          },
+          "guardSteps": 87,
+          "minProjectedAltM": -15.18836173517832
+        },
+        "sourceTimeline": [
+          {
+            "tS": 0,
+            "mode": "MEM",
+            "reason": "LAUNCH_MEMORY"
+          },
+          {
+            "tS": 0.09166666666666666,
+            "mode": "RF",
+            "reason": "RF_PROMOTE"
+          },
+          {
+            "tS": 1.274999999999998,
+            "mode": "IR",
+            "reason": "IR_PROMOTE"
+          },
+          {
+            "tS": 1.7749999999999961,
+            "mode": "RF",
+            "reason": "IR_DROPOUT"
+          },
+          {
+            "tS": 2.0249999999999955,
+            "mode": "IR",
+            "reason": "IR_PROMOTE"
+          },
+          {
+            "tS": 7.325000000000154,
+            "mode": "RF",
+            "reason": "IR_DROPOUT"
+          },
+          {
+            "tS": 7.375000000000156,
+            "mode": "MEM",
+            "reason": "RF_DROPOUT"
+          }
+        ],
+        "sourceSwitchCount": 6,
+        "seaImpact": false,
+        "minAltM": 6.457752942934716,
+        "maxAltM": 71.08897556294146,
+        "closestM": 3.4728912686170363,
+        "closestTimeS": 7.108333333333476,
+        "durationS": 7.458333333333494,
+        "finalAltM": 6.457752942934716,
+        "finalSpeedMps": 642.4725875451231,
+        "finalVelPitchDeg": -0.366348484227412,
+        "finalMode": "MEM",
+        "lastSwitchReason": "RF_DROPOUT",
+        "steps": 894
+      },
+      "timeScale": [
+        {
+          "scale": 1,
+          "seed": 147741,
+          "steps": 917,
+          "frames": 917,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 8,
+          "seed": 147741,
+          "steps": 920,
+          "frames": 115,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 16,
+          "seed": 147741,
+          "steps": 928,
+          "frames": 58,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 64,
+          "seed": 147741,
+          "steps": 960,
+          "frames": 15,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        }
+      ],
+      "scalePhysics": [
+        {
+          "seed": 147741,
+          "steps": 917,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 920,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 928,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 960,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        }
+      ],
+      "lifecycle": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_MATRIX_1",
+        "assoc": {
+          "max": true,
+          "min": true,
+          "empty": true
+        },
+        "sarhTrack": true,
+        "sarhCoast": true,
+        "sarhReacquire": true,
+        "sarhReacquired": true,
+        "sarhLost": true,
+        "arhOff": true,
+        "independent": true,
+        "pass": true
+      },
+      "contract": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_CONTRACT_AUDIT_1",
+        "anonymousDecisionSource": true,
+        "rngCalls": false,
+        "saveSchemaChanged": false,
+        "mutableTacticalSingleton": false,
+        "perWeaponStateArgument": true,
+        "pass": true
+      },
+      "esm": {
+        "schema": "AEGIS_ESM_SNAPSHOT_A_1",
+        "operational": true,
+        "truthUsedByConsumer": false,
+        "automaticEngagementAuthority": false,
+        "uiTextPresent": false
+      },
+      "cSnapshot": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_SNAPSHOT_1",
+        "mode": "ACTIVE",
+        "profiles": {
+          "ASM": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "ASM_HOJ_ACQUIRE_HOOK",
+            "hooks": [
+              "HOJ",
+              "RF_EKF",
+              "INS"
+            ]
+          },
+          "HARPOON": {
+            "association": "ANONYMOUS_MIN_SCORE",
+            "state": "HARPOON_ROUTE_INS_HOOK",
+            "hooks": [
+              "ROUTE_PLAN_PRIOR",
+              "INS_MEMORY",
+              "RF_TRACK"
+            ]
+          },
+          "SARH": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "COMMON_RF_STATE",
+            "hooks": [
+              "ILLUMINATION",
+              "BISTATIC_LOS"
+            ]
+          },
+          "ARH": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "COMMON_RF_STATE",
+            "hooks": [
+              "SARH_ARH_SOURCE_ARBITER"
+            ]
+          },
+          "RAM": {
+            "association": "ANONYMOUS_ANGULAR_GATE",
+            "state": "COMMON_ANGULAR_STATE",
+            "hooks": [
+              "MEM",
+              "PASSIVE_RF",
+              "PASSIVE_IR"
+            ]
+          }
+        },
+        "audit": {
+          "associationCalls": 6292,
+          "stateCalls": 11341,
+          "policyCalls": 4988,
+          "associationComparisons": 6292,
+          "associationMismatches": 0,
+          "stateComparisons": 0,
+          "stateMismatches": 0,
+          "invalidScores": 0,
+          "truthFieldViolations": 0,
+          "rngConsumed": 0,
+          "families": {
+            "ASM": 8739,
+            "HARPOON": 606,
+            "SARH": 3565,
+            "ARH": 2912,
+            "RAM": 1811
+          },
+          "events": {
+            "VALID_MEASUREMENT": 2338,
+            "HIT_ACCUMULATION": 25,
+            "MISS_COAST": 386,
+            "REACQUIRE": 379,
+            "GIMBAL_LOS_ILLUMINATION_SIGNAL_LOSS": 4324,
+            "TIMEOUT_LOST_OFF": 11,
+            "DESTROY_RETIRE": 1
+          }
+        },
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "mutableTacticalSingleton": false,
+        "saveSchemaChanged": false
+      }
+    },
+    "errors": []
+  },
+  "repeat": {
+    "result": {
+      "core": [],
+      "threatMode": "MAX_THREAT",
+      "asm": {
+        "label": "Kh-35U",
+        "seed": 108041,
+        "durationS": 20,
+        "everAcquire": true,
+        "everTrack": true,
+        "acquireTimeS": 3.1166666666666667,
+        "coastEntries": 0,
+        "reacquireEntries": 0,
+        "reacquireSuccesses": 0,
+        "deathReason": null,
+        "shipHit": false
+      },
+      "harpoon": {
+        "seeker": {
+          "schema": "HARPOON_C_SEEKER_AUDIT",
+          "checks": {
+            "firstHitIsAcquisition": true,
+            "secondHitStillNoGuidanceLock": true,
+            "confirmedRepeatedObservationsTrack": true,
+            "noReturnCoasts": true,
+            "coastTimeoutReentersSearch": true,
+            "searchReversesBothDirections": true,
+            "hardAzElStops": true,
+            "noPrematureActivation": true,
+            "beyondGimbalCannotAcquire": true,
+            "singleEchoExpires": true
+          },
+          "pass": true
+        },
+        "core": {
+          "schema": "HARPOON_A_CORE_AUDIT",
+          "checks": {
+            "profileImmutable": true,
+            "sourceEightUniqueTubes": true,
+            "sourceAxisUnitAndUpward": true,
+            "sourceCapsComplete": true,
+            "isolatedDetachedInventory": true,
+            "ddgNoInstallation": true,
+            "modelRigidRoles": true,
+            "trackMemoryDeepCopiedAndFrozen": true,
+            "insPredictionLeadsStoredVelocity": true,
+            "protectedIdentityDenied": true,
+            "manualAuthorityOnly": true,
+            "saveNormalAndDuplicateBoundary": true,
+            "warheadFillSeparatedFromAssembly": true,
+            "modelCreditRetained": true
+          },
+          "pass": true
+        },
+        "selection": {
+          "schema": "HARPOON_D_SELECTION_AUDIT",
+          "checks": {
+            "leastObservedTurn": true,
+            "stableTubeTieBreak": true,
+            "blockedTubeSkipped": true,
+            "noEligibleTube": true,
+            "emptyInstallation": true,
+            "detachedInputUnchanged": true
+          },
+          "pass": true
+        }
+      },
+      "sm2": {
+        "label": "Kh-35U",
+        "seed": 107241,
+        "durationS": 24.05,
+        "prox": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "targetAlive": false,
+        "sarhSamples": 0,
+        "sarhEkfErrorMedianM": null
+      },
+      "essm": {
+        "weapon": "ESSM",
+        "label": "Kh-35U",
+        "speedKt": 0,
+        "seed": 107341,
+        "durationS": 13.233333333333333,
+        "prox": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "targetAlive": false,
+        "intercept": true
+      },
+      "sm6": {
+        "seed": 146041,
+        "error": null,
+        "success": true,
+        "prox": true,
+        "kill": true,
+        "missileDeathReason": "PROX_DETONATION_KILL",
+        "durationS": 15.466666666666667,
+        "firstActiveAtS": 3.466666666666667,
+        "firstArhTrackAtS": 3.533333333333333,
+        "finalArhProfileId": "SM6_BLKIA_ARH_RF_V2_WORKING"
+      },
+      "ram": {
+        "weapon": "RAM",
+        "label": "Kh-35U",
+        "speedKt": 0,
+        "seed": 107441,
+        "durationS": 20.8,
+        "prox": false,
+        "result": null,
+        "terminalReason": null,
+        "shipHit": true,
+        "targetAlive": false,
+        "intercept": false
+      },
+      "ramDirect": {
+        "wip": "WIP146",
+        "seed": 146041,
+        "emitter": true,
+        "rangeM": 6000,
+        "targetAltM": 12,
+        "targetSpeedMps": 280,
+        "launch": {
+          "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+          "azDeg": 0,
+          "elDeg": 12,
+          "speedMps": 50,
+          "mountHeightM": 12.241264019813764,
+          "initialVelPitchDeg": 11.999988252445114
+        },
+        "transient": {
+          "configured": {
+            "minTimeS": 0.35,
+            "minQPa": 3000,
+            "minSpeedMps": 90,
+            "blockDownwardPitch": true
+          },
+          "endedAtS": 0.35000000000000026
+        },
+        "seaClearance": {
+          "configured": {
+            "enabled": true,
+            "minClearanceM": 6,
+            "predictS": 0.6,
+            "terminalReleaseRangeM": 350,
+            "fadeRangeM": 1200
+          },
+          "guardSteps": 87,
+          "minProjectedAltM": -15.18836173517832
+        },
+        "sourceTimeline": [
+          {
+            "tS": 0,
+            "mode": "MEM",
+            "reason": "LAUNCH_MEMORY"
+          },
+          {
+            "tS": 0.09166666666666666,
+            "mode": "RF",
+            "reason": "RF_PROMOTE"
+          },
+          {
+            "tS": 1.274999999999998,
+            "mode": "IR",
+            "reason": "IR_PROMOTE"
+          },
+          {
+            "tS": 1.7749999999999961,
+            "mode": "RF",
+            "reason": "IR_DROPOUT"
+          },
+          {
+            "tS": 2.0249999999999955,
+            "mode": "IR",
+            "reason": "IR_PROMOTE"
+          },
+          {
+            "tS": 7.325000000000154,
+            "mode": "RF",
+            "reason": "IR_DROPOUT"
+          },
+          {
+            "tS": 7.375000000000156,
+            "mode": "MEM",
+            "reason": "RF_DROPOUT"
+          }
+        ],
+        "sourceSwitchCount": 6,
+        "seaImpact": false,
+        "minAltM": 6.457752942934716,
+        "maxAltM": 71.08897556294146,
+        "closestM": 3.4728912686170363,
+        "closestTimeS": 7.108333333333476,
+        "durationS": 7.458333333333494,
+        "finalAltM": 6.457752942934716,
+        "finalSpeedMps": 642.4725875451231,
+        "finalVelPitchDeg": -0.366348484227412,
+        "finalMode": "MEM",
+        "lastSwitchReason": "RF_DROPOUT",
+        "steps": 894
+      },
+      "timeScale": [
+        {
+          "scale": 1,
+          "seed": 147741,
+          "steps": 917,
+          "frames": 917,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 8,
+          "seed": 147741,
+          "steps": 920,
+          "frames": 115,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 16,
+          "seed": 147741,
+          "steps": 928,
+          "frames": 58,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "scale": 64,
+          "seed": 147741,
+          "steps": 960,
+          "frames": 15,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        }
+      ],
+      "scalePhysics": [
+        {
+          "seed": 147741,
+          "steps": 917,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 920,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 928,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        },
+        {
+          "seed": 147741,
+          "steps": 960,
+          "kill": true,
+          "prox": true,
+          "reason": "PROX_DETONATION_KILL",
+          "lifeS": 15.283333333333672,
+          "x": 50.826290640699455,
+          "y": 0.014545982734813166,
+          "z": 1004.349076371102,
+          "speedMps": 1357.5085842384267,
+          "massKg": 519.3806451612826,
+          "boosterSeparated": true,
+          "target": {
+            "alive": false,
+            "x": 50.99599999999986,
+            "y": -2.1313752892360695e-15,
+            "z": 1000
+          },
+          "rng": 1276732589
+        }
+      ],
+      "lifecycle": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_MATRIX_1",
+        "assoc": {
+          "max": true,
+          "min": true,
+          "empty": true
+        },
+        "sarhTrack": true,
+        "sarhCoast": true,
+        "sarhReacquire": true,
+        "sarhReacquired": true,
+        "sarhLost": true,
+        "arhOff": true,
+        "independent": true,
+        "pass": true
+      },
+      "contract": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_CONTRACT_AUDIT_1",
+        "anonymousDecisionSource": true,
+        "rngCalls": false,
+        "saveSchemaChanged": false,
+        "mutableTacticalSingleton": false,
+        "perWeaponStateArgument": true,
+        "pass": true
+      },
+      "esm": {
+        "schema": "AEGIS_ESM_SNAPSHOT_A_1",
+        "operational": true,
+        "truthUsedByConsumer": false,
+        "automaticEngagementAuthority": false,
+        "uiTextPresent": false
+      },
+      "cSnapshot": {
+        "schema": "AEGIS_SEEKER_UNIFY_U4_C_SNAPSHOT_1",
+        "mode": "ACTIVE",
+        "profiles": {
+          "ASM": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "ASM_HOJ_ACQUIRE_HOOK",
+            "hooks": [
+              "HOJ",
+              "RF_EKF",
+              "INS"
+            ]
+          },
+          "HARPOON": {
+            "association": "ANONYMOUS_MIN_SCORE",
+            "state": "HARPOON_ROUTE_INS_HOOK",
+            "hooks": [
+              "ROUTE_PLAN_PRIOR",
+              "INS_MEMORY",
+              "RF_TRACK"
+            ]
+          },
+          "SARH": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "COMMON_RF_STATE",
+            "hooks": [
+              "ILLUMINATION",
+              "BISTATIC_LOS"
+            ]
+          },
+          "ARH": {
+            "association": "ANONYMOUS_MAX_SCORE",
+            "state": "COMMON_RF_STATE",
+            "hooks": [
+              "SARH_ARH_SOURCE_ARBITER"
+            ]
+          },
+          "RAM": {
+            "association": "ANONYMOUS_ANGULAR_GATE",
+            "state": "COMMON_ANGULAR_STATE",
+            "hooks": [
+              "MEM",
+              "PASSIVE_RF",
+              "PASSIVE_IR"
+            ]
+          }
+        },
+        "audit": {
+          "associationCalls": 6292,
+          "stateCalls": 11341,
+          "policyCalls": 4988,
+          "associationComparisons": 6292,
+          "associationMismatches": 0,
+          "stateComparisons": 0,
+          "stateMismatches": 0,
+          "invalidScores": 0,
+          "truthFieldViolations": 0,
+          "rngConsumed": 0,
+          "families": {
+            "ASM": 8739,
+            "HARPOON": 606,
+            "SARH": 3565,
+            "ARH": 2912,
+            "RAM": 1811
+          },
+          "events": {
+            "VALID_MEASUREMENT": 2338,
+            "HIT_ACCUMULATION": 25,
+            "MISS_COAST": 386,
+            "REACQUIRE": 379,
+            "GIMBAL_LOS_ILLUMINATION_SIGNAL_LOSS": 4324,
+            "TIMEOUT_LOST_OFF": 11,
+            "DESTROY_RETIRE": 1
+          }
+        },
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "mutableTacticalSingleton": false,
+        "saveSchemaChanged": false
+      }
+    },
+    "errors": []
+  },
+  "harpoonActualFlightEvidence": "native harpoon-f1 suite in the same one-shot broad run",
+  "essmBlock1Evidence": "Commit-A bounded SARH-only gate plus this live ESSM SARH-to-ARH flight",
+  "confirmedOnly": {
+    "scope": "inherited U3 static and limited feature-off evidence only",
+    "performance": "UNVERIFIED"
+  },
+  "release": false
+}
