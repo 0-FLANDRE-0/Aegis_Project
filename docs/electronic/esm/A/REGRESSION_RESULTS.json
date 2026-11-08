@@ -1,0 +1,417 @@
+{
+  "schema": "AEGIS_TRACK_A_EXISTING_REGRESSIONS_1",
+  "candidate": "Aegis_SIM_v48_WIP_ESM_A.html",
+  "candidateSha256": "1f0b041b8c353f0b9014b8dd46cf144041ecb73d22698f938b1b15c87548209e",
+  "baseline": "Aegis_SIM_v48_WIP_EMCON_B.html",
+  "baselineSha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee",
+  "pairedReference": "FRIENDLY_CONTACT_A_NOT_CG_TURRET_A",
+  "defaultDiagnostic": "OFF",
+  "assertionChanges": false,
+  "expectedValuesUpdated": false,
+  "adapters": "Unchanged existing B2 test_support retired-node/output paths; existing CPU Canvas2D+real WebGL backend",
+  "gunConfiguration": "Existing non-gun regression policy: GUN_B2 flags ON, AutoAA OFF through historical test-only configuration; same as friendly baseline",
+  "rows": [
+    {
+      "suite": "emcon-ui",
+      "status": "INCOMPLETE",
+      "expectedAssertions": 14,
+      "executedAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": [],
+      "errors": [],
+      "reason": "Existing retired EMCON UI requires absent #lockBtn; original 14 assertions not approved or waived. Prior bounded RC1 attempt retained; no RC2 assertions executed.",
+      "evidenceScope": "LEGACY_DEBT_NOT_RC2_PASS",
+      "priorAttemptPath": "RC1/emcon-ui-execution.json",
+      "priorCandidateSha256": "2fbe5392ac5f69fb2c2b4a42efd76eb7a3fc1ec0b4d8253748c1fb0be4caded5"
+    },
+    {
+      "suite": "helicopter-flight",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/helicopter-flight",
+        "--only",
+        "helicopter-flight"
+      ],
+      "exitCode": 0,
+      "wallS": 317.64490660099545,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 85,
+      "executedAssertions": 85,
+      "passedAssertions": 85,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "helicopter-flight/native.json"
+    },
+    {
+      "suite": "aps153",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/aps153",
+        "--only",
+        "aps153"
+      ],
+      "exitCode": 0,
+      "wallS": 110.94889897998655,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 20,
+      "executedAssertions": 20,
+      "passedAssertions": 20,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "aps153/native.json"
+    },
+    {
+      "suite": "isar-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/isar-native",
+        "--only",
+        "isar-native"
+      ],
+      "exitCode": 0,
+      "wallS": 79.86095740398741,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 36,
+      "executedAssertions": 36,
+      "passedAssertions": 36,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-native/native.json"
+    },
+    {
+      "suite": "isar-classes",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/isar-classes",
+        "--only",
+        "isar-classes"
+      ],
+      "exitCode": 0,
+      "wallS": 43.63300412800163,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 8,
+      "executedAssertions": 8,
+      "passedAssertions": 8,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-classes/classes.json"
+    },
+    {
+      "suite": "isar-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/isar-clock",
+        "--only",
+        "isar-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 68.5814677909948,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 12,
+      "executedAssertions": 12,
+      "passedAssertions": 12,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-clock/clock.json"
+    },
+    {
+      "suite": "isar-ui",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/isar-ui",
+        "--only",
+        "isar-ui"
+      ],
+      "exitCode": 0,
+      "wallS": 73.34734791400842,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 38,
+      "executedAssertions": 38,
+      "passedAssertions": 38,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-ui/ui.json"
+    },
+    {
+      "suite": "emcon-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/emcon-native",
+        "--only",
+        "emcon-native"
+      ],
+      "exitCode": 0,
+      "wallS": 60.57967806200031,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 27,
+      "executedAssertions": 27,
+      "passedAssertions": 27,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "emcon-native/native.json"
+    },
+    {
+      "suite": "harpoon-f1",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/harpoon-f1",
+        "--only",
+        "harpoon-f1"
+      ],
+      "exitCode": 0,
+      "wallS": 65.29666586199892,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 46,
+      "executedAssertions": 46,
+      "passedAssertions": 46,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-f1/native.json"
+    },
+    {
+      "suite": "harpoon-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/harpoon-clock",
+        "--only",
+        "harpoon-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 93.68350706997444,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 24,
+      "executedAssertions": 24,
+      "passedAssertions": 24,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-clock/ui-clock.json"
+    },
+    {
+      "suite": "sov-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/sov-native",
+        "--only",
+        "sov-native"
+      ],
+      "exitCode": 0,
+      "wallS": 47.465648306009825,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 30,
+      "executedAssertions": 30,
+      "passedAssertions": 30,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-native/native.json"
+    },
+    {
+      "suite": "sov-casualty",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/sov-casualty",
+        "--only",
+        "sov-casualty"
+      ],
+      "exitCode": 0,
+      "wallS": 64.40163888799725,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 13,
+      "executedAssertions": 13,
+      "passedAssertions": 13,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-casualty/casualty.json"
+    },
+    {
+      "suite": "sov-deployment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/sov-deployment",
+        "--only",
+        "sov-deployment"
+      ],
+      "exitCode": 0,
+      "wallS": 97.87694813701091,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 15,
+      "executedAssertions": 15,
+      "passedAssertions": 15,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-deployment/deployment.json"
+    },
+    {
+      "suite": "sov-visual",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/sov-visual",
+        "--only",
+        "sov-visual"
+      ],
+      "exitCode": 0,
+      "wallS": 59.02468760398915,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 10,
+      "executedAssertions": 10,
+      "passedAssertions": 10,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-visual/visual.json"
+    },
+    {
+      "suite": "paired-friendly",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/helicopter/F/verify_regression.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_EMCON_B.html",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/paired-friendly",
+        "--baseline-only"
+      ],
+      "exitCode": 1,
+      "wallS": 168.8171746240114,
+      "status": "FAIL",
+      "reason": "Original assertion/worker failure or incomplete output",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 34,
+      "failedAssertions": [
+        "DDG_119_LATE_FLIGHT_IIA:idle:samePhysicalState",
+        "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+        "DDG_119_LATE_FLIGHT_IIA:damaged:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:idle:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState",
+        "CG_52_LATE_TICONDEROGA:damaged:samePhysicalState"
+      ],
+      "errors": [],
+      "resultPath": "paired-friendly/baseline-comparison.json"
+    },
+    {
+      "suite": "ui213",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/contact/friendly/A/cpu2d_ui.py"
+      ],
+      "exitCode": 0,
+      "wallS": 448.4599265040015,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "map/E/evidence/d-ui/ui.json"
+    },
+    {
+      "suite": "webgl8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/emcon-b-final-harness/docs/envelope/D/run_observed_webgl.py",
+        "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+        "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression/webgl8"
+      ],
+      "exitCode": 0,
+      "wallS": 257.2420775780047,
+      "status": "PASS",
+      "reason": null,
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "webgl8/observed-world.json"
+    }
+  ],
+  "wallS": 2057.6160592370143,
+  "native13": {
+    "suiteCount": 13,
+    "expectedSuiteCount": 13,
+    "assertionCount": 364,
+    "passedAssertions": 364,
+    "expectedAssertions": 364
+  },
+  "currentVsFriendlyDomain": {
+    "totalExpected": 420,
+    "passed": 398,
+    "legacyUiIncomplete": 14,
+    "pairedExpected": 42,
+    "pairedPassed": 34
+  },
+  "inheritedCgVsFriendlyDomain": {
+    "passed": 404,
+    "observerKnownDeltaUnapproved": 2,
+    "legacyUiIncomplete": 14,
+    "total": 420,
+    "reference": "docs/contact/friendly/A/VALIDATION.json"
+  },
+  "releaseApproved": false,
+  "inheritedUnresolved": [
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "LEGACY_EMCON_UI_14_INCOMPLETE"
+  ],
+  "newFailures": [
+    "paired-friendly"
+  ],
+  "incomplete": [
+    "emcon-ui"
+  ]
+}

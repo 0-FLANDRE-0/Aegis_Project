@@ -23,9 +23,9 @@
 +function esmSaveRawShiftA(raw,shiftS){const q=esmJsonA(raw);q.measuredAtS+=shiftS;q.receivedAtS+=shiftS;q.arrivalTimeS+=shiftS;return q;}
 +function esmSavePacketShiftA(packet,shiftS){const q=esmJsonA(packet);q.sentAtS+=shiftS;q.measurements=q.measurements.map(x=>esmSaveRawShiftA(x,shiftS));return q;}
 +function esmExportStateA(r){
-+  const now=simStepCounter*SIM_FIXED_DT,profile=esmReceiverProfileForShipA(r.profileId),state=r.ew.esmA??null,e=r.ew.executionF??null;if(!state)return esmSaveEmptyA(r.profileId,now);
-+  const contacts=profile?[...(e?.contacts??r.ew.contacts??new Map()).values()].filter(c=>c?.provenance==='ANONYMOUS_ESM_A').sort((a,b)=>a.contactId-b.contactId).map(c=>({contactId:c.contactId,history:c.history.map(esmJsonA)})):[];
-+  return {schema:ESM_A_SAVE_SCHEMA,revision:1,profileId:r.profileId,receiverId:profile?.receiverId??null,savedAtS:now,rawSerial:state.rawSerial,contactSerial:e?.serial??1,networkSequence:state.networkSequence,lastNetworkSendStepOffset:(state.lastNetworkSendStep??-1)-simStepCounter,clock:state.clock?esmJsonA(state.clock):null,contacts,outbox:profile?state.outbox.map(esmJsonA):[],networkQueue:profile?state.networkQueue.map(q=>({senderId:String(q.senderId),availableInTicks:Math.max(0,q.availableStep-simStepCounter),packet:esmJsonA(q.packet)})):[],networkSeen:profile?[...state.networkSeen.entries()].map(([id,t])=>[String(id),t]):[],networkPeerSequence:profile?[...(state.networkPeerSequence??new Map()).entries()].map(([id,n])=>[String(id),n]):[],networkSentIds:profile?[...(state.networkSentIds??new Map()).entries()].map(([id,t])=>[String(id),t]):[],stats:{localAccepted:state.stats.localAccepted,remoteAccepted:state.stats.remoteAccepted,rejected:state.stats.rejected,duplicates:state.stats.duplicates},manualCues:profile?esmJsonA(state.manualCues??[]):[]};
++  const now=simStepCounter*SIM_FIXED_DT,profile=esmReceiverProfileForShipA(r.profileId),state=r.ew.esmA??null;if(!state)return esmSaveEmptyA(r.profileId,now);
++  const contacts=profile?[...state.contacts.values()].sort((a,b)=>a.contactId-b.contactId).map(c=>({contactId:c.contactId,history:c.history.map(esmJsonA)})):[];
++  return {schema:ESM_A_SAVE_SCHEMA,revision:1,profileId:r.profileId,receiverId:profile?.receiverId??null,savedAtS:now,rawSerial:state.rawSerial,contactSerial:state.contactSerial,networkSequence:state.networkSequence,lastNetworkSendStepOffset:(state.lastNetworkSendStep??-1)-simStepCounter,clock:state.clock?esmJsonA(state.clock):null,contacts,outbox:profile?state.outbox.map(esmJsonA):[],networkQueue:profile?state.networkQueue.map(q=>({senderId:String(q.senderId),availableInTicks:Math.max(0,q.availableStep-simStepCounter),packet:esmJsonA(q.packet)})):[],networkSeen:profile?[...state.networkSeen.entries()].map(([id,t])=>[String(id),t]):[],networkPeerSequence:profile?[...(state.networkPeerSequence??new Map()).entries()].map(([id,n])=>[String(id),n]):[],networkSentIds:profile?[...(state.networkSentIds??new Map()).entries()].map(([id,t])=>[String(id),t]):[],stats:{localAccepted:state.stats.localAccepted,remoteAccepted:state.stats.remoteAccepted,rejected:state.stats.rejected,duplicates:state.stats.duplicates},manualCues:profile?esmJsonA(state.manualCues??[]):[]};
 +}
 +
 +function esmSaveStrictKeysA(q,keys){return !!q&&typeof q==='object'&&!Array.isArray(q)&&Object.keys(q).sort().join('|')===keys.slice().sort().join('|');}
@@ -48,12 +48,12 @@
 +
 +function esmRestoreContactA(row,shiftS,now){const history=row.history.map(q=>esmSaveRawShiftA(q,shiftS)),last=history.at(-1),c={contactId:row.contactId,bearing:last.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(last.angleCovarianceRad2[0])),strength:last.quality,quality:last.quality,band:last.band,type:last.type,emitterClass:last.emitterClass,measuredAtS:last.measuredAtS,age:Math.max(0,now-last.measuredAtS),hits:history.length,rangeKm:null,identity:'UNKNOWN',threatLevel:last.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F',history,state:'BEARING_ONLY',estimate:null,provenance:'ANONYMOUS_ESM_A'};esmUpdateContactA(c,now);return c;}
 +function esmRestoreStateA(r,saved){
-+  const validation=esmValidateSaveStateA(r.profileId,saved);if(!validation.ok)throw Error('ESM_A_RESTORE_INVALID:'+validation.errors.join(','));const now=simStepCounter*SIM_FIXED_DT,shift=now-saved.savedAtS,contacts=new Map(saved.contacts.map(q=>{const c=esmRestoreContactA(q,shift,now);return [c.contactId,c];})),clock=saved.clock?{...saved.clock,epochS:saved.clock.epochS+shift}:null,state={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:saved.rawSerial,networkSequence:saved.networkSequence,clock,outbox:saved.outbox.map(q=>esmSaveRawShiftA(q,shift)),networkQueue:saved.networkQueue.map(q=>({senderId:q.senderId,availableStep:simStepCounter+q.availableInTicks,packet:esmSavePacketShiftA(q.packet,shift)})),networkSeen:new Map(saved.networkSeen.map(([id,t])=>[id,t+shift])),lastNetworkSendStep:simStepCounter+saved.lastNetworkSendStepOffset,stats:{...saved.stats},networkPeerSequence:new Map(saved.networkPeerSequence),networkSentIds:new Map(saved.networkSentIds.map(([id,t])=>[id,t+shift])),manualCues:saved.manualCues.map(q=>({...esmJsonA(q),issuedAtS:q.issuedAtS+shift,estimateMeasuredAtS:q.estimateMeasuredAtS+shift}))};
-+  const e=prepareElectronicF(r);e.contacts.clear();for(const [id,c]of contacts)e.contacts.set(id,c);e.serial=saved.contactSerial;r.ew.esmA=state;delete r.restoredEsmA;claimShipMutableRootA(r,'esmA',state);return state;
++  const validation=esmValidateSaveStateA(r.profileId,saved);if(!validation.ok)throw Error('ESM_A_RESTORE_INVALID:'+validation.errors.join(','));const now=simStepCounter*SIM_FIXED_DT,shift=now-saved.savedAtS,contacts=new Map(saved.contacts.map(q=>{const c=esmRestoreContactA(q,shift,now);return [c.contactId,c];})),clock=saved.clock?{...saved.clock,epochS:saved.clock.epochS+shift}:null,state={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:saved.rawSerial,contactSerial:saved.contactSerial,contacts,networkSequence:saved.networkSequence,clock,outbox:saved.outbox.map(q=>esmSaveRawShiftA(q,shift)),networkQueue:saved.networkQueue.map(q=>({senderId:q.senderId,availableStep:simStepCounter+q.availableInTicks,packet:esmSavePacketShiftA(q.packet,shift)})),networkSeen:new Map(saved.networkSeen.map(([id,t])=>[id,t+shift])),lastNetworkSendStep:simStepCounter+saved.lastNetworkSendStepOffset,stats:{...saved.stats},networkPeerSequence:new Map(saved.networkPeerSequence),networkSentIds:new Map(saved.networkSentIds.map(([id,t])=>[id,t+shift])),manualCues:saved.manualCues.map(q=>({...esmJsonA(q),issuedAtS:q.issuedAtS+shift,estimateMeasuredAtS:q.estimateMeasuredAtS+shift}))};
++  r.ew.esmA=state;delete r.restoredEsmA;claimShipMutableRootA(r,'esmA',state);return state;
 +}
-+function esmResetRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;r.ew.esmA=null;}
-+function esmRetireRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;const s=r.ew.esmA;if(s){s.outbox.length=0;s.networkQueue.length=0;s.networkSeen.clear();s.networkPeerSequence?.clear();s.networkSentIds?.clear();}r.ew.esmA=null;}
-+function esmLifecycleSnapshotA(r){const s=r.ew.esmA;return {ownerEntityId:r.entityId,profileId:r.profileId,receiverId:esmReceiverProfileForShipA(r.profileId)?.receiverId??null,stateAttached:!!s,contacts:r.ew.executionF?.contacts.size??r.ew.contacts?.size??0,queue:s?.networkQueue.length??0,outbox:s?.outbox.length??0,restoredPending:!!r.restoredEsmA};}
++function esmResetRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;r.ew.esmA?.contacts?.clear();r.ew.esmA=null;}
++function esmRetireRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;const s=r.ew.esmA;if(s){s.contacts.clear();s.outbox.length=0;s.networkQueue.length=0;s.networkSeen.clear();s.networkPeerSequence?.clear();s.networkSentIds?.clear();}r.ew.esmA=null;}
++function esmLifecycleSnapshotA(r){const s=r.ew.esmA;return {ownerEntityId:r.entityId,profileId:r.profileId,receiverId:esmReceiverProfileForShipA(r.profileId)?.receiverId??null,stateAttached:!!s,contacts:s?.contacts.size??0,legacyProjectionContacts:r.ew.executionF?.contacts.size??r.ew.contacts?.size??0,queue:s?.networkQueue.length??0,outbox:s?.outbox.length??0,restoredPending:!!r.restoredEsmA};}
  function shipEmitterEquipmentRegistryA(profileId){
 @@ -2220,3 +2272,3 @@
   p15.mass.softKill15BLoadoutDeltaKg=skExtra;p15.mass.fullLoadTargetKg+=skExtra;p15.mass.variableLoadsKg.ordnance+=skExtra;
@@ -75,7 +75,7 @@
 -  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
 +  for(const r of electronicShipsF()){esmResetRuntimeA(r);const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
  }
-@@ -3537,2 +3589,206 @@
+@@ -3537,2 +3589,227 @@
  function electronicCicTextF(){const e=prepareElectronicF(ACTIVE_SHIP_RUNTIME),fresh=[...e.contacts.values()].filter(c=>c.source==='PASSIVE_RF_F'),n=fresh.filter(c=>c.emitterClass==='JAMMER').length;return 'ESM '+fresh.length+' · RF 간섭 '+n+' · 방위 관측 / 거리 미확정';}
 +// ESM_A Commit B — anonymous passive-RF measurement and honest local likelihood.
 +// RF detection, beam, LOS, weather and the owner EW RNG remain in the native
@@ -134,9 +134,14 @@
 +}
 +function prepareEsmA(r){
 +  if(r.ew.esmA)return r.ew.esmA;const restored=r.restoredEsmA??null;delete r.restoredEsmA;
-+  const q={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:1,networkSequence:0,clock:null,outbox:[],networkQueue:[],networkSeen:new Map(),lastNetworkSendStep:-1,stats:{localAccepted:0,remoteAccepted:0,rejected:0,duplicates:0}};
++  // The common estimator owns its contacts. r.ew.executionF.contacts remains
++  // the native bearing-contact projection consumed by the existing soft-kill
++  // coordinator; sharing the map would let a new association policy change
++  // legacy tactical behavior even though ESM_A grants no engagement authority.
++  const q={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:1,contactSerial:1,contacts:new Map(),networkSequence:0,clock:null,outbox:[],networkQueue:[],networkSeen:new Map(),lastNetworkSendStep:-1,stats:{localAccepted:0,remoteAccepted:0,rejected:0,duplicates:0}};
 +  r.ew.esmA=q;claimShipMutableRootA(r,'esmA',q);if(restored)esmRestoreStateA(r,restored);return r.ew.esmA;
 +}
++function esmCommonContactsA(r){return prepareEsmA(r).contacts;}
 +function esmReceiverSnapshotA(r,point,profile){
 +  const now=simStepCounter*SIM_FIXED_DT,clock=esmReceiverClockA(r),nav=r.navigation,pose=r.survival?.snapshot?.()??{heelRad:0,trimRad:0};
 +  return {platformId:String(r.entityId),receiverId:String(profile.receiverId),positionM:{x:worldToMeters(point.x),y:worldToMeters(point.y),z:Number(point.z)},velocityMps:{x:worldSpeedToMps(nav.vx??0),y:worldSpeedToMps(nav.vy??0),z:0},attitudeRad:{yaw:Number(nav.heading)||0,pitch:Number(pose.trimRad)||0,roll:Number(pose.heelRad)||0},positionCovarianceM2:[9,0,0,0,9,0,0,0,4],velocityCovarianceM2ps2:[.25,0,0,0,.25,0,0,0,.09],attitudeCovarianceRad2:[deg(.15)**2,0,0,0,deg(.15)**2,0,0,0,deg(.2)**2],clockBiasS:clock.biasS+clock.driftSps*(now-clock.epochS),clockBiasSigmaS:ESM_A_SPEC.clockBiasSigmaS,clockDriftSps:clock.driftSps,clockDriftSigmaSps:ESM_A_SPEC.clockDriftSigmaSps,frequencyReferenceErrorHz:clock.frequencyReferenceErrorHz,frequencyReferenceSigmaHz:ESM_A_SPEC.frequencyReferenceSigmaHz};
@@ -244,16 +249,31 @@
 +function esmAcceptRawA(r,rows,origin='LOCAL'){
 +  const now=simStepCounter*SIM_FIXED_DT;if(!r||!Array.isArray(rows)||rows.length>ELECTRONIC_POLICY_F.maxContacts)return {ok:false,reason:'RAW_BATCH'};const validated=[];
 +  for(const q of rows){const v=esmValidateRawA(q,now,origin==='LOCAL'?r.entityId:null,origin==='LOCAL'?esmReceiverProfileA(r)?.receiverId:null);if(!v.ok){ESM_A_AUDIT.rejected++;prepareEsmA(r).stats.rejected++;return {ok:false,reason:v.reason};}validated.push(esmJsonA(q));}
-+  const e=prepareElectronicF(r),state=prepareEsmA(r),used=new Set();
++  const state=prepareEsmA(r),contacts=state.contacts,used=new Set();
 +  for(const q of validated){
 +    if(state.networkSeen.has(q.observationId)){state.stats.duplicates++;continue;}if(origin!=='LOCAL')state.networkSeen.set(q.observationId,q.measuredAtS);
-+    const candidates=[];for(const [id,c]of e.contacts){if(used.has(id))continue;const score=esmObservationCandidateScoreA(c,q);if(score<=ESM_A_SPEC.fingerprintGateNis)candidates.push({id,c,score});}candidates.sort((a,b)=>a.score-b.score||a.id-b.id);
++    const candidates=[];for(const [id,c]of contacts){if(used.has(id))continue;const score=esmObservationCandidateScoreA(c,q);if(score<=ESM_A_SPEC.fingerprintGateNis)candidates.push({id,c,score});}candidates.sort((a,b)=>a.score-b.score||a.id-b.id);
 +    let found=null;if(candidates.length===1||candidates.length>1&&candidates[1].score-candidates[0].score>ESM_A_SPEC.associationAmbiguityDeltaNis)found=candidates[0];else if(candidates.length>1)ESM_A_AUDIT.ambiguous++;
-+    if(!found){if(e.contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;const id=600000000+e.serial++,c={contactId:id,bearing:q.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),strength:q.quality,quality:q.quality,band:q.band,type:q.type,emitterClass:q.emitterClass,measuredAtS:q.measuredAtS,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F',history:[q],state:'BEARING_ONLY',estimate:null,provenance:'ANONYMOUS_ESM_A'};esmUpdateContactA(c,now);e.contacts.set(id,c);used.add(id);ESM_A_AUDIT.created++;}
++    if(!found){if(contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;const id=600000000+state.contactSerial++,c={contactId:id,bearing:q.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),strength:q.quality,quality:q.quality,band:q.band,type:q.type,emitterClass:q.emitterClass,measuredAtS:q.measuredAtS,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F',history:[q],state:'BEARING_ONLY',estimate:null,provenance:'ANONYMOUS_ESM_A'};esmUpdateContactA(c,now);contacts.set(id,c);used.add(id);ESM_A_AUDIT.created++;}
 +    else {const c=found.c;c.history.push(q);if(c.history.length>ESM_A_SPEC.historyMax)c.history.splice(0,c.history.length-ESM_A_SPEC.historyMax);c.bearing=angNorm(c.bearing+angNorm(q.bearingRad-c.bearing)*.45);Object.assign(c,{bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),strength:q.quality,quality:q.quality,type:q.type,measuredAtS:q.measuredAtS,age:0,hits:(c.hits??0)+1});esmUpdateContactA(c,now);used.add(found.id);ESM_A_AUDIT.associated++;}
 +    if(origin==='LOCAL'){state.outbox.push(q);if(state.outbox.length>ESM_A_SPEC.historyMax*4)state.outbox.splice(0,state.outbox.length-ESM_A_SPEC.historyMax*4);state.stats.localAccepted++;}else state.stats.remoteAccepted++;
-+    ESM_A_AUDIT.accepted++;delete e.contacts.get([...used].at(-1))?.truthRef;
++    ESM_A_AUDIT.accepted++;delete contacts.get([...used].at(-1))?.truthRef;
 +  }return {ok:true,accepted:validated.length};
++}
++function esmLegacyProjectionA(r,rows){
++  // Exact native bearing-only association retained for pre-ESM_A tactical
++  // consumers. The projection contains no common-estimator state or truth.
++  const e=prepareElectronicF(r),used=new Set();
++  for(const raw of rows){
++    const q={bearing:raw.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(raw.angleCovarianceRad2[0])),strength:raw.quality,quality:raw.quality,band:raw.band,type:raw.type,emitterClass:raw.emitterClass,measuredAtS:raw.measuredAtS};
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',q,{...trackATraceContextA('ESM_BEARING','PASSIVE_RF_F',r.entityId),route:'ESM_RECEIVE',measuredAtS:q.measuredAtS,decision:'BEARING_ONLY'});
++    let found=null,best=Infinity;
++    for(const [id,c]of e.contacts){if(used.has(id)||c.band!==q.band||c.emitterClass!==q.emitterClass||q.emitterClass!=='ACTIVE_SEEKER'&&c.type!==q.type)continue;const err=Math.abs(angNorm(q.bearing-c.bearing)),gate=deg(Math.max(2,3*Math.hypot(q.bearingSigmaDeg,c.bearingSigmaDeg??6)));if(err<gate&&err<best){best=err;found=id;}}
++    if(found==null){if(e.contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;found=600000000+e.serial++;e.contacts.set(found,{contactId:found,...q,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F'});}
++    else {const c=e.contacts.get(found);c.bearing=angNorm(c.bearing+angNorm(q.bearing-c.bearing)*.45);Object.assign(c,{bearingSigmaDeg:q.bearingSigmaDeg,strength:q.strength,quality:q.quality,type:q.type,measuredAtS:q.measuredAtS,age:0,hits:(c.hits??0)+1});}
++    delete e.contacts.get(found).truthRef;used.add(found);
++  }
++  return {ok:true};
 +}
 +function electronicReceiverPlotsF(r,emitters){
 +  // PHYSICAL/SENSOR boundary: target ownership exists only long enough to reject self coupling.
@@ -266,28 +286,29 @@
 +    const quality=clamp(pd*health,.01,1),sigma=lerp(6,.6,quality),bearing=angNorm(az+observerNormalC(e.rng)*deg(sigma));plots.push(esmCreateRawA(r,source,rx,bearing,el,sigma,snr,quality,range,op.profile));
 +  }return plots;
 +}
-+function electronicAcceptPlotsF(r,plots){return esmAcceptRawA(r,plots,'LOCAL');}
++function electronicAcceptPlotsF(r,plots){const common=esmAcceptRawA(r,plots,'LOCAL');if(!common.ok)return common;esmLegacyProjectionA(r,plots);return common;}
 +function stepElectronicReceiversF(dt){
 +  const emitters=electronicPhysicalEmittersF(),now=simStepCounter*SIM_FIXED_DT;
 +  for(const r of electronicShipsF()){
 +    if(sovNoEquipmentA(r))continue;const e=prepareElectronicF(r),state=prepareEsmA(r);if(e.lastTick===simStepCounter)throw Error('EW_DOUBLE_TICK_F');e.lastTick=simStepCounter;e.ticks++;
-+    for(const [id,c]of e.contacts){c.age+=dt;esmUpdateContactA(c,now);if(c.age>ELECTRONIC_POLICY_F.holdS){c.state='LOST';e.contacts.delete(id);ESM_A_AUDIT.expired++;}}
++    for(const [id,c]of e.contacts){c.age+=dt;if(c.age>ELECTRONIC_POLICY_F.holdS)e.contacts.delete(id);}
++    for(const [id,c]of state.contacts){c.age+=dt;esmUpdateContactA(c,now);if(c.age>ELECTRONIC_POLICY_F.holdS){c.state='LOST';state.contacts.delete(id);ESM_A_AUDIT.expired++;}}
 +    for(const [key,stamp]of state.networkSeen)if(now-stamp>ELECTRONIC_POLICY_F.holdS)state.networkSeen.delete(key);
 +    e.ageS+=dt;if(e.ageS+1e-9<ELECTRONIC_POLICY_F.revisitS)continue;e.ageS%=ELECTRONIC_POLICY_F.revisitS;const plots=electronicReceiverPlotsF(r,emitters);if(plots.length)electronicAcceptPlotsF(r,plots);e.receiver.lastAtS=now;
 +  }
 +}
-+function electronicCicTextF(){const e=prepareElectronicF(ACTIVE_SHIP_RUNTIME),fresh=[...e.contacts.values()].filter(c=>c.source==='PASSIVE_RF_F'),n=fresh.filter(c=>c.emitterClass==='JAMMER').length,g=fresh.filter(c=>c.state==='GEOLOCATED_ESTIMATE').length;return 'ESM '+fresh.length+' · 위치추정 '+g+' · RF 간섭 '+n;}
++function electronicCicTextF(){const fresh=[...esmCommonContactsA(ACTIVE_SHIP_RUNTIME).values()],n=fresh.filter(c=>c.emitterClass==='JAMMER').length,g=fresh.filter(c=>c.state==='GEOLOCATED_ESTIMATE').length;return 'ESM '+fresh.length+' · 위치추정 '+g+' · RF 간섭 '+n;}
 +function esmContactViewA(c){return {contactId:c.contactId,state:c.state,ageS:c.age,bearingRad:c.bearing,bearingSigmaDeg:c.bearingSigmaDeg,band:c.band,type:c.type,emitterClass:c.emitterClass,quality:c.quality,hits:c.hits,historyCount:c.history?.length??0,estimate:esmJsonA(c.estimate),identity:'UNKNOWN',automaticEngagementAuthority:false};}
-+function esmSnapshotA(r=ACTIVE_SHIP_RUNTIME){const e=prepareElectronicF(r),s=prepareEsmA(r);return {schema:'AEGIS_ESM_SNAPSHOT_A_1',ownerEntityId:r.entityId,profileId:r.profileId,receiver:esmReceiverProfileA(r),operational:esmReceiverOperationalA(r).ok,contacts:[...e.contacts.values()].map(esmContactViewA),network:{queued:s.networkQueue.length,outbox:s.outbox.length},stats:{...s.stats},truthUsedByConsumer:false,observerTracksCreated:0,automaticEngagementAuthority:false};}
++function esmSnapshotA(r=ACTIVE_SHIP_RUNTIME){const s=prepareEsmA(r);return {schema:'AEGIS_ESM_SNAPSHOT_A_1',ownerEntityId:r.entityId,profileId:r.profileId,receiver:esmReceiverProfileA(r),operational:esmReceiverOperationalA(r).ok,contacts:[...s.contacts.values()].map(esmContactViewA),network:{queued:s.networkQueue.length,outbox:s.outbox.length},stats:{...s.stats},truthUsedByConsumer:false,observerTracksCreated:0,automaticEngagementAuthority:false};}
 +window.__ESM_A__=Object.freeze({schema:ESM_A_STATE_SCHEMA,spec:ESM_A_SPEC,states:ESM_A_ESTIMATE_STATES,snapshot:id=>esmSnapshotA(id?ENGAGEMENT_RUNTIME.ships.get(String(id)):ACTIVE_SHIP_RUNTIME),status:()=>({stage:'E',release:false,audit:{...ESM_A_AUDIT}})});
 +
 
-@@ -4168,3 +4424,3 @@
+@@ -4168,3 +4445,3 @@
  function retireElectronicF(r){
 -  r.ew.executionF?.contacts.clear();
 +  esmRetireRuntimeA(r);r.ew.executionF?.contacts.clear();
    for(const rows of [ownChaffCartridges,ownChaffs,nulkaEntities15B()])for(let i=rows.length-1;i>=0;i--)if(rows[i].ownerEntityId===r.entityId)rows.splice(i,1);
-@@ -6209,3 +6465,36 @@
+@@ -6209,3 +6486,36 @@
    }
 -}
 +  esmNetworkFixedStepA(dt);
@@ -325,42 +346,42 @@
 +function esmNetworkSnapshotA(r){const s=prepareEsmA(r);return {schema:ESM_A_NETWORK_SCHEMA,ownerEntityId:r.entityId,sequence:s.networkSequence,queue:s.networkQueue.length,peerSequences:[...(s.networkPeerSequence??new Map())],sentObservationIds:[...(s.networkSentIds??new Map()).keys()],observerTracksWritten:0,automaticAuthority:false};}
 +
  function networkSnapshotG(){return {schema:NETWORK_POLICY_G.schema,timeS:networkNowG(),policy:{...NETWORK_POLICY_G},ships:networkMembersG().map(r=>{const n=prepareNetworkG(r);return {entityId:r.entityId,settings:{...n.settings},ticks:n.ticks,sequence:n.sequence,queued:n.queue.length,peers:[...n.peers.values()].map(q=>({...q,lastReceivedS:Number.isFinite(q.lastReceivedS)?q.lastReceivedS:null})),picture:networkPictureG(r),leases:[...n.leases].map(([trackId,q])=>({trackId,...jsonSafeCloneV48Wip11A(q)})),group:{baseEmcon:n.groupBase,lease:n.groupLease?{...n.groupLease}:null},stats:{...n.stats},logs:n.logs.map(q=>({...q}))};}),ordnanceDatalink:false,remoteFireControl:false};}
-@@ -15225,3 +15514,3 @@
+@@ -15225,3 +15535,3 @@
    const mass=r.mass.snapshot({detail:true}),flood=r.flooding;
 -  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
 +  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),esmA:esmExportStateA(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
      ship:{inventory:exportWeaponInventoryD(r),navigation:maneuverExportNavigationH2(r),shipHP:r.health.shipHP,
-@@ -15234,3 +15523,3 @@
+@@ -15234,3 +15544,3 @@
  function validatePhysicalFleetB(src,_ctx,errors){
 -  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');
 +  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');validateEsmSaveA(src.profileId,src.ship?.esmA,errors,'ship');
    const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);validateTacticalSettingsH1(src.ship?.tactical,errors);validateManeuverSettingsH2(src.ship?.maneuver,errors);validateAttackSettingsH3(src.ship?.attack,errors);validateTeamSettingsH4(src.ship?.team,errors);validateManeuverNavigationH2(src.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet?.schema))validateNetworkSettingsG(src.ship?.network,errors);
-@@ -15243,3 +15532,3 @@
+@@ -15243,3 +15553,3 @@
      const role=q?.entityId===DEPLOYMENT_POLICY_F.allyId?'ALLY':q?.entityId===DEPLOYMENT_POLICY_F.enemyId?'ENEMY':q?.entityId===DEPLOYMENT_POLICY_F.neutralId?'NEUTRAL':null,expected=role==='ALLY'?src.deployment?.allyProfileId:role==='NEUTRAL'?src.deployment?.neutralProfileId:src.deployment?.enemyProfileId;if(!q||!role||seen.has(q.entityId)||q.profileId!==expected||q.profileRevision!==SHIP_PROFILE_REGISTRY[q.profileId]?.revision){err('OWNER_PROFILE');continue;}
 -    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
 +    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateEsmSaveA(q.profileId,q.esmA,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
      const r=createPreparedShipRuntimeA(SHIP_PROFILE_REGISTRY[q.profileId],{entityId:q.entityId,role}),ctx=physicalValidationContextB(r),envelope={shipId:q.entityId,ship:q.ship};
-@@ -31221,3 +31510,3 @@
+@@ -31221,3 +31531,3 @@
      resetWorldVisualLedgerWip14A();
 -    targetPool.length=0;nextTargetId=1;resetSurfaceContacts();resetMainGunProjectilesWip13B3();ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts();enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();esmContacts.clear();ownChaffs.length=0;chaffs.length=0;flares.length=0;
 +    targetPool.length=0;nextTargetId=1;resetSurfaceContacts();resetMainGunProjectilesWip13B3();ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts();enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();esmContacts.clear();esmResetRuntimeA(ACTIVE_SHIP_RUNTIME);ownChaffs.length=0;chaffs.length=0;flares.length=0;
      resetSoftKillThreatManager();resetSoftKillDoctrineState();resetSlq32EaAllocator();resetMk36Srboc();resetNulka15B();sensorDwellTimers.clear();c55ResetLocal();resetSpySchedulerState();selectedLockId=null;SPAWN.timer=0;
-@@ -52009,3 +52298,3 @@
+@@ -52009,3 +52319,3 @@
      const flood=getDamageFloodV1(),floodState=jsonSafeCloneV48Wip11A(flood.snapshot()),crew=jsonSafeCloneV48Wip11A(getShipCrewV21().snapshot()),mass=getShipMassLedgerV32().snapshot({detail:true}),moduleDamage=Object.fromEntries(flood.damageKeys().map(name=>[name,flood.readDamage(name)]));
 -    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicContactsAndTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
 +    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts','esmRawHistoryEstimatorAndQueue'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),esmA:esmExportStateA(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
    }
-@@ -52072,3 +52361,3 @@
+@@ -52072,3 +52382,3 @@
      gunB1MigrateSave(src,harpoonMigrations);heloMigrateSaveA(src,harpoonMigrations);migrateNetworkSaveG(src,harpoonMigrations);migrateTacticalSaveH1(src,harpoonMigrations);migrateManeuverSaveH2(src,harpoonMigrations);migrateAttackSaveH3(src,harpoonMigrations);migrateTeamSaveH4(src,harpoonMigrations);if(!Object.hasOwn(src,'fleet')){src.fleet={schema:MULTISHIP_PHYSICAL_SCHEMA_B,deploymentState:src.deployment?.enemyProfileId?'PENDING':'NONE',ships:[]};harpoonMigrations.push({id:'LEGACY_FLEET_B',policy:'FRESH_PHYSICAL_DEPLOYMENT_FROM_PREVIOUS_CONFIG'});}if(!Object.hasOwn(src,'deployment')){src.deployment={...MULTISHIP_DEPLOYMENT_DEFAULT_A};harpoonMigrations.push({id:'LEGACY_DEPLOYMENT_MULTI_SHIP_A',policy:'EXPLICIT_HULK_AND_NO_ENEMY'});}if(IS_BUNKER&&['BUNKERHILL_LATE_G_1','BUNKERHILL_LATE_D_1'].includes(src.profileRevision)&&src.ship?.inventory&&!('harpoon' in src.ship.inventory)){src.ship.inventory.harpoon={schema:'MK141_INVENTORY_A1',selectedTubeId:harpoonRuntimeA().tubes[0].id,tubes:harpoonRuntimeA().tubes.map(t=>({id:t.id,loaded:true}))};harpoonMigrations.push({id:'LEGACY_CG52_MK141_INITIAL_LOAD_A1',policy:'EXPLICIT_EIGHT_ROUNDS_OLD_SCHEMA_HAD_NO_HARPOON_INVENTORY'});}
 -    migrateEmconSaveB(src,harpoonMigrations);
 +    migrateEmconSaveB(src,harpoonMigrations);migrateEsmSaveA(src,harpoonMigrations);
      const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}catch(_err){return {validation:{schema:'AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B',ok:false,errors:['VALIDATION_CONTEXT'],codecs:[]},source:null};}
-@@ -52102,3 +52391,3 @@
+@@ -52102,3 +52412,3 @@
      if(fs){for(const o of fs.openings??[]){flood.addOpening({id:o.id,a:o.a,b:o.b,x:o.x,y:o.y,z:o.z,normal:o.normal,kind:o.kind,damage:o.work,areaM2:o.areaM2,perforated:o.areaM2>0});if(o.seal01)flood.seal(o.id,o.seal01);}for(const c of fs.cells??[])flood.setWater(c.id,c.waterM3);for(const d of fs.doors??[])flood.setDoor(d.id,d.open);for(const p of fs.pumps??[])flood.setPump(p.id,p.enabled);if(fs.hydrostatics?.pose)flood.setAttitude(fs.hydrostatics.pose);}
 -    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
 +    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
    }
-@@ -52556,17 +52845,4 @@
+@@ -52556,17 +52866,4 @@
 
 -    // ===== ESM Contacts (bearing-only passive display) =====
 -    for(const [id,c] of esmContacts){
@@ -378,14 +399,14 @@
 -      ctx.font=`${tacticalFontWorldSize(6,4)}px system-ui`;ctx.fillText(`BRG ${String(Math.round(((c.bearing*180/Math.PI)+450)%360)).padStart(3,'0')}° ±${(c.bearingSigmaDeg??3).toFixed(1)}°`,lx,ly+6);
 -    }
 +    // ===== ESM Contacts (historical origin / likelihood / estimate) =====
-+    esmDrawChartA(ctx,esmContacts,viewKm,tracks);
++    esmDrawChartA(ctx,esmCommonContactsA(ACTIVE_SHIP_RUNTIME),viewKm,tracks);
 
-@@ -53108,3 +53384,3 @@
+@@ -53108,3 +53405,3 @@
   // Display eligibility above refreshes its own lazy covariance only, exactly once per main frame.
 - for(const[id,c]of esmContacts)frame.esm.set(id,pipCopyFieldsA(c,['age','bearing','bearingSigmaDeg','type']));
-+ for(const[id,c]of esmContacts)frame.esm.set(id,esmPresentationCopyA(c));
++ for(const[id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))frame.esm.set(id,esmPresentationCopyA(c));
   frame.network=ACTIVE_SHIP_RUNTIME.combatSystem.networkG?networkPictureG(ACTIVE_SHIP_RUNTIME):[];
-@@ -65821,3 +66097,106 @@
+@@ -65821,3 +66118,106 @@
  }
 -function mapEsmReadA(id,c){return {key:'ESM:'+id,kind:'ESM',id,label:'ESM '+id,identity:'UNKNOWN',classification:'방위 접촉',bearingRad:c.bearing,bearingSigmaDeg:c.bearingSigmaDeg,band:c.band??null,emitterClass:c.emitterClass??null,type:c.type??null,confidence:c.confidence??c.quality??c.strength??null,measuredAtS:mapNowA()-(c.age??0),source:'ESM'};}
 +// ESM_A Commit D — presentation-only ESM state and manual coordinate cue.
@@ -408,7 +429,7 @@
 +    automaticEngagementAuthority:false,truthUsed:false};
 +}
 +
-+function esmUiContactA(id){return prepareElectronicF(ACTIVE_SHIP_RUNTIME).contacts.get(Number(id))??null;}
++function esmUiContactA(id){return esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(Number(id))??null;}
 +function esmUiAgeA(c){const t=c?.estimate?.measuredAtS??c?.measuredAtS;return Number.isFinite(t)?Math.max(0,simStepCounter*SIM_FIXED_DT-t):Infinity;}
 +function esmUiWorldA(p){return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)?{x:metersToWorld(p.x),y:metersToWorld(p.y)}:null;}
 +function esmUiEllipseA(cov){return Array.isArray(cov)&&cov.length===4&&cov.every(Number.isFinite)?esmEllipseA(cov):null;}
@@ -484,7 +505,7 @@
 +  harpoonUpdateUIA();notify('ESM 추정 구역을 하푼 수동 탐색 경로로 지정');return {ok:true,count:add.count,provenance:q.provenance,routeProgram:q.routeProgram,truthUsed:false,automaticAuthority:false};
 +}
 +
-+window.__ESM_A_UI__=Object.freeze({schema:'AEGIS_ESM_UI_A_1',evaluateCue:esmCueEvaluateA,manualCue:esmManualCueCommandA,presentation:id=>{const c=esmUiContactA(id);return c?esmPresentationCopyA(c):null;},snapshot:()=>({contacts:[...prepareElectronicF(ACTIVE_SHIP_RUNTIME).contacts.values()].map(esmPresentationCopyA),manualCues:esmJsonA(prepareEsmA(ACTIVE_SHIP_RUNTIME).manualCues??[]),truthUsed:false,automaticEngagementAuthority:false})});
++window.__ESM_A_UI__=Object.freeze({schema:'AEGIS_ESM_UI_A_1',evaluateCue:esmCueEvaluateA,manualCue:esmManualCueCommandA,presentation:id=>{const c=esmUiContactA(id);return c?esmPresentationCopyA(c):null;},snapshot:()=>({contacts:[...esmCommonContactsA(ACTIVE_SHIP_RUNTIME).values()].map(esmPresentationCopyA),manualCues:esmJsonA(prepareEsmA(ACTIVE_SHIP_RUNTIME).manualCues??[]),truthUsed:false,automaticEngagementAuthority:false})});
 +function mapEsmReadA(id,c){
 +  const q=esmPresentationCopyA(c),e=q.estimate??null,origin=esmUiWorldA(e?.latestOriginM??q.bearingHistory.at(-1)?.originM),estimate=esmUiWorldA(e?.positionM),state=q.state??e?.state??'BEARING_ONLY';
 +  return {key:'ESM:'+id,kind:'ESM',id,label:'ESM '+id,identity:'UNKNOWN',classification:esmUiModeLabelA(state),
@@ -493,27 +514,37 @@
 +    originWorld:origin,estimateWorld:estimate,bearingHistory:q.bearingHistory,truthUsed:false,automaticEngagementAuthority:false};
 +}
  function mapOwnHelosA(){
-@@ -65878,3 +66257,3 @@
+@@ -65840,3 +66240,3 @@
+  for(const [id,tr]of tracks)if(!linked.has(id)&&mapTrackVisibleA(tr)&&Number.isFinite(tr.x)&&Number.isFinite(tr.y))out.push(mapTrackReadA(id,tr));
+- for(const [id,c]of esmContacts)out.push(mapEsmReadA(id,c));return out;
++ for(const [id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))out.push(mapEsmReadA(id,c));return out;
+ }
+@@ -65878,3 +66278,3 @@
   function segmentDistance(x,y,a,b){const dx=b.x-a.x,dy=b.y-a.y,u=clamp(((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy||1),0,1);return Math.hypot(x-a.x-u*dx,y-a.y-u*dy);}
 - function esmSegment(o){const own=mapOwnShipA(),r=kmToWorld(Math.min(view().km,90));return [toScreen(own.x,own.y),toScreen(own.x+Math.cos(o.bearingRad)*r,own.y+Math.sin(o.bearingRad)*r)];}
 + function esmSegment(o){const origin=o.originWorld??mapOwnShipA(),target=o.estimateWorld??{x:origin.x+Math.cos(o.bearingRad)*kmToWorld(Math.min(view().km,90)),y:origin.y+Math.sin(o.bearingRad)*kmToWorld(Math.min(view().km,90))};return [toScreen(origin.x,origin.y),toScreen(target.x,target.y)];}
   function hits(x,y){const v=view().rect;if(x<v.x||x>v.x+v.w||y<v.y||y>v.y+v.h)return [];return records().map(o=>{if(o.kind==='ESM'){const[a,b]=esmSegment(o);return {...o,distancePx:Math.hypot(x-a.x,y-a.y)<=40?Infinity:segmentDistance(x,y,{x:a.x+(b.x-a.x)*Math.min(1,40/Math.max(1e-9,Math.hypot(b.x-a.x,b.y-a.y))),y:a.y+(b.y-a.y)*Math.min(1,40/Math.max(1e-9,Math.hypot(b.x-a.x,b.y-a.y)))},b)};}const shown=window.__MAP_C__?.pointFor(o)??o,p=toScreen(shown.x,shown.y);return {...o,distancePx:Math.hypot(x-p.x,y-p.y)};}).filter(o=>o.distancePx<=(o.kind==='ESM'?12:20)).sort((a,b)=>a.distancePx-b.distancePx||a.key.localeCompare(b.key));}
-@@ -65888,3 +66267,3 @@
+@@ -65888,3 +66288,3 @@
    const header=`${o.label}\n${o.classification??'-'} · ${o.identity??'-'}\n${o.lost?'트랙 소실 · 마지막 보고':'마지막 갱신'} ${age(o).toFixed(1)}초 전${o.quality!=null?' · 품질 '+fmt(o.quality,2):''}`,sections=[];
 -  if(o.kind==='ESM'){sections.push({name:'ESM · '+age(o).toFixed(1)+'s',text:`방위 ${fmt((o.bearingRad*180/Math.PI+450)%360,1)}° ±${fmt(o.bearingSigmaDeg,1)}°\n거리: 알 수 없음\n대역: ${o.band??'보고 없음'} · 방사체 계열: ${o.emitterClass??o.type??'보고 없음'}\n신뢰도: ${fmt(o.confidence,2)}`});return {header,sections};}
 +  if(o.kind==='ESM'){sections.push({name:'ESM · '+age(o).toFixed(1)+'s',text:esmInformationTextA(o)});return {header,sections};}
    if(o.kind==='TRACK'){
-@@ -65921,3 +66300,3 @@
+@@ -65893,3 +66293,3 @@
+    if(o.remote?.length)sections.push({name:'데이터링크',text:o.remote.map(q=>`${q.sourceId} · 측정 ${fmt(q.measuredAtS,1)}s (${fmt(mapNowA()-q.measuredAtS,1)}s 전)\n수신 ${fmt(q.receivedAtS,1)}s · 보고 #${q.sequence??'-'}`).join('\n')});
+-   const esm=esmContacts.get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);} // Existing same-file association only.
++   const esm=esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);} // Existing same-file association only.
+    if(o.isar){const c=o.isar.candidates[0];sections.push({name:'데이터링크 ISAR · '+fmt(mapNowA()-o.isar.measuredAtS,1)+'s',text:`${o.isar.sourceId} · ${c?.label??'후보 없음'} ${fmt(c?.confidence,2)}\n전장 ${fmt(o.isar.lengthM,0)}±${fmt(o.isar.lengthSigmaM,0)}m`});}
+@@ -65921,3 +66321,3 @@
     actions.append(action('ID 변경',()=>{const r=actions.getBoundingClientRect();openIdentity(o,r.x,r.y);},lost||(o.kind!=='TRACK'?'로컬 트랙 없음':''),'mapIdentityA'));
 -   if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));
 +   if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);actions.append(action('하푼 수동 cue',()=>esmManualCueCommandA(o.id),q.ok?'':q.reason,'mapEsmCueA'));}
    }else if(['OWN','ALLY','HELO'].includes(o.kind)){
-@@ -65941,3 +66320,3 @@
+@@ -65941,3 +66341,3 @@
   function contextFor(o,x,y){hide(candidates);menu.replaceChildren(el('strong','',o?.label??'빈 바다'));const closeCall=fn=>()=>{const r=fn();hide(menu);return r;};
 -  if(o){menu.append(action('정보 보기',closeCall(()=>show(o,true))));if(['TRACK','NET','ESM'].includes(o.kind)){menu.append(action('정밀추적',closeCall(()=>precision(resolve(o.key,true))),mapPrecisionReasonA(o)));menu.append(action('ID 변경',()=>openIdentity(o,x,y),o.kind!=='TRACK'?'로컬 트랙 없음':''));if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));}
 +  if(o){menu.append(action('정보 보기',closeCall(()=>show(o,true))));if(['TRACK','NET','ESM'].includes(o.kind)){menu.append(action('정밀추적',closeCall(()=>precision(resolve(o.key,true))),mapPrecisionReasonA(o)));menu.append(action('ID 변경',()=>openIdentity(o,x,y),o.kind!=='TRACK'?'로컬 트랙 없음':''));if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);menu.append(action('하푼 수동 cue',closeCall(()=>esmManualCueCommandA(o.id)),q.ok?'':q.reason));}}
     else if(['OWN','ALLY','HELO'].includes(o.kind)){menu.append(action('통제',closeCall(()=>takeControl(o)),controlReason(o)));if(controlled===o.key)menu.append(action('통제 해제',closeCall(releaseControl)));if(o.kind==='OWN'||o.kind==='HELO'&&o.visible||o.kind==='ALLY'&&o.viewId)menu.append(action('3D 보기',closeCall(()=>viewPlatform(o))));else menu.append(action('3D 보기',()=>{},'사용 가능한 아군함·헬기 시점 없음'));}
-@@ -65979,3 +66358,3 @@
+@@ -65979,3 +66379,3 @@
   function draw(context){if(!enabled)return;const rows=picture,raw=rows.find(q=>q.key===lookup),o=raw?{...raw,...(window.__MAP_C__?.pointFor(raw)??{})}:null,c=paintControlled;context.save();context.lineWidth=1/mapZoom;
 -  if(o&&o.kind==='ESM'){const own=mapOwnShipA(),r=kmToWorld(Math.min(currentTacticalViewKm(),90))*.88,x=own.x+Math.cos(o.bearingRad)*r,y=own.y+Math.sin(o.bearingRad)*r;context.strokeStyle='#e0d7aa';context.setLineDash([3/mapZoom,3/mapZoom]);context.beginPath();context.arc(x,y,16/mapZoom,0,Math.PI*2);context.stroke();}
 +  if(o&&o.kind==='ESM'){esmDrawSelectionA(context,o,mapZoom,currentTacticalViewKm());}

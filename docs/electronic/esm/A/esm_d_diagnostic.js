@@ -1,7 +1,7 @@
 // TEST_ONLY ESM_A Commit-D UI and manual-coordinate-cue probes.
 function esmDPopulateA(){
-  const r=ACTIVE_SHIP_RUNTIME,e=prepareElectronicF(r),now=networkNowG(),own=r.navigation.positionWorld,ox=worldToMeters(own.x),oy=worldToMeters(own.y),source={x:ox+42000,y:oy+26000};
-  e.contacts.clear();prepareEsmA(r).networkSeen.clear();const a=esmBRawA('D-A',esmBReceiverA('D-MOBILE-RX',ox,oy),source,now,.18),b=esmBRawA('D-B',esmBReceiverA('D-MOBILE-RX',ox,oy+15000),source,now,.18),first=esmAcceptRawA(r,[a],'NETWORK'),second=esmAcceptRawA(r,[b],'NETWORK'),result={ok:first.ok&&second.ok,accepted:(first.accepted??0)+(second.accepted??0)},contact=[...e.contacts.values()][0]??null;
+  const r=ACTIVE_SHIP_RUNTIME,now=networkNowG(),own=r.navigation.positionWorld,ox=worldToMeters(own.x),oy=worldToMeters(own.y),source={x:ox+42000,y:oy+26000},contacts=esmCommonContactsA(r);
+  contacts.clear();prepareEsmA(r).networkSeen.clear();const a=esmBRawA('D-A',esmBReceiverA('D-MOBILE-RX',ox,oy),source,now,.18),b=esmBRawA('D-B',esmBReceiverA('D-MOBILE-RX',ox,oy+15000),source,now,.18),first=esmAcceptRawA(r,[a],'NETWORK'),second=esmAcceptRawA(r,[b],'NETWORK'),result={ok:first.ok&&second.ok,accepted:(first.accepted??0)+(second.accepted??0)},contact=[...contacts.values()][0]??null;
   return {result,contactId:contact?.contactId??null,state:contact?.state??null,estimate:contact?esmJsonA(contact.estimate):null};
 }
 function esmDMatrixA(){

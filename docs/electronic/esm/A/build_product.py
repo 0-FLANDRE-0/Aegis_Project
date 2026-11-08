@@ -113,13 +113,25 @@ def transform(source: str, stage: str) -> str:
         source = one(
             source,
             "for(const[id,c]of esmContacts)frame.esm.set(id,pipCopyFieldsA(c,['age','bearing','bearingSigmaDeg','type']));",
-            "for(const[id,c]of esmContacts)frame.esm.set(id,esmPresentationCopyA(c));",
+            "for(const[id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))frame.esm.set(id,esmPresentationCopyA(c));",
             "PiP ESM presentation copy",
+        )
+        source = one(
+            source,
+            "for(const [id,c]of esmContacts)out.push(mapEsmReadA(id,c));return out;",
+            "for(const [id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))out.push(mapEsmReadA(id,c));return out;",
+            "MAP_A common ESM objects",
+        )
+        source = one(
+            source,
+            "const esm=esmContacts.get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);}",
+            "const esm=esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);}",
+            "MAP_A common ESM information",
         )
         source = one(source, "    // ===== ESM Contacts (bearing-only passive display) =====", "    // ===== ESM Contacts (historical origin / likelihood / estimate) =====", "ESM chart label")
         block_start = source.index("    for(const [id,c] of esmContacts){", source.index("// ===== ESM Contacts (historical"))
         block_end = source.index("\n\n    // ===== Mk 36", block_start)
-        source = source[:block_start] + "    esmDrawChartA(ctx,esmContacts,viewKm,tracks);" + source[block_end:]
+        source = source[:block_start] + "    esmDrawChartA(ctx,esmCommonContactsA(ACTIVE_SHIP_RUNTIME),viewKm,tracks);" + source[block_end:]
         source = one(
             source,
             "if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));",

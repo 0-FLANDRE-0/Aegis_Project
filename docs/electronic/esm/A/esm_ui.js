@@ -18,7 +18,7 @@ function esmPresentationCopyA(c){
     automaticEngagementAuthority:false,truthUsed:false};
 }
 
-function esmUiContactA(id){return prepareElectronicF(ACTIVE_SHIP_RUNTIME).contacts.get(Number(id))??null;}
+function esmUiContactA(id){return esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(Number(id))??null;}
 function esmUiAgeA(c){const t=c?.estimate?.measuredAtS??c?.measuredAtS;return Number.isFinite(t)?Math.max(0,simStepCounter*SIM_FIXED_DT-t):Infinity;}
 function esmUiWorldA(p){return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)?{x:metersToWorld(p.x),y:metersToWorld(p.y)}:null;}
 function esmUiEllipseA(cov){return Array.isArray(cov)&&cov.length===4&&cov.every(Number.isFinite)?esmEllipseA(cov):null;}
@@ -94,4 +94,4 @@ function esmManualCueCommandA(contactId){
   harpoonUpdateUIA();notify('ESM 추정 구역을 하푼 수동 탐색 경로로 지정');return {ok:true,count:add.count,provenance:q.provenance,routeProgram:q.routeProgram,truthUsed:false,automaticAuthority:false};
 }
 
-window.__ESM_A_UI__=Object.freeze({schema:'AEGIS_ESM_UI_A_1',evaluateCue:esmCueEvaluateA,manualCue:esmManualCueCommandA,presentation:id=>{const c=esmUiContactA(id);return c?esmPresentationCopyA(c):null;},snapshot:()=>({contacts:[...prepareElectronicF(ACTIVE_SHIP_RUNTIME).contacts.values()].map(esmPresentationCopyA),manualCues:esmJsonA(prepareEsmA(ACTIVE_SHIP_RUNTIME).manualCues??[]),truthUsed:false,automaticEngagementAuthority:false})});
+window.__ESM_A_UI__=Object.freeze({schema:'AEGIS_ESM_UI_A_1',evaluateCue:esmCueEvaluateA,manualCue:esmManualCueCommandA,presentation:id=>{const c=esmUiContactA(id);return c?esmPresentationCopyA(c):null;},snapshot:()=>({contacts:[...esmCommonContactsA(ACTIVE_SHIP_RUNTIME).values()].map(esmPresentationCopyA),manualCues:esmJsonA(prepareEsmA(ACTIVE_SHIP_RUNTIME).manualCues??[]),truthUsed:false,automaticEngagementAuthority:false})});

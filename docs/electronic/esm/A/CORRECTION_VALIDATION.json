@@ -1,0 +1,62 @@
+{
+  "schema": "AEGIS_ESM_A_CORRECTION_VALIDATION_1",
+  "status": "BLOCKED_PENDING_USER_APPROVAL",
+  "release": false,
+  "baseline": {
+    "product": "Aegis_SIM_v48_WIP_EMCON_B.html",
+    "sha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee"
+  },
+  "broadRegression": {
+    "runsUsed": 1,
+    "allowedRuns": 1,
+    "candidateSha256": "1f0b041b8c353f0b9014b8dd46cf144041ecb73d22698f938b1b15c87548209e",
+    "directEvidenceForCorrectedCandidate": false,
+    "native": {"passed": 364, "total": 364},
+    "ui": {"passed": 213, "total": 213},
+    "webgl": {"passed": 29, "total": 29},
+    "paired": {"passed": 34, "total": 42},
+    "inheritedDebt": ["emcon-ui: 0/14 executed; inherited retired-UI debt"]
+  },
+  "correction": {
+    "candidate": "Aegis_SIM_v48_WIP_ESM_A.html",
+    "candidateSha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
+    "candidateBytes": 22182527,
+    "packedMainSha256": "280458afa6207bfbb2a7aa078e47445b4cd449b78b244834a5a267d4360fbbc3",
+    "cause": "The common estimator reused r.ew.executionF.contacts, so its conservative association policy changed the legacy soft-kill coordinator input.",
+    "fix": "Common-estimator contacts now belong to r.ew.esmA.contacts; the native bearing-only tactical projection remains in r.ew.executionF.contacts and retains the baseline association/aging contract.",
+    "changedPhysicsOrAuthority": false,
+    "rfPdNoiseBeamLosRngChanged": false,
+    "radarEcmEmconNetworkWeaponChanged": false
+  },
+  "limitedGates": {
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "D_predecessor_recheck": "PASS",
+    "E": "PASS"
+  },
+  "pairedCorrectionCheck": {
+    "rawAssertionsPassed": 36,
+    "rawAssertionsTotal": 42,
+    "cases": 6,
+    "observerExact": 6,
+    "offboardExact": 6,
+    "combatRngExact": 6,
+    "hullDamageAndLayoutExact": 6,
+    "inventoryExact": 6,
+    "physicalStateExactAfterRemovingOnlyEsmA": 6,
+    "remainingFailures": [
+      "DDG idle: samePhysicalState — required state.esmA save field only",
+      "DDG raid: samePhysicalState — required state.esmA save field only",
+      "DDG damaged: samePhysicalState — required state.esmA save field only",
+      "CG idle: samePhysicalState — required state.esmA save field only",
+      "CG raid: samePhysicalState — required state.esmA save field only",
+      "CG damaged: samePhysicalState — required state.esmA save field only"
+    ],
+    "evidence": "evidence/corrected-paired/baseline-comparison.json"
+  },
+  "approvalNeeded": [
+    "Classify the six exact-state differences caused solely by the required ESM_A save field as an intended schema addition without changing tolerances.",
+    "Decide whether to authorize one replacement broad regression on the corrected candidate, because the one allowed broad run is tied to the pre-correction SHA."
+  ]
+}
