@@ -1,0 +1,69 @@
+{
+  "schema": "AEGIS_ESM_A_CORRECTION_VALIDATION_2",
+  "status": "PASS",
+  "release": false,
+  "baseline": {
+    "product": "Aegis_SIM_v48_WIP_EMCON_B.html",
+    "sha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee"
+  },
+  "candidate": {
+    "product": "Aegis_SIM_v48_WIP_ESM_A.html",
+    "sha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
+    "bytes": 22182527,
+    "packedMainSha256": "280458afa6207bfbb2a7aa078e47445b4cd449b78b244834a5a267d4360fbbc3"
+  },
+  "correction": {
+    "cause": "The common estimator reused r.ew.executionF.contacts, allowing its association policy to change the legacy soft-kill coordinator input.",
+    "fix": "The common estimator now owns r.ew.esmA.contacts; the native bearing-only tactical projection remains in r.ew.executionF.contacts.",
+    "changedPhysicsOrAuthority": false,
+    "rfPdNoiseBeamLosRngChanged": false,
+    "radarEcmEmconNetworkWeaponChanged": false
+  },
+  "limitedGates": {
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS",
+    "D_predecessor_recheck": "PASS",
+    "E": "PASS"
+  },
+  "approvedSchemaDelta": {
+    "decision": "USER_APPROVED_STATE_ESMA_SCHEMA_ADDITION",
+    "rawAssertionsPassed": 36,
+    "rawAssertionsTotal": 42,
+    "effectiveAssertionsPassed": 42,
+    "cases": 6,
+    "physicalStateExactAfterRemovingOnlyEsmA": 6,
+    "observerExact": 6,
+    "offboardExact": 6,
+    "combatRngExact": 6,
+    "hullDamageAndLayoutExact": 6,
+    "inventoryExact": 6,
+    "expectedValuesUpdated": false,
+    "tolerancesChanged": false,
+    "evidence": "evidence/final-regression-corrected/paired-compatibility/baseline-comparison.json"
+  },
+  "replacementBroadRegression": {
+    "authorizedRuns": 1,
+    "runs": 1,
+    "candidateSha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
+    "wallS": 2365.731228061981,
+    "effectiveAssertionsPassed": 721,
+    "effectiveAssertionsTotal": 721,
+    "static": "17/17",
+    "native": "364/364",
+    "pairedCompatibility": "36/42 raw; 42/42 effective",
+    "pairedDeterminism": "42/42",
+    "currentEmconUi": "14/14",
+    "ui": "213/213",
+    "webgl": "29/29",
+    "effectiveFailures": [],
+    "zeroAssertionInfrastructureInterruptions": 3,
+    "evidence": "FINAL_REGRESSION_CORRECTED.json"
+  },
+  "unresolved": [
+    "Sovremenny Mineral/MR-184/Band Stand receiver and emitter integration",
+    "Any new ESM tactical consumer or automatic engagement authority",
+    "Communication EMCON policy",
+    "Retired direct legacy EMCON UI path; current 14-assertion adapter passes"
+  ]
+}

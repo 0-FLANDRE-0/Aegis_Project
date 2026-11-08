@@ -1,0 +1,551 @@
+--- EMCON_B/main.js
++++ ESM_A_E/main.js
+@@ -2151,2 +2151,54 @@
+ }
++// ESM_A Commit E — ship-neutral passive receiver binding and lifecycle/save.
++// Receive capability is independent of the existing AN_SLQ_32_EA transmit path.
++const ESM_A_RECEIVER_PROFILE_SCHEMA='AEGIS_ESM_RECEIVER_PROFILE_A_1';
++const ESM_A_SAVE_SCHEMA='AEGIS_ESM_SAVE_A_1';
++const ESM_A_RECEIVER_CAPABILITIES=Object.freeze(['PASSIVE_ESM_RECEIVE','AOA','FREQUENCY','TIME','FINGERPRINT']);
++const ESM_A_RECEIVER_PROFILE_KEYS=Object.freeze(['schema','profileId','receiverId','capabilities','installed','enabled','exactVariant','receiveTransmitCoupling','damageSystem','provenance']);
++const ESM_A_RECEIVER_BINDINGS=Object.freeze({
++  DDG_119_LATE_FLIGHT_IIA:Object.freeze({schema:ESM_A_RECEIVER_PROFILE_SCHEMA,profileId:'DDG_119_LATE_FLIGHT_IIA',receiverId:'DDG119_EXISTING_PASSIVE_EW_RECEIVE_PATH',capabilities:ESM_A_RECEIVER_CAPABILITIES,installed:true,enabled:true,exactVariant:'PUBLIC_UNKNOWN',receiveTransmitCoupling:false,damageSystem:'CDC',provenance:'EXISTING_DDG_EW_POD_PATH__EXACT_SLQ32_SEWIP_VARIANT_NOT_ASSERTED'}),
++  CG_52_LATE_TICONDEROGA:Object.freeze({schema:ESM_A_RECEIVER_PROFILE_SCHEMA,profileId:'CG_52_LATE_TICONDEROGA',receiverId:'CG52_EXISTING_PASSIVE_EW_RECEIVE_PATH',capabilities:ESM_A_RECEIVER_CAPABILITIES,installed:true,enabled:true,exactVariant:'PUBLIC_UNKNOWN',receiveTransmitCoupling:false,damageSystem:'EW',provenance:'EXISTING_CG52_SLQ32_RECEIVE_PATH__EXACT_LATE_VARIANT_NOT_ASSERTED'})
++});
++function esmReceiverProfileForShipA(profileId){return ESM_A_RECEIVER_BINDINGS[String(profileId)]??null;}
++function esmReceiverProfileValidA(q){return esmSaveStrictKeysA(q,ESM_A_RECEIVER_PROFILE_KEYS)&&q.schema===ESM_A_RECEIVER_PROFILE_SCHEMA&&typeof q.profileId==='string'&&!!q.profileId&&typeof q.receiverId==='string'&&!!q.receiverId&&Array.isArray(q.capabilities)&&q.capabilities.length===new Set(q.capabilities).size&&q.capabilities.includes('PASSIVE_ESM_RECEIVE')&&q.capabilities.every(x=>ESM_A_RECEIVER_CAPABILITIES.includes(x))&&typeof q.installed==='boolean'&&typeof q.enabled==='boolean'&&typeof q.exactVariant==='string'&&q.receiveTransmitCoupling===false&&typeof q.damageSystem==='string'&&!!q.damageSystem&&typeof q.provenance==='string'&&!!q.provenance;}
++function esmSyntheticReceiverProfileFixtureA(id='SYNTHETIC_SHIP_NEUTRAL_RX'){
++  // Deterministic test fixture only: never registered in a product ShipProfile.
++  return Object.freeze({schema:ESM_A_RECEIVER_PROFILE_SCHEMA,profileId:'SYNTHETIC_NON_SHIP_PROFILE',receiverId:String(id),capabilities:ESM_A_RECEIVER_CAPABILITIES,installed:true,enabled:true,exactVariant:'TEST_ONLY',receiveTransmitCoupling:false,damageSystem:'SYNTHETIC',provenance:'DETERMINISTIC_DIAGNOSTIC_FIXTURE_NOT_REGISTERED'});
++}
++
++function esmSaveEmptyA(profileId,savedAtS=simStepCounter*SIM_FIXED_DT){const p=esmReceiverProfileForShipA(profileId);return {schema:ESM_A_SAVE_SCHEMA,revision:1,profileId:String(profileId),receiverId:p?.receiverId??null,savedAtS,rawSerial:1,contactSerial:1,networkSequence:0,lastNetworkSendStepOffset:-1,clock:null,contacts:[],outbox:[],networkQueue:[],networkSeen:[],networkPeerSequence:[],networkSentIds:[],stats:{localAccepted:0,remoteAccepted:0,rejected:0,duplicates:0},manualCues:[]};}
++function esmSaveRawShiftA(raw,shiftS){const q=esmJsonA(raw);q.measuredAtS+=shiftS;q.receivedAtS+=shiftS;q.arrivalTimeS+=shiftS;return q;}
++function esmSavePacketShiftA(packet,shiftS){const q=esmJsonA(packet);q.sentAtS+=shiftS;q.measurements=q.measurements.map(x=>esmSaveRawShiftA(x,shiftS));return q;}
++function esmExportStateA(r){
++  const now=simStepCounter*SIM_FIXED_DT,profile=esmReceiverProfileForShipA(r.profileId),state=r.ew.esmA??null;if(!state)return esmSaveEmptyA(r.profileId,now);
++  const contacts=profile?[...state.contacts.values()].sort((a,b)=>a.contactId-b.contactId).map(c=>({contactId:c.contactId,history:c.history.map(esmJsonA)})):[];
++  return {schema:ESM_A_SAVE_SCHEMA,revision:1,profileId:r.profileId,receiverId:profile?.receiverId??null,savedAtS:now,rawSerial:state.rawSerial,contactSerial:state.contactSerial,networkSequence:state.networkSequence,lastNetworkSendStepOffset:(state.lastNetworkSendStep??-1)-simStepCounter,clock:state.clock?esmJsonA(state.clock):null,contacts,outbox:profile?state.outbox.map(esmJsonA):[],networkQueue:profile?state.networkQueue.map(q=>({senderId:String(q.senderId),availableInTicks:Math.max(0,q.availableStep-simStepCounter),packet:esmJsonA(q.packet)})):[],networkSeen:profile?[...state.networkSeen.entries()].map(([id,t])=>[String(id),t]):[],networkPeerSequence:profile?[...(state.networkPeerSequence??new Map()).entries()].map(([id,n])=>[String(id),n]):[],networkSentIds:profile?[...(state.networkSentIds??new Map()).entries()].map(([id,t])=>[String(id),t]):[],stats:{localAccepted:state.stats.localAccepted,remoteAccepted:state.stats.remoteAccepted,rejected:state.stats.rejected,duplicates:state.stats.duplicates},manualCues:profile?esmJsonA(state.manualCues??[]):[]};
++}
++
++function esmSaveStrictKeysA(q,keys){return !!q&&typeof q==='object'&&!Array.isArray(q)&&Object.keys(q).sort().join('|')===keys.slice().sort().join('|');}
++function esmSavePairsA(rows,valueCheck){return Array.isArray(rows)&&rows.every(q=>Array.isArray(q)&&q.length===2&&typeof q[0]==='string'&&q[0]&&valueCheck(q[1]));}
++function esmValidateManualCueSaveA(q,savedAt){const keys=['schema','contactId','provenance','issuedAtS','estimateMeasuredAtS','positionM','covarianceM2','ellipse95','methods','sourceCount','truthUsed','automaticAuthority'];return esmSaveStrictKeysA(q,keys)&&q.schema===ESM_A_CUE_SCHEMA&&Number.isInteger(q.contactId)&&q.contactId>=600000000&&['ESM_ESTIMATED_POINT','ESM_ESTIMATED_AREA'].includes(q.provenance)&&[q.issuedAtS,q.estimateMeasuredAtS].every(t=>Number.isFinite(t)&&t>=0&&t<=savedAt+1e-8)&&esmVecExactA(q.positionM,['x','y','z'])&&esmSpdA(q.covarianceM2,2)&&esmSaveStrictKeysA(q.ellipse95,['major95M','minor95M','angleRad'])&&q.ellipse95.major95M>0&&q.ellipse95.minor95M>0&&[q.ellipse95.major95M,q.ellipse95.minor95M,q.ellipse95.angleRad].every(Number.isFinite)&&Array.isArray(q.methods)&&q.methods.every(x=>['AOA','TDOA','FDOA'].includes(x))&&Number.isInteger(q.sourceCount)&&q.sourceCount>0&&q.truthUsed===false&&q.automaticAuthority===false;}
++function esmValidateSaveStateA(profileId,q){
++  const errors=[],bad=x=>errors.push(x),keys=['schema','revision','profileId','receiverId','savedAtS','rawSerial','contactSerial','networkSequence','lastNetworkSendStepOffset','clock','contacts','outbox','networkQueue','networkSeen','networkPeerSequence','networkSentIds','stats','manualCues'],profile=esmReceiverProfileForShipA(profileId);
++  if(!esmSaveStrictKeysA(q,keys))return {ok:false,errors:['STATE_KEYS']};if(q.schema!==ESM_A_SAVE_SCHEMA||q.revision!==1)bad('SCHEMA');if(q.profileId!==String(profileId))bad('PROFILE_ID');if(q.receiverId!==(profile?.receiverId??null))bad('RECEIVER_ID');if(!Number.isFinite(q.savedAtS)||q.savedAtS<0)bad('SAVED_TIME');
++  if(!Number.isInteger(q.rawSerial)||q.rawSerial<1||!Number.isInteger(q.contactSerial)||q.contactSerial<1||!Number.isInteger(q.networkSequence)||q.networkSequence<0||!Number.isInteger(q.lastNetworkSendStepOffset)||q.lastNetworkSendStepOffset>0)bad('SERIALS');
++  if(q.clock!==null&&(!esmSaveStrictKeysA(q.clock,['biasS','driftSps','frequencyReferenceErrorHz','epochS'])||![q.clock.biasS,q.clock.driftSps,q.clock.frequencyReferenceErrorHz,q.clock.epochS].every(Number.isFinite)||q.clock.epochS>q.savedAtS+1e-8))bad('CLOCK');
++  if(!Array.isArray(q.contacts)||q.contacts.length>ELECTRONIC_POLICY_F.maxContacts)bad('CONTACTS');else {const ids=new Set();for(const c of q.contacts){if(!esmSaveStrictKeysA(c,['contactId','history'])||!Number.isInteger(c.contactId)||c.contactId<600000000||ids.has(c.contactId)||!Array.isArray(c.history)||!c.history.length||c.history.length>ESM_A_SPEC.historyMax){bad('CONTACT');continue;}ids.add(c.contactId);for(const raw of c.history)if(!esmValidateRawA(raw,q.savedAtS).ok)bad('CONTACT_RAW');}}
++  if(!Array.isArray(q.outbox)||q.outbox.length>ESM_A_SPEC.historyMax*4||q.outbox.some(raw=>!esmValidateRawA(raw,q.savedAtS).ok))bad('OUTBOX');
++  if(!Array.isArray(q.networkQueue)||q.networkQueue.length>NETWORK_POLICY_G.maxQueue)bad('NETWORK_QUEUE');else for(const row of q.networkQueue){if(!esmSaveStrictKeysA(row,['senderId','availableInTicks','packet'])||typeof row.senderId!=='string'||!row.senderId||!Number.isInteger(row.availableInTicks)||row.availableInTicks<0||!esmSaveStrictKeysA(row.packet,ESM_A_NETWORK_KEYS)||row.packet.schema!==ESM_A_NETWORK_SCHEMA||!Number.isInteger(row.packet.sequence)||row.packet.sequence<1||!Number.isFinite(row.packet.sentAtS)||row.packet.sentAtS<0||row.packet.sentAtS>q.savedAtS+1e-8||!Array.isArray(row.packet.measurements)||row.packet.measurements.length>NETWORK_POLICY_G.maxReports||row.packet.measurements.some(raw=>!esmValidateRawA(raw,q.savedAtS).ok))bad('NETWORK_QUEUE_ROW');}
++  if(!esmSavePairsA(q.networkSeen,t=>Number.isFinite(t)&&t>=0&&t<=q.savedAtS+1e-8))bad('NETWORK_SEEN');if(!esmSavePairsA(q.networkPeerSequence,n=>Number.isInteger(n)&&n>=0))bad('NETWORK_PEER_SEQUENCE');if(!esmSavePairsA(q.networkSentIds,t=>Number.isFinite(t)&&t>=0&&t<=q.savedAtS+1e-8))bad('NETWORK_SENT_IDS');
++  if(!esmSaveStrictKeysA(q.stats,['localAccepted','remoteAccepted','rejected','duplicates'])||Object.values(q.stats??{}).some(n=>!Number.isInteger(n)||n<0))bad('STATS');if(!Array.isArray(q.manualCues)||q.manualCues.length>16||q.manualCues.some(x=>!esmValidateManualCueSaveA(x,q.savedAtS)))bad('MANUAL_CUES');
++  if(!profile&&(q.contacts.length||q.outbox.length||q.networkQueue.length||q.networkSeen.length||q.networkPeerSequence.length||q.networkSentIds.length||q.manualCues.length||q.clock!==null))bad('RECEIVER_NOT_REGISTERED');return {ok:errors.length===0,errors};
++}
++function validateEsmSaveA(profileId,state,errors,path){let v;try{v=esmValidateSaveStateA(profileId,state);}catch(_){errors.push('ESM_A_INTERNAL:'+path);return;}for(const code of v.errors)errors.push('ESM_A_'+code+':'+path);}
++function migrateEsmSaveA(src,migrations){const owners=[];if(src.ship&&!Object.hasOwn(src.ship,'esmA')){src.ship.esmA=esmSaveEmptyA(src.profileId);owners.push(src.shipId??'PLAYER');}for(const q of src.fleet?.ships??[])if(!Object.hasOwn(q,'esmA')){q.esmA=esmSaveEmptyA(q.profileId);owners.push(q.entityId);}if(owners.length)migrations.push({id:'LEGACY_ESM_A_EMPTY_DEFAULT',policy:'NO_HISTORICAL_ESM_IN_PREVIOUS_SCHEMA; PROFILE_BOUND_EMPTY_STATE',owners});}
++
++function esmRestoreContactA(row,shiftS,now){const history=row.history.map(q=>esmSaveRawShiftA(q,shiftS)),last=history.at(-1),c={contactId:row.contactId,bearing:last.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(last.angleCovarianceRad2[0])),strength:last.quality,quality:last.quality,band:last.band,type:last.type,emitterClass:last.emitterClass,measuredAtS:last.measuredAtS,age:Math.max(0,now-last.measuredAtS),hits:history.length,rangeKm:null,identity:'UNKNOWN',threatLevel:last.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F',history,state:'BEARING_ONLY',estimate:null,provenance:'ANONYMOUS_ESM_A'};esmUpdateContactA(c,now);return c;}
++function esmRestoreStateA(r,saved){
++  const validation=esmValidateSaveStateA(r.profileId,saved);if(!validation.ok)throw Error('ESM_A_RESTORE_INVALID:'+validation.errors.join(','));const now=simStepCounter*SIM_FIXED_DT,shift=now-saved.savedAtS,contacts=new Map(saved.contacts.map(q=>{const c=esmRestoreContactA(q,shift,now);return [c.contactId,c];})),clock=saved.clock?{...saved.clock,epochS:saved.clock.epochS+shift}:null,state={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:saved.rawSerial,contactSerial:saved.contactSerial,contacts,networkSequence:saved.networkSequence,clock,outbox:saved.outbox.map(q=>esmSaveRawShiftA(q,shift)),networkQueue:saved.networkQueue.map(q=>({senderId:q.senderId,availableStep:simStepCounter+q.availableInTicks,packet:esmSavePacketShiftA(q.packet,shift)})),networkSeen:new Map(saved.networkSeen.map(([id,t])=>[id,t+shift])),lastNetworkSendStep:simStepCounter+saved.lastNetworkSendStepOffset,stats:{...saved.stats},networkPeerSequence:new Map(saved.networkPeerSequence),networkSentIds:new Map(saved.networkSentIds.map(([id,t])=>[id,t+shift])),manualCues:saved.manualCues.map(q=>({...esmJsonA(q),issuedAtS:q.issuedAtS+shift,estimateMeasuredAtS:q.estimateMeasuredAtS+shift}))};
++  r.ew.esmA=state;delete r.restoredEsmA;claimShipMutableRootA(r,'esmA',state);return state;
++}
++function esmResetRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;r.ew.esmA?.contacts?.clear();r.ew.esmA=null;}
++function esmRetireRuntimeA(r){if(!r?.ew)return;delete r.restoredEsmA;const s=r.ew.esmA;if(s){s.contacts.clear();s.outbox.length=0;s.networkQueue.length=0;s.networkSeen.clear();s.networkPeerSequence?.clear();s.networkSentIds?.clear();}r.ew.esmA=null;}
++function esmLifecycleSnapshotA(r){const s=r.ew.esmA;return {ownerEntityId:r.entityId,profileId:r.profileId,receiverId:esmReceiverProfileForShipA(r.profileId)?.receiverId??null,stateAttached:!!s,contacts:s?.contacts.size??0,legacyProjectionContacts:r.ew.executionF?.contacts.size??r.ew.contacts?.size??0,queue:s?.networkQueue.length??0,outbox:s?.outbox.length??0,restoredPending:!!r.restoredEsmA};}
+ function shipEmitterEquipmentRegistryA(profileId){
+@@ -2220,3 +2272,3 @@
+  p15.mass.softKill15BLoadoutDeltaKg=skExtra;p15.mass.fullLoadTargetKg+=skExtra;p15.mass.variableLoadsKg.ordnance+=skExtra;
+- p15.equipment={...(p15.equipment??{}),registryId:'AEGIS_DDG119_EQUIPMENT_EMITTER_A',emitters:shipEmitterEquipmentRegistryA('DDG_119_LATE_FLIGHT_IIA')};
++ p15.equipment={...(p15.equipment??{}),registryId:'AEGIS_DDG119_EQUIPMENT_EMITTER_A',emitters:shipEmitterEquipmentRegistryA('DDG_119_LATE_FLIGHT_IIA'),esmReceiver:esmReceiverProfileForShipA('DDG_119_LATE_FLIGHT_IIA')};
+  p15.revision='V48_WIP15B_NULKA_RELOAD'; // Explicit old operational snapshot rejection; no silent ammo padding.
+@@ -2495,3 +2547,3 @@
+       illuminators:hp.spg62.map(q=>({id:q.id,moduleId:q.moduleId,sourceNode:q.sourceNode})),
+-      secondaryRadars:R.radars,emitters:shipEmitterEquipmentRegistryA('CG_52_LATE_TICONDEROGA'),ew:{moduleId:E.SLQ32_CG52_LATE_V1.id,pods:R.ewPods},
++      secondaryRadars:R.radars,emitters:shipEmitterEquipmentRegistryA('CG_52_LATE_TICONDEROGA'),esmReceiver:esmReceiverProfileForShipA('CG_52_LATE_TICONDEROGA'),ew:{moduleId:E.SLQ32_CG52_LATE_V1.id,pods:R.ewPods},
+       nulka:{moduleId:E.NULKA_MK53_V1.id,layout:R.nulka},srboc:{moduleId:E.SRBOC_MK36_V1.id,layout:R.srboc}},
+@@ -2980,3 +3032,3 @@
+     const q=fleet.ships.find(q=>q.entityId===r.entityId);if(!q)continue;
+-    restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;
++    restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredEsmA=q.esmA??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;
+   }
+@@ -3314,3 +3366,3 @@
+ function resetElectronicFleetF(){
+-  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
++  for(const r of electronicShipsF()){esmResetRuntimeA(r);const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
+ }
+@@ -3537,2 +3589,227 @@
+ function electronicCicTextF(){const e=prepareElectronicF(ACTIVE_SHIP_RUNTIME),fresh=[...e.contacts.values()].filter(c=>c.source==='PASSIVE_RF_F'),n=fresh.filter(c=>c.emitterClass==='JAMMER').length;return 'ESM '+fresh.length+' · RF 간섭 '+n+' · 방위 관측 / 거리 미확정';}
++// ESM_A Commit B — anonymous passive-RF measurement and honest local likelihood.
++// RF detection, beam, LOS, weather and the owner EW RNG remain in the native
++// electronicReceiverPlotsF path. This layer starts only after a native hit.
++const ESM_A_RAW_SCHEMA='AEGIS_ESM_RAW_A_1';
++const ESM_A_STATE_SCHEMA='AEGIS_ESM_RUNTIME_A_1';
++const ESM_A_ESTIMATE_STATES=Object.freeze(['BEARING_ONLY','LIKELIHOOD_REGION','GEOLOCATED_ESTIMATE','COAST','LOST']);
++const ESM_A_SPEC=Object.freeze({
++  schema:'AEGIS_ESM_SPEC_A_1',historyMax:24,rangeHypothesisMinM:500,rangeHypothesisMaxM:200000,
++  originBaselineMinM:500,crossingAngleMinDeg:12,geolocateMajor95MaxM:4000,coastAfterS:1,
++  clockBiasSigmaS:2e-7,clockDriftSigmaSps:2e-9,arrivalTimeSigmaS:6e-8,
++  frequencyReferenceSigmaHz:2,frequencyMeasurementSigmaHz:4,sourceMotionNuisanceSigmaMps:25,
++  fingerprintGateNis:9,associationAmbiguityDeltaNis:1,rawPairWindowS:.21,performanceBudgetMs:2,
++  speedOfLightMps:299792458,provenance:'SIM_TUNED_PREDECLARED_IN_PLAN_MD'
++});
++const ESM_A_REQUIRE_PROFILE=true;
++const ESM_A_RAW_KEYS=Object.freeze(['schema','revision','observationId','measuredAtS','receivedAtS','receiver','bearingRad','elevationRad','angleCovarianceRad2','frequencyHz','frequencySigmaHz','arrivalTimeS','arrivalTimeSigmaS','fingerprint','snr','quality','band','emitterClass','type','sourceTag']);
++const ESM_A_RECEIVER_KEYS=Object.freeze(['platformId','receiverId','positionM','velocityMps','attitudeRad','positionCovarianceM2','velocityCovarianceM2ps2','attitudeCovarianceRad2','clockBiasS','clockBiasSigmaS','clockDriftSps','clockDriftSigmaSps','frequencyReferenceErrorHz','frequencyReferenceSigmaHz']);
++const ESM_A_FINGERPRINT_KEYS=Object.freeze(['priS','priSigmaS','pulseWidthS','pulseWidthSigmaS','scanPeriodS','scanPeriodSigmaS','confidence']);
++const ESM_A_AUDIT={accepted:0,rejected:0,created:0,associated:0,ambiguous:0,expired:0,truthFieldRejects:0,networkAccepted:0,networkRejected:0};
++
++function esmKeysExactA(q,keys){return !!q&&typeof q==='object'&&!Array.isArray(q)&&Object.keys(q).sort().join('|')===keys.slice().sort().join('|');}
++function esmVecExactA(q,keys){return esmKeysExactA(q,keys)&&keys.every(k=>Number.isFinite(q[k]));}
++function esmFiniteOrNullA(q){return q===null||Number.isFinite(q);}
++function esmSpdA(a,n){
++  if(!Array.isArray(a)||a.length!==n*n||!a.every(Number.isFinite))return false;const L=new Array(n*n).fill(0);
++  for(let i=0;i<n;i++)for(let j=0;j<=i;j++){
++    if(Math.abs(a[i*n+j]-a[j*n+i])>1e-7*Math.max(1,Math.abs(a[i*n+j]),Math.abs(a[j*n+i])))return false;
++    let s=a[i*n+j];for(let k=0;k<j;k++)s-=L[i*n+k]*L[j*n+k];
++    if(i===j){if(!(s>1e-14))return false;L[i*n+j]=Math.sqrt(s);}else L[i*n+j]=s/L[j*n+j];
++  }return true;
++}
++function esmJsonA(q){return JSON.parse(JSON.stringify(q));}
++function esmHashA(text){let h=2166136261>>>0;for(const c of String(text)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)>>>0;}return h>>>0;}
++function esmUnitNoiseA(text){const a=(esmHashA(text)+.5)/4294967296,b=(esmHashA(text+'#')+.5)/4294967296;return Math.sqrt(-2*Math.log(Math.max(1e-12,a)))*Math.cos(TAU*b);}
++function esmReceiverClockA(r){
++  const state=prepareEsmA(r);if(state.clock)return state.clock;const key='ESM_A_CLOCK:'+BATTLESPACE_SEED+':'+r.entityId;
++  return state.clock={biasS:esmUnitNoiseA(key)*ESM_A_SPEC.clockBiasSigmaS*.45,driftSps:esmUnitNoiseA(key+':D')*ESM_A_SPEC.clockDriftSigmaSps*.45,frequencyReferenceErrorHz:esmUnitNoiseA(key+':F')*ESM_A_SPEC.frequencyReferenceSigmaHz*.45,epochS:simStepCounter*SIM_FIXED_DT};
++}
++function esmReceiverProfileA(r){
++  if(!r||sovHullA(r)||sovNoEquipmentA(r))return null;const declared=resolveShipProfile(r.profileId)?.equipment?.esmReceiver??null;
++  if(declared&&(!ESM_A_REQUIRE_PROFILE||esmReceiverProfileValidA(declared)))return declared;if(ESM_A_REQUIRE_PROFILE)return null;
++  return Object.freeze({schema:'AEGIS_ESM_RECEIVER_PROFILE_A_1',profileId:r.profileId,receiverId:'LEGACY_COMMON_ESM_RECEIVER',capabilities:Object.freeze(['PASSIVE_ESM_RECEIVE','AOA','FREQUENCY','TIME','FINGERPRINT']),installed:true,enabled:true,provenance:'COMMIT_B_LEGACY_ADAPTER_REMOVED_BY_COMMIT_E'});
++}
++function esmReceiverOfflineA(r){
++  if(!r)return true;
++  // shipEquipmentOfflineV1 is intentionally bound to the player-owner closure.
++  // Use it only for that owner; NPC receivers must consult their own survival
++  // and crew state or one ship could inherit another ship's offline decision.
++  if(r===ACTIVE_SHIP_RUNTIME)return shipEquipmentOfflineV1();
++  return r.executionState==='DESTROYED'||r.survival?.snapshot?.().equipmentOffline===true||r.crew?.offline?.()===true;
++}
++function esmReceiverOperationalA(r){
++  const profile=esmReceiverProfileA(r);if(!profile||profile.installed!==true||profile.enabled===false||r.ew?.esmReceiverDisabledA===true||esmReceiverOfflineA(r))return {ok:false,reason:'RECEIVER_UNAVAILABLE',profile};
++  const health=clamp(1-shipSystemDamageB(r,profile.damageSystem)/100,0,1);return health>.01?{ok:true,profile,health}:{ok:false,reason:'RECEIVER_DAMAGED',profile};
++}
++function prepareEsmA(r){
++  if(r.ew.esmA)return r.ew.esmA;const restored=r.restoredEsmA??null;delete r.restoredEsmA;
++  // The common estimator owns its contacts. r.ew.executionF.contacts remains
++  // the native bearing-contact projection consumed by the existing soft-kill
++  // coordinator; sharing the map would let a new association policy change
++  // legacy tactical behavior even though ESM_A grants no engagement authority.
++  const q={schema:ESM_A_STATE_SCHEMA,revision:1,rawSerial:1,contactSerial:1,contacts:new Map(),networkSequence:0,clock:null,outbox:[],networkQueue:[],networkSeen:new Map(),lastNetworkSendStep:-1,stats:{localAccepted:0,remoteAccepted:0,rejected:0,duplicates:0}};
++  r.ew.esmA=q;claimShipMutableRootA(r,'esmA',q);if(restored)esmRestoreStateA(r,restored);return r.ew.esmA;
++}
++function esmCommonContactsA(r){return prepareEsmA(r).contacts;}
++function esmReceiverSnapshotA(r,point,profile){
++  const now=simStepCounter*SIM_FIXED_DT,clock=esmReceiverClockA(r),nav=r.navigation,pose=r.survival?.snapshot?.()??{heelRad:0,trimRad:0};
++  return {platformId:String(r.entityId),receiverId:String(profile.receiverId),positionM:{x:worldToMeters(point.x),y:worldToMeters(point.y),z:Number(point.z)},velocityMps:{x:worldSpeedToMps(nav.vx??0),y:worldSpeedToMps(nav.vy??0),z:0},attitudeRad:{yaw:Number(nav.heading)||0,pitch:Number(pose.trimRad)||0,roll:Number(pose.heelRad)||0},positionCovarianceM2:[9,0,0,0,9,0,0,0,4],velocityCovarianceM2ps2:[.25,0,0,0,.25,0,0,0,.09],attitudeCovarianceRad2:[deg(.15)**2,0,0,0,deg(.15)**2,0,0,0,deg(.2)**2],clockBiasS:clock.biasS+clock.driftSps*(now-clock.epochS),clockBiasSigmaS:ESM_A_SPEC.clockBiasSigmaS,clockDriftSps:clock.driftSps,clockDriftSigmaSps:ESM_A_SPEC.clockDriftSigmaSps,frequencyReferenceErrorHz:clock.frequencyReferenceErrorHz,frequencyReferenceSigmaHz:ESM_A_SPEC.frequencyReferenceSigmaHz};
++}
++function esmCreateRawA(r,source,rx,az,el,sigmaDeg,snr,quality,rangeM,profile){
++  const e=prepareEsmA(r),serial=e.rawSerial++,now=simStepCounter*SIM_FIXED_DT,receiver=esmReceiverSnapshotA(r,rx,profile),key=receiver.platformId+':'+serial+':'+simStepCounter+':'+source.band+':'+source.emitterClass+':'+az;
++  const arrivalNoise=esmUnitNoiseA(key+':T')*ESM_A_SPEC.arrivalTimeSigmaS,baseHz=Number.isFinite(source.frequencyMHz)?source.frequencyMHz*1e6:null,u={x:Math.cos(az)*Math.cos(el),y:Math.sin(az)*Math.cos(el),z:Math.sin(el)},closing=receiver.velocityMps.x*u.x+receiver.velocityMps.y*u.y+receiver.velocityMps.z*u.z;
++  const frequencyHz=baseHz==null?null:baseHz*(1+closing/ESM_A_SPEC.speedOfLightMps)+receiver.frequencyReferenceErrorHz+esmUnitNoiseA(key+':F')*ESM_A_SPEC.frequencyMeasurementSigmaHz;
++  const scanPeriodS=Number.isFinite(source.rpm)&&source.rpm>0?60/source.rpm:null,scanSigma=scanPeriodS==null?null:Math.max(.002,scanPeriodS*.03),sigmaRad=deg(sigmaDeg);
++  return {schema:ESM_A_RAW_SCHEMA,revision:1,observationId:receiver.platformId+':'+serial,measuredAtS:now,receivedAtS:now,receiver,bearingRad:az,elevationRad:el,angleCovarianceRad2:[sigmaRad*sigmaRad,0,0,Math.max(deg(.8)**2,sigmaRad*sigmaRad*2.25)],frequencyHz,frequencySigmaHz:frequencyHz==null?null:Math.hypot(ESM_A_SPEC.frequencyMeasurementSigmaHz,receiver.frequencyReferenceSigmaHz),arrivalTimeS:now+rangeM/ESM_A_SPEC.speedOfLightMps+receiver.clockBiasS+arrivalNoise,arrivalTimeSigmaS:ESM_A_SPEC.arrivalTimeSigmaS,fingerprint:{priS:null,priSigmaS:null,pulseWidthS:null,pulseWidthSigmaS:null,scanPeriodS,scanPeriodSigmaS:scanSigma,confidence:scanPeriodS==null?.25:.72},snr,quality,band:source.band,emitterClass:source.emitterClass,type:source.family,sourceTag:'PASSIVE_RF_ESM_A'};
++}
++function esmValidateRawA(q,now=simStepCounter*SIM_FIXED_DT,expectedPlatform=null,expectedReceiver=null){
++  const fail=reason=>({ok:false,reason});if(!esmKeysExactA(q,ESM_A_RAW_KEYS))return fail('RAW_FIELDS');
++  if(q.schema!==ESM_A_RAW_SCHEMA||q.revision!==1||typeof q.observationId!=='string'||!q.observationId||q.observationId.length>120)return fail('RAW_SCHEMA');
++  if(!Number.isFinite(q.measuredAtS)||!Number.isFinite(q.receivedAtS)||q.measuredAtS<0||q.receivedAtS<q.measuredAtS-1e-8||q.receivedAtS>now+1e-8||q.measuredAtS>now+1e-8)return fail('RAW_TIME');
++  const r=q.receiver;if(!esmKeysExactA(r,ESM_A_RECEIVER_KEYS)||typeof r.platformId!=='string'||!r.platformId||typeof r.receiverId!=='string'||!r.receiverId||expectedPlatform!=null&&r.platformId!==String(expectedPlatform)||expectedReceiver!=null&&r.receiverId!==String(expectedReceiver))return fail('RECEIVER_ID');
++  if(!esmVecExactA(r.positionM,['x','y','z'])||!esmVecExactA(r.velocityMps,['x','y','z'])||!esmVecExactA(r.attitudeRad,['yaw','pitch','roll']))return fail('RECEIVER_STATE');
++  if(!esmSpdA(r.positionCovarianceM2,3)||!esmSpdA(r.velocityCovarianceM2ps2,3)||!esmSpdA(r.attitudeCovarianceRad2,3))return fail('RECEIVER_COVARIANCE');
++  if(![r.clockBiasS,r.clockBiasSigmaS,r.clockDriftSps,r.clockDriftSigmaSps,r.frequencyReferenceErrorHz,r.frequencyReferenceSigmaHz].every(Number.isFinite)||r.clockBiasSigmaS<=0||r.clockDriftSigmaSps<=0||r.frequencyReferenceSigmaHz<=0)return fail('REFERENCE_STATE');
++  if(!Number.isFinite(q.bearingRad)||Math.abs(q.bearingRad)>TAU||!Number.isFinite(q.elevationRad)||Math.abs(q.elevationRad)>Math.PI/2||!esmSpdA(q.angleCovarianceRad2,2))return fail('ANGLE');
++  if(!esmFiniteOrNullA(q.frequencyHz)||!esmFiniteOrNullA(q.frequencySigmaHz)||q.frequencyHz!=null&&(q.frequencyHz<=0||!(q.frequencySigmaHz>0))||q.frequencyHz==null&&q.frequencySigmaHz!==null)return fail('FREQUENCY');
++  if(!Number.isFinite(q.arrivalTimeS)||!Number.isFinite(q.arrivalTimeSigmaS)||q.arrivalTimeSigmaS<=0||Math.abs(q.arrivalTimeS-q.measuredAtS)>2)return fail('ARRIVAL_TIME');
++  const f=q.fingerprint;if(!esmKeysExactA(f,ESM_A_FINGERPRINT_KEYS)||!['priS','priSigmaS','pulseWidthS','pulseWidthSigmaS','scanPeriodS','scanPeriodSigmaS'].every(k=>esmFiniteOrNullA(f[k]))||!Number.isFinite(f.confidence)||f.confidence<0||f.confidence>1)return fail('FINGERPRINT');
++  for(const [value,sigma]of [[f.priS,f.priSigmaS],[f.pulseWidthS,f.pulseWidthSigmaS],[f.scanPeriodS,f.scanPeriodSigmaS]])if((value===null)!==(sigma===null)||value!==null&&(value<=0||sigma<=0))return fail('FINGERPRINT_PAIR');
++  if(!Number.isFinite(q.snr)||q.snr<0||!Number.isFinite(q.quality)||q.quality<0||q.quality>1||!['S','IJ','X'].includes(q.band)||!['SEARCH_RADAR','ACTIVE_SEEKER','JAMMER'].includes(q.emitterClass)||typeof q.type!=='string'||!q.type||q.type.length>80||q.sourceTag!=='PASSIVE_RF_ESM_A')return fail('CLASSIFICATION');
++  const forbidden=/truth|target|emitterid|entityid|object|faction|hostile|positiontruth/i,serialized=JSON.stringify(q);if(forbidden.test(Object.keys(q).concat(Object.keys(r),Object.keys(f)).join('|'))||/truthRef|targetId|emitterId|entityId|faction|hostile/i.test(serialized)){ESM_A_AUDIT.truthFieldRejects++;return fail('TRUTH_FIELD');}
++  return {ok:true};
++}
++function esmFingerprintScoreA(a,b){
++  if(a.band!==b.band||a.emitterClass!==b.emitterClass||a.emitterClass!=='ACTIVE_SEEKER'&&a.type!==b.type)return Infinity;let score=0,terms=0;
++  if(a.frequencyHz!=null&&b.frequencyHz!=null){const corrected=q=>{const u={x:Math.cos(q.bearingRad)*Math.cos(q.elevationRad),y:Math.sin(q.bearingRad)*Math.cos(q.elevationRad),z:Math.sin(q.elevationRad)},v=q.receiver.velocityMps,doppler=1+(v.x*u.x+v.y*u.y+v.z*u.z)/ESM_A_SPEC.speedOfLightMps;return (q.frequencyHz-q.receiver.frequencyReferenceErrorHz)/doppler;},fa=corrected(a),fb=corrected(b),nuisance=Math.max(fa,fb)*ESM_A_SPEC.sourceMotionNuisanceSigmaMps/ESM_A_SPEC.speedOfLightMps,sigma2=a.frequencySigmaHz**2+b.frequencySigmaHz**2+nuisance*nuisance;score+=(fa-fb)**2/Math.max(1e-12,sigma2);terms++;}
++  for(const [value,sigma]of [['scanPeriodS','scanPeriodSigmaS'],['priS','priSigmaS'],['pulseWidthS','pulseWidthSigmaS']]){const x=a.fingerprint?.[value],y=b.fingerprint?.[value];if(x!=null&&y!=null){score+=(x-y)**2/Math.max(1e-18,a.fingerprint[sigma]**2+b.fingerprint[sigma]**2);terms++;}}
++  if(!terms)return a.type===b.type&&a.emitterClass===b.emitterClass?1:Infinity;return score;
++}
++function esmObservationCandidateScoreA(c,q){
++  const p=c.history?.at(-1);if(!p)return Infinity;let score=esmFingerprintScoreA(p,q);if(!Number.isFinite(score)||score>ESM_A_SPEC.fingerprintGateNis)return Infinity;
++  if(p.receiver.platformId===q.receiver.platformId){
++    // A moving receiver can legitimately see a large bearing change. Accept
++    // that change only when the two anonymous bearing rays intersect forward
++    // of both historical origins and inside the declared hypothesis range.
++    const baseline=esmOriginDistanceA(p,q),cross=baseline>=ESM_A_SPEC.originBaselineMinM?esmAoaSolveA([p,q]):null,point=cross?.point,
++      forward=point&&[p,q].every(v=>(point.x-v.receiver.positionM.x)*Math.cos(v.bearingRad)+(point.y-v.receiver.positionM.y)*Math.sin(v.bearingRad)>0),
++      bounded=point&&[p,q].every(v=>{const d=Math.hypot(point.x-v.receiver.positionM.x,point.y-v.receiver.positionM.y);return d>=ESM_A_SPEC.rangeHypothesisMinM&&d<=ESM_A_SPEC.rangeHypothesisMaxM;});
++    if(!forward||!bounded){const variance=p.angleCovarianceRad2[0]+q.angleCovarianceRad2[0],d=angNorm(q.bearingRad-p.bearingRad);score+=d*d/Math.max(1e-12,variance);}
++  }
++  return score;
++}
++function esmSolve2A(a,b,c,d,e,f){const det=a*d-b*c;if(Math.abs(det)<1e-16)return null;return {x:(e*d-b*f)/det,y:(a*f-e*c)/det,det};}
++function esmOriginDistanceA(a,b){return Math.hypot(a.receiver.positionM.x-b.receiver.positionM.x,a.receiver.positionM.y-b.receiver.positionM.y);}
++function esmMaxCrossingA(rows){let best=0;for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++)best=Math.max(best,Math.abs(Math.sin(angNorm(rows[i].bearingRad-rows[j].bearingRad))));return Math.asin(clamp(best,0,1));}
++function esmAoaSolveA(rows){
++  const useful=rows.filter(q=>Math.sqrt(q.angleCovarianceRad2[0])<deg(45));if(useful.length<2)return null;let A=0,B=0,D=0,E=0,F=0;
++  for(const q of useful){const n={x:-Math.sin(q.bearingRad),y:Math.cos(q.bearingRad)},o=q.receiver.positionM,w=1/Math.max(1e-8,q.angleCovarianceRad2[0]);A+=w*n.x*n.x;B+=w*n.x*n.y;D+=w*n.y*n.y;const h=n.x*o.x+n.y*o.y;E+=w*n.x*h;F+=w*n.y*h;}
++  let point=esmSolve2A(A,B,B,D,E,F);if(!point)return null;
++  // Reweight angular residuals in metres at the candidate range.
++  A=B=D=E=F=0;for(const q of useful){const n={x:-Math.sin(q.bearingRad),y:Math.cos(q.bearingRad)},o=q.receiver.positionM,range=Math.max(ESM_A_SPEC.rangeHypothesisMinM,Math.hypot(point.x-o.x,point.y-o.y)),sigma2=range*range*q.angleCovarianceRad2[0]+Math.max(q.receiver.positionCovarianceM2[0],q.receiver.positionCovarianceM2[4]),w=1/Math.max(1,sigma2),h=n.x*o.x+n.y*o.y;A+=w*n.x*n.x;B+=w*n.x*n.y;D+=w*n.y*n.y;E+=w*n.x*h;F+=w*n.y*h;}
++  point=esmSolve2A(A,B,B,D,E,F);if(!point)return null;const inv=esmSolve2A(A,B,B,D,1,0),inv2=esmSolve2A(A,B,B,D,0,1);if(!inv||!inv2)return null;
++  return {point:{x:point.x,y:point.y},covarianceM2:[inv.x,inv2.x,inv.y,inv2.y],information:{a:A,b:B,d:D}};
++}
++function esmEllipseA(cov){const a=cov[0],b=(cov[1]+cov[2])*.5,d=cov[3],root=Math.hypot(a-d,2*b),l1=Math.max(1e-9,(a+d+root)/2),l2=Math.max(1e-9,(a+d-root)/2),scale=Math.sqrt(5.991);return {major95M:Math.sqrt(l1)*scale,minor95M:Math.sqrt(l2)*scale,angleRad:.5*Math.atan2(2*b,a-d)};}
++function esmPairConstraintsA(rows){
++  const pairs=[];for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++){const a=rows[i],b=rows[j];if(a.receiver.platformId===b.receiver.platformId||Math.abs(a.measuredAtS-b.measuredAtS)>ESM_A_SPEC.rawPairWindowS)continue;
++    const ta=a.arrivalTimeS-a.receiver.clockBiasS,tb=b.arrivalTimeS-b.receiver.clockBiasS,dt=tb-ta,sigmaT=Math.hypot(a.arrivalTimeSigmaS,b.arrivalTimeSigmaS,a.receiver.clockBiasSigmaS,b.receiver.clockBiasSigmaS,Math.abs(dt)*a.receiver.clockDriftSigmaSps,Math.abs(dt)*b.receiver.clockDriftSigmaSps);
++    const tdoa={a,b,deltaRangeM:dt*ESM_A_SPEC.speedOfLightMps,sigmaM:sigmaT*ESM_A_SPEC.speedOfLightMps};if(tdoa.sigmaM>ESM_A_SPEC.geolocateMajor95MaxM)continue;let fdoa=null;
++    if(a.frequencyHz!=null&&b.frequencyHz!=null){const fa=a.frequencyHz-a.receiver.frequencyReferenceErrorHz,fb=b.frequencyHz-b.receiver.frequencyReferenceErrorHz,sigmaHz=Math.hypot(a.frequencySigmaHz,b.frequencySigmaHz,a.receiver.frequencyReferenceSigmaHz,b.receiver.frequencyReferenceSigmaHz),carrier=(fa+fb)/2,combined=Math.hypot(sigmaHz,carrier*ESM_A_SPEC.sourceMotionNuisanceSigmaMps/ESM_A_SPEC.speedOfLightMps);if(combined*ESM_A_SPEC.speedOfLightMps/carrier<=ESM_A_SPEC.sourceMotionNuisanceSigmaMps*4)fdoa={a,b,deltaHz:fb-fa,sigmaHz:combined,carrierHz:carrier};}
++    pairs.push({tdoa,fdoa});
++  }return pairs;
++}
++function esmConstraintResidualsA(point,pairs,useFdoa=true){
++  const out=[];for(const pair of pairs){const {a,b,deltaRangeM,sigmaM}=pair.tdoa,oa=a.receiver.positionM,ob=b.receiver.positionM,ra=Math.max(1,Math.hypot(point.x-oa.x,point.y-oa.y)),rb=Math.max(1,Math.hypot(point.x-ob.x,point.y-ob.y));out.push({kind:'TDOA',r:(rb-ra-deltaRangeM)/Math.max(1,sigmaM)});
++    const f=pair.fdoa;if(useFdoa&&f){const ua={x:(point.x-oa.x)/ra,y:(point.y-oa.y)/ra},ub={x:(point.x-ob.x)/rb,y:(point.y-ob.y)/rb},va=a.receiver.velocityMps,vb=b.receiver.velocityMps,pred=f.carrierHz*((vb.x*ub.x+vb.y*ub.y)-(va.x*ua.x+va.y*ua.y))/ESM_A_SPEC.speedOfLightMps;out.push({kind:'FDOA',r:(f.deltaHz-pred)/Math.max(.1,f.sigmaHz)});}
++  }return out;
++}
++function esmRefineConstraintsA(seed,pairs){
++  if(!seed||!pairs.length)return {point:seed,used:[],covarianceM2:null};let p={...seed},used=[],hessian=null;
++  for(let iter=0;iter<8;iter++){let a=0,b=0,d=0,e=0,f=0;const base=esmConstraintResidualsA(p,pairs),eps=10;used=[...new Set(base.map(q=>q.kind))];for(let i=0;i<base.length;i++){const rx=esmConstraintResidualsA({x:p.x+eps,y:p.y},pairs)[i].r,ry=esmConstraintResidualsA({x:p.x,y:p.y+eps},pairs)[i].r,gx=(rx-base[i].r)/eps,gy=(ry-base[i].r)/eps;a+=gx*gx;b+=gx*gy;d+=gy*gy;e-=gx*base[i].r;f-=gy*base[i].r;}hessian={a,b,d};const step=esmSolve2A(a,b,b,d,e,f);if(!step)break;const mag=Math.hypot(step.x,step.y),scale=Math.min(1,20000/Math.max(1,mag));p.x+=step.x*scale;p.y+=step.y*scale;if(mag<.1)break;}let covarianceM2=null;if(hessian){const x=esmSolve2A(hessian.a,hessian.b,hessian.b,hessian.d,1,0),y=esmSolve2A(hessian.a,hessian.b,hessian.b,hessian.d,0,1);if(x&&y)covarianceM2=[x.x,y.x,x.y,y.y];}return {point:p,used,covarianceM2};
++}
++function esmTdoaSeedA(rows,pairs){
++  const receivers=[...new Map(rows.map(q=>[q.receiver.platformId,q.receiver.positionM])).values()];if(receivers.length<3||pairs.length<2)return null;const cx=receivers.reduce((s,q)=>s+q.x,0)/receivers.length,cy=receivers.reduce((s,q)=>s+q.y,0)/receivers.length;
++  let best=null;for(const radius of [ESM_A_SPEC.rangeHypothesisMinM,2000,5000,10000,20000,40000,80000,120000,ESM_A_SPEC.rangeHypothesisMaxM])for(let i=0;i<72;i++){const a=i*TAU/72,p={x:cx+Math.cos(a)*radius,y:cy+Math.sin(a)*radius},cost=esmConstraintResidualsA(p,pairs,false).reduce((s,q)=>s+q.r*q.r,0);if(!best||cost<best.cost)best={...p,cost};}return best&&{x:best.x,y:best.y};
++}
++function esmEstimateHistoryA(history,now=simStepCounter*SIM_FIXED_DT){
++  const rows=history.slice(-ESM_A_SPEC.historyMax).sort((a,b)=>a.measuredAtS-b.measuredAtS||a.observationId.localeCompare(b.observationId)),latest=rows.at(-1);if(!latest)return {state:'LOST',measuredAtS:null,ageS:Infinity,methods:[],sourceCount:0,modes:[]};
++  const age=Math.max(0,now-latest.measuredAtS),origins=[...new Set(rows.map(q=>q.receiver.platformId+':'+Math.round(q.receiver.positionM.x)+':'+Math.round(q.receiver.positionM.y)))],baseline=rows.reduce((m,a,i)=>Math.max(m,...rows.slice(i+1).map(b=>esmOriginDistanceA(a,b))),0),cross=esmMaxCrossingA(rows),aoa=baseline>=ESM_A_SPEC.originBaselineMinM&&cross>=deg(ESM_A_SPEC.crossingAngleMinDeg)?esmAoaSolveA(rows):null,pairs=esmPairConstraintsA(rows);
++  let solve=aoa,methods=aoa?['AOA']:[];
++  if(aoa&&pairs.length){const refined=esmRefineConstraintsA(aoa.point,pairs);solve={...aoa,point:refined.point,covarianceM2:refined.covarianceM2??aoa.covarianceM2};methods.push(...refined.used);}
++  else if(!aoa&&pairs.length){const seed=esmTdoaSeedA(rows,pairs),refined=esmRefineConstraintsA(seed,pairs);if(seed&&refined.covarianceM2)solve={point:refined.point,covarianceM2:refined.covarianceM2};methods.push(...refined.used);}
++  const base={measuredAtS:latest.measuredAtS,ageS:age,methods:[...new Set(methods)],sourceCount:new Set(rows.map(q=>q.receiver.platformId)).size,baselineM:baseline,crossingAngleDeg:rad2deg(cross),latestOriginM:{...latest.receiver.positionM},latestBearingRad:latest.bearingRad,historyCount:rows.length};
++  if(!solve){const state=rows.length===1||baseline<ESM_A_SPEC.originBaselineMinM?'BEARING_ONLY':'LIKELIHOOD_REGION',mode={kind:'RAY',originM:{...latest.receiver.positionM},bearingRad:latest.bearingRad,sigmaRad:Math.sqrt(latest.angleCovarianceRad2[0]),minRangeM:ESM_A_SPEC.rangeHypothesisMinM,maxRangeM:ESM_A_SPEC.rangeHypothesisMaxM};return {...base,state:age>=ELECTRONIC_POLICY_F.holdS?'LOST':age>ESM_A_SPEC.coastAfterS?'COAST':state,modes:[mode],positionM:null,covarianceM2:null,ellipse95:null};}
++  const forward=rows.every(q=>(solve.point.x-q.receiver.positionM.x)*Math.cos(q.bearingRad)+(solve.point.y-q.receiver.positionM.y)*Math.sin(q.bearingRad)>0),ellipse=esmEllipseA(solve.covarianceM2),bounded=Math.hypot(solve.point.x-latest.receiver.positionM.x,solve.point.y-latest.receiver.positionM.y)<=ESM_A_SPEC.rangeHypothesisMaxM,geolocated=forward&&bounded&&ellipse.major95M<=ESM_A_SPEC.geolocateMajor95MaxM;
++  if(age>ESM_A_SPEC.coastAfterS){const growth=(age-ESM_A_SPEC.coastAfterS)*75,cov=[solve.covarianceM2[0]+growth*growth,solve.covarianceM2[1],solve.covarianceM2[2],solve.covarianceM2[3]+growth*growth],ce=esmEllipseA(cov);return {...base,state:age>=ELECTRONIC_POLICY_F.holdS?'LOST':'COAST',positionM:{x:solve.point.x,y:solve.point.y,z:0},covarianceM2:cov,ellipse95:ce,modes:[{kind:'ELLIPSE',centerM:{x:solve.point.x,y:solve.point.y},covarianceM2:cov,ellipse95:ce}]};}
++  return {...base,state:geolocated?'GEOLOCATED_ESTIMATE':'LIKELIHOOD_REGION',positionM:{x:solve.point.x,y:solve.point.y,z:0},covarianceM2:solve.covarianceM2,ellipse95:ellipse,modes:[{kind:'ELLIPSE',centerM:{x:solve.point.x,y:solve.point.y},covarianceM2:solve.covarianceM2,ellipse95:ellipse}]};
++}
++function esmAgeEstimateA(base,now){
++  const age=Math.max(0,now-base.measuredAtS),stateAtAge=state=>age>=ELECTRONIC_POLICY_F.holdS?'LOST':age>ESM_A_SPEC.coastAfterS?'COAST':state;
++  if(!base.positionM)return {...base,ageS:age,state:stateAtAge(base.state)};
++  if(age>ESM_A_SPEC.coastAfterS){const growth=(age-ESM_A_SPEC.coastAfterS)*75,cov=[base.covarianceM2[0]+growth*growth,base.covarianceM2[1],base.covarianceM2[2],base.covarianceM2[3]+growth*growth],ellipse95=esmEllipseA(cov);return {...base,ageS:age,state:stateAtAge(base.state),covarianceM2:cov,ellipse95,modes:[{kind:'ELLIPSE',centerM:{x:base.positionM.x,y:base.positionM.y},covarianceM2:cov,ellipse95}]};}
++  return {...base,ageS:age};
++}
++function esmUpdateContactA(c,now=simStepCounter*SIM_FIXED_DT){
++  const latest=c.history?.at(-1),key=latest?c.history.length+':'+latest.observationId+':'+latest.measuredAtS:'EMPTY';
++  if(c._esmEstimateKeyA!==key){c._esmEstimateKeyA=key;c._esmEstimateBaseA=esmEstimateHistoryA(c.history,latest?.measuredAtS??now);}
++  c.estimate=esmAgeEstimateA(c._esmEstimateBaseA,now);c.age=c.estimate.ageS;c.state=c.estimate.state;c.rangeKm=c.estimate.positionM?Math.hypot(c.estimate.positionM.x-c.estimate.latestOriginM.x,c.estimate.positionM.y-c.estimate.latestOriginM.y)/1000:null;return c;
++}
++function esmAcceptRawA(r,rows,origin='LOCAL'){
++  const now=simStepCounter*SIM_FIXED_DT;if(!r||!Array.isArray(rows)||rows.length>ELECTRONIC_POLICY_F.maxContacts)return {ok:false,reason:'RAW_BATCH'};const validated=[];
++  for(const q of rows){const v=esmValidateRawA(q,now,origin==='LOCAL'?r.entityId:null,origin==='LOCAL'?esmReceiverProfileA(r)?.receiverId:null);if(!v.ok){ESM_A_AUDIT.rejected++;prepareEsmA(r).stats.rejected++;return {ok:false,reason:v.reason};}validated.push(esmJsonA(q));}
++  const state=prepareEsmA(r),contacts=state.contacts,used=new Set();
++  for(const q of validated){
++    if(state.networkSeen.has(q.observationId)){state.stats.duplicates++;continue;}if(origin!=='LOCAL')state.networkSeen.set(q.observationId,q.measuredAtS);
++    const candidates=[];for(const [id,c]of contacts){if(used.has(id))continue;const score=esmObservationCandidateScoreA(c,q);if(score<=ESM_A_SPEC.fingerprintGateNis)candidates.push({id,c,score});}candidates.sort((a,b)=>a.score-b.score||a.id-b.id);
++    let found=null;if(candidates.length===1||candidates.length>1&&candidates[1].score-candidates[0].score>ESM_A_SPEC.associationAmbiguityDeltaNis)found=candidates[0];else if(candidates.length>1)ESM_A_AUDIT.ambiguous++;
++    if(!found){if(contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;const id=600000000+state.contactSerial++,c={contactId:id,bearing:q.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),strength:q.quality,quality:q.quality,band:q.band,type:q.type,emitterClass:q.emitterClass,measuredAtS:q.measuredAtS,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F',history:[q],state:'BEARING_ONLY',estimate:null,provenance:'ANONYMOUS_ESM_A'};esmUpdateContactA(c,now);contacts.set(id,c);used.add(id);ESM_A_AUDIT.created++;}
++    else {const c=found.c;c.history.push(q);if(c.history.length>ESM_A_SPEC.historyMax)c.history.splice(0,c.history.length-ESM_A_SPEC.historyMax);c.bearing=angNorm(c.bearing+angNorm(q.bearingRad-c.bearing)*.45);Object.assign(c,{bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),strength:q.quality,quality:q.quality,type:q.type,measuredAtS:q.measuredAtS,age:0,hits:(c.hits??0)+1});esmUpdateContactA(c,now);used.add(found.id);ESM_A_AUDIT.associated++;}
++    if(origin==='LOCAL'){state.outbox.push(q);if(state.outbox.length>ESM_A_SPEC.historyMax*4)state.outbox.splice(0,state.outbox.length-ESM_A_SPEC.historyMax*4);state.stats.localAccepted++;}else state.stats.remoteAccepted++;
++    ESM_A_AUDIT.accepted++;delete contacts.get([...used].at(-1))?.truthRef;
++  }return {ok:true,accepted:validated.length};
++}
++function esmLegacyProjectionA(r,rows){
++  // Exact native bearing-only association retained for pre-ESM_A tactical
++  // consumers. The projection contains no common-estimator state or truth.
++  const e=prepareElectronicF(r),used=new Set();
++  for(const raw of rows){
++    const q={bearing:raw.bearingRad,bearingSigmaDeg:rad2deg(Math.sqrt(raw.angleCovarianceRad2[0])),strength:raw.quality,quality:raw.quality,band:raw.band,type:raw.type,emitterClass:raw.emitterClass,measuredAtS:raw.measuredAtS};
++    if(TRACK_A_DIAG.enabled)trackATraceEventA('RECEIVED',q,{...trackATraceContextA('ESM_BEARING','PASSIVE_RF_F',r.entityId),route:'ESM_RECEIVE',measuredAtS:q.measuredAtS,decision:'BEARING_ONLY'});
++    let found=null,best=Infinity;
++    for(const [id,c]of e.contacts){if(used.has(id)||c.band!==q.band||c.emitterClass!==q.emitterClass||q.emitterClass!=='ACTIVE_SEEKER'&&c.type!==q.type)continue;const err=Math.abs(angNorm(q.bearing-c.bearing)),gate=deg(Math.max(2,3*Math.hypot(q.bearingSigmaDeg,c.bearingSigmaDeg??6)));if(err<gate&&err<best){best=err;found=id;}}
++    if(found==null){if(e.contacts.size>=ELECTRONIC_POLICY_F.maxContacts)continue;found=600000000+e.serial++;e.contacts.set(found,{contactId:found,...q,age:0,hits:1,rangeKm:null,identity:'UNKNOWN',threatLevel:q.emitterClass==='ACTIVE_SEEKER'?'HIGH':'LOW',source:'PASSIVE_RF_F'});}
++    else {const c=e.contacts.get(found);c.bearing=angNorm(c.bearing+angNorm(q.bearing-c.bearing)*.45);Object.assign(c,{bearingSigmaDeg:q.bearingSigmaDeg,strength:q.strength,quality:q.quality,type:q.type,measuredAtS:q.measuredAtS,age:0,hits:(c.hits??0)+1});}
++    delete e.contacts.get(found).truthRef;used.add(found);
++  }
++  return {ok:true};
++}
++function electronicReceiverPlotsF(r,emitters){
++  // PHYSICAL/SENSOR boundary: target ownership exists only long enough to reject self coupling.
++  const e=prepareElectronicF(r),op=esmReceiverOperationalA(r);if(!op.ok)return [];const plots=[];
++  for(const source of emitters){
++    if(source.owner===r.entityId)continue;const receiverPod=electronicPodF(r,source.point);if(!receiverPod)continue;const rx=receiverPod.point,health=receiverPod.health,transmitterPod=source.ship?electronicPodF(source.ship,rx):null;if(source.ship&&!transmitterPod)continue;
++    const point=transmitterPod?.point??source.point,dx=worldToMeters(point.x-rx.x),dy=worldToMeters(point.y-rx.y),dz=point.z-rx.z,range=Math.max(100,Math.hypot(dx,dy,dz)),los=terrainAwareRadarLOS(rx.x,rx.y,rx.z,point.x,point.y,point.z);if(los<=.005)continue;
++    const az=Math.atan2(dy,dx),el=Math.atan2(dz,Math.hypot(dx,dy)),toward=angNorm(az+Math.PI),off=source.beamAz==null?0:Math.abs(angNorm(toward-source.beamAz)),gain=source.beamAz==null?1:source.emitterClass==='ACTIVE_SEEKER'?Math.max(.005,Math.exp(-((off/deg(25))**2))):source.double?Math.max(.015,Math.exp(-((Math.min(off,Math.abs(Math.PI-off))/deg(35))**2))):Math.max(.015,Math.exp(-((off/deg(35))**2)));
++    const power=source.power*gain*(transmitterPod?.health??1)*.008*los*health*maritimeRfWeatherPathFactorWip13A3(source.band,range/1000)/(4*Math.PI*range*range),snr=power/ELECTRONIC_POLICY_F.esmReferenceNoiseW,pd=snr/(snr+1);if(observerRandomC(e.rng)>pd)continue;
++    const quality=clamp(pd*health,.01,1),sigma=lerp(6,.6,quality),bearing=angNorm(az+observerNormalC(e.rng)*deg(sigma));plots.push(esmCreateRawA(r,source,rx,bearing,el,sigma,snr,quality,range,op.profile));
++  }return plots;
++}
++function electronicAcceptPlotsF(r,plots){const common=esmAcceptRawA(r,plots,'LOCAL');if(!common.ok)return common;esmLegacyProjectionA(r,plots);return common;}
++function stepElectronicReceiversF(dt){
++  const emitters=electronicPhysicalEmittersF(),now=simStepCounter*SIM_FIXED_DT;
++  for(const r of electronicShipsF()){
++    if(sovNoEquipmentA(r))continue;const e=prepareElectronicF(r),state=prepareEsmA(r);if(e.lastTick===simStepCounter)throw Error('EW_DOUBLE_TICK_F');e.lastTick=simStepCounter;e.ticks++;
++    for(const [id,c]of e.contacts){c.age+=dt;if(c.age>ELECTRONIC_POLICY_F.holdS)e.contacts.delete(id);}
++    for(const [id,c]of state.contacts){c.age+=dt;esmUpdateContactA(c,now);if(c.age>ELECTRONIC_POLICY_F.holdS){c.state='LOST';state.contacts.delete(id);ESM_A_AUDIT.expired++;}}
++    for(const [key,stamp]of state.networkSeen)if(now-stamp>ELECTRONIC_POLICY_F.holdS)state.networkSeen.delete(key);
++    e.ageS+=dt;if(e.ageS+1e-9<ELECTRONIC_POLICY_F.revisitS)continue;e.ageS%=ELECTRONIC_POLICY_F.revisitS;const plots=electronicReceiverPlotsF(r,emitters);if(plots.length)electronicAcceptPlotsF(r,plots);e.receiver.lastAtS=now;
++  }
++}
++function electronicCicTextF(){const fresh=[...esmCommonContactsA(ACTIVE_SHIP_RUNTIME).values()],n=fresh.filter(c=>c.emitterClass==='JAMMER').length,g=fresh.filter(c=>c.state==='GEOLOCATED_ESTIMATE').length;return 'ESM '+fresh.length+' · 위치추정 '+g+' · RF 간섭 '+n;}
++function esmContactViewA(c){return {contactId:c.contactId,state:c.state,ageS:c.age,bearingRad:c.bearing,bearingSigmaDeg:c.bearingSigmaDeg,band:c.band,type:c.type,emitterClass:c.emitterClass,quality:c.quality,hits:c.hits,historyCount:c.history?.length??0,estimate:esmJsonA(c.estimate),identity:'UNKNOWN',automaticEngagementAuthority:false};}
++function esmSnapshotA(r=ACTIVE_SHIP_RUNTIME){const s=prepareEsmA(r);return {schema:'AEGIS_ESM_SNAPSHOT_A_1',ownerEntityId:r.entityId,profileId:r.profileId,receiver:esmReceiverProfileA(r),operational:esmReceiverOperationalA(r).ok,contacts:[...s.contacts.values()].map(esmContactViewA),network:{queued:s.networkQueue.length,outbox:s.outbox.length},stats:{...s.stats},truthUsedByConsumer:false,observerTracksCreated:0,automaticEngagementAuthority:false};}
++window.__ESM_A__=Object.freeze({schema:ESM_A_STATE_SCHEMA,spec:ESM_A_SPEC,states:ESM_A_ESTIMATE_STATES,snapshot:id=>esmSnapshotA(id?ENGAGEMENT_RUNTIME.ships.get(String(id)):ACTIVE_SHIP_RUNTIME),status:()=>({stage:'E',release:false,audit:{...ESM_A_AUDIT}})});
++
+
+@@ -4168,3 +4445,3 @@
+ function retireElectronicF(r){
+-  r.ew.executionF?.contacts.clear();
++  esmRetireRuntimeA(r);r.ew.executionF?.contacts.clear();
+   for(const rows of [ownChaffCartridges,ownChaffs,nulkaEntities15B()])for(let i=rows.length-1;i>=0;i--)if(rows[i].ownerEntityId===r.entityId)rows.splice(i,1);
+@@ -6209,3 +6486,36 @@
+   }
+-}
++  esmNetworkFixedStepA(dt);
++}
++// ESM_A Commit C — anonymous raw ESM transport. It is deliberately separate
++// from NETWORK_G SELF/TRACK reports and never writes observerC tracks.
++const ESM_A_NETWORK_SCHEMA='AEGIS_ESM_RAW_NETWORK_A_1';
++const ESM_A_NETWORK_KEYS=Object.freeze(['schema','sequence','sentAtS','measurements']);
++function esmNetworkPacketValidA(packet,sender,now){
++  if(!esmKeysExactA(packet,ESM_A_NETWORK_KEYS)||packet.schema!==ESM_A_NETWORK_SCHEMA||!Number.isInteger(packet.sequence)||packet.sequence<1||!Number.isFinite(packet.sentAtS)||packet.sentAtS<0||packet.sentAtS>now+1e-8||now-packet.sentAtS>NETWORK_POLICY_G.coastS||!Array.isArray(packet.measurements)||packet.measurements.length>NETWORK_POLICY_G.maxReports)return {ok:false,reason:'ESM_RAW_PACKET'};
++  const expectedReceiver=esmReceiverProfileA(sender)?.receiverId??null;if(!expectedReceiver)return {ok:false,reason:'RECEIVER_UNAVAILABLE'};
++  const ids=new Set();for(const q of packet.measurements){const v=esmValidateRawA(q,now,sender.entityId,expectedReceiver);if(!v.ok)return {ok:false,reason:v.reason};if(ids.has(q.observationId))return {ok:false,reason:'ESM_RAW_DUPLICATE_IN_PACKET'};ids.add(q.observationId);}return {ok:true};
++}
++function esmNetworkReceiveA(receiver,senderId,packet){
++  const sender=ENGAGEMENT_RUNTIME.ships.get(String(senderId)),state=prepareEsmA(receiver),now=networkNowG(),bad=reason=>{state.stats.rejected++;ESM_A_AUDIT.networkRejected++;return {ok:false,reason};};
++  if(!networkMemberG(receiver)||!networkMemberG(sender)||sender===receiver||sender.faction!==receiver.faction)return bad('AUTHENTICATED_ALLY_REQUIRED');
++  if(!networkLinkPathG(receiver,sender).ok)return bad('LINK_UNAVAILABLE');const valid=esmNetworkPacketValidA(packet,sender,now);if(!valid.ok)return bad(valid.reason);
++  state.networkPeerSequence??=new Map();const previous=state.networkPeerSequence.get(sender.entityId)??0;if(packet.sequence<=previous)return bad('PACKET_REPLAY');
++  // Packet and every raw DTO are fully validated before any sequence/contact mutation.
++  state.networkPeerSequence.set(sender.entityId,packet.sequence);const accepted=esmAcceptRawA(receiver,packet.measurements,'NETWORK');if(!accepted.ok)return bad(accepted.reason);ESM_A_AUDIT.networkAccepted+=accepted.accepted;return {ok:true,accepted:accepted.accepted};
++}
++function esmNetworkReportRowsA(sender){
++  const state=prepareEsmA(sender);state.networkSentIds??=new Map();const now=networkNowG();for(const [id,t]of state.networkSentIds)if(now-t>ELECTRONIC_POLICY_F.holdS)state.networkSentIds.delete(id);
++  const rows=[];for(const q of state.outbox){if(state.networkSentIds.has(q.observationId)||now-q.measuredAtS>NETWORK_POLICY_G.coastS)continue;rows.push(q);if(rows.length>=NETWORK_POLICY_G.maxReports)break;}return rows;
++}
++function esmNetworkFixedStepA(_dt){
++  const members=networkMembersG(),now=networkNowG();
++  for(const receiver of members){const state=prepareEsmA(receiver),due=state.networkQueue.filter(q=>q.availableStep<=simStepCounter);state.networkQueue=state.networkQueue.filter(q=>q.availableStep>simStepCounter);for(const q of due)esmNetworkReceiveA(receiver,q.senderId,q.packet);}
++  if(simStepCounter%NETWORK_POLICY_G.periodTicks!==0)return;
++  for(const sender of members){const n=prepareNetworkG(sender),state=prepareEsmA(sender);if(!n.settings.enabled||state.lastNetworkSendStep===simStepCounter)continue;const rows=esmNetworkReportRowsA(sender);if(!rows.length)continue;state.lastNetworkSendStep=simStepCounter;const packet={schema:ESM_A_NETWORK_SCHEMA,sequence:++state.networkSequence,sentAtS:now,measurements:rows.map(esmJsonA)};
++    for(const receiver of members){if(receiver===sender)continue;const path=networkLinkPathG(sender,receiver);if(!path.ok)continue;const target=prepareEsmA(receiver);if(target.networkQueue.length>=NETWORK_POLICY_G.maxQueue){target.stats.rejected++;continue;}target.networkQueue.push({senderId:sender.entityId,availableStep:simStepCounter+NETWORK_POLICY_G.latencyTicks,packet:esmJsonA(packet)});}
++    state.networkSentIds??=new Map();for(const q of rows)state.networkSentIds.set(q.observationId,q.measuredAtS);
++  }
++}
++function esmNetworkSnapshotA(r){const s=prepareEsmA(r);return {schema:ESM_A_NETWORK_SCHEMA,ownerEntityId:r.entityId,sequence:s.networkSequence,queue:s.networkQueue.length,peerSequences:[...(s.networkPeerSequence??new Map())],sentObservationIds:[...(s.networkSentIds??new Map()).keys()],observerTracksWritten:0,automaticAuthority:false};}
++
+ function networkSnapshotG(){return {schema:NETWORK_POLICY_G.schema,timeS:networkNowG(),policy:{...NETWORK_POLICY_G},ships:networkMembersG().map(r=>{const n=prepareNetworkG(r);return {entityId:r.entityId,settings:{...n.settings},ticks:n.ticks,sequence:n.sequence,queued:n.queue.length,peers:[...n.peers.values()].map(q=>({...q,lastReceivedS:Number.isFinite(q.lastReceivedS)?q.lastReceivedS:null})),picture:networkPictureG(r),leases:[...n.leases].map(([trackId,q])=>({trackId,...jsonSafeCloneV48Wip11A(q)})),group:{baseEmcon:n.groupBase,lease:n.groupLease?{...n.groupLease}:null},stats:{...n.stats},logs:n.logs.map(q=>({...q}))};}),ordnanceDatalink:false,remoteFireControl:false};}
+@@ -15225,3 +15535,3 @@
+   const mass=r.mass.snapshot({detail:true}),flood=r.flooding;
+-  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
++  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),esmA:esmExportStateA(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
+     ship:{inventory:exportWeaponInventoryD(r),navigation:maneuverExportNavigationH2(r),shipHP:r.health.shipHP,
+@@ -15234,3 +15544,3 @@
+ function validatePhysicalFleetB(src,_ctx,errors){
+-  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');
++  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');validateEsmSaveA(src.profileId,src.ship?.esmA,errors,'ship');
+   const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);validateTacticalSettingsH1(src.ship?.tactical,errors);validateManeuverSettingsH2(src.ship?.maneuver,errors);validateAttackSettingsH3(src.ship?.attack,errors);validateTeamSettingsH4(src.ship?.team,errors);validateManeuverNavigationH2(src.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet?.schema))validateNetworkSettingsG(src.ship?.network,errors);
+@@ -15243,3 +15553,3 @@
+     const role=q?.entityId===DEPLOYMENT_POLICY_F.allyId?'ALLY':q?.entityId===DEPLOYMENT_POLICY_F.enemyId?'ENEMY':q?.entityId===DEPLOYMENT_POLICY_F.neutralId?'NEUTRAL':null,expected=role==='ALLY'?src.deployment?.allyProfileId:role==='NEUTRAL'?src.deployment?.neutralProfileId:src.deployment?.enemyProfileId;if(!q||!role||seen.has(q.entityId)||q.profileId!==expected||q.profileRevision!==SHIP_PROFILE_REGISTRY[q.profileId]?.revision){err('OWNER_PROFILE');continue;}
+-    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
++    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateEsmSaveA(q.profileId,q.esmA,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
+     const r=createPreparedShipRuntimeA(SHIP_PROFILE_REGISTRY[q.profileId],{entityId:q.entityId,role}),ctx=physicalValidationContextB(r),envelope={shipId:q.entityId,ship:q.ship};
+@@ -31221,3 +31531,3 @@
+     resetWorldVisualLedgerWip14A();
+-    targetPool.length=0;nextTargetId=1;resetSurfaceContacts();resetMainGunProjectilesWip13B3();ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts();enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();esmContacts.clear();ownChaffs.length=0;chaffs.length=0;flares.length=0;
++    targetPool.length=0;nextTargetId=1;resetSurfaceContacts();resetMainGunProjectilesWip13B3();ACTIVE_SHIP_RUNTIME.weapons.mainGun?.reset();if(IS_BUNKER)bunkerResetGunMounts();enemyMissiles.length=0;resetAsmWreckageV48Wip11C();wip12bResetTerminalEvents();missiles.length=0;ramMissiles.length=0;ramMissileSerial=1;ciwsBullets.length=0;tracks.clear();esmContacts.clear();esmResetRuntimeA(ACTIVE_SHIP_RUNTIME);ownChaffs.length=0;chaffs.length=0;flares.length=0;
+     resetSoftKillThreatManager();resetSoftKillDoctrineState();resetSlq32EaAllocator();resetMk36Srboc();resetNulka15B();sensorDwellTimers.clear();c55ResetLocal();resetSpySchedulerState();selectedLockId=null;SPAWN.timer=0;
+@@ -52009,3 +52319,3 @@
+     const flood=getDamageFloodV1(),floodState=jsonSafeCloneV48Wip11A(flood.snapshot()),crew=jsonSafeCloneV48Wip11A(getShipCrewV21().snapshot()),mass=getShipMassLedgerV32().snapshot({detail:true}),moduleDamage=Object.fromEntries(flood.damageKeys().map(name=>[name,flood.readDamage(name)]));
+-    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicContactsAndTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
++    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts','esmRawHistoryEstimatorAndQueue'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),esmA:esmExportStateA(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
+   }
+@@ -52072,3 +52382,3 @@
+     gunB1MigrateSave(src,harpoonMigrations);heloMigrateSaveA(src,harpoonMigrations);migrateNetworkSaveG(src,harpoonMigrations);migrateTacticalSaveH1(src,harpoonMigrations);migrateManeuverSaveH2(src,harpoonMigrations);migrateAttackSaveH3(src,harpoonMigrations);migrateTeamSaveH4(src,harpoonMigrations);if(!Object.hasOwn(src,'fleet')){src.fleet={schema:MULTISHIP_PHYSICAL_SCHEMA_B,deploymentState:src.deployment?.enemyProfileId?'PENDING':'NONE',ships:[]};harpoonMigrations.push({id:'LEGACY_FLEET_B',policy:'FRESH_PHYSICAL_DEPLOYMENT_FROM_PREVIOUS_CONFIG'});}if(!Object.hasOwn(src,'deployment')){src.deployment={...MULTISHIP_DEPLOYMENT_DEFAULT_A};harpoonMigrations.push({id:'LEGACY_DEPLOYMENT_MULTI_SHIP_A',policy:'EXPLICIT_HULK_AND_NO_ENEMY'});}if(IS_BUNKER&&['BUNKERHILL_LATE_G_1','BUNKERHILL_LATE_D_1'].includes(src.profileRevision)&&src.ship?.inventory&&!('harpoon' in src.ship.inventory)){src.ship.inventory.harpoon={schema:'MK141_INVENTORY_A1',selectedTubeId:harpoonRuntimeA().tubes[0].id,tubes:harpoonRuntimeA().tubes.map(t=>({id:t.id,loaded:true}))};harpoonMigrations.push({id:'LEGACY_CG52_MK141_INITIAL_LOAD_A1',policy:'EXPLICIT_EIGHT_ROUNDS_OLD_SCHEMA_HAD_NO_HARPOON_INVENTORY'});}
+-    migrateEmconSaveB(src,harpoonMigrations);
++    migrateEmconSaveB(src,harpoonMigrations);migrateEsmSaveA(src,harpoonMigrations);
+     const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}catch(_err){return {validation:{schema:'AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B',ok:false,errors:['VALIDATION_CONTEXT'],codecs:[]},source:null};}
+@@ -52102,3 +52412,3 @@
+     if(fs){for(const o of fs.openings??[]){flood.addOpening({id:o.id,a:o.a,b:o.b,x:o.x,y:o.y,z:o.z,normal:o.normal,kind:o.kind,damage:o.work,areaM2:o.areaM2,perforated:o.areaM2>0});if(o.seal01)flood.seal(o.id,o.seal01);}for(const c of fs.cells??[])flood.setWater(c.id,c.waterM3);for(const d of fs.doors??[])flood.setDoor(d.id,d.open);for(const p of fs.pumps??[])flood.setPump(p.id,p.enabled);if(fs.hydrostatics?.pose)flood.setAttitude(fs.hydrostatics.pose);}
+-    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
++    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
+   }
+@@ -52556,17 +52866,4 @@
+
+-    // ===== ESM Contacts (bearing-only passive display) =====
+-    for(const [id,c] of esmContacts){
+-      const alpha=clamp(0.72-c.age*0.02,0.12,0.72), sigma=deg(c.bearingSigmaDeg??3);
+-      const rayKm=Math.min(viewKm,90);
+-      const rayR=kmToWorld(rayKm), a0=c.bearing-sigma, a1=c.bearing+sigma;
+-      ctx.fillStyle=`rgba(255,200,50,${alpha*0.08})`;
+-      ctx.beginPath();ctx.moveTo(ax,ay);ctx.arc(ax,ay,rayR,a0,a1);ctx.closePath();ctx.fill();
+-      ctx.strokeStyle=`rgba(255,210,60,${alpha*0.65})`;ctx.lineWidth=tacticalLineWidthWorld(1.0,0.42);ctx.setLineDash([5,5]);
+-      ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(ax+Math.cos(c.bearing)*rayR,ay+Math.sin(c.bearing)*rayR);ctx.stroke();ctx.setLineDash([]);
+-      const lx=ax+Math.cos(c.bearing)*rayR*0.88,ly=ay+Math.sin(c.bearing)*rayR*0.88;
+-      ctx.font=`${tacticalFontWorldSize(7,4)}px system-ui`;ctx.fillStyle=`rgba(255,220,80,${alpha})`;ctx.textAlign='center';
+-      const assoc=tracks.get(id); const suffix=assoc&&trackIsDisplayable(assoc)?` / T${id}`:'';
+-      ctx.fillText(`ESM ${c.type}${suffix}`,lx,ly-4);
+-      ctx.font=`${tacticalFontWorldSize(6,4)}px system-ui`;ctx.fillText(`BRG ${String(Math.round(((c.bearing*180/Math.PI)+450)%360)).padStart(3,'0')}° ±${(c.bearingSigmaDeg??3).toFixed(1)}°`,lx,ly+6);
+-    }
++    // ===== ESM Contacts (historical origin / likelihood / estimate) =====
++    esmDrawChartA(ctx,esmCommonContactsA(ACTIVE_SHIP_RUNTIME),viewKm,tracks);
+
+@@ -53108,3 +53405,3 @@
+  // Display eligibility above refreshes its own lazy covariance only, exactly once per main frame.
+- for(const[id,c]of esmContacts)frame.esm.set(id,pipCopyFieldsA(c,['age','bearing','bearingSigmaDeg','type']));
++ for(const[id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))frame.esm.set(id,esmPresentationCopyA(c));
+  frame.network=ACTIVE_SHIP_RUNTIME.combatSystem.networkG?networkPictureG(ACTIVE_SHIP_RUNTIME):[];
+@@ -65821,3 +66118,106 @@
+ }
+-function mapEsmReadA(id,c){return {key:'ESM:'+id,kind:'ESM',id,label:'ESM '+id,identity:'UNKNOWN',classification:'방위 접촉',bearingRad:c.bearing,bearingSigmaDeg:c.bearingSigmaDeg,band:c.band??null,emitterClass:c.emitterClass??null,type:c.type??null,confidence:c.confidence??c.quality??c.strength??null,measuredAtS:mapNowA()-(c.age??0),source:'ESM'};}
++// ESM_A Commit D — presentation-only ESM state and manual coordinate cue.
++// This module consumes anonymous observations/estimates. It never creates a
++// radar track, identity evidence, fire-control quality or automatic authority.
++const ESM_A_CUE_SCHEMA='AEGIS_ESM_MANUAL_CUE_A_1';
++
++function esmPresentationCopyA(c){
++  const e=c?.estimate??null,history=(c?.history??[]).slice(-ESM_A_SPEC.historyMax).map(q=>({
++    measuredAtS:q.measuredAtS,bearingRad:q.bearingRad,
++    bearingSigmaDeg:rad2deg(Math.sqrt(q.angleCovarianceRad2[0])),
++    originM:{x:q.receiver.positionM.x,y:q.receiver.positionM.y,z:q.receiver.positionM.z},
++    receiverPlatformId:q.receiver.platformId
++  }));
++  return {contactId:c.contactId,state:c.state,age:c.age,bearing:c.bearing,
++    bearingSigmaDeg:c.bearingSigmaDeg,band:c.band??null,type:c.type??null,
++    emitterClass:c.emitterClass??null,quality:c.quality??c.strength??null,
++    measuredAtS:c.measuredAtS,identity:'UNKNOWN',source:'PASSIVE_RF_ESM_A',
++    estimate:e?esmJsonA(e):null,bearingHistory:history,
++    automaticEngagementAuthority:false,truthUsed:false};
++}
++
++function esmUiContactA(id){return esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(Number(id))??null;}
++function esmUiAgeA(c){const t=c?.estimate?.measuredAtS??c?.measuredAtS;return Number.isFinite(t)?Math.max(0,simStepCounter*SIM_FIXED_DT-t):Infinity;}
++function esmUiWorldA(p){return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)?{x:metersToWorld(p.x),y:metersToWorld(p.y)}:null;}
++function esmUiEllipseA(cov){return Array.isArray(cov)&&cov.length===4&&cov.every(Number.isFinite)?esmEllipseA(cov):null;}
++function esmUiModeLabelA(state){return ({BEARING_ONLY:'방위만',LIKELIHOOD_REGION:'확률 영역',GEOLOCATED_ESTIMATE:'위치 추정',COAST:'코스팅',LOST:'소실'})[state]??state??'알 수 없음';}
++
++function esmInformationTextA(o){
++  const e=o.estimate??null,age=Number.isFinite(e?.ageS)?e.ageS:Math.max(0,mapNowA()-(o.measuredAtS??mapNowA())),lines=[
++    `상태: ${esmUiModeLabelA(o.esmState??e?.state)}`,
++    `방위 ${Number.isFinite(o.bearingRad)?((o.bearingRad*180/Math.PI+450)%360).toFixed(1):'알 수 없음'}° ±${Number.isFinite(o.bearingSigmaDeg)?o.bearingSigmaDeg.toFixed(1):'알 수 없음'}°`,
++    `대역: ${o.band??'보고 없음'} · 방사체 계열: ${o.emitterClass??o.type??'보고 없음'}`,
++    `관측 나이: ${Number.isFinite(age)?age.toFixed(1):'알 수 없음'}s · 출처 ${e?.sourceCount??1}개`,
++    `방법: ${e?.methods?.length?e.methods.join('+'):'AOA 방위만'}`
++  ];
++  if((o.esmState??e?.state)==='GEOLOCATED_ESTIMATE'||(o.esmState??e?.state)==='COAST'){
++    const p=e?.positionM,ellipse=e?.ellipse95;
++    if(p)lines.push(`추정 위치: ${p.x.toFixed(0)}, ${p.y.toFixed(0)} m (관측 기반)`);
++    if(ellipse)lines.push(`95% 오차 타원: ${ellipse.major95M.toFixed(0)} × ${ellipse.minor95M.toFixed(0)} m`);
++  }else lines.push('거리: 알 수 없음 · 점 표적 권한 없음');
++  lines.push('식별: UNKNOWN · 자동 교전 권한 없음');
++  return lines.join('\n');
++}
++
++function esmDrawEllipseA(context,mode,color,alpha,dashed=false){
++  const center=esmUiWorldA(mode.centerM),ellipse=mode.ellipse95??esmUiEllipseA(mode.covarianceM2);if(!center||!ellipse)return;
++  context.save();context.translate(center.x,center.y);context.rotate(ellipse.angleRad??0);
++  context.strokeStyle=color.replace('__A__',String(alpha));context.fillStyle=color.replace('__A__',String(alpha*.10));
++  context.lineWidth=tacticalLineWidthWorld(1.15,.48);context.setLineDash(dashed?[6,5]:[3,4]);
++  context.beginPath();context.ellipse(0,0,metersToWorld(ellipse.major95M),metersToWorld(ellipse.minor95M),0,0,TAU);context.fill();context.stroke();context.restore();
++}
++function esmDrawRayA(context,mode,alpha,viewKm){
++  const origin=esmUiWorldA(mode.originM);if(!origin)return;const r=kmToWorld(Math.min(viewKm,Math.max(.5,(mode.maxRangeM??90000)/1000))),sigma=mode.sigmaRad??deg(3),a=mode.bearingRad;
++  context.fillStyle=`rgba(255,200,50,${(alpha*.08).toFixed(3)})`;context.beginPath();context.moveTo(origin.x,origin.y);context.arc(origin.x,origin.y,r,a-sigma,a+sigma);context.closePath();context.fill();
++  context.strokeStyle=`rgba(255,215,75,${(alpha*.72).toFixed(3)})`;context.lineWidth=tacticalLineWidthWorld(1,.42);context.setLineDash([5,5]);context.beginPath();context.moveTo(origin.x,origin.y);context.lineTo(origin.x+Math.cos(a)*r,origin.y+Math.sin(a)*r);context.stroke();context.setLineDash([]);
++}
++function esmDrawChartA(context,contacts,viewKm,_tracks){
++  for(const [id,c]of contacts){const e=c.estimate??null,state=c.state??e?.state;if(state==='LOST')continue;const age=Number.isFinite(e?.ageS)?e.ageS:c.age??0,alpha=clamp(.78-age*.025,.12,.78),modes=e?.modes??[];
++    // Every retained line starts at its measurement-time receiver position.
++    const history=(c.bearingHistory??[]).slice(-8);for(const q of history){const o=esmUiWorldA(q.originM);if(!o)continue;const r=kmToWorld(Math.min(viewKm,90)),a=q.bearingRad;context.strokeStyle=`rgba(255,210,60,${(alpha*.18).toFixed(3)})`;context.lineWidth=tacticalLineWidthWorld(.7,.3);context.setLineDash([2,6]);context.beginPath();context.moveTo(o.x,o.y);context.lineTo(o.x+Math.cos(a)*r,o.y+Math.sin(a)*r);context.stroke();context.setLineDash([]);}
++    if(!modes.length){const origin=e?.latestOriginM??history.at(-1)?.originM;if(origin)esmDrawRayA(context,{kind:'RAY',originM:origin,bearingRad:c.bearing,sigmaRad:deg(c.bearingSigmaDeg??3),maxRangeM:90000},alpha,viewKm);}
++    for(const mode of modes){if(mode.kind==='RAY')esmDrawRayA(context,mode,alpha,viewKm);else if(mode.kind==='ELLIPSE')esmDrawEllipseA(context,mode,state==='COAST'?'rgba(255,165,65,__A__)':'rgba(90,225,255,__A__)',alpha,state!=='GEOLOCATED_ESTIMATE');}
++    const p=state==='GEOLOCATED_ESTIMATE'?esmUiWorldA(e?.positionM):null,origin=esmUiWorldA(e?.latestOriginM??history.at(-1)?.originM),anchor=p??(origin?{x:origin.x+Math.cos(c.bearing)*kmToWorld(Math.min(viewKm,90))*.86,y:origin.y+Math.sin(c.bearing)*kmToWorld(Math.min(viewKm,90))*.86}:null);if(!anchor)continue;
++    if(p){context.fillStyle=`rgba(110,235,255,${alpha.toFixed(3)})`;context.beginPath();context.arc(p.x,p.y,tacticalWorldPx(3.1,4.2,2.7,4.2),0,TAU);context.fill();}
++    context.font=`${tacticalFontWorldSize(7,4)}px system-ui`;context.textAlign='center';context.fillStyle=`rgba(255,225,105,${alpha.toFixed(3)})`;context.fillText(`ESM ${id} · ${esmUiModeLabelA(state)}`,anchor.x,anchor.y-screenPxToWorld(5));
++    context.font=`${tacticalFontWorldSize(6,4)}px system-ui`;context.fillText(`${age.toFixed(1)}s · ${e?.sourceCount??1}src · ${e?.methods?.join('+')||'AOA'}`,anchor.x,anchor.y+screenPxToWorld(6));
++  }
++}
++
++function esmDrawSelectionA(context,o,zoom,viewKm){
++  const e=o.estimate??null,p=esmUiWorldA(e?.positionM),origin=o.originWorld??esmUiWorldA(e?.latestOriginM),r=16/zoom;
++  context.save();context.strokeStyle='#e0d7aa';context.lineWidth=1/zoom;context.setLineDash([3/zoom,3/zoom]);
++  if(p){context.beginPath();context.arc(p.x,p.y,r,0,TAU);context.stroke();}
++  else if(origin){const d=kmToWorld(Math.min(viewKm,90))*.88,x=origin.x+Math.cos(o.bearingRad)*d,y=origin.y+Math.sin(o.bearingRad)*d;context.beginPath();context.arc(x,y,r,0,TAU);context.stroke();}
++  context.restore();
++}
++
++function esmCueRouteCandidateA(c){
++  const e=c?.estimate,fail=reason=>({ok:false,reason,truthUsed:false});if(!e||e.state!=='GEOLOCATED_ESTIMATE'||!e.positionM)return fail('ESM_SINGLE_MODE_GEOLOCATION_REQUIRED');
++  if((e.modes?.length??0)!==1||e.modes[0].kind!=='ELLIPSE')return fail('ESM_AMBIGUOUS_LIKELIHOOD');
++  const age=esmUiAgeA(c),cfg=HARPOON_PROFILE_A.sim;if(!Number.isFinite(age)||age>cfg.maxTrackAgeS)return fail('ESM_ESTIMATE_STALE');
++  const ellipse=e.ellipse95??esmUiEllipseA(e.covarianceM2);if(!ellipse||ellipse.major95M>cfg.seekerSearchBasketM)return fail('ESM_AREA_EXCEEDS_TERMINAL_SEARCH_BASKET');
++  const r=harpoonRuntimeA(),loaded=r.tubes.filter(t=>t.loaded);if(!r.tubes.length)return fail('MK141_NOT_INSTALLED');if(!loaded.length)return fail('TUBE_EMPTY');if(r.pending)return fail('RELEASE_PENDING');
++  if(r.routeDraft.pointsM.length>=cfg.routeMaxPoints)return fail('WAYPOINT_LIMIT');
++  let accepted=null;for(const tube of loaded){const spec=harpoonTubeSpecA(tube.id);if(!spec)continue;const muzzle=shipGameFrameV1().pointToWorld(spec.muzzle),prior=r.routeDraft.pointsM.at(-1)??muzzle,target=e.positionM,dx=target.x-prior.x,dy=target.y-prior.y,d=Math.hypot(dx,dy);if(!(d>cfg.routeSearchAheadM+cfg.routeMinLegM))continue;
++    const final={x:target.x-dx/d*cfg.routeSearchAheadM,y:target.y-dy/d*cfg.routeSearchAheadM},points=[...r.routeDraft.pointsM.map(p=>({x:p.x,y:p.y})),final],program=harpoonRouteProgramE(points,muzzle);if(!program)continue;const gate=harpoonRouteGateE(null,tube.id,{routeProgram:program});if(gate.ok){accepted={tubeId:tube.id,program,gate,final};break;}if(!accepted)accepted={rejected:gate};}
++  if(!accepted||!accepted.gate)return fail(accepted?.rejected?.reason??'INVALID_WAYPOINT_ROUTE');
++  const kind=ellipse.major95M<=cfg.seekerSearchBasketM*.5?'ESM_ESTIMATED_POINT':'ESM_ESTIMATED_AREA';return {ok:true,reason:null,schema:ESM_A_CUE_SCHEMA,contactId:c.contactId,provenance:kind,estimateMeasuredAtS:e.measuredAtS,ageS:age,positionM:{x:e.positionM.x,y:e.positionM.y,z:0},covarianceM2:e.covarianceM2.slice(),ellipse95:{...ellipse},methods:[...e.methods],sourceCount:e.sourceCount,tubeId:accepted.tubeId,routeProgram:accepted.program,finalWaypointM:accepted.final,gate:accepted.gate,truthUsed:false,automaticAuthority:false};
++}
++function esmCueEvaluateA(contactId){return esmCueRouteCandidateA(esmUiContactA(contactId));}
++function esmManualCueCommandA(contactId){
++  const q=esmCueEvaluateA(contactId);if(!q.ok)return q;const r=harpoonRuntimeA(),wasEditing=harpoonRouteEditingE();if(!wasEditing&&!harpoonRouteToggleE())return {ok:false,reason:'ROUTE_EDIT_UNAVAILABLE',truthUsed:false};
++  const add=harpoonRouteAddE(metersToWorld(q.finalWaypointM.x),metersToWorld(q.finalWaypointM.y));if(!add.ok){if(!wasEditing)harpoonRouteToggleE();return {...add,truthUsed:false};}
++  const state=prepareEsmA(ACTIVE_SHIP_RUNTIME);state.manualCues??=[];state.manualCues.push({schema:q.schema,contactId:q.contactId,provenance:q.provenance,issuedAtS:simStepCounter*SIM_FIXED_DT,estimateMeasuredAtS:q.estimateMeasuredAtS,positionM:{...q.positionM},covarianceM2:q.covarianceM2.slice(),ellipse95:{...q.ellipse95},methods:q.methods.slice(),sourceCount:q.sourceCount,truthUsed:false,automaticAuthority:false});if(state.manualCues.length>16)state.manualCues.splice(0,state.manualCues.length-16);
++  harpoonUpdateUIA();notify('ESM 추정 구역을 하푼 수동 탐색 경로로 지정');return {ok:true,count:add.count,provenance:q.provenance,routeProgram:q.routeProgram,truthUsed:false,automaticAuthority:false};
++}
++
++window.__ESM_A_UI__=Object.freeze({schema:'AEGIS_ESM_UI_A_1',evaluateCue:esmCueEvaluateA,manualCue:esmManualCueCommandA,presentation:id=>{const c=esmUiContactA(id);return c?esmPresentationCopyA(c):null;},snapshot:()=>({contacts:[...esmCommonContactsA(ACTIVE_SHIP_RUNTIME).values()].map(esmPresentationCopyA),manualCues:esmJsonA(prepareEsmA(ACTIVE_SHIP_RUNTIME).manualCues??[]),truthUsed:false,automaticEngagementAuthority:false})});
++function mapEsmReadA(id,c){
++  const q=esmPresentationCopyA(c),e=q.estimate??null,origin=esmUiWorldA(e?.latestOriginM??q.bearingHistory.at(-1)?.originM),estimate=esmUiWorldA(e?.positionM),state=q.state??e?.state??'BEARING_ONLY';
++  return {key:'ESM:'+id,kind:'ESM',id,label:'ESM '+id,identity:'UNKNOWN',classification:esmUiModeLabelA(state),
++    bearingRad:q.bearing,bearingSigmaDeg:q.bearingSigmaDeg,band:q.band,emitterClass:q.emitterClass,type:q.type,
++    confidence:q.quality,measuredAtS:e?.measuredAtS??q.measuredAtS,source:'ESM',esmState:state,estimate:e,
++    originWorld:origin,estimateWorld:estimate,bearingHistory:q.bearingHistory,truthUsed:false,automaticEngagementAuthority:false};
++}
+ function mapOwnHelosA(){
+@@ -65840,3 +66240,3 @@
+  for(const [id,tr]of tracks)if(!linked.has(id)&&mapTrackVisibleA(tr)&&Number.isFinite(tr.x)&&Number.isFinite(tr.y))out.push(mapTrackReadA(id,tr));
+- for(const [id,c]of esmContacts)out.push(mapEsmReadA(id,c));return out;
++ for(const [id,c]of esmCommonContactsA(ACTIVE_SHIP_RUNTIME))out.push(mapEsmReadA(id,c));return out;
+ }
+@@ -65878,3 +66278,3 @@
+  function segmentDistance(x,y,a,b){const dx=b.x-a.x,dy=b.y-a.y,u=clamp(((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy||1),0,1);return Math.hypot(x-a.x-u*dx,y-a.y-u*dy);}
+- function esmSegment(o){const own=mapOwnShipA(),r=kmToWorld(Math.min(view().km,90));return [toScreen(own.x,own.y),toScreen(own.x+Math.cos(o.bearingRad)*r,own.y+Math.sin(o.bearingRad)*r)];}
++ function esmSegment(o){const origin=o.originWorld??mapOwnShipA(),target=o.estimateWorld??{x:origin.x+Math.cos(o.bearingRad)*kmToWorld(Math.min(view().km,90)),y:origin.y+Math.sin(o.bearingRad)*kmToWorld(Math.min(view().km,90))};return [toScreen(origin.x,origin.y),toScreen(target.x,target.y)];}
+  function hits(x,y){const v=view().rect;if(x<v.x||x>v.x+v.w||y<v.y||y>v.y+v.h)return [];return records().map(o=>{if(o.kind==='ESM'){const[a,b]=esmSegment(o);return {...o,distancePx:Math.hypot(x-a.x,y-a.y)<=40?Infinity:segmentDistance(x,y,{x:a.x+(b.x-a.x)*Math.min(1,40/Math.max(1e-9,Math.hypot(b.x-a.x,b.y-a.y))),y:a.y+(b.y-a.y)*Math.min(1,40/Math.max(1e-9,Math.hypot(b.x-a.x,b.y-a.y)))},b)};}const shown=window.__MAP_C__?.pointFor(o)??o,p=toScreen(shown.x,shown.y);return {...o,distancePx:Math.hypot(x-p.x,y-p.y)};}).filter(o=>o.distancePx<=(o.kind==='ESM'?12:20)).sort((a,b)=>a.distancePx-b.distancePx||a.key.localeCompare(b.key));}
+@@ -65888,3 +66288,3 @@
+   const header=`${o.label}\n${o.classification??'-'} · ${o.identity??'-'}\n${o.lost?'트랙 소실 · 마지막 보고':'마지막 갱신'} ${age(o).toFixed(1)}초 전${o.quality!=null?' · 품질 '+fmt(o.quality,2):''}`,sections=[];
+-  if(o.kind==='ESM'){sections.push({name:'ESM · '+age(o).toFixed(1)+'s',text:`방위 ${fmt((o.bearingRad*180/Math.PI+450)%360,1)}° ±${fmt(o.bearingSigmaDeg,1)}°\n거리: 알 수 없음\n대역: ${o.band??'보고 없음'} · 방사체 계열: ${o.emitterClass??o.type??'보고 없음'}\n신뢰도: ${fmt(o.confidence,2)}`});return {header,sections};}
++  if(o.kind==='ESM'){sections.push({name:'ESM · '+age(o).toFixed(1)+'s',text:esmInformationTextA(o)});return {header,sections};}
+   if(o.kind==='TRACK'){
+@@ -65893,3 +66293,3 @@
+    if(o.remote?.length)sections.push({name:'데이터링크',text:o.remote.map(q=>`${q.sourceId} · 측정 ${fmt(q.measuredAtS,1)}s (${fmt(mapNowA()-q.measuredAtS,1)}s 전)\n수신 ${fmt(q.receivedAtS,1)}s · 보고 #${q.sequence??'-'}`).join('\n')});
+-   const esm=esmContacts.get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);} // Existing same-file association only.
++   const esm=esmCommonContactsA(ACTIVE_SHIP_RUNTIME).get(o.id);if(esm){const e=mapEsmReadA(o.id,esm);sections.push(...information(e).sections);} // Existing same-file association only.
+    if(o.isar){const c=o.isar.candidates[0];sections.push({name:'데이터링크 ISAR · '+fmt(mapNowA()-o.isar.measuredAtS,1)+'s',text:`${o.isar.sourceId} · ${c?.label??'후보 없음'} ${fmt(c?.confidence,2)}\n전장 ${fmt(o.isar.lengthM,0)}±${fmt(o.isar.lengthSigmaM,0)}m`});}
+@@ -65921,3 +66321,3 @@
+    actions.append(action('ID 변경',()=>{const r=actions.getBoundingClientRect();openIdentity(o,r.x,r.y);},lost||(o.kind!=='TRACK'?'로컬 트랙 없음':''),'mapIdentityA'));
+-   if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));
++   if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);actions.append(action('하푼 수동 cue',()=>esmManualCueCommandA(o.id),q.ok?'':q.reason,'mapEsmCueA'));}
+   }else if(['OWN','ALLY','HELO'].includes(o.kind)){
+@@ -65941,3 +66341,3 @@
+  function contextFor(o,x,y){hide(candidates);menu.replaceChildren(el('strong','',o?.label??'빈 바다'));const closeCall=fn=>()=>{const r=fn();hide(menu);return r;};
+-  if(o){menu.append(action('정보 보기',closeCall(()=>show(o,true))));if(['TRACK','NET','ESM'].includes(o.kind)){menu.append(action('정밀추적',closeCall(()=>precision(resolve(o.key,true))),mapPrecisionReasonA(o)));menu.append(action('ID 변경',()=>openIdentity(o,x,y),o.kind!=='TRACK'?'로컬 트랙 없음':''));if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));}
++  if(o){menu.append(action('정보 보기',closeCall(()=>show(o,true))));if(['TRACK','NET','ESM'].includes(o.kind)){menu.append(action('정밀추적',closeCall(()=>precision(resolve(o.key,true))),mapPrecisionReasonA(o)));menu.append(action('ID 변경',()=>openIdentity(o,x,y),o.kind!=='TRACK'?'로컬 트랙 없음':''));if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);menu.append(action('하푼 수동 cue',closeCall(()=>esmManualCueCommandA(o.id)),q.ok?'':q.reason));}}
+    else if(['OWN','ALLY','HELO'].includes(o.kind)){menu.append(action('통제',closeCall(()=>takeControl(o)),controlReason(o)));if(controlled===o.key)menu.append(action('통제 해제',closeCall(releaseControl)));if(o.kind==='OWN'||o.kind==='HELO'&&o.visible||o.kind==='ALLY'&&o.viewId)menu.append(action('3D 보기',closeCall(()=>viewPlatform(o))));else menu.append(action('3D 보기',()=>{},'사용 가능한 아군함·헬기 시점 없음'));}
+@@ -65979,3 +66379,3 @@
+  function draw(context){if(!enabled)return;const rows=picture,raw=rows.find(q=>q.key===lookup),o=raw?{...raw,...(window.__MAP_C__?.pointFor(raw)??{})}:null,c=paintControlled;context.save();context.lineWidth=1/mapZoom;
+-  if(o&&o.kind==='ESM'){const own=mapOwnShipA(),r=kmToWorld(Math.min(currentTacticalViewKm(),90))*.88,x=own.x+Math.cos(o.bearingRad)*r,y=own.y+Math.sin(o.bearingRad)*r;context.strokeStyle='#e0d7aa';context.setLineDash([3/mapZoom,3/mapZoom]);context.beginPath();context.arc(x,y,16/mapZoom,0,Math.PI*2);context.stroke();}
++  if(o&&o.kind==='ESM'){esmDrawSelectionA(context,o,mapZoom,currentTacticalViewKm());}
+   else if(o&&Number.isFinite(o.x)){context.strokeStyle='#e8eef2';context.setLineDash([3/mapZoom,3/mapZoom]);context.beginPath();context.arc(o.x,o.y,16/mapZoom,0,Math.PI*2);context.stroke();}

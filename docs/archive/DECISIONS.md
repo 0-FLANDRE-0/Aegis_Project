@@ -104,3 +104,28 @@
 - 바인딩 누락·중복·없는 장비·범주/출력 불일치는 fail-closed다. 같은 범주의 다른 허용 장비로 대체하는 우회 판정은 금지한다.
 - 내부 consumer ID는 UI에 표시하지 않는다. 실제 장비명은 선택 함선에 설치된 등록 장비 행에서만 표시한다.
 - 정적 바인딩은 저장 데이터에 복제하지 않으며 `AEGIS_SHIP_EMCON_B_2`를 유지한다. 광역 회귀는 반복하지 않고 바인딩 전용 결정적 검사와 기존 제한 폐쇄 게이트만 실행한다.
+
+## 2026-11-08 (ESM_A / TRACK-D 공통 기반)
+
+- 사용자가 PR #74를 merge commit `babb4d7f6d42cc8d774feadce17d8108b3a24040`로 병합했다. EMCON_B 제품 SHA는 `50cbf50f…f96ee`로 유지되며 release/tag는 없다.
+- ESM_A는 TRACK-D에 포함된 하나의 단계·하나의 브랜치·하나의 PR로 진행한다. AOA·TDOA·FDOA·UI·공통 cue 계약을 인위적으로 후속 단계로 분리하지 않는다.
+- DDG-119와 CG-52의 실제 수동 수신 경로를 공통 익명 raw ESM DTO·추정기·network·UI·lifecycle에 연결한다.
+- 원격 ESM 보고나 위치 추정만으로 적성, 레이더/사격통제 트랙, 자동 교전 권한을 부여하지 않는다. 수렴한 추정은 수동 coordinate/area cue로만 사용한다.
+- SOV Mineral/Band Stand 실제 수신 어댑터, SOV ESM UI와 Moskit 표적지시는 후속 소브레멘니 센서·무장 단계에서 이 공통 계약에 연결한다. ESM_A에서 SOV capability를 활성화하지 않는다.
+
+## 2026-11-08 (ESM_A 종료 승인)
+
+- DDG/CG idle/raid/damaged paired 비교의 `state.esmA` 차이 6건은 ESM_A 저장
+  스키마 도입에 따른 의도된 변경으로 승인한다. 원시 실패는 보존하고 기대값이나
+  허용 오차는 변경하지 않는다.
+- 승인 근거는 해당 필드만 제거했을 때 물리 상태, 관측 결과, 전투 RNG, 피해,
+  탄약, offboard 상태가 6/6 exact라는 증거다.
+- 결함 수정 전 SHA의 광역 회귀는 최종 증거로 재사용하지 않는다. 수정 SHA
+  `5dcc6201…dad7`에 한해 대체 MAX_THREAT 광역 회귀 1회를 승인한다.
+- 대체 광역은 effective 721/721 PASS다. 구형 직접 EMCON UI 시험은 부활시키지
+  않고 현재 MAP_B/EMCON 계약의 14개 대응 시험을 실행해 14/14 PASS로 기록한다.
+- SOV Mineral/MR-184/Band Stand 연결, 새 ESM 전술 로직, 자동 교전 권한,
+  사격통제 기능은 ESM_A 범위에 추가하지 않는다.
+- ESM 공통 추정 상태 `r.ew.esmA.contacts`와 기존 전술 projection
+  `r.ew.executionF.contacts`는 계속 분리한다. merge/release/tag는 사용자 결정 전
+  수행하지 않는다.

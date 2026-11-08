@@ -6,6 +6,7 @@ on:
       - 'AEGIS_CURRENT_PRODUCT.json'
       - 'Aegis_SIM_v48_WIP_EMITTER_A.html'
       - 'Aegis_SIM_v48_WIP_EMCON_B.html'
+      - 'Aegis_SIM_v48_WIP_ESM_A.html'
       - 'docs/electronic/emitter/A/build_product.py'
       - 'docs/electronic/emitter/A/build_stage_diagnostic.py'
       - 'docs/electronic/emitter/A/validate_current_product.py'
@@ -37,6 +38,7 @@ on:
       - 'docs/electronic/emcon/B/emcon_ui.js'
       - 'docs/electronic/emcon/B/emcon_lifecycle.js'
       - 'docs/electronic/emcon/B/stage_e_diagnostic.js'
+      - 'docs/electronic/esm/A/**'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
       - 'docs/bunkerhill/K/browser_i.py'
@@ -64,6 +66,7 @@ jobs:
       - name: Install locked Playwright and Chromium
         run: |
           npm ci
+          python3 -m pip install playwright==1.55.0
           npx playwright install --with-deps chromium
 
       - name: Validate current product manifest
@@ -102,6 +105,13 @@ jobs:
                 --receipt artifacts/current-candidate/rebuild.json \
                 --diff artifacts/current-candidate/rebuild.diff
               ;;
+            ESM_A)
+              python3 docs/electronic/esm/A/build_product.py \
+                --stage E \
+                --out /tmp/aegis-current-candidate.html \
+                --receipt artifacts/current-candidate/rebuild.json \
+                --diff artifacts/current-candidate/rebuild.diff
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
           cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
@@ -127,6 +137,11 @@ jobs:
               python3 docs/electronic/emcon/B/run_correction_3_static.py
               cp docs/electronic/emcon/B/CORRECTION_3_STATIC.json artifacts/current-candidate/correction-3-static.json
               ;;
+            ESM_A)
+              python3 docs/electronic/esm/A/run_candidate_static_gate.py \
+                --out artifacts/current-candidate/static-gate.json \
+                --main-out artifacts/current-candidate/main.js
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
           node --check artifacts/current-candidate/main.js
@@ -150,12 +165,29 @@ jobs:
               cp /tmp/Aegis_SIM_v48_WIP_EMCON_B_E_DIAGNOSTIC.html /tmp/aegis-current-candidate-diagnostic.html
               cp docs/electronic/emcon/B/E_DIAGNOSTIC_BUILD.json artifacts/current-candidate/diagnostic-build.json
               ;;
+            ESM_A)
+              python3 docs/electronic/esm/A/build_diagnostic.py \
+                --product "$PRODUCT_PATH" \
+                --out /tmp/Aegis_SIM_v48_WIP_ESM_A_E_DIAG.html \
+                --modules esm_b_diagnostic.js esm_e_baseline_probe.js esm_e_diagnostic.js \
+                --receipt artifacts/current-candidate/diagnostic-build.json
+              python3 docs/electronic/esm/A/build_diagnostic.py \
+                --product "$BASELINE_PATH" \
+                --out /tmp/Aegis_SIM_v48_WIP_EMCON_B_E_BASELINE_DIAG.html \
+                --modules esm_e_baseline_probe.js \
+                --receipt artifacts/current-candidate/baseline-diagnostic-build.json
+              cp "$PRODUCT_PATH" /tmp/Aegis_SIM_v48_WIP_ESM_A_E.html
+              cp /tmp/Aegis_SIM_v48_WIP_ESM_A_E_DIAG.html /tmp/aegis-current-candidate-diagnostic.html
+              cp /tmp/Aegis_SIM_v48_WIP_EMCON_B_E_BASELINE_DIAG.html /tmp/aegis-current-baseline-diagnostic.html
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
-          python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
-              --base "$BASELINE_PATH" \
-              --out /tmp/aegis-current-baseline-diagnostic.html \
-              --receipt artifacts/current-candidate/baseline-diagnostic-build.json
+          if [ "$CANDIDATE_STAGE" != "ESM_A" ]; then
+            python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
+                --base "$BASELINE_PATH" \
+                --out /tmp/aegis-current-baseline-diagnostic.html \
+                --receipt artifacts/current-candidate/baseline-diagnostic-build.json
+          fi
 
       - name: Run final limited Chromium candidate gate
         shell: bash
@@ -192,6 +224,12 @@ jobs:
               EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
                 node docs/electronic/emcon/B/run_lock_debt_gate.mjs
               cp docs/electronic/emcon/B/LOCK_DEBT_14.json artifacts/current-candidate/lock-debt-14.json
+              ;;
+            ESM_A)
+              python3 docs/electronic/esm/A/run_stage_e_gate.py
+              cp docs/electronic/esm/A/E_GATE.json artifacts/current-candidate/browser-gate.json
+              python3 docs/map/E/verify_emcon_ui.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/current-emcon-ui
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac

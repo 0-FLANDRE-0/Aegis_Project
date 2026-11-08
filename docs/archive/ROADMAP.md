@@ -10,13 +10,16 @@
    - `electronicPhysicalEmittersF`의 SPY/SPQ/NAV 하드코딩을 프로필 기반으로 바꾼다. 출력 계약은 유지한다(DDG·CG 분기 커버리지 동등성)
    - 소브레멘니 방사원은 별도 커밋으로 추가한다
    - 방사 상태는 ShipRuntime이 소유한다. 소비자(수동 RF·ESM·HOJ·함 레이더)는 공통 API로 조회한다. NPC AI EMCON도 같은 구조로 간다
-3. **EMCON_B** — A–E + PR #74 2·3차 보정 구현·제한 검증 완료, 사용자 검토/병합 결정 대기
+3. **EMCON_B** — 완료, PR #74 사용자 병합 (`main@babb4d7f`)
    - V2 `ALL_RADIATION_SILENT`, 함종 중립 consumer→equipment 바인딩, 범주 정책·장비 override·exact 방출/own·NPC 센서/ECM gate·profile UI·network/save lifecycle 완료
    - FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 완료
    - 통신 EMCON은 별도 후속 정책으로 남김
 4. **U4** SARH 쌍정 어댑터 → **U5** RAM 수동 RF/IR 어댑터 → **U6** 상태기계·연관 공통화
    - RAM 메모: 자함용·타함용 복사본이 두 개 있다. 방사 세기가 상대 시커 추적 품질에 따라 바뀌는 이상한 점이 있다.
-5. **TRACK-D**(링크·소비자 통합) → **HP 지표** → **통합 기준선** → **교전·방어 OODA**
+5. **TRACK-D / ESM_A** — 현재 작업
+   - DDG/CG 공통 익명 raw ESM receiver 계약, 단함 AOA, 협동 AOA/TDOA/FDOA, UI와 제한적 수동 cue를 하나의 PR로 구현
+   - SOV Mineral 실제 어댑터·Moskit 표적지시는 후속 소브레멘니 센서·무장 단계
+6. **HP 지표** → **통합 기준선** → **교전·방어 OODA**
 
 - 2~3번과 4번 사이 순서는 상황 보고 사용자와 다시 정한다.
 - **적 항공기 재제작**은 시점 미정이다. 설계 메모는 `DESIGN_NOTES.md`에 있다.
