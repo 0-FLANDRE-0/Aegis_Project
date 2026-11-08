@@ -27,3 +27,6 @@ function emconETacticalPulseB(){
 function emconEResetDetailsB(){resetElectronicFleetF();return emconLifecycleSnapshotB();}
 function emconEDestroyB(id){return destroyShipRuntime(id);}
 window.__EMCON_B_E_DIAG__=Object.freeze({group:emconEGroupB,individual:emconEIndividualB,expireFollower:emconEExpireFollowerLeaseB,snapshot:emconEGroupSnapshotB,tactical:emconETacticalPulseB,reset:emconEResetDetailsB,destroy:emconEDestroyB});
+// The historical #lockBtn node is intentionally detached by MAP_E. This test-only port invokes
+// its retained native listener so the original 14 behavioral assertions can run in Chromium.
+window.__EMCON_B_LOCK_DEBT__=Object.freeze({node:id=>mapELegacyNodeE(id)});
