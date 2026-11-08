@@ -67,13 +67,32 @@ def transform(source: str, stage: str) -> str:
     source = one(source, "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", policy + "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", "policy module")
     source = one(source, "function prepareElectronicF(r){\n  const own=", "function prepareElectronicF(r){\n  prepareEmconB(r);\n  const own=", "prepare lifecycle")
     start, end = function_span(source, "electronicShipPhysicalEmittersDeclaredA")
-    body = source[start:end]
-    body = one(body, "if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;", "if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}", "inactive shadow")
-    last = body.rfind("return out;")
-    if last < 0:
-        raise AssertionError("declared resolver return missing")
-    body = body[:last] + "emconShadowResolveB(r,out);" + body[last:]
+    if stage == "B":
+        body = source[start:end]
+        body = one(body, "if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;", "if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}", "inactive shadow")
+        last = body.rfind("return out;")
+        if last < 0:
+            raise AssertionError("declared resolver return missing")
+        body = body[:last] + "emconShadowResolveB(r,out);" + body[last:]
+    else:
+        body = (HERE / "emcon_active_runtime.js").read_text().strip()
     source = source[:start] + body + source[end:]
+    if stage in ("C", "D", "E"):
+        source = one(source, "if(emconActive) return;\n    spyScheduler.accumulatorS", "if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH')) return;\n    spyScheduler.accumulatorS", "active SPY gate")
+        source = one(source, "if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle", "if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH')&&spq9bHealth01()>.08)spq9bRotorAngle", "active SPQ rotor")
+        source = one(source, "if(!emconActive && spq9bHealth01()>0.08){", "if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH') && spq9bHealth01()>0.08){", "active SPQ measurement")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "active NAV rotor")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>0.08){", "if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>0.08){", "active NAV measurement")
+        source = one(source, "if(emconActive||bridgeMasterEHealth01()<=0.08)return;", "if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')||bridgeMasterEHealth01()<=0.08)return;", "active NAV shoreline gate")
+        source = one(source, "if(!o.enabled.SPY||o.emcon||health<=.05", "if(!emconCategoryAllowsB(r,'AIR_SEARCH')||health<=.05", "observer SPY gate")
+        source = one(source, "if(!o.enabled[key]||o.emcon||health<=.08)return;", "if(!emconCategoryAllowsB(r,spq?'SURFACE_SEARCH':'NAV')||health<=.08)return;", "observer auxiliary gate")
+        source = one(source, "function electronicJammerSampleF(r,rx,p,kind){\n  const cfg=", "function electronicJammerSampleF(r,rx,p,kind){\n  if(!emconCategoryAllowsB(r,'ECM'))return null;\n  const cfg=", "jammer and HOJ gate")
+        # The first declaration is lexically inside createElectronicContextF(owner) despite its
+        # column-0 formatting; the later indented declaration is the active-ship compatibility path.
+        source = one(source, "\nfunction updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\nfunction updateSlq32EaAllocator(dt){\n    if(!emconCategoryAllowsB(owner,'ECM')||shipEquipmentOfflineV1())", "observer allocator gate")
+        source = one(source, "\n  function updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\n  function updateSlq32EaAllocator(dt){\n    if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'ECM')||shipEquipmentOfflineV1())", "active allocator gate")
+        source = one(source, "if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];\n  const rx=", "if(!emconCategoryAllowsB(r,'AIR_SEARCH'))return [];\n  const rx=", "surface IFF gate")
+        source = one(source, "if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;", "if(shipEquipmentOfflineV1(ship)||!emconCategoryAllowsB(ship,'AIR_SEARCH'))return out;", "air IFF gate")
     return source
 
 
@@ -113,7 +132,7 @@ def main() -> None:
         "outputSha256": sha(output),
         "outputMainSha256": sha(after.encode()),
         "outputBytes": len(output),
-        "sourceModules": {"emcon_policy.js": sha((HERE / "emcon_policy.js").read_bytes())},
+        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []))},
     }
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")

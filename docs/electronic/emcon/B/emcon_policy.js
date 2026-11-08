@@ -6,7 +6,7 @@ const EMCON_B_CATEGORY_VALUES=Object.freeze(['RADIATE','SILENT']);
 const EMCON_B_OVERRIDE_VALUES=Object.freeze(['INHERIT','FORCE_RADIATE','FORCE_SILENT']);
 const EMCON_B_RADAR_CATEGORIES=Object.freeze(['AIR_SEARCH','SURFACE_SEARCH','NAV','FIRE_CONTROL']);
 const EMCON_B_AUDIT={schema:'AEGIS_EMCON_B_SHADOW_AUDIT_1',mode:EMCON_B_MODE,comparisons:0,mismatches:0,
-  skippedNovelPolicy:0,perProfile:{},examples:[],rngConsumed:false,truthRead:false,tacticalOutputUsed:false};
+  skippedNovelPolicy:0,perProfile:{},examples:[],rngConsumed:false,truthRead:false,tacticalOutputUsed:EMCON_B_MODE==='ACTIVE'};
 
 function emconRegistryEntryB(r,equipmentId){return shipEmitterRegistryA(r)?.entries?.find(q=>q.id===String(equipmentId))??null;}
 function emconDefaultStateB(r){
@@ -99,6 +99,14 @@ function emconEquipmentDecisionB(r,equipmentId){
   return {schema:'AEGIS_EMCON_EQUIPMENT_DECISION_B_1',ownerEntityId:r.entityId,profileId:r.profileId,equipmentId:entry.id,category,categoryPolicy,override,
     allowed,emissionActive,reason,masterSilent,networkSilent,operational:operational.ok,ecm,revision:state.revision,truthUsed:false,rngConsumed:false};
 }
+function emconCategoryDecisionsB(r,category){return (shipEmitterRegistryA(r)?.entries??[]).filter(q=>q.category===category).map(q=>emconEquipmentDecisionB(r,q.id));}
+function emconCategoryAllowsB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.allowed);}
+function emconCategoryEmittingB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.emissionActive);}
+function emconEcmSilenceAllocatorB(r){
+  const a=r===ACTIVE_SHIP_RUNTIME?slq32EaState:r?.ew?.slq32Allocator;if(!a)return;
+  a.noiseShare=a.targetNoiseShare=0;a.deceptionShare=a.targetDeceptionShare=0;a.resourceUsed=0;
+  a.policy='EMCON_SILENT';a.reason='ECM_CATEGORY_OR_OVERRIDE_SILENT';a.primaryKey=null;a.emitterMode='NONE';
+}
 function emconStateIsDefaultB(r){
   const state=emconStateViewB(r);return SHIP_EMITTER_CATEGORIES_A.every(k=>state.categoryPolicy[k]==='RADIATE')&&Object.values(state.equipmentOverride).every(v=>v==='INHERIT');
 }
@@ -133,7 +141,7 @@ function emconCommandB(id,command,origin='OPERATOR'){
     next.equipmentOverride[entry.id]=command.override;next.revision++;
   }else return {ok:false,reason:'COMMAND_FIELDS'};
   const validation=validateEmconStateB(r,next);if(!validation.ok)return {ok:false,reason:'STATE_INVALID',errors:validation.errors};
-  r.combatSystem.emconB=next;return {ok:true,state:structuredClone(next)};
+  r.combatSystem.emconB=next;if(!emconCategoryAllowsB(r,'ECM'))emconEcmSilenceAllocatorB(r);return {ok:true,state:structuredClone(next)};
 }
 function emconSnapshotB(r){
   const state=emconStateViewB(r),registry=shipEmitterRegistryA(r);
@@ -151,4 +159,4 @@ function emconOfflineProbeB(r){
 window.__EMCON_B__=Object.freeze({schema:EMCON_B_SCHEMA,mode:EMCON_B_MODE,categories:SHIP_EMITTER_CATEGORIES_A,categoryValues:EMCON_B_CATEGORY_VALUES,overrideValues:EMCON_B_OVERRIDE_VALUES,
   ships:()=>[...ENGAGEMENT_RUNTIME.ships.values()].map(r=>r.entityId),snapshot:id=>emconSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),decision:(id,equipmentId)=>emconEquipmentDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),equipmentId),
   validate:(id,state)=>validateEmconStateB(ENGAGEMENT_RUNTIME.ships.get(String(id)),state),command:emconCommandB,audit:emconAuditSnapshotB,
-  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id)))})});
+  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category)})});

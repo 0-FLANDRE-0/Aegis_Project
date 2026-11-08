@@ -1,0 +1,267 @@
+--- EMITTER_A/main.js
++++ EMCON_B_C/main.js
+@@ -2962,2 +2962,164 @@
+ 
++// EMCON_B Commit B — per-ShipRuntime detail policy and SHADOW-only decision.
++// PUBLIC GAME CONTRACT: radar master ownership remains emconActive / observerC(r).emcon.
++const EMCON_B_SCHEMA='AEGIS_SHIP_EMCON_B_1';
++const EMCON_B_MODE='ACTIVE';
++const EMCON_B_CATEGORY_VALUES=Object.freeze(['RADIATE','SILENT']);
++const EMCON_B_OVERRIDE_VALUES=Object.freeze(['INHERIT','FORCE_RADIATE','FORCE_SILENT']);
++const EMCON_B_RADAR_CATEGORIES=Object.freeze(['AIR_SEARCH','SURFACE_SEARCH','NAV','FIRE_CONTROL']);
++const EMCON_B_AUDIT={schema:'AEGIS_EMCON_B_SHADOW_AUDIT_1',mode:EMCON_B_MODE,comparisons:0,mismatches:0,
++  skippedNovelPolicy:0,perProfile:{},examples:[],rngConsumed:false,truthRead:false,tacticalOutputUsed:EMCON_B_MODE==='ACTIVE'};
++
++function emconRegistryEntryB(r,equipmentId){return shipEmitterRegistryA(r)?.entries?.find(q=>q.id===String(equipmentId))??null;}
++function emconDefaultStateB(r){
++  const registry=shipEmitterRegistryA(r),categoryPolicy={},equipmentOverride={};
++  for(const category of SHIP_EMITTER_CATEGORIES_A)categoryPolicy[category]='RADIATE';
++  for(const entry of registry?.entries??[])equipmentOverride[entry.id]='INHERIT';
++  return {schema:EMCON_B_SCHEMA,profileId:r.profileId,registryId:registry?.registryId??null,categoryPolicy,equipmentOverride,revision:0};
++}
++function validateEmconStateB(r,state){
++  const registry=shipEmitterRegistryA(r),errors=[];
++  if(!state||typeof state!=='object'||Array.isArray(state))return {ok:false,errors:['STATE_OBJECT']};
++  const keys=Object.keys(state).sort(),expected=['categoryPolicy','equipmentOverride','profileId','registryId','revision','schema'].sort();
++  if(keys.join('|')!==expected.join('|'))errors.push('STATE_KEYS');
++  if(state.schema!==EMCON_B_SCHEMA)errors.push('SCHEMA');
++  if(state.profileId!==r.profileId)errors.push('PROFILE_ID');
++  if(state.registryId!==(registry?.registryId??null))errors.push('REGISTRY_ID');
++  if(!Number.isInteger(state.revision)||state.revision<0)errors.push('REVISION');
++  const categories=state.categoryPolicy;
++  if(!categories||typeof categories!=='object'||Array.isArray(categories)||Object.keys(categories).sort().join('|')!==[...SHIP_EMITTER_CATEGORIES_A].sort().join('|'))errors.push('CATEGORY_KEYS');
++  else for(const category of SHIP_EMITTER_CATEGORIES_A)if(!EMCON_B_CATEGORY_VALUES.includes(categories[category]))errors.push('CATEGORY_VALUE:'+category);
++  const overrides=state.equipmentOverride,entries=registry?.entries??[],ids=entries.map(q=>q.id).sort();
++  if(!overrides||typeof overrides!=='object'||Array.isArray(overrides)||Object.keys(overrides).sort().join('|')!==ids.join('|'))errors.push('EQUIPMENT_KEYS');
++  else for(const entry of entries){
++    const value=overrides[entry.id];
++    if(!EMCON_B_OVERRIDE_VALUES.includes(value))errors.push('EQUIPMENT_VALUE:'+entry.id);
++    if(value!=='INHERIT'&&(entry.installed===false||entry.physicalEmission===false||entry.outputKind==='REGISTERED_INACTIVE'))errors.push('INACTIVE_OVERRIDE:'+entry.id);
++  }
++  return {ok:errors.length===0,errors};
++}
++function prepareEmconB(r){
++  const existing=r?.combatSystem?.emconB;
++  if(existing){const validation=validateEmconStateB(r,existing);if(!validation.ok)throw Error('EMCON_B_STATE_INVALID:'+validation.errors.join(','));return existing;}
++  const state=emconDefaultStateB(r),validation=validateEmconStateB(r,state);if(!validation.ok)throw Error('EMCON_B_DEFAULT_INVALID:'+validation.errors.join(','));
++  r.combatSystem.emconB=state;claimShipMutableRootA(r,'emconB',state);return state;
++}
++function emconStateViewB(r){return r?.combatSystem?.emconB??emconDefaultStateB(r);}
++function emconMasterSilentB(r){return r===ACTIVE_SHIP_RUNTIME?!!emconActive:!!r?.combatSystem?.observerC?.emcon;}
++function emconNetworkSilentB(r,category){
++  if(category==='ECM')return false;
++  const n=r?.combatSystem?.networkG,now=(typeof simStepCounter==='number'?simStepCounter:0)*SIM_FIXED_DT;
++  if(!n)return false;
++  if(r!==ACTIVE_SHIP_RUNTIME&&n.settings?.enabled&&n.groupLease&&n.groupLease.untilS>=now){
++    const mode=n.groupLease.mode;return mode==='SILENT'||mode==='PLAYER_SEARCH';
++  }
++  if(r===ACTIVE_SHIP_RUNTIME&&n.groupBase!==null&&n.groupBase!==undefined){
++    const mode=n.settings?.groupEmcon;return mode==='SILENT'||mode==='ALLY_SEARCH';
++  }
++  return false;
++}
++function emconEquipmentOperationalB(r,entry){
++  if(!entry)return {ok:false,reason:'UNREGISTERED'};
++  const registry=shipEmitterRegistryA(r);
++  if(!registry||registry.physicalEmission===false||entry.installed===false||entry.physicalEmission===false||entry.outputKind==='REGISTERED_INACTIVE')return {ok:false,reason:'REGISTERED_INACTIVE'};
++  if(shipEquipmentOfflineV1(r))return {ok:false,reason:'SHIP_OFFLINE'};
++  const observer=r.combatSystem?.observerC;
++  if(entry.outputKind==='RADAR'){
++    if(!observer||entry.enabledKey&&observer.enabled?.[entry.enabledKey]!==true)return {ok:false,reason:'EQUIPMENT_DISABLED'};
++    if(entry.mountKind==='FIRST_HEALTHY_SPY_FACE'){
++      if(!observer.normals?.some(q=>observerHealthC(r,q.moduleName)>.05))return {ok:false,reason:'DAMAGE'};
++    }else{
++      const hp=resolveShipProfile(r.profileId).geometry.hardpoints[entry.hardpointKey];
++      if(!hp||observerHealthC(r,hp.name)<=.05||shipSystemDamageB(r,'MAST')>=80)return {ok:false,reason:'DAMAGE'};
++    }
++  }else if(entry.outputKind==='ECM'){
++    const pods=resolveShipProfile(r.profileId).equipment?.ew?.pods;
++    if(Array.isArray(pods)&&pods.length===0)return {ok:false,reason:'NOT_INSTALLED'};
++    if(shipSystemDamageB(r,'CDC')>=100)return {ok:false,reason:'DAMAGE'};
++  }
++  return {ok:true,reason:null};
++}
++function emconEcmRuntimeB(r){
++  const own=r===ACTIVE_SHIP_RUNTIME,e=r?.ew?.executionF,a=own?slq32EaState:r?.ew?.slq32Allocator;
++  const noiseRequested=own?!!noiseJamActive:!!e?.noiseRequested,deceptionRequested=own?!!deceptJamActive:!!e?.deceptionRequested;
++  return {noiseRequested,deceptionRequested,resourceUsed:Number(a?.resourceUsed??0),requestActive:noiseRequested||deceptionRequested};
++}
++function emconEquipmentDecisionB(r,equipmentId){
++  const entry=emconRegistryEntryB(r,equipmentId),state=emconStateViewB(r),operational=emconEquipmentOperationalB(r,entry);
++  if(!entry)return {schema:'AEGIS_EMCON_EQUIPMENT_DECISION_B_1',equipmentId:String(equipmentId),allowed:false,emissionActive:false,reason:'UNREGISTERED',truthUsed:false,rngConsumed:false};
++  const category=entry.category,masterSilent=EMCON_B_RADAR_CATEGORIES.includes(category)&&emconMasterSilentB(r),networkSilent=emconNetworkSilentB(r,category),override=state.equipmentOverride[entry.id]??'INHERIT',categoryPolicy=state.categoryPolicy[category]??'SILENT';
++  let allowed=false,reason=operational.reason;
++  if(operational.ok){
++    if(masterSilent)reason='MASTER_SILENT';
++    else if(networkSilent)reason='NETWORK_SILENT';
++    else if(override==='FORCE_SILENT')reason='OVERRIDE_SILENT';
++    else if(override==='FORCE_RADIATE'){allowed=true;reason='OVERRIDE_RADIATE';}
++    else if(categoryPolicy==='SILENT')reason='CATEGORY_SILENT';
++    else{allowed=true;reason='CATEGORY_RADIATE';}
++  }
++  const ecm=category==='ECM'?emconEcmRuntimeB(r):null,emissionActive=allowed&&(category!=='ECM'||ecm.requestActive&&ecm.resourceUsed>.001);
++  return {schema:'AEGIS_EMCON_EQUIPMENT_DECISION_B_1',ownerEntityId:r.entityId,profileId:r.profileId,equipmentId:entry.id,category,categoryPolicy,override,
++    allowed,emissionActive,reason,masterSilent,networkSilent,operational:operational.ok,ecm,revision:state.revision,truthUsed:false,rngConsumed:false};
++}
++function emconCategoryDecisionsB(r,category){return (shipEmitterRegistryA(r)?.entries??[]).filter(q=>q.category===category).map(q=>emconEquipmentDecisionB(r,q.id));}
++function emconCategoryAllowsB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.allowed);}
++function emconCategoryEmittingB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.emissionActive);}
++function emconEcmSilenceAllocatorB(r){
++  const a=r===ACTIVE_SHIP_RUNTIME?slq32EaState:r?.ew?.slq32Allocator;if(!a)return;
++  a.noiseShare=a.targetNoiseShare=0;a.deceptionShare=a.targetDeceptionShare=0;a.resourceUsed=0;
++  a.policy='EMCON_SILENT';a.reason='ECM_CATEGORY_OR_OVERRIDE_SILENT';a.primaryKey=null;a.emitterMode='NONE';
++}
++function emconStateIsDefaultB(r){
++  const state=emconStateViewB(r);return SHIP_EMITTER_CATEGORIES_A.every(k=>state.categoryPolicy[k]==='RADIATE')&&Object.values(state.equipmentOverride).every(v=>v==='INHERIT');
++}
++function emconShadowResolveB(r,rows){
++  const registry=shipEmitterRegistryA(r);if(!registry)return;
++  if(!emconStateIsDefaultB(r)){EMCON_B_AUDIT.skippedNovelPolicy++;return;}
++  const profile=EMCON_B_AUDIT.perProfile[r.profileId]??={comparisons:0,mismatches:0};
++  for(const entry of registry.entries){
++    const decision=emconEquipmentDecisionB(r,entry.id),existing=rows.some(row=>row.family===entry.family&&row.emitterClass===entry.emitterClass);
++    EMCON_B_AUDIT.comparisons++;profile.comparisons++;
++    if(decision.emissionActive===existing)continue;
++    EMCON_B_AUDIT.mismatches++;profile.mismatches++;
++    if(EMCON_B_AUDIT.examples.length<32)EMCON_B_AUDIT.examples.push({profileId:r.profileId,entityId:r.entityId,equipmentId:entry.id,existing,decision});
++  }
++}
++function emconCommandB(id,command,origin='OPERATOR'){
++  const r=ENGAGEMENT_RUNTIME.ships.get(String(id));
++  if(!r)return {ok:false,reason:'OWNER_NOT_FOUND'};
++  if(sovHullA(r)||shipEmitterRegistryA(r)?.physicalEmission===false)return {ok:false,reason:'REGISTERED_INACTIVE'};
++  if(origin==='OPERATOR'&&r!==ACTIVE_SHIP_RUNTIME&&r.role!=='ALLY')return {ok:false,reason:'FRIENDLY_OWNER_REQUIRED'};
++  if(!command||typeof command!=='object'||Array.isArray(command)||Object.keys(command).some(k=>!['category','policy','equipmentId','override','reset'].includes(k)))return {ok:false,reason:'COMMAND_FIELDS'};
++  const state=prepareEmconB(r),next=structuredClone(state);
++  if(command.reset===true){const fresh=emconDefaultStateB(r);fresh.revision=state.revision+1;Object.assign(next,fresh);}
++  else if(typeof command.category==='string'){
++    if(!SHIP_EMITTER_CATEGORIES_A.includes(command.category)||!EMCON_B_CATEGORY_VALUES.includes(command.policy))return {ok:false,reason:'CATEGORY_COMMAND'};
++    next.categoryPolicy[command.category]=command.policy;next.revision++;
++  }else if(typeof command.equipmentId==='string'){
++    const entry=emconRegistryEntryB(r,command.equipmentId);
++    if(!entry)return {ok:false,reason:'UNREGISTERED'};
++    if(!EMCON_B_OVERRIDE_VALUES.includes(command.override))return {ok:false,reason:'OVERRIDE_COMMAND'};
++    if(command.override!=='INHERIT'&&(entry.installed===false||entry.physicalEmission===false||entry.outputKind==='REGISTERED_INACTIVE'))return {ok:false,reason:'REGISTERED_INACTIVE'};
++    next.equipmentOverride[entry.id]=command.override;next.revision++;
++  }else return {ok:false,reason:'COMMAND_FIELDS'};
++  const validation=validateEmconStateB(r,next);if(!validation.ok)return {ok:false,reason:'STATE_INVALID',errors:validation.errors};
++  r.combatSystem.emconB=next;if(!emconCategoryAllowsB(r,'ECM'))emconEcmSilenceAllocatorB(r);return {ok:true,state:structuredClone(next)};
++}
++function emconSnapshotB(r){
++  const state=emconStateViewB(r),registry=shipEmitterRegistryA(r);
++  return {schema:'AEGIS_EMCON_B_SNAPSHOT_1',mode:EMCON_B_MODE,ownerEntityId:r.entityId,profileId:r.profileId,masterSilent:emconMasterSilentB(r),state:structuredClone(state),
++    validation:validateEmconStateB(r,state),equipment:(registry?.entries??[]).map(entry=>({definition:{id:entry.id,category:entry.category,outputKind:entry.outputKind,installed:entry.installed!==false,physicalEmission:entry.physicalEmission!==false},decision:emconEquipmentDecisionB(r,entry.id)})),truthUsed:false,rngConsumed:false};
++}
++function emconAuditSnapshotB(){return structuredClone(EMCON_B_AUDIT);}
++// DIAGNOSTIC_ONLY: detached snapshots/probes; no policy authority and no retained mutation.
++function emconRngSnapshotB(r){return {observer:structuredClone(r?.combatSystem?.observerC?.rng??null),electronic:structuredClone(r?.ew?.executionF?.rng??null)};}
++function emconOfflineProbeB(r){
++  const original=shipEquipmentOfflineV1;
++  try{shipEquipmentOfflineV1=runtime=>(runtime??ACTIVE_SHIP_RUNTIME)===r?true:original(runtime);return (shipEmitterRegistryA(r)?.entries??[]).map(q=>emconEquipmentDecisionB(r,q.id));}
++  finally{shipEquipmentOfflineV1=original;}
++}
++window.__EMCON_B__=Object.freeze({schema:EMCON_B_SCHEMA,mode:EMCON_B_MODE,categories:SHIP_EMITTER_CATEGORIES_A,categoryValues:EMCON_B_CATEGORY_VALUES,overrideValues:EMCON_B_OVERRIDE_VALUES,
++  ships:()=>[...ENGAGEMENT_RUNTIME.ships.values()].map(r=>r.entityId),snapshot:id=>emconSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),decision:(id,equipmentId)=>emconEquipmentDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),equipmentId),
++  validate:(id,state)=>validateEmconStateB(ENGAGEMENT_RUNTIME.ships.get(String(id)),state),command:emconCommandB,audit:emconAuditSnapshotB,
++  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category)})});
+ // LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.
+@@ -2967,2 +3129,3 @@
+ function prepareElectronicF(r){
++  prepareEmconB(r);
+   const own=r===ACTIVE_SHIP_RUNTIME,previous=r.ew.executionF;
+@@ -3017,2 +3180,3 @@
+ function electronicJammerSampleF(r,rx,p,kind){
++  if(!emconCategoryAllowsB(r,'ECM'))return null;
+   const cfg=kind==='NOISE'?NOISE_JAM:DECEPTION_JAM,settings=electronicSettingsF(r),allocation=electronicAllocatorF(r),share=kind==='NOISE'?allocation.noiseShare:allocation.deceptionShare,requested=kind==='NOISE'?settings.noiseRequested:settings.deceptionRequested;
+@@ -3078,21 +3242,18 @@
+   const out=[],registry=shipEmitterRegistryA(r);
+-  if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;
++  if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}
+   if(!registry)throw Error('SHIP_EMITTER_REGISTRY_REQUIRED:'+r.profileId);
+-  const own=r===ACTIVE_SHIP_RUNTIME,o=observerC(r),silent=own?emconActive:o.emcon,p=resolveShipProfile(r.profileId);
+-  if(!silent&&!shipEquipmentOfflineV1(r)){
+-    const spy=o.normals.filter(q=>observerHealthC(r,q.moduleName)>.05);
+-    for(const q of registry.entries){
+-      if(q.outputKind!=='RADAR'||!o.enabled[q.enabledKey])continue;
+-      const spec=p.sensors[q.sensorKey];
+-      if(q.mountKind==='FIRST_HEALTHY_SPY_FACE'){
+-        if(spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:q.band,frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:null});
+-        continue;
+-      }
+-      const hp=p.geometry.hardpoints[q.hardpointKey];
+-      if(observerHealthC(r,hp.name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,hp),band:q.bandMode==='FIXED'?q.band:electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:r.navigation.heading+(own?(q.rotorKey==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[q.rotorKey]),beamwidthDeg:q.beamwidthDeg??spec[q.beamwidthField],beamwidthProvenance:q.beamwidthProvenance??String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec[q.rpmField]),double:q.double});
+-    }
++  const own=r===ACTIVE_SHIP_RUNTIME,o=observerC(r),p=resolveShipProfile(r.profileId),spy=o.normals.filter(q=>observerHealthC(r,q.moduleName)>.05);
++  for(const q of registry.entries){
++    if(q.outputKind!=='RADAR'||!emconEquipmentDecisionB(r,q.id).allowed)continue;
++    const spec=p.sensors[q.sensorKey];
++    if(q.mountKind==='FIRST_HEALTHY_SPY_FACE'){
++      if(spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:q.band,frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:null});
++      continue;
++    }
++    const hp=p.geometry.hardpoints[q.hardpointKey];
++    if(observerHealthC(r,hp.name)>.05&&shipSystemDamageB(r,'MAST')<80)out.push({owner:r.entityId,point:observerMountC(r,hp),band:q.bandMode==='FIXED'?q.band:electronicBandF(spec.band),frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:r.navigation.heading+(own?(q.rotorKey==='SPQ'?spq9bRotorAngle:bridgeMasterERotorAngle):o.rotors[q.rotorKey]),beamwidthDeg:q.beamwidthDeg??spec[q.beamwidthField],beamwidthProvenance:q.beamwidthProvenance??String(spec.performanceBasis||spec.source||'EXISTING_EMITTER_PROFILE'),rpm:Number(spec[q.rpmField]),double:q.double});
+   }
+   const a=electronicAllocatorF(r),settings=electronicSettingsF(r),pods=electronicPodsF(r),ecm=registry.entries.find(q=>q.outputKind==='ECM');
+-  if(ecm&&a.resourceUsed>.001&&(settings.noiseRequested||settings.deceptionRequested)&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:ecm.band,power:ecm.powerPerResource*a.resourceUsed,family:ecm.family,emitterClass:ecm.emitterClass,beamAz:settings.bearingRad});
+-  return out;
++  if(ecm&&emconEquipmentDecisionB(r,ecm.id).emissionActive&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:ecm.band,power:ecm.powerPerResource*a.resourceUsed,family:ecm.family,emitterClass:ecm.emitterClass,beamAz:settings.bearingRad});
++  emconShadowResolveB(r,out);return out;
+ }
+@@ -3180,3 +3341,3 @@
+   // coordinates or entity keys enter the track classifier.
+-  if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];
++  if(!emconCategoryAllowsB(r,'AIR_SEARCH'))return [];
+   const rx=observerMountC(r,resolveShipProfile(r.profileId).geometry.hardpoints.bridgeMasterE),e=prepareElectronicF(r),out=[];
+@@ -3743,3 +3904,3 @@
+ function updateSlq32EaAllocator(dt){
+-    if(shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
++    if(!emconCategoryAllowsB(owner,'ECM')||shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
+     dt=Math.max(0,Number(dt)||0);
+@@ -5057,3 +5218,3 @@
+   const C=HELO_SENSOR_VALUES_E,out=[];
+-  if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;
++  if(shipEquipmentOfflineV1(ship)||!emconCategoryAllowsB(ship,'AIR_SEARCH'))return out;
+   const sources=[...(ENGAGEMENT_RUNTIME.world.entities.helicopters?.values()??[])].filter(h=>heloAirborneE(h)&&h.iffOn!==false&&heloSensorOwnerE(h)?.faction===ship.faction);if(!sources.length)return out;
+@@ -5422,3 +5583,3 @@
+     const health=observerHealthC(r,t.face.moduleName),capacity=m.schedulerFaceBudgetMs*health,relative=angNorm(t.az-r.navigation.heading-t.face.bearingRad),limit=Math.max(deg(45+m.faceOverlapDeg),Math.abs(t.face.lower),Math.abs(t.face.upper));
+-    if(!o.enabled.SPY||o.emcon||health<=.05||Math.abs(relative)>limit||dwells>=m.schedulerMaxDwells||o.stats.usedMs+t.cost>m.schedulerGlobalBudgetMs||t.face.usedMs+t.cost>capacity){o.stats.dropped++;continue;}
++    if(!emconCategoryAllowsB(r,'AIR_SEARCH')||health<=.05||Math.abs(relative)>limit||dwells>=m.schedulerMaxDwells||o.stats.usedMs+t.cost>m.schedulerGlobalBudgetMs||t.face.usedMs+t.cost>capacity){o.stats.dropped++;continue;}
+     const receiver=observerMountC(r,t.face.center),focused=!t.search,snrBoost=m.taskSnrBoost[t.type]??1,steer=Math.pow(Math.max(.02,Math.cos(relative)),1.7);
+@@ -5432,3 +5593,3 @@
+   const o=observerC(r),p=o.profile,m=o.model,spq=key==='SPQ',cg=p.id==='CG_52_LATE_TICONDEROGA',spec=spq?p.sensors.spq9b:p.sensors.bridgeMasterE,hp=p.geometry.hardpoints[spq?'spq9b':'bridgeMasterE'],health=observerHealthC(r,hp.name)*(shipSystemDamageB(r,'MAST')>=80?0:1);
+-  if(!o.enabled[key]||o.emcon||health<=.08)return;
++  if(!emconCategoryAllowsB(r,spq?'SURFACE_SEARCH':'NAV')||health<=.08)return;
+   const old=o.rotors[key],advance=(spq?spec.rpm:spec.nominalRpm)/60*TAU*dt;o.rotors[key]=angNorm(old+advance);
+@@ -27947,3 +28108,3 @@
+     ageSpySchedulerVisuals(dt);
+-    if(emconActive) return;
++    if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH')) return;
+     spyScheduler.accumulatorS+=dt;
+@@ -29932,3 +30093,3 @@
+   function updateSlq32EaAllocator(dt){
+-    if(shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
++    if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'ECM')||shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
+     dt=Math.max(0,Number(dt)||0);
+@@ -35469,6 +35630,6 @@
+     spq9bPrevRotorAngle=spq9bRotorAngle;
+-    if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle = angNorm(spq9bRotorAngle + (SPQ9B_RPM / 60) * TAU * dt);
++    if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH')&&spq9bHealth01()>.08)spq9bRotorAngle = angNorm(spq9bRotorAngle + (SPQ9B_RPM / 60) * TAU * dt);
+     SPQ9B_SEARCH_MAX_RANGE_KM = SPQ9B_SEARCH_MAX_RANGE_KM_BASE * clamp(0.35+0.65*spq9bHealth01(),0.18,1);
+     // EMCON inhibits RF transmission; mechanical rotation may continue.
+-    if(!emconActive && spq9bHealth01()>0.08){
++    if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH') && spq9bHealth01()>0.08){
+       const sweep=spq9bCollectUnifiedEchoPlotsWip13B13();spq9bAcceptAnonymousPlotsV34(sweep.air);spq9bAcceptSurfacePlotsWip13B1(sweep.surface);
+@@ -35681,3 +35842,3 @@
+     for(let i=bridgeMasterEShoreEchoes.length-1;i>=0;i--)if(bridgeMasterEShoreEchoes[i].life<=0)bridgeMasterEShoreEchoes.splice(i,1);
+-    if(emconActive||bridgeMasterEHealth01()<=0.08)return;
++    if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')||bridgeMasterEHealth01()<=0.08)return;
+     const sensor=bridgeMasterEWorldOrigin(),ax=sensor.x,ay=sensor.y;
+@@ -35709,5 +35870,5 @@
+     if(IS_BUNKER)bunkerUpdateAuxNav(dt);
+-    bridgeMasterETimeS+=dt;bridgeMasterEPrevRotorAngle=bridgeMasterERotorAngle;if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle=angNorm(bridgeMasterERotorAngle+(BRIDGEMASTER_E_RPM/60)*TAU*dt);
++    bridgeMasterETimeS+=dt;bridgeMasterEPrevRotorAngle=bridgeMasterERotorAngle;if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle=angNorm(bridgeMasterERotorAngle+(BRIDGEMASTER_E_RPM/60)*TAU*dt);
+     updateBridgeMasterEShorelineReturns(dt);
+-    if(!emconActive&&bridgeMasterEHealth01()>0.08){
++    if(emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>0.08){
+       // Track capacity limits maintained ARPA files, not which physical echoes the receiver may see.
