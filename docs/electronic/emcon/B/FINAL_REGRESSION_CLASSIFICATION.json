@@ -1,0 +1,62 @@
+{
+  "schema": "AEGIS_EMCON_B_FINAL_REGRESSION_CLASSIFICATION_1",
+  "candidateSha256": "3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33",
+  "broadRunCount": 1,
+  "broadRunWallS": 2224.209799663018,
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "newProductRegression": false,
+  "classifications": [
+    {
+      "suites": [
+        "helicopter-flight",
+        "isar-classes",
+        "isar-clock",
+        "sov-native",
+        "sov-casualty",
+        "sov-visual",
+        "paired42",
+        "webgl8"
+      ],
+      "status": "PASS",
+      "evidence": "FINAL_REGRESSION.json and final-regression/"
+    },
+    {
+      "suites": [
+        "aps153",
+        "isar-native",
+        "isar-ui",
+        "emcon-native",
+        "harpoon-f1",
+        "harpoon-clock"
+      ],
+      "status": "INCOMPLETE_INHERITED_RUNNER_DEBT",
+      "reason": "Chromium renderer Target crashed before assertions on large existing diagnostic modal/journal paths. EMITTER_A APS-153 comparison reproduced the same pre-assertion crash; no product assertion failed.",
+      "evidence": "final-regression/*.log, limited-comparison/baseline-aps153/ and limited-retries/aps153/"
+    },
+    {
+      "suites": [
+        "sov-deployment"
+      ],
+      "status": "INHERITED_HARNESS_DEBT",
+      "reason": "Candidate and EMITTER_A baseline both produce selectedSOV=false and creditVisible=false; 13/15 assertions pass in both products.",
+      "evidence": "final-regression/sov-deployment/deployment.json and limited-comparison/baseline-sov-deployment/result/deployment.json"
+    },
+    {
+      "suites": [
+        "ui213"
+      ],
+      "status": "INHERITED_HARNESS_DEBT",
+      "reason": "Candidate and EMITTER_A baseline reproduce nativeHold=false, feedReject=false and the same 832.CG.PIP fixture-point-covered condition. The broad candidate run stopped at that inherited fixture condition.",
+      "evidence": "final-regression/ui213.log and limited-comparison/ui-baseline/"
+    }
+  ],
+  "limitedCandidateGates": {
+    "static": "PASS 11/11",
+    "baselineChromium": "PASS 6/6; pageErrors=0; consoleErrors=0",
+    "lifecycleChromium": "PASS 16/16; pageErrors=0; consoleErrors=0",
+    "lockDebt": "PASS 14/14"
+  },
+  "confirmedOnly": "UNVERIFIED_PERFORMANCE",
+  "release": false
+}

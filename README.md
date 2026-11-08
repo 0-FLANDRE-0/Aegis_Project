@@ -1,8 +1,11 @@
 ## 최신 작업 — EMCON_B 범주·장비 단위 방사 통제
 
-- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b` 작업이다. 현재 Commit A는 master EMCON 소유자·소비자와 기준 함수 해시/대표 snapshot을 고정했으며 제품 동작을 바꾸지 않았다.
-- 목표는 EMITTER_A profile registry를 읽는 함정별 범주 정책, 장비 override, 실제 emitter·sensor·ECM gate, profile 기반 MAP/FLEET UI, network lease와 save lifecycle이다. 통신 EMCON은 별도 정책으로 유지한다.
-- 계획과 감사: [EMCON_B PLAN](docs/electronic/emcon/B/PLAN.md), [master 감사](docs/electronic/emcon/B/MASTER_EMCON_AUDIT.md), [기계 기준](docs/electronic/emcon/B/BASELINE_AUDIT.json).
+- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b` 작업이다. A–E 구현과 제한 게이트를 완료했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
+- 함정별 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책과 장비 override, 실제 emitter·own/NPC sensor·ECM allocator/HOJ gate, profile 기반 UI, network lease 및 save/reset/destroy 수명주기를 연결했다. 기존 radar master와 통신 링크 분리는 유지한다.
+- `FIRE_CONTROL`은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 구현했다. Sovremenny는 계속 비활성이고, 통신 EMCON은 범위 밖이다.
+- 실제 Chromium 단계 게이트는 lifecycle 16/16, 기존 lock 부채 14/14, 후보 baseline 6/6 및 static 11/11 PASS다. MAX_THREAT 광역은 지시대로 1회 실행했다. 완료 행은 helicopter 85/85, ISAR class 8/8, ISAR clock 12/12, SOV native 30/30/casualty 13/13/visual 10/10, paired 42/42, WebGL 29/29다. 기존 대형 진단 renderer crash와 SOV/UI fixture 부채는 원시 실패를 보존하고 EMITTER_A 비교로 상속 항목을 분리했다.
+- 후보 22,157,395 bytes / SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`. 기대값·허용오차 변경 0. 새 PR #74는 병합하지 않으며 release/tag는 없다.
+- 계획과 증거: [EMCON_B PLAN](docs/electronic/emcon/B/PLAN.md), [master 감사](docs/electronic/emcon/B/MASTER_EMCON_AUDIT.md), [최종 분류](docs/electronic/emcon/B/FINAL_REGRESSION_CLASSIFICATION.json).
 
 ## 병합 완료 — EMITTER_A 함정 방사원 공통 등록
 

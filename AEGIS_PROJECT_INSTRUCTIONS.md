@@ -2,12 +2,13 @@
 
 이 문서는 AEGIS 함정 방위 시뮬레이터를 이어서 개발할 때 사용하는 고정 작업 규칙이다. 대화 기억보다 현재 제공된 최신 HTML, 상태 계획표, 이 문서를 우선 기준으로 삼는다.
 
-## 현재 인계 기준 (2026-11-07)
+## 현재 인계 기준 (2026-11-08)
 
-- 기준 main: `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합).
 - 병합 기준: `main@3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941` (PR #73 EMITTER_A 사용자 병합). 기준 제품은 `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`다.
-- 현재 작업은 별도 `emcon-b` 브랜치의 EMCON_B다. Commit A에서 기존 master EMCON 소유자·소비자와 기준 해시/snapshot을 고정했으며 제품 동작 변경은 아직 없다.
-- 범주·장비별 방사 통제를 EMITTER_A 레지스트리 위에 구현하되 기존 master 권위, 호환 출력, 통신 링크 분리, ShipRuntime 상태 소유권을 보존한다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 계획/증거는 `docs/electronic/emcon/B/`를 따른다.
+- 현재 검토 후보는 별도 `emcon-b` 브랜치의 `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,157,395 bytes, SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`다.
+- EMCON_B는 A–E 구현을 마쳤다. 범주·장비별 방사 통제는 EMITTER_A registry와 기존 master 권위 위에 있고, 물리 방출·own/NPC sensor·ECM·profile UI·network/save lifecycle이 연결됐다. Hawklink/Link 통신은 별도이며 FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI만 제공한다.
+- 지시된 광역 회귀는 동결 후보에서 정확히 1회 실행했고, 완료 행과 상속 runner/harness 부채를 분리해 보존했다. 기대값·허용오차 변경은 없다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 보고서·원시는 `docs/electronic/emcon/B/`를 따른다.
+- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 candidate workflow가 manifest stage를 whitelist로 dispatch하며, 결과 문서만 바뀌어 재귀 실행되지 않게 한다.
 - 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
 
 ## 1. 기준 파일과 버전 규칙

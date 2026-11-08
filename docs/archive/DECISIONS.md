@@ -78,3 +78,12 @@
 - 레이더 EMCON은 Hawklink/Link 통신 송신을 끄지 않는다. 통신 EMCON은 별도 후속 정책이다.
 - FIRE_CONTROL은 registry 계약과 비활성 UI 경로만 다루며, 활성 SPG-62 방사원을 새로 등록하지 않는다.
 - EMCON_B는 `emcon-b` 별도 브랜치와 새 PR로 진행한다. main 직접 변경·자동 병합·release/tag는 하지 않는다.
+
+## 2026-11-08 (EMCON_B 완료 경계)
+
+- 기존 radar master는 계속 권위 상태이며 EMCON_B는 함정별 category/equipment detail만 소유한다. 네트워크 group mode는 detail을 파괴하지 않는 transient overlay다.
+- 실제 물리 방출과 own/NPC 센서 측정을 같은 정책으로 차단하고, ECM silence는 요청을 보존한 채 allocator/output/receiver coupling/HOJ를 0으로 만든다.
+- `FIRE_CONTROL`은 활성 SPG-62 registry item이 없는 현재 상태를 정직하게 표시한다. 계약/비활성 UI 이상을 완료로 주장하지 않는다.
+- 기존 `#lockBtn` 14건은 MAP_E의 visible-node 퇴역을 반영한 test-only adapter로 native listener를 실제 실행한다. 제품 우회나 기대값 완화로 처리하지 않는다.
+- 최종 MAX_THREAT 광역은 동결 후보에서 정확히 1회만 실행한다. assertion 전 Chromium crash와 EMITTER_A에서도 같은 fixture 결과는 raw 실패를 보존한 채 `INCOMPLETE/INHERITED_DEBT`로 분리하고 PASS로 바꾸지 않는다.
+- 현재 후보 Actions는 manifest stage whitelist로 EMITTER_A/EMCON_B를 dispatch한다. 실행 결과 문서만 변경해 재귀 실행하지 않으며 run 번호는 PR 본문에만 기록한다.

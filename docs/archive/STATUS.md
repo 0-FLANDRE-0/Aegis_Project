@@ -1,11 +1,11 @@
-# 현재 상태 (2026-11-08 EMCON_B Commit A 기준)
+# 현재 상태 (2026-11-08 EMCON_B 후보 기준)
 
 ## 레포
 
 - `main` `3dbe3b84` (PR #73 EMITTER_A 병합)
-- 작업 브랜치: `emcon-b` (새 PR 예정, main 미변경)
+- 작업 브랜치: `emcon-b` (PR #74 검토 후보, main 미변경)
 - 기준 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
-- 후보 제품: Commit A에서는 없음(제품 동작 변경 0)
+- 후보 제품: `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,157,395 bytes, SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -34,7 +34,7 @@
 | CUE_A-1 (PR #70) | Singer cue 필터(τ=60 s, 정확 이산화), 바구니 상한, 수동 RF 함정 레이더 family·대역·회전 레이더, 0.5 km 거리 하한 원복 | main |
 | U3 하푼 | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | main (PR #72) |
 | **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 완료, PR #73 사용자 병합 |
-| **EMCON_B** | 범주·장비 방사 통제 + profile UI + 실제 gate | Commit A 기준 감사 완료, 구현 진행 중 |
+| **EMCON_B** | 범주·장비 방사 통제 + profile UI + 실제 gate | A–E 구현/단계 검증 완료, PR #74 검토 후보 |
 
 ## EMITTER_A 결과 요약
 
@@ -45,7 +45,17 @@
 - 전용 `AEGIS current candidate` Actions run `42373876872` PASS. 기존 광역은 pre-closure 증거이며 반복·재표기하지 않았다.
 - 신규 실패·기대값·허용오차 변경 0. 제품/범위/부채는 `docs/electronic/emitter/A/FINAL_REPORT.md` 참조.
 - EMITTER_A PR #73은 사용자 결정으로 병합됐다. release/tag는 없다.
-- EMCON_B Commit A는 제품을 바꾸지 않고 master owner/consumer, baseline 함수 해시와 대표 snapshot을 고정했다.
+- EMCON_B는 Commit A에서 master owner/consumer와 기준을 고정하고, B SHADOW → C ACTIVE → D UI → E lifecycle 순으로 구현했다.
+
+## EMCON_B 후보 결과
+
+- 기존 `emconActive`/`observerC(r).emcon` master와 손상·전원·enabled gate를 유지하면서 ShipRuntime별 category/equipment 세부정책만 추가했다.
+- DDG/CG registry의 SPY, SPQ, NAV, SLQ-32 EA가 물리 방출과 실제 own/NPC 측정/ECM gate를 함께 소비한다. 차단 센서 RNG 0, ECM silence에서 allocator/output/coupling/HOJ 0이다.
+- UI는 profile registry로 자동 생성되고 390/832/1400 px를 통과한다. FIRE_CONTROL은 등록 장비 없음으로 비활성이고 SPG-62 RF를 추가하지 않았다. 통신 EMCON도 추가하지 않았다.
+- save exact/legacy migration/invalid zero mutation, network lease/restore, reset/destroy/auth Chromium 16/16 PASS. 구형 lock debt 14/14 PASS.
+- 최종 MAX_THREAT 광역은 정확히 1회 실행했다. 완료 행: 85/85, 8/8, 12/12, 30/30, 13/13, 10/10, paired 42/42, WebGL 29/29. 대형 진단 renderer crash와 SOV/UI fixture는 원시 실패를 보존하고 EMITTER_A 재현으로 상속 부채를 분리했다.
+- 후보 workflow 로컬 동등 경로: manifest/SHA, exact rebuild, static 11/11, baseline Chromium 6/6, lifecycle 16/16 PASS; page/console error 0. 원격 run은 PR 본문에 기록한다.
+- 기대값·허용오차 변경 0. CONFIRMED_ONLY 성능은 UNVERIFIED. main/merge/release/tag 변경 없음.
 
 ## U3 결과 요약 (병합 기준)
 

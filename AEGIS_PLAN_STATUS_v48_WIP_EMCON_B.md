@@ -5,7 +5,8 @@
 - Baseline SHA-256: `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - Branch: `emcon-b`
 - Product target: `Aegis_SIM_v48_WIP_EMCON_B.html`
-- State: Commits A–E IMPLEMENTED + TESTED; B SHADOW, C ACTIVE, D UI/override, and E lifecycle gates pass; final broad/candidate gates pending; RELEASE=false
+- Candidate: 22,157,395 bytes / SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`
+- State: Commits A–E IMPLEMENTED + TESTED; B SHADOW, C ACTIVE, D UI/override, E lifecycle, lock 14/14 and local candidate gates pass; one final broad run is complete; remote Actions/PR publication is recorded outside this status; RELEASE=false
 
 ## Commit A
 
@@ -60,9 +61,27 @@
 - Actual Chromium gate: 16/16 checks PASS, page errors 0, console errors 0.
 - Evidence: `docs/electronic/emcon/B/E_REPORT.md`, `E_STATIC.json`, and `E_GATE.json`.
 
-## Remaining
+## Final verification
 
-- Final: `#lockBtn` 14 browser cases, one MAX_THREAT broad regression, candidate Actions,
-  packages/readback, and a new PR.
+- Retired `#lockBtn` debt: actual Chromium 14/14 PASS at 390/1100 px. MAP_E's intentionally
+  detached visible node required a test-only adapter; the native product listener was retained.
+- The MAX_THREAT broad regression ran exactly once (2,224.21 s). Helicopter 85/85,
+  ISAR class 8/8, ISAR clock 12/12, SOV native 30/30, casualty 13/13, visual 10/10,
+  paired 42/42, and real WebGL 29/29 pass.
+- Raw broad evidence also preserves incomplete inherited runner/harness rows. Chromium crashed
+  before assertions in six large existing diagnostic paths; SOV deployment 13/15 and the
+  UI213 832.CG.PIP fixture differences reproduce on the unchanged EMITTER_A baseline. They are
+  not relabeled PASS. See `FINAL_REGRESSION_CLASSIFICATION.json`.
+- Frozen-candidate local workflow equivalent: manifest/bytes/SHA, exact rebuild, JavaScript,
+  static 11/11, baseline Chromium 6/6 and lifecycle Chromium 16/16 PASS; page/console errors 0.
+- Expected values and tolerances changed: 0. `CONFIRMED_ONLY` performance remains UNVERIFIED.
+
+## Publication boundary
+
+- Final report: `docs/electronic/emcon/B/FINAL_REPORT.md`.
+- `FIRE_CONTROL` remains contract/UI-only because no active SPG-62 registry item exists.
+- Communication EMCON is not implemented; Hawklink/Link behavior remains separate.
+- PR #74 is the intended review vehicle. The user retains merge authority; main, release and tag
+  remain unchanged until that decision.
 
 No main mutation, merge, release, or tag is authorized by this status.
