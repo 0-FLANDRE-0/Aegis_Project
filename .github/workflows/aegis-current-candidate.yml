@@ -4,8 +4,39 @@ on:
   pull_request:
     paths:
       - 'AEGIS_CURRENT_PRODUCT.json'
-      - 'Aegis_SIM_v48_WIP_*.html'
-      - 'docs/electronic/emitter/A/**'
+      - 'Aegis_SIM_v48_WIP_EMITTER_A.html'
+      - 'Aegis_SIM_v48_WIP_EMCON_B.html'
+      - 'docs/electronic/emitter/A/build_product.py'
+      - 'docs/electronic/emitter/A/build_stage_diagnostic.py'
+      - 'docs/electronic/emitter/A/validate_current_product.py'
+      - 'docs/electronic/emitter/A/run_candidate_static_gate.py'
+      - 'docs/electronic/emitter/A/run_candidate_browser_gate.mjs'
+      - 'docs/electronic/emitter/A/emitter_registry.js'
+      - 'docs/electronic/emitter/A/emitter_runtime.js'
+      - 'docs/electronic/emitter/A/baseline_diagnostic.js'
+      - 'docs/electronic/emitter/A/d_diagnostic.js'
+      - 'docs/electronic/emitter/A/final_diagnostic.js'
+      - 'docs/electronic/emitter/A/closure_diagnostic.js'
+      - 'docs/electronic/emcon/B/build_product.py'
+      - 'docs/electronic/emcon/B/build_stage_e_diagnostic.py'
+      - 'docs/electronic/emcon/B/run_candidate_static_gate.py'
+      - 'docs/electronic/emcon/B/run_candidate_baseline_gate.mjs'
+      - 'docs/electronic/emcon/B/run_stage_e_static.py'
+      - 'docs/electronic/emcon/B/run_stage_e_gate.mjs'
+      - 'docs/electronic/emcon/B/run_stage_d_gate.mjs'
+      - 'docs/electronic/emcon/B/run_correction_2_static.py'
+      - 'docs/electronic/emcon/B/run_correction_2_gate.mjs'
+      - 'docs/electronic/emcon/B/run_correction_2_release_smoke.mjs'
+      - 'docs/electronic/emcon/B/correction_2_diagnostic.js'
+      - 'docs/electronic/emcon/B/run_correction_3_static.py'
+      - 'docs/electronic/emcon/B/run_correction_3_gate.mjs'
+      - 'docs/electronic/emcon/B/correction_3_diagnostic.js'
+      - 'docs/electronic/emcon/B/emcon_consumer_bindings.js'
+      - 'docs/electronic/emcon/B/emcon_policy.js'
+      - 'docs/electronic/emcon/B/emcon_active_runtime.js'
+      - 'docs/electronic/emcon/B/emcon_ui.js'
+      - 'docs/electronic/emcon/B/emcon_lifecycle.js'
+      - 'docs/electronic/emcon/B/stage_e_diagnostic.js'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
       - 'docs/bunkerhill/K/browser_i.py'
@@ -44,6 +75,7 @@ jobs:
             --out artifacts/current-candidate/manifest-validation.json
           node - <<'NODE' >> "$GITHUB_ENV"
           const m = require('./AEGIS_CURRENT_PRODUCT.json');
+          console.log(`CANDIDATE_STAGE=${m.stage}`);
           console.log(`PRODUCT_PATH=${m.path}`);
           console.log(`BASELINE_PATH=${m.baselinePath}`);
           NODE
@@ -52,49 +84,117 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 docs/electronic/emitter/A/build_product.py \
-            --stage D --mode ACTIVE \
-            --out /tmp/aegis-current-candidate.html \
-            --receipt artifacts/current-candidate/rebuild.json \
-            --diff artifacts/current-candidate/rebuild.diff
+          case "$CANDIDATE_STAGE" in
+            EMITTER_A)
+              python3 docs/electronic/emitter/A/build_product.py \
+                --stage D --mode ACTIVE \
+                --out /tmp/aegis-current-candidate.html \
+                --receipt artifacts/current-candidate/rebuild.json \
+                --diff artifacts/current-candidate/rebuild.diff
+              python3 docs/electronic/emitter/A/verify_scope.py \
+                --product "$PRODUCT_PATH" --stage D \
+                --out artifacts/current-candidate/scope.json
+              ;;
+            EMCON_B)
+              python3 docs/electronic/emcon/B/build_product.py \
+                --stage E \
+                --out /tmp/aegis-current-candidate.html \
+                --receipt artifacts/current-candidate/rebuild.json \
+                --diff artifacts/current-candidate/rebuild.diff
+              ;;
+            *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
+          esac
           cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
-          python3 docs/electronic/emitter/A/verify_scope.py \
-            --product "$PRODUCT_PATH" --stage D \
-            --out artifacts/current-candidate/scope.json
 
       - name: Audit script, JSON and ACTIVE call structure
         shell: bash
         run: |
           set -euo pipefail
-          python3 docs/electronic/emitter/A/run_candidate_static_gate.py \
-            --out artifacts/current-candidate/static-gate.json \
-            --main-out artifacts/current-candidate/main.js
+          case "$CANDIDATE_STAGE" in
+            EMITTER_A)
+              python3 docs/electronic/emitter/A/run_candidate_static_gate.py \
+                --out artifacts/current-candidate/static-gate.json \
+                --main-out artifacts/current-candidate/main.js
+              ;;
+            EMCON_B)
+              python3 docs/electronic/emcon/B/run_candidate_static_gate.py \
+                --out artifacts/current-candidate/static-gate.json \
+                --main-out artifacts/current-candidate/main.js
+              python3 docs/electronic/emcon/B/run_stage_e_static.py
+              cp docs/electronic/emcon/B/E_STATIC.json artifacts/current-candidate/stage-e-static.json
+              python3 docs/electronic/emcon/B/run_correction_2_static.py
+              cp docs/electronic/emcon/B/CORRECTION_2_STATIC.json artifacts/current-candidate/correction-2-static.json
+              python3 docs/electronic/emcon/B/run_correction_3_static.py
+              cp docs/electronic/emcon/B/CORRECTION_3_STATIC.json artifacts/current-candidate/correction-3-static.json
+              ;;
+            *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
+          esac
           node --check artifacts/current-candidate/main.js
 
       - name: Build disposable candidate diagnostic
         shell: bash
         run: |
           set -euo pipefail
+          case "$CANDIDATE_STAGE" in
+            EMITTER_A)
+              python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
+                --base "$PRODUCT_PATH" \
+                --out /tmp/aegis-current-candidate-diagnostic.html \
+                --receipt artifacts/current-candidate/diagnostic-build.json \
+                --extra docs/electronic/emitter/A/d_diagnostic.js \
+                --extra docs/electronic/emitter/A/final_diagnostic.js \
+                --extra docs/electronic/emitter/A/closure_diagnostic.js
+              ;;
+            EMCON_B)
+              python3 docs/electronic/emcon/B/build_stage_e_diagnostic.py
+              cp /tmp/Aegis_SIM_v48_WIP_EMCON_B_E_DIAGNOSTIC.html /tmp/aegis-current-candidate-diagnostic.html
+              cp docs/electronic/emcon/B/E_DIAGNOSTIC_BUILD.json artifacts/current-candidate/diagnostic-build.json
+              ;;
+            *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
+          esac
           python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
-            --base "$PRODUCT_PATH" \
-            --out /tmp/aegis-current-candidate-diagnostic.html \
-            --receipt artifacts/current-candidate/diagnostic-build.json \
-            --extra docs/electronic/emitter/A/d_diagnostic.js \
-            --extra docs/electronic/emitter/A/final_diagnostic.js \
-            --extra docs/electronic/emitter/A/closure_diagnostic.js
-          python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
-            --base "$BASELINE_PATH" \
-            --out /tmp/aegis-current-baseline-diagnostic.html \
-            --receipt artifacts/current-candidate/baseline-diagnostic-build.json
+              --base "$BASELINE_PATH" \
+              --out /tmp/aegis-current-baseline-diagnostic.html \
+              --receipt artifacts/current-candidate/baseline-diagnostic-build.json
 
       - name: Run final limited Chromium candidate gate
         shell: bash
         run: |
           set -euo pipefail
-          node docs/electronic/emitter/A/run_candidate_browser_gate.mjs \
-            --html /tmp/aegis-current-candidate-diagnostic.html \
-            --baseline-html /tmp/aegis-current-baseline-diagnostic.html \
-            --out artifacts/current-candidate/browser-gate.json
+          case "$CANDIDATE_STAGE" in
+            EMITTER_A)
+              node docs/electronic/emitter/A/run_candidate_browser_gate.mjs \
+                --html /tmp/aegis-current-candidate-diagnostic.html \
+                --baseline-html /tmp/aegis-current-baseline-diagnostic.html \
+                --out artifacts/current-candidate/browser-gate.json
+              ;;
+            EMCON_B)
+              node docs/electronic/emcon/B/run_candidate_baseline_gate.mjs \
+                --html /tmp/aegis-current-candidate-diagnostic.html \
+                --baseline-html /tmp/aegis-current-baseline-diagnostic.html \
+                --out artifacts/current-candidate/browser-baseline-gate.json
+              EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
+                node docs/electronic/emcon/B/run_correction_2_gate.mjs
+              cp docs/electronic/emcon/B/CORRECTION_2_GATE.json artifacts/current-candidate/correction-2-gate.json
+              EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
+                node docs/electronic/emcon/B/run_correction_3_gate.mjs
+              cp docs/electronic/emcon/B/CORRECTION_3_GATE.json artifacts/current-candidate/correction-3-gate.json
+              EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
+                node docs/electronic/emcon/B/run_stage_d_gate.mjs
+              cp docs/electronic/emcon/B/D_GATE.json artifacts/current-candidate/stage-d-gate.json
+              AEGIS_CHROMIUM_EXECUTABLE="${AEGIS_CHROMIUM_EXECUTABLE:-}" \
+                EMCON_B_PRODUCT_HTML="$PRODUCT_PATH" \
+                node docs/electronic/emcon/B/run_correction_2_release_smoke.mjs
+              cp docs/electronic/emcon/B/CORRECTION_2_RELEASE_SMOKE.json artifacts/current-candidate/correction-2-release-smoke.json
+              EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
+                node docs/electronic/emcon/B/run_stage_e_gate.mjs
+              cp docs/electronic/emcon/B/E_GATE.json artifacts/current-candidate/browser-gate.json
+              EMCON_B_E_DIAGNOSTIC_HTML=/tmp/aegis-current-candidate-diagnostic.html \
+                node docs/electronic/emcon/B/run_lock_debt_gate.mjs
+              cp docs/electronic/emcon/B/LOCK_DEBT_14.json artifacts/current-candidate/lock-debt-14.json
+              ;;
+            *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
+          esac
           sha256sum "$PRODUCT_PATH" "$BASELINE_PATH" \
             > artifacts/current-candidate/SHA256SUMS
 

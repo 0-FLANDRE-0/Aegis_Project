@@ -13,8 +13,8 @@
 
 ## U3 이후
 
-- **EMITTER_A — 종료 검증 완료 후보**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. ACTIVE legacy 호출 제거, 전용 candidate Actions와 원격 산출물 검증까지 완료했으며 PR/사용자 병합만 남아 있다.
-- **EMCON_B — 다음**: EMITTER_A 범주/장비 등록을 읽어 범주 단위 및 장비별 방사 통제와 자동 UI를 설계한다. 통신 EMCON은 별도 정책으로 유지한다.
+- **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
+- **EMCON_B — A–E + PR #74 2·3차 보정 구현·제한 검증 완료**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
 - **U3 paired raw 4건**: DDG/CG raid의 combat RNG/observer exact-state. D ACTIVE 정책 변화로 원인 분리됐으나 원본 expectation은 갱신하지 않았다.
 
@@ -32,10 +32,14 @@
 
 - ASM 부엽 바닥 0.08 값 자체 검토 (C에서 값 유지, 제안만 허용)
 - `CONFIRMED_ONLY` 성능 수치는 UNVERIFIED (MAX_THREAT만 시험하기로 결정)
+- **통신 EMCON**: radar master/category silence와 별도다. Hawklink/Link 송신 통제를 새 정책으로 설계한다.
+- **FIRE_CONTROL registry**: 현재 활성 SPG-62 장비가 없어 EMCON_B는 계약/비활성 UI만 제공한다. 물리 등록·RF·ESM 연계는 별도 단계가 필요하다.
+- **광역 Chromium runner 메모리 부채**: APS-153/ISAR/legacy EMCON/Harpoon의 큰 기존 진단 modal·journal 경로가 제한 환경에서 assertion 전 `Target crashed`를 낸다. 제품 판정과 분리해 runner를 경량화한다.
+- **SOV/UI 기존 fixture 부채**: EMITTER_A와 EMCON_B 양쪽에서 SOV deployment의 `selectedSOV/creditVisible`, UI의 `nativeHold/feedReject` 및 832.CG.PIP covered-point가 동일하게 재현된다.
 
 ## 기존 회귀 부채 (면제하지 않음)
 
-- `#lockBtn` 14건 미실행 (INCOMPLETE)
+- `#lockBtn` 14건은 EMCON_B에서 실제 Chromium 14/14로 해소했다. MAP_E가 visible node를 의도적으로 퇴역시킨 selector 부채였으며 제품 native listener는 유지됐다.
 - `CIWS_SEED_419025_FAIL`
 - `CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2`
 - Actions 고정 WIP12D `ciws-b1-closure` 배속 결정성: 같은 360 fixed step에서 1x 42발, 8x/16x 47발. U3 제품 경로는 아니며 기대값/허용오차를 바꾸지 않았다.

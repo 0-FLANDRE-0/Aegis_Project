@@ -1,0 +1,2836 @@
+{
+  "schema": "AEGIS_EMCON_B_COMMIT_D_GATE_2",
+  "status": "PASS",
+  "checks": {
+    "pageErrorsZero": true,
+    "consoleErrorsZero": true,
+    "menuToggleReadOnly": true,
+    "registryGenerated": true,
+    "fireControlInactive": true,
+    "singleTopNoLegacyRadar": true,
+    "globalUiEffective": true,
+    "equipmentBreakout": true,
+    "categoryBreakout": true,
+    "ownerIsolation": true,
+    "mixedSameCovered": true,
+    "responsiveInside": true,
+    "controlSize": true
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "profiles": {
+    "DDG_119_LATE_FLIGHT_IIA": {
+      "id": "SHIP_DDG119_OWN",
+      "profileId": "DDG_119_LATE_FLIGHT_IIA",
+      "ids": {
+        "AIR_SEARCH": "AN_SPY_1DV",
+        "SURFACE_SEARCH": "AN_SPQ_9B",
+        "NAV": "BRIDGEMASTER_E",
+        "ECM": "AN_SLQ_32_EA"
+      },
+      "registry": [
+        {
+          "id": "AN_SPY_1DV",
+          "category": "AIR_SEARCH",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "AN_SPQ_9B",
+          "category": "SURFACE_SEARCH",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "BRIDGEMASTER_E",
+          "category": "NAV",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "AN_SLQ_32_EA",
+          "category": "ECM",
+          "outputKind": "ECM",
+          "installed": true,
+          "physicalEmission": true
+        }
+      ],
+      "beforeOpen": {
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "master": true
+      },
+      "afterOpen": {
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "master": true
+      },
+      "hardState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_DDG119_OWN",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "masterSilent": true,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": true,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "FORCE_RADIATE",
+            "AN_SPQ_9B": "FORCE_RADIATE",
+            "BRIDGEMASTER_E": "FORCE_RADIATE",
+            "AN_SLQ_32_EA": "FORCE_RADIATE"
+          },
+          "revision": 5
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "hardUi": {
+        "owner": "SHIP_DDG119_OWN",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1DVOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "spyState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_DDG119_OWN",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "masterSilent": false,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "FORCE_RADIATE",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 6
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "FORCE_RADIATE",
+              "allowed": true,
+              "emissionActive": true,
+              "reason": "OVERRIDE_RADIATE",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "spyUi": {
+        "owner": "SHIP_DDG119_OWN",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1DVONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "categoryState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_DDG119_OWN",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "masterSilent": false,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 8
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPY_1DV",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SPQ_9B",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "INHERIT",
+              "allowed": true,
+              "emissionActive": true,
+              "reason": "CATEGORY_RADIATE",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "BRIDGEMASTER_E",
+              "category": "NAV",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "categoryUi": {
+        "owner": "SHIP_DDG119_OWN",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 범주 방사 허용"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1DVOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대수상 레이더ONAN SPQ 9BONON · 범주 방사 허용"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      }
+    },
+    "CG_52_LATE_TICONDEROGA": {
+      "id": "SHIP_CG52_OWN",
+      "profileId": "CG_52_LATE_TICONDEROGA",
+      "ids": {
+        "AIR_SEARCH": "AN_SPY_1A_MODERNIZED",
+        "SURFACE_SEARCH": "AN_SPQ_9",
+        "NAV": "AN_SPS_73",
+        "ECM": "AN_SLQ_32_EA"
+      },
+      "registry": [
+        {
+          "id": "AN_SPY_1A_MODERNIZED",
+          "category": "AIR_SEARCH",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "AN_SPQ_9",
+          "category": "SURFACE_SEARCH",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "AN_SPS_73",
+          "category": "NAV",
+          "outputKind": "RADAR",
+          "installed": true,
+          "physicalEmission": true
+        },
+        {
+          "id": "AN_SLQ_32_EA",
+          "category": "ECM",
+          "outputKind": "ECM",
+          "installed": true,
+          "physicalEmission": true
+        }
+      ],
+      "beforeOpen": {
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "master": true
+      },
+      "afterOpen": {
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "master": true
+      },
+      "hardState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "masterSilent": true,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": true,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "FORCE_RADIATE",
+            "AN_SPQ_9": "FORCE_RADIATE",
+            "AN_SPS_73": "FORCE_RADIATE",
+            "AN_SLQ_32_EA": "FORCE_RADIATE"
+          },
+          "revision": 5
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPS_73",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPS_73",
+              "category": "NAV",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": true,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "RADIATE",
+              "override": "FORCE_RADIATE",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "ALL_RADIATION_SILENT",
+              "allRadiationSilent": true,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 5,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "hardUi": {
+        "owner": "SHIP_CG52_OWN",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1A MODERNIZEDOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "spyState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "masterSilent": false,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "FORCE_RADIATE",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 6
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "FORCE_RADIATE",
+              "allowed": true,
+              "emissionActive": true,
+              "reason": "OVERRIDE_RADIATE",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPS_73",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPS_73",
+              "category": "NAV",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 6,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "spyUi": {
+        "owner": "SHIP_CG52_OWN",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1A MODERNIZEDONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "categoryState": {
+        "schema": "AEGIS_EMCON_B_SNAPSHOT_2",
+        "mode": "ACTIVE",
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "masterSilent": false,
+        "state": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 8
+        },
+        "validation": {
+          "ok": true,
+          "errors": []
+        },
+        "equipment": [
+          {
+            "definition": {
+              "id": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "category": "AIR_SEARCH",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPQ_9",
+              "category": "SURFACE_SEARCH",
+              "categoryPolicy": "RADIATE",
+              "override": "INHERIT",
+              "allowed": true,
+              "emissionActive": true,
+              "reason": "CATEGORY_RADIATE",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SPS_73",
+              "category": "NAV",
+              "outputKind": "RADAR",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SPS_73",
+              "category": "NAV",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": null,
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          },
+          {
+            "definition": {
+              "id": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "outputKind": "ECM",
+              "installed": true,
+              "physicalEmission": true
+            },
+            "decision": {
+              "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "equipmentId": "AN_SLQ_32_EA",
+              "category": "ECM",
+              "categoryPolicy": "SILENT",
+              "override": "INHERIT",
+              "allowed": false,
+              "emissionActive": false,
+              "reason": "CATEGORY_SILENT",
+              "allRadiationSilent": false,
+              "masterSilent": false,
+              "networkSilent": false,
+              "operational": true,
+              "ecm": {
+                "noiseRequested": false,
+                "deceptionRequested": false,
+                "resourceUsed": 0,
+                "requestActive": false
+              },
+              "revision": 8,
+              "truthUsed": false,
+              "rngConsumed": false
+            }
+          }
+        ],
+        "truthUsed": false,
+        "rngConsumed": false
+      },
+      "categoryUi": {
+        "owner": "SHIP_CG52_OWN",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 범주 방사 허용"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1A MODERNIZEDOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대수상 레이더ONAN SPQ 9ONON · 범주 방사 허용"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      }
+    }
+  },
+  "fleets": {
+    "DDG_CG": {
+      "activeProfile": "DDG_119_LATE_FLIGHT_IIA",
+      "allyProfile": "CG_52_LATE_TICONDEROGA",
+      "setup": {
+        "activeId": "SHIP_DDG119_OWN",
+        "allyId": "SHIP_SCENARIO_ALLY_F",
+        "activeBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "allyBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        }
+      },
+      "hard": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": false,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 1
+        }
+      },
+      "hardUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1A MODERNIZEDOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "breakout": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "FORCE_RADIATE",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 2
+        }
+      },
+      "breakoutUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1A MODERNIZEDONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "allySpy": "AN_SPY_1A_MODERNIZED"
+    },
+    "CG_DDG": {
+      "activeProfile": "CG_52_LATE_TICONDEROGA",
+      "allyProfile": "DDG_119_LATE_FLIGHT_IIA",
+      "setup": {
+        "activeId": "SHIP_CG52_OWN",
+        "allyId": "SHIP_SCENARIO_ALLY_F",
+        "activeBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "allyBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        }
+      },
+      "hard": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": false,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 1
+        }
+      },
+      "hardUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1DVOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "breakout": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "FORCE_RADIATE",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 2
+        }
+      },
+      "breakoutUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1DVONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "allySpy": "AN_SPY_1DV"
+    },
+    "DDG_DDG": {
+      "activeProfile": "DDG_119_LATE_FLIGHT_IIA",
+      "allyProfile": "DDG_119_LATE_FLIGHT_IIA",
+      "setup": {
+        "activeId": "SHIP_DDG119_OWN",
+        "allyId": "SHIP_SCENARIO_ALLY_F",
+        "activeBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "allyBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        }
+      },
+      "hard": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": false,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 1
+        }
+      },
+      "hardUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1DVOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "breakout": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "FORCE_RADIATE",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 2
+        }
+      },
+      "breakoutUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1DV",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9B",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "BRIDGEMASTER_E",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1DVONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9BOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFBRIDGEMASTER EOFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "allySpy": "AN_SPY_1DV"
+    },
+    "CG_CG": {
+      "activeProfile": "CG_52_LATE_TICONDEROGA",
+      "allyProfile": "CG_52_LATE_TICONDEROGA",
+      "setup": {
+        "activeId": "SHIP_CG52_OWN",
+        "allyId": "SHIP_SCENARIO_ALLY_F",
+        "activeBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "allyBefore": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        }
+      },
+      "hard": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": true,
+          "allRadiationRestoreMasterSilent": false,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 1
+        }
+      },
+      "hardUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 ON",
+          "pressed": "true",
+          "active": true
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대공 레이더OFFAN SPY 1A MODERNIZEDOFFOFF · 전파방사통제"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 전파방사통제"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 전파방사통제 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "breakout": {
+        "active": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 0
+        },
+        "ally": {
+          "schema": "AEGIS_SHIP_EMCON_B_2",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "allRadiationSilent": false,
+          "allRadiationRestoreMasterSilent": null,
+          "categoryPolicy": {
+            "AIR_SEARCH": "SILENT",
+            "SURFACE_SEARCH": "SILENT",
+            "NAV": "SILENT",
+            "FIRE_CONTROL": "SILENT",
+            "ECM": "SILENT"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "FORCE_RADIATE",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 2
+        }
+      },
+      "breakoutUi": {
+        "owner": "SHIP_SCENARIO_ALLY_F",
+        "top": {
+          "text": "전파방사통제 OFF",
+          "pressed": "false",
+          "active": false
+        },
+        "equipment": [
+          {
+            "id": "AN_SPY_1A_MODERNIZED",
+            "pressed": "true",
+            "disabled": false,
+            "status": "ON · 장비 강제 방사"
+          },
+          {
+            "id": "AN_SPQ_9",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SPS_73",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵"
+          },
+          {
+            "id": "AN_SLQ_32_EA",
+            "pressed": "false",
+            "disabled": false,
+            "status": "OFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "categories": [
+          {
+            "category": "AIR_SEARCH",
+            "pressed": "true",
+            "disabled": false,
+            "text": "대공 레이더ONAN SPY 1A MODERNIZEDONON · 장비 강제 방사"
+          },
+          {
+            "category": "SURFACE_SEARCH",
+            "pressed": "false",
+            "disabled": false,
+            "text": "대수상 레이더OFFAN SPQ 9OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "NAV",
+            "pressed": "false",
+            "disabled": false,
+            "text": "항해 레이더OFFAN SPS 73OFFOFF · 범주 침묵"
+          },
+          {
+            "category": "FIRE_CONTROL",
+            "pressed": "false",
+            "disabled": true,
+            "text": "사격통제 레이더OFF등록 장비 없음"
+          },
+          {
+            "category": "ECM",
+            "pressed": "false",
+            "disabled": false,
+            "text": "ECMOFFAN SLQ 32 EAOFFOFF · 범주 침묵 · 기법 없음"
+          }
+        ],
+        "rect": {
+          "x": 941,
+          "y": 237,
+          "right": 1291,
+          "bottom": 857,
+          "w": 350,
+          "h": 620
+        },
+        "legacyRadarButtons": 0,
+        "menuCount": 1,
+        "chipCount": 1
+      },
+      "allySpy": "AN_SPY_1A_MODERNIZED"
+    }
+  },
+  "responsive": [
+    {
+      "viewport": {
+        "w": 1400,
+        "h": 900
+      },
+      "rect": {
+        "x": 941,
+        "y": 237,
+        "right": 1291,
+        "bottom": 857,
+        "w": 350,
+        "h": 620
+      },
+      "scroll": {
+        "clientHeight": 618,
+        "scrollHeight": 674
+      },
+      "minControlHeight": 36
+    },
+    {
+      "viewport": {
+        "w": 832,
+        "h": 384
+      },
+      "rect": {
+        "x": 399,
+        "y": 61.578125,
+        "right": 749,
+        "bottom": 353.40625,
+        "w": 350,
+        "h": 291.828125
+      },
+      "scroll": {
+        "clientHeight": 290,
+        "scrollHeight": 676
+      },
+      "minControlHeight": 36
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "rect": {
+        "x": 4,
+        "y": 195.078125,
+        "right": 354,
+        "bottom": 815.078125,
+        "w": 350,
+        "h": 620
+      },
+      "scroll": {
+        "clientHeight": 618,
+        "scrollHeight": 676
+      },
+      "minControlHeight": 36
+    }
+  ]
+}

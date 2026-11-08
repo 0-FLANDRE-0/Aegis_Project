@@ -2,12 +2,13 @@
 
 이 문서는 AEGIS 함정 방위 시뮬레이터를 이어서 개발할 때 사용하는 고정 작업 규칙이다. 대화 기억보다 현재 제공된 최신 HTML, 상태 계획표, 이 문서를 우선 기준으로 삼는다.
 
-## 현재 인계 기준 (2026-11-07)
+## 현재 인계 기준 (2026-11-08)
 
-- 기준 main: `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합).
-- 현재 후보: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`, 브랜치 `emitter-a`.
-- EMITTER_A는 DDG/CG ShipProfile 방사원 등록과 공통 ShipRuntime 어댑터를 ACTIVE로 전환했고, SOV 메타데이터는 비활성 등록만 했다. 세부 계약·검증·잔여는 `AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md`와 `docs/electronic/emitter/A/FINAL_REPORT.md`를 따른다.
-- 다음 계획은 EMCON_B다. 범주·장비별 방사 통제를 새 레지스트리 위에 구현하되 EMITTER_A 호환 출력과 기존 상태 소유권을 보존한다.
+- 병합 기준: `main@3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941` (PR #73 EMITTER_A 사용자 병합). 기준 제품은 `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`다.
+- 현재 검토 후보는 별도 `emcon-b` 브랜치의 `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,162,415 bytes, SHA-256 `50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee`다.
+- EMCON_B는 A–E와 PR #74 2·3차 보정을 마쳤다. ShipRuntime별 `ALL_RADIATION_SILENT` V2 권위가 radar/ECM `FORCE_RADIATE`보다 우선한다. 공통 센서 소비자는 `AIR_SEARCH_VOLUME / SURFACE_SEARCH_SCAN / NAVIGATION_SCAN`이며 ShipProfile의 불변 바인딩이 정확한 물리 장비를 정한다. 누락·중복·없는 장비는 fail-closed이고 같은 범주의 다른 장비는 소비자를 대신 활성화하지 못한다. 물리 방출·own/NPC sensor·IFF·ECM·profile UI·network/save lifecycle은 정확한 registry equipment decision을 소비한다. Hawklink/Link 통신은 별도이며 FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI만 제공한다.
+- 지시된 MAX_THREAT 광역 회귀는 수정 전 SHA `3343f5bb…c33`에서 수행한 1회 증거로 보존한다. 보정 SHA에서는 correction-2 static 15/15, correction-3 static 17/17·runtime 16/16, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline 6/6, lock 14/14 제한 게이트만 실행했다. 기대값·허용오차 변경은 없다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 보고서·원시는 `docs/electronic/emcon/B/`를 따른다.
+- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 candidate workflow가 manifest stage를 whitelist로 dispatch하며, 결과 문서만 바뀌어 재귀 실행되지 않게 한다.
 - 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
 
 ## 1. 기준 파일과 버전 규칙
@@ -194,14 +195,14 @@
 
 ## 8. 현재 인계 기준
 
-### 최신 후보 — EMITTER_A 함정 방사원 공통 등록
+### 병합 기준 — EMITTER_A 함정 방사원 공통 등록 / 현재 작업 EMCON_B
 
-- 기준은 PR #72가 병합된 `main@5d0b4ea03f0bb51db1b5d72562f15ce818074b4e`, 작업 브랜치는 `emitter-a`, 제출본은 [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN이다. 제품은 [Aegis_SIM_v48_WIP_EMITTER_A.html](Aegis_SIM_v48_WIP_EMITTER_A.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), 전체 판정은 [FINAL_REPORT.md](docs/electronic/emitter/A/FINAL_REPORT.md)를 따른다.
+- PR #73은 사용자 결정으로 merge commit `main@3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941`에 병합됐다. 제품은 [Aegis_SIM_v48_WIP_EMITTER_A.html](Aegis_SIM_v48_WIP_EMITTER_A.html), 상태는 [AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), 전체 판정은 [FINAL_REPORT.md](docs/electronic/emitter/A/FINAL_REPORT.md)를 따른다.
 - DDG/CG의 SPY·SPQ·항해 레이더·ECM을 불변 ShipProfile 장비 등록으로 이전하고 기존 ShipRuntime observer/EW 상태를 읽는 공통 어댑터를 ACTIVE로 전환했다. 기존 출력 필드·순서·호환 전력·RNG·저장 스키마는 유지한다.
 - SOV는 기존 SOV_A 센서 메타데이터 11행만 `REGISTERED_INACTIVE`로 등록했다. 실제 방출·ESM·자체 탐지·공격과 미확인 RF 값은 추가하지 않았다.
 - A–D 게이트 PASS. pre-closure MAX_THREAT 광역은 지시대로 1회 실행해 Native364/364, U3 paired42/42, UI213/213, 실제WebGL29/29 PASS이며 신규 실패·기대값·허용오차 변경은 0이다. 종료 보정 뒤 ACTIVE legacy 호출0, declared 1회/함정, exact 출력/RNG, clean-clone portability와 전용 candidate Actions run42373876872가 PASS했다. 광역은 반복하지 않았다.
 - 최종 HTML 22,146,163 bytes, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`. 상속된 CIWS/checkout/legacy EMCON/CONFIRMED_ONLY 부채는 해결된 것으로 취급하지 않는다.
-- 다음은 `EMCON_B`다. EMITTER_A PR #73은 OPEN이며 main 병합·release·tag는 하지 않았다.
+- 현재는 별도 `emcon-b` 브랜치의 `EMCON_B`다. master radar EMCON을 유지하면서 범주/장비 policy를 추가하고 실제 방출·측정·ECM, profile UI, network/save lifecycle에 연결한다. 통신 EMCON은 별도이며 release/tag는 없다.
 
 ### 최신 PR 후보 — CUE_A-1 cue 필터·중기 수동 RF 정비
 

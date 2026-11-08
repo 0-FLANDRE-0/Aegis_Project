@@ -1,0 +1,1587 @@
+{
+  "schema": "AEGIS_EMCON_B_PR74_CORRECTION_3_GATE_1",
+  "status": "PASS",
+  "checks": {
+    "pageErrorsZero": true,
+    "consoleErrorsZero": true,
+    "ownAndNpcCovered": true,
+    "ddgCgBindingsExact": true,
+    "neutralConsumersReachSensorsAndIff": true,
+    "virtualRegistrationHasNoLegacyNames": true,
+    "virtualBindingValid": true,
+    "virtualUiProfileGenerated": true,
+    "virtualPhysicalOutput": true,
+    "globalHardOff": true,
+    "selectiveBreakoutExact": true,
+    "categoryCannotSubstitute": true,
+    "missingFailsClosed": true,
+    "ambiguousFailsClosed": true,
+    "nonexistentFailsClosed": true,
+    "repeatDeterministic": true
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "cases": [
+    {
+      "active": "DDG_119_LATE_FLIGHT_IIA",
+      "ally": null,
+      "rows": [
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1DV",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9B",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "BRIDGEMASTER_E",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 16,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "rf": {
+                  "SPY1DV": 1598317789,
+                  "SPQ9B": 3726259956,
+                  "BRIDGEMASTER_E": 335008191
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "rngAfter": {
+                "rf": {
+                  "SPY1DV": 2601140729,
+                  "SPQ9B": 1845640607,
+                  "BRIDGEMASTER_E": 74339258
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": -0.24925704867135653,
+                  "BRIDGEMASTER_E": 0.049843195070974136
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "active": "CG_52_LATE_TICONDEROGA",
+      "ally": null,
+      "rows": [
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "AN_SPS_73",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 17,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "rf": {
+                  "SPY1DV": 1598317789,
+                  "SPQ9B": 3726259956,
+                  "BRIDGEMASTER_E": 335008191
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "rngAfter": {
+                "rf": {
+                  "SPY1DV": 4251949202,
+                  "SPQ9B": 4231732665,
+                  "BRIDGEMASTER_E": 74339258
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": -0.24925704867135653,
+                  "BRIDGEMASTER_E": 0.049843195070974136
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "active": "DDG_119_LATE_FLIGHT_IIA",
+      "ally": "CG_52_LATE_TICONDEROGA",
+      "rows": [
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1DV",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9B",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "BRIDGEMASTER_E",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 16,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "rf": {
+                  "SPY1DV": 1598317789,
+                  "SPQ9B": 3726259956,
+                  "BRIDGEMASTER_E": 335008191
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "rngAfter": {
+                "rf": {
+                  "SPY1DV": 1284543949,
+                  "SPQ9B": 1541148195,
+                  "BRIDGEMASTER_E": 1719214799
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 2
+            }
+          }
+        },
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "AN_SPS_73",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 4,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "SPY": {
+                  "state": 2268814964,
+                  "spare": null
+                },
+                "SPQ": {
+                  "state": 2038221495,
+                  "spare": null
+                },
+                "NAV": {
+                  "state": 1313232993,
+                  "spare": null
+                }
+              },
+              "rngAfter": {
+                "SPY": {
+                  "state": 2268814964,
+                  "spare": null
+                },
+                "SPQ": {
+                  "state": 3653434305,
+                  "spare": null
+                },
+                "NAV": {
+                  "state": 3088680473,
+                  "spare": -2.731679194872659
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "active": "CG_52_LATE_TICONDEROGA",
+      "ally": "DDG_119_LATE_FLIGHT_IIA",
+      "rows": [
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1A_MODERNIZED",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "AN_SPS_73",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 17,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "rf": {
+                  "SPY1DV": 1598317789,
+                  "SPQ9B": 3726259956,
+                  "BRIDGEMASTER_E": 335008191
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "rngAfter": {
+                "rf": {
+                  "SPY1DV": 4251949202,
+                  "SPQ9B": 721127965,
+                  "BRIDGEMASTER_E": 1719214799
+                },
+                "spare": {
+                  "SPY1DV": null,
+                  "SPQ9B": null,
+                  "BRIDGEMASTER_E": null
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 2
+            }
+          }
+        },
+        {
+          "schema": "AEGIS_EMCON_B_CORRECTION_3_CURRENT_1",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "validation": {
+            "ok": true,
+            "errors": []
+          },
+          "bindings": [
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "AIR_SEARCH_VOLUME",
+              "equipmentId": "AN_SPY_1DV",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "SURFACE_SEARCH_SCAN",
+              "equipmentId": "AN_SPQ_9B",
+              "ok": true,
+              "reason": null
+            },
+            {
+              "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "consumerId": "NAVIGATION_SCAN",
+              "equipmentId": "BRIDGEMASTER_E",
+              "ok": true,
+              "reason": null
+            }
+          ],
+          "trace": {
+            "calls": [
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "SURFACE_SEARCH_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "NAVIGATION_SCAN"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              },
+              {
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "consumerId": "AIR_SEARCH_VOLUME"
+              }
+            ],
+            "sensors": {
+              "calls": {
+                "SPY": 4,
+                "SPQ": 2,
+                "NAV": 1
+              },
+              "rngBefore": {
+                "SPY": {
+                  "state": 2268814964,
+                  "spare": null
+                },
+                "SPQ": {
+                  "state": 2038221495,
+                  "spare": null
+                },
+                "NAV": {
+                  "state": 1313232993,
+                  "spare": null
+                }
+              },
+              "rngAfter": {
+                "SPY": {
+                  "state": 2268814964,
+                  "spare": null
+                },
+                "SPQ": {
+                  "state": 3326765246,
+                  "spare": -0.009607845567130475
+                },
+                "NAV": {
+                  "state": 3088680473,
+                  "spare": -2.731679194872659
+                }
+              },
+              "trackBefore": 0,
+              "trackAfter": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "virtual": {
+    "a": {
+      "schema": "AEGIS_EMCON_B_CORRECTION_3_VIRTUAL_1",
+      "profileId": "VIRTUAL_NON_VENDOR_C3",
+      "registryId": "VIRTUAL_NON_VENDOR_EMITTERS_C3",
+      "profileRegistrationText": "{\"id\":\"VIRTUAL_NON_VENDOR_C3\",\"emitters\":{\"schema\":\"AEGIS_SHIP_EMITTER_EQUIPMENT_A_1\",\"registryId\":\"VIRTUAL_NON_VENDOR_EMITTERS_C3\",\"profileId\":\"VIRTUAL_NON_VENDOR_C3\",\"physicalEmission\":true,\"categories\":[\"AIR_SEARCH\",\"SURFACE_SEARCH\",\"NAV\",\"FIRE_CONTROL\",\"ECM\"],\"consumerBindings\":[{\"consumerId\":\"AIR_SEARCH_VOLUME\",\"equipmentId\":\"VOLUME_ARRAY_ALPHA\"},{\"consumerId\":\"SURFACE_SEARCH_SCAN\",\"equipmentId\":\"SURFACE_SCANNER_BETA\"},{\"consumerId\":\"NAVIGATION_SCAN\",\"equipmentId\":\"NAV_SCANNER_GAMMA\"}],\"entries\":[{\"id\":\"VOLUME_ARRAY_ALPHA\",\"order\":10,\"category\":\"AIR_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"VOLUME_ARRAY\",\"sensorKey\":\"VOLUME_ARRAY\",\"hardpointKey\":\"VOLUME_ARRAY\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"VOLUME ARRAY ALPHA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"VOLUME_ARRAY\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Volume Array Alpha\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"VOLUME_ARRAY_DECOY\",\"order\":11,\"category\":\"AIR_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"VOLUME_DECOY\",\"sensorKey\":\"VOLUME_DECOY\",\"hardpointKey\":\"VOLUME_DECOY\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"VOLUME ARRAY DECOY\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"VOLUME_DECOY\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Volume Array Decoy\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"SURFACE_SCANNER_BETA\",\"order\":20,\"category\":\"SURFACE_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"SURFACE_SCANNER\",\"sensorKey\":\"SURFACE_SCANNER\",\"hardpointKey\":\"SURFACE_SCANNER\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"SURFACE SCANNER BETA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"SURFACE_SCANNER\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Surface Scanner Beta\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"NAV_SCANNER_GAMMA\",\"order\":30,\"category\":\"NAV\",\"outputKind\":\"RADAR\",\"enabledKey\":\"NAV_SCANNER\",\"sensorKey\":\"NAV_SCANNER\",\"hardpointKey\":\"NAV_SCANNER\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"NAVIGATION SCANNER GAMMA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"NAV_SCANNER\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Navigation Scanner Gamma\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"}],\"mutableStateOwner\":\"DIAGNOSTIC_ONLY\",\"outputContract\":\"AEGIS_RECEIVER_EW_F_1_LEGACY_EXACT\"}}",
+      "validation": {
+        "ok": true,
+        "errors": []
+      },
+      "resolved": [
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "AIR_SEARCH_VOLUME",
+          "equipmentId": "VOLUME_ARRAY_ALPHA",
+          "ok": true,
+          "reason": null
+        },
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "SURFACE_SEARCH_SCAN",
+          "equipmentId": "SURFACE_SCANNER_BETA",
+          "ok": true,
+          "reason": null
+        },
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "NAVIGATION_SCAN",
+          "equipmentId": "NAV_SCANNER_GAMMA",
+          "ok": true,
+          "reason": null
+        }
+      ],
+      "ui": {
+        "text": "아군함 · VIRTUAL_NON_VENDOR_C3전파방사통제 OFF · RADAR MASTER ACTIVE · 레이더 3/3 · ECM OFF대공 레이더ONVolume Array AlphaONON · 범주 방사 허용Volume Array DecoyONON · 범주 방사 허용대수상 레이더ONSurface Scanner BetaONON · 범주 방사 허용항해 레이더ONNavigation Scanner GammaONON · 범주 방사 허용사격통제 레이더OFF등록 장비 없음ECMOFF등록 장비 없음통신 링크는 별도 정책이며 전파방사통제의 영향을 받지 않음",
+        "snapshot": {
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "categories": [
+            {
+              "category": "AIR_SEARCH",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "VOLUME_ARRAY_ALPHA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                },
+                {
+                  "id": "VOLUME_ARRAY_DECOY",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "SURFACE_SEARCH",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "SURFACE_SCANNER_BETA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "NAV",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "NAV_SCANNER_GAMMA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "FIRE_CONTROL",
+              "pressed": "false",
+              "disabled": true,
+              "equipment": []
+            },
+            {
+              "category": "ECM",
+              "pressed": "false",
+              "disabled": true,
+              "equipment": []
+            }
+          ]
+        }
+      },
+      "defaultRows": [
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "VOLUME ARRAY ALPHA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "VOLUME ARRAY DECOY",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "SURFACE SCANNER BETA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "NAVIGATION SCANNER GAMMA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        }
+      ],
+      "hardRows": [],
+      "breakout": {
+        "rows": [
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "SURFACE SCANNER BETA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          }
+        ],
+        "decisions": [
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "VOLUME_ARRAY_ALPHA",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "VOLUME_ARRAY_DECOY",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "SURFACE_SCANNER_BETA",
+            "category": "SURFACE_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "FORCE_RADIATE",
+            "allowed": true,
+            "emissionActive": true,
+            "reason": "OVERRIDE_RADIATE",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "NAV_SCANNER_GAMMA",
+            "category": "NAV",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          }
+        ]
+      },
+      "sameCategoryIsolation": {
+        "categoryAllows": true,
+        "consumerDecision": {
+          "schema": "AEGIS_EMCON_CONSUMER_DECISION_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "equipmentId": "VOLUME_ARRAY_ALPHA",
+          "category": "AIR_SEARCH",
+          "categoryPolicy": "RADIATE",
+          "override": "FORCE_SILENT",
+          "allowed": false,
+          "emissionActive": false,
+          "reason": "OVERRIDE_SILENT",
+          "allRadiationSilent": false,
+          "masterSilent": false,
+          "networkSilent": false,
+          "operational": true,
+          "ecm": null,
+          "revision": 0,
+          "truthUsed": false,
+          "rngConsumed": false,
+          "consumerId": "AIR_SEARCH_VOLUME"
+        },
+        "rows": [
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "VOLUME ARRAY DECOY",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          },
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "SURFACE SCANNER BETA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          },
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "NAVIGATION SCANNER GAMMA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          }
+        ]
+      },
+      "failures": [
+        {
+          "name": "MISSING",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "NAVIGATION_SCAN",
+            "equipmentId": null,
+            "ok": false,
+            "reason": "CONSUMER_BINDING_MISSING"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:NAVIGATION_SCAN:CONSUMER_BINDING_MISSING",
+          "zeroMutation": true
+        },
+        {
+          "name": "AMBIGUOUS",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "AIR_SEARCH_VOLUME",
+            "equipmentId": null,
+            "ok": false,
+            "reason": "CONSUMER_BINDING_AMBIGUOUS"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:AIR_SEARCH_VOLUME:CONSUMER_BINDING_AMBIGUOUS",
+          "zeroMutation": true
+        },
+        {
+          "name": "NONEXISTENT",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "SURFACE_SEARCH_SCAN",
+            "equipmentId": "NO_SUCH_EQUIPMENT",
+            "ok": false,
+            "reason": "CONSUMER_EQUIPMENT_MISSING"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:SURFACE_SEARCH_SCAN:CONSUMER_EQUIPMENT_MISSING",
+          "zeroMutation": true
+        }
+      ]
+    },
+    "b": {
+      "schema": "AEGIS_EMCON_B_CORRECTION_3_VIRTUAL_1",
+      "profileId": "VIRTUAL_NON_VENDOR_C3",
+      "registryId": "VIRTUAL_NON_VENDOR_EMITTERS_C3",
+      "profileRegistrationText": "{\"id\":\"VIRTUAL_NON_VENDOR_C3\",\"emitters\":{\"schema\":\"AEGIS_SHIP_EMITTER_EQUIPMENT_A_1\",\"registryId\":\"VIRTUAL_NON_VENDOR_EMITTERS_C3\",\"profileId\":\"VIRTUAL_NON_VENDOR_C3\",\"physicalEmission\":true,\"categories\":[\"AIR_SEARCH\",\"SURFACE_SEARCH\",\"NAV\",\"FIRE_CONTROL\",\"ECM\"],\"consumerBindings\":[{\"consumerId\":\"AIR_SEARCH_VOLUME\",\"equipmentId\":\"VOLUME_ARRAY_ALPHA\"},{\"consumerId\":\"SURFACE_SEARCH_SCAN\",\"equipmentId\":\"SURFACE_SCANNER_BETA\"},{\"consumerId\":\"NAVIGATION_SCAN\",\"equipmentId\":\"NAV_SCANNER_GAMMA\"}],\"entries\":[{\"id\":\"VOLUME_ARRAY_ALPHA\",\"order\":10,\"category\":\"AIR_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"VOLUME_ARRAY\",\"sensorKey\":\"VOLUME_ARRAY\",\"hardpointKey\":\"VOLUME_ARRAY\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"VOLUME ARRAY ALPHA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"VOLUME_ARRAY\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Volume Array Alpha\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"VOLUME_ARRAY_DECOY\",\"order\":11,\"category\":\"AIR_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"VOLUME_DECOY\",\"sensorKey\":\"VOLUME_DECOY\",\"hardpointKey\":\"VOLUME_DECOY\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"VOLUME ARRAY DECOY\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"VOLUME_DECOY\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Volume Array Decoy\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"SURFACE_SCANNER_BETA\",\"order\":20,\"category\":\"SURFACE_SEARCH\",\"outputKind\":\"RADAR\",\"enabledKey\":\"SURFACE_SCANNER\",\"sensorKey\":\"SURFACE_SCANNER\",\"hardpointKey\":\"SURFACE_SCANNER\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"SURFACE SCANNER BETA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"SURFACE_SCANNER\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Surface Scanner Beta\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"},{\"id\":\"NAV_SCANNER_GAMMA\",\"order\":30,\"category\":\"NAV\",\"outputKind\":\"RADAR\",\"enabledKey\":\"NAV_SCANNER\",\"sensorKey\":\"NAV_SCANNER\",\"hardpointKey\":\"NAV_SCANNER\",\"mountKind\":\"PROFILE_HARDPOINT\",\"bandMode\":\"SENSOR_PROFILE\",\"band\":\"X\",\"power\":100,\"powerProvenance\":\"DIAGNOSTIC_ONLY\",\"family\":\"NAVIGATION SCANNER GAMMA\",\"emitterClass\":\"SEARCH_RADAR\",\"rotorKey\":\"NAV_SCANNER\",\"beamwidthField\":\"horizontalBeamwidthDeg\",\"rpmField\":\"nominalRpm\",\"double\":false,\"system\":\"Navigation Scanner Gamma\",\"provenance\":\"DIAGNOSTIC_ONLY_NON_VENDOR_PROFILE\"}],\"mutableStateOwner\":\"DIAGNOSTIC_ONLY\",\"outputContract\":\"AEGIS_RECEIVER_EW_F_1_LEGACY_EXACT\"}}",
+      "validation": {
+        "ok": true,
+        "errors": []
+      },
+      "resolved": [
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "AIR_SEARCH_VOLUME",
+          "equipmentId": "VOLUME_ARRAY_ALPHA",
+          "ok": true,
+          "reason": null
+        },
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "SURFACE_SEARCH_SCAN",
+          "equipmentId": "SURFACE_SCANNER_BETA",
+          "ok": true,
+          "reason": null
+        },
+        {
+          "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "consumerId": "NAVIGATION_SCAN",
+          "equipmentId": "NAV_SCANNER_GAMMA",
+          "ok": true,
+          "reason": null
+        }
+      ],
+      "ui": {
+        "text": "아군함 · VIRTUAL_NON_VENDOR_C3전파방사통제 OFF · RADAR MASTER ACTIVE · 레이더 3/3 · ECM OFF대공 레이더ONVolume Array AlphaONON · 범주 방사 허용Volume Array DecoyONON · 범주 방사 허용대수상 레이더ONSurface Scanner BetaONON · 범주 방사 허용항해 레이더ONNavigation Scanner GammaONON · 범주 방사 허용사격통제 레이더OFF등록 장비 없음ECMOFF등록 장비 없음통신 링크는 별도 정책이며 전파방사통제의 영향을 받지 않음",
+        "snapshot": {
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "categories": [
+            {
+              "category": "AIR_SEARCH",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "VOLUME_ARRAY_ALPHA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                },
+                {
+                  "id": "VOLUME_ARRAY_DECOY",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "SURFACE_SEARCH",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "SURFACE_SCANNER_BETA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "NAV",
+              "pressed": "true",
+              "disabled": false,
+              "equipment": [
+                {
+                  "id": "NAV_SCANNER_GAMMA",
+                  "pressed": "true",
+                  "disabled": false,
+                  "status": "ON · 범주 방사 허용"
+                }
+              ]
+            },
+            {
+              "category": "FIRE_CONTROL",
+              "pressed": "false",
+              "disabled": true,
+              "equipment": []
+            },
+            {
+              "category": "ECM",
+              "pressed": "false",
+              "disabled": true,
+              "equipment": []
+            }
+          ]
+        }
+      },
+      "defaultRows": [
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "VOLUME ARRAY ALPHA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "VOLUME ARRAY DECOY",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "SURFACE SCANNER BETA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        },
+        {
+          "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "point": {
+            "x": 4.295326183329427e-18,
+            "y": -0.070148,
+            "z": 36.8,
+            "vxMps": 0,
+            "vyMps": 0,
+            "vzMps": 0
+          },
+          "band": "IJ",
+          "frequencyMHz": 9400,
+          "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+          "power": 100,
+          "family": "NAVIGATION SCANNER GAMMA",
+          "emitterClass": "SEARCH_RADAR",
+          "beamAz": -1.5707963267948966,
+          "beamwidthDeg": 1.5,
+          "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+          "rpm": 24,
+          "double": false
+        }
+      ],
+      "hardRows": [],
+      "breakout": {
+        "rows": [
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "SURFACE SCANNER BETA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          }
+        ],
+        "decisions": [
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "VOLUME_ARRAY_ALPHA",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "VOLUME_ARRAY_DECOY",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "SURFACE_SCANNER_BETA",
+            "category": "SURFACE_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "FORCE_RADIATE",
+            "allowed": true,
+            "emissionActive": true,
+            "reason": "OVERRIDE_RADIATE",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "equipmentId": "NAV_SCANNER_GAMMA",
+            "category": "NAV",
+            "categoryPolicy": "SILENT",
+            "override": "INHERIT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "CATEGORY_SILENT",
+            "allRadiationSilent": false,
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 2,
+            "truthUsed": false,
+            "rngConsumed": false
+          }
+        ]
+      },
+      "sameCategoryIsolation": {
+        "categoryAllows": true,
+        "consumerDecision": {
+          "schema": "AEGIS_EMCON_CONSUMER_DECISION_B_1",
+          "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+          "profileId": "VIRTUAL_NON_VENDOR_C3",
+          "equipmentId": "VOLUME_ARRAY_ALPHA",
+          "category": "AIR_SEARCH",
+          "categoryPolicy": "RADIATE",
+          "override": "FORCE_SILENT",
+          "allowed": false,
+          "emissionActive": false,
+          "reason": "OVERRIDE_SILENT",
+          "allRadiationSilent": false,
+          "masterSilent": false,
+          "networkSilent": false,
+          "operational": true,
+          "ecm": null,
+          "revision": 0,
+          "truthUsed": false,
+          "rngConsumed": false,
+          "consumerId": "AIR_SEARCH_VOLUME"
+        },
+        "rows": [
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "VOLUME ARRAY DECOY",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          },
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "SURFACE SCANNER BETA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          },
+          {
+            "owner": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "point": {
+              "x": 4.295326183329427e-18,
+              "y": -0.070148,
+              "z": 36.8,
+              "vxMps": 0,
+              "vyMps": 0,
+              "vzMps": 0
+            },
+            "band": "IJ",
+            "frequencyMHz": 9400,
+            "frequencyProvenance": "EXISTING_EMITTER_PROFILE",
+            "power": 100,
+            "family": "NAVIGATION SCANNER GAMMA",
+            "emitterClass": "SEARCH_RADAR",
+            "beamAz": -1.5707963267948966,
+            "beamwidthDeg": 1.5,
+            "beamwidthProvenance": "PUBLIC_BRIDGEMASTER_E_S_BAND_BASELINE__DDG119_EXACT_NAVAL_VARIANT_PUBLIC_UNKNOWN",
+            "rpm": 24,
+            "double": false
+          }
+        ]
+      },
+      "failures": [
+        {
+          "name": "MISSING",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "NAVIGATION_SCAN",
+            "equipmentId": null,
+            "ok": false,
+            "reason": "CONSUMER_BINDING_MISSING"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:NAVIGATION_SCAN:CONSUMER_BINDING_MISSING",
+          "zeroMutation": true
+        },
+        {
+          "name": "AMBIGUOUS",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "AIR_SEARCH_VOLUME",
+            "equipmentId": null,
+            "ok": false,
+            "reason": "CONSUMER_BINDING_AMBIGUOUS"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:AIR_SEARCH_VOLUME:CONSUMER_BINDING_AMBIGUOUS",
+          "zeroMutation": true
+        },
+        {
+          "name": "NONEXISTENT",
+          "decision": {
+            "schema": "AEGIS_EMCON_CONSUMER_BINDING_B_1",
+            "ownerEntityId": "DIAG_VIRTUAL_NON_VENDOR_C3",
+            "profileId": "VIRTUAL_NON_VENDOR_C3",
+            "consumerId": "SURFACE_SEARCH_SCAN",
+            "equipmentId": "NO_SUCH_EQUIPMENT",
+            "ok": false,
+            "reason": "CONSUMER_EQUIPMENT_MISSING"
+          },
+          "restoreError": "EMCON_B_RESTORE_INVALID:CONSUMER_BINDING:SURFACE_SEARCH_SCAN:CONSUMER_EQUIPMENT_MISSING",
+          "zeroMutation": true
+        }
+      ]
+    },
+    "deterministic": true
+  }
+}

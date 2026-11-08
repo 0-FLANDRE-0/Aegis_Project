@@ -14,6 +14,18 @@ EXPECTED_KEYS = {
     "schema", "stage", "path", "sha256", "bytes", "baselinePath",
     "baselineSha256", "branch", "pullRequest", "release",
 }
+STAGE_POLICY = {
+    "EMITTER_A": {
+        "branch": "emitter-a",
+        "pullRequest": 73,
+        "baselineSha256": "243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835",
+    },
+    "EMCON_B": {
+        "branch": "emcon-b",
+        "pullRequest": 74,
+        "baselineSha256": "3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be",
+    },
+}
 
 
 def digest(path: Path) -> str:
@@ -42,17 +54,20 @@ def main() -> None:
         ValueError(f"non-finite JSON constant: {value}")))
     if not isinstance(manifest, dict) or set(manifest) != EXPECTED_KEYS:
         raise AssertionError("current-product manifest schema keys differ")
-    if manifest["schema"] != "AEGIS_CURRENT_PRODUCT_1" or manifest["stage"] != "EMITTER_A":
+    if manifest["schema"] != "AEGIS_CURRENT_PRODUCT_1" or manifest["stage"] not in STAGE_POLICY:
         raise AssertionError("current-product schema or stage mismatch")
     if not isinstance(manifest["bytes"], int) or manifest["bytes"] <= 0:
         raise AssertionError("manifest bytes must be a positive integer")
-    if manifest["branch"] != "emitter-a" or manifest["pullRequest"] != 73 or manifest["release"] is not False:
+    policy = STAGE_POLICY[manifest["stage"]]
+    if (manifest["branch"] != policy["branch"] or manifest["pullRequest"] != policy["pullRequest"]
+            or manifest["baselineSha256"] != policy["baselineSha256"] or manifest["release"] is not False):
         raise AssertionError("manifest publication metadata mismatch")
     product = repository_file(manifest["path"])
     baseline = repository_file(manifest["baselinePath"])
     checks = {
         "strictJson": True,
         "schemaExact": True,
+        "stageWhitelisted": manifest["stage"] in STAGE_POLICY,
         "productExists": product.is_file(),
         "productBytesExact": product.is_file() and product.stat().st_size == manifest["bytes"],
         "productSha256Exact": product.is_file() and digest(product) == manifest["sha256"],

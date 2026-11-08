@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+"""Reproducibly build EMCON_B stages from the merged EMITTER_A product."""
+from __future__ import annotations
+
+import argparse
+import base64
+import difflib
+import gzip
+import hashlib
+import json
+import re
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+BASE = ROOT / "Aegis_SIM_v48_WIP_EMITTER_A.html"
+BASE_SHA = "3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be"
+
+
+def sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def one(source: str, old: str, new: str, label: str) -> str:
+    count = source.count(old)
+    if count != 1:
+        raise AssertionError(f"{label}: expected one anchor, got {count}")
+    return source.replace(old, new, 1)
+
+
+def function_span(source: str, name: str, contains: str | None = None) -> tuple[int, int]:
+    matches = list(re.finditer(rf"function\s+{re.escape(name)}\s*\(", source))
+    found: list[tuple[int, int]] = []
+    for match in matches:
+        brace = source.find("{", match.end())
+        depth = 0
+        quote: str | None = None
+        escaped = False
+        for index in range(brace, len(source)):
+            char = source[index]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    quote = None
+                continue
+            if char in "'\"`":
+                quote = char
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    body = source[match.start() : index + 1]
+                    if contains is None or contains in body:
+                        found.append((match.start(), index + 1))
+                    break
+    if len(found) != 1:
+        raise AssertionError(f"{name}: expected one selected function, got {len(found)}")
+    return found[0]
+
+
+def transform(source: str, stage: str) -> str:
+    bindings = (HERE / "emcon_consumer_bindings.js").read_text().rstrip() + "\n"
+    source = one(source, "function shipEmitterEquipmentRegistryA(profileId){", bindings + "function shipEmitterEquipmentRegistryA(profileId){", "consumer binding definitions")
+    source = one(source,
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,\n    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,entries,",
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,\n    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB(profileId),entries,",
+        "DDG/CG consumer bindings")
+    source = one(source,
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',\n    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,entries,",
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',\n    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB('SOVREMENNY_956'),entries,",
+        "inactive consumer bindings")
+    source = one(source, "enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_SPY_FACE'", "enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_ARRAY_FACE'", "neutral array mount contract")
+    policy = (HERE / "emcon_policy.js").read_text().replace("__EMCON_B_MODE__", "SHADOW" if stage == "B" else "ACTIVE").rstrip() + "\n"
+    if stage == "E":
+        policy += (HERE / "emcon_lifecycle.js").read_text().rstrip() + "\n"
+    source = one(source, "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", policy + "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", "policy module")
+    source = one(source, "function prepareElectronicF(r){\n  const own=", "function prepareElectronicF(r){\n  prepareEmconB(r);\n  const own=", "prepare lifecycle")
+    start, end = function_span(source, "electronicShipPhysicalEmittersDeclaredA")
+    if stage == "B":
+        body = source[start:end]
+        body = one(body, "q.mountKind==='FIRST_HEALTHY_SPY_FACE'", "q.mountKind==='FIRST_HEALTHY_ARRAY_FACE'", "shadow neutral array mount")
+        body = one(body, "if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;", "if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}", "inactive shadow")
+        last = body.rfind("return out;")
+        if last < 0:
+            raise AssertionError("declared resolver return missing")
+        body = body[:last] + "emconShadowResolveB(r,out);" + body[last:]
+    else:
+        body = (HERE / "emcon_active_runtime.js").read_text().strip()
+    source = source[:start] + body + source[end:]
+    if stage in ("C", "D", "E"):
+        source = one(source, "if(emconActive) return;\n    spyScheduler.accumulatorS", "if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH_VOLUME')) return;\n    spyScheduler.accumulatorS", "active air-search gate")
+        source = one(source, "if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN')&&spq9bHealth01()>.08)spq9bRotorAngle", "active surface-search rotor")
+        source = one(source, "if(!emconActive && spq9bHealth01()>0.08){", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN') && spq9bHealth01()>0.08){", "active surface-search measurement")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "active navigation rotor")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>0.08){", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>0.08){", "active navigation measurement")
+        source = one(source, "if(emconActive||bridgeMasterEHealth01()<=0.08)return;", "if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')||bridgeMasterEHealth01()<=0.08)return;", "active navigation shoreline gate")
+        source = one(source, "if(!o.enabled.SPY||o.emcon||health<=.05", "if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME')||health<=.05", "observer air-search gate")
+        source = one(source, "if(!o.enabled[key]||o.emcon||health<=.08)return;", "if(!emconConsumerAllowsB(r,spq?'SURFACE_SEARCH_SCAN':'NAVIGATION_SCAN')||health<=.08)return;", "observer auxiliary gate")
+        source = one(source, "function electronicJammerSampleF(r,rx,p,kind){\n  const cfg=", "function electronicJammerSampleF(r,rx,p,kind){\n  if(!emconEcmAllowsB(r))return null;\n  const cfg=", "jammer and HOJ gate")
+        # The first declaration is lexically inside createElectronicContextF(owner) despite its
+        # column-0 formatting; the later indented declaration is the active-ship compatibility path.
+        source = one(source, "\nfunction updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\nfunction updateSlq32EaAllocator(dt){\n    if(!emconEcmAllowsB(owner)||shipEquipmentOfflineV1())", "observer allocator gate")
+        source = one(source, "\n  function updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\n  function updateSlq32EaAllocator(dt){\n    if(!emconEcmAllowsB(ACTIVE_SHIP_RUNTIME)||shipEquipmentOfflineV1())", "active allocator gate")
+        source = one(source, "if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];\n  const rx=", "if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME'))return [];\n  const rx=", "surface IFF gate")
+        source = one(source, "if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;", "if(shipEquipmentOfflineV1(ship)||!emconConsumerAllowsB(ship,'AIR_SEARCH_VOLUME'))return out;", "air IFF gate")
+    if stage in ("D", "E"):
+        ui = (HERE / "emcon_ui.js").read_text().rstrip() + "\n"
+        source = one(source, "// MAP_E_UI_BEGIN\n", ui + "// MAP_E_UI_BEGIN\n", "profile-derived EMCON UI module")
+        source = one(source,
+            "function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;chip.textContent='EMCON '+(emconActive?'ON':'OFF')+'\\nECM '+ownEcmLevelE();chip.title='레이더 '+(emconActive?'OFF':'ON')+' · ECM '+levelNames[ownEcmLevelE()]+(!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?' · 기존 재밍 승인 유지':'');chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}",
+            "function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;const q=emconUiChipSnapshotB();chip.textContent=q.text;chip.title=q.title;chip.setAttribute('aria-pressed',String(q.allRadiationSilent));chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}",
+            "selected-owner chip")
+        source = one(source,
+            "function command(level){const q=ownEcmCommandE(level);refresh();refreshChip();return q;}\n function allRadiation(){\n  if(!emconActive||ownEcmLevelE()!=='OFF'||noiseJamActive||deceptJamActive){remembered={owner:ACTIVE_SHIP_RUNTIME,level:ownEcmLevelE()};if(!emconActive)toggleEmcon();command('OFF');}\n  else{if(emconActive)toggleEmcon();command(remembered?.owner===ACTIVE_SHIP_RUNTIME?remembered.level:'OFF');}\n  refresh();\n }",
+            "function command(level){const q=emconUiEcmCommandB(emconUiOwnerB(),level);refresh();refreshChip();return q;}\n function allRadiation(){const q=emconAllRadiationMacroB(emconUiOwnerB());refresh();refreshChip();return q;}",
+            "selected-owner commands and all-radiation macro")
+        source = one(source,
+            "const level=ownEcmLevelE();dom.all.textContent='전체 방사 '+(emconActive&&level==='OFF'&&!noiseJamActive&&!deceptJamActive?'ON':'OFF');dom.radar.textContent='레이더 '+(emconActive?'ON':'OFF');for(const [k,e]of Object.entries(dom.levels))e.setAttribute('aria-pressed',String(level===k));dom.note.textContent=!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?'기존 재밍 승인: '+(noiseJamActive?'NJ ':'')+(deceptJamActive?'DJ':''):'';place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());",
+            "const owner=emconUiOwnerB(),level=emconUiEcmLevelB(owner),settings=electronicSettingsF(owner),allSilent=emconUiAllSilentB(owner),commandAllowed=emconUiCommandAllowedB(owner);dom.all.textContent='전파방사통제 '+(allSilent?'ON':'OFF');dom.all.setAttribute('aria-pressed',String(allSilent));dom.all.classList.toggle('is-active',allSilent);dom.all.disabled=!commandAllowed;dom.all.title=commandAllowed?'전체 레이더·ECM 물리 방출 통제':'운용 가능한 아군 방사 장비 없음';for(const [k,e]of Object.entries(dom.levels)){e.setAttribute('aria-pressed',String(level===k));e.disabled=!commandAllowed||k==='JAM'&&owner!==ACTIVE_SHIP_RUNTIME;}dom.note.textContent=(settings.noiseRequested||settings.deceptionRequested?'기법 요청: '+(settings.noiseRequested?'NJ ':'')+(settings.deceptionRequested?'DJ':''):'기법 요청 없음')+' · 실제 방출 '+(emconCategoryEmittingB(owner,'ECM')?'ON':'OFF');dom.policy.refresh();place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());",
+            "policy UI refresh")
+        source = one(source,
+            "dom.all=button('전체 방사 OFF','mapAllRadiationE',allRadiation);dom.radar=button('레이더 OFF','mapRadarE',()=>{toggleEmcon();refresh();refreshChip();});menu.append(dom.all,dom.radar,make('span','','ECM'));const row=make('div','map-ecm-levels-e');",
+            "dom.all=button('전파방사통제 OFF','mapAllRadiationE',allRadiation);dom.all.setAttribute('aria-pressed','false');dom.policy=emconCreatePolicyUiB();menu.append(dom.all,dom.policy.root,make('span','','ECM 기법 요청'));const row=make('div','map-ecm-levels-e');",
+            "policy UI mount")
+    if stage == "E":
+        source = one(source,
+            "restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;",
+            "restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;",
+            "nonplayer EMCON restore handoff")
+        source = one(source,
+            "return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),profileId:r.profileId,",
+            "return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,",
+            "nonplayer EMCON export")
+        source = one(source,
+            "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),navigation:",
+            "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:",
+            "active EMCON export")
+        source = one(source,
+            "    const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}",
+            "    migrateEmconSaveB(src,harpoonMigrations);\n    const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}",
+            "legacy EMCON migration before preflight")
+        source = one(source,
+            "function validatePhysicalFleetB(src,_ctx,errors){\n  const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);",
+            "function validatePhysicalFleetB(src,_ctx,errors){\n  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');\n  const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);",
+            "active EMCON preflight")
+        source = one(source,
+            "    seen.add(q.entityId);validateTacticalSettingsH1(q.tactical,errors);",
+            "    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);",
+            "nonplayer EMCON preflight")
+        source = one(source,
+            "if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');if(src.ship.team)",
+            "if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);if(src.ship.team)",
+            "active EMCON restore")
+        source = one(source,
+            "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}\n}",
+            "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}\n}",
+            "EMCON reset lifecycle")
+        source = one(source,
+            "  retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';",
+            "  emconRetireRuntimeB(runtime);retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';",
+            "EMCON destroy lifecycle")
+    return source
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--stage", choices=("B", "C", "D", "E"), required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument("--diff", type=Path)
+    args = parser.parse_args()
+    raw = BASE.read_bytes()
+    if sha(raw) != BASE_SHA:
+        raise AssertionError("pinned EMITTER_A product SHA mismatch")
+    match = re.search(rb'data-c55-index="13">([^<]+)', raw)
+    if not match:
+        raise AssertionError("packed main script missing")
+    before = gzip.decompress(base64.b64decode(match.group(1))).decode()
+    after = transform(before, args.stage)
+    packed = gzip.compress(after.encode(), 9, mtime=0)
+    encoded = base64.b64encode(packed)
+    output = raw[: match.start(1)] + encoded + raw[match.end(1) :]
+    meta = re.search(rb"const records=(\[.*?\]);", output, re.S)
+    records = json.loads(meta[1])
+    records[13].update(rawBytes=len(after.encode()), gzipBytes=len(packed), sha256=sha(after.encode()))
+    if "encodedBytes" in records[13]:
+        records[13]["encodedBytes"] = len(encoded)
+    output = output[: meta.start(1)] + json.dumps(records, separators=(",", ":")).encode() + output[meta.end(1) :]
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_bytes(output)
+    if args.diff:
+        args.diff.write_text("".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="EMITTER_A/main.js", tofile=f"EMCON_B_{args.stage}/main.js", n=1)))
+    receipt = {
+        "schema": "AEGIS_EMCON_B_BUILD_1",
+        "stage": args.stage,
+        "baseSha256": sha(raw),
+        "baseMainSha256": sha(before.encode()),
+        "outputSha256": sha(output),
+        "outputMainSha256": sha(after.encode()),
+        "outputBytes": len(output),
+        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_consumer_bindings.js", "emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []) + (["emcon_lifecycle.js"] if args.stage == "E" else []))},
+    }
+    args.receipt.parent.mkdir(parents=True, exist_ok=True)
+    args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
+    print(json.dumps(receipt))
+
+
+if __name__ == "__main__":
+    main()
