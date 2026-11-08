@@ -5,7 +5,7 @@ import argparse,base64,gzip,hashlib,json,re
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3]
-EXPECTED_PRODUCT='e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f'
+EXPECTED_PRODUCT='50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee'
 EXPECTED_BASE='3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be'
 def sha(b:bytes)->str:return hashlib.sha256(b).hexdigest()
 def strict(path:Path):return json.loads(path.read_text(),parse_constant=lambda x:(_ for _ in()).throw(ValueError(x)))

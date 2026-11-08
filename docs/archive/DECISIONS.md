@@ -96,3 +96,11 @@
 - 기존 `#lockBtn` 14건은 MAP_E의 visible-node 퇴역을 반영한 test-only adapter로 native listener를 실제 실행한다. 제품 우회나 기대값 완화로 처리하지 않는다.
 - 최종 MAX_THREAT 광역은 동결 후보에서 정확히 1회만 실행한다. assertion 전 Chromium crash와 EMITTER_A에서도 같은 fixture 결과는 raw 실패를 보존한 채 `INCOMPLETE/INHERITED_DEBT`로 분리하고 PASS로 바꾸지 않는다.
 - 현재 후보 Actions는 manifest stage whitelist로 EMITTER_A/EMCON_B를 dispatch한다. 실행 결과 문서만 변경해 재귀 실행하지 않으며 run 번호는 PR 본문에만 기록한다.
+
+## 2026-11-08 (EMCON_B PR #74 3차 — 함종 독립 바인딩)
+
+- 공통 EMCON 센서 소비자는 실제 장비명이나 기존 구현 키가 아니라 `AIR_SEARCH_VOLUME`, `SURFACE_SEARCH_SCAN`, `NAVIGATION_SCAN`을 사용한다.
+- 정확한 `consumerId -> equipmentId` 관계는 불변 ShipProfile 방사 장비 등록부가 소유한다. 다른 함종은 프로필 바인딩만 추가하며 공통 조회 코드를 바꾸지 않는다.
+- 바인딩 누락·중복·없는 장비·범주/출력 불일치는 fail-closed다. 같은 범주의 다른 허용 장비로 대체하는 우회 판정은 금지한다.
+- 내부 consumer ID는 UI에 표시하지 않는다. 실제 장비명은 선택 함선에 설치된 등록 장비 행에서만 표시한다.
+- 정적 바인딩은 저장 데이터에 복제하지 않으며 `AEGIS_SHIP_EMCON_B_2`를 유지한다. 광역 회귀는 반복하지 않고 바인딩 전용 결정적 검사와 기존 제한 폐쇄 게이트만 실행한다.

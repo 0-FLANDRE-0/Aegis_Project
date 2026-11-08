@@ -6,7 +6,7 @@ function electronicShipPhysicalEmittersDeclaredA(r){
   for(const q of registry.entries){
     if(q.outputKind!=='RADAR'||!emconEquipmentDecisionB(r,q.id).allowed)continue;
     const spec=p.sensors[q.sensorKey];
-    if(q.mountKind==='FIRST_HEALTHY_SPY_FACE'){
+    if(q.mountKind==='FIRST_HEALTHY_ARRAY_FACE'){
       if(spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:q.band,frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:null});
       continue;
     }

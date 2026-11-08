@@ -63,6 +63,17 @@ def function_span(source: str, name: str, contains: str | None = None) -> tuple[
 
 
 def transform(source: str, stage: str) -> str:
+    bindings = (HERE / "emcon_consumer_bindings.js").read_text().rstrip() + "\n"
+    source = one(source, "function shipEmitterEquipmentRegistryA(profileId){", bindings + "function shipEmitterEquipmentRegistryA(profileId){", "consumer binding definitions")
+    source = one(source,
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,\n    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,entries,",
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,\n    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB(profileId),entries,",
+        "DDG/CG consumer bindings")
+    source = one(source,
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',\n    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,entries,",
+        "return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',\n    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB('SOVREMENNY_956'),entries,",
+        "inactive consumer bindings")
+    source = one(source, "enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_SPY_FACE'", "enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_ARRAY_FACE'", "neutral array mount contract")
     policy = (HERE / "emcon_policy.js").read_text().replace("__EMCON_B_MODE__", "SHADOW" if stage == "B" else "ACTIVE").rstrip() + "\n"
     if stage == "E":
         policy += (HERE / "emcon_lifecycle.js").read_text().rstrip() + "\n"
@@ -71,6 +82,7 @@ def transform(source: str, stage: str) -> str:
     start, end = function_span(source, "electronicShipPhysicalEmittersDeclaredA")
     if stage == "B":
         body = source[start:end]
+        body = one(body, "q.mountKind==='FIRST_HEALTHY_SPY_FACE'", "q.mountKind==='FIRST_HEALTHY_ARRAY_FACE'", "shadow neutral array mount")
         body = one(body, "if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;", "if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}", "inactive shadow")
         last = body.rfind("return out;")
         if last < 0:
@@ -80,21 +92,21 @@ def transform(source: str, stage: str) -> str:
         body = (HERE / "emcon_active_runtime.js").read_text().strip()
     source = source[:start] + body + source[end:]
     if stage in ("C", "D", "E"):
-        source = one(source, "if(emconActive) return;\n    spyScheduler.accumulatorS", "if(!emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPY')) return;\n    spyScheduler.accumulatorS", "active SPY gate")
-        source = one(source, "if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle", "if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPQ')&&spq9bHealth01()>.08)spq9bRotorAngle", "active SPQ rotor")
-        source = one(source, "if(!emconActive && spq9bHealth01()>0.08){", "if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPQ') && spq9bHealth01()>0.08){", "active SPQ measurement")
-        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "active NAV rotor")
-        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>0.08){", "if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>0.08){", "active NAV measurement")
-        source = one(source, "if(emconActive||bridgeMasterEHealth01()<=0.08)return;", "if(!emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')||bridgeMasterEHealth01()<=0.08)return;", "active NAV shoreline gate")
-        source = one(source, "if(!o.enabled.SPY||o.emcon||health<=.05", "if(!emconReceiverAllowsB(r,'SPY')||health<=.05", "observer SPY gate")
-        source = one(source, "if(!o.enabled[key]||o.emcon||health<=.08)return;", "if(!emconReceiverAllowsB(r,key)||health<=.08)return;", "observer auxiliary gate")
+        source = one(source, "if(emconActive) return;\n    spyScheduler.accumulatorS", "if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH_VOLUME')) return;\n    spyScheduler.accumulatorS", "active air-search gate")
+        source = one(source, "if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN')&&spq9bHealth01()>.08)spq9bRotorAngle", "active surface-search rotor")
+        source = one(source, "if(!emconActive && spq9bHealth01()>0.08){", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN') && spq9bHealth01()>0.08){", "active surface-search measurement")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle", "active navigation rotor")
+        source = one(source, "if(!emconActive&&bridgeMasterEHealth01()>0.08){", "if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>0.08){", "active navigation measurement")
+        source = one(source, "if(emconActive||bridgeMasterEHealth01()<=0.08)return;", "if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')||bridgeMasterEHealth01()<=0.08)return;", "active navigation shoreline gate")
+        source = one(source, "if(!o.enabled.SPY||o.emcon||health<=.05", "if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME')||health<=.05", "observer air-search gate")
+        source = one(source, "if(!o.enabled[key]||o.emcon||health<=.08)return;", "if(!emconConsumerAllowsB(r,spq?'SURFACE_SEARCH_SCAN':'NAVIGATION_SCAN')||health<=.08)return;", "observer auxiliary gate")
         source = one(source, "function electronicJammerSampleF(r,rx,p,kind){\n  const cfg=", "function electronicJammerSampleF(r,rx,p,kind){\n  if(!emconEcmAllowsB(r))return null;\n  const cfg=", "jammer and HOJ gate")
         # The first declaration is lexically inside createElectronicContextF(owner) despite its
         # column-0 formatting; the later indented declaration is the active-ship compatibility path.
         source = one(source, "\nfunction updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\nfunction updateSlq32EaAllocator(dt){\n    if(!emconEcmAllowsB(owner)||shipEquipmentOfflineV1())", "observer allocator gate")
         source = one(source, "\n  function updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\n  function updateSlq32EaAllocator(dt){\n    if(!emconEcmAllowsB(ACTIVE_SHIP_RUNTIME)||shipEquipmentOfflineV1())", "active allocator gate")
-        source = one(source, "if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];\n  const rx=", "if(!emconReceiverAllowsB(r,'SPY'))return [];\n  const rx=", "surface IFF gate")
-        source = one(source, "if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;", "if(shipEquipmentOfflineV1(ship)||!emconReceiverAllowsB(ship,'SPY'))return out;", "air IFF gate")
+        source = one(source, "if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];\n  const rx=", "if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME'))return [];\n  const rx=", "surface IFF gate")
+        source = one(source, "if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;", "if(shipEquipmentOfflineV1(ship)||!emconConsumerAllowsB(ship,'AIR_SEARCH_VOLUME'))return out;", "air IFF gate")
     if stage in ("D", "E"):
         ui = (HERE / "emcon_ui.js").read_text().rstrip() + "\n"
         source = one(source, "// MAP_E_UI_BEGIN\n", ui + "// MAP_E_UI_BEGIN\n", "profile-derived EMCON UI module")
@@ -190,7 +202,7 @@ def main() -> None:
         "outputSha256": sha(output),
         "outputMainSha256": sha(after.encode()),
         "outputBytes": len(output),
-        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []) + (["emcon_lifecycle.js"] if args.stage == "E" else []))},
+        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_consumer_bindings.js", "emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []) + (["emcon_lifecycle.js"] if args.stage == "E" else []))},
     }
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")

@@ -5,8 +5,8 @@
 - Baseline SHA-256: `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - Branch: `emcon-b`
 - Product target: `Aegis_SIM_v48_WIP_EMCON_B.html`
-- Candidate: 22,159,899 bytes / SHA-256 `e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f`
-- State: Commits A–E plus PR #74 correction 2 IMPLEMENTED + TESTED; explicit V2 global hard-off, exact equipment consumers, common UI, lifecycle migration, lock 14/14 and local correction gates pass; the one broad run remains pre-correction evidence only; remote Actions/PR publication is recorded outside this status; RELEASE=false
+- Candidate: 22,162,415 bytes / SHA-256 `50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee`
+- State: Commits A–E plus PR #74 corrections 2–3 IMPLEMENTED + TESTED; explicit V2 global hard-off, ship-neutral consumer bindings, exact equipment decisions, common UI, lifecycle migration, lock 14/14 and local limited closure pass; the one broad run remains pre-correction evidence only; remote Actions/PR publication is recorded outside this status; RELEASE=false
 
 ## Commit A
 
@@ -30,8 +30,8 @@
 
 ## Commit C
 
-- Activated policy consumption in physical emitters and the own/NPC SPY, surface-search,
-  and navigation-radar measurement paths.
+- Activated policy consumption in physical emitters and the own/NPC air-volume,
+  surface-search, and navigation-scan measurement paths.
 - Category silence produces zero new measurements and zero blocked-sensor RNG consumption;
   existing lifecycle age/coast paths remain intact.
 - ECM silence preserves requests but produces allocator resource 0, physical jammer 0,
@@ -63,8 +63,21 @@
 - Operator detail changes under a group overlay are recorded as
   `MANUAL_DETAIL_UNDER_GROUP_OVERLAY`; the group overlay retains higher priority.
 - Tactical AI does not write detail policy and communications remain outside radar EMCON.
-- Actual Chromium gate after correction 2: 17/17 checks PASS, page errors 0, console errors 0.
+- Actual Chromium gate rerun after correction 3: 17/17 checks PASS, page errors 0, console errors 0.
 - Evidence: `docs/electronic/emcon/B/E_REPORT.md`, `E_STATIC.json`, and `E_GATE.json`.
+
+## PR #74 correction 3 — neutral consumer binding
+
+- Replaced common `SPY`/`SPQ`/`NAV` receiver keys with `AIR_SEARCH_VOLUME`,
+  `SURFACE_SEARCH_SCAN`, and `NAVIGATION_SCAN`.
+- Added immutable profile-registry `consumerId -> equipmentId` rows for DDG/CG and an
+  empty inactive list for Sovremenny. The V2 save schema is unchanged and stores no binding copy.
+- Resolution requires exactly one binding and one exact equipment item; missing, ambiguous,
+  nonexistent, category-mismatched, and output-kind-mismatched bindings fail closed.
+- Verified a synthetic profile with no SPY/SPQ names: registry-generated UI, category control,
+  exact physical output, hard-off, selective breakout, and same-category no-substitution all pass.
+- Evidence: `docs/electronic/emcon/B/CORRECTION_3_REPORT.md`,
+  `CORRECTION_3_STATIC.json`, and `CORRECTION_3_GATE.json`.
 
 ## Final verification
 
@@ -78,9 +91,10 @@
   before assertions in six large existing diagnostic paths; SOV deployment 13/15 and the
   UI213 832.CG.PIP fixture differences reproduce on the unchanged EMITTER_A baseline. They are
   not relabeled PASS. See `FINAL_REGRESSION_CLASSIFICATION.json`.
-- Corrected-candidate limited closure: manifest/bytes/SHA and exact rebuild PASS; correction
-  static 15/15, global hard-silent/breakout 10/10, D UI 13/13, E lifecycle 17/17,
-  uninstrumented release smoke 7/7, baseline Chromium 6/6, and lock 14/14 PASS;
+- Corrected-candidate limited closure: exact rebuild PASS; correction-2 static 15/15,
+  correction-3 static 17/17 and binding/runtime 16/16, global hard-silent/breakout 10/10,
+  D UI 13/13, E lifecycle 17/17, uninstrumented release smoke 7/7,
+  baseline Chromium 6/6, and lock 14/14 PASS;
   page/console errors 0.
 - Expected values and tolerances changed: 0. `CONFIRMED_ONLY` performance remains UNVERIFIED.
 

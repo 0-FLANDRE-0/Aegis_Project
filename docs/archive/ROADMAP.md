@@ -10,8 +10,8 @@
    - `electronicPhysicalEmittersF`의 SPY/SPQ/NAV 하드코딩을 프로필 기반으로 바꾼다. 출력 계약은 유지한다(DDG·CG 분기 커버리지 동등성)
    - 소브레멘니 방사원은 별도 커밋으로 추가한다
    - 방사 상태는 ShipRuntime이 소유한다. 소비자(수동 RF·ESM·HOJ·함 레이더)는 공통 API로 조회한다. NPC AI EMCON도 같은 구조로 간다
-3. **EMCON_B** — A–E + PR #74 2차 종료 보정 구현·제한 검증 완료, 사용자 검토/병합 결정 대기
-   - V2 `ALL_RADIATION_SILENT`, 범주 정책·장비 override·exact 방출/own·NPC 센서/ECM gate·profile UI·network/save lifecycle 완료
+3. **EMCON_B** — A–E + PR #74 2·3차 보정 구현·제한 검증 완료, 사용자 검토/병합 결정 대기
+   - V2 `ALL_RADIATION_SILENT`, 함종 중립 consumer→equipment 바인딩, 범주 정책·장비 override·exact 방출/own·NPC 센서/ECM gate·profile UI·network/save lifecycle 완료
    - FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 완료
    - 통신 EMCON은 별도 후속 정책으로 남김
 4. **U4** SARH 쌍정 어댑터 → **U5** RAM 수동 RF/IR 어댑터 → **U6** 상태기계·연관 공통화

@@ -14,7 +14,7 @@
 ## U3 이후
 
 - **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
-- **EMCON_B — A–E + PR #74 2차 종료 보정 구현·제한 검증 완료**: V2 global hard-off, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
+- **EMCON_B — A–E + PR #74 2·3차 보정 구현·제한 검증 완료**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
 - **U3 paired raw 4건**: DDG/CG raid의 combat RNG/observer exact-state. D ACTIVE 정책 변화로 원인 분리됐으나 원본 expectation은 갱신하지 않았다.
 

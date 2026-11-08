@@ -11,4 +11,4 @@ Status: `IMPLEMENTED` / `TESTED` / `APPROVED` (limited gate) / `RELEASE=false`.
 
 `E_STATIC.json` and `E_GATE.json` pass all 17 checks for DDG→CG and CG→DDG. Exact V2 round-trip, V1 migration, missing-state migration, invalid zero-mutation, reset, destroy, authorization, group modes, expiry, communication preservation, and tactical read-only behavior pass with page/console errors 0.
 
-The diagnostic wrapper is test-only and inverse-removable. The release product contains neither `__EMCON_B_E_DIAG__` nor `__EMCON_B_CORRECTION_2__`.
+The diagnostic wrapper is test-only and inverse-removable. The release product contains none of `__EMCON_B_E_DIAG__`, `__EMCON_B_CORRECTION_2__`, or `__EMCON_B_CORRECTION_3__`.

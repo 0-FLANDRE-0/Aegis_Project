@@ -1,6 +1,46 @@
 --- EMITTER_A/main.js
 +++ EMCON_B_E/main.js
-@@ -2958,6 +2958,292 @@
+@@ -2129,2 +2129,24 @@
+ });
++// EMCON_B PR74 correction 3 — immutable profile-to-equipment bindings.
++// consumerId is a ship-class-neutral capability requested by sensor code.
++// equipmentId remains the exact physical registration owned by ShipProfile.
++const EMCON_B_CONSUMER_SPEC=Object.freeze({
++  AIR_SEARCH_VOLUME:Object.freeze({category:'AIR_SEARCH',outputKind:'RADAR'}),
++  SURFACE_SEARCH_SCAN:Object.freeze({category:'SURFACE_SEARCH',outputKind:'RADAR'}),
++  NAVIGATION_SCAN:Object.freeze({category:'NAV',outputKind:'RADAR'})
++});
++const EMCON_B_CONSUMER_IDS=Object.freeze(Object.keys(EMCON_B_CONSUMER_SPEC));
++function emconConsumerBindingsForProfileB(profileId){
++  const rows=profileId==='DDG_119_LATE_FLIGHT_IIA'?[
++    {consumerId:'AIR_SEARCH_VOLUME',equipmentId:'AN_SPY_1DV'},
++    {consumerId:'SURFACE_SEARCH_SCAN',equipmentId:'AN_SPQ_9B'},
++    {consumerId:'NAVIGATION_SCAN',equipmentId:'BRIDGEMASTER_E'}
++  ]:profileId==='CG_52_LATE_TICONDEROGA'?[
++    {consumerId:'AIR_SEARCH_VOLUME',equipmentId:'AN_SPY_1A_MODERNIZED'},
++    {consumerId:'SURFACE_SEARCH_SCAN',equipmentId:'AN_SPQ_9'},
++    {consumerId:'NAVIGATION_SCAN',equipmentId:'AN_SPS_73'}
++  ]:profileId==='SOVREMENNY_956'?[]:null;
++  if(rows===null)throw Error('EMCON_CONSUMER_PROFILE_UNSUPPORTED:'+profileId);
++  return Object.freeze(rows.map(q=>Object.freeze({...q})));
++}
+ function shipEmitterEquipmentRegistryA(profileId){
+@@ -2134,3 +2156,3 @@
+     {id:cg?'AN_SPY_1A_MODERNIZED':'AN_SPY_1DV',order:10,category:'AIR_SEARCH',outputKind:'RADAR',
+-      enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_SPY_FACE',bandMode:'FIXED',band:'S',
++      enabledKey:'SPY',sensorKey:'spy1dv',mountKind:'FIRST_HEALTHY_ARRAY_FACE',bandMode:'FIXED',band:'S',
+       power:SHIP_EMITTER_COMPATIBILITY_A.spyPower,powerProvenance:'LEGACY_COMPATIBILITY_UNIT_2500',
+@@ -2156,3 +2178,3 @@
+   return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:(cg?'CG52':'DDG119')+'_EMITTERS_A',profileId,
+-    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,entries,
++    physicalEmission:true,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB(profileId),entries,
+     mutableStateOwner:'ShipRuntime.observerC + ShipRuntime.ew; profile definitions are immutable',
+@@ -2168,3 +2190,3 @@
+   return {schema:'AEGIS_SHIP_EMITTER_EQUIPMENT_A_1',registryId:'SOV956_REGISTERED_INACTIVE_EMITTERS_A',profileId:'SOVREMENNY_956',
+-    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,entries,
++    physicalEmission:false,categories:SHIP_EMITTER_CATEGORIES_A,consumerBindings:emconConsumerBindingsForProfileB('SOVREMENNY_956'),entries,
+     mutableStateOwner:'NONE_NOT_INSTALLED',outputContract:'NO_PHYSICAL_EMISSION__NO_ESM_OUTPUT__NO_OWN_DETECTION',
+@@ -2958,6 +2980,321 @@
      const q=fleet.ships.find(q=>q.entityId===r.entityId);if(!q)continue;
 -    restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;
 -  }
@@ -52,6 +92,7 @@
 +    if(!EMCON_B_OVERRIDE_VALUES.includes(value))errors.push('EQUIPMENT_VALUE:'+entry.id);
 +    if(value!=='INHERIT'&&(entry.installed===false||entry.physicalEmission===false||entry.outputKind==='REGISTERED_INACTIVE'))errors.push('INACTIVE_OVERRIDE:'+entry.id);
 +  }
++  const bindingValidation=emconConsumerBindingsValidateB(r);if(!bindingValidation.ok)errors.push(...bindingValidation.errors.map(q=>'CONSUMER_BINDING:'+q));
 +  return {ok:errors.length===0,errors};
 +}
 +function validateEmconStateB(r,state){return validateEmconDetailB(r,state,EMCON_B_SCHEMA);}
@@ -89,7 +130,7 @@
 +  const observer=r.combatSystem?.observerC;
 +  if(entry.outputKind==='RADAR'){
 +    if(!observer||entry.enabledKey&&observer.enabled?.[entry.enabledKey]!==true)return {ok:false,reason:'EQUIPMENT_DISABLED'};
-+    if(entry.mountKind==='FIRST_HEALTHY_SPY_FACE'){
++    if(entry.mountKind==='FIRST_HEALTHY_ARRAY_FACE'){
 +      if(!observer.normals?.some(q=>observerHealthC(r,q.moduleName)>.05))return {ok:false,reason:'DAMAGE'};
 +    }else{
 +      const hp=resolveShipProfile(r.profileId).geometry.hardpoints[entry.hardpointKey];
@@ -128,12 +169,40 @@
 +function emconCategoryDecisionsB(r,category){return (shipEmitterRegistryA(r)?.entries??[]).filter(q=>q.category===category).map(q=>emconEquipmentDecisionB(r,q.id));}
 +function emconCategoryAllowsB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.allowed);}
 +function emconCategoryEmittingB(r,category){return emconCategoryDecisionsB(r,category).some(q=>q.emissionActive);}
-+function emconReceiverDecisionB(r,enabledKey){
-+  const entries=(shipEmitterRegistryA(r)?.entries??[]).filter(q=>q.outputKind==='RADAR'&&q.enabledKey===enabledKey);
-+  if(entries.length!==1)return {schema:'AEGIS_EMCON_RECEIVER_DECISION_B_1',enabledKey,allowed:false,reason:entries.length?'AMBIGUOUS_RECEIVER':'UNREGISTERED_RECEIVER',equipmentId:null};
-+  const decision=emconEquipmentDecisionB(r,entries[0].id);return {...decision,enabledKey};
++function emconResolveConsumerBindingB(r,consumerId){
++  const id=String(consumerId),spec=EMCON_B_CONSUMER_SPEC[id],registry=r?shipEmitterRegistryA(r):null,base={schema:'AEGIS_EMCON_CONSUMER_BINDING_B_1',ownerEntityId:r?.entityId??null,profileId:r?.profileId??null,consumerId:id,equipmentId:null,ok:false};
++  if(!spec)return {...base,reason:'UNKNOWN_CONSUMER'};
++  if(!registry)return {...base,reason:'CONSUMER_REGISTRY_MISSING'};
++  if(!Array.isArray(registry.consumerBindings))return {...base,reason:'CONSUMER_BINDINGS_MISSING'};
++  const bindings=registry.consumerBindings.filter(q=>q?.consumerId===id);
++  if(bindings.length!==1)return {...base,reason:bindings.length?'CONSUMER_BINDING_AMBIGUOUS':'CONSUMER_BINDING_MISSING'};
++  const equipmentId=bindings[0]?.equipmentId;
++  if(typeof equipmentId!=='string'||!equipmentId)return {...base,reason:'CONSUMER_EQUIPMENT_ID_INVALID'};
++  const equipment=registry.entries.filter(q=>q?.id===equipmentId);
++  if(equipment.length!==1)return {...base,equipmentId,reason:equipment.length?'CONSUMER_EQUIPMENT_AMBIGUOUS':'CONSUMER_EQUIPMENT_MISSING'};
++  const entry=equipment[0];
++  if(entry.category!==spec.category)return {...base,equipmentId,reason:'CONSUMER_CATEGORY_MISMATCH'};
++  if(entry.outputKind!==spec.outputKind)return {...base,equipmentId,reason:'CONSUMER_OUTPUT_KIND_MISMATCH'};
++  return {...base,equipmentId,ok:true,reason:null,entry};
 +}
-+function emconReceiverAllowsB(r,enabledKey){return emconReceiverDecisionB(r,enabledKey).allowed;}
++function emconConsumerBindingsValidateB(r){
++  const registry=r?shipEmitterRegistryA(r):null,errors=[];
++  if(!registry)return {ok:false,errors:['REGISTRY_MISSING']};
++  const rows=registry.consumerBindings;
++  if(!Array.isArray(rows))return {ok:false,errors:['BINDINGS_MISSING']};
++  for(const row of rows){
++    if(!row||typeof row!=='object'||Array.isArray(row)||Object.keys(row).sort().join('|')!=='consumerId|equipmentId')errors.push('ROW_SCHEMA');
++    else if(!EMCON_B_CONSUMER_IDS.includes(row.consumerId))errors.push('UNKNOWN_CONSUMER:'+row.consumerId);
++  }
++  if(registry.physicalEmission!==false)for(const consumerId of EMCON_B_CONSUMER_IDS){const q=emconResolveConsumerBindingB(r,consumerId);if(!q.ok)errors.push(consumerId+':'+q.reason);}
++  return {ok:errors.length===0,errors};
++}
++function emconConsumerDecisionB(r,consumerId){
++  const binding=emconResolveConsumerBindingB(r,consumerId);
++  if(!binding.ok)return {schema:'AEGIS_EMCON_CONSUMER_DECISION_B_1',ownerEntityId:r?.entityId??null,profileId:r?.profileId??null,consumerId:String(consumerId),equipmentId:binding.equipmentId,allowed:false,emissionActive:false,reason:binding.reason,truthUsed:false,rngConsumed:false};
++  const decision=emconEquipmentDecisionB(r,binding.equipmentId);return {...decision,schema:'AEGIS_EMCON_CONSUMER_DECISION_B_1',consumerId:String(consumerId)};
++}
++function emconConsumerAllowsB(r,consumerId){return emconConsumerDecisionB(r,consumerId).allowed;}
 +function emconEcmAllowsB(r){return (shipEmitterRegistryA(r)?.entries??[]).filter(q=>q.outputKind==='ECM').some(q=>emconEquipmentDecisionB(r,q.id).allowed);}
 +function emconEcmSilenceAllocatorB(r){
 +  const a=r===ACTIVE_SHIP_RUNTIME?slq32EaState:r?.ew?.slq32Allocator;if(!a)return;
@@ -243,7 +312,7 @@
 +window.__EMCON_B__=Object.freeze({schema:EMCON_B_SCHEMA,mode:EMCON_B_MODE,categories:SHIP_EMITTER_CATEGORIES_A,categoryValues:EMCON_B_CATEGORY_VALUES,overrideValues:EMCON_B_OVERRIDE_VALUES,
 +  ships:()=>[...ENGAGEMENT_RUNTIME.ships.values()].map(r=>r.entityId),snapshot:id=>emconSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),decision:(id,equipmentId)=>emconEquipmentDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),equipmentId),
 +  validate:(id,state)=>validateEmconStateB(ENGAGEMENT_RUNTIME.ships.get(String(id)),state),command:emconCommandB,global:emconGlobalCommandB,toggleCategory:emconCategoryToggleB,toggleEquipment:emconEquipmentToggleB,audit:emconAuditSnapshotB,
-+  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category),receiver:(id,key)=>emconReceiverDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),key),lifecycle:()=>emconLifecycleSnapshotB()})});
++  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category),binding:(id,consumerId)=>{const q=emconResolveConsumerBindingB(ENGAGEMENT_RUNTIME.ships.get(String(id)),consumerId);const {entry,...view}=q;return view;},consumer:(id,consumerId)=>emconConsumerDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),consumerId),lifecycle:()=>emconLifecycleSnapshotB()})});
 +// EMCON_B Commit E — operational snapshot, lifecycle, and network-overlay helpers.
 +// Group leases remain transient. Only each owner's individual detail policy is authoritative.
 +function emconCloneStateB(state){return structuredClone(state);}
@@ -297,20 +366,20 @@
 +}
 +function emconLifecycleSnapshotB(){return [...ENGAGEMENT_RUNTIME.ships.values()].map(r=>({ownerEntityId:r.entityId,profileId:r.profileId,lifecycleState:r.lifecycleState,state:emconExportStateB(r),networkMode:emconNetworkModeB(r)}));}
  // LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.
-@@ -2967,2 +3253,3 @@
+@@ -2967,2 +3304,3 @@
  function prepareElectronicF(r){
 +  prepareEmconB(r);
    const own=r===ACTIVE_SHIP_RUNTIME,previous=r.ew.executionF;
-@@ -2976,3 +3263,3 @@
+@@ -2976,3 +3314,3 @@
  function resetElectronicFleetF(){
 -  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
 +  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}
  }
-@@ -3017,2 +3304,3 @@
+@@ -3017,2 +3355,3 @@
  function electronicJammerSampleF(r,rx,p,kind){
 +  if(!emconEcmAllowsB(r))return null;
    const cfg=kind==='NOISE'?NOISE_JAM:DECEPTION_JAM,settings=electronicSettingsF(r),allocation=electronicAllocatorF(r),share=kind==='NOISE'?allocation.noiseShare:allocation.deceptionShare,requested=kind==='NOISE'?settings.noiseRequested:settings.deceptionRequested;
-@@ -3078,21 +3366,18 @@
+@@ -3078,21 +3417,18 @@
    const out=[],registry=shipEmitterRegistryA(r);
 -  if(sovNoEquipmentA(r)||registry?.physicalEmission===false)return out;
 +  if(sovNoEquipmentA(r)||registry?.physicalEmission===false){emconShadowResolveB(r,out);return out;}
@@ -332,7 +401,7 @@
 +  for(const q of registry.entries){
 +    if(q.outputKind!=='RADAR'||!emconEquipmentDecisionB(r,q.id).allowed)continue;
 +    const spec=p.sensors[q.sensorKey];
-+    if(q.mountKind==='FIRST_HEALTHY_SPY_FACE'){
++    if(q.mountKind==='FIRST_HEALTHY_ARRAY_FACE'){
 +      if(spy.length)out.push({owner:r.entityId,point:observerMountC(r,spy[0].center),band:q.band,frequencyMHz:Number.isFinite(spec.frequencyMHz)?spec.frequencyMHz:null,frequencyProvenance:Number.isFinite(spec.frequencyMHz)?'EXISTING_EMITTER_PROFILE':'SIM_TUNED_BAND_CENTER',power:q.power,family:q.family,emitterClass:q.emitterClass,beamAz:null});
 +      continue;
 +    }
@@ -345,97 +414,97 @@
 +  if(ecm&&emconEquipmentDecisionB(r,ecm.id).emissionActive&&pods.length)out.push({owner:r.entityId,ship:r,point:observerMountC(r,pods[0].center),band:ecm.band,power:ecm.powerPerResource*a.resourceUsed,family:ecm.family,emitterClass:ecm.emitterClass,beamAz:settings.bearingRad});
 +  emconShadowResolveB(r,out);return out;
  }
-@@ -3180,3 +3465,3 @@
+@@ -3180,3 +3516,3 @@
    // coordinates or entity keys enter the track classifier.
 -  if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];
-+  if(!emconReceiverAllowsB(r,'SPY'))return [];
++  if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME'))return [];
    const rx=observerMountC(r,resolveShipProfile(r.profileId).geometry.hardpoints.bridgeMasterE),e=prepareElectronicF(r),out=[];
-@@ -3743,3 +4028,3 @@
+@@ -3743,3 +4079,3 @@
  function updateSlq32EaAllocator(dt){
 -    if(shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
 +    if(!emconEcmAllowsB(owner)||shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
      dt=Math.max(0,Number(dt)||0);
-@@ -5057,3 +5342,3 @@
+@@ -5057,3 +5393,3 @@
    const C=HELO_SENSOR_VALUES_E,out=[];
 -  if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;
-+  if(shipEquipmentOfflineV1(ship)||!emconReceiverAllowsB(ship,'SPY'))return out;
++  if(shipEquipmentOfflineV1(ship)||!emconConsumerAllowsB(ship,'AIR_SEARCH_VOLUME'))return out;
    const sources=[...(ENGAGEMENT_RUNTIME.world.entities.helicopters?.values()??[])].filter(h=>heloAirborneE(h)&&h.iffOn!==false&&heloSensorOwnerE(h)?.faction===ship.faction);if(!sources.length)return out;
-@@ -5422,3 +5707,3 @@
+@@ -5422,3 +5758,3 @@
      const health=observerHealthC(r,t.face.moduleName),capacity=m.schedulerFaceBudgetMs*health,relative=angNorm(t.az-r.navigation.heading-t.face.bearingRad),limit=Math.max(deg(45+m.faceOverlapDeg),Math.abs(t.face.lower),Math.abs(t.face.upper));
 -    if(!o.enabled.SPY||o.emcon||health<=.05||Math.abs(relative)>limit||dwells>=m.schedulerMaxDwells||o.stats.usedMs+t.cost>m.schedulerGlobalBudgetMs||t.face.usedMs+t.cost>capacity){o.stats.dropped++;continue;}
-+    if(!emconReceiverAllowsB(r,'SPY')||health<=.05||Math.abs(relative)>limit||dwells>=m.schedulerMaxDwells||o.stats.usedMs+t.cost>m.schedulerGlobalBudgetMs||t.face.usedMs+t.cost>capacity){o.stats.dropped++;continue;}
++    if(!emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME')||health<=.05||Math.abs(relative)>limit||dwells>=m.schedulerMaxDwells||o.stats.usedMs+t.cost>m.schedulerGlobalBudgetMs||t.face.usedMs+t.cost>capacity){o.stats.dropped++;continue;}
      const receiver=observerMountC(r,t.face.center),focused=!t.search,snrBoost=m.taskSnrBoost[t.type]??1,steer=Math.pow(Math.max(.02,Math.cos(relative)),1.7);
-@@ -5432,3 +5717,3 @@
+@@ -5432,3 +5768,3 @@
    const o=observerC(r),p=o.profile,m=o.model,spq=key==='SPQ',cg=p.id==='CG_52_LATE_TICONDEROGA',spec=spq?p.sensors.spq9b:p.sensors.bridgeMasterE,hp=p.geometry.hardpoints[spq?'spq9b':'bridgeMasterE'],health=observerHealthC(r,hp.name)*(shipSystemDamageB(r,'MAST')>=80?0:1);
 -  if(!o.enabled[key]||o.emcon||health<=.08)return;
-+  if(!emconReceiverAllowsB(r,key)||health<=.08)return;
++  if(!emconConsumerAllowsB(r,spq?'SURFACE_SEARCH_SCAN':'NAVIGATION_SCAN')||health<=.08)return;
    const old=o.rotors[key],advance=(spq?spec.rpm:spec.nominalRpm)/60*TAU*dt;o.rotors[key]=angNorm(old+advance);
-@@ -14889,3 +15174,3 @@
+@@ -14889,3 +15225,3 @@
    const mass=r.mass.snapshot({detail:true}),flood=r.flooding;
 -  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
 +  return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,profileRevision:resolveShipProfile(r.profileId).revision,clock:{...r.clock},survival:r.survival.snapshot(),
      ship:{inventory:exportWeaponInventoryD(r),navigation:maneuverExportNavigationH2(r),shipHP:r.health.shipHP,
-@@ -14898,2 +15183,3 @@
+@@ -14898,2 +15234,3 @@
  function validatePhysicalFleetB(src,_ctx,errors){
 +  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');
    const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);validateTacticalSettingsH1(src.ship?.tactical,errors);validateManeuverSettingsH2(src.ship?.maneuver,errors);validateAttackSettingsH3(src.ship?.attack,errors);validateTeamSettingsH4(src.ship?.team,errors);validateManeuverNavigationH2(src.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet?.schema))validateNetworkSettingsG(src.ship?.network,errors);
-@@ -14906,3 +15192,3 @@
+@@ -14906,3 +15243,3 @@
      const role=q?.entityId===DEPLOYMENT_POLICY_F.allyId?'ALLY':q?.entityId===DEPLOYMENT_POLICY_F.enemyId?'ENEMY':q?.entityId===DEPLOYMENT_POLICY_F.neutralId?'NEUTRAL':null,expected=role==='ALLY'?src.deployment?.allyProfileId:role==='NEUTRAL'?src.deployment?.neutralProfileId:src.deployment?.enemyProfileId;if(!q||!role||seen.has(q.entityId)||q.profileId!==expected||q.profileRevision!==SHIP_PROFILE_REGISTRY[q.profileId]?.revision){err('OWNER_PROFILE');continue;}
 -    seen.add(q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
 +    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);validateManeuverSettingsH2(q.maneuver,errors);validateAttackSettingsH3(q.attack,errors);validateTeamSettingsH4(q.team,errors);validateManeuverNavigationH2(q.ship?.navigation,errors);if([MULTISHIP_PHYSICAL_SCHEMA_B,'AEGIS_NAVAL_PHYSICAL_FLEET_H3_1','AEGIS_NAVAL_PHYSICAL_FLEET_H2_1'].includes(fleet.schema)||q.network)validateNetworkSettingsG(q.network,errors,role);if(src.deployment.schema===DEPLOYMENT_POLICY_F.schema){if(q.role!==role||q.faction!==(role==='ALLY'?'FRIENDLY':role==='NEUTRAL'?'NEUTRAL':'HOSTILE'))err('FACTION_F');validateElectronicSettingsF(q.ew,errors);if(!q.ship?.inventory?.softKill15B)err('SOFTKILL_REQUIRED_F');}
      const r=createPreparedShipRuntimeA(SHIP_PROFILE_REGISTRY[q.profileId],{entityId:q.entityId,role}),ctx=physicalValidationContextB(r),envelope={shipId:q.entityId,ship:q.ship};
-@@ -21650,3 +21936,3 @@
+@@ -21650,3 +21987,3 @@
    if(id===ENGAGEMENT_RUNTIME.activePlayerShipId)return {ok:false,reason:'ACTIVE_PLAYER_SHIP',entityId:id};
 -  retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'SHIP_RUNTIME_DESTROYED'};return {ok:true,reason:null,entityId:id};
 +  emconRetireRuntimeB(runtime);retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'SHIP_RUNTIME_DESTROYED'};return {ok:true,reason:null,entityId:id};
  }
-@@ -27947,3 +28233,3 @@
+@@ -27947,3 +28284,3 @@
      ageSpySchedulerVisuals(dt);
 -    if(emconActive) return;
-+    if(!emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPY')) return;
++    if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH_VOLUME')) return;
      spyScheduler.accumulatorS+=dt;
-@@ -29932,3 +30218,3 @@
+@@ -29932,3 +30269,3 @@
    function updateSlq32EaAllocator(dt){
 -    if(shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
 +    if(!emconEcmAllowsB(ACTIVE_SHIP_RUNTIME)||shipEquipmentOfflineV1()){slq32EaState.noiseShare=slq32EaState.targetNoiseShare=0;slq32EaState.deceptionShare=slq32EaState.targetDeceptionShare=0;slq32EaState.resourceUsed=0;return;}
      dt=Math.max(0,Number(dt)||0);
-@@ -35469,6 +35755,6 @@
+@@ -35469,6 +35806,6 @@
      spq9bPrevRotorAngle=spq9bRotorAngle;
 -    if(!emconActive&&spq9bHealth01()>.08)spq9bRotorAngle = angNorm(spq9bRotorAngle + (SPQ9B_RPM / 60) * TAU * dt);
-+    if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPQ')&&spq9bHealth01()>.08)spq9bRotorAngle = angNorm(spq9bRotorAngle + (SPQ9B_RPM / 60) * TAU * dt);
++    if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN')&&spq9bHealth01()>.08)spq9bRotorAngle = angNorm(spq9bRotorAngle + (SPQ9B_RPM / 60) * TAU * dt);
      SPQ9B_SEARCH_MAX_RANGE_KM = SPQ9B_SEARCH_MAX_RANGE_KM_BASE * clamp(0.35+0.65*spq9bHealth01(),0.18,1);
      // EMCON inhibits RF transmission; mechanical rotation may continue.
 -    if(!emconActive && spq9bHealth01()>0.08){
-+    if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPQ') && spq9bHealth01()>0.08){
++    if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN') && spq9bHealth01()>0.08){
        const sweep=spq9bCollectUnifiedEchoPlotsWip13B13();spq9bAcceptAnonymousPlotsV34(sweep.air);spq9bAcceptSurfacePlotsWip13B1(sweep.surface);
-@@ -35681,3 +35967,3 @@
+@@ -35681,3 +36018,3 @@
      for(let i=bridgeMasterEShoreEchoes.length-1;i>=0;i--)if(bridgeMasterEShoreEchoes[i].life<=0)bridgeMasterEShoreEchoes.splice(i,1);
 -    if(emconActive||bridgeMasterEHealth01()<=0.08)return;
-+    if(!emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')||bridgeMasterEHealth01()<=0.08)return;
++    if(!emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')||bridgeMasterEHealth01()<=0.08)return;
      const sensor=bridgeMasterEWorldOrigin(),ax=sensor.x,ay=sensor.y;
-@@ -35709,5 +35995,5 @@
+@@ -35709,5 +36046,5 @@
      if(IS_BUNKER)bunkerUpdateAuxNav(dt);
 -    bridgeMasterETimeS+=dt;bridgeMasterEPrevRotorAngle=bridgeMasterERotorAngle;if(!emconActive&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle=angNorm(bridgeMasterERotorAngle+(BRIDGEMASTER_E_RPM/60)*TAU*dt);
-+    bridgeMasterETimeS+=dt;bridgeMasterEPrevRotorAngle=bridgeMasterERotorAngle;if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle=angNorm(bridgeMasterERotorAngle+(BRIDGEMASTER_E_RPM/60)*TAU*dt);
++    bridgeMasterETimeS+=dt;bridgeMasterEPrevRotorAngle=bridgeMasterERotorAngle;if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>.08)bridgeMasterERotorAngle=angNorm(bridgeMasterERotorAngle+(BRIDGEMASTER_E_RPM/60)*TAU*dt);
      updateBridgeMasterEShorelineReturns(dt);
 -    if(!emconActive&&bridgeMasterEHealth01()>0.08){
-+    if(emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')&&bridgeMasterEHealth01()>0.08){
++    if(emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')&&bridgeMasterEHealth01()>0.08){
        // Track capacity limits maintained ARPA files, not which physical echoes the receiver may see.
-@@ -51672,3 +51958,3 @@
+@@ -51672,3 +52009,3 @@
      const flood=getDamageFloodV1(),floodState=jsonSafeCloneV48Wip11A(flood.snapshot()),crew=jsonSafeCloneV48Wip11A(getShipCrewV21().snapshot()),mass=getShipMassLedgerV32().snapshot({detail:true}),moduleDamage=Object.fromEntries(flood.damageKeys().map(name=>[name,flood.readDamage(name)]));
 -    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicContactsAndTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
 +    return {schema:OPERATIONAL_STATE_SCHEMA_V48_WIP11A,schemaVersion:2,threatAssumptionMode:THREAT_ASSUMPTION_MODE,worldFrame:WIP14A_WORLD_FRAME.schema,profileId:ACTIVE_SHIP_PROFILE.id,profileRevision:ACTIVE_SHIP_PROFILE.revision,shipId:ACTIVE_SHIP_RUNTIME.entityId,units:{...OPERATIONAL_STATE_UNITS_V48_WIP11B},deployment:deploymentConfigA(),fleet:exportPhysicalFleetB(),capabilities:{restores:['navigation','weaponInventory','liquidLoads','moduleDamage','flooding','crewCasualtyAndLocation','survivalRafts'],resetsCombatTransient:true,deferred:['teamMessagesFormationLeasesReceiptsAndIntent','surfaceAttackConsentPlansAndReleaseCapabilities','maneuverGoalsScoresAndCommandOwnership','utilityDecisionsPrioritiesAndEffectOwnership','networkReportsLeasesAndGroupRuntime','electronicContactsAndTechniqueTimeline','nonplayerCombatTransientState','offboardLinksAndReports','nonplayerDamageControlAndStructuralTimeline','harpoonPrelaunchRouteAndFlight','damageControlFireTimeline','structuralFatigueHistory','rigidBodyRates']},ship:{team:teamSettingsH4(ACTIVE_SHIP_RUNTIME),attack:attackSettingsH3(ACTIVE_SHIP_RUNTIME),maneuver:maneuverSettingsH2(ACTIVE_SHIP_RUNTIME),tactical:tacticalSettingsH1(ACTIVE_SHIP_RUNTIME),network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:maneuverExportNavigationH2(ACTIVE_SHIP_RUNTIME),shipHP,inventory:{harpoon:harpoonExportA(),vls:jsonSafeCloneV48Wip11A(vlsCells),closeIn:ciws.map(m=>({id:m.id,type:m.type,ammo:m.ammo,maxAmmo:m.maxAmmo,reloadTimer:m.reloadTimer??0,state:m.state})),mk36:jsonSafeCloneV48Wip11A(mk36LauncherState),mk36LayoutRevision:mk36LayoutWip15A().revision,softKill15B:skExport15B(),...(IS_BUNKER?{gunMounts:bunkerExportGunInventory(),selectedGunId:ACTIVE_SHIP_RUNTIME.weapons.selectedGunId}: {})},liquidLoads:Object.fromEntries((mass.nodes??[]).filter(n=>n.category==='LIQUID_LOAD').map(n=>[n.id,n.massKg])),damage:{moduleDamage,flooding:floodState},crew,rescue:shipRescueK().snapshot(),aviation:heloExportA()}};
    }
-@@ -51735,2 +52021,3 @@
+@@ -51735,2 +52072,3 @@
      gunB1MigrateSave(src,harpoonMigrations);heloMigrateSaveA(src,harpoonMigrations);migrateNetworkSaveG(src,harpoonMigrations);migrateTacticalSaveH1(src,harpoonMigrations);migrateManeuverSaveH2(src,harpoonMigrations);migrateAttackSaveH3(src,harpoonMigrations);migrateTeamSaveH4(src,harpoonMigrations);if(!Object.hasOwn(src,'fleet')){src.fleet={schema:MULTISHIP_PHYSICAL_SCHEMA_B,deploymentState:src.deployment?.enemyProfileId?'PENDING':'NONE',ships:[]};harpoonMigrations.push({id:'LEGACY_FLEET_B',policy:'FRESH_PHYSICAL_DEPLOYMENT_FROM_PREVIOUS_CONFIG'});}if(!Object.hasOwn(src,'deployment')){src.deployment={...MULTISHIP_DEPLOYMENT_DEFAULT_A};harpoonMigrations.push({id:'LEGACY_DEPLOYMENT_MULTI_SHIP_A',policy:'EXPLICIT_HULK_AND_NO_ENEMY'});}if(IS_BUNKER&&['BUNKERHILL_LATE_G_1','BUNKERHILL_LATE_D_1'].includes(src.profileRevision)&&src.ship?.inventory&&!('harpoon' in src.ship.inventory)){src.ship.inventory.harpoon={schema:'MK141_INVENTORY_A1',selectedTubeId:harpoonRuntimeA().tubes[0].id,tubes:harpoonRuntimeA().tubes.map(t=>({id:t.id,loaded:true}))};harpoonMigrations.push({id:'LEGACY_CG52_MK141_INITIAL_LOAD_A1',policy:'EXPLICIT_EIGHT_ROUNDS_OLD_SCHEMA_HAD_NO_HARPOON_INVENTORY'});}
 +    migrateEmconSaveB(src,harpoonMigrations);
      const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}catch(_err){return {validation:{schema:'AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B',ok:false,errors:['VALIDATION_CONTEXT'],codecs:[]},source:null};}
-@@ -51764,3 +52051,3 @@
+@@ -51764,3 +52102,3 @@
      if(fs){for(const o of fs.openings??[]){flood.addOpening({id:o.id,a:o.a,b:o.b,x:o.x,y:o.y,z:o.z,normal:o.normal,kind:o.kind,damage:o.work,areaM2:o.areaM2,perforated:o.areaM2>0});if(o.seal01)flood.seal(o.id,o.seal01);}for(const c of fs.cells??[])flood.setWater(c.id,c.waterM3);for(const d of fs.doors??[])flood.setDoor(d.id,d.open);for(const p of fs.pumps??[])flood.setPump(p.id,p.enabled);if(fs.hydrostatics?.pose)flood.setAttitude(fs.hydrostatics.pose);}
 -    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
 +    if(src.ship.crew)getShipCrewV21().restoreOperational(src.ship.crew);shipRescueK().restore(src.ship.rescue);shipHP=clamp(Number(src.ship.shipHP),0,100);ACTIVE_SHIP_RUNTIME.aviation.inventory=Array.isArray(src.ship.aviation?.inventory)?src.ship.aviation.inventory.map(q=>({...q})):[];heloRestoreA(src.ship.aviation);ledger.syncCrew(getShipCrewV21().snapshot().groups,0,true);ledger.markWeaponsDirty('OPERATIONAL_STATE_IMPORT');if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);if(src.ship.team){ACTIVE_SHIP_RUNTIME.combatSystem.teamH4=null;ACTIVE_SHIP_RUNTIME.restoredTeamH4=src.ship.team;prepareTeamH4(ACTIVE_SHIP_RUNTIME);}if(src.ship.attack){ACTIVE_SHIP_RUNTIME.combatSystem.attackH3=null;ACTIVE_SHIP_RUNTIME.restoredAttackH3=src.ship.attack;prepareAttackH3(ACTIVE_SHIP_RUNTIME);}if(src.ship.maneuver){ACTIVE_SHIP_RUNTIME.combatSystem.maneuverH2=null;ACTIVE_SHIP_RUNTIME.restoredManeuverH2=src.ship.maneuver;prepareManeuverH2(ACTIVE_SHIP_RUNTIME);}if(src.ship.tactical){ACTIVE_SHIP_RUNTIME.combatSystem.tacticalH1=null;ACTIVE_SHIP_RUNTIME.restoredTacticalH1=src.ship.tactical;prepareTacticalH1(ACTIVE_SHIP_RUNTIME);}if(src.ship.network){ACTIVE_SHIP_RUNTIME.combatSystem.networkG=null;ACTIVE_SHIP_RUNTIME.restoredNetworkG=src.ship.network;prepareNetworkG(ACTIVE_SHIP_RUNTIME);}ENGAGEMENT_RUNTIME.lifecycle={revision:(ENGAGEMENT_RUNTIME.lifecycle.revision||0)+1,lastEvent:'OPERATIONAL_STATE_IMPORTED'};return {validation,lifecycle:lifecycleSnapshotV48Wip11A(),state:exportOperationalState()};
    }
-@@ -66108,2 +66395,78 @@
+@@ -66108,2 +66446,78 @@
  window.__GUN_B1__=Object.freeze({spec:GUN_B1_SPEC,setAuto:gunB1SetAuto,snapshot:gunB1AutoSnapshot});
 +// EMCON_B PR74 correction 2 — profile-derived global/category/equipment controls.
 +const EMCON_B_CATEGORY_LABEL=Object.freeze({AIR_SEARCH:'대공 레이더',SURFACE_SEARCH:'대수상 레이더',NAV:'항해 레이더',FIRE_CONTROL:'사격통제 레이더',ECM:'ECM'});
@@ -514,7 +583,7 @@
 +}
 +window.__EMCON_B_UI__=Object.freeze({owner:()=>emconUiOwnerB().entityId,chip:emconUiChipSnapshotB,allRadiation:()=>emconAllRadiationMacroB(emconUiOwnerB()),toggleCategory:category=>emconCategoryToggleB(emconUiOwnerB().entityId,category,'OPERATOR'),toggleEquipment:id=>emconEquipmentToggleB(emconUiOwnerB().entityId,id,'OPERATOR'),memory:id=>{const r=ENGAGEMENT_RUNTIME.ships.get(String(id));if(!r)return null;const s=emconStateViewB(r);return s.allRadiationSilent?{allRadiationSilent:true,restoreMasterSilent:s.allRadiationRestoreMasterSilent}:null;}});
  // MAP_E_UI_BEGIN
-@@ -66118,9 +66481,5 @@
+@@ -66118,9 +66532,5 @@
   function place(e,a){if(e.hidden||!a)return;const v=AEGIS_VIEWPORT.layout,r=e.getBoundingClientRect(),s=scale();e.style.left=Math.max(v.x+4,Math.min(v.x+v.w-r.width-4,a.right-r.width))/s+'px';e.style.top=Math.max(v.y+4,Math.min(v.y+v.h-r.height-4,a.top-r.height-5))/s+'px';}
 - function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;chip.textContent='EMCON '+(emconActive?'ON':'OFF')+'\nECM '+ownEcmLevelE();chip.title='레이더 '+(emconActive?'OFF':'ON')+' · ECM '+levelNames[ownEcmLevelE()]+(!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?' · 기존 재밍 승인 유지':'');chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}
 - function command(level){const q=ownEcmCommandE(level);refresh();refreshChip();return q;}
@@ -527,12 +596,12 @@
 + function command(level){const q=emconUiEcmCommandB(emconUiOwnerB(),level);refresh();refreshChip();return q;}
 + function allRadiation(){const q=emconAllRadiationMacroB(emconUiOwnerB());refresh();refreshChip();return q;}
   function toggleMenu(){if(!mounted)return;menu.hidden=!menu.hidden;decoy.hidden=true;refresh();refreshChip();}
-@@ -66154,3 +66513,3 @@
+@@ -66154,3 +66564,3 @@
    if(armsPanelOpen){const v=AEGIS_VIEWPORT.layout,s=scale();armsPanel.style.left=v.cx/s+'px';armsPanel.style.top=v.cy/s+'px';armsPanel.style.width=Math.min(380,(v.w-20)/s)+'px';armsPanel.style.maxHeight=(v.h-40)/s+'px';}
 -  const level=ownEcmLevelE();dom.all.textContent='전체 방사 '+(emconActive&&level==='OFF'&&!noiseJamActive&&!deceptJamActive?'ON':'OFF');dom.radar.textContent='레이더 '+(emconActive?'ON':'OFF');for(const [k,e]of Object.entries(dom.levels))e.setAttribute('aria-pressed',String(level===k));dom.note.textContent=!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?'기존 재밍 승인: '+(noiseJamActive?'NJ ':'')+(deceptJamActive?'DJ':''):'';place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());
 +  const owner=emconUiOwnerB(),level=emconUiEcmLevelB(owner),settings=electronicSettingsF(owner),allSilent=emconUiAllSilentB(owner),commandAllowed=emconUiCommandAllowedB(owner);dom.all.textContent='전파방사통제 '+(allSilent?'ON':'OFF');dom.all.setAttribute('aria-pressed',String(allSilent));dom.all.classList.toggle('is-active',allSilent);dom.all.disabled=!commandAllowed;dom.all.title=commandAllowed?'전체 레이더·ECM 물리 방출 통제':'운용 가능한 아군 방사 장비 없음';for(const [k,e]of Object.entries(dom.levels)){e.setAttribute('aria-pressed',String(level===k));e.disabled=!commandAllowed||k==='JAM'&&owner!==ACTIVE_SHIP_RUNTIME;}dom.note.textContent=(settings.noiseRequested||settings.deceptionRequested?'기법 요청: '+(settings.noiseRequested?'NJ ':'')+(settings.deceptionRequested?'DJ':''):'기법 요청 없음')+' · 실제 방출 '+(emconCategoryEmittingB(owner,'ECM')?'ON':'OFF');dom.policy.refresh();place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());
    if(!decoy.hidden){const a=document.querySelector('[data-decoy-e="'+anchorKind+'"]');if(!a){decoy.hidden=true;return;}const why=stockReason(anchorKind)??(lastResult?.ok===false?lastResult.reason:null);dom.reason.textContent=why??(lastResult?.ok?'발사 완료':'');dom.fire.disabled=!!why;dom.fire.textContent=(anchorKind==='SRBOC'?'SRBOC':'Nulka')+' 발사';place(decoy,a.getBoundingClientRect());}
-@@ -66158,3 +66517,3 @@
+@@ -66158,3 +66568,3 @@
   function mount(){const host=document.getElementById('uiDesktopA');host.append(armsPanel);armsPanel.style.zIndex='60000';armsPanel.style.pointerEvents='auto';isolate(armsPanel);mapELegacyNodeE('armsBtn').addEventListener('click',()=>{document.getElementById('uiWindowAddA').hidden=true;refresh();});menu=make('aside','ui-mode-menu-a map-popover-e');menu.id='mapEmconMenuE';menu.hidden=true;menu.setAttribute('aria-label','방사 및 ECM 조작');decoy=make('aside','ui-mode-menu-a map-popover-e map-decoy-e');decoy.id='mapDecoyMenuE';decoy.hidden=true;host.append(menu,decoy);isolate(menu);isolate(decoy);
 -  dom.all=button('전체 방사 OFF','mapAllRadiationE',allRadiation);dom.radar=button('레이더 OFF','mapRadarE',()=>{toggleEmcon();refresh();refreshChip();});menu.append(dom.all,dom.radar,make('span','','ECM'));const row=make('div','map-ecm-levels-e');dom.levels={};for(const[k,label]of Object.entries(levelNames)){const e=button(label,'mapEcm'+k+'E',()=>command(k));e.dataset.ecmLevelE=k;dom.levels[k]=e;row.append(e);}menu.append(row);dom.note=make('small','');menu.append(dom.note);dom.reason=make('small','map-decoy-reason-e');dom.fire=button('발사','mapDecoyFireE',fire);decoy.append(dom.reason,dom.fire);
 +  dom.all=button('전파방사통제 OFF','mapAllRadiationE',allRadiation);dom.all.setAttribute('aria-pressed','false');dom.policy=emconCreatePolicyUiB();menu.append(dom.all,dom.policy.root,make('span','','ECM 기법 요청'));const row=make('div','map-ecm-levels-e');dom.levels={};for(const[k,label]of Object.entries(levelNames)){const e=button(label,'mapEcm'+k+'E',()=>command(k));e.dataset.ecmLevelE=k;dom.levels[k]=e;row.append(e);}menu.append(row);dom.note=make('small','');menu.append(dom.note);dom.reason=make('small','map-decoy-reason-e');dom.fire=button('발사','mapDecoyFireE',fire);decoy.append(dom.reason,dom.fire);

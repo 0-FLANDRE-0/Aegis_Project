@@ -1,10 +1,10 @@
 ## 최신 작업 — EMCON_B 범주·장비 단위 방사 통제
 
-- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b`/PR #74 작업이다. A–E 이후 2차 종료 보정까지 구현했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
-- 함정별 명시적 `ALL_RADIATION_SILENT` 권위와 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책·장비 override를 연결했다. `FORCE_RADIATE`는 global hard-off를 우회하지 못하며, 상단 통제 중 SPY/SPQ/NAV/ECM 하나를 고르면 선택 장비만 원자적으로 재방사한다. 실제 emitter·own/NPC sensor·ECM allocator/HOJ gate, profile 기반 UI, network/save/reset/destroy 수명주기가 같은 V2 계약을 쓴다. 통신 링크는 여전히 별도다.
+- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b`/PR #74 작업이다. A–E 이후 2·3차 보정까지 구현했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
+- 함정별 명시적 `ALL_RADIATION_SILENT` 권위와 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책·장비 override를 연결했다. 센서 코드는 `AIR_SEARCH_VOLUME / SURFACE_SEARCH_SCAN / NAVIGATION_SCAN`만 요청하고 ShipProfile이 실제 장비를 바인딩한다. `FORCE_RADIATE`와 같은 범주의 다른 장비는 global hard-off나 정확한 소비자 결정을 우회하지 못한다. 실제 emitter·own/NPC sensor·IFF·ECM allocator/HOJ gate, profile 기반 UI, network/save/reset/destroy 수명주기가 같은 V2 계약을 쓴다. 통신 링크는 여전히 별도다.
 - `FIRE_CONTROL`은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 구현했다. Sovremenny는 계속 비활성이고, 통신 EMCON은 범위 밖이다.
-- 보정 제한 게이트는 static 15/15, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline exact 6/6, lock 14/14 PASS고 page/console error는 0이다. MAX_THREAT 광역은 수정 전 SHA `3343f5bb…c33`에서 실행한 기존 1회 증거를 그대로 보존했고, 보정 SHA에서 재실행하지 않았다.
-- 보정 후보 22,159,899 bytes / SHA-256 `e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f`. 기대값·허용오차 변경 0. 기존 PR #74를 갱신하며 병합·release·tag는 사용자 결정 전까지 금지다.
+- 보정 제한 게이트는 correction-2 static 15/15, correction-3 static 17/17·runtime 16/16, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline exact 6/6, lock 14/14 PASS고 page/console error는 0이다. MAX_THREAT 광역은 수정 전 SHA `3343f5bb…c33`에서 실행한 기존 1회 증거를 그대로 보존했고, 보정 SHA에서 재실행하지 않았다.
+- 보정 후보 22,162,415 bytes / SHA-256 `50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee`. 기대값·허용오차 변경 0. 기존 PR #74를 갱신하며 병합·release·tag는 사용자 결정 전까지 금지다.
 - 계획과 증거: [EMCON_B PLAN](docs/electronic/emcon/B/PLAN.md), [master 감사](docs/electronic/emcon/B/MASTER_EMCON_AUDIT.md), [최종 분류](docs/electronic/emcon/B/FINAL_REGRESSION_CLASSIFICATION.json).
 
 ## 병합 완료 — EMITTER_A 함정 방사원 공통 등록

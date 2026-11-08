@@ -30,7 +30,7 @@ def main():
   'explicitRuntimeAuthority':all(x in policy for x in ['allRadiationSilent:false','allRadiationRestoreMasterSilent:null','ALL_RADIATION_SILENT']),
   'priorityExact':order==sorted(order),
   'forceCannotBypassHardStops':decision.index("if(allRadiationSilent)")<decision.index("override==='FORCE_RADIATE'") and decision.index('if(operational.ok)')<decision.index("override==='FORCE_RADIATE'"),
-  'exactReceiverContract':all(x in text for x in ["emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPY')","emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'SPQ')","emconReceiverAllowsB(ACTIVE_SHIP_RUNTIME,'NAV')","emconReceiverAllowsB(r,'SPY')","emconReceiverAllowsB(r,key)"]),
+  'exactNeutralConsumerContract':all(x in text for x in ["emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'AIR_SEARCH_VOLUME')","emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'SURFACE_SEARCH_SCAN')","emconConsumerAllowsB(ACTIVE_SHIP_RUNTIME,'NAVIGATION_SCAN')","emconConsumerAllowsB(r,'AIR_SEARCH_VOLUME')","emconConsumerAllowsB(r,spq?'SURFACE_SEARCH_SCAN':'NAVIGATION_SCAN')"]) and 'emconReceiver' not in text,
   'ecmPhysicalGates':text.count('emconEcmAllowsB(')>=4 and 'if(!emconEcmAllowsB(r))return null;' in text,
   'uiRegistryGenerated':all(x in ui for x in ['SHIP_EMITTER_CATEGORIES_A','shipEmitterRegistryA(r)','registry?.entries']),
   'uiNoShipOrEquipmentIds':all(x not in ui for x in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA','AN_SPY_1DV','AN_SPY_1A_MODERNIZED','AN_SLQ_32']),
