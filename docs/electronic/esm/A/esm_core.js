@@ -38,12 +38,20 @@ function esmReceiverClockA(r){
 }
 function esmReceiverProfileA(r){
   if(!r||sovHullA(r)||sovNoEquipmentA(r))return null;const declared=resolveShipProfile(r.profileId)?.equipment?.esmReceiver??null;
-  if(declared)return declared;if(ESM_A_REQUIRE_PROFILE)return null;
+  if(declared&&(!ESM_A_REQUIRE_PROFILE||esmReceiverProfileValidA(declared)))return declared;if(ESM_A_REQUIRE_PROFILE)return null;
   return Object.freeze({schema:'AEGIS_ESM_RECEIVER_PROFILE_A_1',profileId:r.profileId,receiverId:'LEGACY_COMMON_ESM_RECEIVER',capabilities:Object.freeze(['PASSIVE_ESM_RECEIVE','AOA','FREQUENCY','TIME','FINGERPRINT']),installed:true,enabled:true,provenance:'COMMIT_B_LEGACY_ADAPTER_REMOVED_BY_COMMIT_E'});
 }
+function esmReceiverOfflineA(r){
+  if(!r)return true;
+  // shipEquipmentOfflineV1 is intentionally bound to the player-owner closure.
+  // Use it only for that owner; NPC receivers must consult their own survival
+  // and crew state or one ship could inherit another ship's offline decision.
+  if(r===ACTIVE_SHIP_RUNTIME)return shipEquipmentOfflineV1();
+  return r.executionState==='DESTROYED'||r.survival?.snapshot?.().equipmentOffline===true||r.crew?.offline?.()===true;
+}
 function esmReceiverOperationalA(r){
-  const profile=esmReceiverProfileA(r);if(!profile||profile.installed!==true||profile.enabled===false||r.ew?.esmReceiverDisabledA===true||shipEquipmentOfflineV1(r))return {ok:false,reason:'RECEIVER_UNAVAILABLE',profile};
-  const health=clamp(1-shipSystemDamageB(r,'CDC')/100,0,1);return health>.01?{ok:true,profile,health}:{ok:false,reason:'RECEIVER_DAMAGED',profile};
+  const profile=esmReceiverProfileA(r);if(!profile||profile.installed!==true||profile.enabled===false||r.ew?.esmReceiverDisabledA===true||esmReceiverOfflineA(r))return {ok:false,reason:'RECEIVER_UNAVAILABLE',profile};
+  const health=clamp(1-shipSystemDamageB(r,profile.damageSystem)/100,0,1);return health>.01?{ok:true,profile,health}:{ok:false,reason:'RECEIVER_DAMAGED',profile};
 }
 function prepareEsmA(r){
   if(r.ew.esmA)return r.ew.esmA;const restored=r.restoredEsmA??null;delete r.restoredEsmA;
@@ -61,11 +69,11 @@ function esmCreateRawA(r,source,rx,az,el,sigmaDeg,snr,quality,rangeM,profile){
   const scanPeriodS=Number.isFinite(source.rpm)&&source.rpm>0?60/source.rpm:null,scanSigma=scanPeriodS==null?null:Math.max(.002,scanPeriodS*.03),sigmaRad=deg(sigmaDeg);
   return {schema:ESM_A_RAW_SCHEMA,revision:1,observationId:receiver.platformId+':'+serial,measuredAtS:now,receivedAtS:now,receiver,bearingRad:az,elevationRad:el,angleCovarianceRad2:[sigmaRad*sigmaRad,0,0,Math.max(deg(.8)**2,sigmaRad*sigmaRad*2.25)],frequencyHz,frequencySigmaHz:frequencyHz==null?null:Math.hypot(ESM_A_SPEC.frequencyMeasurementSigmaHz,receiver.frequencyReferenceSigmaHz),arrivalTimeS:now+rangeM/ESM_A_SPEC.speedOfLightMps+receiver.clockBiasS+arrivalNoise,arrivalTimeSigmaS:ESM_A_SPEC.arrivalTimeSigmaS,fingerprint:{priS:null,priSigmaS:null,pulseWidthS:null,pulseWidthSigmaS:null,scanPeriodS,scanPeriodSigmaS:scanSigma,confidence:scanPeriodS==null?.25:.72},snr,quality,band:source.band,emitterClass:source.emitterClass,type:source.family,sourceTag:'PASSIVE_RF_ESM_A'};
 }
-function esmValidateRawA(q,now=simStepCounter*SIM_FIXED_DT,expectedPlatform=null){
+function esmValidateRawA(q,now=simStepCounter*SIM_FIXED_DT,expectedPlatform=null,expectedReceiver=null){
   const fail=reason=>({ok:false,reason});if(!esmKeysExactA(q,ESM_A_RAW_KEYS))return fail('RAW_FIELDS');
   if(q.schema!==ESM_A_RAW_SCHEMA||q.revision!==1||typeof q.observationId!=='string'||!q.observationId||q.observationId.length>120)return fail('RAW_SCHEMA');
   if(!Number.isFinite(q.measuredAtS)||!Number.isFinite(q.receivedAtS)||q.measuredAtS<0||q.receivedAtS<q.measuredAtS-1e-8||q.receivedAtS>now+1e-8||q.measuredAtS>now+1e-8)return fail('RAW_TIME');
-  const r=q.receiver;if(!esmKeysExactA(r,ESM_A_RECEIVER_KEYS)||typeof r.platformId!=='string'||!r.platformId||typeof r.receiverId!=='string'||!r.receiverId||expectedPlatform!=null&&r.platformId!==String(expectedPlatform))return fail('RECEIVER_ID');
+  const r=q.receiver;if(!esmKeysExactA(r,ESM_A_RECEIVER_KEYS)||typeof r.platformId!=='string'||!r.platformId||typeof r.receiverId!=='string'||!r.receiverId||expectedPlatform!=null&&r.platformId!==String(expectedPlatform)||expectedReceiver!=null&&r.receiverId!==String(expectedReceiver))return fail('RECEIVER_ID');
   if(!esmVecExactA(r.positionM,['x','y','z'])||!esmVecExactA(r.velocityMps,['x','y','z'])||!esmVecExactA(r.attitudeRad,['yaw','pitch','roll']))return fail('RECEIVER_STATE');
   if(!esmSpdA(r.positionCovarianceM2,3)||!esmSpdA(r.velocityCovarianceM2ps2,3)||!esmSpdA(r.attitudeCovarianceRad2,3))return fail('RECEIVER_COVARIANCE');
   if(![r.clockBiasS,r.clockBiasSigmaS,r.clockDriftSps,r.clockDriftSigmaSps,r.frequencyReferenceErrorHz,r.frequencyReferenceSigmaHz].every(Number.isFinite)||r.clockBiasSigmaS<=0||r.clockDriftSigmaSps<=0||r.frequencyReferenceSigmaHz<=0)return fail('REFERENCE_STATE');
@@ -143,10 +151,20 @@ function esmEstimateHistoryA(history,now=simStepCounter*SIM_FIXED_DT){
   if(age>ESM_A_SPEC.coastAfterS){const growth=(age-ESM_A_SPEC.coastAfterS)*75,cov=[solve.covarianceM2[0]+growth*growth,solve.covarianceM2[1],solve.covarianceM2[2],solve.covarianceM2[3]+growth*growth],ce=esmEllipseA(cov);return {...base,state:age>=ELECTRONIC_POLICY_F.holdS?'LOST':'COAST',positionM:{x:solve.point.x,y:solve.point.y,z:0},covarianceM2:cov,ellipse95:ce,modes:[{kind:'ELLIPSE',centerM:{x:solve.point.x,y:solve.point.y},covarianceM2:cov,ellipse95:ce}]};}
   return {...base,state:geolocated?'GEOLOCATED_ESTIMATE':'LIKELIHOOD_REGION',positionM:{x:solve.point.x,y:solve.point.y,z:0},covarianceM2:solve.covarianceM2,ellipse95:ellipse,modes:[{kind:'ELLIPSE',centerM:{x:solve.point.x,y:solve.point.y},covarianceM2:solve.covarianceM2,ellipse95:ellipse}]};
 }
-function esmUpdateContactA(c,now=simStepCounter*SIM_FIXED_DT){c.estimate=esmEstimateHistoryA(c.history,now);c.state=c.estimate.state;c.rangeKm=c.estimate.positionM?Math.hypot(c.estimate.positionM.x-c.estimate.latestOriginM.x,c.estimate.positionM.y-c.estimate.latestOriginM.y)/1000:null;return c;}
+function esmAgeEstimateA(base,now){
+  const age=Math.max(0,now-base.measuredAtS),stateAtAge=state=>age>=ELECTRONIC_POLICY_F.holdS?'LOST':age>ESM_A_SPEC.coastAfterS?'COAST':state;
+  if(!base.positionM)return {...base,ageS:age,state:stateAtAge(base.state)};
+  if(age>ESM_A_SPEC.coastAfterS){const growth=(age-ESM_A_SPEC.coastAfterS)*75,cov=[base.covarianceM2[0]+growth*growth,base.covarianceM2[1],base.covarianceM2[2],base.covarianceM2[3]+growth*growth],ellipse95=esmEllipseA(cov);return {...base,ageS:age,state:stateAtAge(base.state),covarianceM2:cov,ellipse95,modes:[{kind:'ELLIPSE',centerM:{x:base.positionM.x,y:base.positionM.y},covarianceM2:cov,ellipse95}]};}
+  return {...base,ageS:age};
+}
+function esmUpdateContactA(c,now=simStepCounter*SIM_FIXED_DT){
+  const latest=c.history?.at(-1),key=latest?c.history.length+':'+latest.observationId+':'+latest.measuredAtS:'EMPTY';
+  if(c._esmEstimateKeyA!==key){c._esmEstimateKeyA=key;c._esmEstimateBaseA=esmEstimateHistoryA(c.history,latest?.measuredAtS??now);}
+  c.estimate=esmAgeEstimateA(c._esmEstimateBaseA,now);c.age=c.estimate.ageS;c.state=c.estimate.state;c.rangeKm=c.estimate.positionM?Math.hypot(c.estimate.positionM.x-c.estimate.latestOriginM.x,c.estimate.positionM.y-c.estimate.latestOriginM.y)/1000:null;return c;
+}
 function esmAcceptRawA(r,rows,origin='LOCAL'){
   const now=simStepCounter*SIM_FIXED_DT;if(!r||!Array.isArray(rows)||rows.length>ELECTRONIC_POLICY_F.maxContacts)return {ok:false,reason:'RAW_BATCH'};const validated=[];
-  for(const q of rows){const v=esmValidateRawA(q,now,origin==='LOCAL'?r.entityId:null);if(!v.ok){ESM_A_AUDIT.rejected++;prepareEsmA(r).stats.rejected++;return {ok:false,reason:v.reason};}validated.push(esmJsonA(q));}
+  for(const q of rows){const v=esmValidateRawA(q,now,origin==='LOCAL'?r.entityId:null,origin==='LOCAL'?esmReceiverProfileA(r)?.receiverId:null);if(!v.ok){ESM_A_AUDIT.rejected++;prepareEsmA(r).stats.rejected++;return {ok:false,reason:v.reason};}validated.push(esmJsonA(q));}
   const e=prepareElectronicF(r),state=prepareEsmA(r),used=new Set();
   for(const q of validated){
     if(state.networkSeen.has(q.observationId)){state.stats.duplicates++;continue;}if(origin!=='LOCAL')state.networkSeen.set(q.observationId,q.measuredAtS);

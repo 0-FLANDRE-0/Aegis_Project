@@ -4,7 +4,8 @@ const ESM_A_NETWORK_SCHEMA='AEGIS_ESM_RAW_NETWORK_A_1';
 const ESM_A_NETWORK_KEYS=Object.freeze(['schema','sequence','sentAtS','measurements']);
 function esmNetworkPacketValidA(packet,sender,now){
   if(!esmKeysExactA(packet,ESM_A_NETWORK_KEYS)||packet.schema!==ESM_A_NETWORK_SCHEMA||!Number.isInteger(packet.sequence)||packet.sequence<1||!Number.isFinite(packet.sentAtS)||packet.sentAtS<0||packet.sentAtS>now+1e-8||now-packet.sentAtS>NETWORK_POLICY_G.coastS||!Array.isArray(packet.measurements)||packet.measurements.length>NETWORK_POLICY_G.maxReports)return {ok:false,reason:'ESM_RAW_PACKET'};
-  const ids=new Set();for(const q of packet.measurements){const v=esmValidateRawA(q,now,sender.entityId);if(!v.ok)return {ok:false,reason:v.reason};if(ids.has(q.observationId))return {ok:false,reason:'ESM_RAW_DUPLICATE_IN_PACKET'};ids.add(q.observationId);}return {ok:true};
+  const expectedReceiver=esmReceiverProfileA(sender)?.receiverId??null;if(!expectedReceiver)return {ok:false,reason:'RECEIVER_UNAVAILABLE'};
+  const ids=new Set();for(const q of packet.measurements){const v=esmValidateRawA(q,now,sender.entityId,expectedReceiver);if(!v.ok)return {ok:false,reason:v.reason};if(ids.has(q.observationId))return {ok:false,reason:'ESM_RAW_DUPLICATE_IN_PACKET'};ids.add(q.observationId);}return {ok:true};
 }
 function esmNetworkReceiveA(receiver,senderId,packet){
   const sender=ENGAGEMENT_RUNTIME.ships.get(String(senderId)),state=prepareEsmA(receiver),now=networkNowG(),bad=reason=>{state.stats.rejected++;ESM_A_AUDIT.networkRejected++;return {ok:false,reason};};

@@ -149,12 +149,17 @@ def transform(source: str, stage: str) -> str:
             "CG ESM receiver profile",
         )
         source = one(source, "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){", "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){esmResetRuntimeA(r);", "ESM reset")
+        source = one(source, "tracks.clear();esmContacts.clear();ownChaffs.length=0;", "tracks.clear();esmContacts.clear();esmResetRuntimeA(ACTIVE_SHIP_RUNTIME);ownChaffs.length=0;", "ESM transient reset")
         source = one(source, "function retireElectronicF(r){\n  r.ew.executionF?.contacts.clear();", "function retireElectronicF(r){\n  esmRetireRuntimeA(r);r.ew.executionF?.contacts.clear();", "ESM retire")
         source = one(source, "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:", "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),esmA:esmExportStateA(ACTIVE_SHIP_RUNTIME),navigation:", "active ESM export")
         source = one(source, "network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,", "network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),esmA:esmExportStateA(r),profileId:r.profileId,", "fleet ESM export")
         source = one(source, "r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredNetworkG=q.network??null;", "r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredEsmA=q.esmA??null;r.restoredNetworkG=q.network??null;", "fleet ESM restore handoff")
         source = one(source, "validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');", "validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');validateEsmSaveA(src.profileId,src.ship?.esmA,errors,'ship');", "active ESM preflight")
         source = one(source, "seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);", "seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateEsmSaveA(q.profileId,q.esmA,errors,'fleet.'+q.entityId);", "fleet ESM preflight")
+        source = one(source, "migrateEmconSaveB(src,harpoonMigrations);", "migrateEmconSaveB(src,harpoonMigrations);migrateEsmSaveA(src,harpoonMigrations);", "legacy ESM empty migration")
+        source = one(source, "emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);", "emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);esmRestoreStateA(ACTIVE_SHIP_RUNTIME,src.ship.esmA);", "active ESM restore")
+        source = one(source, "'electronicContactsAndTechniqueTimeline',", "'electronicTechniqueTimeline',", "save capability accuracy")
+        source = one(source, "'survivalRafts'],resetsCombatTransient", "'survivalRafts','esmRawHistoryEstimatorAndQueue'],resetsCombatTransient", "save restore capability")
 
     return source
 
