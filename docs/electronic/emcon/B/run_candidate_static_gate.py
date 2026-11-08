@@ -5,7 +5,7 @@ import argparse,base64,gzip,hashlib,json,re
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[3]
-EXPECTED_PRODUCT='3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33'
+EXPECTED_PRODUCT='e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f'
 EXPECTED_BASE='3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be'
 def sha(b:bytes)->str:return hashlib.sha256(b).hexdigest()
 def strict(path:Path):return json.loads(path.read_text(),parse_constant=lambda x:(_ for _ in()).throw(ValueError(x)))
@@ -23,7 +23,7 @@ def main():
   'manifestBaseline':manifest['baselinePath']==baseline.name and manifest['baselineSha256']==sha(baseline.read_bytes())==EXPECTED_BASE,
   'buildReceipt':build['stage']=='E' and build['outputSha256']==sha(raw) and build['baseSha256']==EXPECTED_BASE,
   'activePolicy':"const EMCON_B_MODE='ACTIVE'" in source,
-  'schemaSingle':source.count("const EMCON_B_SCHEMA='AEGIS_SHIP_EMCON_B_1'")==1,
+  'schemaSingle':source.count("const EMCON_B_SCHEMA='AEGIS_SHIP_EMCON_B_2'")==1,
   'categoryContract':all(x in source for x in ['AIR_SEARCH','SURFACE_SEARCH','NAV','FIRE_CONTROL','ECM']),
   'saveContract':source.count('emconB:emconExportStateB(')==2 and 'migrateEmconSaveB(src,harpoonMigrations)' in source,
   'communicationsSeparate':'Hawklink' not in (HERE/'emcon_lifecycle.js').read_text() and 'Link 16' not in (HERE/'emcon_lifecycle.js').read_text(),

@@ -27,6 +27,11 @@ function emconETacticalPulseB(){
 function emconEResetDetailsB(){resetElectronicFleetF();return emconLifecycleSnapshotB();}
 function emconEDestroyB(id){return destroyShipRuntime(id);}
 window.__EMCON_B_E_DIAG__=Object.freeze({group:emconEGroupB,individual:emconEIndividualB,expireFollower:emconEExpireFollowerLeaseB,snapshot:emconEGroupSnapshotB,tactical:emconETacticalPulseB,reset:emconEResetDetailsB,destroy:emconEDestroyB});
+// CDP page.evaluate runs as a separate script and cannot resolve the packed script's lexical
+// ACTIVE_SHIP_RUNTIME binding. Expose only this test-only runtime reference in diagnostic copies.
+Object.defineProperty(window,'ACTIVE_SHIP_RUNTIME',{value:ACTIVE_SHIP_RUNTIME,configurable:true});
+Object.defineProperty(window,'physicalShipsB',{value:physicalShipsB,configurable:true});
+Object.defineProperty(window,'electronicCommandF',{value:electronicCommandF,configurable:true});
 // The historical #lockBtn node is intentionally detached by MAP_E. This test-only port invokes
 // its retained native listener so the original 14 behavioral assertions can run in Chromium.
 window.__EMCON_B_LOCK_DEBT__=Object.freeze({node:id=>mapELegacyNodeE(id)});

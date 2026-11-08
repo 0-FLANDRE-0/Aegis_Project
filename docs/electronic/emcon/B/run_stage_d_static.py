@@ -28,19 +28,21 @@ def span(text:str,name:str,contains:str|None=None)->list[str]:
      break
  return out
 def main():
- text=src(ROOT/'Aegis_SIM_v48_WIP_EMCON_B.html');protected={};allowed={'prepareElectronicF','electronicShipPhysicalEmittersDeclaredA'}
+ text=src(ROOT/'Aegis_SIM_v48_WIP_EMCON_B.html');protected={};allowed={'prepareElectronicF','electronicShipPhysicalEmittersDeclaredA','exportOperationalState','prepareOperationalStateV48Wip11B','resetElectronicFleetF'}
  for label,row in BASELINE['functionHashes'].items():
   name=label.split('.')[0];choices=span(text,name,'networkOverrideRadarG(ACTIVE_SHIP_RUNTIME)' if label=='toggleEmcon.operator' else None)
   if len(choices)!=1:raise AssertionError(f'{label}:{len(choices)}')
   current=sha(choices[0].encode());protected[label]={'baseline':row['sha256'],'current':current,'changed':current!=row['sha256'],'allowed':name in allowed}
- module=(HERE/'emcon_ui.js').read_text();checks={
+ module=(HERE/'emcon_ui.js').read_text();policy=(HERE/'emcon_policy.js').read_text();checks={
   'modeActive':"const EMCON_B_MODE='ACTIVE'" in text,
   'onlyAllowedProtectedChanged':all(not q['changed'] or q['allowed'] for q in protected.values()),
-  'policyUiOnce':text.count('const EMCON_B_ALL_RADIATION_MEMORY=new Map()')==1,
+  'schemaV2Once':text.count("const EMCON_B_SCHEMA='AEGIS_SHIP_EMCON_B_2'")==1,
+  'globalAuthorityPerRuntime':'allRadiationSilent:false' in policy and 'EMCON_B_ALL_RADIATION_MEMORY' not in text,
   'existingMenuSingle':text.count("menu.id='mapEmconMenuE'")==1 and text.count("emconChip.id='uiEmconChipA'")==1,
   'registryDriven':all(token in module for token in ['SHIP_EMITTER_CATEGORIES_A','shipEmitterRegistryA(r)','registry?.entries']),
   'noShipIdsInUiModule':all(token not in module for token in ['DDG_119_LATE_FLIGHT_IIA','CG_52_LATE_TICONDEROGA','AN_SPY_1DV','AN_SPY_1A_MODERNIZED']),
-  'allRadiationMemoryPerOwner':'EMCON_B_ALL_RADIATION_MEMORY.set(id,memory)' in module,
+  'singleGlobalControl':text.count("dom.all=button('전파방사통제 OFF','mapAllRadiationE'")==1 and 'mapRadarE' not in text,
+  'globalAriaAuthoritative':"String(q.allRadiationSilent)" in text and "String(allSilent)" in text,
   'communicationSeparationShown':'통신 링크는 별도' in module,
   'fireControlEmptyPath':'등록 장비 없음' in module,
   'productHasNoStageDiagnostic':'__EMCON_B_C_DIAG__' not in text,

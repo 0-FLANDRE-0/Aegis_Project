@@ -1,10 +1,10 @@
 ## 최신 작업 — EMCON_B 범주·장비 단위 방사 통제
 
-- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b` 작업이다. A–E 구현과 제한 게이트를 완료했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
-- 함정별 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책과 장비 override, 실제 emitter·own/NPC sensor·ECM allocator/HOJ gate, profile 기반 UI, network lease 및 save/reset/destroy 수명주기를 연결했다. 기존 radar master와 통신 링크 분리는 유지한다.
+- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b`/PR #74 작업이다. A–E 이후 2차 종료 보정까지 구현했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
+- 함정별 명시적 `ALL_RADIATION_SILENT` 권위와 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책·장비 override를 연결했다. `FORCE_RADIATE`는 global hard-off를 우회하지 못하며, 상단 통제 중 SPY/SPQ/NAV/ECM 하나를 고르면 선택 장비만 원자적으로 재방사한다. 실제 emitter·own/NPC sensor·ECM allocator/HOJ gate, profile 기반 UI, network/save/reset/destroy 수명주기가 같은 V2 계약을 쓴다. 통신 링크는 여전히 별도다.
 - `FIRE_CONTROL`은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 구현했다. Sovremenny는 계속 비활성이고, 통신 EMCON은 범위 밖이다.
-- 실제 Chromium 단계 게이트는 lifecycle 16/16, 기존 lock 부채 14/14, 후보 baseline 6/6 및 static 11/11 PASS다. MAX_THREAT 광역은 지시대로 1회 실행했다. 완료 행은 helicopter 85/85, ISAR class 8/8, ISAR clock 12/12, SOV native 30/30/casualty 13/13/visual 10/10, paired 42/42, WebGL 29/29다. 기존 대형 진단 renderer crash와 SOV/UI fixture 부채는 원시 실패를 보존하고 EMITTER_A 비교로 상속 항목을 분리했다.
-- 후보 22,157,395 bytes / SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`. 기대값·허용오차 변경 0. 새 PR #74는 병합하지 않으며 release/tag는 없다.
+- 보정 제한 게이트는 static 15/15, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline exact 6/6, lock 14/14 PASS고 page/console error는 0이다. MAX_THREAT 광역은 수정 전 SHA `3343f5bb…c33`에서 실행한 기존 1회 증거를 그대로 보존했고, 보정 SHA에서 재실행하지 않았다.
+- 보정 후보 22,159,899 bytes / SHA-256 `e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f`. 기대값·허용오차 변경 0. 기존 PR #74를 갱신하며 병합·release·tag는 사용자 결정 전까지 금지다.
 - 계획과 증거: [EMCON_B PLAN](docs/electronic/emcon/B/PLAN.md), [master 감사](docs/electronic/emcon/B/MASTER_EMCON_AUDIT.md), [최종 분류](docs/electronic/emcon/B/FINAL_REGRESSION_CLASSIFICATION.json).
 
 ## 병합 완료 — EMITTER_A 함정 방사원 공통 등록

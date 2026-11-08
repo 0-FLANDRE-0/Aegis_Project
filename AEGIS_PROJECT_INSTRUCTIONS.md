@@ -5,9 +5,9 @@
 ## 현재 인계 기준 (2026-11-08)
 
 - 병합 기준: `main@3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941` (PR #73 EMITTER_A 사용자 병합). 기준 제품은 `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`다.
-- 현재 검토 후보는 별도 `emcon-b` 브랜치의 `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,157,395 bytes, SHA-256 `3343f5bbe7d6adac0694656ebafef538c3b7407d7ce642225fff94207c142c33`다.
-- EMCON_B는 A–E 구현을 마쳤다. 범주·장비별 방사 통제는 EMITTER_A registry와 기존 master 권위 위에 있고, 물리 방출·own/NPC sensor·ECM·profile UI·network/save lifecycle이 연결됐다. Hawklink/Link 통신은 별도이며 FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI만 제공한다.
-- 지시된 광역 회귀는 동결 후보에서 정확히 1회 실행했고, 완료 행과 상속 runner/harness 부채를 분리해 보존했다. 기대값·허용오차 변경은 없다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 보고서·원시는 `docs/electronic/emcon/B/`를 따른다.
+- 현재 검토 후보는 별도 `emcon-b` 브랜치의 `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,159,899 bytes, SHA-256 `e08cc2aede89e6452786efbf97fbd8ef49480ab33f8f8da178cbee0bff87377f`다.
+- EMCON_B는 A–E와 PR #74 2차 종료 보정을 마쳤다. ShipRuntime별 `ALL_RADIATION_SILENT` V2 권위가 radar/ECM `FORCE_RADIATE`보다 우선하며, 상단 통제 중 개별 SPY/SPQ/NAV/ECM 선택은 나머지를 끄고 그 장비만 원자적으로 재방사한다. 물리 방출·own/NPC sensor·ECM·profile UI·network/save lifecycle은 정확한 registry equipment decision을 소비한다. Hawklink/Link 통신은 별도이며 FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI만 제공한다.
+- 지시된 MAX_THREAT 광역 회귀는 수정 전 SHA `3343f5bb…c33`에서 수행한 1회 증거로 보존한다. 보정 SHA에서는 static 15/15, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline 6/6, lock 14/14 제한 게이트만 실행했다. 기대값·허용오차 변경은 없다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 보고서·원시는 `docs/electronic/emcon/B/`를 따른다.
 - 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 candidate workflow가 manifest stage를 whitelist로 dispatch하며, 결과 문서만 바뀌어 재귀 실행되지 않게 한다.
 - 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
 

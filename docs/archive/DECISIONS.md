@@ -79,6 +79,15 @@
 - FIRE_CONTROL은 registry 계약과 비활성 UI 경로만 다루며, 활성 SPG-62 방사원을 새로 등록하지 않는다.
 - EMCON_B는 `emcon-b` 별도 브랜치와 새 PR로 진행한다. main 직접 변경·자동 병합·release/tag는 하지 않는다.
 
+## 2026-11-08 (EMCON_B PR #74 2차 종료 보정)
+
+- 상단 `전파방사통제`는 문자열 조합으로 추론하지 않고 ShipRuntime별 `AEGIS_SHIP_EMCON_B_2.allRadiationSilent`를 단일 권위로 쓴다.
+- 유효 방사 우선순위는 registry/운용 가능→손상·전원·offline→global hard-off→radar master→network overlay→equipment override→category→ECM request/allocator다. `FORCE_RADIATE`는 global/master/network/손상 gate를 우회하지 못한다.
+- Global ON 중 운용자가 SPY/SPQ/NAV/ECM 하나를 ON하면 global과 radar master를 해제하고, 모든 범주를 SILENT·override를 INHERIT로 정리한 뒤 선택한 장비만 원자적으로 방사한다.
+- Global silence는 ECM technique request를 삭제하지 않고 allocator/output/coupling/HOJ evidence만 0으로 만든다. Hawklink/Link 통신은 레이더 EMCON과 분리한다.
+- 수정 전 SHA `3343f5bb…c33`의 MAX_THREAT 광역 증거는 그 SHA에만 귀속한다. 보정 SHA에서는 광역을 재실행하지 않고 지시된 제한 closure와 candidate Actions 1회로 닫는다.
+- 기존 `emcon-b`/PR #74만 갱신하고, 병합·main 직접 변경·release·tag는 사용자 결정 전까지 하지 않는다.
+
 ## 2026-11-08 (EMCON_B 완료 경계)
 
 - 기존 radar master는 계속 권위 상태이며 EMCON_B는 함정별 category/equipment detail만 소유한다. 네트워크 group mode는 detail을 파괴하지 않는 transient overlay다.

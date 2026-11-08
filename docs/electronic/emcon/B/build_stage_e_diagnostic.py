@@ -9,7 +9,7 @@ def sha(data:bytes)->str:return hashlib.sha256(data).hexdigest()
 def main():
  raw=PRODUCT.read_bytes();m=re.search(rb'data-c55-index="13">([^<]+)',raw)
  if not m:raise AssertionError('packed main missing')
- source=gzip.decompress(base64.b64decode(m[1])).decode();modules=[ROOT/'docs/electronic/emitter/A/baseline_diagnostic.js',HERE/'stage_e_diagnostic.js'];payload='\n'.join(p.read_text().rstrip() for p in modules)+'\n'
+ source=gzip.decompress(base64.b64decode(m[1])).decode();modules=[ROOT/'docs/electronic/emitter/A/baseline_diagnostic.js',HERE/'stage_e_diagnostic.js',HERE/'correction_2_diagnostic.js'];payload='\n'.join(p.read_text().rstrip() for p in modules)+'\n'
  anchor='  window.__NAVAL_SIM_DIAG__ = {'
  if source.count(anchor)!=1:raise AssertionError('diagnostic anchor mismatch')
  candidate=source.replace(anchor,payload+anchor,1);packed=gzip.compress(candidate.encode(),9,mtime=0);encoded=base64.b64encode(packed);output=raw[:m.start(1)]+encoded+raw[m.end(1):]

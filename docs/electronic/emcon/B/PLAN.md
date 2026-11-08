@@ -14,5 +14,12 @@ Commits follow the directive exactly:
 5. E — fleet/network/AI/save lifecycle, legacy migration and zero-mutation validation.
 6. Final — one MAX_THREAT broad regression, candidate workflow, packages, pinned readback and PR.
 
+PR #74 correction 2 is a closure correction, not a new stage. It adds explicit
+`AEGIS_SHIP_EMCON_B_2.allRadiationSilent`, makes it a radar/ECM hard-off above overrides,
+binds each sensor consumer to its exact registered equipment, and replaces the inferred UI
+macro with one authoritative `전파방사통제` control plus atomic selected-equipment breakout.
+The broad regression belongs only to pre-correction SHA `3343f5bb…c33`; the corrected SHA uses
+the directive's limited static, Chromium, lifecycle, baseline, lock, and release-smoke closure.
+
 Communication EMCON, SPG-62 registry migration, Sovremenny activation, sensor/EW retuning,
 and OODA redesign are explicitly out of scope.
