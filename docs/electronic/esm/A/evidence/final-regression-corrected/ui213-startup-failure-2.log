@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/contact/friendly/A/cpu2d_ui.py", line 6, in <module>
+    install();f=R/'docs/gun/B1/run_test_migrations.py';sys.argv=[str(f),'ui'];runpy.run_path(str(f),run_name='__main__')
+                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/gun/B1/run_test_migrations.py", line 20, in <module>
+    out={'kind':kind,'source':p.relative_to(R).as_posix(),'sourceSha256':hashlib.sha256(p.read_bytes()).hexdigest(),'oldAssertion':old,'newAssertion':new,'reason':reason,'productChanged':False,'originalTestFileChanged':False,'fixtureInitialization':fixtureChange};d=H/'evidence/test-migrations';d.mkdir(parents=True,exist_ok=True);(d/(kind+'.json')).write_text(json.dumps(out,indent=2)+'\n');exec(compile(s,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})
+                                                                                                                                                                                                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/map/E/verify_d_ui.py", line 5, in <module>
+    E=H/'evidence/d-ui';E.mkdir(parents=True,exist_ok=True);raw=(R/'Aegis_SIM_v48_WIP_MAP_E.html').read_bytes();checks={};records={};errors=[];start=time.perf_counter()
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/gun/B2/phase1b/test_support/sitecustomize.py", line 26, in readb
+    def readb(p):return _readb(candidate if Path(p).absolute()==R/'Aegis_SIM_v48_WIP_MAP_E.html'else p)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/gun/B2/phase1b/test_support/sitecustomize.py", line 24, in opening
+    return _open(p,mode,*a,**kw)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_MAP_E.html'

@@ -1,11 +1,11 @@
-# 현재 상태 (2026-11-08 ESM_A 착수 기준)
+# 현재 상태 (2026-11-08 ESM_A 종료 후보 기준)
 
 ## 레포
 
-- `main` `babb4d7f` (PR #74 EMCON_B 병합)
+- `main` `babb4d7f` (PR #74 EMCON_B 병합, ESM_A PR 전)
 - 작업 브랜치: `esm-a`
 - 기준 제품: `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,162,415 bytes, SHA-256 `50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee`
-- 현재 단계: ESM_A Commit A 무변경 감사
+- 현재 단계: ESM_A 구현·보정·최종 광역 검증 완료, PR/Actions 대기
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -35,7 +35,7 @@
 | U3 하푼 | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | main (PR #72) |
 | **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 완료, PR #73 사용자 병합 |
 | **EMCON_B** | V2 global hard-off + 함종 중립 소비자 바인딩 + 범주·장비 방사 통제 | 완료, PR #74 사용자 병합 |
-| **ESM_A / TRACK-D** | 익명 raw ESM + AOA/TDOA/FDOA + UI/cue + DDG/CG receiver adapter | Commit A 기준 감사 진행 |
+| **ESM_A / TRACK-D** | 익명 raw ESM + AOA/TDOA/FDOA + UI/cue + DDG/CG receiver adapter | 구현·보정·최종 광역 PASS, PR 대기 |
 
 ## EMITTER_A 결과 요약
 
@@ -63,6 +63,20 @@
 - Commit A는 EMCON_B 제품 exact rebuild, 기존 anonymous bearing DTO, RF/EMCON/network 소유권과 함수 해시를 동결한다. 제품 동작 변경은 없다.
 - Commit B–E에서 단함 AOA, 협동 raw ESM AOA/TDOA/FDOA, UI·수동 cue, DDG/CG profile adapter와 lifecycle을 같은 PR 안에서 순서대로 구현한다.
 - SOV Band Stand/MR-184/Mineral과 sensor/EW/weapon capability는 baseline 비활성 상태를 유지한다.
+
+## ESM_A 종료 후보 결과
+
+- 최종 제품 `Aegis_SIM_v48_WIP_ESM_A.html`은 22,182,527 bytes, SHA-256
+  `5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7`이다.
+- 공통 추정기는 `r.ew.esmA.contacts`, 기존 소프트킬 소비용 native projection은
+  `r.ew.executionF.contacts`를 소유하도록 분리해 초기 전술 회귀를 제거했다.
+- 수정 SHA의 승인된 MAX_THREAT 광역 회귀 1회는 정적 17/17, native 364/364,
+  후보 결정성 42/42, 현재 EMCON UI 14/14, UI 213/213, WebGL 29/29 PASS다.
+- EMCON_B 대비 paired raw 36/42의 여섯 차이는 DDG/CG idle/raid/damaged의
+  `state.esmA` 저장 필드뿐이다. 사용자가 의도된 스키마 변경으로 승인했고,
+  해당 필드만 제거하면 물리/RNG/피해/탄약/observer/offboard가 모두 exact다.
+- 기대값·허용오차 변경은 0이다. SOV ESM 장비와 새 전술/자동 교전 소비자는
+  범위 밖이며 release/tag는 없다.
 
 ## U3 결과 요약 (병합 기준)
 

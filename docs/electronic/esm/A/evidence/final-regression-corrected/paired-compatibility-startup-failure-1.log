@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/helicopter/F/verify_regression.py", line 196, in <module>
+    main()
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/helicopter/F/verify_regression.py", line 180, in main
+    paired = baseline(a)
+             ^^^^^^^^^^^
+  File "/tmp/emitter-portability.ufJuK8/repo/docs/helicopter/F/verify_regression.py", line 41, in baseline
+    source = source_path.read_text()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/gun/B2/phase1b/test_support/sitecustomize.py", line 27, in readt
+    def readt(p,*a,**kw):return _readt(candidate if Path(p).absolute()==R/'Aegis_SIM_v48_WIP_MAP_E.html'else p,*a,**kw)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/gun/B2/phase1b/test_support/sitecustomize.py", line 24, in opening
+    return _open(p,mode,*a,**kw)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/emitter-portability.ufJuK8/repo/docs/multiship/H4/regression_baseline.py'

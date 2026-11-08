@@ -25,6 +25,11 @@ STAGE_POLICY = {
         "pullRequest": 74,
         "baselineSha256": "3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be",
     },
+    "ESM_A": {
+        "branch": "esm-a",
+        "pullRequest": 75,
+        "baselineSha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee",
+    },
 }
 
 

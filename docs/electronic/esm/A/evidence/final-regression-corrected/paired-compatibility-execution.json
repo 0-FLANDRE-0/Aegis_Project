@@ -1,0 +1,140 @@
+{
+  "suite": "paired-compatibility",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-u",
+    "/tmp/emitter-portability.ufJuK8/repo/docs/helicopter/F/verify_regression.py",
+    "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_EMCON_B.html",
+    "/tmp/emitter-portability.ufJuK8/repo/Aegis_SIM_v48_WIP_ESM_A.html",
+    "/tmp/emitter-portability.ufJuK8/repo/docs/electronic/esm/A/evidence/final-regression-corrected/paired-compatibility",
+    "--baseline-only"
+  ],
+  "exitCode": 1,
+  "wallS": 173.68536177798524,
+  "status": "APPROVED_SCHEMA_DELTA",
+  "reason": "Six raw samePhysicalState failures are solely the user-approved state.esmA save-schema field; raw output is preserved.",
+  "expectedAssertions": 42,
+  "executedAssertions": 42,
+  "rawPassedAssertions": 36,
+  "effectivePassedAssertions": 42,
+  "failedAssertions": [
+    "DDG_119_LATE_FLIGHT_IIA:idle:samePhysicalState",
+    "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+    "DDG_119_LATE_FLIGHT_IIA:damaged:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:idle:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:damaged:samePhysicalState"
+  ],
+  "errors": [],
+  "resultPath": "paired-compatibility/baseline-comparison.json",
+  "approvedDelta": {
+    "decision": "USER_APPROVED_STATE_ESMA_SCHEMA_ADDITION",
+    "expectedValuesUpdated": false,
+    "tolerancesChanged": false,
+    "cases": [
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "idle",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      },
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "raid",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      },
+      {
+        "ship": "DDG_119_LATE_FLIGHT_IIA",
+        "scenario": "damaged",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "idle",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "raid",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      },
+      {
+        "ship": "CG_52_LATE_TICONDEROGA",
+        "scenario": "damaged",
+        "rawFalseChecks": [
+          "samePhysicalState"
+        ],
+        "baselineEsmAAbsent": true,
+        "candidateEsmASchema": "AEGIS_ESM_SAVE_A_1",
+        "physicalExactAfterRemovingOnlyStateEsmA": true,
+        "combatRngExact": true,
+        "damageAndFixedLayoutExact": true,
+        "inventoryExactOrBoundedByOriginalContract": true,
+        "observerExact": true,
+        "offboardExact": true,
+        "faultFree": true,
+        "approved": true
+      }
+    ],
+    "pass": true
+  }
+}
