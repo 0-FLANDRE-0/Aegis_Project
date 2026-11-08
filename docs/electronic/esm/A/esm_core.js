@@ -86,7 +86,15 @@ function esmFingerprintScoreA(a,b){
 }
 function esmObservationCandidateScoreA(c,q){
   const p=c.history?.at(-1);if(!p)return Infinity;let score=esmFingerprintScoreA(p,q);if(!Number.isFinite(score)||score>ESM_A_SPEC.fingerprintGateNis)return Infinity;
-  if(p.receiver.platformId===q.receiver.platformId){const variance=p.angleCovarianceRad2[0]+q.angleCovarianceRad2[0],d=angNorm(q.bearingRad-p.bearingRad);score+=d*d/Math.max(1e-12,variance);}
+  if(p.receiver.platformId===q.receiver.platformId){
+    // A moving receiver can legitimately see a large bearing change. Accept
+    // that change only when the two anonymous bearing rays intersect forward
+    // of both historical origins and inside the declared hypothesis range.
+    const baseline=esmOriginDistanceA(p,q),cross=baseline>=ESM_A_SPEC.originBaselineMinM?esmAoaSolveA([p,q]):null,point=cross?.point,
+      forward=point&&[p,q].every(v=>(point.x-v.receiver.positionM.x)*Math.cos(v.bearingRad)+(point.y-v.receiver.positionM.y)*Math.sin(v.bearingRad)>0),
+      bounded=point&&[p,q].every(v=>{const d=Math.hypot(point.x-v.receiver.positionM.x,point.y-v.receiver.positionM.y);return d>=ESM_A_SPEC.rangeHypothesisMinM&&d<=ESM_A_SPEC.rangeHypothesisMaxM;});
+    if(!forward||!bounded){const variance=p.angleCovarianceRad2[0]+q.angleCovarianceRad2[0],d=angNorm(q.bearingRad-p.bearingRad);score+=d*d/Math.max(1e-12,variance);}
+  }
   return score;
 }
 function esmSolve2A(a,b,c,d,e,f){const det=a*d-b*c;if(Math.abs(det)<1e-16)return null;return {x:(e*d-b*f)/det,y:(a*f-e*c)/det,det};}

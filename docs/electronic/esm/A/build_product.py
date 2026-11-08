@@ -95,7 +95,7 @@ def transform(source: str, stage: str) -> str:
         source = one(
             source,
             "function esmSegment(o){const own=mapOwnShipA(),r=kmToWorld(Math.min(view().km,90));return [toScreen(own.x,own.y),toScreen(own.x+Math.cos(o.bearingRad)*r,own.y+Math.sin(o.bearingRad)*r)];}",
-            "function esmSegment(o){const origin=o.originWorld??mapOwnShipA(),r=kmToWorld(Math.min(view().km,90));return [toScreen(origin.x,origin.y),toScreen(origin.x+Math.cos(o.bearingRad)*r,origin.y+Math.sin(o.bearingRad)*r)];}",
+            "function esmSegment(o){const origin=o.originWorld??mapOwnShipA(),target=o.estimateWorld??{x:origin.x+Math.cos(o.bearingRad)*kmToWorld(Math.min(view().km,90)),y:origin.y+Math.sin(o.bearingRad)*kmToWorld(Math.min(view().km,90))};return [toScreen(origin.x,origin.y),toScreen(target.x,target.y)];}",
             "historical ESM hit-test origin",
         )
         source = one(
@@ -120,6 +120,18 @@ def transform(source: str, stage: str) -> str:
         block_start = source.index("    for(const [id,c] of esmContacts){", source.index("// ===== ESM Contacts (historical"))
         block_end = source.index("\n\n    // ===== Mk 36", block_start)
         source = source[:block_start] + "    esmDrawChartA(ctx,esmContacts,viewKm,tracks);" + source[block_end:]
+        source = one(
+            source,
+            "if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));",
+            "if(!isarReason(o))actions.append(action('ISAR 촬영',()=>shootIsar(o),lost,'mapIsarA'));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);actions.append(action('하푼 수동 cue',()=>esmManualCueCommandA(o.id),q.ok?'':q.reason,'mapEsmCueA'));}",
+            "ESM manual cue information action",
+        )
+        source = one(
+            source,
+            "if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));}",
+            "if(!isarReason(o))menu.append(action('ISAR 촬영',closeCall(()=>shootIsar(o))));if(o.kind==='ESM'){const q=esmCueEvaluateA(o.id);menu.append(action('하푼 수동 cue',closeCall(()=>esmManualCueCommandA(o.id)),q.ok?'':q.reason));}}",
+            "ESM manual cue context action",
+        )
 
     if stage == "E":
         profiles = (HERE / "esm_profiles_lifecycle.js").read_text().rstrip() + "\n"
