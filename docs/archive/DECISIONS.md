@@ -70,3 +70,11 @@
 - 현재 후보의 단일 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 `AEGIS current candidate` workflow만 후보 승인을 담당하며, 고정 과거 제품을 검사한 legacy Actions는 후보 승인으로 해석하지 않는다.
 - 서로 다른 Chromium 버전의 libm 최하위 비트는 반올림이나 허용오차로 숨기지 않는다. manifest에 고정된 U3 기준과 후보를 동일 Chromium에서 실행해 전체 JSON exact로 비교한다.
 - PR #73은 사용자 결정 전 병합하지 않으며 main 직접 커밋·release·tag를 만들지 않는다.
+
+## 2026-11-08 (EMCON_B 착수)
+
+- 사용자가 PR #73을 merge commit `3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941`로 병합했다. EMITTER_A 제품 SHA는 `3a5886b4…c2be`로 유지되며 release/tag는 없다.
+- 기존 `emconActive`/`observerC(r).emcon`은 전체 레이더 침묵 master 권위로 유지하고, EMCON_B는 함정별 범주 정책과 장비 override만 소유한다.
+- 레이더 EMCON은 Hawklink/Link 통신 송신을 끄지 않는다. 통신 EMCON은 별도 후속 정책이다.
+- FIRE_CONTROL은 registry 계약과 비활성 UI 경로만 다루며, 활성 SPG-62 방사원을 새로 등록하지 않는다.
+- EMCON_B는 `emcon-b` 별도 브랜치와 새 PR로 진행한다. main 직접 변경·자동 병합·release/tag는 하지 않는다.

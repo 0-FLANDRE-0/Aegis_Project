@@ -1,10 +1,16 @@
-## 최신 작업 — EMITTER_A 함정 방사원 공통 등록
+## 최신 작업 — EMCON_B 범주·장비 단위 방사 통제
 
-- 병합된 U3 `main@5d0b4ea0` 위 `emitter-a`, [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN. [실행 HTML](Aegis_SIM_v48_WIP_EMITTER_A.html), [실행 HTML ZIP](Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip), [리포트 ZIP](Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), [최종 보고서](docs/electronic/emitter/A/FINAL_REPORT.md), [단계 증거](docs/electronic/emitter/A/).
+- 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b` 작업이다. 현재 Commit A는 master EMCON 소유자·소비자와 기준 함수 해시/대표 snapshot을 고정했으며 제품 동작을 바꾸지 않았다.
+- 목표는 EMITTER_A profile registry를 읽는 함정별 범주 정책, 장비 override, 실제 emitter·sensor·ECM gate, profile 기반 MAP/FLEET UI, network lease와 save lifecycle이다. 통신 EMCON은 별도 정책으로 유지한다.
+- 계획과 감사: [EMCON_B PLAN](docs/electronic/emcon/B/PLAN.md), [master 감사](docs/electronic/emcon/B/MASTER_EMCON_AUDIT.md), [기계 기준](docs/electronic/emcon/B/BASELINE_AUDIT.json).
+
+## 병합 완료 — EMITTER_A 함정 방사원 공통 등록
+
+- 병합된 U3 `main@5d0b4ea0` 위 `emitter-a`, [PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73)는 사용자 결정으로 merge commit `3dbe3b84`에 병합됐다. [실행 HTML](Aegis_SIM_v48_WIP_EMITTER_A.html), [실행 HTML ZIP](Aegis_SIM_v48_WIP_EMITTER_A_HTML.zip), [리포트 ZIP](Aegis_SIM_v48_WIP_EMITTER_A_REPORT.zip), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMITTER_A.md), [최종 보고서](docs/electronic/emitter/A/FINAL_REPORT.md), [단계 증거](docs/electronic/emitter/A/).
 - DDG-119/CG-52의 SPY·SPQ·항해 레이더·ECM 선언을 불변 ShipProfile 장비 레지스트리로 옮기고, 기존 ShipRuntime observer/EW 상태를 읽는 공통 ACTIVE 어댑터를 적용했다. 기존 출력 순서·필드·RNG·전력 호환 단위는 그대로다.
 - 소브레멘니는 기존 SOV_A 센서 메타데이터 11행만 비활성 등록했다. 실제 방출·ESM·자체 탐지·공격 기능과 RF 수치는 추가하지 않았다.
 - A–D 게이트 PASS. pre-closure 광역은 지시대로 1회: Native 364/364, U3 paired 42/42, UI 213/213, 실제 WebGL 29/29 PASS; 신규 실패·기대값·허용오차 변경 0. 종료 보정 뒤 ACTIVE legacy 호출 0·declared 1회/함정, exact 출력/RNG, clean-clone portability와 전용 candidate Actions [run 42373876872](https://github.com/0-FLANDRE-0/Aegis_Project/actions/runs/42373876872) PASS. 광역은 반복하지 않았다.
-- 제품 22,146,163 bytes / SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`. 구형 EMCON UI 14건은 inherited INCOMPLETE다. PR #73은 열려 있으며 main 병합·release·tag는 하지 않았다. 다음 작업은 EMCON_B다.
+- 제품 22,146,163 bytes / SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`. 구형 EMCON UI 14건은 EMCON_B에서 실제 실행한다. PR #73은 병합됐고 release/tag는 없다.
 
 ## 병합 완료 PR #72 — SEEKER_UNIFY_U3 하푼 시커 공통화
 

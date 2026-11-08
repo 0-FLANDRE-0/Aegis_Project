@@ -1,11 +1,11 @@
-# 현재 상태 (2026-11-07 EMITTER_A 기준)
+# 현재 상태 (2026-11-08 EMCON_B Commit A 기준)
 
 ## 레포
 
-- `main` `5d0b4ea0` (PR #72 SEEKER_UNIFY_U3 병합)
-- 작업 브랜치: `emitter-a` ([PR #73](https://github.com/0-FLANDRE-0/Aegis_Project/pull/73) OPEN)
-- 기준 제품: `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U3.html`, SHA-256 `243c196a69990e1fba9de0993f7904fb569e3adc5b6e84cf52672d3300638835`
-- 후보 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
+- `main` `3dbe3b84` (PR #73 EMITTER_A 병합)
+- 작업 브랜치: `emcon-b` (새 PR 예정, main 미변경)
+- 기준 제품: `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
+- 후보 제품: Commit A에서는 없음(제품 동작 변경 0)
 - 게임 소스는 HTML 안의 `data-c55-index="13"` gzip+base64 블록이다. 압축을 풀면 약 40 MB JS다.
 
   ```python
@@ -33,7 +33,8 @@
 | SEEKER_UNIFY_C (PR #69) | U2 ACTIVE, 대함 시커 빔·LOS 왕복 보정, CUE_A(cue 필터·수동 RF·위협 가정 스위치) | main |
 | CUE_A-1 (PR #70) | Singer cue 필터(τ=60 s, 정확 이산화), 바구니 상한, 수동 RF 함정 레이더 family·대역·회전 레이더, 0.5 km 거리 하한 원복 | main |
 | U3 하푼 | U2/CUE_A/HOJ 공통 계약 + 수동 RF 우도 선택 | main (PR #72) |
-| **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 구현·최종 검증 완료, PR #73 OPEN |
+| **EMITTER_A** | ShipProfile 장비 방사원 등록 + 공통 ShipRuntime 어댑터 | 완료, PR #73 사용자 병합 |
+| **EMCON_B** | 범주·장비 방사 통제 + profile UI + 실제 gate | Commit A 기준 감사 완료, 구현 진행 중 |
 
 ## EMITTER_A 결과 요약
 
@@ -43,7 +44,8 @@
 - 종료 보정: ACTIVE legacy resolver 0, declared resolver 1회/함정. exact 출력/RNG, performance 1.0345×, clean-clone portability PASS.
 - 전용 `AEGIS current candidate` Actions run `42373876872` PASS. 기존 광역은 pre-closure 증거이며 반복·재표기하지 않았다.
 - 신규 실패·기대값·허용오차 변경 0. 제품/범위/부채는 `docs/electronic/emitter/A/FINAL_REPORT.md` 참조.
-- 다음은 EMCON_B. EMITTER_A PR #73은 OPEN이며 main 병합·release·tag는 하지 않았다.
+- EMITTER_A PR #73은 사용자 결정으로 병합됐다. release/tag는 없다.
+- EMCON_B Commit A는 제품을 바꾸지 않고 master owner/consumer, baseline 함수 해시와 대표 snapshot을 고정했다.
 
 ## U3 결과 요약 (병합 기준)
 
