@@ -112,6 +112,18 @@ def wrap_functions_by_scope(source: str, name: str, legacy: str, wrappers: list[
     return source
 
 
+def replace_in_function(source: str, name: str, old: str, new: str, label: str) -> str:
+    spans = function_spans(source, name)
+    if len(spans) != 1:
+        raise AssertionError(f"{label}: expected one {name} declaration, got {len(spans)}")
+    start, end = spans[0]
+    body = source[start:end]
+    if body.count(old) != 1:
+        raise AssertionError(f"{label}: expected one anchor in {name}, got {body.count(old)}")
+    body = body.replace(old, new, 1)
+    return source[:start] + body + source[end:]
+
+
 def transform_a(source: str, mode: str) -> str:
     source = one(
         source,
@@ -187,6 +199,49 @@ def transform_b(source: str, mode: str) -> str:
     return one(source, old, new, "B U2 public contract")
 
 
+def transform_c(source: str, mode: str) -> str:
+    # Association selection consumes anonymous numeric scores only.  Existing
+    # weapon hooks continue to own prediction, covariance, NIS/absolute gates
+    # and candidate construction.
+    source = replace_in_function(source, "asmSeekerAssociateMeasurements", "scored.sort((a,b)=>b.score-a.score);const b=scored[0]", "const b=scored[seekerU4SelectIndexC('ASM',scored.map(q=>q.score),'MAX')]", "C ASM association")
+    source = replace_in_function(source, "_sarhAssociateMeasurements", "scored.sort((a,b)=>b.score-a.score);const b=scored[0]", "const b=scored[seekerU4SelectIndexC('SARH',scored.map(q=>q.score),'MAX')]", "C SARH association")
+    source = replace_in_function(source, "_arhAssociateMeasurements", "scored.sort((a,b)=>b.score-a.score);const b=scored[0],mm=b.mm", "const b=scored[seekerU4SelectIndexC('ARH',scored.map(q=>q.score),'MAX')],mm=b.mm", "C ARH association")
+    source = replace_in_function(source, "harpoonSeekerA", "candidates.sort((a,b)=>a.score-b.score);const best=candidates[0]", "const best=candidates[seekerU4SelectIndexC('HARPOON',candidates.map(q=>q.score),'MIN')]", "C Harpoon association")
+
+    source = wrap_functions(source, "_sarhUpdateStateMachine", "_sarhUpdateStateMachineLegacyU4C", """function _sarhUpdateStateMachine(s,accepted,period,hasIll){
+    // Preserved WIP61 contract: if(s.mode==='ACQUIRE')s.acquireHits=0;
+    // Preserved WIP61 contract: if(s.mode==='REACQUIRE')s.reacquireHits=0;
+    if(SEEKER_U4_COMMON_MODE_C==='ACTIVE')return seekerU4SarhStateC(s,accepted,period,hasIll,SAM_SARH_RF_PROFILE);
+    const shadow={...s};seekerU4SarhStateC(shadow,accepted,period,hasIll,SAM_SARH_RF_PROFILE);const legacy=_sarhUpdateStateMachineLegacyU4C(s,accepted,period,hasIll);return seekerU4ShadowStateC('SARH',s,shadow,legacy,{accepted,illuminationAvailable:hasIll});
+  }""", 1)
+    source = wrap_functions(source, "_arhUpdateStateMachine", "_arhUpdateStateMachineLegacyU4C", """function _arhUpdateStateMachine(s,accepted,period,active){
+    const p=getEssmArhProfile();if(SEEKER_U4_COMMON_MODE_C==='ACTIVE')return seekerU4ArhStateC(s,accepted,period,active,p);
+    const shadow={...s};seekerU4ArhStateC(shadow,accepted,period,active,p);const legacy=_arhUpdateStateMachineLegacyU4C(s,accepted,period,active);return seekerU4ShadowStateC('ARH',s,shadow,legacy,{accepted,signalAvailable:active});
+  }""", 1)
+    source = wrap_functions(source, "ramUpdateAngularTrack", "ramUpdateAngularTrackLegacyU4C", """function ramUpdateAngularTrack(tr,meas,dt,cfg){
+    if(SEEKER_U4_COMMON_MODE_C==='ACTIVE')return seekerU4RamStateC(tr,meas,dt,cfg);
+    const shadow={...tr};seekerU4RamStateC(shadow,meas,dt,cfg);const legacy=ramUpdateAngularTrackLegacyU4C(tr,meas,dt,cfg);return seekerU4ShadowStateC('RAM',tr,shadow,legacy,{accepted:!!meas,signalAvailable:!!meas});
+  }""", 1)
+    source = wrap_functions(source, "updateAsmSeeker", "updateAsmSeekerLegacyU4C", """function updateAsmSeeker(em,dt){
+    // Preserved WIP68 phase guard in the ASM policy hook: em.label!=='Kh-32'.
+    return seekerU4RunPolicyC('ASM',()=>em?.seeker,()=>updateAsmSeekerLegacyU4C(em,dt),{signalAvailable:!!em?.seekerOn,destroyed:em?.alive===false});
+  }""", 1)
+    source = wrap_functions(source, "harpoonSeekerA", "harpoonSeekerALegacyU4C", """function harpoonSeekerA(m,dt,diagnosticObservations=null){
+    return seekerU4RunPolicyC('HARPOON',()=>m?.seeker,()=>harpoonSeekerALegacyU4C(m,dt,diagnosticObservations),{signalAvailable:m?.seeker?.active!==false,retired:m?.alive===false});
+  }""", 1)
+    module = (HERE / "association_state_c.js").read_text().replace("__MODE__", mode).rstrip()
+    anchor = source.find("function runCoreUnitSelfTests(){")
+    if anchor < 0:
+        raise AssertionError("C common engine anchor missing")
+    source = source[:anchor] + module + "\n\n" + source[anchor:]
+    old = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic','adaptRamPassive']),shadowComponents:Object.freeze([]),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC','RAM_PASSIVE_RF','RAM_PASSIVE_IR']),shadowFamilies:Object.freeze([]),sarhMode:'ACTIVE',ramMode:'ACTIVE',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    if mode == "ACTIVE":
+        new = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic','adaptRamPassive','associateAndTransition']),shadowComponents:Object.freeze([]),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC','RAM_PASSIVE_RF','RAM_PASSIVE_IR']),shadowFamilies:Object.freeze([]),sarhMode:'ACTIVE',ramMode:'ACTIVE',commonStateMode:'ACTIVE',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    else:
+        new = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic','adaptRamPassive']),shadowComponents:Object.freeze(['associateAndTransition']),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC','RAM_PASSIVE_RF','RAM_PASSIVE_IR']),shadowFamilies:Object.freeze(['COMMON_ASSOCIATION_STATE']),sarhMode:'ACTIVE',ramMode:'ACTIVE',commonStateMode:'SHADOW',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    return one(source, old, new, "C U2 public contract")
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0); encoded = base64.b64encode(packed)
     output = raw[:match.start(1)] + encoded + raw[match.end(1):]
@@ -213,17 +268,19 @@ def main() -> None:
     elif args.through == "B":
         after = transform_b(transform_a(before, "ACTIVE"), args.mode)
     else:
-        raise AssertionError("C transform is intentionally unavailable until the B gate passes")
+        after = transform_c(transform_b(transform_a(before, "ACTIVE"), "ACTIVE"), args.mode)
     output = repack(raw, after, match)
     args.out.parent.mkdir(parents=True, exist_ok=True); args.out.write_bytes(output)
     if args.diff:
         args.diff.write_text("".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="ESM_A/main.js", tofile=f"U4_A_{args.mode}/main.js", n=1)))
-    protected = ["allocateSARH", "_v1SelectGuidanceSource", "getSarhTargetStateV1", "_sarhReflectorBistaticRcsM2", "_sarhReceiverBeamGain", "_sarhIlluminatorBeamGain", "updateMissileBodyB3", "surfaceMissileReleaseGateWip13C4", "ramUpdateSeekerAuthority", "ramGuidanceFromEstimateB2", "harpoonSeekerA", "updateAsmSeeker"]
+    protected = ["allocateSARH", "_v1SelectGuidanceSource", "getSarhTargetStateV1", "_sarhReflectorBistaticRcsM2", "_sarhReceiverBeamGain", "_sarhIlluminatorBeamGain", "updateMissileBodyB3", "surfaceMissileReleaseGateWip13C4", "ramUpdateSeekerAuthority", "ramGuidanceFromEstimateB2", "asmHojGuidanceActive", "harpoonRouteStepE"]
     unchanged = {name: {"before": function_hashes(before, name), "after": function_hashes(after, name), "same": function_hashes(before, name) == function_hashes(after, name)} for name in protected}
     modules = {"A": sha((HERE/"sarh_adapter_a.js").read_bytes())}
     if args.through in ("B", "C"): modules["B"] = sha((HERE/"ram_adapter_b.js").read_bytes())
+    if args.through == "C": modules["C"] = sha((HERE/"association_state_c.js").read_bytes())
     wrapped_names = ["_sarhNormalizedBistaticPower","_sarhEchoesUnresolved","buildNavalSarhEchoPool","_sarhClusterEchoes","_sarhMonopulseMeasurement","_sarhBuildMeasurementSet"]
     if args.through in ("B", "C"): wrapped_names += ["ramEmitterStrength", "ramRfMeasurement", "ramIrMeasurement"]
+    if args.through == "C": wrapped_names += ["_sarhUpdateStateMachine", "_arhUpdateStateMachine", "ramUpdateAngularTrack", "updateAsmSeeker", "harpoonSeekerA"]
     receipt = {"schema":"AEGIS_SEEKER_UNIFY_U4_BUILD_1","through":args.through,"mode":args.mode,"baseSha256":sha(raw),"baseMainSha256":sha(before.encode()),
       "outputSha256":sha(output),"outputMainSha256":sha(after.encode()),"outputBytes":len(output),"moduleSha256":modules,
       "wrappedFunctions": {name: len(function_spans(before,name)) for name in wrapped_names},
