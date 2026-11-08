@@ -80,7 +80,7 @@ function esmValidateRawA(q,now=simStepCounter*SIM_FIXED_DT,expectedPlatform=null
 }
 function esmFingerprintScoreA(a,b){
   if(a.band!==b.band||a.emitterClass!==b.emitterClass||a.emitterClass!=='ACTIVE_SEEKER'&&a.type!==b.type)return Infinity;let score=0,terms=0;
-  for(const [value,sigma]of [['frequencyHz','frequencySigmaHz']])if(a[value]!=null&&b[value]!=null){score+=(a[value]-b[value])**2/Math.max(1e-12,a[sigma]**2+b[sigma]**2);terms++;}
+  if(a.frequencyHz!=null&&b.frequencyHz!=null){const corrected=q=>{const u={x:Math.cos(q.bearingRad)*Math.cos(q.elevationRad),y:Math.sin(q.bearingRad)*Math.cos(q.elevationRad),z:Math.sin(q.elevationRad)},v=q.receiver.velocityMps,doppler=1+(v.x*u.x+v.y*u.y+v.z*u.z)/ESM_A_SPEC.speedOfLightMps;return (q.frequencyHz-q.receiver.frequencyReferenceErrorHz)/doppler;},fa=corrected(a),fb=corrected(b),nuisance=Math.max(fa,fb)*ESM_A_SPEC.sourceMotionNuisanceSigmaMps/ESM_A_SPEC.speedOfLightMps,sigma2=a.frequencySigmaHz**2+b.frequencySigmaHz**2+nuisance*nuisance;score+=(fa-fb)**2/Math.max(1e-12,sigma2);terms++;}
   for(const [value,sigma]of [['scanPeriodS','scanPeriodSigmaS'],['priS','priSigmaS'],['pulseWidthS','pulseWidthSigmaS']]){const x=a.fingerprint?.[value],y=b.fingerprint?.[value];if(x!=null&&y!=null){score+=(x-y)**2/Math.max(1e-18,a.fingerprint[sigma]**2+b.fingerprint[sigma]**2);terms++;}}
   if(!terms)return a.type===b.type&&a.emitterClass===b.emitterClass?1:Infinity;return score;
 }
@@ -105,8 +105,8 @@ function esmEllipseA(cov){const a=cov[0],b=(cov[1]+cov[2])*.5,d=cov[3],root=Math
 function esmPairConstraintsA(rows){
   const pairs=[];for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++){const a=rows[i],b=rows[j];if(a.receiver.platformId===b.receiver.platformId||Math.abs(a.measuredAtS-b.measuredAtS)>ESM_A_SPEC.rawPairWindowS)continue;
     const ta=a.arrivalTimeS-a.receiver.clockBiasS,tb=b.arrivalTimeS-b.receiver.clockBiasS,dt=tb-ta,sigmaT=Math.hypot(a.arrivalTimeSigmaS,b.arrivalTimeSigmaS,a.receiver.clockBiasSigmaS,b.receiver.clockBiasSigmaS,Math.abs(dt)*a.receiver.clockDriftSigmaSps,Math.abs(dt)*b.receiver.clockDriftSigmaSps);
-    const tdoa={a,b,deltaRangeM:dt*ESM_A_SPEC.speedOfLightMps,sigmaM:sigmaT*ESM_A_SPEC.speedOfLightMps};let fdoa=null;
-    if(a.frequencyHz!=null&&b.frequencyHz!=null){const fa=a.frequencyHz-a.receiver.frequencyReferenceErrorHz,fb=b.frequencyHz-b.receiver.frequencyReferenceErrorHz,sigmaHz=Math.hypot(a.frequencySigmaHz,b.frequencySigmaHz,a.receiver.frequencyReferenceSigmaHz,b.receiver.frequencyReferenceSigmaHz),carrier=(fa+fb)/2;fdoa={a,b,deltaHz:fb-fa,sigmaHz:Math.hypot(sigmaHz,carrier*ESM_A_SPEC.sourceMotionNuisanceSigmaMps/ESM_A_SPEC.speedOfLightMps),carrierHz:carrier};}
+    const tdoa={a,b,deltaRangeM:dt*ESM_A_SPEC.speedOfLightMps,sigmaM:sigmaT*ESM_A_SPEC.speedOfLightMps};if(tdoa.sigmaM>ESM_A_SPEC.geolocateMajor95MaxM)continue;let fdoa=null;
+    if(a.frequencyHz!=null&&b.frequencyHz!=null){const fa=a.frequencyHz-a.receiver.frequencyReferenceErrorHz,fb=b.frequencyHz-b.receiver.frequencyReferenceErrorHz,sigmaHz=Math.hypot(a.frequencySigmaHz,b.frequencySigmaHz,a.receiver.frequencyReferenceSigmaHz,b.receiver.frequencyReferenceSigmaHz),carrier=(fa+fb)/2,combined=Math.hypot(sigmaHz,carrier*ESM_A_SPEC.sourceMotionNuisanceSigmaMps/ESM_A_SPEC.speedOfLightMps);if(combined*ESM_A_SPEC.speedOfLightMps/carrier<=ESM_A_SPEC.sourceMotionNuisanceSigmaMps*4)fdoa={a,b,deltaHz:fb-fa,sigmaHz:combined,carrierHz:carrier};}
     pairs.push({tdoa,fdoa});
   }return pairs;
 }
@@ -116,14 +116,19 @@ function esmConstraintResidualsA(point,pairs,useFdoa=true){
   }return out;
 }
 function esmRefineConstraintsA(seed,pairs){
-  if(!seed||!pairs.length)return {point:seed,used:[]};let p={...seed},used=[];
-  for(let iter=0;iter<8;iter++){let a=0,b=0,d=0,e=0,f=0;const base=esmConstraintResidualsA(p,pairs),eps=10;used=[...new Set(base.map(q=>q.kind))];for(let i=0;i<base.length;i++){const rx=esmConstraintResidualsA({x:p.x+eps,y:p.y},pairs)[i].r,ry=esmConstraintResidualsA({x:p.x,y:p.y+eps},pairs)[i].r,gx=(rx-base[i].r)/eps,gy=(ry-base[i].r)/eps;a+=gx*gx;b+=gx*gy;d+=gy*gy;e-=gx*base[i].r;f-=gy*base[i].r;}const step=esmSolve2A(a,b,b,d,e,f);if(!step)break;const mag=Math.hypot(step.x,step.y),scale=Math.min(1,20000/Math.max(1,mag));p.x+=step.x*scale;p.y+=step.y*scale;if(mag<.1)break;}return {point:p,used};
+  if(!seed||!pairs.length)return {point:seed,used:[],covarianceM2:null};let p={...seed},used=[],hessian=null;
+  for(let iter=0;iter<8;iter++){let a=0,b=0,d=0,e=0,f=0;const base=esmConstraintResidualsA(p,pairs),eps=10;used=[...new Set(base.map(q=>q.kind))];for(let i=0;i<base.length;i++){const rx=esmConstraintResidualsA({x:p.x+eps,y:p.y},pairs)[i].r,ry=esmConstraintResidualsA({x:p.x,y:p.y+eps},pairs)[i].r,gx=(rx-base[i].r)/eps,gy=(ry-base[i].r)/eps;a+=gx*gx;b+=gx*gy;d+=gy*gy;e-=gx*base[i].r;f-=gy*base[i].r;}hessian={a,b,d};const step=esmSolve2A(a,b,b,d,e,f);if(!step)break;const mag=Math.hypot(step.x,step.y),scale=Math.min(1,20000/Math.max(1,mag));p.x+=step.x*scale;p.y+=step.y*scale;if(mag<.1)break;}let covarianceM2=null;if(hessian){const x=esmSolve2A(hessian.a,hessian.b,hessian.b,hessian.d,1,0),y=esmSolve2A(hessian.a,hessian.b,hessian.b,hessian.d,0,1);if(x&&y)covarianceM2=[x.x,y.x,x.y,y.y];}return {point:p,used,covarianceM2};
+}
+function esmTdoaSeedA(rows,pairs){
+  const receivers=[...new Map(rows.map(q=>[q.receiver.platformId,q.receiver.positionM])).values()];if(receivers.length<3||pairs.length<2)return null;const cx=receivers.reduce((s,q)=>s+q.x,0)/receivers.length,cy=receivers.reduce((s,q)=>s+q.y,0)/receivers.length;
+  let best=null;for(const radius of [ESM_A_SPEC.rangeHypothesisMinM,2000,5000,10000,20000,40000,80000,120000,ESM_A_SPEC.rangeHypothesisMaxM])for(let i=0;i<72;i++){const a=i*TAU/72,p={x:cx+Math.cos(a)*radius,y:cy+Math.sin(a)*radius},cost=esmConstraintResidualsA(p,pairs,false).reduce((s,q)=>s+q.r*q.r,0);if(!best||cost<best.cost)best={...p,cost};}return best&&{x:best.x,y:best.y};
 }
 function esmEstimateHistoryA(history,now=simStepCounter*SIM_FIXED_DT){
   const rows=history.slice(-ESM_A_SPEC.historyMax).sort((a,b)=>a.measuredAtS-b.measuredAtS||a.observationId.localeCompare(b.observationId)),latest=rows.at(-1);if(!latest)return {state:'LOST',measuredAtS:null,ageS:Infinity,methods:[],sourceCount:0,modes:[]};
   const age=Math.max(0,now-latest.measuredAtS),origins=[...new Set(rows.map(q=>q.receiver.platformId+':'+Math.round(q.receiver.positionM.x)+':'+Math.round(q.receiver.positionM.y)))],baseline=rows.reduce((m,a,i)=>Math.max(m,...rows.slice(i+1).map(b=>esmOriginDistanceA(a,b))),0),cross=esmMaxCrossingA(rows),aoa=baseline>=ESM_A_SPEC.originBaselineMinM&&cross>=deg(ESM_A_SPEC.crossingAngleMinDeg)?esmAoaSolveA(rows):null,pairs=esmPairConstraintsA(rows);
   let solve=aoa,methods=aoa?['AOA']:[];
-  if(aoa&&pairs.length){const refined=esmRefineConstraintsA(aoa.point,pairs);solve={...aoa,point:refined.point};methods.push(...refined.used);}
+  if(aoa&&pairs.length){const refined=esmRefineConstraintsA(aoa.point,pairs);solve={...aoa,point:refined.point,covarianceM2:refined.covarianceM2??aoa.covarianceM2};methods.push(...refined.used);}
+  else if(!aoa&&pairs.length){const seed=esmTdoaSeedA(rows,pairs),refined=esmRefineConstraintsA(seed,pairs);if(seed&&refined.covarianceM2)solve={point:refined.point,covarianceM2:refined.covarianceM2};methods.push(...refined.used);}
   const base={measuredAtS:latest.measuredAtS,ageS:age,methods:[...new Set(methods)],sourceCount:new Set(rows.map(q=>q.receiver.platformId)).size,baselineM:baseline,crossingAngleDeg:rad2deg(cross),latestOriginM:{...latest.receiver.positionM},latestBearingRad:latest.bearingRad,historyCount:rows.length};
   if(!solve){const state=rows.length===1||baseline<ESM_A_SPEC.originBaselineMinM?'BEARING_ONLY':'LIKELIHOOD_REGION',mode={kind:'RAY',originM:{...latest.receiver.positionM},bearingRad:latest.bearingRad,sigmaRad:Math.sqrt(latest.angleCovarianceRad2[0]),minRangeM:ESM_A_SPEC.rangeHypothesisMinM,maxRangeM:ESM_A_SPEC.rangeHypothesisMaxM};return {...base,state:age>=ELECTRONIC_POLICY_F.holdS?'LOST':age>ESM_A_SPEC.coastAfterS?'COAST':state,modes:[mode],positionM:null,covarianceM2:null,ellipse95:null};}
   const forward=rows.every(q=>(solve.point.x-q.receiver.positionM.x)*Math.cos(q.bearingRad)+(solve.point.y-q.receiver.positionM.y)*Math.sin(q.bearingRad)>0),ellipse=esmEllipseA(solve.covarianceM2),bounded=Math.hypot(solve.point.x-latest.receiver.positionM.x,solve.point.y-latest.receiver.positionM.y)<=ESM_A_SPEC.rangeHypothesisMaxM,geolocated=forward&&bounded&&ellipse.major95M<=ESM_A_SPEC.geolocateMajor95MaxM;

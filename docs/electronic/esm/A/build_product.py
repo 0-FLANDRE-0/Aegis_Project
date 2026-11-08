@@ -82,10 +82,10 @@ def transform(source: str, stage: str) -> str:
 
     if stage in ("C", "D", "E"):
         network = (HERE / "esm_network.js").read_text()
-        source = inject_after_function(source, "networkFixedStepG", network)
         old = "  }\n}\nfunction networkSnapshotG()"
         new = "  }\n  esmNetworkFixedStepA(dt);\n}\nfunction networkSnapshotG()"
         source = one(source, old, new, "ESM raw network fixed step")
+        source = inject_after_function(source, "networkFixedStepG", network)
 
     if stage in ("D", "E"):
         ui = (HERE / "esm_ui.js").read_text().rstrip() + "\n"
