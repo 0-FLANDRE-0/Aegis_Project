@@ -99,6 +99,19 @@ def wrap_functions(source: str, name: str, legacy: str, wrapper: str, expected: 
     return source
 
 
+def wrap_functions_by_scope(source: str, name: str, legacy: str, wrappers: list[str]) -> str:
+    """Wrap same-named declarations in source order with scope-specific wrappers."""
+    spans = function_spans(source, name)
+    if len(spans) != len(wrappers):
+        raise AssertionError(f"{name}: expected {len(wrappers)} executable declarations, got {len(spans)}")
+    for index in range(len(spans) - 1, -1, -1):
+        start, end = spans[index]
+        original = source[start:end]
+        renamed = re.sub(rf"(function\s+){re.escape(name)}(\s*\()", rf"\1{legacy}\2", original, count=1)
+        source = source[:start] + renamed + "\n" + wrappers[index].rstrip() + source[end:]
+    return source
+
+
 def transform_a(source: str, mode: str) -> str:
     source = one(
         source,
@@ -141,6 +154,39 @@ def transform_a(source: str, mode: str) -> str:
     return source
 
 
+def transform_b(source: str, mode: str) -> str:
+    source = wrap_functions(source, "ramEmitterStrength", "ramEmitterStrengthLegacyU4B", """function ramEmitterStrength(em){
+    const legacy=ramEmitterStrengthLegacyU4B(em),common=seekerU4RamEmitterStrengthB(em);seekerU4RamCompareEmitterB(legacy,common);return SEEKER_U4_RAM_MODE_B==='ACTIVE'?common:legacy;
+  }""", 1)
+    source = wrap_functions_by_scope(source, "ramRfMeasurement", "ramRfMeasurementLegacyU4B", [
+        """function ramRfMeasurement(rm,dt){
+    const legacy=ramRfMeasurementLegacyU4B(rm,dt),route=seekerU4RamRouteB('RF','OWNER',legacy);return SEEKER_U4_RAM_MODE_B==='ACTIVE'?route.tacticalValue:legacy;
+  }""",
+        """function ramRfMeasurement(rm,dt){
+    const legacy=ramRfMeasurementLegacyU4B(rm,dt),route=seekerU4RamRouteB('RF','PLAYER',legacy);return SEEKER_U4_RAM_MODE_B==='ACTIVE'?route.tacticalValue:legacy;
+  }""",
+    ])
+    source = wrap_functions_by_scope(source, "ramIrMeasurement", "ramIrMeasurementLegacyU4B", [
+        """function ramIrMeasurement(rm,dt){
+    const legacy=ramIrMeasurementLegacyU4B(rm,dt),route=seekerU4RamRouteB('IR','OWNER',legacy);return SEEKER_U4_RAM_MODE_B==='ACTIVE'?route.tacticalValue:legacy;
+  }""",
+        """function ramIrMeasurement(rm,dt){
+    const legacy=ramIrMeasurementLegacyU4B(rm,dt),route=seekerU4RamRouteB('IR','PLAYER',legacy);return SEEKER_U4_RAM_MODE_B==='ACTIVE'?route.tacticalValue:legacy;
+  }""",
+    ])
+    module = (HERE / "ram_adapter_b.js").read_text().replace("__MODE__", mode).rstrip()
+    anchor = source.find("function runCoreUnitSelfTests(){")
+    if anchor < 0:
+        raise AssertionError("B early RAM module anchor missing")
+    source = source[:anchor] + module + "\n\n" + source[anchor:]
+    old = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic']),shadowComponents:Object.freeze([]),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC']),shadowFamilies:Object.freeze([]),sarhMode:'ACTIVE',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    if mode == "ACTIVE":
+        new = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic','adaptRamPassive']),shadowComponents:Object.freeze([]),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC','RAM_PASSIVE_RF','RAM_PASSIVE_IR']),shadowFamilies:Object.freeze([]),sarhMode:'ACTIVE',ramMode:'ACTIVE',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    else:
+        new = "  activeComponents:Object.freeze(['synthesizeEchoes','resolveCells','adaptSarhBistatic']),shadowComponents:Object.freeze(['adaptRamPassive']),activeFamilies:Object.freeze(['ASM_WIP22','SAM_ARH','HARPOON','SARH_BISTATIC']),shadowFamilies:Object.freeze(['RAM_PASSIVE_RF','RAM_PASSIVE_IR']),sarhMode:'ACTIVE',ramMode:'SHADOW',reset:()=>undefined,snapshot:seekerU2ActiveSnapshot,"
+    return one(source, old, new, "B U2 public contract")
+
+
 def repack(raw: bytes, source: str, match: re.Match[bytes]) -> bytes:
     packed = gzip.compress(source.encode(), 9, mtime=0); encoded = base64.b64encode(packed)
     output = raw[:match.start(1)] + encoded + raw[match.end(1):]
@@ -159,19 +205,28 @@ def main() -> None:
     ap.add_argument("--receipt", type=Path, required=True)
     ap.add_argument("--diff", type=Path)
     args = ap.parse_args()
-    if args.through != "A":
-        raise AssertionError("B/C transforms are intentionally unavailable until their preceding gate passes")
     raw = BASE.read_bytes()
     if sha(raw) != BASE_SHA: raise AssertionError("pinned ESM_A product SHA mismatch")
-    before, match = unpack(raw); after = transform_a(before, args.mode); output = repack(raw, after, match)
+    before, match = unpack(raw)
+    if args.through == "A":
+        after = transform_a(before, args.mode)
+    elif args.through == "B":
+        after = transform_b(transform_a(before, "ACTIVE"), args.mode)
+    else:
+        raise AssertionError("C transform is intentionally unavailable until the B gate passes")
+    output = repack(raw, after, match)
     args.out.parent.mkdir(parents=True, exist_ok=True); args.out.write_bytes(output)
     if args.diff:
         args.diff.write_text("".join(difflib.unified_diff(before.splitlines(True), after.splitlines(True), fromfile="ESM_A/main.js", tofile=f"U4_A_{args.mode}/main.js", n=1)))
     protected = ["allocateSARH", "_v1SelectGuidanceSource", "getSarhTargetStateV1", "_sarhReflectorBistaticRcsM2", "_sarhReceiverBeamGain", "_sarhIlluminatorBeamGain", "updateMissileBodyB3", "surfaceMissileReleaseGateWip13C4", "ramUpdateSeekerAuthority", "ramGuidanceFromEstimateB2", "harpoonSeekerA", "updateAsmSeeker"]
     unchanged = {name: {"before": function_hashes(before, name), "after": function_hashes(after, name), "same": function_hashes(before, name) == function_hashes(after, name)} for name in protected}
+    modules = {"A": sha((HERE/"sarh_adapter_a.js").read_bytes())}
+    if args.through in ("B", "C"): modules["B"] = sha((HERE/"ram_adapter_b.js").read_bytes())
+    wrapped_names = ["_sarhNormalizedBistaticPower","_sarhEchoesUnresolved","buildNavalSarhEchoPool","_sarhClusterEchoes","_sarhMonopulseMeasurement","_sarhBuildMeasurementSet"]
+    if args.through in ("B", "C"): wrapped_names += ["ramEmitterStrength", "ramRfMeasurement", "ramIrMeasurement"]
     receipt = {"schema":"AEGIS_SEEKER_UNIFY_U4_BUILD_1","through":args.through,"mode":args.mode,"baseSha256":sha(raw),"baseMainSha256":sha(before.encode()),
-      "outputSha256":sha(output),"outputMainSha256":sha(after.encode()),"outputBytes":len(output),"moduleSha256":sha((HERE/"sarh_adapter_a.js").read_bytes()),
-      "wrappedFunctions": {name: len(function_spans(before,name)) for name in ("_sarhNormalizedBistaticPower","_sarhEchoesUnresolved","buildNavalSarhEchoPool","_sarhClusterEchoes","_sarhMonopulseMeasurement","_sarhBuildMeasurementSet")},
+      "outputSha256":sha(output),"outputMainSha256":sha(after.encode()),"outputBytes":len(output),"moduleSha256":modules,
+      "wrappedFunctions": {name: len(function_spans(before,name)) for name in wrapped_names},
       "unchangedFunctions":unchanged,"broadRegressionRun":False,"release":False}
     args.receipt.parent.mkdir(parents=True,exist_ok=True);args.receipt.write_text(json.dumps(receipt,indent=2)+"\n")
     print(json.dumps(receipt))

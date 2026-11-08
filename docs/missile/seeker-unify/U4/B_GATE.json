@@ -1,0 +1,1604 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U4_B_GATE_1",
+  "status": "PASS",
+  "elapsedS": 56.190938298008405,
+  "broadRegressionRun": false,
+  "representativeBranchesPerMode": 12,
+  "checks": {
+    "shadowMotionEqual": true,
+    "shadowRfEqual": true,
+    "shadowIrEqual": true,
+    "activeDeterministic": true,
+    "shadowContract": true,
+    "activeContract": true,
+    "activeRoutesBothSensors": true,
+    "ownershipDifferenceObserved": true,
+    "activeFlightFinite": true,
+    "coreSelfTests": true,
+    "pageErrorsZero": true
+  },
+  "baseline": {
+    "path": "U4_A_ACTIVE.html",
+    "sha256": "cb463f27c4f3b25a6e2b4fe1adf1e3029a58bee4725f7e5e40ec542518b95d66",
+    "core": [],
+    "motion": {
+      "weapon": "RAM",
+      "label": "Kh-35U",
+      "speedKt": 0,
+      "seed": 107401,
+      "durationS": 20.78333333333333,
+      "prox": false,
+      "result": null,
+      "terminalReason": null,
+      "shipHit": true,
+      "targetAlive": false,
+      "intercept": false
+    },
+    "rf": {
+      "wip": "WIP146",
+      "seed": 146101,
+      "emitter": true,
+      "rangeM": 8000,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 117,
+        "minProjectedAltM": -0.016187549226284403
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.3583333333333336,
+          "mode": "RF",
+          "reason": "RF_PROMOTE"
+        },
+        {
+          "tS": 0.7999999999999996,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 1.6249999999999967,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.54999999999999,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.9999999999999885,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 4.225,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 9.325000000000111,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 9.375000000000108,
+          "mode": "MEM",
+          "reason": "RF_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 9.682619582240964,
+      "maxAltM": 135.73439650557944,
+      "closestM": 2.3883644426386947,
+      "closestTimeS": 9.11666666666679,
+      "durationS": 9.46666666666677,
+      "finalAltM": 9.682619582240964,
+      "finalSpeedMps": 564.4933271581822,
+      "finalVelPitchDeg": -0.8487960498297724,
+      "finalMode": "MEM",
+      "lastSwitchReason": "RF_DROPOUT",
+      "steps": 1135
+    },
+    "ir": {
+      "wip": "WIP146",
+      "seed": 146102,
+      "emitter": false,
+      "rangeM": 6500,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 190,
+        "minProjectedAltM": -2.3314073186687274
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.7,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 0.8749999999999993,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.0749999999999953,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.6249999999999933,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.249999999999991,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.9249999999999887,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 7.625000000000169,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 7.0930083612562616,
+      "maxAltM": 53.08157468950057,
+      "closestM": 1.436802693915217,
+      "closestTimeS": 7.400000000000158,
+      "durationS": 7.750000000000175,
+      "finalAltM": 33.43291840270055,
+      "finalSpeedMps": 602.1170142868856,
+      "finalVelPitchDeg": 9.470546854213662,
+      "finalMode": "MEM",
+      "lastSwitchReason": "IR_DROPOUT",
+      "steps": 929
+    },
+    "synthetic": null,
+    "errors": []
+  },
+  "shadow": {
+    "path": "U4_B_SHADOW.html",
+    "sha256": "ee4602ed6d1b7ceade5ed75f0e1aaa0526f7cb9dfd3b7304910f26f1c108c478",
+    "core": [],
+    "motion": {
+      "weapon": "RAM",
+      "label": "Kh-35U",
+      "speedKt": 0,
+      "seed": 107401,
+      "durationS": 20.78333333333333,
+      "prox": false,
+      "result": null,
+      "terminalReason": null,
+      "shipHit": true,
+      "targetAlive": false,
+      "intercept": false
+    },
+    "rf": {
+      "wip": "WIP146",
+      "seed": 146101,
+      "emitter": true,
+      "rangeM": 8000,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 117,
+        "minProjectedAltM": -0.016187549226284403
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.3583333333333336,
+          "mode": "RF",
+          "reason": "RF_PROMOTE"
+        },
+        {
+          "tS": 0.7999999999999996,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 1.6249999999999967,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.54999999999999,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.9999999999999885,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 4.225,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 9.325000000000111,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 9.375000000000108,
+          "mode": "MEM",
+          "reason": "RF_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 9.682619582240964,
+      "maxAltM": 135.73439650557944,
+      "closestM": 2.3883644426386947,
+      "closestTimeS": 9.11666666666679,
+      "durationS": 9.46666666666677,
+      "finalAltM": 9.682619582240964,
+      "finalSpeedMps": 564.4933271581822,
+      "finalVelPitchDeg": -0.8487960498297724,
+      "finalMode": "MEM",
+      "lastSwitchReason": "RF_DROPOUT",
+      "steps": 1135
+    },
+    "ir": {
+      "wip": "WIP146",
+      "seed": 146102,
+      "emitter": false,
+      "rangeM": 6500,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 190,
+        "minProjectedAltM": -2.3314073186687274
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.7,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 0.8749999999999993,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.0749999999999953,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.6249999999999933,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.249999999999991,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.9249999999999887,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 7.625000000000169,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 7.0930083612562616,
+      "maxAltM": 53.08157468950057,
+      "closestM": 1.436802693915217,
+      "closestTimeS": 7.400000000000158,
+      "durationS": 7.750000000000175,
+      "finalAltM": 33.43291840270055,
+      "finalSpeedMps": 602.1170142868856,
+      "finalVelPitchDeg": 9.470546854213662,
+      "finalMode": "MEM",
+      "lastSwitchReason": "IR_DROPOUT",
+      "steps": 929
+    },
+    "synthetic": {
+      "mode": "SHADOW",
+      "rf": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_RF_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          1.9495514866349354e-06,
+          0,
+          0,
+          3.046174197867086e-06
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": null,
+        "scanPhaseRad": null,
+        "observationOwner": "PLAYER_WEAPON"
+      },
+      "ir": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_IR_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          4.283682465750589e-07,
+          0,
+          0,
+          6.872930533937611e-07
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": 31,
+        "scanPhaseRad": 0.5,
+        "observationOwner": "SHIP_OWNED_WEAPON"
+      },
+      "ownerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "RF",
+        "origin": "OWNER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_RF_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            1.9495514866349354e-06,
+            0,
+            0,
+            3.046174197867086e-06
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": null,
+          "scanPhaseRad": null,
+          "observationOwner": "SHIP_OWNED_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": false,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "playerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "IR",
+        "origin": "PLAYER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_IR_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            4.283682465750589e-07,
+            0,
+            0,
+            6.872930533937611e-07
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "observationOwner": "PLAYER_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": false,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "emitters": [
+        {
+          "name": "off",
+          "legacy": 0,
+          "physical": 0,
+          "routed": 0
+        },
+        {
+          "name": "default",
+          "legacy": 1.0625,
+          "physical": 1.0625,
+          "routed": 1.0625
+        },
+        {
+          "name": "lowLocalQuality",
+          "legacy": 0.7875000000000001,
+          "physical": 1.0625,
+          "routed": 0.7875000000000001
+        },
+        {
+          "name": "highLocalQuality",
+          "legacy": 1.2000000000000002,
+          "physical": 1.0625,
+          "routed": 1.2000000000000002
+        }
+      ],
+      "authority": {
+        "schema": "AEGIS_SEEKER_U4_RAM_AUTHORITY_MATRIX_B_1",
+        "rfTimeline": [
+          "MEM",
+          "RF"
+        ],
+        "irTimeline": [
+          "MEM",
+          "IR"
+        ],
+        "bothTimeline": [
+          "MEM",
+          "RF",
+          "IR"
+        ],
+        "irDropout": [
+          "IR",
+          "RF"
+        ],
+        "allDropout": [
+          "RF",
+          "MEM"
+        ],
+        "isolation": {
+          "separateTracks": true,
+          "a": "RF",
+          "b": "MEM",
+          "switchA": 1,
+          "switchB": 0
+        },
+        "pass": true
+      },
+      "ownership": {
+        "defectConfirmed": true,
+        "fixedPathIndependent": true,
+        "authorityLocal": true,
+        "guidanceLocal": true
+      },
+      "snapshot": {
+        "schema": "AEGIS_SEEKER_U4_RAM_SNAPSHOT_B_1",
+        "mode": "SHADOW",
+        "profile": {
+          "schema": "AEGIS_SEEKER_U4_RAM_PROFILE_B_1",
+          "family": "RAM_BLK1A",
+          "rf": {
+            "dimension": "PASSIVE_RF_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "ir": {
+            "dimension": "PASSIVE_IR_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "rngOwner": "WEAPON_OWNER_EXISTING_HANDLE",
+          "authorityOwner": "RAM_LOCAL_RUNTIME",
+          "emitterSignalOwnership": "EMITTER_PLATFORM_AND_PROPAGATION"
+        },
+        "rfRoutes": 2067,
+        "irRoutes": 2067,
+        "ownerRoutes": 1,
+        "playerRoutes": 4133,
+        "nullRoutes": 3531,
+        "truthFieldViolations": 0,
+        "emitterComparisons": 521,
+        "emitterOwnershipDifferences": 286,
+        "maxEmitterDifference": 0.2749999999999999,
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "tacticalOutputUsed": false,
+        "mutableTacticalSingleton": false
+      },
+      "checks": {
+        "rf2d": true,
+        "ir2d": true,
+        "truthFree": true,
+        "bothOrigins": true,
+        "offPreserved": true,
+        "defaultPreserved": true,
+        "defectObservable": true,
+        "modeRoute": true,
+        "authority": true,
+        "ownership": true,
+        "rngFree": true,
+        "truthOutputFalse": true
+      },
+      "pass": true
+    },
+    "errors": []
+  },
+  "active": {
+    "path": "U4_B_ACTIVE.html",
+    "sha256": "14eaae23642036cb3852cc950f187d69e64615eb1ec96ec9938a2dc03f0abd90",
+    "core": [],
+    "motion": {
+      "weapon": "RAM",
+      "label": "Kh-35U",
+      "speedKt": 0,
+      "seed": 107401,
+      "durationS": 20.78333333333333,
+      "prox": false,
+      "result": null,
+      "terminalReason": null,
+      "shipHit": true,
+      "targetAlive": false,
+      "intercept": false
+    },
+    "rf": {
+      "wip": "WIP146",
+      "seed": 146101,
+      "emitter": true,
+      "rangeM": 8000,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 129,
+        "minProjectedAltM": -3.4333788931982774
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.3583333333333336,
+          "mode": "RF",
+          "reason": "RF_PROMOTE"
+        },
+        {
+          "tS": 0.7999999999999996,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.2249999999999948,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.9249999999999923,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.1749999999999914,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 9.725000000000088,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 9.775000000000086,
+          "mode": "MEM",
+          "reason": "RF_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 10.71923349585729,
+      "maxAltM": 152.0656042526022,
+      "closestM": 4.909452268117275,
+      "closestTimeS": 9.550000000000098,
+      "durationS": 9.900000000000079,
+      "finalAltM": 10.71923349585729,
+      "finalSpeedMps": 475.4990943541957,
+      "finalVelPitchDeg": -1.3953437870442902,
+      "finalMode": "MEM",
+      "lastSwitchReason": "RF_DROPOUT",
+      "steps": 1187
+    },
+    "ir": {
+      "wip": "WIP146",
+      "seed": 146102,
+      "emitter": false,
+      "rangeM": 6500,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 190,
+        "minProjectedAltM": -2.3314073186687274
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.7,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 0.8749999999999993,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.0749999999999953,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.6249999999999933,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.249999999999991,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.9249999999999887,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 7.625000000000169,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 7.0930083612562616,
+      "maxAltM": 53.08157468950057,
+      "closestM": 1.436802693915217,
+      "closestTimeS": 7.400000000000158,
+      "durationS": 7.750000000000175,
+      "finalAltM": 33.43291840270055,
+      "finalSpeedMps": 602.1170142868856,
+      "finalVelPitchDeg": 9.470546854213662,
+      "finalMode": "MEM",
+      "lastSwitchReason": "IR_DROPOUT",
+      "steps": 929
+    },
+    "synthetic": {
+      "mode": "ACTIVE",
+      "rf": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_RF_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          1.9495514866349354e-06,
+          0,
+          0,
+          3.046174197867086e-06
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": null,
+        "scanPhaseRad": null,
+        "observationOwner": "PLAYER_WEAPON"
+      },
+      "ir": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_IR_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          4.283682465750589e-07,
+          0,
+          0,
+          6.872930533937611e-07
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": 31,
+        "scanPhaseRad": 0.5,
+        "observationOwner": "SHIP_OWNED_WEAPON"
+      },
+      "ownerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "RF",
+        "origin": "OWNER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_RF_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            1.9495514866349354e-06,
+            0,
+            0,
+            3.046174197867086e-06
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": null,
+          "scanPhaseRad": null,
+          "observationOwner": "SHIP_OWNED_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": true,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "playerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "IR",
+        "origin": "PLAYER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_IR_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            4.283682465750589e-07,
+            0,
+            0,
+            6.872930533937611e-07
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "observationOwner": "PLAYER_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": true,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "emitters": [
+        {
+          "name": "off",
+          "legacy": 0,
+          "physical": 0,
+          "routed": 0
+        },
+        {
+          "name": "default",
+          "legacy": 1.0625,
+          "physical": 1.0625,
+          "routed": 1.0625
+        },
+        {
+          "name": "lowLocalQuality",
+          "legacy": 0.7875000000000001,
+          "physical": 1.0625,
+          "routed": 1.0625
+        },
+        {
+          "name": "highLocalQuality",
+          "legacy": 1.2000000000000002,
+          "physical": 1.0625,
+          "routed": 1.0625
+        }
+      ],
+      "authority": {
+        "schema": "AEGIS_SEEKER_U4_RAM_AUTHORITY_MATRIX_B_1",
+        "rfTimeline": [
+          "MEM",
+          "RF"
+        ],
+        "irTimeline": [
+          "MEM",
+          "IR"
+        ],
+        "bothTimeline": [
+          "MEM",
+          "RF",
+          "IR"
+        ],
+        "irDropout": [
+          "IR",
+          "RF"
+        ],
+        "allDropout": [
+          "RF",
+          "MEM"
+        ],
+        "isolation": {
+          "separateTracks": true,
+          "a": "RF",
+          "b": "MEM",
+          "switchA": 1,
+          "switchB": 0
+        },
+        "pass": true
+      },
+      "ownership": {
+        "defectConfirmed": true,
+        "fixedPathIndependent": true,
+        "authorityLocal": true,
+        "guidanceLocal": true
+      },
+      "snapshot": {
+        "schema": "AEGIS_SEEKER_U4_RAM_SNAPSHOT_B_1",
+        "mode": "ACTIVE",
+        "profile": {
+          "schema": "AEGIS_SEEKER_U4_RAM_PROFILE_B_1",
+          "family": "RAM_BLK1A",
+          "rf": {
+            "dimension": "PASSIVE_RF_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "ir": {
+            "dimension": "PASSIVE_IR_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "rngOwner": "WEAPON_OWNER_EXISTING_HANDLE",
+          "authorityOwner": "RAM_LOCAL_RUNTIME",
+          "emitterSignalOwnership": "EMITTER_PLATFORM_AND_PROPAGATION"
+        },
+        "rfRoutes": 2119,
+        "irRoutes": 2119,
+        "ownerRoutes": 1,
+        "playerRoutes": 4237,
+        "nullRoutes": 3610,
+        "truthFieldViolations": 0,
+        "emitterComparisons": 534,
+        "emitterOwnershipDifferences": 299,
+        "maxEmitterDifference": 0.2749999999999999,
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "tacticalOutputUsed": true,
+        "mutableTacticalSingleton": false
+      },
+      "checks": {
+        "rf2d": true,
+        "ir2d": true,
+        "truthFree": true,
+        "bothOrigins": true,
+        "offPreserved": true,
+        "defaultPreserved": true,
+        "defectObservable": true,
+        "modeRoute": true,
+        "authority": true,
+        "ownership": true,
+        "rngFree": true,
+        "truthOutputFalse": true
+      },
+      "pass": true
+    },
+    "errors": []
+  },
+  "activeRepeat": {
+    "path": "U4_B_ACTIVE.html",
+    "sha256": "14eaae23642036cb3852cc950f187d69e64615eb1ec96ec9938a2dc03f0abd90",
+    "core": [],
+    "motion": {
+      "weapon": "RAM",
+      "label": "Kh-35U",
+      "speedKt": 0,
+      "seed": 107401,
+      "durationS": 20.78333333333333,
+      "prox": false,
+      "result": null,
+      "terminalReason": null,
+      "shipHit": true,
+      "targetAlive": false,
+      "intercept": false
+    },
+    "rf": {
+      "wip": "WIP146",
+      "seed": 146101,
+      "emitter": true,
+      "rangeM": 8000,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 129,
+        "minProjectedAltM": -3.4333788931982774
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.3583333333333336,
+          "mode": "RF",
+          "reason": "RF_PROMOTE"
+        },
+        {
+          "tS": 0.7999999999999996,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.2249999999999948,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.9249999999999923,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.1749999999999914,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 9.725000000000088,
+          "mode": "RF",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 9.775000000000086,
+          "mode": "MEM",
+          "reason": "RF_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 10.71923349585729,
+      "maxAltM": 152.0656042526022,
+      "closestM": 4.909452268117275,
+      "closestTimeS": 9.550000000000098,
+      "durationS": 9.900000000000079,
+      "finalAltM": 10.71923349585729,
+      "finalSpeedMps": 475.4990943541957,
+      "finalVelPitchDeg": -1.3953437870442902,
+      "finalMode": "MEM",
+      "lastSwitchReason": "RF_DROPOUT",
+      "steps": 1187
+    },
+    "ir": {
+      "wip": "WIP146",
+      "seed": 146102,
+      "emitter": false,
+      "rangeM": 6500,
+      "targetAltM": 12,
+      "targetSpeedMps": 280,
+      "launch": {
+        "platform": "SEARAM_TRAIN_ELEVATION_MOUNT",
+        "azDeg": 0,
+        "elDeg": 12,
+        "speedMps": 50,
+        "mountHeightM": 12.241264016347575,
+        "initialVelPitchDeg": 11.999981605768458
+      },
+      "transient": {
+        "configured": {
+          "minTimeS": 0.35,
+          "minQPa": 3000,
+          "minSpeedMps": 90,
+          "blockDownwardPitch": true
+        },
+        "endedAtS": 0.35000000000000026
+      },
+      "seaClearance": {
+        "configured": {
+          "enabled": true,
+          "minClearanceM": 6,
+          "predictS": 0.6,
+          "terminalReleaseRangeM": 350,
+          "fadeRangeM": 1200
+        },
+        "guardSteps": 190,
+        "minProjectedAltM": -2.3314073186687274
+      },
+      "sourceTimeline": [
+        {
+          "tS": 0,
+          "mode": "MEM",
+          "reason": "LAUNCH_MEMORY"
+        },
+        {
+          "tS": 0.7,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 0.8749999999999993,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 1.224999999999998,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 2.0749999999999953,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 2.6249999999999933,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 3.249999999999991,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        },
+        {
+          "tS": 3.9249999999999887,
+          "mode": "IR",
+          "reason": "IR_PROMOTE"
+        },
+        {
+          "tS": 7.625000000000169,
+          "mode": "MEM",
+          "reason": "IR_DROPOUT"
+        }
+      ],
+      "sourceSwitchCount": 8,
+      "seaImpact": false,
+      "minAltM": 7.0930083612562616,
+      "maxAltM": 53.08157468950057,
+      "closestM": 1.436802693915217,
+      "closestTimeS": 7.400000000000158,
+      "durationS": 7.750000000000175,
+      "finalAltM": 33.43291840270055,
+      "finalSpeedMps": 602.1170142868856,
+      "finalVelPitchDeg": 9.470546854213662,
+      "finalMode": "MEM",
+      "lastSwitchReason": "IR_DROPOUT",
+      "steps": 929
+    },
+    "synthetic": {
+      "mode": "ACTIVE",
+      "rf": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_RF_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          1.9495514866349354e-06,
+          0,
+          0,
+          3.046174197867086e-06
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": null,
+        "scanPhaseRad": null,
+        "observationOwner": "PLAYER_WEAPON"
+      },
+      "ir": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "PASSIVE_IR_2D",
+        "values": [
+          0.2,
+          -0.03
+        ],
+        "covariance": [
+          4.283682465750589e-07,
+          0,
+          0,
+          6.872930533937611e-07
+        ],
+        "quality": 0.82,
+        "snr": 4,
+        "signal": 3.5,
+        "angularExtentRad": 0.001,
+        "compositeCount": 2,
+        "elementIndex": 31,
+        "scanPhaseRad": 0.5,
+        "observationOwner": "SHIP_OWNED_WEAPON"
+      },
+      "ownerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "RF",
+        "origin": "OWNER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_RF_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            1.9495514866349354e-06,
+            0,
+            0,
+            3.046174197867086e-06
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": null,
+          "scanPhaseRad": null,
+          "observationOwner": "SHIP_OWNED_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": true,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "playerRoute": {
+        "schema": "AEGIS_SEEKER_U4_RAM_ROUTE_B_1",
+        "kind": "IR",
+        "origin": "PLAYER",
+        "common": {
+          "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+          "dimension": "PASSIVE_IR_2D",
+          "values": [
+            0.2,
+            -0.03
+          ],
+          "covariance": [
+            4.283682465750589e-07,
+            0,
+            0,
+            6.872930533937611e-07
+          ],
+          "quality": 0.82,
+          "snr": 4,
+          "signal": 3.5,
+          "angularExtentRad": 0.001,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "observationOwner": "PLAYER_WEAPON"
+        },
+        "tacticalValue": {
+          "azRad": 0.2,
+          "elRad": -0.03,
+          "snr": 4,
+          "signal": 3.5,
+          "extentRad": 0.001,
+          "quality": 0.82,
+          "compositeCount": 2,
+          "elementIndex": 31,
+          "scanPhaseRad": 0.5,
+          "_debugKind": "ASM",
+          "targetId": "MUST_NOT_ESCAPE",
+          "faction": "HOSTILE"
+        },
+        "tacticalOutputUsed": true,
+        "rngConsumed": false,
+        "truthOutput": false
+      },
+      "emitters": [
+        {
+          "name": "off",
+          "legacy": 0,
+          "physical": 0,
+          "routed": 0
+        },
+        {
+          "name": "default",
+          "legacy": 1.0625,
+          "physical": 1.0625,
+          "routed": 1.0625
+        },
+        {
+          "name": "lowLocalQuality",
+          "legacy": 0.7875000000000001,
+          "physical": 1.0625,
+          "routed": 1.0625
+        },
+        {
+          "name": "highLocalQuality",
+          "legacy": 1.2000000000000002,
+          "physical": 1.0625,
+          "routed": 1.0625
+        }
+      ],
+      "authority": {
+        "schema": "AEGIS_SEEKER_U4_RAM_AUTHORITY_MATRIX_B_1",
+        "rfTimeline": [
+          "MEM",
+          "RF"
+        ],
+        "irTimeline": [
+          "MEM",
+          "IR"
+        ],
+        "bothTimeline": [
+          "MEM",
+          "RF",
+          "IR"
+        ],
+        "irDropout": [
+          "IR",
+          "RF"
+        ],
+        "allDropout": [
+          "RF",
+          "MEM"
+        ],
+        "isolation": {
+          "separateTracks": true,
+          "a": "RF",
+          "b": "MEM",
+          "switchA": 1,
+          "switchB": 0
+        },
+        "pass": true
+      },
+      "ownership": {
+        "defectConfirmed": true,
+        "fixedPathIndependent": true,
+        "authorityLocal": true,
+        "guidanceLocal": true
+      },
+      "snapshot": {
+        "schema": "AEGIS_SEEKER_U4_RAM_SNAPSHOT_B_1",
+        "mode": "ACTIVE",
+        "profile": {
+          "schema": "AEGIS_SEEKER_U4_RAM_PROFILE_B_1",
+          "family": "RAM_BLK1A",
+          "rf": {
+            "dimension": "PASSIVE_RF_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "ir": {
+            "dimension": "PASSIVE_IR_2D",
+            "provenance": "LEGACY_EQUIVALENCE"
+          },
+          "rngOwner": "WEAPON_OWNER_EXISTING_HANDLE",
+          "authorityOwner": "RAM_LOCAL_RUNTIME",
+          "emitterSignalOwnership": "EMITTER_PLATFORM_AND_PROPAGATION"
+        },
+        "rfRoutes": 2119,
+        "irRoutes": 2119,
+        "ownerRoutes": 1,
+        "playerRoutes": 4237,
+        "nullRoutes": 3610,
+        "truthFieldViolations": 0,
+        "emitterComparisons": 534,
+        "emitterOwnershipDifferences": 299,
+        "maxEmitterDifference": 0.2749999999999999,
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "tacticalOutputUsed": true,
+        "mutableTacticalSingleton": false
+      },
+      "checks": {
+        "rf2d": true,
+        "ir2d": true,
+        "truthFree": true,
+        "bothOrigins": true,
+        "offPreserved": true,
+        "defaultPreserved": true,
+        "defectObservable": true,
+        "modeRoute": true,
+        "authority": true,
+        "ownership": true,
+        "rngFree": true,
+        "truthOutputFalse": true
+      },
+      "pass": true
+    },
+    "errors": []
+  },
+  "release": false
+}
