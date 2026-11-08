@@ -1,0 +1,52 @@
+Traceback (most recent call last):
+  File "/workspace/emcon-b-final-harness/docs/pip/B/run_domain.py", line 13, in <module>
+    runpy.run_path(str(path),run_name='__main__')
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/emcon-b-final-harness/docs/map/A/verify_regressions.py", line 75, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/map/A/verify_regressions.py", line 58, in main
+    return vp.adapted(a.only,a.html,a.out)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/viewport/A/verify_regressions.py", line 39, in adapted
+    exec(compile(s,str(f),'exec'),scope)
+  File "/workspace/emcon-b-final-harness/docs/helicopter/G/verify_native.py", line 29, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/helicopter/G/verify_native.py", line 21, in main
+    page.locator('#modeDebugBtn').click();before=page.evaluate('JSON.stringify(__HELO__.snapshot())');page.locator('#apsPerformanceF').click();text=page.locator('#apsPerformanceTextF').input_value();r['checks']['actualDebugModal']=page.locator('#apsPerformanceDialogF').is_visible()and'prfHz=2491'in text;r['checks']['actualModalReadOnly']=before==page.evaluate('JSON.stringify(__HELO__.snapshot())');page.screenshot(path=str(a.out/'performance-modal.png'));page.close()
+                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/map/A/verify_regressions.py", line 36, in click
+    result=original(self,*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/emcon-b-final-harness/docs/map/E/legacy_test_adapter.py", line 47, in loc_click
+    return click(self,*a,**kw)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 17876, in click
+    self._sync(
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_locator.py", line 165, in click
+    return await self._frame._click(self._selector, strict=True, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 593, in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Locator.click: Target crashed 
+Call log:
+  - waiting for locator("#apsPerformanceF")
+    - locator resolved to <button id="apsPerformanceF" class="wep-btn misc">HELO 레이더 성능표</button>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - performing click action
+
