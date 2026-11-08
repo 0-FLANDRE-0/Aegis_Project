@@ -14,7 +14,7 @@
 ## U3 이후
 
 - **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
-- **EMCON_B — A–E + PR #74 2·3차 보정 구현·제한 검증 완료**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
+- **EMCON_B — 완료, PR #74 병합**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
 - **U3 paired raw 4건**: DDG/CG raid의 combat RNG/observer exact-state. D ACTIVE 정책 변화로 원인 분리됐으나 원본 expectation은 갱신하지 않았다.
 
@@ -34,6 +34,7 @@
 - `CONFIRMED_ONLY` 성능 수치는 UNVERIFIED (MAX_THREAT만 시험하기로 결정)
 - **통신 EMCON**: radar master/category silence와 별도다. Hawklink/Link 송신 통제를 새 정책으로 설계한다.
 - **FIRE_CONTROL registry**: 현재 활성 SPG-62 장비가 없어 EMCON_B는 계약/비활성 UI만 제공한다. 물리 등록·RF·ESM 연계는 별도 단계가 필요하다.
+- **SOV Mineral/Band Stand 수동 어댑터·Moskit 표적지시**: ESM_A의 공통 raw measurement/localizer/UI/cue 포트가 완료된 뒤 소브레멘니 센서·무장 단계에서 연결한다. ESM_A에서는 SOV receiver/EW/weapon capability를 활성화하지 않는다.
 - **광역 Chromium runner 메모리 부채**: APS-153/ISAR/legacy EMCON/Harpoon의 큰 기존 진단 modal·journal 경로가 제한 환경에서 assertion 전 `Target crashed`를 낸다. 제품 판정과 분리해 runner를 경량화한다.
 - **SOV/UI 기존 fixture 부채**: EMITTER_A와 EMCON_B 양쪽에서 SOV deployment의 `selectedSOV/creditVisible`, UI의 `nativeHold/feedReject` 및 832.CG.PIP covered-point가 동일하게 재현된다.
 

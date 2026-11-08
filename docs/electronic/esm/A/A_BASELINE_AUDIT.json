@@ -1,0 +1,46 @@
+{
+  "schema": "AEGIS_ESM_A_BASELINE_AUDIT_1",
+  "status": "PASS",
+  "baseline": {
+    "gitHead": "babb4d7f6d42cc8d774feadce17d8108b3a24040",
+    "product": "Aegis_SIM_v48_WIP_EMCON_B.html",
+    "bytes": 22162415,
+    "sha256": "50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee",
+    "packedMainSha256": "2cc2dc1a130f54d7970df9f4be8c8ae4d565d9b65af001ef718cf1fd90fa4d64"
+  },
+  "checks": {
+    "mainHeadExact": true,
+    "productBytesExact": true,
+    "productShaExact": true,
+    "packedMainShaExact": true,
+    "exactRebuild": true,
+    "rebuildReceiptExact": true,
+    "anonymousReceiverBoundary": true,
+    "strictExistingConsumerBoundary": true,
+    "emconBindingStaticPass": true,
+    "emconBindingRuntimePass": true
+  },
+  "frozenFunctionHashes": {
+    "prepareElectronicF": "df83bf4300bc84b322c6bedce875c3e60cf6f77dfb0bc0b54edc739a151e3c8b",
+    "electronicPhysicalEmittersF": "af612e4797b88675d60c187d4c8a8b048509887c60c9387ba3e21f03a729f7bb",
+    "electronicReceiverPlotsF": "5d77dacb48d2aef3404f18e12812890488e0067aacafd765defddd94dba0172f",
+    "electronicAcceptPlotsF": "0e8495e51670efec95c5e4f7c699139a97b5ca439b042e078cbf56197aac126d",
+    "stepElectronicReceiversF": "3902a81fc12c2e5da1900f99f71e52e4527be3e76c7832210529187ac74454ff",
+    "electronicCicTextF": "82e57a6f4567d763a2d3f9a2fb25446fb9623f80ecccf549b05e140de2d45dfc",
+    "networkBuildReportsG": "9cb36db5c5db57ebde85214e1a20646d5c8bba2451731d049f46577f91f344b9",
+    "networkReceiveG": "a6dc3cdcffeff07dee8e89f8c45c119432e6919b7b91136e44d4920245d66630",
+    "networkFixedStepG": "82ce7bfeb031acf51a10dcad34cde12497a8713c1a96ab6c44ed4ea17ece8ddc",
+    "mapEsmReadA": "c92bbd7b52aab0bb7738a6f13f92971ea65d9e6963fe4cfcdc8cc47ffaaf9225",
+    "ELECTRONIC_POLICY_F": "8da19c068e9a4c4a61f0361869af1b089d1734d0537bc4d0116b0fce47bcc1aa",
+    "NETWORK_POLICY_G": "c8b3a20a643abe28b0986ae86b91a94c960547669f894320c83202a676f7f982"
+  },
+  "ownership": {
+    "physicalRfScene": "electronicPhysicalEmittersF",
+    "sensorSynthesis": "electronicReceiverPlotsF",
+    "localContactAssociation": "electronicAcceptPlotsF / ShipRuntime.ew.executionF.contacts",
+    "network": "prepareNetworkG / networkFixedStepG / ShipRuntime.combatSystem.networkG",
+    "ui": "drawRadar + MAP_A mapEsmReadA",
+    "resetDestroy": "resetElectronicFleetF / retireElectronicF / resetNetworkFleetG / retireNetworkG"
+  },
+  "wideRegressionRun": false
+}
