@@ -1,0 +1,1131 @@
+{
+  "schema": "AEGIS_EMCON_B_COMMIT_D_GATE_1",
+  "status": "PASS",
+  "checks": {
+    "pageErrorsZero": true,
+    "consoleErrorsZero": true,
+    "overridePrecedence": true,
+    "individualIsolation": true,
+    "offlineWinsForceRadiate": true,
+    "registryGeneratedDom": true,
+    "fireControlInactive": true,
+    "existingNodesUnique": true,
+    "renderReadOnly": true,
+    "uiCommands": true,
+    "allRadiationExact": true,
+    "ownerIsolation": true,
+    "mixedAndSameClassCovered": true,
+    "responsiveInside": true,
+    "controlSize": true
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "profiles": {
+    "DDG_119_LATE_FLIGHT_IIA": {
+      "id": "SHIP_DDG119_OWN",
+      "profileId": "DDG_119_LATE_FLIGHT_IIA",
+      "registryEntries": [
+        "AN_SPY_1DV",
+        "AN_SPQ_9B",
+        "BRIDGEMASTER_E",
+        "AN_SLQ_32_EA"
+      ],
+      "baseline": [
+        "SHIP SEARCH RADAR",
+        "SURFACE SEARCH RADAR",
+        "NAVIGATION RADAR"
+      ],
+      "scenarios": {
+        "categorySilentForceRadiate": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "equipmentId": "AN_SPY_1DV",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "FORCE_RADIATE",
+            "allowed": true,
+            "emissionActive": true,
+            "reason": "OVERRIDE_RADIATE",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 3,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "SURFACE SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "categoryRadiateForceSilent": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "equipmentId": "AN_SPY_1DV",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 5,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SURFACE SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "spq": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "equipmentId": "AN_SPQ_9B",
+            "category": "SURFACE_SEARCH",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 7,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "nav": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "equipmentId": "BRIDGEMASTER_E",
+            "category": "NAV",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 9,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "SURFACE SEARCH RADAR"
+          ]
+        },
+        "ecm": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "equipmentId": "AN_SLQ_32_EA",
+            "category": "ECM",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": {
+              "noiseRequested": false,
+              "deceptionRequested": false,
+              "resourceUsed": 0,
+              "requestActive": false
+            },
+            "revision": 11,
+            "truthUsed": false,
+            "rngConsumed": false
+          }
+        },
+        "offline": {
+          "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "equipmentId": "AN_SPY_1DV",
+          "category": "AIR_SEARCH",
+          "categoryPolicy": "RADIATE",
+          "override": "FORCE_RADIATE",
+          "allowed": false,
+          "emissionActive": false,
+          "reason": "SHIP_OFFLINE",
+          "masterSilent": false,
+          "networkSilent": false,
+          "operational": false,
+          "ecm": null,
+          "revision": 12,
+          "truthUsed": false,
+          "rngConsumed": false
+        }
+      },
+      "dom": {
+        "snapshot": {
+          "level": "OFF",
+          "radarOn": true,
+          "noiseRequested": false,
+          "deceptionRequested": false,
+          "auto": false,
+          "menuOpen": true,
+          "decoyOpen": false,
+          "decoy": null,
+          "lastResult": null,
+          "remembered": null
+        },
+        "categoryRows": [
+          "AIR_SEARCH",
+          "SURFACE_SEARCH",
+          "NAV",
+          "FIRE_CONTROL",
+          "ECM"
+        ],
+        "equipmentRows": [
+          "AN_SPY_1DV",
+          "AN_SPQ_9B",
+          "BRIDGEMASTER_E",
+          "AN_SLQ_32_EA"
+        ],
+        "fireDisabled": true,
+        "fireText": "사격 통제방사 허용등록 장비 없음",
+        "uniqueMenu": 1,
+        "uniqueChip": 1
+      },
+      "renderMutation": {
+        "beforeRender": {
+          "schema": "AEGIS_SHIP_EMCON_B_1",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 13
+        },
+        "afterRender": {
+          "schema": "AEGIS_SHIP_EMCON_B_1",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "registryId": "DDG119_EMITTERS_A",
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1DV": "INHERIT",
+            "AN_SPQ_9B": "INHERIT",
+            "BRIDGEMASTER_E": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 13
+        }
+      },
+      "clicks": {
+        "clickedCategory": "SILENT",
+        "restoredCategory": "RADIATE",
+        "clickedOverride": "FORCE_SILENT"
+      },
+      "macro": {
+        "before": {
+          "master": false,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "registryId": "DDG119_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "RADIATE"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1DV": "INHERIT",
+              "AN_SPQ_9B": "INHERIT",
+              "BRIDGEMASTER_E": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 17
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          }
+        },
+        "silent": {
+          "master": true,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "registryId": "DDG119_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "SILENT"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1DV": "INHERIT",
+              "AN_SPQ_9B": "INHERIT",
+              "BRIDGEMASTER_E": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 18
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          },
+          "physical": []
+        },
+        "restored": {
+          "master": false,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "registryId": "DDG119_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "RADIATE"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1DV": "INHERIT",
+              "AN_SPQ_9B": "INHERIT",
+              "BRIDGEMASTER_E": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 19
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          }
+        }
+      },
+      "chip": {
+        "ownerEntityId": "SHIP_DDG119_OWN",
+        "masterSilent": false,
+        "activeRadarCategories": 3,
+        "totalRadarCategories": 3,
+        "ecmCode": "REQ",
+        "text": "M:ON C:3/3\nECM:REQ",
+        "title": "자함 · DDG_119_LATE_FLIGHT_IIA · RADAR MASTER ACTIVE · 활성 레이더 범주 3/3 · ECM 기법 요청 / 방출 없음 · 통신 링크는 별도"
+      }
+    },
+    "CG_52_LATE_TICONDEROGA": {
+      "id": "SHIP_CG52_OWN",
+      "profileId": "CG_52_LATE_TICONDEROGA",
+      "registryEntries": [
+        "AN_SPY_1A_MODERNIZED",
+        "AN_SPQ_9",
+        "AN_SPS_73",
+        "AN_SLQ_32_EA"
+      ],
+      "baseline": [
+        "SHIP SEARCH RADAR",
+        "SURFACE SEARCH RADAR",
+        "NAVIGATION RADAR"
+      ],
+      "scenarios": {
+        "categorySilentForceRadiate": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "equipmentId": "AN_SPY_1A_MODERNIZED",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "SILENT",
+            "override": "FORCE_RADIATE",
+            "allowed": true,
+            "emissionActive": true,
+            "reason": "OVERRIDE_RADIATE",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 3,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "SURFACE SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "categoryRadiateForceSilent": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "equipmentId": "AN_SPY_1A_MODERNIZED",
+            "category": "AIR_SEARCH",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 5,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SURFACE SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "spq": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "equipmentId": "AN_SPQ_9",
+            "category": "SURFACE_SEARCH",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 7,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "NAVIGATION RADAR"
+          ]
+        },
+        "nav": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "equipmentId": "AN_SPS_73",
+            "category": "NAV",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": null,
+            "revision": 9,
+            "truthUsed": false,
+            "rngConsumed": false
+          },
+          "families": [
+            "SHIP SEARCH RADAR",
+            "SURFACE SEARCH RADAR"
+          ]
+        },
+        "ecm": {
+          "decision": {
+            "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "equipmentId": "AN_SLQ_32_EA",
+            "category": "ECM",
+            "categoryPolicy": "RADIATE",
+            "override": "FORCE_SILENT",
+            "allowed": false,
+            "emissionActive": false,
+            "reason": "OVERRIDE_SILENT",
+            "masterSilent": false,
+            "networkSilent": false,
+            "operational": true,
+            "ecm": {
+              "noiseRequested": false,
+              "deceptionRequested": false,
+              "resourceUsed": 0,
+              "requestActive": false
+            },
+            "revision": 11,
+            "truthUsed": false,
+            "rngConsumed": false
+          }
+        },
+        "offline": {
+          "schema": "AEGIS_EMCON_EQUIPMENT_DECISION_B_1",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "equipmentId": "AN_SPY_1A_MODERNIZED",
+          "category": "AIR_SEARCH",
+          "categoryPolicy": "RADIATE",
+          "override": "FORCE_RADIATE",
+          "allowed": false,
+          "emissionActive": false,
+          "reason": "SHIP_OFFLINE",
+          "masterSilent": false,
+          "networkSilent": false,
+          "operational": false,
+          "ecm": null,
+          "revision": 12,
+          "truthUsed": false,
+          "rngConsumed": false
+        }
+      },
+      "dom": {
+        "snapshot": {
+          "level": "OFF",
+          "radarOn": true,
+          "noiseRequested": false,
+          "deceptionRequested": false,
+          "auto": false,
+          "menuOpen": true,
+          "decoyOpen": false,
+          "decoy": null,
+          "lastResult": null,
+          "remembered": null
+        },
+        "categoryRows": [
+          "AIR_SEARCH",
+          "SURFACE_SEARCH",
+          "NAV",
+          "FIRE_CONTROL",
+          "ECM"
+        ],
+        "equipmentRows": [
+          "AN_SPY_1A_MODERNIZED",
+          "AN_SPQ_9",
+          "AN_SPS_73",
+          "AN_SLQ_32_EA"
+        ],
+        "fireDisabled": true,
+        "fireText": "사격 통제방사 허용등록 장비 없음",
+        "uniqueMenu": 1,
+        "uniqueChip": 1
+      },
+      "renderMutation": {
+        "beforeRender": {
+          "schema": "AEGIS_SHIP_EMCON_B_1",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 13
+        },
+        "afterRender": {
+          "schema": "AEGIS_SHIP_EMCON_B_1",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "registryId": "CG52_EMITTERS_A",
+          "categoryPolicy": {
+            "AIR_SEARCH": "RADIATE",
+            "SURFACE_SEARCH": "RADIATE",
+            "NAV": "RADIATE",
+            "FIRE_CONTROL": "RADIATE",
+            "ECM": "RADIATE"
+          },
+          "equipmentOverride": {
+            "AN_SPY_1A_MODERNIZED": "INHERIT",
+            "AN_SPQ_9": "INHERIT",
+            "AN_SPS_73": "INHERIT",
+            "AN_SLQ_32_EA": "INHERIT"
+          },
+          "revision": 13
+        }
+      },
+      "clicks": {
+        "clickedCategory": "SILENT",
+        "restoredCategory": "RADIATE",
+        "clickedOverride": "FORCE_SILENT"
+      },
+      "macro": {
+        "before": {
+          "master": false,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "registryId": "CG52_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "RADIATE"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1A_MODERNIZED": "INHERIT",
+              "AN_SPQ_9": "INHERIT",
+              "AN_SPS_73": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 17
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          }
+        },
+        "silent": {
+          "master": true,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "registryId": "CG52_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "SILENT"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1A_MODERNIZED": "INHERIT",
+              "AN_SPQ_9": "INHERIT",
+              "AN_SPS_73": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 18
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          },
+          "physical": []
+        },
+        "restored": {
+          "master": false,
+          "state": {
+            "schema": "AEGIS_SHIP_EMCON_B_1",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "registryId": "CG52_EMITTERS_A",
+            "categoryPolicy": {
+              "AIR_SEARCH": "RADIATE",
+              "SURFACE_SEARCH": "RADIATE",
+              "NAV": "RADIATE",
+              "FIRE_CONTROL": "RADIATE",
+              "ECM": "RADIATE"
+            },
+            "equipmentOverride": {
+              "AN_SPY_1A_MODERNIZED": "INHERIT",
+              "AN_SPQ_9": "INHERIT",
+              "AN_SPS_73": "INHERIT",
+              "AN_SLQ_32_EA": "INHERIT"
+            },
+            "revision": 19
+          },
+          "settings": {
+            "noiseRequested": true,
+            "deceptionRequested": true,
+            "bearingRad": 0,
+            "resourceUsed": 0
+          }
+        }
+      },
+      "chip": {
+        "ownerEntityId": "SHIP_CG52_OWN",
+        "masterSilent": false,
+        "activeRadarCategories": 3,
+        "totalRadarCategories": 3,
+        "ecmCode": "REQ",
+        "text": "M:ON C:3/3\nECM:REQ",
+        "title": "자함 · CG_52_LATE_TICONDEROGA · RADAR MASTER ACTIVE · 활성 레이더 범주 3/3 · ECM 기법 요청 / 방출 없음 · 통신 링크는 별도"
+      }
+    }
+  },
+  "fleets": {
+    "DDG_CG": {
+      "activeId": "SHIP_DDG119_OWN",
+      "allyId": "SHIP_SCENARIO_ALLY_F",
+      "activeBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "activeAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "SILENT",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 1
+      },
+      "owner": "SHIP_SCENARIO_ALLY_F",
+      "ui": {
+        "level": "OFF",
+        "radarOn": true,
+        "noiseRequested": false,
+        "deceptionRequested": false,
+        "auto": false,
+        "menuOpen": false,
+        "decoyOpen": false,
+        "decoy": null,
+        "lastResult": null,
+        "remembered": null
+      }
+    },
+    "CG_DDG": {
+      "activeId": "SHIP_CG52_OWN",
+      "allyId": "SHIP_SCENARIO_ALLY_F",
+      "activeBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "activeAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "SILENT",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 1
+      },
+      "owner": "SHIP_SCENARIO_ALLY_F",
+      "ui": {
+        "level": "OFF",
+        "radarOn": true,
+        "noiseRequested": false,
+        "deceptionRequested": false,
+        "auto": false,
+        "menuOpen": false,
+        "decoyOpen": false,
+        "decoy": null,
+        "lastResult": null,
+        "remembered": null
+      }
+    },
+    "DDG_DDG": {
+      "activeId": "SHIP_DDG119_OWN",
+      "allyId": "SHIP_SCENARIO_ALLY_F",
+      "activeBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "activeAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA",
+        "registryId": "DDG119_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "SILENT",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1DV": "INHERIT",
+          "AN_SPQ_9B": "INHERIT",
+          "BRIDGEMASTER_E": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 1
+      },
+      "owner": "SHIP_SCENARIO_ALLY_F",
+      "ui": {
+        "level": "OFF",
+        "radarOn": true,
+        "noiseRequested": false,
+        "deceptionRequested": false,
+        "auto": false,
+        "menuOpen": false,
+        "decoyOpen": false,
+        "decoy": null,
+        "lastResult": null,
+        "remembered": null
+      }
+    },
+    "CG_CG": {
+      "activeId": "SHIP_CG52_OWN",
+      "allyId": "SHIP_SCENARIO_ALLY_F",
+      "activeBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "activeAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyBefore": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "RADIATE",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 0
+      },
+      "allyAfter": {
+        "schema": "AEGIS_SHIP_EMCON_B_1",
+        "profileId": "CG_52_LATE_TICONDEROGA",
+        "registryId": "CG52_EMITTERS_A",
+        "categoryPolicy": {
+          "AIR_SEARCH": "RADIATE",
+          "SURFACE_SEARCH": "RADIATE",
+          "NAV": "SILENT",
+          "FIRE_CONTROL": "RADIATE",
+          "ECM": "RADIATE"
+        },
+        "equipmentOverride": {
+          "AN_SPY_1A_MODERNIZED": "INHERIT",
+          "AN_SPQ_9": "INHERIT",
+          "AN_SPS_73": "INHERIT",
+          "AN_SLQ_32_EA": "INHERIT"
+        },
+        "revision": 1
+      },
+      "owner": "SHIP_SCENARIO_ALLY_F",
+      "ui": {
+        "level": "OFF",
+        "radarOn": true,
+        "noiseRequested": false,
+        "deceptionRequested": false,
+        "auto": false,
+        "menuOpen": false,
+        "decoyOpen": false,
+        "decoy": null,
+        "lastResult": null,
+        "remembered": null
+      }
+    }
+  },
+  "responsive": [
+    {
+      "viewport": {
+        "w": 1400,
+        "h": 900
+      },
+      "rect": {
+        "x": 941,
+        "y": 237,
+        "w": 350,
+        "h": 620,
+        "right": 1291,
+        "bottom": 857
+      },
+      "scroll": {
+        "clientHeight": 618,
+        "scrollHeight": 688
+      },
+      "minControlHeight": 36,
+      "categoryCount": 5
+    },
+    {
+      "viewport": {
+        "w": 832,
+        "h": 384
+      },
+      "rect": {
+        "x": 399,
+        "y": 61.578125,
+        "w": 350,
+        "h": 291.828125,
+        "right": 749,
+        "bottom": 353.40625
+      },
+      "scroll": {
+        "clientHeight": 290,
+        "scrollHeight": 684
+      },
+      "minControlHeight": 36,
+      "categoryCount": 5
+    },
+    {
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "rect": {
+        "x": 4,
+        "y": 195.078125,
+        "w": 350,
+        "h": 620,
+        "right": 354,
+        "bottom": 815.078125
+      },
+      "scroll": {
+        "clientHeight": 618,
+        "scrollHeight": 684
+      },
+      "minControlHeight": 36,
+      "categoryCount": 5
+    }
+  ]
+}

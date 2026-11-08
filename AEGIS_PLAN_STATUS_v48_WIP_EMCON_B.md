@@ -5,7 +5,7 @@
 - Baseline SHA-256: `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - Branch: `emcon-b`
 - Product target: `Aegis_SIM_v48_WIP_EMCON_B.html`
-- State: Commits A–C IMPLEMENTED + TESTED; B SHADOW and C ACTIVE gates approved; D–E not yet implemented; RELEASE=false
+- State: Commits A–D IMPLEMENTED + TESTED; B SHADOW, C ACTIVE, and D UI/override gates approved; E not yet implemented; RELEASE=false
 
 ## Commit A
 
@@ -37,9 +37,19 @@
   scenes pass; page and console errors are 0.
 - Evidence: `docs/electronic/emcon/B/C_REPORT.md`, `C_STATIC.json`, and `C_GATE.json`.
 
+## Commit D
+
+- Extended the existing MAP EMCON chip/menu with registry-generated category and equipment
+  controls; no DDG/CG equipment IDs are hard-coded in UI code.
+- Verified override priority, damage/offline precedence, selected-owner routing, mixed/same-class
+  isolation, and render-time zero mutation.
+- `FIRE_CONTROL` is honestly shown as a contract-only row with no registered equipment.
+- All-radiation silence preserves ECM requests and restores per-owner master/ECM policy exactly.
+- 1400×900, 832×384, and 390×844 layouts remain inside the viewport with 36 px new controls.
+- Evidence: `docs/electronic/emcon/B/D_REPORT.md`, `D_STATIC.json`, `D_GATE.json`, and screenshots.
+
 ## Remaining
 
-- D: equipment override and profile-derived MAP/FLEET UI.
 - E: fleet/network/AI/save lifecycle.
 - Final: one MAX_THREAT broad regression, candidate Actions, packages/readback, new PR.
 

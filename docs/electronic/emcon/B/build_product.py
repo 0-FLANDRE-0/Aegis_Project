@@ -93,6 +93,25 @@ def transform(source: str, stage: str) -> str:
         source = one(source, "\n  function updateSlq32EaAllocator(dt){\n    if(shipEquipmentOfflineV1())", "\n  function updateSlq32EaAllocator(dt){\n    if(!emconCategoryAllowsB(ACTIVE_SHIP_RUNTIME,'ECM')||shipEquipmentOfflineV1())", "active allocator gate")
         source = one(source, "if(r===ACTIVE_SHIP_RUNTIME?emconActive:observerC(r).emcon)return [];\n  const rx=", "if(!emconCategoryAllowsB(r,'AIR_SEARCH'))return [];\n  const rx=", "surface IFF gate")
         source = one(source, "if(shipEquipmentOfflineV1(ship)||(ship===ACTIVE_SHIP_RUNTIME?emconActive:observerC(ship).emcon))return out;", "if(shipEquipmentOfflineV1(ship)||!emconCategoryAllowsB(ship,'AIR_SEARCH'))return out;", "air IFF gate")
+    if stage in ("D", "E"):
+        ui = (HERE / "emcon_ui.js").read_text().rstrip() + "\n"
+        source = one(source, "// MAP_E_UI_BEGIN\n", ui + "// MAP_E_UI_BEGIN\n", "profile-derived EMCON UI module")
+        source = one(source,
+            "function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;chip.textContent='EMCON '+(emconActive?'ON':'OFF')+'\\nECM '+ownEcmLevelE();chip.title='레이더 '+(emconActive?'OFF':'ON')+' · ECM '+levelNames[ownEcmLevelE()]+(!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?' · 기존 재밍 승인 유지':'');chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}",
+            "function refreshChip(){const chip=document.getElementById('uiEmconChipA');if(!chip)return;const q=emconUiChipSnapshotB();chip.textContent=q.text;chip.title=q.title;chip.setAttribute('aria-pressed',String(q.masterSilent));chip.setAttribute('aria-expanded',String(!!menu&&!menu.hidden));chip.setAttribute('aria-controls','mapEmconMenuE');}",
+            "selected-owner chip")
+        source = one(source,
+            "function command(level){const q=ownEcmCommandE(level);refresh();refreshChip();return q;}\n function allRadiation(){\n  if(!emconActive||ownEcmLevelE()!=='OFF'||noiseJamActive||deceptJamActive){remembered={owner:ACTIVE_SHIP_RUNTIME,level:ownEcmLevelE()};if(!emconActive)toggleEmcon();command('OFF');}\n  else{if(emconActive)toggleEmcon();command(remembered?.owner===ACTIVE_SHIP_RUNTIME?remembered.level:'OFF');}\n  refresh();\n }",
+            "function command(level){const q=emconUiEcmCommandB(emconUiOwnerB(),level);refresh();refreshChip();return q;}\n function allRadiation(){const q=emconAllRadiationMacroB(emconUiOwnerB());refresh();refreshChip();return q;}",
+            "selected-owner commands and all-radiation macro")
+        source = one(source,
+            "const level=ownEcmLevelE();dom.all.textContent='전체 방사 '+(emconActive&&level==='OFF'&&!noiseJamActive&&!deceptJamActive?'ON':'OFF');dom.radar.textContent='레이더 '+(emconActive?'ON':'OFF');for(const [k,e]of Object.entries(dom.levels))e.setAttribute('aria-pressed',String(level===k));dom.note.textContent=!softKillAutoDoctrine&&(noiseJamActive||deceptJamActive)?'기존 재밍 승인: '+(noiseJamActive?'NJ ':'')+(deceptJamActive?'DJ':''):'';place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());",
+            "const owner=emconUiOwnerB(),level=emconUiEcmLevelB(owner),settings=electronicSettingsF(owner),allSilent=emconUiAllSilentB(owner);dom.all.textContent=allSilent?'전체 방사 복구':'전체 방사 침묵';dom.radar.textContent='RADAR MASTER '+(emconUiMasterSilentB(owner)?'SILENT':'ACTIVE');dom.radar.disabled=owner!==ACTIVE_SHIP_RUNTIME&&owner.role!=='ALLY';for(const [k,e]of Object.entries(dom.levels)){e.setAttribute('aria-pressed',String(level===k));e.disabled=k==='JAM'&&owner!==ACTIVE_SHIP_RUNTIME;}dom.note.textContent=(settings.noiseRequested||settings.deceptionRequested?'기법 요청: '+(settings.noiseRequested?'NJ ':'')+(settings.deceptionRequested?'DJ':''):'기법 요청 없음')+' · 실제 방출 '+(emconCategoryEmittingB(owner,'ECM')?'ON':'OFF');dom.policy.refresh();place(menu,document.getElementById('uiEmconChipA').getBoundingClientRect());",
+            "policy UI refresh")
+        source = one(source,
+            "dom.all=button('전체 방사 OFF','mapAllRadiationE',allRadiation);dom.radar=button('레이더 OFF','mapRadarE',()=>{toggleEmcon();refresh();refreshChip();});menu.append(dom.all,dom.radar,make('span','','ECM'));const row=make('div','map-ecm-levels-e');",
+            "dom.all=button('전체 방사 침묵','mapAllRadiationE',allRadiation);dom.radar=button('RADAR MASTER ACTIVE','mapRadarE',()=>{const r=emconUiOwnerB();fleetCommandG(r.entityId,{action:'EMCON',enabled:!emconUiMasterSilentB(r)});refresh();refreshChip();});dom.policy=emconCreatePolicyUiB();menu.append(dom.all,dom.radar,dom.policy.root,make('span','','ECM 기법 요청'));const row=make('div','map-ecm-levels-e');",
+            "policy UI mount")
     return source
 
 
@@ -132,7 +151,7 @@ def main() -> None:
         "outputSha256": sha(output),
         "outputMainSha256": sha(after.encode()),
         "outputBytes": len(output),
-        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []))},
+        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []))},
     }
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
