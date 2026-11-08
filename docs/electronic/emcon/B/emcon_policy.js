@@ -6,7 +6,7 @@ const EMCON_B_CATEGORY_VALUES=Object.freeze(['RADIATE','SILENT']);
 const EMCON_B_OVERRIDE_VALUES=Object.freeze(['INHERIT','FORCE_RADIATE','FORCE_SILENT']);
 const EMCON_B_RADAR_CATEGORIES=Object.freeze(['AIR_SEARCH','SURFACE_SEARCH','NAV','FIRE_CONTROL']);
 const EMCON_B_AUDIT={schema:'AEGIS_EMCON_B_SHADOW_AUDIT_1',mode:EMCON_B_MODE,comparisons:0,mismatches:0,
-  skippedNovelPolicy:0,perProfile:{},examples:[],rngConsumed:false,truthRead:false,tacticalOutputUsed:EMCON_B_MODE==='ACTIVE'};
+  skippedNovelPolicy:0,perProfile:{},examples:[],operatorDispositions:[],rngConsumed:false,truthRead:false,tacticalOutputUsed:EMCON_B_MODE==='ACTIVE'};
 
 function emconRegistryEntryB(r,equipmentId){return shipEmitterRegistryA(r)?.entries?.find(q=>q.id===String(equipmentId))??null;}
 function emconDefaultStateB(r){
@@ -37,6 +37,7 @@ function validateEmconStateB(r,state){
   return {ok:errors.length===0,errors};
 }
 function prepareEmconB(r){
+  if(r?.restoredEmconB){const restored=r.restoredEmconB;delete r.restoredEmconB;return emconRestoreStateB(r,restored);}
   const existing=r?.combatSystem?.emconB;
   if(existing){const validation=validateEmconStateB(r,existing);if(!validation.ok)throw Error('EMCON_B_STATE_INVALID:'+validation.errors.join(','));return existing;}
   const state=emconDefaultStateB(r),validation=validateEmconStateB(r,state);if(!validation.ok)throw Error('EMCON_B_DEFAULT_INVALID:'+validation.errors.join(','));
@@ -141,7 +142,7 @@ function emconCommandB(id,command,origin='OPERATOR'){
     next.equipmentOverride[entry.id]=command.override;next.revision++;
   }else return {ok:false,reason:'COMMAND_FIELDS'};
   const validation=validateEmconStateB(r,next);if(!validation.ok)return {ok:false,reason:'STATE_INVALID',errors:validation.errors};
-  r.combatSystem.emconB=next;if(!emconCategoryAllowsB(r,'ECM'))emconEcmSilenceAllocatorB(r);return {ok:true,state:structuredClone(next)};
+  r.combatSystem.emconB=next;if(origin==='OPERATOR'&&typeof emconRecordOperatorDispositionB==='function')emconRecordOperatorDispositionB(r,command);if(!emconCategoryAllowsB(r,'ECM'))emconEcmSilenceAllocatorB(r);return {ok:true,state:structuredClone(next)};
 }
 function emconSnapshotB(r){
   const state=emconStateViewB(r),registry=shipEmitterRegistryA(r);
@@ -159,4 +160,4 @@ function emconOfflineProbeB(r){
 window.__EMCON_B__=Object.freeze({schema:EMCON_B_SCHEMA,mode:EMCON_B_MODE,categories:SHIP_EMITTER_CATEGORIES_A,categoryValues:EMCON_B_CATEGORY_VALUES,overrideValues:EMCON_B_OVERRIDE_VALUES,
   ships:()=>[...ENGAGEMENT_RUNTIME.ships.values()].map(r=>r.entityId),snapshot:id=>emconSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),decision:(id,equipmentId)=>emconEquipmentDecisionB(ENGAGEMENT_RUNTIME.ships.get(String(id)),equipmentId),
   validate:(id,state)=>validateEmconStateB(ENGAGEMENT_RUNTIME.ships.get(String(id)),state),command:emconCommandB,audit:emconAuditSnapshotB,
-  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category)})});
+  diagnostic:Object.freeze({rng:id=>emconRngSnapshotB(ENGAGEMENT_RUNTIME.ships.get(String(id))),offline:id=>emconOfflineProbeB(ENGAGEMENT_RUNTIME.ships.get(String(id))),category:(id,category)=>emconCategoryDecisionsB(ENGAGEMENT_RUNTIME.ships.get(String(id)),category),lifecycle:()=>emconLifecycleSnapshotB()})});

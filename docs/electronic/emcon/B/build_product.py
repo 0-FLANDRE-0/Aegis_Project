@@ -64,6 +64,8 @@ def function_span(source: str, name: str, contains: str | None = None) -> tuple[
 
 def transform(source: str, stage: str) -> str:
     policy = (HERE / "emcon_policy.js").read_text().replace("__EMCON_B_MODE__", "SHADOW" if stage == "B" else "ACTIVE").rstrip() + "\n"
+    if stage == "E":
+        policy += (HERE / "emcon_lifecycle.js").read_text().rstrip() + "\n"
     source = one(source, "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", policy + "// LIVE_CANONICAL. Physical emitters stop at anonymous receiver measurements.\n", "policy module")
     source = one(source, "function prepareElectronicF(r){\n  const own=", "function prepareElectronicF(r){\n  prepareEmconB(r);\n  const own=", "prepare lifecycle")
     start, end = function_span(source, "electronicShipPhysicalEmittersDeclaredA")
@@ -112,6 +114,43 @@ def transform(source: str, stage: str) -> str:
             "dom.all=button('전체 방사 OFF','mapAllRadiationE',allRadiation);dom.radar=button('레이더 OFF','mapRadarE',()=>{toggleEmcon();refresh();refreshChip();});menu.append(dom.all,dom.radar,make('span','','ECM'));const row=make('div','map-ecm-levels-e');",
             "dom.all=button('전체 방사 침묵','mapAllRadiationE',allRadiation);dom.radar=button('RADAR MASTER ACTIVE','mapRadarE',()=>{const r=emconUiOwnerB();fleetCommandG(r.entityId,{action:'EMCON',enabled:!emconUiMasterSilentB(r)});refresh();refreshChip();});dom.policy=emconCreatePolicyUiB();menu.append(dom.all,dom.radar,dom.policy.root,make('span','','ECM 기법 요청'));const row=make('div','map-ecm-levels-e');",
             "policy UI mount")
+    if stage == "E":
+        source = one(source,
+            "restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;",
+            "restoreOnePhysicalFleetF({enemy:r},{ships:[q]});r.restoredElectronicF=q.ew??null;r.restoredEmconB=q.emconB??null;r.restoredNetworkG=q.network??null;r.restoredTacticalH1=q.tactical??null;r.restoredManeuverH2=q.maneuver??null;r.restoredAttackH3=q.attack??null;r.restoredTeamH4=q.team??null;",
+            "nonplayer EMCON restore handoff")
+        source = one(source,
+            "return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),profileId:r.profileId,",
+            "return {entityId:r.entityId,role:r.role,faction:r.faction,team:teamSettingsH4(r),attack:attackSettingsH3(r),maneuver:maneuverSettingsH2(r),tactical:tacticalSettingsH1(r),network:networkSettingsG(r),ew:networkExportElectronicG(r),emconB:emconExportStateB(r),profileId:r.profileId,",
+            "nonplayer EMCON export")
+        source = one(source,
+            "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),navigation:",
+            "network:networkSettingsG(ACTIVE_SHIP_RUNTIME),ew:networkExportElectronicG(ACTIVE_SHIP_RUNTIME),emconB:emconExportStateB(ACTIVE_SHIP_RUNTIME),navigation:",
+            "active EMCON export")
+        source = one(source,
+            "    const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}",
+            "    migrateEmconSaveB(src,harpoonMigrations);\n    const errors=[],codecs=[];let ctx;try{ctx=operationalValidationContextV48Wip11B();}",
+            "legacy EMCON migration before preflight")
+        source = one(source,
+            "function validatePhysicalFleetB(src,_ctx,errors){\n  const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);",
+            "function validatePhysicalFleetB(src,_ctx,errors){\n  validateEmconSaveB(src.profileId,src.ship?.emconB,errors,'ship');\n  const fleet=src.fleet,err=x=>errors.push('FLEET_'+x);",
+            "active EMCON preflight")
+        source = one(source,
+            "    seen.add(q.entityId);validateTacticalSettingsH1(q.tactical,errors);",
+            "    seen.add(q.entityId);validateEmconSaveB(q.profileId,q.emconB,errors,'fleet.'+q.entityId);validateTacticalSettingsH1(q.tactical,errors);",
+            "nonplayer EMCON preflight")
+        source = one(source,
+            "if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');if(src.ship.team)",
+            "if(src.ship.ew)electronicCommandF(ACTIVE_SHIP_RUNTIME.entityId,src.ship.ew,'LIFECYCLE');emconRestoreStateB(ACTIVE_SHIP_RUNTIME,src.ship.emconB);if(src.ship.team)",
+            "active EMCON restore")
+        source = one(source,
+            "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}\n}",
+            "function resetElectronicFleetF(){\n  for(const r of electronicShipsF()){const old=r.ew.executionF,command=old?electronicSettingsF(r):null;r.ew.contacts.clear();r.ew.executionF=null;emconResetRuntimeB(r);prepareElectronicF(r);if(command)electronicCommandF(r.entityId,command,'LIFECYCLE');}\n}",
+            "EMCON reset lifecycle")
+        source = one(source,
+            "  retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';",
+            "  emconRetireRuntimeB(runtime);retirePhysicalShipB(runtime);ENGAGEMENT_RUNTIME.ships.delete(id);runtime.lifecycleState='DESTROYED';",
+            "EMCON destroy lifecycle")
     return source
 
 
@@ -151,7 +190,7 @@ def main() -> None:
         "outputSha256": sha(output),
         "outputMainSha256": sha(after.encode()),
         "outputBytes": len(output),
-        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []))},
+        "sourceModules": {name: sha((HERE / name).read_bytes()) for name in (["emcon_policy.js"] + (["emcon_active_runtime.js"] if args.stage != "B" else []) + (["emcon_ui.js"] if args.stage in ("D", "E") else []) + (["emcon_lifecycle.js"] if args.stage == "E" else []))},
     }
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")

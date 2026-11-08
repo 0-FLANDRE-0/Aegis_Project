@@ -5,7 +5,7 @@
 - Baseline SHA-256: `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`
 - Branch: `emcon-b`
 - Product target: `Aegis_SIM_v48_WIP_EMCON_B.html`
-- State: Commits A–D IMPLEMENTED + TESTED; B SHADOW, C ACTIVE, and D UI/override gates approved; E not yet implemented; RELEASE=false
+- State: Commits A–E IMPLEMENTED + TESTED; B SHADOW, C ACTIVE, D UI/override, and E lifecycle gates pass; final broad/candidate gates pending; RELEASE=false
 
 ## Commit A
 
@@ -48,9 +48,21 @@
 - 1400×900, 832×384, and 390×844 layouts remain inside the viewport with 36 px new controls.
 - Evidence: `docs/electronic/emcon/B/D_REPORT.md`, `D_STATIC.json`, `D_GATE.json`, and screenshots.
 
+## Commit E
+
+- Added authoritative per-owner detail-policy export, legacy migration, strict preflight,
+  exact round-trip restore, reset defaults, and destroy cleanup.
+- Preserved group EMCON as a transient overlay and verified SILENT/ACTIVE/PLAYER_SEARCH/
+  ALLY_SEARCH/INDIVIDUAL behavior for DDG→CG and CG→DDG.
+- Operator detail changes under a group overlay are recorded as
+  `MANUAL_DETAIL_UNDER_GROUP_OVERLAY`; the group overlay retains higher priority.
+- Tactical AI does not write detail policy and communications remain outside radar EMCON.
+- Actual Chromium gate: 16/16 checks PASS, page errors 0, console errors 0.
+- Evidence: `docs/electronic/emcon/B/E_REPORT.md`, `E_STATIC.json`, and `E_GATE.json`.
+
 ## Remaining
 
-- E: fleet/network/AI/save lifecycle.
-- Final: one MAX_THREAT broad regression, candidate Actions, packages/readback, new PR.
+- Final: `#lockBtn` 14 browser cases, one MAX_THREAT broad regression, candidate Actions,
+  packages/readback, and a new PR.
 
 No main mutation, merge, release, or tag is authorized by this status.
