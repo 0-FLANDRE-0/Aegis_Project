@@ -4,12 +4,13 @@
 
 ## 현재 인계 기준 (2026-11-08)
 
-- 병합 기준: `main@3dbe3b84bde7a5b23e9713b26a7c8a9ba3823941` (PR #73 EMITTER_A 사용자 병합). 기준 제품은 `Aegis_SIM_v48_WIP_EMITTER_A.html`, SHA-256 `3a5886b4fe0826c834dd237574dd38c21bdd67600553f64c7ce532a7bce1c2be`다.
-- 현재 검토 후보는 별도 `emcon-b` 브랜치의 `Aegis_SIM_v48_WIP_EMCON_B.html`, 22,162,415 bytes, SHA-256 `50cbf50faaf434bc2af9bd182dc4fc46df56006748fdcd3a8dba8a137ccf96ee`다.
-- EMCON_B는 A–E와 PR #74 2·3차 보정을 마쳤다. ShipRuntime별 `ALL_RADIATION_SILENT` V2 권위가 radar/ECM `FORCE_RADIATE`보다 우선한다. 공통 센서 소비자는 `AIR_SEARCH_VOLUME / SURFACE_SEARCH_SCAN / NAVIGATION_SCAN`이며 ShipProfile의 불변 바인딩이 정확한 물리 장비를 정한다. 누락·중복·없는 장비는 fail-closed이고 같은 범주의 다른 장비는 소비자를 대신 활성화하지 못한다. 물리 방출·own/NPC sensor·IFF·ECM·profile UI·network/save lifecycle은 정확한 registry equipment decision을 소비한다. Hawklink/Link 통신은 별도이며 FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI만 제공한다.
-- 지시된 MAX_THREAT 광역 회귀는 수정 전 SHA `3343f5bb…c33`에서 수행한 1회 증거로 보존한다. 보정 SHA에서는 correction-2 static 15/15, correction-3 static 17/17·runtime 16/16, hard-silent/breakout 10/10, UI 13/13, lifecycle 17/17, release smoke 7/7, baseline 6/6, lock 14/14 제한 게이트만 실행했다. 기대값·허용오차 변경은 없다. 상태는 `AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md`, 보고서·원시는 `docs/electronic/emcon/B/`를 따른다.
-- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. 전용 candidate workflow가 manifest stage를 whitelist로 dispatch하며, 결과 문서만 바뀌어 재귀 실행되지 않게 한다.
-- 이 후보는 release가 아니며 main 병합·tag·release는 사용자 결정 전 금지한다.
+- 병합 기준: `main@f17d3777a625699ab26f6a40de80a383f675ae85` (PR #75 ESM_A merge commit). 기준 제품은 `Aegis_SIM_v48_WIP_ESM_A.html`, SHA-256 `5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7`다.
+- 현재 검토 후보는 `seeker-unify-u4`의 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html`, 22,195,923 bytes, SHA-256 `00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498`다.
+- U4 커밋 A는 SARH 쌍정 관측, B는 RAM 수동 RF/IR, C는 ASM·Harpoon·SARH·ARH·RAM의 익명 연관·상태 사건을 SHADOW 뒤 ACTIVE로 전환했다. 물리 프런트엔드, weapon-local RNG, release/guidance 권한, HOJ·route/INS·source arbiter·RAM authority는 기존 소유자를 유지한다.
+- RAM 방사 세기가 수신기 추적 품질을 읽던 소유권 역전만 좁게 수정했다. RF/시커/유도/무장 계수와 저장 스키마는 변경하지 않았다.
+- 동결 후보의 MAX_THREAT 광역은 정확히 한 번 실행했다. native 364/364, 기준 paired 42/42, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS다. U4 장면 raw 4건은 원시 FAIL로 보존하되 이미 기록된 terminal physics/RNG와 제품 바이트로 하네스 판정 결함임을 분리했다. 제품 코드·기대값·허용오차 변경과 광역 재실행은 없다.
+- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. candidate workflow는 제품 exact rebuild, 정적 계약·packed main 문법과 제한 C 게이트만 수행하며 광역을 반복하지 않는다.
+- 이 후보는 release가 아니며 PR #76의 main 병합·tag·release는 사용자 결정 전 금지한다.
 
 ## 1. 기준 파일과 버전 규칙
 

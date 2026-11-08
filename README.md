@@ -1,4 +1,13 @@
-## 최신 작업 — EMCON_B 범주·장비 단위 방사 통제
+## 최신 작업 — SEEKER_UNIFY_U4 SARH·RAM·상태기계 공통화
+
+- 병합된 ESM_A `main@f17d3777` 위 `seeker-unify-u4`/PR #76 후보다. [실행 HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U4.md), [최종 보고서](docs/missile/seeker-unify/U4/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U4/).
+- SARH는 SPG 조사·두 LOS·송수신 빔·쌍정 거리/path-rate를 보존한 `SARH_BISTATIC_4D`로, RAM은 RF/IR을 각각 익명 `PASSIVE_RF_2D`/`PASSIVE_IR_2D`로 공통 계약에 연결했다.
+- RAM 물리 방사 세기가 수신기 추적 품질에 역의존하던 소유권 결함만 좁게 제거했다. 감도·Pd·gate·RNG·유도·무장 계수는 튜닝하지 않았다.
+- ASM/Harpoon/SARH/ARH/RAM의 연관과 상태 사건은 공통 ACTIVE 엔진을 쓰며, HOJ·route/INS·SARH↔ARH arbiter·RAM MEM/RF/IR authority는 무장 훅으로 보존한다. 공통 계층의 truth ID/위치·RNG 소비·새 저장 필드는 0이다.
+- A/B/C 제한 게이트 PASS. 동결 후보 MAX_THREAT 광역은 정확히 1회: native 364/364, ESM_A paired 42/42, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS. U4 장면 raw 4건은 보존된 값으로 하네스 assertion 결함임을 분리해 effective 19/19이며 제품/기대값/허용오차 변경이나 광역 재실행은 없다.
+- 제품 22,195,923 bytes / SHA-256 `00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498`. 기존 U5/U6은 U4 커밋 B/C에 흡수했다. `CONFIRMED_ONLY` 성능은 UNVERIFIED이고 병합·release·tag는 사용자 결정 전 금지다.
+
+## 이전 작업 — EMCON_B 범주·장비 단위 방사 통제
 
 - 병합된 EMITTER_A `main@3dbe3b84` 위 별도 `emcon-b`/PR #74 작업이다. A–E 이후 2·3차 보정까지 구현했고 제품은 [EMCON_B HTML](Aegis_SIM_v48_WIP_EMCON_B.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_EMCON_B.md), [최종 보고서](docs/electronic/emcon/B/FINAL_REPORT.md)로 고정했다.
 - 함정별 명시적 `ALL_RADIATION_SILENT` 권위와 `AIR_SEARCH / SURFACE_SEARCH / NAV / FIRE_CONTROL / ECM` 정책·장비 override를 연결했다. 센서 코드는 `AIR_SEARCH_VOLUME / SURFACE_SEARCH_SCAN / NAVIGATION_SCAN`만 요청하고 ShipProfile이 실제 장비를 바인딩한다. `FORCE_RADIATE`와 같은 범주의 다른 장비는 global hard-off나 정확한 소비자 결정을 우회하지 못한다. 실제 emitter·own/NPC sensor·IFF·ECM allocator/HOJ gate, profile 기반 UI, network/save/reset/destroy 수명주기가 같은 V2 계약을 쓴다. 통신 링크는 여전히 별도다.

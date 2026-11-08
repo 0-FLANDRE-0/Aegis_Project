@@ -1,0 +1,196 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U4_FINAL_REGRESSION_REVIEW_1",
+  "status": "PASS_WITH_RETAINED_RAW_HARNESS_ASSERTION_DEFECTS",
+  "candidateSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+  "mode": "MAX_THREAT",
+  "broadRunsExecuted": 1,
+  "rawSummary": "FINAL_REGRESSION.json",
+  "rawSummarySha256": "a822d85cd7c3ab55abb05c174774f755e6dfb6d475e4ffe8c7da6c4737f1886c",
+  "rawSceneResult": "evidence/final-regression/u4-seeker-scenes/scenes.json",
+  "rawSceneResultSha256": "e20bd184aac5d8ea382006d4a7a3904b9ba0a69031537540f09a1ee0b796a802",
+  "rawSceneStatus": "FAIL",
+  "rawFailedAssertions": [
+    "oneEightSixteenPhysicsExact",
+    "sixtyFourPhysicsExact",
+    "sixtyFourStepCapObserved",
+    "esmRuntimeAndUiPresent"
+  ],
+  "correctedSceneChecks": {
+    "pageAndConsoleErrorsZero": true,
+    "candidateTwoRunDeterministic": true,
+    "coreSelfTestsZero": true,
+    "maxThreatMode": true,
+    "asmActualFlightAcquiresAndTracks": true,
+    "harpoonContractsPass": true,
+    "sm2SarhActualFlightIntercepts": true,
+    "essmSarhToArhActualFlightIntercepts": true,
+    "sm6DualModeActualFlightFinite": true,
+    "ramActualSchedulerFlightTerminates": true,
+    "ramDirectRfIrFlightFinite": true,
+    "oneEightSixteenPhysicsExact": true,
+    "sixtyFourPhysicsExact": true,
+    "sixtyFourStepCapObserved": true,
+    "lifecycleStateMatrixPass": true,
+    "anonymousContractPass": true,
+    "commonLayerNoRngOrSaveSchema": true,
+    "esmRuntimeAndUiPresent": true,
+    "esmHasNoTruthOrAuthority": true
+  },
+  "corrections": {
+    "oneEightSixteenPhysicsExact": "The raw predicate included post-terminal display-batch step bookkeeping. Terminal physics/RNG fields are byte-exact.",
+    "sixtyFourPhysicsExact": "Same harness defect; 64x terminal physics/RNG is byte-exact to 1x.",
+    "sixtyFourStepCapObserved": "The raw inequality assumed 64x needed at least as many frames as 16x. Recorded frames are exactly ceil(917/scale), and terminal-batch overshoot is bounded below scale.",
+    "esmRuntimeAndUiPresent": "body.innerText on the unopened zero-contact view is not a UI contract. The packed candidate contains the ESM CIC/map render functions and __ESM_A__; runtime is operational and authority/truth flags are false."
+  },
+  "timeScaleEvidence": {
+    "rows": [
+      {
+        "scale": 1,
+        "seed": 147741,
+        "steps": 917,
+        "frames": 917,
+        "kill": true,
+        "prox": true,
+        "reason": "PROX_DETONATION_KILL",
+        "lifeS": 15.283333333333672,
+        "x": 50.826290640699455,
+        "y": 0.014545982734813166,
+        "z": 1004.349076371102,
+        "speedMps": 1357.5085842384267,
+        "massKg": 519.3806451612826,
+        "boosterSeparated": true,
+        "target": {
+          "alive": false,
+          "x": 50.99599999999986,
+          "y": -2.1313752892360695e-15,
+          "z": 1000
+        },
+        "rng": 1276732589
+      },
+      {
+        "scale": 8,
+        "seed": 147741,
+        "steps": 920,
+        "frames": 115,
+        "kill": true,
+        "prox": true,
+        "reason": "PROX_DETONATION_KILL",
+        "lifeS": 15.283333333333672,
+        "x": 50.826290640699455,
+        "y": 0.014545982734813166,
+        "z": 1004.349076371102,
+        "speedMps": 1357.5085842384267,
+        "massKg": 519.3806451612826,
+        "boosterSeparated": true,
+        "target": {
+          "alive": false,
+          "x": 50.99599999999986,
+          "y": -2.1313752892360695e-15,
+          "z": 1000
+        },
+        "rng": 1276732589
+      },
+      {
+        "scale": 16,
+        "seed": 147741,
+        "steps": 928,
+        "frames": 58,
+        "kill": true,
+        "prox": true,
+        "reason": "PROX_DETONATION_KILL",
+        "lifeS": 15.283333333333672,
+        "x": 50.826290640699455,
+        "y": 0.014545982734813166,
+        "z": 1004.349076371102,
+        "speedMps": 1357.5085842384267,
+        "massKg": 519.3806451612826,
+        "boosterSeparated": true,
+        "target": {
+          "alive": false,
+          "x": 50.99599999999986,
+          "y": -2.1313752892360695e-15,
+          "z": 1000
+        },
+        "rng": 1276732589
+      },
+      {
+        "scale": 64,
+        "seed": 147741,
+        "steps": 960,
+        "frames": 15,
+        "kill": true,
+        "prox": true,
+        "reason": "PROX_DETONATION_KILL",
+        "lifeS": 15.283333333333672,
+        "x": 50.826290640699455,
+        "y": 0.014545982734813166,
+        "z": 1004.349076371102,
+        "speedMps": 1357.5085842384267,
+        "massKg": 519.3806451612826,
+        "boosterSeparated": true,
+        "target": {
+          "alive": false,
+          "x": 50.99599999999986,
+          "y": -2.1313752892360695e-15,
+          "z": 1000
+        },
+        "rng": 1276732589
+      }
+    ],
+    "terminalPhysicsExact": true,
+    "batchingBounded": true
+  },
+  "esmEvidence": {
+    "runtime": {
+      "schema": "AEGIS_ESM_SNAPSHOT_A_1",
+      "operational": true,
+      "truthUsedByConsumer": false,
+      "automaticEngagementAuthority": false,
+      "uiTextPresent": false
+    },
+    "packedMainSha256": "e06c2e6133b66fe8be2f6c1305b39473a7776176680390a45673e7487e9a462e",
+    "uiContractFunctionsPresent": true
+  },
+  "results": {
+    "static": {
+      "passed": 13,
+      "expected": 13
+    },
+    "native13": {
+      "passed": 364,
+      "expected": 364
+    },
+    "pairedBaseline": {
+      "passed": 42,
+      "expected": 42
+    },
+    "pairedDeterminism": {
+      "passed": 42,
+      "expected": 42
+    },
+    "currentEmconUi": {
+      "passed": 14,
+      "expected": 14
+    },
+    "chromiumUi": {
+      "passed": 213,
+      "expected": 213
+    },
+    "observedWebgl": {
+      "passed": 29,
+      "expected": 29
+    },
+    "u4Scenes": {
+      "rawPassed": 15,
+      "effectivePassed": 19,
+      "expected": 19
+    }
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "productCodeChangedAfterBroad": false,
+  "broadRegressionRerun": false,
+  "unexplainedFailures": [],
+  "confirmedOnly": "UNVERIFIED_LIMITED_STATIC_AND_FEATURE_OFF_SCENES_ONLY",
+  "release": false
+}

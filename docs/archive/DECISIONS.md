@@ -129,3 +129,13 @@
 - ESM 공통 추정 상태 `r.ew.esmA.contacts`와 기존 전술 projection
   `r.ew.executionF.contacts`는 계속 분리한다. merge/release/tag는 사용자 결정 전
   수행하지 않는다.
+
+## 2026-11-08 (SEEKER_UNIFY_U4)
+
+- PR #75 ESM_A는 검증된 head를 merge commit으로 main에 병합하고 그 병합본에서만 U4를 시작한다.
+- 기존 로드맵 U4/U5/U6은 하나의 U4 브랜치·PR에서 A(SARH bistatic), B(RAM passive RF/IR), C(common association/state) 커밋으로 처리한다.
+- SARH는 능동 단안으로 평준화하지 않고 두 LOS·두 beam·SPG 조사·쌍정 range/path-rate를 보존한다. RAM RF/IR은 서로 다른 수동 측정 모델로 유지한다.
+- 방사원 세기가 수신 RAM의 추적 품질에 역의존하는 확인된 소유권 결함만 기존 명목값을 보존해 좁게 수정한다. 결과 보상 튜닝은 하지 않는다.
+- 공통 계층은 익명 측정·공분산·시각·품질과 local state만 소비하며 truth ID/위치, faction, hostile flag와 공통 RNG/상태 singleton을 금지한다.
+- 최종 후보 동결 뒤 MAX_THREAT 광역은 정확히 한 번만 실행한다. raw 하네스 assertion 결함은 원시 증거를 보존하고 제품 바이트를 바꾸거나 기대값·허용오차를 완화하지 않은 오프라인 검토로만 분리한다.
+- U4 PR은 생성까지만 진행하며 병합·release·tag는 사용자 결정이다. `CONFIRMED_ONLY` 성능은 UNVERIFIED로 남긴다.

@@ -1,0 +1,1445 @@
+{
+  "schema": "AEGIS_SEEKER_UNIFY_U4_A_GATE_1",
+  "status": "PASS",
+  "elapsedS": 40.27874948998215,
+  "broadRegressionRun": false,
+  "representativeBranchesPerMode": 11,
+  "checks": {
+    "baselineFixtureContract": true,
+    "shadowFixtureEqual": true,
+    "activeFixtureEqual": true,
+    "baselineLivePass": true,
+    "shadowLiveEqual": true,
+    "activeLiveEqual": true,
+    "activeRepeatedInputDeterministic": true,
+    "shadowContract": true,
+    "activeContract": true,
+    "activeTacticalRoute": true,
+    "powerAndCellBitEqual": true,
+    "illuminationGeometryStatic": true,
+    "coreSelfTests": true,
+    "pageErrorsZero": true
+  },
+  "baseline": {
+    "path": "Aegis_SIM_v48_WIP_ESM_A.html",
+    "sha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
+    "fixture": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FIXTURE_V48_WIP13C5",
+      "profile": "AEGIS_LIVE_SURFACE_SARH_V48_WIP13C5",
+      "checks": {
+        "liveManualRelease": true,
+        "automaticSurfaceDenied": true,
+        "spgReservationCommitted": true,
+        "commonReflectorRegistry": true,
+        "seaClutterSharesEchoChain": true,
+        "surfaceReturnSharesEchoChain": true,
+        "localSarhTrack": true,
+        "measurementOnlyGuidance": true,
+        "physicalHullContact": false,
+        "wip12fDamageApplied": false,
+        "coarseFloodingConnected": false,
+        "noAirPkShortcut": false
+      },
+      "pass": false,
+      "release": {
+        "status": "RELEASE_AUTHORIZED",
+        "identity": "TRAINING_TARGET",
+        "fcs": "SURFACE_MISSILE_FCS_READY",
+        "quality01": 0.9969213473187933,
+        "illuminatorId": 1
+      },
+      "reservation": {
+        "illId": 1,
+        "startT": 0,
+        "endT": 1.75,
+        "missileIds": [
+          913500
+        ]
+      },
+      "rf": {
+        "poolKinds": {
+          "SHIP": 1,
+          "SURFACE_TARGET": 1,
+          "AIR_OBJECT": 8,
+          "TERRAIN_CLUTTER": 128
+        },
+        "echoKinds": {
+          "SURFACE_TARGET": 1,
+          "SEA_CLUTTER": 45
+        },
+        "echoCount": 46,
+        "measurementCount": 45,
+        "seekerMode": "TRACK",
+        "confidence": 0.8728143467297883,
+        "guidanceSource": "SARH_RF_EKF"
+      },
+      "impact": null,
+      "snapshot": {
+        "damage": {
+          "revision": 0,
+          "impacts": [],
+          "scars": [],
+          "breaches": [],
+          "fires": []
+        },
+        "fire": {
+          "revision": 0,
+          "timeS": 0,
+          "totalIntensity01": 0,
+          "burningCount": 0,
+          "consumedCombustibleKg": 0
+        },
+        "flooding": {
+          "compartments": 9,
+          "waterM3": 0
+        },
+        "structure": {
+          "revision": 0,
+          "longitudinalStrength01": 1,
+          "keelIntegrity01": 1,
+          "sideIntegrity01": 1,
+          "deckIntegrity01": 1,
+          "catastrophic": false,
+          "worstZoneId": null,
+          "zones": [
+            {
+              "id": "FOREPEAK",
+              "index": 0,
+              "x0": 88,
+              "x1": 105,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_1",
+              "index": 1,
+              "x0": 62,
+              "x1": 88,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_2",
+              "index": 2,
+              "x0": 35,
+              "x1": 62,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_3",
+              "index": 3,
+              "x0": 8,
+              "x1": 35,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_4",
+              "index": 4,
+              "x0": -19,
+              "x1": 8,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_5",
+              "index": 5,
+              "x0": -47,
+              "x1": -19,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_6",
+              "index": 6,
+              "x0": -72,
+              "x1": -47,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "MACHINERY",
+              "index": 7,
+              "x0": -94,
+              "x1": -72,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "AFTPEAK",
+              "index": 8,
+              "x0": -105,
+              "x1": -94,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            }
+          ]
+        }
+      }
+    },
+    "live": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FLIGHT_FIXTURE_V48_WIP13C5",
+      "checks": {
+        "roundConsumed": true,
+        "spgIlluminated": true,
+        "physicalEchoesReceived": true,
+        "localSarhGuidance": true,
+        "physicalHullContact": true,
+        "wip12fDamage": true
+      },
+      "pass": true,
+      "ticks": 769,
+      "timeS": 12.816666666666666,
+      "deathReason": "SURFACE_TARGET_CONTACT",
+      "missileId": 1,
+      "maxSarhEchoes": 46,
+      "maxSarhMeasurements": 45,
+      "maxSarhConfidence": 0.9810878882499735,
+      "sawSarhAuthority": true,
+      "sawActiveIllumination": true,
+      "minCenterDistanceM": 16.20410034213863,
+      "final": {
+        "rangeKm": 0.015949771824130893,
+        "altitudeM": 2.600341514051447,
+        "speedMps": 994.0435196158975,
+        "guidanceAuthority": "SARH_RF_EKF",
+        "sarhMode": "TRACK"
+      },
+      "impact": {
+        "eventId": "TARGET_MISSILE:WIP13C5_LIVE_FLIGHT_TARGET:SM2:1",
+        "targetEntityId": "WIP13C5_LIVE_FLIGHT_TARGET",
+        "weaponKey": "SM2",
+        "impactSpeedMps": 994.0435196158975,
+        "terminationReason": "FUZE_AT_CONTACT",
+        "perforated": true,
+        "throughHull": false,
+        "damageRevision": 1
+      },
+      "damage": {
+        "impacts": 1,
+        "scars": 3,
+        "breaches": 3,
+        "fires": 0,
+        "source": "SM2_SURFACE_SARH_LIVE"
+      },
+      "spentSm2": 1
+    },
+    "repeat": null,
+    "deterministic": null,
+    "core": [],
+    "synthetic": null,
+    "static": null,
+    "errors": []
+  },
+  "shadow": {
+    "path": "U4_A_SHADOW.html",
+    "sha256": "c0eed5ab9034f8dfb9311422bcd21ca4efe3a33eb6259c1a231f94c783139d9b",
+    "fixture": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FIXTURE_V48_WIP13C5",
+      "profile": "AEGIS_LIVE_SURFACE_SARH_V48_WIP13C5",
+      "checks": {
+        "liveManualRelease": true,
+        "automaticSurfaceDenied": true,
+        "spgReservationCommitted": true,
+        "commonReflectorRegistry": true,
+        "seaClutterSharesEchoChain": true,
+        "surfaceReturnSharesEchoChain": true,
+        "localSarhTrack": true,
+        "measurementOnlyGuidance": true,
+        "physicalHullContact": false,
+        "wip12fDamageApplied": false,
+        "coarseFloodingConnected": false,
+        "noAirPkShortcut": false
+      },
+      "pass": false,
+      "release": {
+        "status": "RELEASE_AUTHORIZED",
+        "identity": "TRAINING_TARGET",
+        "fcs": "SURFACE_MISSILE_FCS_READY",
+        "quality01": 0.9969213473187933,
+        "illuminatorId": 1
+      },
+      "reservation": {
+        "illId": 1,
+        "startT": 0,
+        "endT": 1.75,
+        "missileIds": [
+          913500
+        ]
+      },
+      "rf": {
+        "poolKinds": {
+          "SHIP": 1,
+          "SURFACE_TARGET": 1,
+          "AIR_OBJECT": 8,
+          "TERRAIN_CLUTTER": 128
+        },
+        "echoKinds": {
+          "SURFACE_TARGET": 1,
+          "SEA_CLUTTER": 45
+        },
+        "echoCount": 46,
+        "measurementCount": 45,
+        "seekerMode": "TRACK",
+        "confidence": 0.8728143467297883,
+        "guidanceSource": "SARH_RF_EKF"
+      },
+      "impact": null,
+      "snapshot": {
+        "damage": {
+          "revision": 0,
+          "impacts": [],
+          "scars": [],
+          "breaches": [],
+          "fires": []
+        },
+        "fire": {
+          "revision": 0,
+          "timeS": 0,
+          "totalIntensity01": 0,
+          "burningCount": 0,
+          "consumedCombustibleKg": 0
+        },
+        "flooding": {
+          "compartments": 9,
+          "waterM3": 0
+        },
+        "structure": {
+          "revision": 0,
+          "longitudinalStrength01": 1,
+          "keelIntegrity01": 1,
+          "sideIntegrity01": 1,
+          "deckIntegrity01": 1,
+          "catastrophic": false,
+          "worstZoneId": null,
+          "zones": [
+            {
+              "id": "FOREPEAK",
+              "index": 0,
+              "x0": 88,
+              "x1": 105,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_1",
+              "index": 1,
+              "x0": 62,
+              "x1": 88,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_2",
+              "index": 2,
+              "x0": 35,
+              "x1": 62,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_3",
+              "index": 3,
+              "x0": 8,
+              "x1": 35,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_4",
+              "index": 4,
+              "x0": -19,
+              "x1": 8,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_5",
+              "index": 5,
+              "x0": -47,
+              "x1": -19,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_6",
+              "index": 6,
+              "x0": -72,
+              "x1": -47,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "MACHINERY",
+              "index": 7,
+              "x0": -94,
+              "x1": -72,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "AFTPEAK",
+              "index": 8,
+              "x0": -105,
+              "x1": -94,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            }
+          ]
+        }
+      }
+    },
+    "live": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FLIGHT_FIXTURE_V48_WIP13C5",
+      "checks": {
+        "roundConsumed": true,
+        "spgIlluminated": true,
+        "physicalEchoesReceived": true,
+        "localSarhGuidance": true,
+        "physicalHullContact": true,
+        "wip12fDamage": true
+      },
+      "pass": true,
+      "ticks": 769,
+      "timeS": 12.816666666666666,
+      "deathReason": "SURFACE_TARGET_CONTACT",
+      "missileId": 1,
+      "maxSarhEchoes": 46,
+      "maxSarhMeasurements": 45,
+      "maxSarhConfidence": 0.9810878882499735,
+      "sawSarhAuthority": true,
+      "sawActiveIllumination": true,
+      "minCenterDistanceM": 16.20410034213863,
+      "final": {
+        "rangeKm": 0.015949771824130893,
+        "altitudeM": 2.600341514051447,
+        "speedMps": 994.0435196158975,
+        "guidanceAuthority": "SARH_RF_EKF",
+        "sarhMode": "TRACK"
+      },
+      "impact": {
+        "eventId": "TARGET_MISSILE:WIP13C5_LIVE_FLIGHT_TARGET:SM2:1",
+        "targetEntityId": "WIP13C5_LIVE_FLIGHT_TARGET",
+        "weaponKey": "SM2",
+        "impactSpeedMps": 994.0435196158975,
+        "terminationReason": "FUZE_AT_CONTACT",
+        "perforated": true,
+        "throughHull": false,
+        "damageRevision": 1
+      },
+      "damage": {
+        "impacts": 1,
+        "scars": 3,
+        "breaches": 3,
+        "fires": 0,
+        "source": "SM2_SURFACE_SARH_LIVE"
+      },
+      "spentSm2": 1
+    },
+    "repeat": null,
+    "deterministic": null,
+    "core": [],
+    "synthetic": {
+      "mode": "SHADOW",
+      "profile": {
+        "schema": "AEGIS_SEEKER_U4_SARH_PROFILE_A_1",
+        "family": "SARH_BISTATIC",
+        "dimension": "SARH_BISTATIC_4D",
+        "provenance": "LEGACY_EQUIVALENCE",
+        "units": {
+          "distance": "m",
+          "angle": "rad",
+          "velocity": "m/s",
+          "covariance": "SI_squared"
+        },
+        "propagation": "TX_TARGET_PLUS_TARGET_RX",
+        "requiresIllumination": true,
+        "requiresTxLos": true,
+        "requiresRxLos": true,
+        "requiresTxBeam": true,
+        "requiresRxBeam": true,
+        "rngOwner": "WEAPON_LOCAL_EXISTING_HANDLE"
+      },
+      "powerRows": [
+        {
+          "args": [
+            1,
+            20,
+            8,
+            0.9,
+            0.8,
+            0.95,
+            0.94,
+            0.85
+          ],
+          "legacy": 14.006607328125002,
+          "common": 14.006607328125002,
+          "routed": 14.006607328125002,
+          "equal": true
+        },
+        {
+          "args": [
+            2.5,
+            0.25,
+            0.25,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "legacy": 419904000,
+          "common": 419904000,
+          "routed": 419904000,
+          "equal": true
+        },
+        {
+          "args": [
+            0.1,
+            100,
+            30,
+            0.02,
+            0.4,
+            0.2,
+            0.7,
+            0.5
+          ],
+          "legacy": 4.0824e-06,
+          "common": 4.0824e-06,
+          "routed": 4.0824e-06,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            0,
+            1,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            1,
+            0,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        }
+      ],
+      "dto": {
+        "schema": "AEGIS_SEEKER_ECHO_SAMPLE_U4",
+        "dimension": "SARH_BISTATIC_4D",
+        "anonymousEchoKey": "SARH:0",
+        "valid": true,
+        "pathRangeM": 28000,
+        "receiverRangeM": 8000,
+        "azRad": 0.2,
+        "elRad": -0.01,
+        "pathRateMps": -320,
+        "receivedPower": 0.4,
+        "snr": 12,
+        "apparentRcsM2": 1.2,
+        "txLeg": {
+          "rangeM": 20000,
+          "losQ": 0.9,
+          "beamGain": 0.63
+        },
+        "rxLeg": {
+          "rangeM": 8000,
+          "losQ": 0.8,
+          "beamGain": 0.6
+        },
+        "rangeExtentM": 10,
+        "crossExtentM": 3,
+        "verticalExtentM": 2,
+        "dopplerSpreadMps": 4,
+        "environment": {
+          "clutterQ": null,
+          "multipathQ": null,
+          "weatherQ": null
+        }
+      },
+      "blocked": [
+        {
+          "key": "txLosQ",
+          "valid": false
+        },
+        {
+          "key": "rxLosQ",
+          "valid": false
+        },
+        {
+          "key": "txBeamGain",
+          "valid": false
+        },
+        {
+          "key": "rxBeamGain",
+          "valid": false
+        }
+      ],
+      "meas": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "SARH_BISTATIC_4D",
+        "values": [
+          8000,
+          0.2,
+          -0.01,
+          -320
+        ],
+        "covariance": [
+          400,
+          0,
+          0,
+          0,
+          0,
+          1.2184696791468344e-05,
+          0,
+          0,
+          0,
+          0,
+          1.9038588736669286e-05,
+          0,
+          0,
+          0,
+          0,
+          16
+        ],
+        "snr": 8,
+        "quality": 0.8
+      },
+      "unresolved": {
+        "near": true,
+        "far": false
+      },
+      "snapshot": {
+        "schema": "AEGIS_SEEKER_U4_SARH_SNAPSHOT_A_1",
+        "mode": "SHADOW",
+        "profile": {
+          "schema": "AEGIS_SEEKER_U4_SARH_PROFILE_A_1",
+          "family": "SARH_BISTATIC",
+          "dimension": "SARH_BISTATIC_4D",
+          "provenance": "LEGACY_EQUIVALENCE",
+          "units": {
+            "distance": "m",
+            "angle": "rad",
+            "velocity": "m/s",
+            "covariance": "SI_squared"
+          },
+          "propagation": "TX_TARGET_PLUS_TARGET_RX",
+          "requiresIllumination": true,
+          "requiresTxLos": true,
+          "requiresRxLos": true,
+          "requiresTxBeam": true,
+          "requiresRxBeam": true,
+          "rngOwner": "WEAPON_LOCAL_EXISTING_HANDLE"
+        },
+        "echoRoutes": 489,
+        "cellRoutes": 490,
+        "measurementRoutes": 18634,
+        "packetRoutes": 489,
+        "powerComparisons": 20088,
+        "powerMismatches": 0,
+        "unresolvedComparisons": 411299,
+        "unresolvedMismatches": 0,
+        "invalidCommonEchoes": 6,
+        "truthFieldViolations": 0,
+        "maxAbsPowerDifference": 0,
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "tacticalOutputUsed": false,
+        "mutableTacticalSingleton": false
+      },
+      "checks": {
+        "powerBitEqual": true,
+        "validBistaticEcho": true,
+        "noTruthOrDebug": true,
+        "twoLosAndBeamFailClosed": true,
+        "measurement4D": true,
+        "cellPolicy": true,
+        "rngFree": true,
+        "truthFree": true
+      },
+      "pass": true
+    },
+    "static": {
+      "illumination": true,
+      "emcon": true,
+      "twoLos": true,
+      "twoBeams": true,
+      "sourceArbiter": true
+    },
+    "errors": []
+  },
+  "active": {
+    "path": "U4_A_ACTIVE.html",
+    "sha256": "cb463f27c4f3b25a6e2b4fe1adf1e3029a58bee4725f7e5e40ec542518b95d66",
+    "fixture": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FIXTURE_V48_WIP13C5",
+      "profile": "AEGIS_LIVE_SURFACE_SARH_V48_WIP13C5",
+      "checks": {
+        "liveManualRelease": true,
+        "automaticSurfaceDenied": true,
+        "spgReservationCommitted": true,
+        "commonReflectorRegistry": true,
+        "seaClutterSharesEchoChain": true,
+        "surfaceReturnSharesEchoChain": true,
+        "localSarhTrack": true,
+        "measurementOnlyGuidance": true,
+        "physicalHullContact": false,
+        "wip12fDamageApplied": false,
+        "coarseFloodingConnected": false,
+        "noAirPkShortcut": false
+      },
+      "pass": false,
+      "release": {
+        "status": "RELEASE_AUTHORIZED",
+        "identity": "TRAINING_TARGET",
+        "fcs": "SURFACE_MISSILE_FCS_READY",
+        "quality01": 0.9969213473187933,
+        "illuminatorId": 1
+      },
+      "reservation": {
+        "illId": 1,
+        "startT": 0,
+        "endT": 1.75,
+        "missileIds": [
+          913500
+        ]
+      },
+      "rf": {
+        "poolKinds": {
+          "SHIP": 1,
+          "SURFACE_TARGET": 1,
+          "AIR_OBJECT": 8,
+          "TERRAIN_CLUTTER": 128
+        },
+        "echoKinds": {
+          "SURFACE_TARGET": 1,
+          "SEA_CLUTTER": 45
+        },
+        "echoCount": 46,
+        "measurementCount": 45,
+        "seekerMode": "TRACK",
+        "confidence": 0.8728143467297883,
+        "guidanceSource": "SARH_RF_EKF"
+      },
+      "impact": null,
+      "snapshot": {
+        "damage": {
+          "revision": 0,
+          "impacts": [],
+          "scars": [],
+          "breaches": [],
+          "fires": []
+        },
+        "fire": {
+          "revision": 0,
+          "timeS": 0,
+          "totalIntensity01": 0,
+          "burningCount": 0,
+          "consumedCombustibleKg": 0
+        },
+        "flooding": {
+          "compartments": 9,
+          "waterM3": 0
+        },
+        "structure": {
+          "revision": 0,
+          "longitudinalStrength01": 1,
+          "keelIntegrity01": 1,
+          "sideIntegrity01": 1,
+          "deckIntegrity01": 1,
+          "catastrophic": false,
+          "worstZoneId": null,
+          "zones": [
+            {
+              "id": "FOREPEAK",
+              "index": 0,
+              "x0": 88,
+              "x1": 105,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_1",
+              "index": 1,
+              "x0": 62,
+              "x1": 88,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_2",
+              "index": 2,
+              "x0": 35,
+              "x1": 62,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_3",
+              "index": 3,
+              "x0": 8,
+              "x1": 35,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_4",
+              "index": 4,
+              "x0": -19,
+              "x1": 8,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_5",
+              "index": 5,
+              "x0": -47,
+              "x1": -19,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "HOLD_6",
+              "index": 6,
+              "x0": -72,
+              "x1": -47,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "MACHINERY",
+              "index": 7,
+              "x0": -94,
+              "x1": -72,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            },
+            {
+              "id": "AFTPEAK",
+              "index": 8,
+              "x0": -105,
+              "x1": -94,
+              "residualStrength01": 1,
+              "sideIntegrity01": 1,
+              "deckIntegrity01": 1,
+              "keelIntegrity01": 1,
+              "absorbedEnergyMJ": 0,
+              "impactCount": 0,
+              "keelCracked": false,
+              "sideCracked": false,
+              "deckCracked": false
+            }
+          ]
+        }
+      }
+    },
+    "live": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FLIGHT_FIXTURE_V48_WIP13C5",
+      "checks": {
+        "roundConsumed": true,
+        "spgIlluminated": true,
+        "physicalEchoesReceived": true,
+        "localSarhGuidance": true,
+        "physicalHullContact": true,
+        "wip12fDamage": true
+      },
+      "pass": true,
+      "ticks": 769,
+      "timeS": 12.816666666666666,
+      "deathReason": "SURFACE_TARGET_CONTACT",
+      "missileId": 1,
+      "maxSarhEchoes": 46,
+      "maxSarhMeasurements": 45,
+      "maxSarhConfidence": 0.9810878882499735,
+      "sawSarhAuthority": true,
+      "sawActiveIllumination": true,
+      "minCenterDistanceM": 16.20410034213863,
+      "final": {
+        "rangeKm": 0.015949771824130893,
+        "altitudeM": 2.600341514051447,
+        "speedMps": 994.0435196158975,
+        "guidanceAuthority": "SARH_RF_EKF",
+        "sarhMode": "TRACK"
+      },
+      "impact": {
+        "eventId": "TARGET_MISSILE:WIP13C5_LIVE_FLIGHT_TARGET:SM2:1",
+        "targetEntityId": "WIP13C5_LIVE_FLIGHT_TARGET",
+        "weaponKey": "SM2",
+        "impactSpeedMps": 994.0435196158975,
+        "terminationReason": "FUZE_AT_CONTACT",
+        "perforated": true,
+        "throughHull": false,
+        "damageRevision": 1
+      },
+      "damage": {
+        "impacts": 1,
+        "scars": 3,
+        "breaches": 3,
+        "fires": 0,
+        "source": "SM2_SURFACE_SARH_LIVE"
+      },
+      "spentSm2": 1
+    },
+    "repeat": {
+      "schema": "AEGIS_LIVE_SURFACE_SARH_FLIGHT_FIXTURE_V48_WIP13C5",
+      "checks": {
+        "roundConsumed": true,
+        "spgIlluminated": true,
+        "physicalEchoesReceived": true,
+        "localSarhGuidance": true,
+        "physicalHullContact": true,
+        "wip12fDamage": true
+      },
+      "pass": true,
+      "ticks": 769,
+      "timeS": 12.816666666666666,
+      "deathReason": "SURFACE_TARGET_CONTACT",
+      "missileId": 1,
+      "maxSarhEchoes": 46,
+      "maxSarhMeasurements": 45,
+      "maxSarhConfidence": 0.9810878882499735,
+      "sawSarhAuthority": true,
+      "sawActiveIllumination": true,
+      "minCenterDistanceM": 16.20410034213863,
+      "final": {
+        "rangeKm": 0.015949771824130893,
+        "altitudeM": 2.600341514051447,
+        "speedMps": 994.0435196158975,
+        "guidanceAuthority": "SARH_RF_EKF",
+        "sarhMode": "TRACK"
+      },
+      "impact": {
+        "eventId": "TARGET_MISSILE:WIP13C5_LIVE_FLIGHT_TARGET:SM2:1",
+        "targetEntityId": "WIP13C5_LIVE_FLIGHT_TARGET",
+        "weaponKey": "SM2",
+        "impactSpeedMps": 994.0435196158975,
+        "terminationReason": "FUZE_AT_CONTACT",
+        "perforated": true,
+        "throughHull": false,
+        "damageRevision": 1
+      },
+      "damage": {
+        "impacts": 1,
+        "scars": 3,
+        "breaches": 3,
+        "fires": 0,
+        "source": "SM2_SURFACE_SARH_LIVE"
+      },
+      "spentSm2": 1
+    },
+    "deterministic": true,
+    "core": [],
+    "synthetic": {
+      "mode": "ACTIVE",
+      "profile": {
+        "schema": "AEGIS_SEEKER_U4_SARH_PROFILE_A_1",
+        "family": "SARH_BISTATIC",
+        "dimension": "SARH_BISTATIC_4D",
+        "provenance": "LEGACY_EQUIVALENCE",
+        "units": {
+          "distance": "m",
+          "angle": "rad",
+          "velocity": "m/s",
+          "covariance": "SI_squared"
+        },
+        "propagation": "TX_TARGET_PLUS_TARGET_RX",
+        "requiresIllumination": true,
+        "requiresTxLos": true,
+        "requiresRxLos": true,
+        "requiresTxBeam": true,
+        "requiresRxBeam": true,
+        "rngOwner": "WEAPON_LOCAL_EXISTING_HANDLE"
+      },
+      "powerRows": [
+        {
+          "args": [
+            1,
+            20,
+            8,
+            0.9,
+            0.8,
+            0.95,
+            0.94,
+            0.85
+          ],
+          "legacy": 14.006607328125002,
+          "common": 14.006607328125002,
+          "routed": 14.006607328125002,
+          "equal": true
+        },
+        {
+          "args": [
+            2.5,
+            0.25,
+            0.25,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "legacy": 419904000,
+          "common": 419904000,
+          "routed": 419904000,
+          "equal": true
+        },
+        {
+          "args": [
+            0.1,
+            100,
+            30,
+            0.02,
+            0.4,
+            0.2,
+            0.7,
+            0.5
+          ],
+          "legacy": 4.0824e-06,
+          "common": 4.0824e-06,
+          "routed": 4.0824e-06,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            0,
+            1,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            1,
+            0,
+            1,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        },
+        {
+          "args": [
+            10,
+            60,
+            40,
+            1,
+            1,
+            1,
+            0,
+            1
+          ],
+          "legacy": 0,
+          "common": 0,
+          "routed": 0,
+          "equal": true
+        }
+      ],
+      "dto": {
+        "schema": "AEGIS_SEEKER_ECHO_SAMPLE_U4",
+        "dimension": "SARH_BISTATIC_4D",
+        "anonymousEchoKey": "SARH:0",
+        "valid": true,
+        "pathRangeM": 28000,
+        "receiverRangeM": 8000,
+        "azRad": 0.2,
+        "elRad": -0.01,
+        "pathRateMps": -320,
+        "receivedPower": 0.4,
+        "snr": 12,
+        "apparentRcsM2": 1.2,
+        "txLeg": {
+          "rangeM": 20000,
+          "losQ": 0.9,
+          "beamGain": 0.63
+        },
+        "rxLeg": {
+          "rangeM": 8000,
+          "losQ": 0.8,
+          "beamGain": 0.6
+        },
+        "rangeExtentM": 10,
+        "crossExtentM": 3,
+        "verticalExtentM": 2,
+        "dopplerSpreadMps": 4,
+        "environment": {
+          "clutterQ": null,
+          "multipathQ": null,
+          "weatherQ": null
+        }
+      },
+      "blocked": [
+        {
+          "key": "txLosQ",
+          "valid": false
+        },
+        {
+          "key": "rxLosQ",
+          "valid": false
+        },
+        {
+          "key": "txBeamGain",
+          "valid": false
+        },
+        {
+          "key": "rxBeamGain",
+          "valid": false
+        }
+      ],
+      "meas": {
+        "schema": "AEGIS_SEEKER_MEASUREMENT_U4",
+        "dimension": "SARH_BISTATIC_4D",
+        "values": [
+          8000,
+          0.2,
+          -0.01,
+          -320
+        ],
+        "covariance": [
+          400,
+          0,
+          0,
+          0,
+          0,
+          1.2184696791468344e-05,
+          0,
+          0,
+          0,
+          0,
+          1.9038588736669286e-05,
+          0,
+          0,
+          0,
+          0,
+          16
+        ],
+        "snr": 8,
+        "quality": 0.8
+      },
+      "unresolved": {
+        "near": true,
+        "far": false
+      },
+      "snapshot": {
+        "schema": "AEGIS_SEEKER_U4_SARH_SNAPSHOT_A_1",
+        "mode": "ACTIVE",
+        "profile": {
+          "schema": "AEGIS_SEEKER_U4_SARH_PROFILE_A_1",
+          "family": "SARH_BISTATIC",
+          "dimension": "SARH_BISTATIC_4D",
+          "provenance": "LEGACY_EQUIVALENCE",
+          "units": {
+            "distance": "m",
+            "angle": "rad",
+            "velocity": "m/s",
+            "covariance": "SI_squared"
+          },
+          "propagation": "TX_TARGET_PLUS_TARGET_RX",
+          "requiresIllumination": true,
+          "requiresTxLos": true,
+          "requiresRxLos": true,
+          "requiresTxBeam": true,
+          "requiresRxBeam": true,
+          "rngOwner": "WEAPON_LOCAL_EXISTING_HANDLE"
+        },
+        "echoRoutes": 489,
+        "cellRoutes": 490,
+        "measurementRoutes": 18634,
+        "packetRoutes": 489,
+        "powerComparisons": 20088,
+        "powerMismatches": 0,
+        "unresolvedComparisons": 411299,
+        "unresolvedMismatches": 0,
+        "invalidCommonEchoes": 6,
+        "truthFieldViolations": 0,
+        "maxAbsPowerDifference": 0,
+        "rngConsumedByCommonLayer": false,
+        "truthOutput": false,
+        "tacticalOutputUsed": true,
+        "mutableTacticalSingleton": false
+      },
+      "checks": {
+        "powerBitEqual": true,
+        "validBistaticEcho": true,
+        "noTruthOrDebug": true,
+        "twoLosAndBeamFailClosed": true,
+        "measurement4D": true,
+        "cellPolicy": true,
+        "rngFree": true,
+        "truthFree": true
+      },
+      "pass": true
+    },
+    "static": {
+      "illumination": true,
+      "emcon": true,
+      "twoLos": true,
+      "twoBeams": true,
+      "sourceArbiter": true
+    },
+    "errors": []
+  },
+  "release": false
+}

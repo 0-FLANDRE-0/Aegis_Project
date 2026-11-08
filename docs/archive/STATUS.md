@@ -1,4 +1,15 @@
-# 현재 상태 (2026-11-08 ESM_A 종료 후보 기준)
+# 현재 상태 (2026-11-08 SEEKER_UNIFY_U4 PR 후보 기준)
+
+## U4 현재 인계
+
+- 기준은 ESM_A merge commit `f17d3777`; 작업 브랜치는 `seeker-unify-u4`다.
+- 결과 제품은 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html`, 22,195,923 bytes, SHA-256 `00d36aad…c498`다.
+- A SARH bistatic, B RAM passive RF/IR, C common association/state가 SHADOW gate 뒤 ACTIVE다. U5/U6은 B/C에 흡수됐다.
+- 단계 게이트 PASS. 동결 후보 광역 1회에서 native 364/364, 기준 paired 42/42, 결정성 42/42, EMCON 14/14, UI 213/213, WebGL 29/29 PASS다.
+- U4 장면 raw 4건은 원시 증거를 유지하며 하네스 판정 결함으로 분리했다. 제품 변경·광역 재실행·기대값/허용오차 변경은 0이다.
+- PR #76 제출 후보이며 release/tag는 없다. `CONFIRMED_ONLY` 성능은 UNVERIFIED다.
+
+# 직전 상태 (2026-11-08 ESM_A 종료 후보 기준)
 
 ## 레포
 

@@ -13,6 +13,7 @@
 
 ## U3 이후
 
+- **SEEKER_UNIFY_U4 — 구현·검증 완료, PR #76 후보**: SARH bistatic, RAM passive RF/IR과 공통 association/state를 A/B/C로 ACTIVE 전환했다. 기존 U5/U6은 B/C에 흡수했다. `CONFIRMED_ONLY` 성능은 계속 UNVERIFIED다.
 - **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
 - **EMCON_B — 완료, PR #74 병합**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
@@ -35,6 +36,7 @@
 - **통신 EMCON**: radar master/category silence와 별도다. Hawklink/Link 송신 통제를 새 정책으로 설계한다.
 - **FIRE_CONTROL registry**: 현재 활성 SPG-62 장비가 없어 EMCON_B는 계약/비활성 UI만 제공한다. 물리 등록·RF·ESM 연계는 별도 단계가 필요하다.
 - **SOV Mineral/Band Stand 수동 어댑터·Moskit 표적지시**: ESM_A의 공통 raw measurement/localizer/UI/cue 포트가 완료된 뒤 소브레멘니 센서·무장 단계에서 연결한다. ESM_A에서는 SOV receiver/EW/weapon capability를 활성화하지 않는다.
+- **U4 raw harness assertions**: 최종 1회 광역의 U4 장면 raw 4건은 제품 실패가 아니라 post-terminal batch step·역전된 64× inequality·unopened ESM body text 조건의 하네스 결함이다. 원시 FAIL과 오프라인 리뷰를 함께 보존했으며 다음 실행부터 수정된 predicate를 쓴다.
 - **광역 Chromium runner 메모리 부채**: APS-153/ISAR/legacy EMCON/Harpoon의 큰 기존 진단 modal·journal 경로가 제한 환경에서 assertion 전 `Target crashed`를 낸다. 제품 판정과 분리해 runner를 경량화한다.
 - **SOV/UI 기존 fixture 부채**: EMITTER_A와 EMCON_B 양쪽에서 SOV deployment의 `selectedSOV/creditVisible`, UI의 `nativeHold/feedReject` 및 832.CG.PIP covered-point가 동일하게 재현된다.
 
