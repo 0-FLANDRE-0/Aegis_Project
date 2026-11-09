@@ -1,0 +1,63 @@
+{
+  "schema": "AEGIS_HP_A_FINAL_REGRESSION_RECONCILIATION_1",
+  "status": "PASS_WITH_CLASSIFIED_INTENDED_DELTAS",
+  "candidate": "Aegis_SIM_v48_WIP_HP_A.html",
+  "candidateSha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
+  "candidateBytes": 22200135,
+  "checks": {
+    "rawBroadExecutedOnce": true,
+    "candidateStayedFrozen": true,
+    "native364Pass": true,
+    "onlyRawFailuresExpected": true,
+    "pairedSixClassified": true,
+    "pairedExpectationsUntouched": true,
+    "sceneWasPreExecutionPinFailure": true,
+    "sceneRecoverySameCodePass19": true,
+    "sceneRecoveryNoPageErrors": true
+  },
+  "rawBroadEvidence": {
+    "complete": true,
+    "runCount": 1,
+    "wallS": 2383.733818703011,
+    "rawFailuresRetained": [
+      "paired-esm-a",
+      "u4-seeker-scenes"
+    ],
+    "native13": {
+      "suiteCount": 13,
+      "expectedSuiteCount": 13,
+      "expectedAssertions": 364,
+      "executedAssertions": 364,
+      "passedAssertions": 364
+    }
+  },
+  "classification": {
+    "paired-esm-a": {
+      "raw": "36/42; six samePhysicalState failures retained",
+      "effective": "42/42 after HP_A-authorized save-contract classification",
+      "basis": "All six retain exact combat RNG, hull damage/inventory, observer, offboard, faults, and final discrete HP/survival/water/module/crew outcomes. Idle/raid differ only by the new survival save field; damaged fixtures mutate flood after export while leaving that authoritative snapshot stale.",
+      "expectationsUpdated": false,
+      "tolerancesChanged": false
+    },
+    "u4-seeker-scenes": {
+      "raw": "0/0; inherited script rejected HP_A byte count before browser launch",
+      "effective": "19/19 in one isolated harness-recovery execution",
+      "codeChange": "Only PRODUCT_BYTES and PRODUCT_SHA256 harness constants; product and scene body unchanged",
+      "broadRerun": false
+    }
+  },
+  "effectiveSuiteAssertions": {
+    "hpStatic": "11/11",
+    "native13": "364/364",
+    "pairedEsmA": "42/42 classified",
+    "pairedDeterminism": "42/42",
+    "currentEmconUi": "14/14",
+    "ui": "213/213",
+    "webgl": "29/29",
+    "seekerScenes": "19/19 recovered harness"
+  },
+  "expectedValuesUpdated": false,
+  "broadRegressionTolerancesChanged": false,
+  "confirmedOnlyPerformance": "UNVERIFIED",
+  "release": false
+}

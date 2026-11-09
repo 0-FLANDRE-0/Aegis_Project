@@ -35,6 +35,11 @@ STAGE_POLICY = {
         "pullRequest": 76,
         "baselineSha256": "5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7",
     },
+    "HP_A": {
+        "branch": "hp-a",
+        "pullRequest": 77,
+        "baselineSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+    },
 }
 
 

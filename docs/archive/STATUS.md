@@ -1,4 +1,16 @@
-# 현재 상태 (2026-11-08 SEEKER_UNIFY_U4 PR 후보 기준)
+# 현재 상태 (2026-11-09 HP_A PR 후보 기준)
+
+## HP_A 현재 인계
+
+- 기준 main은 PR #76 merge commit `82617839`; 작업 브랜치는 `hp-a`다.
+- 결과 제품은 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c448…36fa`다.
+- survival만 물리 상실 권위, 기존 equipment/crew gate만 임무상태 권위, HP는 표시 projection이다. reversible HP 0과 stored-HP 권위 복원을 제거했다.
+- 피해·침수·종강도·승조원·무장·RNG 계수는 보존했다. 보호 함수 해시는 U4와 exact이며 최종 invalid HP authority use는 0이다.
+- B 제한 11/11, C 제한 19/19, 실제 SOV casualty/save, 1x/8x/16x, DDG/CG 공통 경로 PASS다.
+- 동결 후보 광역 1회에서 native 364/364, 후보 결정성 42/42, EMCON 14/14, UI 213/213, WebGL 29/29 PASS. paired raw 6건은 HP_A survival 저장 계약 차이지만 최종 이산 결과·RNG·피해·탄약·observer/offboard는 exact다. U4 장면은 상속 byte pin으로 0/0 중단됐고 pin-only 단일 복구 19/19 PASS다. 원시 실패·기대값·허용오차는 보존했다.
+- HP_A PR 제출 후보이며 release/tag는 없다. `CONFIRMED_ONLY` 성능은 UNVERIFIED다.
+
+# 직전 상태 (2026-11-08 SEEKER_UNIFY_U4 기준)
 
 ## U4 현재 인계
 

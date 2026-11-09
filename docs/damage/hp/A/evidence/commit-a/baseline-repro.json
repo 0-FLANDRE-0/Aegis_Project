@@ -1,0 +1,325 @@
+{
+  "schema": "AEGIS_HP_A_BASELINE_REPRO_1",
+  "status": "REPRODUCED_CONTRACT_BUT_KH35_FALSE_ZERO_NOT_REPRODUCED",
+  "product": "Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html",
+  "productBytes": 22195923,
+  "productSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+  "kh35FixedScene": {
+    "input": {
+      "label": "Kh-35U",
+      "speedKt": 15,
+      "seed": 729300,
+      "headingDeg": 90,
+      "rangeKm": 60,
+      "maxTimeS": 220,
+      "emconActive": false
+    },
+    "flight": {
+      "durationS": 204.93333333333334,
+      "shipHit": true,
+      "deathReason": "NORMAL_HIT",
+      "everAcquire": true,
+      "everTrack": true
+    },
+    "before": {
+      "shipHP": 100,
+      "hitCount": 0,
+      "damageSeverityPct": 0,
+      "flood": {
+        "waterM3": 0,
+        "floodingPct": 0,
+        "openings": 0
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "dead": 0
+      },
+      "survival": {
+        "state": "NORMAL",
+        "equipmentOffline": false,
+        "lost": false,
+        "irreversible": false,
+        "waterM3": 0,
+        "heelRad": 0,
+        "trimRad": 0
+      }
+    },
+    "impact": {
+      "shipHP": 13.370711072167467,
+      "hitCount": 1,
+      "damageSeverityPct": 86.62928892783253,
+      "flood": {
+        "waterM3": 0,
+        "floodingPct": 0,
+        "openings": 3
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "dead": 6
+      },
+      "survival": {
+        "state": "NORMAL",
+        "equipmentOffline": false,
+        "lost": false,
+        "irreversible": false,
+        "waterM3": 0,
+        "heelRad": 0,
+        "trimRad": 0
+      }
+    },
+    "after": {
+      "shipHP": 13.371201476137827,
+      "hitCount": 1,
+      "damageSeverityPct": 86.62879852386217,
+      "flood": {
+        "waterM3": 0.24945228376539932,
+        "floodingPct": 0.0012692832975868067,
+        "openings": 3
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "dead": 6
+      },
+      "survival": {
+        "state": "FLOODING",
+        "equipmentOffline": false,
+        "lost": false,
+        "irreversible": false,
+        "waterM3": 0.24945228376539932,
+        "heelRad": 0.0024499474011202426,
+        "trimRad": -0.013550704948333998
+      }
+    },
+    "rngState": 331334324,
+    "core": []
+  },
+  "kh35FalseZeroReproduced": false,
+  "reproductionPolicy": "No arbitrary seed search. Fixed scene came from archived CUE_A evidence.",
+  "archivedDeterministicControls": {
+    "sourceProductSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
+    "falseZeroControl": {
+      "fixture": "SOV controlled HARPOON contacts before watertight-isolation loss",
+      "claimScope": "contract reproduction only; not the requested one-shot Kh-35 scene",
+      "shipHP": 0,
+      "survival": {
+        "mode": "SHIP_DYNAMICS_V15",
+        "state": "FLOODING",
+        "label": "침수",
+        "timeS": 11.000000000000016,
+        "phaseS": 9.99166666666674,
+        "heelRad": -0.16155476749407735,
+        "trimRad": 0.005529359213151238,
+        "draftM": 0.37151560842600245,
+        "target": {
+          "heelRad": -0.16155476749407735,
+          "trimRad": 0.005529359213151238,
+          "draftM": 0.37151560842600245
+        },
+        "waterM3": 758.0084900386503,
+        "imbalance": 0.10227293622540945,
+        "equipmentOffline": false,
+        "lost": false,
+        "irreversible": false,
+        "capTimer": 0,
+        "sinkTimer": 0,
+        "events": [
+          {
+            "from": "NORMAL",
+            "to": "FLOODING",
+            "timeS": 1.0083333333333322,
+            "reason": "손상·배수 및 자세 상태"
+          }
+        ],
+        "limits": {
+          "heelDeg": 100,
+          "trimDeg": 18,
+          "draftM": 60
+        }
+      },
+      "floodSummary": {
+        "structuralLoss01": 0.41364015889884476,
+        "damageHeelBias": -0.49254653441575114,
+        "damageTrimBias": -0.019496043710263887,
+        "freeSurface01": 0.1417950098314485,
+        "freeSurfaceMomentM4": 1310.8490891620813,
+        "waterM3": 758.0084900386503,
+        "massKg": 776958.7022896166,
+        "capacityM3": 14898.760713239066,
+        "floodingPct": 5.087728467006538,
+        "wetCells": 6,
+        "openings": 20,
+        "waterCenterM": {
+          "x": 10.866591392622873,
+          "y": -2.968310548664543,
+          "z": -2.4397347918233554
+        },
+        "balanceErrorM3": 8.707479182135103e-13,
+        "seaInM3s": 68.71137575743948,
+        "seaOutM3s": 0,
+        "pumpedM3s": 0.0558782730819109,
+        "netM3s": 68.65549748435757
+      },
+      "crewMode": "OPERATIONAL"
+    },
+    "irreversibleLossControl": {
+      "first": {
+        "survival": {
+          "mode": "SHIP_DYNAMICS_V15",
+          "state": "SINKING",
+          "label": "침몰 진행",
+          "timeS": 280.99999999990877,
+          "phaseS": 7.175000000000146,
+          "heelRad": -0.04202389618190975,
+          "trimRad": 0.17868299951629343,
+          "draftM": 14.647360418558529,
+          "target": {
+            "heelRad": -0.04202389618190975,
+            "trimRad": 0.17868299951629343,
+            "draftM": 14.647360418558529
+          },
+          "waterM3": 10332.998091902311,
+          "imbalance": 0.15396448540996027,
+          "equipmentOffline": true,
+          "lost": false,
+          "irreversible": true,
+          "capTimer": 0,
+          "sinkTimer": 20.00833333333284,
+          "events": [
+            {
+              "from": "NORMAL",
+              "to": "FLOODING",
+              "timeS": 1.0083333333333322,
+              "reason": "손상·배수 및 자세 상태"
+            },
+            {
+              "from": "FLOODING",
+              "to": "CRITICAL",
+              "timeS": 30.916666666665552,
+              "reason": "침수량 또는 불균형 증가"
+            },
+            {
+              "from": "CRITICAL",
+              "to": "SINKING",
+              "timeS": 273.8249999999153,
+              "reason": "침수량 임계 초과 지속"
+            }
+          ],
+          "limits": {
+            "heelDeg": 100,
+            "trimDeg": 18,
+            "draftM": 60
+          }
+        },
+        "flood": {
+          "structuralLoss01": 0.41364015889884476,
+          "damageHeelBias": -0.49254653441575114,
+          "damageTrimBias": -0.019496043710263887,
+          "freeSurface01": 0.24759415374476856,
+          "freeSurfaceMomentM4": 1942.7763523234546,
+          "waterM3": 10332.998091902311,
+          "massKg": 10591323.044199869,
+          "capacityM3": 14898.760713239066,
+          "floodingPct": 69.35474896727746,
+          "wetCells": 20,
+          "openings": 20,
+          "waterCenterM": {
+            "x": 9.76214623887216,
+            "y": -0.32780599095180296,
+            "z": 0.4118508569298575
+          },
+          "balanceErrorM3": -1.680966477124457e-11,
+          "seaInM3s": 27.217686237148452,
+          "seaOutM3s": 0,
+          "pumpedM3s": 0,
+          "netM3s": 27.217686237148452
+        }
+      },
+      "last": {
+        "survival": {
+          "mode": "SHIP_DYNAMICS_V15",
+          "state": "LOST",
+          "label": "함선 상실",
+          "timeS": 390.9999999998087,
+          "phaseS": 9.208333333333451,
+          "heelRad": -0.04202389618190975,
+          "trimRad": 0.17868299951629343,
+          "draftM": 60,
+          "target": {
+            "heelRad": -0.04202389618190975,
+            "trimRad": 0.17868299951629343,
+            "draftM": 60
+          },
+          "waterM3": 11731.348849883569,
+          "imbalance": 0.12522510698737754,
+          "equipmentOffline": true,
+          "lost": true,
+          "irreversible": true,
+          "capTimer": 0,
+          "sinkTimer": 20.00833333333284,
+          "events": [
+            {
+              "from": "NORMAL",
+              "to": "FLOODING",
+              "timeS": 1.0083333333333322,
+              "reason": "손상·배수 및 자세 상태"
+            },
+            {
+              "from": "FLOODING",
+              "to": "CRITICAL",
+              "timeS": 30.916666666665552,
+              "reason": "침수량 또는 불균형 증가"
+            },
+            {
+              "from": "CRITICAL",
+              "to": "SINKING",
+              "timeS": 273.8249999999153,
+              "reason": "침수량 임계 초과 지속"
+            },
+            {
+              "from": "SINKING",
+              "to": "LOST",
+              "timeS": 381.79166666648376,
+              "reason": "선체 침강 완료"
+            }
+          ],
+          "limits": {
+            "heelDeg": 100,
+            "trimDeg": 18,
+            "draftM": 60
+          }
+        },
+        "flood": {
+          "structuralLoss01": 0.41364015889884476,
+          "damageHeelBias": -0.49254653441575114,
+          "damageTrimBias": -0.019496043710263887,
+          "freeSurface01": 0.16989003310053966,
+          "freeSurfaceMomentM4": 1341.3199353401167,
+          "waterM3": 11731.348849883569,
+          "massKg": 12024632.571130658,
+          "capacityM3": 14898.760713239066,
+          "floodingPct": 78.74043402454991,
+          "wetCells": 22,
+          "openings": 20,
+          "waterCenterM": {
+            "x": 5.388277294130302,
+            "y": -0.23483679404433092,
+            "z": 0.513603639706458
+          },
+          "balanceErrorM3": 1.2294165685489133e-11,
+          "seaInM3s": 8.37426579895253,
+          "seaOutM3s": 0,
+          "pumpedM3s": 0,
+          "netM3s": 8.37426579895253
+        }
+      },
+      "transitionCount": 12
+    }
+  },
+  "pageErrors": []
+}

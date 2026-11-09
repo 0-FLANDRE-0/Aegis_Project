@@ -1,0 +1,15 @@
+consumer	classification	reason
+NPC save export	LEGACY_COMPATIBILITY	Serialized display field; not authority.
+NPC save restore	INVALID_AUTHORITY_USE	Stored HP is written before physical state restore.
+player health facade getter	LEGACY_COMPATIBILITY	Compatibility projection exposed to old UI/tests.
+prepared runtime initialization	LEGACY_COMPATIBILITY	Initial display cache only.
+impact-time HP projections	DISPLAY_ONLY	Four duplicated immediate display calculations.
+damageFloodTickV1 HP projection	DISPLAY_ONLY	Fixed-tick display calculation; currently permits false zero.
+HUD and damage panels	DISPLAY_ONLY	Numeric presentation only.
+AAR / battle diagnostics	DISPLAY_ONLY	Recorded display value, not physical loss authority.
+player save export	LEGACY_COMPATIBILITY	Serialized compatibility field.
+player save validation	LEGACY_COMPATIBILITY	Legacy field shape validation.
+player save restore	INVALID_AUTHORITY_USE	Stored HP overwrites derived display cache.
+test reset/snapshot	LEGACY_COMPATIBILITY	Deterministic diagnostics.
+ammo-cookoff direct assignment	INVALID_AUTHORITY_USE	Direct HP=0 announces loss without survival authority.
+bottom status bar survival label	INVALID_AUTHORITY_USE	HP>0 is used as 생존/상실 authority.
