@@ -144,9 +144,15 @@ does not call RNG, and stores diagnostic copies only.
 ## Delivery
 
 - branch: `seeker-close-a`
-- pull request: recorded after remote creation in the PR receipt/body
+- pull request: [#78](https://github.com/0-FLANDRE-0/Aegis_Project/pull/78), OPEN; merge remains a user decision
 - merge: not performed
 - release/tag: not created
 - executable: unchanged HP_A HTML ZIP
 - report package: HTML-free SEEKER_CLOSE_A report ZIP
+- initial remote readback at branch head `811b3b96021b5681116e404254dd0e1094073c30`:
+  report ZIP 78,098 bytes / SHA-256
+  `4ca7190ce7b36bcf64833e74fe6f2b7de238409329b52a949efe98acee18d847` exact;
+  the executable ZIP expanded to the exact 22,200,135-byte HP_A authority SHA
+- the final receipt commit regenerates the report ZIP; its authoritative bytes/SHA
+  are recorded in `CHECKSUMS.sha256` and verified again after remote upload
 - next stage: `integrated baseline freeze -> engagement/defense OODA`

@@ -10,6 +10,7 @@
 - 별도 Kh-32 60 km 고정 경계 2건은 SHIP 연관만 사용해 둘 다 TRACK에 도달했다. DDG는 29회 acquire 재시도 뒤 명중, CG는 coast/reacquire 뒤 miss다. 과거 0/20의 대체 통계가 아니며 별도 조사 경계를 유지한다.
 - HP_A current-product contract 19/19 PASS, 보호 함수 해시 exact, common truth/RNG/save mutation 0이다. 제품 비변경이므로 HP_A의 one-shot 광역을 재실행하지 않았다.
 - Commit C 제품 수정은 없다. 문서·재현 진단 PR을 제출하고 병합·release·tag 없이 사용자 결정을 기다린다. 다음 단계는 `통합 기준선 고정 -> 교전·방어 OODA`다.
+- PR #78은 `seeker-close-a -> main`으로 제출했으며 OPEN 상태다. 제품은 HP_A 그대로이고 병합은 사용자 결정으로 남겼다.
 
 # 직전 상태 (2026-11-09 HP_A PR 후보 기준)
 
