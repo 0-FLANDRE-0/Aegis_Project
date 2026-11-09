@@ -14,7 +14,7 @@
    - V2 `ALL_RADIATION_SILENT`, 함종 중립 consumer→equipment 바인딩, 범주 정책·장비 override·exact 방출/own·NPC 센서/ECM gate·profile UI·network/save lifecycle 완료
    - FIRE_CONTROL은 활성 SPG-62 등록이 없어 계약/비활성 UI까지만 완료
    - 통신 EMCON은 별도 후속 정책으로 남김
-4. **U4** — 완료, PR #76 제출 후보
+4. **U4** — 완료, PR #76 사용자 병합 (`main@82617839`)
    - 커밋 A: SARH 쌍정 어댑터
    - 커밋 B: 기존 U5 RAM 수동 RF/IR 어댑터와 신호 소유권 수정
    - 커밋 C: 기존 U6 공통 연관·상태기계 ACTIVE
@@ -22,7 +22,9 @@
 5. **TRACK-D / ESM_A** — 완료, PR #75 사용자 병합 (`main@f17d3777`)
    - DDG/CG 공통 익명 raw ESM receiver 계약, 단함 AOA, 협동 AOA/TDOA/FDOA, UI와 제한적 수동 cue를 하나의 PR로 구현
    - SOV Mineral 실제 어댑터·Moskit 표적지시는 후속 소브레멘니 센서·무장 단계
-6. **HP 지표** → **통합 기준선** → **교전·방어 OODA**
+6. **HP_A 지표·권위 분리** — 구현·검증 완료, PR 후보
+7. **통합 기준선 고정**
+8. **교전·방어 OODA**
 
-- 다음 우선순위는 U4 PR 검토 뒤 사용자와 정한다.
+- HP_A 병합 뒤 다음 우선순위는 통합 기준선 고정이며, 그 뒤 교전·방어 OODA로 간다.
 - **적 항공기 재제작**은 시점 미정이다. 설계 메모는 `DESIGN_NOTES.md`에 있다.

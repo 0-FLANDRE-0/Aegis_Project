@@ -1,6 +1,15 @@
-## 최신 작업 — SEEKER_UNIFY_U4 SARH·RAM·상태기계 공통화
+## 최신 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 
-- 병합된 ESM_A `main@f17d3777` 위 `seeker-unify-u4`/PR #76 후보다. [실행 HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U4.md), [최종 보고서](docs/missile/seeker-unify/U4/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U4/).
+- PR #76 U4를 검증된 head 그대로 merge commit `82617839`로 먼저 병합한 뒤 `hp-a`에서 작업했다. [실행 HTML](Aegis_SIM_v48_WIP_HP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HP_A.md), [최종 보고서](docs/damage/hp/A/FINAL_REPORT.md), [원시·재현 증거](docs/damage/hp/A/).
+- 물리 상실은 기존 survival 상태기계만, 임무불능은 기존 장비·승조원 gate만 권위로 사용한다. 표시 HP는 단방향 파생값이며 reversible 상태에서는 최소 1, irreversible/lost에서만 0이다.
+- 저장된 HP는 호환 필드일 뿐 복원 권위가 아니다. 플레이어와 NPC가 같은 outcome 계약을 쓰고, mission kill/irreversible/sunk 사건을 구분해 중복 기록하지 않는다. 피해·침수·종강도·무장·RNG 계수는 바꾸지 않았다.
+- 커밋 A 감사에서 잘못된 HP 권위 사용 6건을 확인했고 최종 감사는 0건이다. B 11/11, C 19/19 제한 게이트와 실제 SOV casualty·저장 경로를 통과했다.
+- 동결 후보 MAX_THREAT 광역은 정확히 1회 실행했다: native 364/364, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS. ESM_A paired raw 6건은 survival 저장 계약의 의도된 차이로 최종 이산 결과·RNG·damage/inventory·observer/offboard가 exact이며 원시 실패와 기대값을 그대로 보존했다. U4 장면은 구 제품 byte pin 때문에 0/0으로 실행 전 중단됐고, pin만 고친 단일 하네스 복구에서 동일 장면 19/19 PASS; 광역 재실행은 없다.
+- 제품 22,200,135 bytes / SHA-256 `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`. `CONFIRMED_ONLY` 성능은 UNVERIFIED. PR 생성까지만 진행하며 HP_A 병합·release·tag는 사용자 결정이다.
+
+## 직전 병합 작업 — SEEKER_UNIFY_U4 SARH·RAM·상태기계 공통화
+
+- 병합된 ESM_A `main@f17d3777` 위 `seeker-unify-u4`/PR #76 결과다. 검증 head는 merge commit `82617839`로 main에 병합됐다. [실행 HTML](Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_SEEKER_UNIFY_U4.md), [최종 보고서](docs/missile/seeker-unify/U4/FINAL_REPORT.md), [단계 증거](docs/missile/seeker-unify/U4/).
 - SARH는 SPG 조사·두 LOS·송수신 빔·쌍정 거리/path-rate를 보존한 `SARH_BISTATIC_4D`로, RAM은 RF/IR을 각각 익명 `PASSIVE_RF_2D`/`PASSIVE_IR_2D`로 공통 계약에 연결했다.
 - RAM 물리 방사 세기가 수신기 추적 품질에 역의존하던 소유권 결함만 좁게 제거했다. 감도·Pd·gate·RNG·유도·무장 계수는 튜닝하지 않았다.
 - ASM/Harpoon/SARH/ARH/RAM의 연관과 상태 사건은 공통 ACTIVE 엔진을 쓰며, HOJ·route/INS·SARH↔ARH arbiter·RAM MEM/RF/IR authority는 무장 훅으로 보존한다. 공통 계층의 truth ID/위치·RNG 소비·새 저장 필드는 0이다.

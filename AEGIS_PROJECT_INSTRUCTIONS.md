@@ -2,15 +2,16 @@
 
 이 문서는 AEGIS 함정 방위 시뮬레이터를 이어서 개발할 때 사용하는 고정 작업 규칙이다. 대화 기억보다 현재 제공된 최신 HTML, 상태 계획표, 이 문서를 우선 기준으로 삼는다.
 
-## 현재 인계 기준 (2026-11-08)
+## 현재 인계 기준 (2026-11-09)
 
-- 병합 기준: `main@f17d3777a625699ab26f6a40de80a383f675ae85` (PR #75 ESM_A merge commit). 기준 제품은 `Aegis_SIM_v48_WIP_ESM_A.html`, SHA-256 `5dcc6201d6acf32f56d570b01bbb33b673d835505ff877e70796e60a4bd3dad7`다.
-- 현재 검토 후보는 `seeker-unify-u4`의 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html`, 22,195,923 bytes, SHA-256 `00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498`다.
-- U4 커밋 A는 SARH 쌍정 관측, B는 RAM 수동 RF/IR, C는 ASM·Harpoon·SARH·ARH·RAM의 익명 연관·상태 사건을 SHADOW 뒤 ACTIVE로 전환했다. 물리 프런트엔드, weapon-local RNG, release/guidance 권한, HOJ·route/INS·source arbiter·RAM authority는 기존 소유자를 유지한다.
-- RAM 방사 세기가 수신기 추적 품질을 읽던 소유권 역전만 좁게 수정했다. RF/시커/유도/무장 계수와 저장 스키마는 변경하지 않았다.
-- 동결 후보의 MAX_THREAT 광역은 정확히 한 번 실행했다. native 364/364, 기준 paired 42/42, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS다. U4 장면 raw 4건은 원시 FAIL로 보존하되 이미 기록된 terminal physics/RNG와 제품 바이트로 하네스 판정 결함임을 분리했다. 제품 코드·기대값·허용오차 변경과 광역 재실행은 없다.
-- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. candidate workflow는 제품 exact rebuild, 정적 계약·packed main 문법과 제한 C 게이트만 수행하며 광역을 반복하지 않는다.
-- 이 후보는 release가 아니며 PR #76의 main 병합·tag·release는 사용자 결정 전 금지한다.
+- 병합 기준: `main@82617839e64ea6b70d33ca55b13b3114cca62f3e` (PR #76 SEEKER_UNIFY_U4 merge commit). 기준 제품은 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html`, SHA-256 `00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498`다.
+- 현재 검토 후보는 `hp-a`의 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`다.
+- 물리 생존·부유는 기존 survival state/lost/irreversible, 임무불능은 기존 equipment-offline/crew-combatUnavailable, 표시 HP는 단방향 파생 projection이다. reversible이면 표시 HP는 최소 1이고 irreversible/lost에서만 0이다.
+- 저장된 `shipHP`는 호환 필드이며 권위 복원에 쓰지 않는다. survival 물리 snapshot을 복원하고 outcome을 재계산한다. 플레이어와 NPC는 같은 계약을 사용하며 mission kill, irreversible loss, sunk 사건을 분리한다.
+- 피해·침수·종강도·승조원·무장·RNG 계수는 변경하지 않았다. 관련 보호 함수 바이트가 U4와 exact이고 최종 정적 감사에서 잘못된 HP 권위 소비자는 0건이다.
+- 동결 후보 MAX_THREAT 광역은 정확히 한 번 실행했다. native 364/364, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS. paired raw 6건은 survival 저장 계약 차이로 분류하되 원시 실패·기대값을 보존했고, U4 byte pin으로 실행 전 중단된 장면은 pin만 바꾼 단일 복구에서 19/19 PASS다. 광역 재실행은 없다.
+- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. candidate workflow는 exact rebuild·정적/제한 계약만 실행하며 one-shot 광역을 반복하지 않는다.
+- 이 후보는 release가 아니며 HP_A PR 병합·tag·release는 사용자 결정 전 금지한다. 병합 뒤 순서는 `통합 기준선 고정 → 교전·방어 OODA`다.
 
 ## 1. 기준 파일과 버전 규칙
 

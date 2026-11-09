@@ -13,7 +13,8 @@
 
 ## U3 이후
 
-- **SEEKER_UNIFY_U4 — 구현·검증 완료, PR #76 후보**: SARH bistatic, RAM passive RF/IR과 공통 association/state를 A/B/C로 ACTIVE 전환했다. 기존 U5/U6은 B/C에 흡수했다. `CONFIRMED_ONLY` 성능은 계속 UNVERIFIED다.
+- **SEEKER_UNIFY_U4 — 구현·검증·병합 완료**: SARH bistatic, RAM passive RF/IR과 공통 association/state를 A/B/C로 ACTIVE 전환했다. PR #76은 merge commit `82617839`로 main에 병합됐다. 기존 U5/U6은 B/C에 흡수했고 `CONFIRMED_ONLY` 성능은 계속 UNVERIFIED다.
+- **HP_A — 구현·검증 완료, PR 후보**: survival/mission/display HP 권위를 분리하고 stored HP 권위를 제거했다. invalid authority use 6→0, 제한 게이트와 one-shot 광역을 마쳤다.
 - **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
 - **EMCON_B — 완료, PR #74 병합**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.
@@ -36,6 +37,9 @@
 - **통신 EMCON**: radar master/category silence와 별도다. Hawklink/Link 송신 통제를 새 정책으로 설계한다.
 - **FIRE_CONTROL registry**: 현재 활성 SPG-62 장비가 없어 EMCON_B는 계약/비활성 UI만 제공한다. 물리 등록·RF·ESM 연계는 별도 단계가 필요하다.
 - **SOV Mineral/Band Stand 수동 어댑터·Moskit 표적지시**: ESM_A의 공통 raw measurement/localizer/UI/cue 포트가 완료된 뒤 소브레멘니 센서·무장 단계에서 연결한다. ESM_A에서는 SOV receiver/EW/weapon capability를 활성화하지 않는다.
+- **물리 선체 절단/종강도 즉시상실 규칙**: HP 숫자나 종합 손상도에서 임의 임계값을 만들지 않는다. 명시적 구조파괴 근거와 별도 사용자 결정이 필요하다.
+- **외부 save 편집 cross-field 정책**: HP_A는 survival snapshot을 물리 권위로 복원한다. 외부 도구가 flood/module만 바꾸고 survival을 갱신하지 않는 경우를 거부할지 재계산할지 별도 codec 정책이 필요하다.
+- **HP_A 상속 하네스 pin**: U4 대표 장면 스크립트가 U4 bytes/SHA를 자체 고정해 HP_A 광역에서 브라우저 전에 중단됐다. pin-only 단일 복구는 19/19이나, 다음 기준선에서는 candidate manifest를 읽도록 일반화한다.
 - **U4 raw harness assertions**: 최종 1회 광역의 U4 장면 raw 4건은 제품 실패가 아니라 post-terminal batch step·역전된 64× inequality·unopened ESM body text 조건의 하네스 결함이다. 원시 FAIL과 오프라인 리뷰를 함께 보존했으며 다음 실행부터 수정된 predicate를 쓴다.
 - **광역 Chromium runner 메모리 부채**: APS-153/ISAR/legacy EMCON/Harpoon의 큰 기존 진단 modal·journal 경로가 제한 환경에서 assertion 전 `Target crashed`를 낸다. 제품 판정과 분리해 runner를 경량화한다.
 - **SOV/UI 기존 fixture 부채**: EMITTER_A와 EMCON_B 양쪽에서 SOV deployment의 `selectedSOV/creditVisible`, UI의 `nativeHold/feedReject` 및 832.CG.PIP covered-point가 동일하게 재현된다.

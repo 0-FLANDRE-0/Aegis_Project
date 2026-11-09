@@ -139,3 +139,15 @@
 - 공통 계층은 익명 측정·공분산·시각·품질과 local state만 소비하며 truth ID/위치, faction, hostile flag와 공통 RNG/상태 singleton을 금지한다.
 - 최종 후보 동결 뒤 MAX_THREAT 광역은 정확히 한 번만 실행한다. raw 하네스 assertion 결함은 원시 증거를 보존하고 제품 바이트를 바꾸거나 기대값·허용오차를 완화하지 않은 오프라인 검토로만 분리한다.
 - U4 PR은 생성까지만 진행하며 병합·release·tag는 사용자 결정이다. `CONFIRMED_ONLY` 성능은 UNVERIFIED로 남긴다.
+
+## 2026-11-09 (HP_A)
+
+- PR #76은 검증 head·Actions·제품 bytes/SHA가 지시값과 exact임을 다시 확인한 뒤 merge commit으로 main에 먼저 병합한다. U4 release/tag는 만들지 않는다.
+- 함정의 물리 상실 권위는 기존 survival `state/lost/irreversible`에만 둔다. 종합 손상도나 표시 HP를 survival로 역전파하지 않는다.
+- 임무 상태는 기존 장비 offline과 승조원 combat-unavailable gate에서만 파생하며 새 임계값을 만들지 않는다. `MISSION_KILL`과 `LOST/SUNK`를 분리한다.
+- 표시 HP는 `irreversible || lost ? 0 : clamp(100-damageSeverityPct, 1, 100)` 단방향 projection이다. 플레이어와 NPC가 같은 계약을 쓴다.
+- 저장된 `shipHP`는 호환·감사 필드이며 복원 권위가 아니다. survival 물리 snapshot을 복원하고 outcome을 다시 계산한다. 이전 save는 damage/flood 권위에서 재계산한다.
+- 탄두 위력·관통·파편·폭압·침수·종강도·피해 가중치·무장·RNG를 HP 결과에 맞춰 조정하지 않는다.
+- 동결 후보의 MAX_THREAT 광역은 한 번만 실행한다. HP_A 저장 계약으로 설명되는 raw 차이와 상속 하네스 preflight 실패도 원시 증거·기대값·허용오차를 보존한 채 분류한다. 광역 재실행으로 덮지 않는다.
+- 물리 선체 절단/종강도 붕괴의 새 즉시상실 규칙은 HP_A에 넣지 않고 별도 근거와 사용자 결정을 요구하는 backlog로 남긴다.
+- HP_A는 PR 생성까지만 진행하며 병합·release·tag는 사용자 결정이다. 다음 순서는 `통합 기준선 고정 → 교전·방어 OODA`다.
