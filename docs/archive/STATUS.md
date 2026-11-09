@@ -1,14 +1,15 @@
-# 현재 상태 (2026-11-09 SEEKER_CLOSE_A 종료 후보 기준)
+# 현재 상태 (2026-11-09 SEEKER_CLOSE_A PR #78 폐쇄 보정 기준)
 
 ## SEEKER_CLOSE_A 현재 인계
 
 - PR #77 HP_A를 검증된 head `a3e45f7c`에서 merge commit `78b01165`로 먼저 병합했다. SEEKER_CLOSE_A 기준 main은 그 merge commit이고 작업 브랜치는 `seeker-close-a`다.
 - 현재 권위 제품은 계속 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c448…36fa`다. 제품 코드·RNG·저장 스키마를 바꾸지 않았고 새 정식 HTML도 만들지 않았다.
-- 현재 제품 고정 진단 17발은 TARGET_HIT 14 / DEFENSE_INTERCEPT 1 / KINEMATIC_MISS 2 / UNCLASSIFIED 0이다. 동일 seed와 1x/8x/16x 결과는 exact다.
-- 채프·Nulka 요청 경로는 각각 6/6 실제 배치·관측·후보 선택 후 전부 `SELECTED_THEN_RECOVERED_TARGET`이었다. 유인 0은 DTO 소실·gate 영구 배제 결함이 아니라 이 장면에서의 본표적 회복 결과다.
-- Kh-35U 터미널 전이는 최대 19회이고 직접 `ACQUIRE -> SEARCH` 왕복은 0이다. 두 반복 miss는 실제 관측 상실·재획득 뒤 128.87 m로 통과한 운동학적 miss이며 공통 상태 계약 결함은 재현되지 않았다.
+- 보정된 고정 진단 19발은 TARGET_HIT 16 / DEFENSE_INTERCEPT 1 / DECOY_SEDUCTION 2 / UNCLASSIFIED 0이다. 기존 17발과 합산하지 않는다. 동일 seed와 1x/8x/16x 결과는 exact다.
+- 채프·Nulka 요청 경로는 각각 6/6 실제 배치·관측·후보 선택을 거쳤다. 첫 선택 뒤 SHIP 재선택 사건은 12/12, 마지막 기만체 선택 뒤 최종 회복은 10/12다. 반복 seed 2건은 Nulka가 마지막 유효 선택으로 30 km/10 s 이탈까지 유지된 증명된 유인이다.
+- hard-kill/CIWS/soft-kill의 설정·교전·명중·격추를 분리했다. DDG는 실제 5in MFF retirement kill, CG는 실제 Mk45 3발/kill 없음이며 CIWS 관측이 불완전한 장면은 `engaged:null`로 보존한다.
+- 구형 radar master+ECM과 true all-radiation-silent를 분리했다. 후자는 현재 UI 권위 경로에서 DDG/CG 모두 ECM 요청 보존, radar/ECM allocator/output/coupling/HOJ 0이다.
 - 별도 Kh-32 60 km 고정 경계 2건은 SHIP 연관만 사용해 둘 다 TRACK에 도달했다. DDG는 29회 acquire 재시도 뒤 명중, CG는 coast/reacquire 뒤 miss다. 과거 0/20의 대체 통계가 아니며 별도 조사 경계를 유지한다.
-- HP_A current-product contract 19/19 PASS, 보호 함수 해시 exact, common truth/RNG/save mutation 0이다. 제품 비변경이므로 HP_A의 one-shot 광역을 재실행하지 않았다.
+- HP_A current-product contract 19/19, 보호 함수 해시 exact, common truth/RNG/save mutation 0이다. PR #78 전용 Actions가 실제 19발 Chromium과 HP_A gate를 독립 재현하도록 추가했고 제품 비변경이므로 one-shot 광역은 재실행하지 않는다.
 - Commit C 제품 수정은 없다. 문서·재현 진단 PR을 제출하고 병합·release·tag 없이 사용자 결정을 기다린다. 다음 단계는 `통합 기준선 고정 -> 교전·방어 OODA`다.
 - PR #78은 `seeker-close-a -> main`으로 제출했으며 OPEN 상태다. 제품은 HP_A 그대로이고 병합은 사용자 결정으로 남겼다.
 

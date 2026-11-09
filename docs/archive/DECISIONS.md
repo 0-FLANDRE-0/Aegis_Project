@@ -161,3 +161,12 @@
 - 현재 제품에서 소유권·단위·상태 전이 계약 결함이 재현되지 않아 Commit C 제품 수정을 만들지 않는다. HP_A bytes/SHA를 권위 제품으로 유지하고 광역 회귀도 반복하지 않는다.
 - Kh-32 60 km 두 고정 경계 결과는 과거 0/20의 대체 통계가 아니다. SEARCH/ACQUIRE 반복은 별도 조사에 남기고 SEEKER_CLOSE_A의 공통 계수 수정 근거로 쓰지 않는다.
 - 다음 순서는 `통합 기준선 고정 -> 교전·방어 OODA`다. SEEKER_CLOSE_A PR은 생성까지만 진행하고 병합·release·tag는 사용자 결정으로 남긴다.
+
+## 2026-11-09 (SEEKER_CLOSE_A PR #78 폐쇄 증거 보정)
+
+- 기존 17발 결과는 보정된 19발 결과와 합산하지 않고 대체한다. 최종 고정 행렬은 TARGET_HIT 16 / DEFENSE_INTERCEPT 1 / DECOY_SEDUCTION 2 / UNCLASSIFIED 0이다.
+- `SELECTED_THEN_RECOVERED_TARGET`은 마지막 기만체 선택 이후의 실제 익명 SHIP association event가 있을 때만 인정한다. 표적 적중은 회복 근거가 아니다.
+- 첫 기만체 선택 뒤 SHIP 재선택 사건은 12/12에 있으나, 마지막 기만체 선택 뒤 최종 회복은 10/12다. 동일 seed 2건은 Nulka가 마지막 유효 선택으로 종말 이탈까지 유지되어 유인으로 분류한다.
+- hard-kill/CIWS/soft-kill은 설정, 실제 교전, 명중, 격추를 분리하며 실제 fire/close-in/gun/hit/retirement 사건이 없고 관측 범위도 불완전하면 `false`가 아니라 `null`과 사유를 기록한다.
+- 구형 radar master와 ECM 요청의 병존 장면은 `RADAR_MASTER_SILENT_ECM_ON`으로 부른다. 진짜 `ALL_RADIATION_SILENT`는 현재 UI의 ShipRuntime 권위 경로로 실행하며 요청을 보존해도 radar/ECM allocator/output/coupling/HOJ는 모두 0이어야 한다.
+- HP_A 제품 bytes/SHA는 바꾸지 않고 broad/MAX_THREAT를 반복하지 않는다. PR #78 전용 Actions가 19발 Chromium, 의미상 exact 증거 비교, HP_A 19/19 및 결정적 HTML-free 패키지를 실행한다.

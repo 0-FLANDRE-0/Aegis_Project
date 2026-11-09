@@ -43,6 +43,8 @@ on:
       - 'docs/electronic/esm/A/**'
       - 'docs/missile/seeker-unify/U4/**'
       - 'docs/damage/hp/A/**'
+      - 'docs/missile/seeker-close/A/**'
+      - 'Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
       - 'docs/bunkerhill/K/browser_i.py'
@@ -297,5 +299,100 @@ jobs:
         with:
           name: aegis-current-candidate-${{ github.sha }}
           path: artifacts/current-candidate/
+          if-no-files-found: error
+          retention-days: 30
+
+  seeker-close-closure-gate:
+    if: >-
+      (github.event_name == 'pull_request' && github.event.pull_request.number == 78) ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'seeker-close-a')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact closure head
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked Playwright and Chromium
+        run: |
+          npm ci
+          python3 -m pip install playwright==1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Verify unchanged HP_A authority product
+        shell: bash
+        run: |
+          set -euo pipefail
+          product=Aegis_SIM_v48_WIP_HP_A.html
+          test "$(wc -c < "$product")" -eq 22200135
+          echo "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa  $product" | sha256sum -c -
+          mkdir -p artifacts/seeker-close/limited artifacts/seeker-close/hp-contract
+
+      - name: Rebuild diagnostic HTML exactly
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/missile/seeker-close/A/build_diagnostic.py \
+            Aegis_SIM_v48_WIP_HP_A.html \
+            /tmp/Aegis_SIM_v48_DIAGNOSTIC_SEEKER_CLOSE_A.html \
+            --receipt artifacts/seeker-close/DIAGNOSTIC_BUILD.json
+          cmp docs/missile/seeker-close/A/DIAGNOSTIC_BUILD.json \
+            artifacts/seeker-close/DIAGNOSTIC_BUILD.json
+
+      - name: Run corrected 19-shot Chromium matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMPDIR=/dev/shm python3 docs/missile/seeker-close/A/run_diagnostics.py \
+            /tmp/Aegis_SIM_v48_DIAGNOSTIC_SEEKER_CLOSE_A.html \
+            artifacts/seeker-close/limited \
+            --receipt artifacts/seeker-close/DIAGNOSTIC_BUILD.json \
+            --compare-results docs/missile/seeker-close/A/evidence/limited/RESULTS.json
+
+      - name: Preserve HP_A outcome and save contract 19 of 19
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/damage/hp/A/run_contract_gate.py \
+            Aegis_SIM_v48_WIP_HP_A.html \
+            artifacts/seeker-close/hp-contract/contract-gate.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          row=json.loads(Path('artifacts/seeker-close/hp-contract/contract-gate.json').read_text())
+          assert row['status']=='PASS'
+          assert len(row['checks'])==19 and all(row['checks'].values())
+          PY
+
+      - name: Rebuild and verify HTML-free report package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/missile/seeker-close/A/package_report.py \
+            Aegis_SIM_v48_WIP_HP_A.html \
+            /tmp/Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip \
+            > artifacts/seeker-close/PACKAGE_RECEIPT.json
+          cmp /tmp/Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip \
+            Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip
+          unzip -t /tmp/Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip
+          if unzip -Z1 /tmp/Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip | grep -Eiq '\.html?$'; then
+            echo 'report package unexpectedly contains HTML' >&2
+            exit 1
+          fi
+          git diff --exit-code -- \
+            docs/missile/seeker-close/A/PACKAGE_MANIFEST.md \
+            docs/missile/seeker-close/A/CHECKSUMS.sha256
+
+      - name: Upload SEEKER_CLOSE_A closure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-seeker-close-a-${{ github.sha }}
+          path: artifacts/seeker-close/
           if-no-files-found: error
           retention-days: 30

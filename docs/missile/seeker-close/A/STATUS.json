@@ -1,5 +1,5 @@
 {
-  "schema": "AEGIS_SEEKER_CLOSE_A_STATUS_1",
+  "schema": "AEGIS_SEEKER_CLOSE_A_STATUS_2",
   "stage": "SEEKER_CLOSE_A",
   "branch": "seeker-close-a",
   "baselineMain": "78b01165bad64e9c6dc384ff070a70f868da5113",
@@ -11,11 +11,11 @@
   },
   "diagnostic": {
     "status": "PASS",
-    "shotCount": 17,
+    "shotCount": 19,
     "terminalCounts": {
-      "TARGET_HIT": 14,
+      "TARGET_HIT": 16,
       "DEFENSE_INTERCEPT": 1,
-      "KINEMATIC_MISS": 2
+      "DECOY_SEDUCTION": 2
     },
     "unclassified": 0,
     "sameSeedExact": true,
@@ -23,7 +23,13 @@
     "truthFeedback": 0,
     "commonRngConsumption": 0,
     "saveSchemaMutation": 0,
-    "protectedFunctionHashesExact": true
+    "protectedFunctionHashesExact": true,
+    "firstShipRecoveryEvents": 12,
+    "finalRecoveredDecoyPaths": 10,
+    "provenSeductionPaths": 2,
+    "selectedOutcomeUnresolved": 0,
+    "globalSilenceRequestPreservedOutputZero": true,
+    "legacyRadarMasterEcmDistinct": true
   },
   "hpContractGate": {
     "status": "PASS",
@@ -33,6 +39,12 @@
   "commitCProductFix": false,
   "broadRegressionRun": false,
   "broadRegressionReason": "FORMAL_PRODUCT_BYTE_IDENTICAL_TO_HP_A",
+  "closureActionsGate": {
+    "implemented": true,
+    "runsActualChromiumMatrix": true,
+    "committedEvidenceSemanticCompare": true,
+    "finalHeadResultLocation": "PR_78_DELIVERY_COMMENT"
+  },
   "implemented": true,
   "tested": true,
   "approved": true,

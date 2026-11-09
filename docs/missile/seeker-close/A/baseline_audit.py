@@ -157,7 +157,8 @@ TERMINAL_CATEGORIES = [
 DECOY_STAGES = [
     "NOT_DEPLOYED", "DEPLOYED_OUTSIDE_WINDOW", "DEPLOYED_NOT_OBSERVABLE",
     "OBSERVABLE_GATE_REJECTED", "CANDIDATE_NOT_SELECTED",
-    "SELECTED_THEN_RECOVERED_TARGET", "SEDUCED",
+    "SELECTED_THEN_RECOVERED_TARGET", "SELECTED_TARGET_HIT_RECOVERY_UNPROVEN",
+    "SELECTED_OUTCOME_UNRESOLVED", "SEDUCED",
 ]
 
 
@@ -226,8 +227,8 @@ def main() -> None:
             "weapon", "profile", "seed", "launchTimeS", "terminalTimeS",
             "terminalCategory", "firstValidObservationS", "lastValidObservationS",
             "stateTransitions", "gateRejectReasons", "validCandidateCounts",
-            "selectedCandidateKinds", "guidanceAvailable", "decoyStage",
-            "hardKillIntervention", "ciwsIntervention", "softKillIntervention",
+            "selectedCandidateKinds", "guidanceAvailable", "decoyEvidence", "decoyStages",
+            "defenseEvidence", "emconEvidence",
             "closestApproachM", "seaImpact", "targetHit", "combatRngStart", "combatRngEnd",
         ],
         "noForcedInference": "Unresolved evidence remains UNCLASSIFIED.",

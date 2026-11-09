@@ -1,158 +1,133 @@
-# SEEKER_CLOSE_A final report
+# SEEKER_CLOSE_A final closure report
 
 ## Outcome
 
-SEEKER_CLOSE_A is complete as a **product-unchanged diagnostic closure**.
-No current-product seeker ownership, unit, association, or state-transition
-contract defect was reproduced, so Commit C was intentionally omitted.  The
-authority product remains HP_A without repacking or byte changes.
+SEEKER_CLOSE_A remains a **product-unchanged diagnostic closure**. The
+authority executable is the exact HP_A product:
+
+- file: `Aegis_SIM_v48_WIP_HP_A.html`
+- bytes: 22,200,135
+- SHA-256: `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`
+- product/packed-main change in PR #78: none
+
+The correction fixes after-action evidence semantics and makes the bounded
+diagnostic independently reproducible in Actions. It does not modify seeker,
+guidance, RF physics, countermeasure strength, weapons, damage, RNG, or save
+code.
 
 ## State ledger
 
 | State | Result |
 |---|---|
-| IMPLEMENTED | Reusable AFTER_ACTION terminal classifier, physical-return observer, fixed DDG/CG fixture, decoy-stage trace, deterministic runner, HP/current-product gates |
-| TESTED | 17 terminal Kh-35U cases; DDG/CG; no-defense, hard-kill, chaff, Nulka, combined decoy, EMCON/ECM; repeat determinism; 1x/8x/16x; Harpoon; two Kh-32 boundary probes; HP/save outcome gate |
-| APPROVED | HP_A precondition merge only, as authorized by the directive; historical values remain reference-only; no expectation/tolerance update |
-| UNRESOLVED | Historical Kh-32 60 km 0/20 population is not reproduced as a population; current two fixed seeds split hit/miss and do not replace it. `CONFIRMED_ONLY` performance remains unverified. Inherited regression debts remain open. |
-| RELEASE | None. No release, tag, or SEEKER_CLOSE_A product was created. PR merge remains a user decision. |
+| IMPLEMENTED | Structured decoy, defense, and EMCON evidence; corrected fixed 19-shot runner; PR #78-specific Actions closure gate |
+| TESTED | Local corrected Chromium 19/19; same-seed and 1x/8x/16x exact; DDG/CG Harpoon support; two fixed Kh-32 boundary probes; protected hashes exact |
+| APPROVED | HP_A precondition and this user-directed closure correction scope only; no tolerance or product expectation changes |
+| UNRESOLVED | Historical Kh-32 60 km population not remeasured; `CONFIRMED_ONLY` performance unverified; inherited regression debts unchanged |
+| RELEASE | None. No new product, merge, release, or tag. PR #78 remains a user decision. |
 
-## Precondition and frozen authority
+## Corrected authoritative result
 
-- Repository: `0-FLANDRE-0/Aegis_Project`
-- pre-merge main: `82617839e64ea6b70d33ca55b13b3114cca62f3e`
-- verified HP_A PR #77 head: `a3e45f7cfb5cecc1f7180e24ee3fbf35197458f5`
-- verified candidate Actions: run `42545220615`, SUCCESS
-- unresolved review threads: 0; mergeable state: CLEAN
-- verified HP_A product: 22,200,135 bytes,
-  `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`
-- verified packed main: 40,927,903 bytes,
-  `0ea0f4535a4d193dc686ba4bba2ba86509a04ba310cad90992324e188996d464`
-- merge method: merge commit; actual merge commit:
-  `78b01165bad64e9c6dc384ff070a70f868da5113`
-- post-merge bytes/SHA readback: exact
+The previous 17-shot output is superseded, not pooled with the corrected
+matrix. The corrected matrix contains 19 fixed shots:
 
-`Aegis_SIM_v48_WIP_HP_A.html` is still the formal authority.  The injected
-`Aegis_SIM_v48_DIAGNOSTIC_SEEKER_CLOSE_A.html` was used only locally for
-after-action instrumentation and is neither a product nor a release artifact.
-
-## Historical evidence versus current measurement
-
-Historical TRACK-B R4 and TRACK-C evidence is retained as an alarm only:
-
-| Population | Initial ASMs | Seeker loss | Decoy lure | Other egress |
-|---|---:|---:|---:|---:|
-| TRACK-B R4 | 320 | 36 | 0 | 3 |
-| TRACK-C | 320 | 34 | 0 | 3 |
-
-The current bounded fixture is a different population and is not a rate
-comparison or tuning target:
-
-| Current HP_A fixed cases | Count |
+| Category | Count |
 |---|---:|
-| TARGET_HIT | 14 |
+| TARGET_HIT | 16 |
 | DEFENSE_INTERCEPT | 1 |
-| KINEMATIC_MISS | 2 |
-| all other categories | 0 |
+| DECOY_SEDUCTION | 2 |
 | UNCLASSIFIED | 0 |
 
-Detailed shot rows and all required fields are in
-`evidence/limited/RESULTS.json` and `SHOTS.csv`.
+All 19 ended in a native terminal state or the fixed qualified-egress endpoint.
+The local run completed in 100.109 s with page/console errors 0 and core failures
+0. Detailed rows are in `evidence/limited/RESULTS.json` and `SHOTS.csv`.
 
-## Seeker and decoy conclusions
+## Decoy conclusion
 
-The Kh-35U terminal set observed at most 19 state transitions and no direct
-`ACQUIRE -> SEARCH` return.  The bit-exact repeated miss retained guidance,
-coasted and reacquired real returns several times, passed the ship by
-128.87 m, and reached the fixed outward-egress endpoint at 162.43 s.  It is a
-kinematic miss after real sensor recovery, not a permanent valid-candidate
-drop or state-owner overwrite.
+All six requested chaff and six requested Nulka paths used the real deployment
+and RF-return paths. Each was physically observed, constructed as a candidate,
+and selected.
 
-Every requested chaff and Nulka was deployed by the real game path.  In all
-six requested cases for each decoy type, the return was physically visible,
-constructed as a candidate, selected, and then superseded by a recovered ship
-contact.  The final stage is `SELECTED_THEN_RECOVERED_TARGET` 12/12 and
-`SEDUCED` 0.  This result does not justify artificial decoy amplification or
-seeker weakening.
+The evidence now distinguishes two facts that the prior classifier conflated:
 
-The Kh-32 supporting probe is deliberately separate.  Both 60 km fixed seeds
-used `SHIP` rather than the Harpoon diagnostic surface target and reached
-TRACK.  DDG hit after 29 acquire retries; CG ended in a normal miss after a
-shorter coast/reacquire history.  The diagnostic-only transition guard was 64
-and the largest observed path was 61.  These two shots are not used as a
-replacement for the historical 0/20 survey.
+- 12/12 paths contain a real later anonymous SHIP association after the first
+  decoy selection (`firstShipRecoveryEvents`).
+- 10/12 paths contain a SHIP association after the last decoy selection and
+  end as `SELECTED_THEN_RECOVERED_TARGET`.
+- The repeated seed contains two Nulka paths in which an early ship recovery
+  was followed by a later Nulka reselection. Nulka remained the last valid,
+  decoy-only association through qualified egress. These are the two proven
+  `SEDUCED` / `DECOY_SEDUCTION` outcomes.
 
-## Integrity and tests
+There are zero selected-but-unresolved outcomes in this fixed matrix. The
+classifier never promotes a target hit to recovery without a later SHIP event.
+No seeker or decoy tuning follows from these bounded results.
 
-### Diagnostic-only gate
+## Defense conclusion
 
-- status: PASS; 17 terminal shots; elapsed 95.17 s
-- page/console errors and core failures: 0
-- same seed: exact
-- 1x/8x/16x: exact physical result
-- common anonymous contract: PASS
+`enabled`, `engaged`, `hit`, and `kill` now have distinct meanings and are
+backed by actual fire, close-in, gun, physical-hit, or retirement events.
+
+- DDG hard-kill produced an actual `INTERCEPT_KILL` retirement attributed to
+  `5in MFF`: engaged/hit/kill are true.
+- CG hard-kill fired three Mk45 MFF rounds: engaged is true, kill is false,
+  and nonterminal hit remains `null` because no such event is exposed.
+- No CIWS engagement is claimed. Where the complete close-in event view is
+  unavailable, `engaged` is explicitly `null` with a reason.
+- Soft-kill request, deployment/effect, observation, and selection are separate.
+
+The legacy compatibility intervention fields now mirror actual observed
+engagement/effect rather than configuration requests.
+
+## EMCON conclusion
+
+The old scene is renamed `RADAR_MASTER_SILENT_ECM_ON`. It represents the
+legacy radar master being silent while ECM is requested and effective. Its
+allocator, physical ECM output, receiver coupling, and HOJ evidence are
+nonzero, while radar emission remains zero.
+
+One true `ALL_RADIATION_SILENT` scene per ship uses the current UI authority
+path. In both scenes the ECM technique request remains present, but allocator
+resource, radar output, ECM output, jammer coupling, and HOJ evidence are all
+exactly zero. The two policies are therefore demonstrated, not conflated.
+
+## Integrity and reproducibility
+
+- diagnostic build: 22,215,311 bytes,
+  `eb1e1ab95740d1e2f1f12af5d7ff81b6ea224e8e3248ce5c7e1c82459c98a5e4`
+- protected product functions before/after instrumentation: exact
+- physical-return producer: one original call per observation; return unchanged
+- classifier truth feedback / tactical consumer writes: 0
 - common-layer RNG consumption: 0
 - common save-schema mutation: 0
-- classifier tactical-consumer reads / feedback: 0
-- protected function bodies: exact HP_A hashes
-- fixture contamination guard: PASS
-- Harpoon core/seeker/selection: PASS on DDG and CG
+- same seed repeat: exact
+- 1x / 8x / 16x physical state: exact
+- Harpoon core/seeker/tube support: PASS on DDG and CG
+- Kh-32: supporting fixed probes only, not a replacement population
+- broad/MAX_THREAT regression: not rerun because product bytes are unchanged
 
-### Current HP_A outcome/save gate
-
-- status: PASS; 19/19 checks; elapsed 137.06 s
-- DDG and CG survival-authority save round-trip: PASS
-- stale stored HP ignored and audited: PASS
-- mission kill separated from irreversible loss: PASS
-- invalid save fail-closed with zero mutation: PASS
-- SOV recoverable/irreversible flooding and exactly-once loss callbacks: PASS
-- Kh-35 physics compatibility: PASS
-- 1x/8x/16x outcome physics: exact
-
-### Broad regression policy
-
-No new broad regression was run.  The formal product is byte-identical HP_A,
-whose frozen MAX_THREAT broad evidence already belongs to that exact SHA.
-Running it again would violate the product-unchanged closure rule.  The
-current work instead proves exact product SHA, diagnostic non-intrusion,
-protected hashes, fixed-step determinism, save/HP preservation, and bounded
-current-product behavior.
-
-## Changed and preserved code
-
-No product function was changed.  Repository changes are diagnostic scripts,
-evidence, and documentation only.  `DIAGNOSTIC_BUILD.json` records exact
-before/after hashes for the common selector/policy, ASM observation,
-association, measurement, state update, enemy missile flight, Nulka, chaff,
-Harpoon, ship outcome, flooding, and operational-save exporter.
-
-The after-action classifier may inspect terminal truth only after the result.
-It never writes selected lock, seeker target, INS target, ROE, guidance, or
-weapon state.  The physical-return wrapper calls the original producer once,
-does not call RNG, and stores diagnostic copies only.
+The closure-only Actions job rebuilds the diagnostic exactly, executes the
+actual 19-shot Chromium matrix, compares committed simulated evidence while
+excluding only wall-clock elapsed time, reruns the HP_A outcome/save contract
+with all 19 checks, deterministically rebuilds the HTML-free report ZIP, and
+uploads the receipts. The exact final-head run URL is recorded in the PR
+delivery comment after GitHub completes it.
 
 ## Inherited debt and exclusions
 
 - `CIWS_SEED_419025_FAIL`, paired observer delta 2, and the fixed WIP12D
-  CIWS time-scale debt remain inherited; none was reclassified here.
+  CIWS time-scale debt remain inherited and are not reclassified here.
 - `CONFIRMED_ONLY` performance remains UNVERIFIED.
 - SOV Mineral/Band Stand/MR-184, Moskit cue, communications EMCON,
-  FIRE_CONTROL registry, and enemy-aircraft rebuild were out of scope.
+  FIRE_CONTROL registry, and enemy-aircraft rebuild are out of scope.
 - A full Kh-32 population study remains separate unless it demonstrates the
-  same current contract defect.
+  same current-product contract defect.
 
 ## Delivery
 
 - branch: `seeker-close-a`
-- pull request: [#78](https://github.com/0-FLANDRE-0/Aegis_Project/pull/78), OPEN; merge remains a user decision
-- merge: not performed
-- release/tag: not created
-- executable: unchanged HP_A HTML ZIP
-- report package: HTML-free SEEKER_CLOSE_A report ZIP
-- initial remote readback at branch head `811b3b96021b5681116e404254dd0e1094073c30`:
-  report ZIP 78,098 bytes / SHA-256
-  `4ca7190ce7b36bcf64833e74fe6f2b7de238409329b52a949efe98acee18d847` exact;
-  the executable ZIP expanded to the exact 22,200,135-byte HP_A authority SHA
-- the final receipt commit regenerates the report ZIP; its authoritative bytes/SHA
-  are recorded in `CHECKSUMS.sha256` and verified again after remote upload
-- next stage: `integrated baseline freeze -> engagement/defense OODA`
+- PR: [#78](https://github.com/0-FLANDRE-0/Aegis_Project/pull/78), kept open
+- merge/release/tag: not performed
+- executable delivery: unchanged HP_A HTML ZIP
+- report delivery: deterministic HTML-free SEEKER_CLOSE_A report ZIP
+- next sequence after user merge: integrated baseline freeze, then
+  engagement/defense OODA
