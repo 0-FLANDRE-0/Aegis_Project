@@ -170,3 +170,4 @@
 - hard-kill/CIWS/soft-kill은 설정, 실제 교전, 명중, 격추를 분리하며 실제 fire/close-in/gun/hit/retirement 사건이 없고 관측 범위도 불완전하면 `false`가 아니라 `null`과 사유를 기록한다.
 - 구형 radar master와 ECM 요청의 병존 장면은 `RADAR_MASTER_SILENT_ECM_ON`으로 부른다. 진짜 `ALL_RADIATION_SILENT`는 현재 UI의 ShipRuntime 권위 경로로 실행하며 요청을 보존해도 radar/ECM allocator/output/coupling/HOJ는 모두 0이어야 한다.
 - HP_A 제품 bytes/SHA는 바꾸지 않고 broad/MAX_THREAT를 반복하지 않는다. PR #78 전용 Actions가 19발 Chromium, 의미상 exact 증거 비교, HP_A 19/19 및 결정적 HTML-free 패키지를 실행한다.
+- PR #78의 의미상 exact 비교는 구조·문자열·불리언·정수·RNG·단계·종말 결과를 완전 exact로 비교한다. runner CPU/libm에 따른 유한 binary64 telemetry만 고정 `1e-12` 절대/상대 portability bound로 검사하고 drift 수·최대값·경로를 별도 receipt에 남긴다. 증거 반올림, 제품 코드, 게임/기존 회귀 허용오차 변경은 0이며 이 규칙은 EMITTER_A/U3의 동일 Chromium 제품 JSON exact 정책을 대체하지 않는다.

@@ -353,6 +353,15 @@ jobs:
             artifacts/seeker-close/limited \
             --receipt artifacts/seeker-close/DIAGNOSTIC_BUILD.json \
             --compare-results docs/missile/seeker-close/A/evidence/limited/RESULTS.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          row=json.loads(Path('artifacts/seeker-close/limited/SEMANTIC_COMPARE.json').read_text())
+          assert row['status']=='PASS' and row['mismatchCount']==0
+          assert row['contract']['containersStringsBooleansIntegers']=='EXACT'
+          assert row['contract']['gameplayToleranceChanged'] is False
+          assert row['contract']['evidenceRewrittenOrRounded'] is False
+          PY
 
       - name: Preserve HP_A outcome and save contract 19 of 19
         shell: bash

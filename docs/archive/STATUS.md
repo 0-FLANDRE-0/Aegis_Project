@@ -9,7 +9,7 @@
 - hard-kill/CIWS/soft-kill의 설정·교전·명중·격추를 분리했다. DDG는 실제 5in MFF retirement kill, CG는 실제 Mk45 3발/kill 없음이며 CIWS 관측이 불완전한 장면은 `engaged:null`로 보존한다.
 - 구형 radar master+ECM과 true all-radiation-silent를 분리했다. 후자는 현재 UI 권위 경로에서 DDG/CG 모두 ECM 요청 보존, radar/ECM allocator/output/coupling/HOJ 0이다.
 - 별도 Kh-32 60 km 고정 경계 2건은 SHIP 연관만 사용해 둘 다 TRACK에 도달했다. DDG는 29회 acquire 재시도 뒤 명중, CG는 coast/reacquire 뒤 miss다. 과거 0/20의 대체 통계가 아니며 별도 조사 경계를 유지한다.
-- HP_A current-product contract 19/19, 보호 함수 해시 exact, common truth/RNG/save mutation 0이다. PR #78 전용 Actions가 실제 19발 Chromium과 HP_A gate를 독립 재현하도록 추가했고 제품 비변경이므로 one-shot 광역은 재실행하지 않는다.
+- HP_A current-product contract 19/19, 보호 함수 해시 exact, common truth/RNG/save mutation 0이다. PR #78 전용 Actions가 실제 19발 Chromium과 HP_A gate를 독립 재현하도록 추가했다. 증거 비교는 이산 상태·RNG·단계·결과를 exact로 유지하고 runner별 유한 binary64 telemetry만 고정 `1e-12` 절대/상대 한계와 별도 drift receipt로 감사한다. 게임/회귀 허용오차 변경은 0이며 제품 비변경이므로 one-shot 광역은 재실행하지 않는다.
 - Commit C 제품 수정은 없다. 문서·재현 진단 PR을 제출하고 병합·release·tag 없이 사용자 결정을 기다린다. 다음 단계는 `통합 기준선 고정 -> 교전·방어 OODA`다.
 - PR #78은 `seeker-close-a -> main`으로 제출했으며 OPEN 상태다. 제품은 HP_A 그대로이고 병합은 사용자 결정으로 남겼다.
 

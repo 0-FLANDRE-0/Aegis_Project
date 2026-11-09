@@ -105,12 +105,24 @@ exactly zero. The two policies are therefore demonstrated, not conflated.
 - Kh-32: supporting fixed probes only, not a replacement population
 - broad/MAX_THREAT regression: not rerun because product bytes are unchanged
 
+The first PR #78 closure run (`42571169676`) passed the unchanged
+current-candidate gate but exposed a raw JSON comparison issue in the new
+closure job. Reproduction with Playwright 1.55 found 156 finite-float
+last-bit differences, with maximum absolute drift `9.919176591210999e-12`
+and maximum relative drift `6.871720048359798e-13`; discrete state, outcomes,
+RNG, transitions, and evidence had zero differences. No product value or
+expected outcome was changed.
+
 The closure-only Actions job rebuilds the diagnostic exactly, executes the
 actual 19-shot Chromium matrix, compares committed simulated evidence while
-excluding only wall-clock elapsed time, reruns the HP_A outcome/save contract
-with all 19 checks, deterministically rebuilds the HTML-free report ZIP, and
-uploads the receipts. The exact final-head run URL is recorded in the PR
-delivery comment after GitHub completes it.
+excluding wall-clock elapsed time, reruns the HP_A outcome/save contract with
+all 19 checks, deterministically rebuilds the HTML-free report ZIP, and uploads
+the receipts. Every discrete field, RNG state, transition and outcome is exact.
+Finite binary64 diagnostic telemetry alone has a fixed `1e-12`
+absolute/relative cross-runner portability bound; accepted drift count,
+maximum and paths are preserved in `SEMANTIC_COMPARE.json`, with no rounding
+of evidence and no gameplay/regression tolerance change. The exact final-head
+run URL is recorded in the PR delivery comment after GitHub completes it.
 
 ## Inherited debt and exclusions
 

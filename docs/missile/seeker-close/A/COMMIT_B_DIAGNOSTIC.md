@@ -114,8 +114,21 @@ For DDG and CG alike, the technique request remains preserved while:
 - Kh-32: two fixed supporting boundary probes only, not a population result
 - broad/MAX_THREAT regression: not rerun because product bytes are unchanged
 
+The initial PR closure run `42571169676` passed the current-candidate job and
+failed only at cross-runner raw-float JSON equality. Playwright 1.55
+reproduction measured 156 finite-float last-bit differences: maximum absolute
+`9.919176591210999e-12`, maximum relative
+`6.871720048359798e-13`, and zero discrete/state/outcome/RNG/evidence
+differences. This audit is preserved rather than hidden or reclassified as a
+product failure.
+
 The final workflow has a PR #78-specific job that independently rebuilds the
 diagnostic, runs this 19-shot Chromium matrix, semantically compares all
-simulated evidence while excluding only wall-clock elapsed time, reruns the
-HP_A 19/19 outcome/save gate, rebuilds the report ZIP exactly, and uploads the
-receipts. The exact final-head run is recorded in the PR receipt/comment.
+simulated evidence, reruns the HP_A 19/19 outcome/save gate, rebuilds the
+report ZIP exactly, and uploads the receipts. Containers, keys, strings,
+booleans, integers, RNG state, transitions, and outcomes remain exact;
+wall-clock elapsed time is excluded. Finite binary64 telemetry is checked with
+a fixed `1e-12` absolute/relative portability bound and every accepted drift,
+maximum, and path is emitted in `SEMANTIC_COMPARE.json`. This comparison does
+not round evidence or alter any game/regression tolerance. The exact final-head
+run is recorded in the PR receipt/comment.

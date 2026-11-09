@@ -12,6 +12,7 @@ import copy
 import csv
 import hashlib
 import json
+import math
 import os
 from collections import Counter
 from pathlib import Path
@@ -79,10 +80,106 @@ def normalized_shot(row: dict, *, clock: bool = False, deterministic: bool = Fal
 
 
 def semantic_result(value: dict) -> dict:
-    """Drop only wall-clock fields; all simulated state remains exact."""
+    """Drop only wall-clock fields before the cross-runner comparison."""
     result = copy.deepcopy(value)
     result.get("runtime", {}).pop("elapsedS", None)
     return result
+
+
+SEMANTIC_FLOAT_ABS_TOL = 1e-12
+SEMANTIC_FLOAT_REL_TOL = 1e-12
+
+
+def semantic_compare(actual: object, expected: object) -> dict:
+    """Compare evidence exactly except for recorded binary64 libm drift.
+
+    GitHub's Ubuntu runner and the local evidence host can return different
+    final binary64 bits for the same finite transcendental calculation.  This
+    comparator does not round or rewrite either evidence file: every key,
+    container, string, boolean and integer remains exact, while finite floats
+    receive a strict 1e-12 absolute/relative portability bound.  Every accepted
+    drift is counted and its worst path is recorded.  This is diagnostic-output
+    portability only; it is not a gameplay, physics, or regression tolerance.
+    """
+    mismatches: list[dict] = []
+    numeric_drifts: list[dict] = []
+
+    def mismatch(path: str, reason: str, lhs: object, rhs: object) -> None:
+        mismatches.append({
+            "path": path,
+            "reason": reason,
+            "actual": lhs,
+            "expected": rhs,
+        })
+
+    def walk(lhs: object, rhs: object, path: str) -> None:
+        if type(lhs) is not type(rhs):
+            mismatch(path, "TYPE", type(lhs).__name__, type(rhs).__name__)
+            return
+        if isinstance(lhs, dict):
+            lhs_keys, rhs_keys = set(lhs), set(rhs)
+            for key in sorted(lhs_keys - rhs_keys):
+                mismatch(f"{path}.{key}", "EXTRA_ACTUAL_KEY", lhs[key], None)
+            for key in sorted(rhs_keys - lhs_keys):
+                mismatch(f"{path}.{key}", "MISSING_ACTUAL_KEY", None, rhs[key])
+            for key in sorted(lhs_keys & rhs_keys):
+                walk(lhs[key], rhs[key], f"{path}.{key}")
+            return
+        if isinstance(lhs, list):
+            if len(lhs) != len(rhs):
+                mismatch(f"{path}.length", "LENGTH", len(lhs), len(rhs))
+            for index, (lhs_item, rhs_item) in enumerate(zip(lhs, rhs)):
+                walk(lhs_item, rhs_item, f"{path}[{index}]")
+            return
+        if isinstance(lhs, float):
+            if lhs == rhs:
+                return
+            if not (math.isfinite(lhs) and math.isfinite(rhs)):
+                mismatch(path, "NONFINITE_FLOAT", lhs, rhs)
+                return
+            absolute = abs(lhs - rhs)
+            scale = max(abs(lhs), abs(rhs))
+            relative = absolute / scale if scale else absolute
+            if math.isclose(
+                lhs,
+                rhs,
+                rel_tol=SEMANTIC_FLOAT_REL_TOL,
+                abs_tol=SEMANTIC_FLOAT_ABS_TOL,
+            ):
+                numeric_drifts.append({
+                    "path": path,
+                    "actual": lhs,
+                    "expected": rhs,
+                    "absolute": absolute,
+                    "relative": relative,
+                })
+                return
+            mismatch(path, "FLOAT_OUTSIDE_PORTABILITY_BOUND", lhs, rhs)
+            return
+        if lhs != rhs:
+            mismatch(path, "VALUE", lhs, rhs)
+
+    walk(actual, expected, "$")
+    max_absolute = max(numeric_drifts, key=lambda row: row["absolute"], default=None)
+    max_relative = max(numeric_drifts, key=lambda row: row["relative"], default=None)
+    return {
+        "schema": "AEGIS_SEEKER_CLOSE_A_SEMANTIC_COMPARE_1",
+        "status": "PASS" if not mismatches else "FAIL",
+        "contract": {
+            "containersStringsBooleansIntegers": "EXACT",
+            "finiteFloatAbsTol": SEMANTIC_FLOAT_ABS_TOL,
+            "finiteFloatRelTol": SEMANTIC_FLOAT_REL_TOL,
+            "excludedPaths": ["$.runtime.elapsedS"],
+            "gameplayToleranceChanged": False,
+            "evidenceRewrittenOrRounded": False,
+        },
+        "numericDriftCount": len(numeric_drifts),
+        "maxAbsoluteDrift": max_absolute,
+        "maxRelativeDrift": max_relative,
+        "numericDriftSamples": numeric_drifts[:16],
+        "mismatchCount": len(mismatches),
+        "mismatches": mismatches[:32],
+    }
 
 
 def decoy_evidence_consistent(shot: dict) -> bool:
@@ -348,10 +445,22 @@ def main() -> None:
     (args.output / "SUMMARY.json").write_text(strict(summary))
     if args.compare_results:
         expected = json.loads(args.compare_results.read_text())
-        if semantic_result(payload) != semantic_result(expected):
+        comparison = semantic_compare(semantic_result(payload), semantic_result(expected))
+        (args.output / "SEMANTIC_COMPARE.json").write_text(strict(comparison))
+        if comparison["status"] != "PASS":
             actual_hash = sha256(strict(semantic_result(payload)).encode())
             expected_hash = sha256(strict(semantic_result(expected)).encode())
-            raise AssertionError(f"committed evidence semantic mismatch: actual={actual_hash} expected={expected_hash}")
+            raise AssertionError(
+                "committed evidence semantic mismatch: "
+                f"actual={actual_hash} expected={expected_hash} "
+                f"comparison={json.dumps(comparison, ensure_ascii=False, separators=(',', ':'))}"
+            )
+        print(
+            "semantic comparison PASS: "
+            f"numericDriftCount={comparison['numericDriftCount']} "
+            f"maxAbsoluteDrift={comparison['maxAbsoluteDrift']} "
+            f"maxRelativeDrift={comparison['maxRelativeDrift']}"
+        )
     print(strict(summary))
     raise SystemExit(0 if payload["status"] == "PASS" else 1)
 
