@@ -1,0 +1,66 @@
+{
+  "schema": "AEGIS_SEEKER_CLOSE_A_STATUS_2",
+  "stage": "SEEKER_CLOSE_A",
+  "branch": "seeker-close-a",
+  "baselineMain": "78b01165bad64e9c6dc384ff070a70f868da5113",
+  "authorityProduct": {
+    "name": "Aegis_SIM_v48_WIP_HP_A.html",
+    "bytes": 22200135,
+    "sha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
+    "changed": false
+  },
+  "diagnostic": {
+    "status": "PASS",
+    "shotCount": 19,
+    "terminalCounts": {
+      "TARGET_HIT": 16,
+      "DEFENSE_INTERCEPT": 1,
+      "DECOY_SEDUCTION": 2
+    },
+    "unclassified": 0,
+    "sameSeedExact": true,
+    "timeScaleExact": true,
+    "truthFeedback": 0,
+    "commonRngConsumption": 0,
+    "saveSchemaMutation": 0,
+    "protectedFunctionHashesExact": true,
+    "firstShipRecoveryEvents": 12,
+    "finalRecoveredDecoyPaths": 10,
+    "provenSeductionPaths": 2,
+    "selectedOutcomeUnresolved": 0,
+    "globalSilenceRequestPreservedOutputZero": true,
+    "legacyRadarMasterEcmDistinct": true
+  },
+  "hpContractGate": {
+    "status": "PASS",
+    "passed": 19,
+    "total": 19
+  },
+  "commitCProductFix": false,
+  "broadRegressionRun": false,
+  "broadRegressionReason": "FORMAL_PRODUCT_BYTE_IDENTICAL_TO_HP_A",
+  "closureActionsGate": {
+    "implemented": true,
+    "runsActualChromiumMatrix": true,
+    "committedEvidenceSemanticCompare": true,
+    "semanticCompareContract": {
+      "discreteAndStructuralFields": "EXACT",
+      "finiteFloatAbsoluteTolerance": 1e-12,
+      "finiteFloatRelativeTolerance": 1e-12,
+      "driftReceipt": "SEMANTIC_COMPARE.json",
+      "gameplayToleranceChanged": false
+    },
+    "finalHeadResultLocation": "PR_78_DELIVERY_COMMENT"
+  },
+  "implemented": true,
+  "tested": true,
+  "approved": true,
+  "unresolved": [
+    "KH32_HISTORICAL_60KM_POPULATION_NOT_REMEASURED",
+    "CONFIRMED_ONLY_PERFORMANCE_UNVERIFIED",
+    "INHERITED_REGRESSION_DEBT_UNCHANGED"
+  ],
+  "release": false,
+  "pullRequest": 78,
+  "merged": false
+}

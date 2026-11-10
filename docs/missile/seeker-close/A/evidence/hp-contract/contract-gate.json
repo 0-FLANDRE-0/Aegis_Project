@@ -1,0 +1,3343 @@
+{
+  "schema": "AEGIS_HP_A_CONTRACT_GATE_1",
+  "status": "PASS",
+  "product": "Aegis_SIM_v48_WIP_HP_A.html",
+  "productBytes": 22200135,
+  "productSha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
+  "elapsedS": 132.5438057850115,
+  "checks": {
+    "pageAndConsoleErrorsZero": true,
+    "coreSelfTestsZero": true,
+    "outcomeSelfTest": true,
+    "playerDdgFalseZeroGuard": true,
+    "playerCgFalseZeroGuard": true,
+    "staleStoredHpIgnored": true,
+    "authoritativeSurvivalRoundTrip": true,
+    "missionKillSeparated": true,
+    "invalidSaveFailClosedZeroMutation": true,
+    "resetClearsOutcome": true,
+    "kh35PhysicsPreservedWithinNumericTolerance": true,
+    "kh35ReversiblePositive": true,
+    "sovContactsPreserved": true,
+    "recoverableCriticalPositive": true,
+    "irreversibleOnlyZero": true,
+    "actualLossZero": true,
+    "lossCallbacksExactlyOnce": true,
+    "duplicateTicksNoDuplicateCallbacks": true,
+    "timeScaleOneEightSixteenExact": true
+  },
+  "kh35PhysicsComparison": {
+    "flight": true,
+    "damageSeverityPct": true,
+    "flood": true,
+    "crew": true,
+    "survival": true,
+    "rng": true
+  },
+  "kh35PhysicsNumericTolerance": 1e-12,
+  "kh35PhysicsMaxAbsoluteDelta": {
+    "flight": 0.0,
+    "damageSeverityPct": 1.4210854715202004e-14,
+    "flood": 3.0531133177191805e-16,
+    "crew": 0.0,
+    "survival": 3.0531133177191805e-16,
+    "rng": 0
+  },
+  "ddg": {
+    "core": [],
+    "self": {
+      "schema": "AEGIS_HP_A_SELFTEST_1",
+      "pass": true,
+      "checks": {
+        "normal": true,
+        "reversibleNeverZero": true,
+        "missionSeparated": true,
+        "irreversibleZero": true,
+        "lostZero": true,
+        "exactAlias": true
+      },
+      "rows": {
+        "normal": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 100,
+          "damageSeverityPct": 0,
+          "survivalState": "NORMAL",
+          "afloatState": "AFLOAT",
+          "missionState": "OPERATIONAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "falseZeroGuard": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "missionKill": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 28,
+          "damageSeverityPct": 72,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "irreversible": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 25,
+          "survivalState": "CRITICAL",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "lost": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 0,
+          "survivalState": "LOST",
+          "afloatState": "LOST",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": true,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        }
+      }
+    },
+    "falseZeroGuard": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": 1.688982501779414e-08,
+        "trimRad": -4.230125587078713e-06,
+        "draftM": -0.6603392879778772
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 310,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 99.99999999999997,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 708483531,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 0,
+            "reason": "RESET_MODULES"
+          }
+        ]
+      }
+    },
+    "savedSurvival": {
+      "mode": "SHIP_DYNAMICS_V15",
+      "state": "NORMAL",
+      "label": "정상",
+      "timeS": 0.016666666666666666,
+      "phaseS": 0.016666666666666666,
+      "heelRad": 1.688982501779414e-08,
+      "trimRad": -4.230125587078713e-06,
+      "draftM": -0.6603392879778772,
+      "target": {
+        "heelRad": 1.688982501779414e-08,
+        "trimRad": -4.230125587078713e-06,
+        "draftM": -0.6603392879778772
+      },
+      "waterM3": 0,
+      "imbalance": 0,
+      "equipmentOffline": false,
+      "lost": false,
+      "irreversible": false,
+      "capTimer": 0,
+      "sinkTimer": 0,
+      "events": [],
+      "limits": {
+        "heelDeg": 100,
+        "trimDeg": 18,
+        "draftM": 60
+      }
+    },
+    "validation": {
+      "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+      "ok": true,
+      "errors": [],
+      "codecs": [
+        {
+          "id": "envelope",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "navigation",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "weapons",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "loads",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "damageFlooding",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "crew",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "rescue",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "aviation",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "deployment",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "fleet",
+          "ok": true,
+          "errorCount": 0
+        }
+      ]
+    },
+    "staleHpRestore": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": 1.688982501779414e-08,
+        "trimRad": -4.230125587078713e-06,
+        "draftM": -0.6603392879778772
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 310,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 99.99999999999997,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 708483531,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "PLAYER_RESTORE"
+          }
+        ]
+      }
+    },
+    "restoreAudit": [
+      {
+        "entityId": "SHIP_DDG119_OWN",
+        "savedHp": 0,
+        "derivedHp": 1,
+        "mismatch": true,
+        "reason": "PLAYER_RESTORE",
+        "step": 1
+      }
+    ],
+    "missionKill": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "MISSION_KILL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": 1.688982501779414e-08,
+        "trimRad": -4.230125587078713e-06,
+        "draftM": -0.6603392879778772
+      },
+      "crew": {
+        "mode": "MISSION_KILLED",
+        "combatUnavailable": true,
+        "equipmentOffline": false,
+        "fit": 310,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 99.99999999999997,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 708483531,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "PLAYER_RESTORE"
+          }
+        ]
+      }
+    },
+    "rejectReason": "Operational state rejected: SHIP_SURVIVAL_HP_A",
+    "invalidZeroMutation": true,
+    "reset": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 100,
+        "damageSeverityPct": 0,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "OPERATIONAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": 0,
+        "trimRad": 0,
+        "draftM": 0
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 310,
+        "dead": 0
+      },
+      "status": {
+        "command": 0,
+        "radar": 0,
+        "propulsion": 0,
+        "power": 0,
+        "steering": 0,
+        "flooding": 0,
+        "hullStructuralDamage": 0,
+        "overall": 0,
+        "damageSeverityPct": 0
+      },
+      "rng": 708483531,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "RESET_MODULES"
+          }
+        ]
+      }
+    }
+  },
+  "cg": {
+    "core": [],
+    "self": {
+      "schema": "AEGIS_HP_A_SELFTEST_1",
+      "pass": true,
+      "checks": {
+        "normal": true,
+        "reversibleNeverZero": true,
+        "missionSeparated": true,
+        "irreversibleZero": true,
+        "lostZero": true,
+        "exactAlias": true
+      },
+      "rows": {
+        "normal": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 100,
+          "damageSeverityPct": 0,
+          "survivalState": "NORMAL",
+          "afloatState": "AFLOAT",
+          "missionState": "OPERATIONAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "falseZeroGuard": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "missionKill": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 28,
+          "damageSeverityPct": 72,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "irreversible": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 25,
+          "survivalState": "CRITICAL",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "lost": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 0,
+          "survivalState": "LOST",
+          "afloatState": "LOST",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": true,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        }
+      }
+    },
+    "falseZeroGuard": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": -4.410494953978759e-07,
+        "trimRad": 1.8358691420458416e-06,
+        "draftM": 0.3184659212738551
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 330,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 100,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 2114373566,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 0,
+            "reason": "RESET_MODULES"
+          }
+        ]
+      }
+    },
+    "savedSurvival": {
+      "mode": "SHIP_DYNAMICS_V15",
+      "state": "NORMAL",
+      "label": "정상",
+      "timeS": 0.016666666666666666,
+      "phaseS": 0.016666666666666666,
+      "heelRad": -4.410494953978759e-07,
+      "trimRad": 1.8358691420458416e-06,
+      "draftM": 0.3184659212738551,
+      "target": {
+        "heelRad": -4.410494953978759e-07,
+        "trimRad": 1.8358691420458416e-06,
+        "draftM": 0.3184659212738551
+      },
+      "waterM3": 0,
+      "imbalance": 0,
+      "equipmentOffline": false,
+      "lost": false,
+      "irreversible": false,
+      "capTimer": 0,
+      "sinkTimer": 0,
+      "events": [],
+      "limits": {
+        "heelDeg": 100,
+        "trimDeg": 18,
+        "draftM": 60
+      }
+    },
+    "validation": {
+      "schema": "AEGIS_OPERATIONAL_PREFLIGHT_V48_WIP11B",
+      "ok": true,
+      "errors": [],
+      "codecs": [
+        {
+          "id": "envelope",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "navigation",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "weapons",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "loads",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "damageFlooding",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "crew",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "rescue",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "aviation",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "deployment",
+          "ok": true,
+          "errorCount": 0
+        },
+        {
+          "id": "fleet",
+          "ok": true,
+          "errorCount": 0
+        }
+      ]
+    },
+    "staleHpRestore": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": -4.410494953978759e-07,
+        "trimRad": 1.8358691420458416e-06,
+        "draftM": 0.3184659212738551
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 330,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 100,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 2114373566,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "PLAYER_RESTORE"
+          }
+        ]
+      }
+    },
+    "restoreAudit": [
+      {
+        "entityId": "SHIP_CG52_OWN",
+        "savedHp": 0,
+        "derivedHp": 1,
+        "mismatch": true,
+        "reason": "PLAYER_RESTORE",
+        "step": 1
+      }
+    ],
+    "missionKill": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 1,
+        "damageSeverityPct": 100,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "MISSION_KILL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": -4.410494953978759e-07,
+        "trimRad": 1.8358691420458416e-06,
+        "draftM": 0.3184659212738551
+      },
+      "crew": {
+        "mode": "MISSION_KILLED",
+        "combatUnavailable": true,
+        "equipmentOffline": false,
+        "fit": 330,
+        "dead": 0
+      },
+      "status": {
+        "command": 100,
+        "radar": 100,
+        "propulsion": 100,
+        "power": 100,
+        "steering": 100,
+        "flooding": 0,
+        "hullStructuralDamage": 100,
+        "overall": 100,
+        "damageSeverityPct": 100
+      },
+      "rng": 2114373566,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "PLAYER_RESTORE"
+          }
+        ]
+      }
+    },
+    "rejectReason": "Operational state rejected: SHIP_SURVIVAL_HP_A",
+    "invalidZeroMutation": true,
+    "reset": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 100,
+        "damageSeverityPct": 0,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "OPERATIONAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "waterM3": 0,
+        "heelRad": 0,
+        "trimRad": 0,
+        "draftM": 0
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "fit": 330,
+        "dead": 0
+      },
+      "status": {
+        "command": 0,
+        "radar": 0,
+        "propulsion": 0,
+        "power": 0,
+        "steering": 0,
+        "flooding": 0,
+        "hullStructuralDamage": 0,
+        "overall": 0,
+        "damageSeverityPct": 0
+      },
+      "rng": 2114373566,
+      "events": {
+        "counts": {
+          "missionKill": 0,
+          "irreversibleLoss": 0,
+          "sunk": 0
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 1,
+            "reason": "RESET_MODULES"
+          }
+        ]
+      }
+    }
+  },
+  "kh35": {
+    "flight": {
+      "durationS": 204.93333333333334,
+      "shipHit": true,
+      "deathReason": "NORMAL_HIT",
+      "everAcquire": true,
+      "everTrack": true
+    },
+    "after": {
+      "shipHP": 13.371201476137841,
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 13.371201476137841,
+        "damageSeverityPct": 86.62879852386216,
+        "survivalState": "FLOODING",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "damageSeverityPct": 86.62879852386216,
+      "flood": {
+        "waterM3": 0.24945228376539902,
+        "floodingPct": 0.0012692832975868052,
+        "openings": 3
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "combatUnavailable": false,
+        "equipmentOffline": false,
+        "dead": 6
+      },
+      "survival": {
+        "state": "FLOODING",
+        "equipmentOffline": false,
+        "lost": false,
+        "irreversible": false,
+        "waterM3": 0.24945228376539902,
+        "heelRad": 0.002449947401120243,
+        "trimRad": -0.013550704948333998
+      }
+    },
+    "rngState": 331334324,
+    "core": []
+  },
+  "sov": {
+    "contacts": [
+      {
+        "ok": true,
+        "duplicateRejected": true,
+        "termination": "FUZE_AT_CONTACT",
+        "blastKg": 97.5,
+        "speedMps": 288.9882914866812
+      },
+      {
+        "ok": true,
+        "duplicateRejected": true,
+        "termination": "FUZE_AT_CONTACT",
+        "blastKg": 97.5,
+        "speedMps": 288.98826642936035
+      },
+      {
+        "ok": true,
+        "duplicateRejected": true,
+        "termination": "FUZE_EXPIRY_DAMAGE_VOLUME",
+        "blastKg": 97.5,
+        "speedMps": 288.9882542290028
+      },
+      {
+        "ok": true,
+        "duplicateRejected": true,
+        "termination": "FUZE_AT_CONTACT",
+        "blastKg": 97.5,
+        "speedMps": 288.98826226483357
+      }
+    ],
+    "rows": [
+      {
+        "index": 0,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "FLOODING",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "FLOODING",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 758.0084900386503,
+          "heelRad": -0.16155476749407735,
+          "trimRad": 0.005529359213151238,
+          "draftM": 0.37151560842600245
+        },
+        "flood": {
+          "waterM3": 758.0084900386503,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 1,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "FLOODING",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "FLOODING",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 1306.8153920536158,
+          "heelRad": -0.20051355096288884,
+          "trimRad": 0.009545288070188658,
+          "draftM": 0.6768813941156668
+        },
+        "flood": {
+          "waterM3": 1306.8153920536158,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 2,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 1804.681848847931,
+          "heelRad": -0.2203805977871612,
+          "trimRad": 0.012293123221566596,
+          "draftM": 0.9271350531934974
+        },
+        "flood": {
+          "waterM3": 1804.681848847931,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 3,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 2300.984860013593,
+          "heelRad": -0.2454778539213511,
+          "trimRad": 0.015260048560857676,
+          "draftM": 1.1700402243763468
+        },
+        "flood": {
+          "waterM3": 2300.984860013593,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 4,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 2698.1430818264153,
+          "heelRad": -0.23151291800901258,
+          "trimRad": 0.017474278576041564,
+          "draftM": 1.3978889045613871
+        },
+        "flood": {
+          "waterM3": 2698.1430818264153,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 5,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 3038.975085472173,
+          "heelRad": -0.2213439283709031,
+          "trimRad": 0.01931147362066084,
+          "draftM": 1.5783680113455736
+        },
+        "flood": {
+          "waterM3": 3038.975085472173,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 6,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "DEGRADED",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": false,
+          "waterM3": 3357.5698445697885,
+          "heelRad": -0.2159207982790678,
+          "trimRad": 0.021025001955076884,
+          "draftM": 1.7458885304372678
+        },
+        "flood": {
+          "waterM3": 3357.5698445697885,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 0,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            }
+          ]
+        }
+      },
+      {
+        "index": 7,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 3677.483311457906,
+          "heelRad": -0.21078119710324447,
+          "trimRad": 0.022784038082676927,
+          "draftM": 1.9109454656515095
+        },
+        "flood": {
+          "waterM3": 3677.483311457906,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 8,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 4002.081106192343,
+          "heelRad": -0.20354689503051485,
+          "trimRad": 0.024577088574746938,
+          "draftM": 2.078288786199869
+        },
+        "flood": {
+          "waterM3": 4002.081106192343,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 9,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 4334.798542420674,
+          "heelRad": -0.197177739610879,
+          "trimRad": 0.026412304510252192,
+          "draftM": 2.247832393264545
+        },
+        "flood": {
+          "waterM3": 4334.798542420674,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 10,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 4674.651226634583,
+          "heelRad": -0.19082166179742455,
+          "trimRad": 0.028269639045802732,
+          "draftM": 2.420208706970858
+        },
+        "flood": {
+          "waterM3": 4674.651226634583,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 11,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 5016.567093216578,
+          "heelRad": -0.18281396788899057,
+          "trimRad": 0.03012722591620724,
+          "draftM": 2.5943487485512695
+        },
+        "flood": {
+          "waterM3": 5016.567093216578,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 12,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 5357.481466662708,
+          "heelRad": -0.1737387944444192,
+          "trimRad": 0.03196695843495004,
+          "draftM": 2.7679477743249667
+        },
+        "flood": {
+          "waterM3": 5357.481466662708,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 13,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 5696.40511620269,
+          "heelRad": -0.16313767854746186,
+          "trimRad": 0.03380332918488884,
+          "draftM": 2.9404819595059672
+        },
+        "flood": {
+          "waterM3": 5696.40511620269,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 14,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 6036.330519479345,
+          "heelRad": -0.15216905916932738,
+          "trimRad": 0.03568580405480273,
+          "draftM": 3.112762576544498
+        },
+        "flood": {
+          "waterM3": 6036.330519479345,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 15,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 6394.864789882578,
+          "heelRad": -0.1415909421899696,
+          "trimRad": 0.0377803451661225,
+          "draftM": 3.29294042026141
+        },
+        "flood": {
+          "waterM3": 6394.864789882578,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 16,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 6779.676773109474,
+          "heelRad": -0.13059206175323454,
+          "trimRad": 0.04020910914433664,
+          "draftM": 3.489747822365925
+        },
+        "flood": {
+          "waterM3": 6779.676773109474,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 17,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 7175.7128131478285,
+          "heelRad": -0.11872235300305693,
+          "trimRad": 0.04284066293088718,
+          "draftM": 3.6985555533015857
+        },
+        "flood": {
+          "waterM3": 7175.7128131478285,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 18,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 7573.469894677605,
+          "heelRad": -0.10673565141822662,
+          "trimRad": 0.04555276342490809,
+          "draftM": 3.9149345469042256
+        },
+        "flood": {
+          "waterM3": 7573.469894677605,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 19,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 7962.053231830579,
+          "heelRad": -0.09488810833581958,
+          "trimRad": 0.04838638260004905,
+          "draftM": 4.141167236872315
+        },
+        "flood": {
+          "waterM3": 7962.053231830579,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 20,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 8328.097688034786,
+          "heelRad": -0.08311654914953431,
+          "trimRad": 0.051519518246070074,
+          "draftM": 4.385775433291986
+        },
+        "flood": {
+          "waterM3": 8328.097688034786,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 21,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 8663.742811575326,
+          "heelRad": -0.07154411976649636,
+          "trimRad": 0.05504182684962412,
+          "draftM": 4.654512287225531
+        },
+        "flood": {
+          "waterM3": 8663.742811575326,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 22,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 8963.515149944238,
+          "heelRad": -0.06208453045503904,
+          "trimRad": 0.060038751649611484,
+          "draftM": 4.9813846874088075
+        },
+        "flood": {
+          "waterM3": 8963.515149944238,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 23,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 9246.46739098159,
+          "heelRad": -0.05328836138022381,
+          "trimRad": 0.0715541444589237,
+          "draftM": 5.589332960395729
+        },
+        "flood": {
+          "waterM3": 9246.46739098159,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 24,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 9520.001529304405,
+          "heelRad": -0.04524708241198935,
+          "trimRad": 0.09119024023101735,
+          "draftM": 6.627312184472268
+        },
+        "flood": {
+          "waterM3": 9520.001529304405,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 25,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 9798.339649070058,
+          "heelRad": -0.043764553634610404,
+          "trimRad": 0.12022620770498561,
+          "draftM": 8.205089388081833
+        },
+        "flood": {
+          "waterM3": 9798.339649070058,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 26,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 1,
+          "damageSeverityPct": 100,
+          "survivalState": "CRITICAL",
+          "afloatState": "AFLOAT",
+          "missionState": "MISSION_KILL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "CRITICAL",
+          "irreversible": false,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 10067.449906461727,
+          "heelRad": -0.04244802196425664,
+          "trimRad": 0.16324330877981313,
+          "draftM": 10.571237986529468
+        },
+        "flood": {
+          "waterM3": 10067.449906461727,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 0,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 27,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 10334.693792534612,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 14.675734379072903
+        },
+        "flood": {
+          "waterM3": 10334.693792534612,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 28,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 10611.833462376493,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 19.175734379073074
+        },
+        "flood": {
+          "waterM3": 10611.833462376493,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 29,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 10846.556889114643,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 23.675734379073244
+        },
+        "flood": {
+          "waterM3": 10846.556889114643,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 30,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 10979.8666745439,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 28.175734379073415
+        },
+        "flood": {
+          "waterM3": 10979.8666745439,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 31,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11088.575204020613,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 32.67573437907294
+        },
+        "flood": {
+          "waterM3": 11088.575204020613,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 32,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11190.432255024713,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 37.17573437906885
+        },
+        "flood": {
+          "waterM3": 11190.432255024713,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 33,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11287.893845632789,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 41.67573437906476
+        },
+        "flood": {
+          "waterM3": 11287.893845632789,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 34,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11381.38621581555,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 46.175734379060664
+        },
+        "flood": {
+          "waterM3": 11381.38621581555,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 35,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11471.907364868312,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 50.67573437905657
+        },
+        "flood": {
+          "waterM3": 11471.907364868312,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 36,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11560.16607241063,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 55.17573437905248
+        },
+        "flood": {
+          "waterM3": 11560.16607241063,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 37,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "SINKING",
+          "afloatState": "IRREVERSIBLE_LOSS",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "SINKING",
+          "irreversible": true,
+          "lost": false,
+          "equipmentOffline": true,
+          "waterM3": 11646.565076977306,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 59.675734379048386
+        },
+        "flood": {
+          "waterM3": 11646.565076977306,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 0
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      },
+      {
+        "index": 38,
+        "outcome": {
+          "schema": "AEGIS_SHIP_OUTCOME_A_1",
+          "displayHp": 0,
+          "damageSeverityPct": 100,
+          "survivalState": "LOST",
+          "afloatState": "LOST",
+          "missionState": "LOST",
+          "irreversible": true,
+          "lost": true,
+          "equipmentOffline": true,
+          "provenance": {
+            "physicalSurvival": "createShipSurvivalV1.snapshot",
+            "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+            "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+            "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+          }
+        },
+        "survival": {
+          "state": "LOST",
+          "irreversible": true,
+          "lost": true,
+          "equipmentOffline": true,
+          "waterM3": 11731.191570822411,
+          "heelRad": -0.041587852276971635,
+          "trimRad": 0.17872263693223125,
+          "draftM": 60
+        },
+        "flood": {
+          "waterM3": 11731.191570822411,
+          "structuralLoss01": 0.41364015889884476
+        },
+        "events": {
+          "counts": {
+            "missionKill": 1,
+            "irreversibleLoss": 1,
+            "sunk": 1
+          },
+          "events": [
+            {
+              "kind": "BASELINE",
+              "step": 0,
+              "reason": "PREPARE_PHYSICAL_SHIP"
+            },
+            {
+              "kind": "MISSION_KILL",
+              "step": 4339,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "IRREVERSIBLE_LOSS",
+              "step": 16425,
+              "reason": "DAMAGE_FLOOD_TICK"
+            },
+            {
+              "kind": "SUNK",
+              "step": 22903,
+              "reason": "DAMAGE_FLOOD_TICK"
+            }
+          ]
+        }
+      }
+    ],
+    "atLoss": {
+      "index": 38,
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 0,
+        "damageSeverityPct": 100,
+        "survivalState": "LOST",
+        "afloatState": "LOST",
+        "missionState": "LOST",
+        "irreversible": true,
+        "lost": true,
+        "equipmentOffline": true,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "LOST",
+        "irreversible": true,
+        "lost": true,
+        "equipmentOffline": true,
+        "waterM3": 11731.191570822411,
+        "heelRad": -0.041587852276971635,
+        "trimRad": 0.17872263693223125,
+        "draftM": 60
+      },
+      "flood": {
+        "waterM3": 11731.191570822411,
+        "structuralLoss01": 0.41364015889884476
+      },
+      "events": {
+        "counts": {
+          "missionKill": 1,
+          "irreversibleLoss": 1,
+          "sunk": 1
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 0,
+            "reason": "PREPARE_PHYSICAL_SHIP"
+          },
+          {
+            "kind": "MISSION_KILL",
+            "step": 4339,
+            "reason": "DAMAGE_FLOOD_TICK"
+          },
+          {
+            "kind": "IRREVERSIBLE_LOSS",
+            "step": 16425,
+            "reason": "DAMAGE_FLOOD_TICK"
+          },
+          {
+            "kind": "SUNK",
+            "step": 22903,
+            "reason": "DAMAGE_FLOOD_TICK"
+          }
+        ]
+      }
+    },
+    "duplicateTick": {
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 0,
+        "damageSeverityPct": 100,
+        "survivalState": "LOST",
+        "afloatState": "LOST",
+        "missionState": "LOST",
+        "irreversible": true,
+        "lost": true,
+        "equipmentOffline": true,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "events": {
+        "counts": {
+          "missionKill": 1,
+          "irreversibleLoss": 1,
+          "sunk": 1
+        },
+        "events": [
+          {
+            "kind": "BASELINE",
+            "step": 0,
+            "reason": "PREPARE_PHYSICAL_SHIP"
+          },
+          {
+            "kind": "MISSION_KILL",
+            "step": 4339,
+            "reason": "DAMAGE_FLOOD_TICK"
+          },
+          {
+            "kind": "IRREVERSIBLE_LOSS",
+            "step": 16425,
+            "reason": "DAMAGE_FLOOD_TICK"
+          },
+          {
+            "kind": "SUNK",
+            "step": 22903,
+            "reason": "DAMAGE_FLOOD_TICK"
+          }
+        ]
+      }
+    },
+    "core": []
+  },
+  "timeScales": [
+    {
+      "scale": 1,
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 92.46770833333333,
+        "damageSeverityPct": 7.532291666666663,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "waterM3": 0,
+        "heelRad": -0.00036575999372944336,
+        "trimRad": -0.013406032041540762,
+        "draftM": -0.6790195078021312
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "fit": 310,
+        "dead": 0
+      },
+      "rng": 3858438414
+    },
+    {
+      "scale": 8,
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 92.46770833333333,
+        "damageSeverityPct": 7.532291666666663,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "waterM3": 0,
+        "heelRad": -0.00036575999372944336,
+        "trimRad": -0.013406032041540762,
+        "draftM": -0.6790195078021312
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "fit": 310,
+        "dead": 0
+      },
+      "rng": 3858438414
+    },
+    {
+      "scale": 16,
+      "outcome": {
+        "schema": "AEGIS_SHIP_OUTCOME_A_1",
+        "displayHp": 92.46770833333333,
+        "damageSeverityPct": 7.532291666666663,
+        "survivalState": "NORMAL",
+        "afloatState": "AFLOAT",
+        "missionState": "DEGRADED",
+        "irreversible": false,
+        "lost": false,
+        "equipmentOffline": false,
+        "provenance": {
+          "physicalSurvival": "createShipSurvivalV1.snapshot",
+          "damageSeverity": "computeShipStatus.overall (exact compatibility alias)",
+          "mission": "shipEquipmentOfflineV1 + existing crew.combatUnavailable gate",
+          "displayHp": "ONE_WAY_DERIVED_PROJECTION_MIN_ONE_WHILE_REVERSIBLE"
+        }
+      },
+      "survival": {
+        "state": "NORMAL",
+        "irreversible": false,
+        "lost": false,
+        "waterM3": 0,
+        "heelRad": -0.00036575999372944336,
+        "trimRad": -0.013406032041540762,
+        "draftM": -0.6790195078021312
+      },
+      "crew": {
+        "mode": "OPERATIONAL",
+        "fit": 310,
+        "dead": 0
+      },
+      "rng": 3858438414
+    }
+  ],
+  "errors": []
+}
