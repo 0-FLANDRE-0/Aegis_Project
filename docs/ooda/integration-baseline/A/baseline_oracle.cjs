@@ -277,9 +277,11 @@ async function ownerOracle(browser, profileIndex) {
 
 (async () => {
   const product = fs.readFileSync(productPath);
+  const executablePath = process.env.AEGIS_CHROMIUM_EXECUTABLE
+    || (fs.existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
   const browser = await chromium.launch({
     headless: true,
-    executablePath: '/usr/bin/chromium',
+    ...(executablePath ? { executablePath } : {}),
     args: ['--no-sandbox', '--disable-dev-shm-usage'],
   });
   try {

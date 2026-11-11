@@ -1,0 +1,14 @@
+Error in sitecustomize; set PYTHONVERBOSE for traceback:
+ModuleNotFoundError: No module named 'browser_tools'
+Traceback (most recent call last):
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/envelope/D/run_observed_webgl.py", line 18, in <module>
+    exec(compile(s,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/missile/termination/A/verify_observed_world.py", line 6, in <module>
+    H=Path(__file__).resolve().parent;sys.path.insert(0,str(H));from verify_live import instrument
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/missile/termination/A/verify_live.py", line 6, in <module>
+    sys.path.insert(0,str(R/'docs/helicopter/H'));from browser import launch,load_fleet
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/helicopter/H/browser.py", line 5, in <module>
+    from browser_g import launch
+ModuleNotFoundError: No module named 'browser_g'

@@ -62,7 +62,7 @@ async function runOwner(browser, profileIndex) {
 }
 
 (async()=>{
-  const product=fs.readFileSync(productPath),browser=await chromium.launch({headless:true,executablePath:'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage']});
+  const product=fs.readFileSync(productPath),executablePath=process.env.AEGIS_CHROMIUM_EXECUTABLE||(fs.existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{}),args:['--no-sandbox','--disable-dev-shm-usage']});
   try{
     const owners=[];for(const index of [0,1])owners.push(await runOwner(browser,index));
     const payload={schema:'AEGIS_INTEGRATION_BASELINE_CONTRACT_ORACLE_A_1',capturedFrom:{product:productPath.split('/').at(-1),bytes:product.length,sha256:sha256(product),browser:await browser.version(),playwright:require('playwright/package.json').version,fixedSeed:1831565813},owners};

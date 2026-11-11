@@ -1,0 +1,12 @@
+Error in sitecustomize; set PYTHONVERBOSE for traceback:
+ModuleNotFoundError: No module named 'browser_tools'
+Traceback (most recent call last):
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/map/E/verify_emcon_ui.py", line 17, in <module>
+    sys.path.insert(0,str(R/'docs/map/A'));from verify_regressions import install_navigation;install_navigation();sys.path.insert(0,str(f.parent));exec(compile(s,str(f),'exec'),{'__file__':str(f),'__name__':'__main__'})
+                                                                                             ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/map/A/verify_regressions.py", line 8, in install_navigation
+    sys.path.insert(0,str(R/'docs/helicopter/H'));import browser,browser_g
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/helicopter/H/browser.py", line 5, in <module>
+    from browser_g import launch
+ModuleNotFoundError: No module named 'browser_g'

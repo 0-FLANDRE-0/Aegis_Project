@@ -178,3 +178,11 @@
 - PR #78은 제품 비변경이며 권위 제품은 HP_A 22,200,135 bytes / SHA-256 `9121c448…36fa`다. release/tag는 없다.
 - 다음 단계는 하나의 `INTEGRATION_BASELINE_A` 브랜치·PR에서 기존 방어 소유권과 호출 경계를 동결하고 owner-addressed 불변 입력 DTO, advisory 명령 DTO, exact `LEGACY_H1` provider만 연결한다.
 - 이 단계는 실제 OODA 처리량·반응 지연·평가 슬롯·현대화 수준을 구현하지 않는다. CIWS 즉응과 A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이동하거나 우회하지 않는다. 기준선 완료 뒤 별도 정리 단계 없이 `DEFENSE_OODA_A`로 간다.
+
+## 2026-11-11 (INTEGRATION_BASELINE_A 완료 후보)
+
+- 다음 OODA의 입력은 owner-addressed, deep-frozen `AEGIS_DEFENSE_DECISION_INPUT_A1`으로 고정한다. owner-local track id는 truth id가 아니며 hidden truth·renderer·실제 적 객체를 포함하지 않는다.
+- `AEGIS_DEFENSE_DECISION_COMMAND_A1`은 priority/order/salvo/HOLD/DEFER만 제안하는 advisory다. A3, Network G, FCS/SPG, reserve, reengagement, damage/EMCON 및 정식 release gate를 우회하지 않는다.
+- `LEGACY_H1`은 SHADOW 22건 mismatch 0 뒤 좁은 order/salvo/recommendation 소비만 ACTIVE로 전환했다. H1 radar/EW, H2/H3/H4, Network G, WIP118/119 safety와 CIWS 즉응 소유권은 이동하지 않는다.
+- 동결 후보 광역은 한 번만 시작한다. 최초 실행에서 sparse-checkout 모듈 누락 때문에 브라우저 전 실행 0인 suite는 원시 FAIL을 보존하고, 동일 후보 SHA에서 해당 suite의 최초 실제 실행만 별도 recovery로 허용한다. 이미 실행된 suite는 반복하지 않는다.
+- INTEGRATION_BASELINE_A는 PR #79 제출까지만 진행한다. 병합·release·tag는 사용자 결정이며 다음 실제 기능 단계는 `DEFENSE_OODA_A` 하나다.

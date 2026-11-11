@@ -1,11 +1,13 @@
-# 현재 상태 (2026-11-11 INTEGRATION_BASELINE_A 착수 기준)
+# 현재 상태 (2026-11-11 INTEGRATION_BASELINE_A 완료 후보 기준)
 
 ## 통합 방어 기준선 현재 인계
 
 - PR #78 SEEKER_CLOSE_A는 merge commit `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`로 병합됐다. 검증 head는 `50a71069925ff485486e51cd153fc2f3600cd752`, 최종 Actions run은 `42574022086`이며 두 job 모두 SUCCESS다.
-- 권위 제품은 제품 비변경인 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`다. release/tag는 없다.
-- 현재 브랜치는 `integration-baseline-a`다. 방어 소유권·호출 그래프와 기준 오라클을 동결하고, owner-addressed 불변 입력 DTO 및 advisory 명령 DTO를 `LEGACY_H1` provider로 exact 연결한다.
+- 기준 제품은 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`다. 결과 후보는 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`, 22,211,451 bytes, SHA-256 `baf96f9a1350973d045c9ad4f9025a86c10eaeda3c1924ad52498c45b90d0b5b`다.
+- `integration-baseline-a`에서 방어 소유권·호출 그래프와 기준 오라클을 동결했고, owner-addressed 불변 입력 DTO 및 advisory 명령 DTO를 `LEGACY_H1` provider로 연결했다. active/foreign DDG·CG SHADOW 비교는 22/22 exact, truth/RNG/save mutation은 0이다.
+- 최종 유효 회귀는 782/782 PASS다. one-shot 원시 실행의 checkout-only 0-execution 19개 suite와 같은 SHA 최초 실제 실행 723/723을 분리 보존한다. 기대값·허용오차 변경은 없다.
 - 실제 OODA 판단·처리량·반응 지연·평가 슬롯은 다음 단일 단계 `DEFENSE_OODA_A` 범위다. CIWS 로컬 즉응, A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이 단계에서 이동하지 않는다.
+- PR #79 제출 후보이며 병합·release·tag는 없다.
 
 # 직전 상태 (2026-11-09 SEEKER_CLOSE_A PR #78 폐쇄 보정 기준)
 

@@ -57,3 +57,35 @@ python3 docs/ooda/integration-baseline/A/baseline_audit.py \
 ```
 
 Browser/Playwright versions and final gates are recorded in `FINAL_REPORT.md`; unexecuted tests are never marked PASS.
+
+## Frozen-candidate final regression
+
+The broad runner was invoked once:
+
+```bash
+python3 docs/ooda/integration-baseline/A/run_final_regression.py
+```
+
+`FINAL_REGRESSION_RAW.json` preserves that receipt. Nineteen suites had zero assertions because the sparse checkout did not contain `docs/multiship/G/browser_g.py` or `docs/missile/fuze-zem/A/browser_tools.py`. After restoring those tracked files, only those zero-execution suites received their first actual run:
+
+```bash
+python3 docs/ooda/integration-baseline/A/run_zero_execution_recovery.py
+
+python3 docs/ooda/integration-baseline/A/reconcile_final_regression.py
+```
+
+Do not rerun the broad runner: the raw run count is one. The recovery command is only valid when every selected raw suite has `executedAssertions == 0` and the candidate SHA is exact.
+
+## Current-candidate Actions gate
+
+The dedicated stage rebuilds the candidate from HP_A, compares exact bytes, audits function hashes, then runs the candidate and command oracles against their pinned deterministic digests. It does not repeat the broad regression.
+
+## Packages
+
+```bash
+python3 docs/ooda/integration-baseline/A/package_artifacts.py
+unzip -t Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A_HTML.zip
+unzip -t Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A_REPORT.zip
+```
+
+The HTML archive must contain exactly one `.html`. The report archive must contain none.

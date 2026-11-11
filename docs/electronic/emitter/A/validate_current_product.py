@@ -40,6 +40,11 @@ STAGE_POLICY = {
         "pullRequest": 77,
         "baselineSha256": "00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498",
     },
+    "INTEGRATION_BASELINE_A": {
+        "branch": "integration-baseline-a",
+        "pullRequest": 79,
+        "baselineSha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
+    },
 }
 
 

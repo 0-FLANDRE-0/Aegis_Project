@@ -1,0 +1,19 @@
+Error in sitecustomize; set PYTHONVERBOSE for traceback:
+ModuleNotFoundError: No module named 'browser_tools'
+Traceback (most recent call last):
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/contact/friendly/A/cpu2d_ui.py", line 6, in <module>
+    install();f=R/'docs/gun/B1/run_test_migrations.py';sys.argv=[str(f),'ui'];runpy.run_path(str(f),run_name='__main__')
+                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/gun/B1/run_test_migrations.py", line 20, in <module>
+    out={'kind':kind,'source':p.relative_to(R).as_posix(),'sourceSha256':hashlib.sha256(p.read_bytes()).hexdigest(),'oldAssertion':old,'newAssertion':new,'reason':reason,'productChanged':False,'originalTestFileChanged':False,'fixtureInitialization':fixtureChange};d=H/'evidence/test-migrations';d.mkdir(parents=True,exist_ok=True);(d/(kind+'.json')).write_text(json.dumps(out,indent=2)+'\n');exec(compile(s,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})
+                                                                                                                                                                                                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/map/E/verify_d_ui.py", line 4, in <module>
+    H=Path(__file__).resolve().parent;R=H.parents[2];sys.path.insert(0,str(H));from verify_map_helpers import *
+                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aegis-integration-baseline.agGOUS/docs/map/E/verify_map_helpers.py", line 3, in <module>
+    R=Path(__file__).resolve().parents[3];sys.path.insert(0,str(R/'docs/map/E'));from legacy_test_adapter import install;install();sys.path.insert(0,str(R/'docs/missile/fuze-zem/A'));from browser_tools import launch,load_fleet,instrument
+                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'browser_tools'
