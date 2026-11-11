@@ -221,6 +221,10 @@ async function ownerOracle(browser, profileIndex) {
 
     const save = JSON.stringify(d.exportOperationalStateV48Wip11A());
     const end = d.snapshot();
+    // Diagnostic wall-clock duration only. It is not fixed-tick game state and the
+    // baseline contract explicitly excludes diagnostic execution time.
+    if (spgBefore?.meta) delete spgBefore.meta.lastPlanMs;
+    if (spgAfter?.meta) delete spgAfter.meta.lastPlanMs;
     return {
       owner: { ownId, allyId, profileId: window.__AEGIS_SHIP_STARTUP__.snapshot().profileId },
       rng: { start: start.simRngState, end: end.simRngState },
@@ -294,7 +298,7 @@ async function ownerOracle(browser, profileIndex) {
       semantics: {
         diagnosticTruthSetupOnly: true,
         liveDecisionInputsObservedOnly: true,
-        excludedFromComparison: ['wallClock', 'diagnosticDuration', 'lastBuildMs', 'lastAssessmentMs'],
+        excludedFromComparison: ['wallClock', 'diagnosticDuration', 'lastBuildMs', 'lastAssessmentMs', 'lastPlanMs'],
         scenarios: [
           'MANUAL_HOLD_ZERO_AUTO_FIRE', 'SINGLE_THREAT_NATIVE_SALVO', 'MULTI_THREAT_PRIORITY',
           'H1_INVENTORY_DISTRIBUTION', 'REENGAGEMENT_AND_RESERVE', 'LOST_COAST_REACQUIRE',

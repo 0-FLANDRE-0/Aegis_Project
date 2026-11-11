@@ -1,0 +1,25 @@
+{
+  "schema": "AEGIS_INTEGRATION_BASELINE_SHADOW_COMPARE_A_1",
+  "provider": "LEGACY_H1",
+  "mode": "ACTIVE_AFTER_ZERO_MISMATCH_SHADOW",
+  "baselineOracleDigest": "c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf",
+  "candidateOracleDigest": "c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf",
+  "contractOracleDigest": "fa669dbec3428206a3812cce0c8b10d58d75485af16d3433ff51dd12e6fe61f0",
+  "contractRepeatDigest": "fa669dbec3428206a3812cce0c8b10d58d75485af16d3433ff51dd12e6fe61f0",
+  "owners": {
+    "active": {"profiles": ["DDG_119_LATE_FLIGHT_IIA", "CG_52_LATE_TICONDEROGA"], "builds": 6, "comparisons": 18, "mismatches": 0},
+    "foreignFriendly": {"profiles": ["CG_52_LATE_TICONDEROGA", "DDG_119_LATE_FLIGHT_IIA"], "builds": 2, "comparisons": 4, "mismatches": 0}
+  },
+  "audits": {
+    "truthForbiddenFieldFindings": 0,
+    "rngMismatchCount": 0,
+    "saveMutationCount": 0,
+    "validationFailureDuringConsumption": 0,
+    "consoleOrPageErrors": 0,
+    "portOwnsSafety": false,
+    "portOwnsExecution": false,
+    "portOwnsImmediateCiws": false
+  },
+  "comparisonExclusions": ["wallClock", "diagnosticDuration", "lastBuildMs", "lastAssessmentMs", "lastPlanMs"],
+  "evidence": ["BASELINE_ORACLE.json", "CANDIDATE_ORACLE.json", "CONTRACT_ORACLE.json", "CONTRACT_ORACLE_REPEAT.json"]
+}
