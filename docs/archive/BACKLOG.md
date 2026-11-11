@@ -15,7 +15,8 @@
 
 - **SEEKER_UNIFY_U4 — 구현·검증·병합 완료**: SARH bistatic, RAM passive RF/IR과 공통 association/state를 A/B/C로 ACTIVE 전환했다. PR #76은 merge commit `82617839`로 main에 병합됐다. 기존 U5/U6은 B/C에 흡수했고 `CONFIRMED_ONLY` 성능은 계속 UNVERIFIED다.
 - **HP_A — 구현·검증·병합 완료**: survival/mission/display HP 권위를 분리하고 stored HP 권위를 제거했다. invalid authority use 6→0, 제한 게이트와 one-shot 광역을 마쳤고 PR #77은 merge commit `78b01165`로 main에 병합됐다.
-- **SEEKER_CLOSE_A — 제품 비변경 종료 후보**: HP_A exact 제품에서 보정된 19발 원인 분류, 구조화 기만체/방어/EMCON 증거, DDG/CG·배속·결정성·Harpoon·Kh-32 경계를 점검했다. 첫 SHIP 재선택 12건 중 최종 회복 10건과 Nulka 유인 2건을 분리했으며 제품 계약 결함이나 보상 튜닝 근거가 없어 Commit C 제품 수정은 만들지 않았다.
+- **SEEKER_CLOSE_A — 제품 비변경 종료·병합 완료**: HP_A exact 제품에서 보정된 19발 원인 분류, 구조화 기만체/방어/EMCON 증거, DDG/CG·배속·결정성·Harpoon·Kh-32 경계를 점검했다. PR #78은 merge commit `d5f43c5a`로 병합됐고 제품·release/tag 변화는 없다.
+- **INTEGRATION_BASELINE_A — 진행 중**: 방어 소유권과 호출 경계를 동결하고, 다음 OODA용 읽기 전용 입력/advisory 명령 포트를 기존 H1 결과에 exact 연결한다. 실제 OODA 판단은 범위 밖이다.
 - **EMITTER_A — 완료/병합**: `electronicPhysicalEmittersF`의 DDG/CG 함종별 하드코딩을 ShipProfile 선언형 장비 등록과 공통 ShipRuntime 어댑터로 이전했다. SOV는 기존 메타데이터만 비활성 등록했다. PR #73은 사용자 결정으로 `main@3dbe3b84`에 병합됐으며 release/tag는 없다.
 - **EMCON_B — 완료, PR #74 병합**: V2 global hard-off, 함종 중립 consumer→equipment 바인딩, 범주·장비 통제, exact emitter/own·NPC sensor/ECM gate, profile UI, network/save lifecycle과 기존 lock 14건을 완료했다. 통신 EMCON은 별도 정책으로 유지한다.
 - **경로점 prior 불확실성**: U3는 기존 4 km `ROUTE_PLAN_PRIOR`를 유지했다. 관측으로 위장하지 않는 신규 계획 불확실성 모델은 별도 설계한다.

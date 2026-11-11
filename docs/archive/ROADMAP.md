@@ -23,11 +23,13 @@
    - DDG/CG 공통 익명 raw ESM receiver 계약, 단함 AOA, 협동 AOA/TDOA/FDOA, UI와 제한적 수동 cue를 하나의 PR로 구현
    - SOV Mineral 실제 어댑터·Moskit 표적지시는 후속 소브레멘니 센서·무장 단계
 6. **HP_A 지표·권위 분리** — 완료, PR #77 사용자 병합 (`main@78b01165`)
-7. **SEEKER_CLOSE_A** — 제품 비변경 진단·마감 완료, PR 제출 대기
+7. **SEEKER_CLOSE_A** — 제품 비변경 진단·마감 완료, PR #78 병합 (`main@d5f43c5a`)
    - 현재 HP_A에서 보정된 종말 원인 19발과 채프/Nulka 배치→관측→gate→선택→최종 회복/유인을 분리 기록
    - 계약 결함 미재현으로 제품 수정·보상 튜닝·광역 재실행 없음
-8. **통합 기준선 고정**
-9. **교전·방어 OODA**
+8. **INTEGRATION_BASELINE_A 통합 기준선 고정** — 현재 단계
+   - 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권·호출 그래프 동결
+   - owner-addressed 불변 입력 DTO + advisory 명령 DTO + exact `LEGACY_H1` provider
+9. **DEFENSE_OODA_A 교전·방어 OODA** — 기준선 병합 후 단일 다음 단계
 
-- SEEKER_CLOSE_A 문서 PR 병합 뒤 다음 우선순위는 통합 기준선 고정이며, 그 뒤 교전·방어 OODA로 간다.
+- SEEKER_CLOSE_A 문서 PR은 병합됐다. 현재 통합 기준선을 고정한 뒤 별도 정리 단계 없이 `DEFENSE_OODA_A`로 간다.
 - **적 항공기 재제작**은 시점 미정이다. 설계 메모는 `DESIGN_NOTES.md`에 있다.

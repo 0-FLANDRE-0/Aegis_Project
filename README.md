@@ -1,4 +1,11 @@
-## 최신 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
+## 최신 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선
+
+- PR #78 SEEKER_CLOSE_A는 merge commit `d5f43c5a`로 `main`에 병합됐다. 제품은 계속 `Aegis_SIM_v48_WIP_HP_A.html`(22,200,135 bytes, SHA-256 `9121c448…36fa`)이며 release/tag는 없다.
+- 현재 `integration-baseline-a`에서는 기존 AUTO/H1/H2/H3/H4/Network/CIWS의 소유권과 호출 경계를 동결하고, 다음 `DEFENSE_OODA_A`가 교체할 owner-addressed 읽기 전용 입력 DTO와 advisory 명령 DTO만 분리한다.
+- 이 단계는 실제 OODA 처리량·반응 지연·평가 슬롯·현대화 계수나 새 전술을 구현하지 않는다. A3/Network/FCS/reserve/reengagement/발사 gate와 CIWS 즉응 권위는 그대로 유지한다.
+- 계획과 증거는 `docs/ooda/integration-baseline/A/`에 누적하며, 제품·보고서 PR 생성까지만 진행한다. 병합·release·tag는 사용자 결정이다.
+
+## 직전 제품 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 
 - PR #76 U4를 검증된 head 그대로 merge commit `82617839`로 먼저 병합한 뒤 `hp-a`에서 작업했다. [실행 HTML](Aegis_SIM_v48_WIP_HP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HP_A.md), [최종 보고서](docs/damage/hp/A/FINAL_REPORT.md), [원시·재현 증거](docs/damage/hp/A/).
 - 물리 상실은 기존 survival 상태기계만, 임무불능은 기존 장비·승조원 gate만 권위로 사용한다. 표시 HP는 단방향 파생값이며 reversible 상태에서는 최소 1, irreversible/lost에서만 0이다.

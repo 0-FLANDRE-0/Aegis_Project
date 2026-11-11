@@ -23,7 +23,7 @@ code.
 | TESTED | Local corrected Chromium 19/19; same-seed and 1x/8x/16x exact; DDG/CG Harpoon support; two fixed Kh-32 boundary probes; protected hashes exact |
 | APPROVED | HP_A precondition and this user-directed closure correction scope only; no tolerance or product expectation changes |
 | UNRESOLVED | Historical Kh-32 60 km population not remeasured; `CONFIRMED_ONLY` performance unverified; inherited regression debts unchanged |
-| RELEASE | None. No new product, merge, release, or tag. PR #78 remains a user decision. |
+| RELEASE | PR #78 merged as `d5f43c5a`; no new product, release, or tag. |
 
 ## Corrected authoritative result
 
@@ -137,8 +137,10 @@ run URL is recorded in the PR delivery comment after GitHub completes it.
 ## Delivery
 
 - branch: `seeker-close-a`
-- PR: [#78](https://github.com/0-FLANDRE-0/Aegis_Project/pull/78), kept open
-- merge/release/tag: not performed
+- PR: [#78](https://github.com/0-FLANDRE-0/Aegis_Project/pull/78), merged
+- merge commit: `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`
+- validation head / Actions: `50a71069925ff485486e51cd153fc2f3600cd752` / `42574022086` (SUCCESS)
+- release/tag: not performed
 - executable delivery: unchanged HP_A HTML ZIP
 - report delivery: deterministic HTML-free SEEKER_CLOSE_A report ZIP
 - next sequence after user merge: integrated baseline freeze, then
