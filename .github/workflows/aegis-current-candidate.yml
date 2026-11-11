@@ -315,23 +315,32 @@ jobs:
               server_pid=$!
               trap 'kill "$server_pid" 2>/dev/null || true' EXIT
               node docs/ooda/integration-baseline/A/baseline_oracle.cjs \
+                "$BASELINE_PATH" "http://127.0.0.1:8123/$BASELINE_PATH" \
+                artifacts/current-candidate/baseline-oracle.json
+              node docs/ooda/integration-baseline/A/baseline_oracle.cjs \
                 "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
                 artifacts/current-candidate/candidate-oracle.json
               node docs/ooda/integration-baseline/A/contract_oracle.cjs \
                 "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
                 artifacts/current-candidate/browser-gate.json
+              node docs/ooda/integration-baseline/A/contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/contract-repeat.json
               node - <<'NODE'
               const fs = require('node:fs');
+              const baseline = JSON.parse(fs.readFileSync('artifacts/current-candidate/baseline-oracle.json'));
               const candidate = JSON.parse(fs.readFileSync('artifacts/current-candidate/candidate-oracle.json'));
-              const candidatePinned = JSON.parse(fs.readFileSync('docs/ooda/integration-baseline/A/CANDIDATE_ORACLE.json'));
               const contract = JSON.parse(fs.readFileSync('artifacts/current-candidate/browser-gate.json'));
-              const contractPinned = JSON.parse(fs.readFileSync('docs/ooda/integration-baseline/A/CONTRACT_ORACLE.json'));
-              if (candidate.deterministicDigest !== candidatePinned.deterministicDigest) throw Error('candidate oracle digest mismatch');
-              if (contract.deterministicDigest !== contractPinned.deterministicDigest) throw Error('contract oracle digest mismatch');
+              const contractRepeat = JSON.parse(fs.readFileSync('artifacts/current-candidate/contract-repeat.json'));
+              if (candidate.deterministicDigest !== baseline.deterministicDigest) throw Error('baseline/candidate oracle digest mismatch');
+              if (contract.deterministicDigest !== contractRepeat.deterministicDigest) throw Error('contract oracle repeat mismatch');
               const owners = contract.owners || [];
               const mismatch = owners.reduce((n, q) => n + (q.active?.diagnostics?.shadowMismatchCount || 0) + (q.foreign?.diagnostics?.shadowMismatchCount || 0), 0);
               const errors = owners.reduce((n, q) => n + (q.browser?.consoleErrors?.length || 0) + (q.browser?.pageErrors?.length || 0), 0);
+              const oracleErrors = [...(baseline.owners || []), ...(candidate.owners || [])]
+                .reduce((n, q) => n + (q.result?.browser?.consoleErrors?.length || 0) + (q.result?.browser?.pageErrors?.length || 0), 0);
               if (owners.length !== 2 || mismatch !== 0 || errors !== 0) throw Error('contract gate failed');
+              if (oracleErrors !== 0) throw Error('baseline/candidate oracle console error');
               if (owners.some(q => q.forbidden.length || !q.readOnly.rngExact || !q.readOnly.saveExact)) throw Error('read-only/truth audit failed');
               NODE
               ;;
