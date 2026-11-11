@@ -6,6 +6,7 @@
 - Base main: `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`
 - Base merge: PR #78 SEEKER_CLOSE_A, Actions `42574022086` SUCCESS
 - Pull request: #79, not merged
+- Final candidate Actions: run `43011382037`, SUCCESS
 - Release/tag: none
 
 ## Products

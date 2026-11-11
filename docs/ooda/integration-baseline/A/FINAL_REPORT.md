@@ -4,7 +4,7 @@
 
 The verified base is `main@d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`, the ordinary merge commit of PR #78 SEEKER_CLOSE_A. Its verified head was `50a71069925ff485486e51cd153fc2f3600cd752`; Actions run `42574022086` completed both jobs successfully. PR #78 did not change the product HTML.
 
-Work was performed only on `integration-baseline-a`. PR #79 is not merged. No release or tag was created.
+Work was performed only on `integration-baseline-a`. PR #79 is not merged. Final current-candidate Actions run `43011382037` completed successfully. No release or tag was created.
 
 | Role | File | Bytes | SHA-256 |
 |---|---|---:|---|
@@ -155,5 +155,5 @@ Sovremenny remains NAV-only with no active sensor, weapon or EW capability. No a
 
 ## 12. Reproduction and artifacts
 
-Commands are in `REPRODUCE.md`. The deterministic builder reproduces the candidate byte-for-byte. `CHECKSUMS.sha256` and `PACKAGE_MANIFEST.md` describe the product and split archives. `REMOTE_RECEIPT.json` records post-push full-byte readback. The final Actions run is recorded there and in the PR after remote execution completes.
+Commands are in `REPRODUCE.md`. The deterministic builder reproduces the candidate byte-for-byte. `CHECKSUMS.sha256` and `PACKAGE_MANIFEST.md` describe the product and split archives. `REMOTE_RECEIPT.json` records post-push full-byte readback. PR #79 final current-candidate Actions run `43011382037` is SUCCESS.
 
