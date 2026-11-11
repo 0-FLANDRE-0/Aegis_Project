@@ -67,6 +67,14 @@ jobs:
     steps:
       - name: Check out repository once
         uses: actions/checkout@v4
+        with:
+          # Regression evidence is delivery material, never a candidate-gate input.
+          # Excluding only this 78 MB directory avoids checkout-timeout debt while
+          # keeping every product, builder, fixture and historical stage available.
+          sparse-checkout: |
+            /*
+            !/docs/ooda/integration-baseline/A/evidence/
+          sparse-checkout-cone-mode: false
 
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
