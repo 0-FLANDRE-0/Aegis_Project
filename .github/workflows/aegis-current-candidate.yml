@@ -49,6 +49,7 @@ on:
       - 'docs/ooda/integration-baseline/A/baseline_audit.py'
       - 'docs/ooda/integration-baseline/A/baseline_oracle.cjs'
       - 'docs/ooda/integration-baseline/A/contract_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/actions_gate_validate.cjs'
       - 'Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
@@ -334,23 +335,11 @@ jobs:
               node docs/ooda/integration-baseline/A/contract_oracle.cjs \
                 "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
                 artifacts/current-candidate/contract-repeat.json
-              node - <<'NODE'
-              const fs = require('node:fs');
-              const baseline = JSON.parse(fs.readFileSync('artifacts/current-candidate/baseline-oracle.json'));
-              const candidate = JSON.parse(fs.readFileSync('artifacts/current-candidate/candidate-oracle.json'));
-              const contract = JSON.parse(fs.readFileSync('artifacts/current-candidate/browser-gate.json'));
-              const contractRepeat = JSON.parse(fs.readFileSync('artifacts/current-candidate/contract-repeat.json'));
-              if (candidate.deterministicDigest !== baseline.deterministicDigest) throw Error('baseline/candidate oracle digest mismatch');
-              if (contract.deterministicDigest !== contractRepeat.deterministicDigest) throw Error('contract oracle repeat mismatch');
-              const owners = contract.owners || [];
-              const mismatch = owners.reduce((n, q) => n + (q.active?.diagnostics?.shadowMismatchCount || 0) + (q.foreign?.diagnostics?.shadowMismatchCount || 0), 0);
-              const errors = owners.reduce((n, q) => n + (q.browser?.consoleErrors?.length || 0) + (q.browser?.pageErrors?.length || 0), 0);
-              const oracleErrors = [...(baseline.owners || []), ...(candidate.owners || [])]
-                .reduce((n, q) => n + (q.result?.browser?.consoleErrors?.length || 0) + (q.result?.browser?.pageErrors?.length || 0), 0);
-              if (owners.length !== 2 || mismatch !== 0 || errors !== 0) throw Error('contract gate failed');
-              if (oracleErrors !== 0) throw Error('baseline/candidate oracle console error');
-              if (owners.some(q => q.forbidden.length || !q.readOnly.rngExact || !q.readOnly.saveExact)) throw Error('read-only/truth audit failed');
-              NODE
+              node docs/ooda/integration-baseline/A/actions_gate_validate.cjs \
+                artifacts/current-candidate/baseline-oracle.json \
+                artifacts/current-candidate/candidate-oracle.json \
+                artifacts/current-candidate/browser-gate.json \
+                artifacts/current-candidate/contract-repeat.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
