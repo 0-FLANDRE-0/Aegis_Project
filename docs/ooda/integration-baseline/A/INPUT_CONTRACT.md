@@ -12,7 +12,7 @@
 | `tracks[]` | owner-local observed/received track rows | track manager / WIP118 |
 | `inventory` | installed and post-reserve counts | weapon inventory / H1 reserve policy |
 | `support` | SPG health, assignments, reservations | existing FCS state |
-| `ship` | mission/afloat/display-HP and continuous damage factors | HP_A / damage model |
+| `ship` | mission/afloat/display-HP, limited crew summary and continuous damage factors | HP_A / crew / damage model |
 | `network` | enabled sharing/cooperative policy; remote FCS remains false | Network G |
 | `esmCues[]` | observed active-seeker cues with source, time, uncertainty | owner-local ESM execution |
 | `operatorOverrides` | existing H1 radar/EW manual flags and EMCON state | operator/H1 |
@@ -28,6 +28,16 @@
 - `assessment`: existing WIP118 state, CPA, TGO, engagement count and re-engagement flags.
 - `engagements`: owner-local current defensive weapon engagement counts.
 - `network`: advisory lease/assignment and local/remote report provenance. It does not grant remote fire control.
+
+## Limited crew summary
+
+`ship.crew` is a projection of the same owner's existing crew snapshot. It contains only:
+
+- `mode` and `combatUnavailable`;
+- total, fit, injured, dead and evacuated counts;
+- `duty`, `fit` and existing deterministic `availability` for `COMBAT` and `OPERATIONS`.
+
+It does not contain the roster, personal IDs, compartments, routes, individual injuries, casualty log, duty-station labels or damage events. Missing source values remain `null`; no normal availability is invented. `LEGACY_H1` does not read this projection, and the projection is not exported into operational saves.
 
 ## Immutability and side-effect contract
 
@@ -46,5 +56,7 @@ Friendly sender/owner entity IDs may appear only as routing provenance. They are
 
 - `CONTRACT_ORACLE.json`: DDG and CG, active and foreign owner, frozen input and read-only checks.
 - `CONTRACT_ORACLE_REPEAT.json`: bit-identical repeat.
+- `evidence/final-correction/commit-a/CREW_CONTRACT_ORACLE.json`: owner-local normal/injured/unavailable fixtures, read-only mutation audit and `LEGACY_H1` equivalence.
+- `evidence/final-correction/commit-a/CREW_CONTRACT_ORACLE_REPEAT.json`: bit-identical crew-contract repeat.
 - `OWNERSHIP_MATRIX.md`: producer/consumer ownership and truth-access audit.
 

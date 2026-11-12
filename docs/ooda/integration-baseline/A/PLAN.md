@@ -16,3 +16,13 @@
 4. D — stage gates, one frozen-candidate MAX_THREAT broad run, documentation and split packages.
 
 No OODA scoring, processing slots, reaction delay, modernization factor, weapon/sensor tuning, new save field, or safety-authority transfer is allowed here.
+
+## PR #79 final correction
+
+The correction remains on `integration-baseline-a` and PR #79:
+
+1. A — add only the owner-local, limited and immutable crew projection required by the next OODA stage; keep `LEGACY_H1` behavior exact.
+2. B — extend exact function-source audits to HP_A outcome/save boundaries and required defense-port boundaries.
+3. C — exclude cache/bytecode/editor by-products from deterministic report packaging and rebuild corrected-candidate evidence separately from the pre-correction evidence.
+
+The corrected candidate receives one new frozen-candidate `MAX_THREAT` broad run only after the three limited gates pass.

@@ -85,6 +85,15 @@ function defenseDecisionDiagnosticsViewA1(r){
 
 LOCAL_ADAPTER = r"""
 // INTEGRATION_BASELINE_A owner-local read-only input builder and LEGACY_H1 advisory adapter.
+function defenseDecisionCrewInputA1(r){
+  const source=getShipCrewV21(r)?.snapshot?.()??null,finite=value=>Number.isFinite(value)?value:null,department=role=>{
+    const row=Array.isArray(source?.departments)?source.departments.find(q=>q?.role===role):null;
+    return {duty:finite(row?.duty),fit:finite(row?.fit),availability:finite(row?.availability)};
+  };
+  return {mode:typeof source?.mode==='string'?source.mode:null,combatUnavailable:typeof source?.combatUnavailable==='boolean'?source.combatUnavailable:null,
+    totals:{total:finite(source?.total),fit:finite(source?.fit),injured:finite(source?.injured),dead:finite(source?.dead),evacuated:finite(source?.evacuated)},
+    departments:{COMBAT:department('COMBAT'),OPERATIONS:department('OPERATIONS')}};
+}
 function defenseDecisionTrackInputA1(id,tr,assessment,network,nowS){
   const live=!!tr,observed=live?wip118TrackStateSI(tr):assessment?.lastObservation?.si??null,cov=live&&tr?._kfP&&tr._kfP.length===36?Array.from(tr._kfP):null,
     last=assessment?.lastObservation??null,lastStep=live&&Number.isFinite(Number(tr._lastMeasurementStep))?Number(tr._lastMeasurementStep):Number.isFinite(Number(last?.lastObservedStep))?Number(last.lastObservedStep):null,
@@ -103,10 +112,10 @@ function defenseDecisionInputSnapshotA1(){
   const r=ACTIVE_SHIP_RUNTIME,nowS=simStepCounter*SIM_FIXED_DT,network=r.combatSystem.networkG??null,damage=getShipDamageEffects(),counts=getVlsCounts(),available=wip14a14DecisionInventory(counts),tactical=r.combatSystem.tacticalH1,ids=new Set([...tracks.keys(),...wip118ControlState.assessments.keys()]),rows=[];
   for(const id of [...ids].sort((a,b)=>a-b))rows.push(defenseDecisionTrackInputA1(id,tracks.get(id)??null,wip118ControlState.assessments.get(id)??null,network,nowS));
   const ew=r.ew?.executionF,esmCues=ew?[...ew.contacts.values()].filter(q=>q.emitterClass==='ACTIVE_SEEKER').map(q=>({contactId:q.id??q.contactId??null,emitterClass:q.emitterClass,band:q.band??null,bearingRad:Number.isFinite(q.bearingRad)?q.bearingRad:null,bearingSigmaRad:Number.isFinite(q.bearingSigmaRad)?q.bearingSigmaRad:null,quality:Number.isFinite(q.quality)?q.quality:null,measuredAtS:Number.isFinite(q.measuredAtS)?q.measuredAtS:null,ageS:Number.isFinite(q.measuredAtS)?Math.max(0,nowS-q.measuredAtS):null,source:q.source??'OWNER_ESM'})):[];
-  const outcome=shipOutcomeA(r),input={schema:AEGIS_DEFENSE_DECISION_INPUT_SCHEMA_A1,ownerEntityId:r.entityId,profileId:r.profileId,step:simStepCounter,simulationTimeS:nowS,revision:wip118ControlState.revision,mode:engagementControlMode,tracks:rows,
+  const outcome=shipOutcomeA(r),crew=defenseDecisionCrewInputA1(r),input={schema:AEGIS_DEFENSE_DECISION_INPUT_SCHEMA_A1,ownerEntityId:r.entityId,profileId:r.profileId,step:simStepCounter,simulationTimeS:nowS,revision:wip118ControlState.revision,mode:engagementControlMode,tracks:rows,
     inventory:{installed:{sm2:Number(counts.sm2Total)||0,sm2er:Number(counts.sm2erTotal)||0,sm6:Number(counts.sm6Total)||0,essm:Number(counts.essmTotal)||0,ram:Number(ciws.find(q=>q.type==='RAM')?.ammo)||0,phalanx:Number(ciws.find(q=>q.type==='GUN')?.ammo)||0},afterReserve:{sm2:available.sm2,sm2er:available.sm2er,sm6:available.sm6,essm:available.essm,ram:available.ram}},
     support:{channels:SPG62_ILLUMINATORS.map(q=>({id:q.id,moduleName:q.moduleName,health01:observerHealthC(r,q.moduleName),assignedTrackId:[...SPG62_ENGAGEMENT_STATE].find(([,v])=>v.illId===q.id)?.[0]??null,reservationCount:(SPG62_RESERVATIONS.get(q.id)??[]).length})),activeAssignments:SPG62_ENGAGEMENT_STATE.size,plannedReservations:SPG62_RESERVATION_STATE.size},
-    ship:{equipmentOffline:shipEquipmentOfflineV1(r),missionState:outcome.missionState,afloatState:outcome.afloatState,displayHp:outcome.displayHp,damage:{combatEff:damage.combatEff??0,radarPowerFac:damage.radarPowerFac??0,ciwsPowerFac:damage.ciwsPowerFac??0,vlsPowerFac:damage.vlsPowerFac??0,steerFac:damage.steerFac??0,propulsionFac:damage.propulsionFac??0,maxSpeedKt:damage.maxSpeedKt??0}},
+    ship:{equipmentOffline:shipEquipmentOfflineV1(r),missionState:outcome.missionState,afloatState:outcome.afloatState,displayHp:outcome.displayHp,crew,damage:{combatEff:damage.combatEff??0,radarPowerFac:damage.radarPowerFac??0,ciwsPowerFac:damage.ciwsPowerFac??0,vlsPowerFac:damage.vlsPowerFac??0,steerFac:damage.steerFac??0,propulsionFac:damage.propulsionFac??0,maxSpeedKt:damage.maxSpeedKt??0}},
     network:{enabled:!!network?.settings?.enabled,shareTracks:!!network?.settings?.shareTracks,cooperativeDefense:!!network?.settings?.cooperativeDefense,remoteFireControl:false},esmCues,
     operatorOverrides:{tacticalEnabled:!!tactical?.settings?.enabled,manualRadar:!!tactical?.settings?.manualRadar,manualEw:!!tactical?.settings?.manualEw,emcon:!!emconActive}};
   return deepFreezeShipProfileV48Wip09(input);
