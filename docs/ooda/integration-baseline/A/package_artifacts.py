@@ -15,7 +15,10 @@ REPORT_ZIP = ROOT / "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A_REPORT.zip"
 PACKAGE_SUMS = ROOT / "PACKAGE_CHECKSUMS_v48_WIP_INTEGRATION_BASELINE_A.txt"
 CHECKSUMS = HERE / "CHECKSUMS.sha256"
 MANIFEST = HERE / "PACKAGE_MANIFEST.md"
+PACKAGE_GATE = HERE / "evidence" / "final-correction" / "commit-c" / "PACKAGE_CONTRACT_GATE.json"
 FIXED_TIME = (2020, 1, 1, 0, 0, 0)
+EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".swp", ".swo", ".tmp"}
+EXCLUDED_NAMES = {".DS_Store"}
 
 
 def digest(path: Path) -> str:
@@ -39,6 +42,14 @@ def write_zip(target: Path, members: list[Path]) -> None:
             archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 
 
+def report_member_allowed(path: Path) -> bool:
+    if "__pycache__" in path.parts or path.name in EXCLUDED_NAMES:
+        return False
+    if path.suffix.lower() in EXCLUDED_SUFFIXES or path.name.endswith("~"):
+        return False
+    return True
+
+
 def report_payload() -> list[Path]:
     roots = [
         ROOT / "README.md",
@@ -50,8 +61,8 @@ def report_payload() -> list[Path]:
         ROOT / "docs/archive/BACKLOG.md",
         ROOT / "docs/archive/DECISIONS.md",
     ]
-    generated = {CHECKSUMS, MANIFEST, HERE / "REMOTE_RECEIPT.json"}
-    stage = [path for path in HERE.rglob("*") if path.is_file() and path not in generated]
+    generated = {CHECKSUMS, MANIFEST, HERE / "REMOTE_RECEIPT.json", PACKAGE_GATE}
+    stage = [path for path in HERE.rglob("*") if path.is_file() and path not in generated and report_member_allowed(path)]
     payload = sorted({*roots, *stage}, key=arcname)
     html = [path for path in payload if path.suffix.lower() in {".html", ".htm"}]
     if html:
@@ -60,7 +71,7 @@ def report_payload() -> list[Path]:
 
 
 def main() -> None:
-    expected = (22_211_451, "baf96f9a1350973d045c9ad4f9025a86c10eaeda3c1924ad52498c45b90d0b5b")
+    expected = (22_212_299, "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0")
     actual = (PRODUCT.stat().st_size, digest(PRODUCT))
     if actual != expected:
         raise AssertionError({"expected": expected, "actual": actual})
@@ -76,6 +87,7 @@ def main() -> None:
         "",
         "Archives are deterministic (fixed ZIP timestamp, sorted entries, deflate level 9).",
         "The HTML archive contains exactly one executable HTML. The report archive contains no HTML.",
+        "The report archive excludes `__pycache__`, bytecode, `.DS_Store`, editor swap/backup and `.tmp` build by-products.",
         "`PACKAGE_MANIFEST.md` is the manifest itself and is the only intentionally self-unhashed report member.",
         "",
         "## HTML archive payload",
@@ -104,8 +116,11 @@ def main() -> None:
         if archive.namelist() != [PRODUCT.name] or len(html_names) != 1:
             raise AssertionError("HTML archive contract failed")
     with zipfile.ZipFile(REPORT_ZIP) as archive:
-        if any(name.lower().endswith((".html", ".htm")) for name in archive.namelist()):
+        names = archive.namelist()
+        if any(name.lower().endswith((".html", ".htm")) for name in names):
             raise AssertionError("report archive contains HTML")
+        if any(not report_member_allowed(Path(name)) for name in names):
+            raise AssertionError("report archive contains excluded build/editor by-product")
 
     package_rows = [PRODUCT, HTML_ZIP, REPORT_ZIP]
     PACKAGE_SUMS.write_text("".join(f"{digest(path)}  {path.name}\n" for path in package_rows), encoding="utf-8")
