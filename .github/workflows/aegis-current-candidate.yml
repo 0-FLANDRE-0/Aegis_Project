@@ -49,6 +49,9 @@ on:
       - 'docs/ooda/integration-baseline/A/baseline_audit.py'
       - 'docs/ooda/integration-baseline/A/baseline_oracle.cjs'
       - 'docs/ooda/integration-baseline/A/contract_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/crew_contract_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/function_hash_gate.py'
+      - 'docs/ooda/integration-baseline/A/boundary_static_gate.py'
       - 'docs/ooda/integration-baseline/A/actions_gate_validate.cjs'
       - 'Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip'
       - '.github/workflows/aegis-current-candidate.yml'
@@ -195,8 +198,17 @@ jobs:
               ;;
             INTEGRATION_BASELINE_A)
               python3 docs/ooda/integration-baseline/A/baseline_audit.py \
-                "$PRODUCT_PATH" artifacts/current-candidate/static-gate.json \
-                --stage INTEGRATION_BASELINE_A_ACTIONS
+                "$BASELINE_PATH" artifacts/current-candidate/function-hashes-baseline.json \
+                --stage INTEGRATION_BASELINE_A_ACTIONS_BASELINE
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/function-hashes-candidate.json \
+                --stage INTEGRATION_BASELINE_A_ACTIONS_CANDIDATE --require-new
+              python3 docs/ooda/integration-baseline/A/function_hash_gate.py \
+                artifacts/current-candidate/function-hashes-baseline.json \
+                artifacts/current-candidate/function-hashes-candidate.json \
+                artifacts/current-candidate/static-gate.json
+              python3 docs/ooda/integration-baseline/A/boundary_static_gate.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/boundary-static-gate.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
@@ -335,11 +347,19 @@ jobs:
               node docs/ooda/integration-baseline/A/contract_oracle.cjs \
                 "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
                 artifacts/current-candidate/contract-repeat.json
+              node docs/ooda/integration-baseline/A/crew_contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/crew-contract.json
+              node docs/ooda/integration-baseline/A/crew_contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/crew-contract-repeat.json
               node docs/ooda/integration-baseline/A/actions_gate_validate.cjs \
                 artifacts/current-candidate/baseline-oracle.json \
                 artifacts/current-candidate/candidate-oracle.json \
                 artifacts/current-candidate/browser-gate.json \
-                artifacts/current-candidate/contract-repeat.json
+                artifacts/current-candidate/contract-repeat.json \
+                artifacts/current-candidate/crew-contract.json \
+                artifacts/current-candidate/crew-contract-repeat.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
