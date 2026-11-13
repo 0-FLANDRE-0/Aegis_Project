@@ -20,8 +20,12 @@ PRODUCT_BYTES = 22_212_299
 PRODUCT_SHA256 = "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0"
 BASELINE_BYTES = 22_200_135
 BASELINE_SHA256 = "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa"
-OUT = HERE / "evidence" / "final-correction" / "final-regression"
-SUMMARY = HERE / "FINAL_CORRECTION_REGRESSION.json"
+HELI_CG_A = ROOT / "archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html"
+HELI_CG_A_BYTES = 16_078_336
+HELI_CG_A_SHA256 = "c94306a78a22b6ba87711ec78089316eadcb289286abb0bbb7d784e433f120f3"
+PREVIOUS_STOP = HERE / "evidence" / "final-correction" / "final-regression" / "BROAD_RUN_STOP.json"
+OUT = HERE / "evidence" / "final-correction" / "final-regression-attempt-2"
+SUMMARY = HERE / "FINAL_CORRECTION_REGRESSION_ATTEMPT_2.json"
 
 NATIVE = {
     "helicopter-flight": ("native.json", 85), "aps153": ("native.json", 20),
@@ -174,7 +178,7 @@ def source_provenance() -> None:
         ROOT / "docs/missile/seeker-close/A/run_diagnostics.py", HERE / "run_u4_scenes_candidate.py",
         HERE / "run_seeker_close_candidate.py", HERE / "build_seeker_close_diagnostic.py",
     ]
-    payload = {"schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_SOURCE_PROVENANCE_1", "candidateSha256": PRODUCT_SHA256, "candidateBytes": PRODUCT_BYTES, "baselineSha256": BASELINE_SHA256, "threatMode": "MAX_THREAT", "expectedValuesUpdated": False, "tolerancesChanged": False, "files": [{"path": str(path.relative_to(ROOT)), "sha256": sha256(path.read_bytes())} for path in files]}
+    payload = {"schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_ATTEMPT_2_SOURCE_PROVENANCE_1", "attempt": 2, "authorizedRerun": True, "candidateSha256": PRODUCT_SHA256, "candidateBytes": PRODUCT_BYTES, "baselineSha256": BASELINE_SHA256, "threatMode": "MAX_THREAT", "expectedValuesUpdated": False, "tolerancesChanged": False, "gameConstantsChanged": False, "files": [{"path": str(path.relative_to(ROOT)), "sha256": sha256(path.read_bytes())} for path in files]}
     (OUT / "source-provenance.json").write_text(strict(payload))
 
 
@@ -182,11 +186,11 @@ def write_summary(rows: list[dict], started: float, complete: bool) -> dict:
     failures = [row["suite"] for row in rows if row["status"] != "PASS"]
     native = [row for row in rows if row["suite"] in NATIVE]
     result = {
-        "schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_REGRESSION_1", "complete": complete,
+        "schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_REGRESSION_ATTEMPT_2_1", "complete": complete,
         "candidate": PRODUCT.name, "candidateSha256": PRODUCT_SHA256, "candidateBytes": PRODUCT_BYTES,
         "baseline": BASELINE.name, "baselineSha256": BASELINE_SHA256, "threatAssumptionMode": "MAX_THREAT",
-        "broadRun": {"runCount": 1, "candidateFrozen": True, "candidateSha256": PRODUCT_SHA256},
-        "expectedValuesUpdated": False, "tolerancesChanged": False, "rows": rows,
+        "broadRun": {"attempt": 2, "authorizedRerun": True, "runCountThisAttempt": 1, "previousAttemptReceipt": str(PREVIOUS_STOP.relative_to(HERE)), "candidateFrozen": True, "candidateSha256": PRODUCT_SHA256},
+        "expectedValuesUpdated": False, "tolerancesChanged": False, "gameConstantsChanged": False, "rows": rows,
         "native13": {"suiteCount": len(native), "expectedSuiteCount": 13, "expectedAssertions": 364, "executedAssertions": sum(row["executedAssertions"] for row in native), "passedAssertions": sum(row["passedAssertions"] for row in native)},
         "coverage": {"decisionContract": "static-integrity + contract oracle", "hpOutcomeSave": "hp-contract", "seekerCloseNineteenShots": "seeker-close", "representativeRealFlights": ["u4-seeker-scenes", "harpoon-f1"], "pairedDdgCg": ["paired-hp-a", "paired-determinism"], "emconAndEsm": ["current-emcon-ui", "seeker-close"], "browserUi": "ui213", "actualWebgl": "webgl8"},
         "confirmedOnly": {"staticAndLimitedFeatureOffEvidence": "INHERITED_PASS", "performance": "UNVERIFIED"},
@@ -195,31 +199,103 @@ def write_summary(rows: list[dict], started: float, complete: bool) -> dict:
     SUMMARY.write_text(strict(result)); return result
 
 
-def preflight() -> None:
-    assert PRODUCT.stat().st_size == PRODUCT_BYTES and sha256(PRODUCT.read_bytes()) == PRODUCT_SHA256
-    assert BASELINE.stat().st_size == BASELINE_BYTES and sha256(BASELINE.read_bytes()) == BASELINE_SHA256
+def tracked_paths(prefix: str) -> list[Path]:
+    output = subprocess.check_output(["git", "ls-tree", "-r", "-z", "--name-only", "HEAD", "--", prefix], cwd=ROOT)
+    return [ROOT / value.decode("utf-8") for value in output.split(b"\0") if value]
+
+
+def preflight() -> dict:
+    native_sources = [ROOT / path for path in [
+        "docs/helicopter/J/verify_native.py", "docs/helicopter/G/verify_native.py",
+        "docs/helicopter/L/verify_native.py", "docs/helicopter/L/verify_classes.py",
+        "docs/helicopter/L/verify_clock.py", "docs/helicopter/L/verify_ui.py",
+        "docs/helicopter/K/verify_native.py", "docs/helicopter/H/verify_native.py",
+        "docs/helicopter/H/verify_ui_clock.py", "docs/sovremenny/A/verify_native.py",
+        "docs/sovremenny/A/verify_casualty.py", "docs/sovremenny/A/verify_deployment.py",
+        "docs/sovremenny/A/verify_visual.py",
+    ]]
     required = [
+        PRODUCT, BASELINE, HELI_CG_A, PREVIOUS_STOP,
         ROOT / "docs/multiship/G/browser_g.py",
         ROOT / "docs/missile/fuze-zem/A/browser_tools.py",
         ROOT / "docs/pip/B/run_domain.py",
+        ROOT / "docs/pip/B/browser_backend.py",
+        ROOT / "docs/map/A/verify_regressions.py",
+        ROOT / "docs/viewport/A/verify_regressions.py",
+        ROOT / "docs/helicopter/H/browser.py",
         ROOT / "docs/map/E/verify_emcon_ui.py",
         ROOT / "docs/contact/friendly/A/cpu2d_ui.py",
         ROOT / "docs/envelope/D/run_observed_webgl.py",
         ROOT / "docs/helicopter/F/verify_regression.py",
         ROOT / "docs/damage/hp/A/run_contract_gate.py",
+        HERE / "run_u4_scenes_candidate.py",
+        HERE / "run_seeker_close_candidate.py",
+        HERE / "build_seeker_close_diagnostic.py",
+        *native_sources,
     ]
+    tracked_docs = tracked_paths("docs")
+    tracked_tests = tracked_paths("tests")
     missing = [str(path.relative_to(ROOT)) for path in required if not path.is_file()]
-    assert not missing, f"broad regression preflight missing modules: {missing}"
+    missing_tracked = [str(path.relative_to(ROOT)) for path in [*tracked_docs, *tracked_tests] if not path.exists()]
+    previous = json.loads(PREVIOUS_STOP.read_text()) if PREVIOUS_STOP.is_file() else {}
+    sparse = subprocess.check_output(["git", "sparse-checkout", "list"], cwd=ROOT, text=True).splitlines()
+    suite_inputs = {}
+    for name in [*NATIVE, "paired-hp-a", "paired-determinism", "current-emcon-ui", "ui213", "webgl8", "u4-seeker-scenes", "hp-contract", "seeker-close"]:
+        script = next(Path(value) for value in command(name)[1:] if str(value).endswith(".py"))
+        inputs = [PRODUCT, script]
+        if name in NATIVE:
+            inputs.extend([ROOT / "docs/pip/B/browser_backend.py", ROOT / "docs/map/A/verify_regressions.py", ROOT / "docs/viewport/A/verify_regressions.py", native_sources[list(NATIVE).index(name)]])
+        if name == "helicopter-flight":
+            inputs.append(HELI_CG_A)
+        if name == "paired-hp-a":
+            inputs.append(BASELINE)
+        suite_inputs[name] = sorted({str(path.relative_to(ROOT)) for path in inputs})
+    checks = {
+        "productBytesPinned": PRODUCT.is_file() and PRODUCT.stat().st_size == PRODUCT_BYTES,
+        "productShaPinned": PRODUCT.is_file() and sha256(PRODUCT.read_bytes()) == PRODUCT_SHA256,
+        "baselineBytesPinned": BASELINE.is_file() and BASELINE.stat().st_size == BASELINE_BYTES,
+        "baselineShaPinned": BASELINE.is_file() and sha256(BASELINE.read_bytes()) == BASELINE_SHA256,
+        "heliCgFixtureBytesPinned": HELI_CG_A.is_file() and HELI_CG_A.stat().st_size == HELI_CG_A_BYTES,
+        "heliCgFixtureShaPinned": HELI_CG_A.is_file() and sha256(HELI_CG_A.read_bytes()) == HELI_CG_A_SHA256,
+        "previousAttemptPreserved": previous.get("classification") == "ZERO_ASSERTION_HARNESS_STOP" and previous.get("attempt") == 1,
+        "allExplicitInputsPresent": not missing,
+        "allTrackedDocsMaterialized": not [path for path in missing_tracked if path.startswith("docs/")],
+        "allTrackedTestsMaterialized": not [path for path in missing_tracked if path.startswith("tests/")],
+        "heliCgFixtureInSparseCheckout": "/archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html" in sparse,
+        "suiteCountExact": len(suite_inputs) == 21,
+    }
+    payload = {
+        "schema": "AEGIS_INTEGRATION_BASELINE_A_ATTEMPT_2_PREFLIGHT_1",
+        "attempt": 2,
+        "authorizedRerun": True,
+        "checks": checks,
+        "candidate": {"path": str(PRODUCT.relative_to(ROOT)), "bytes": PRODUCT_BYTES, "sha256": PRODUCT_SHA256},
+        "baseline": {"path": str(BASELINE.relative_to(ROOT)), "bytes": BASELINE_BYTES, "sha256": BASELINE_SHA256},
+        "indirectFixture": {"path": str(HELI_CG_A.relative_to(ROOT)), "bytes": HELI_CG_A_BYTES, "sha256": HELI_CG_A_SHA256},
+        "sparseCheckoutPatterns": sparse,
+        "trackedMaterialization": {"docsCount": len(tracked_docs), "testsCount": len(tracked_tests), "missing": missing_tracked},
+        "explicitInputs": [{"path": str(path.relative_to(ROOT)), "bytes": path.stat().st_size, "sha256": sha256(path.read_bytes())} for path in sorted(set(required)) if path.is_file()],
+        "suiteInputs": suite_inputs,
+        "missingExplicitInputs": missing,
+        "expectedValuesUpdated": False,
+        "tolerancesChanged": False,
+        "gameConstantsChanged": False,
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    if failed:
+        raise AssertionError(f"attempt-2 preflight failed: {failed}; missing={missing}; tracked={missing_tracked[:20]}")
+    return payload
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(); parser.add_argument("--dry-run", action="store_true"); args = parser.parse_args()
-    preflight()
+    preflight_result = preflight()
     names = [*NATIVE, "paired-hp-a", "paired-determinism", "current-emcon-ui", "ui213", "webgl8", "u4-seeker-scenes", "hp-contract", "seeker-close"]
     if args.dry_run:
-        print(strict({"product": str(PRODUCT), "productBytes": PRODUCT_BYTES, "productSha256": PRODUCT_SHA256, "output": str(OUT), "oneShot": True, "jobs": {name: command(name) for name in names}, "broadRunCountOnDryRun": 0})); return
+        print(strict({"product": str(PRODUCT), "productBytes": PRODUCT_BYTES, "productSha256": PRODUCT_SHA256, "output": str(OUT), "attempt": 2, "authorizedRerun": True, "oneShot": True, "preflight": preflight_result, "jobs": {name: command(name) for name in names}, "broadRunCountOnDryRun": 0})); return
     OUT.mkdir(parents=True, exist_ok=True)
     assert not any(OUT.iterdir()), "final broad regression is one-shot; output directory must be empty"
+    (OUT / "preflight-inputs.json").write_text(strict(preflight_result))
     started = time.perf_counter(); rows = [static_integrity()]; source_provenance(); write_summary(rows, started, False)
     for name in names:
         row = execute(name); rows.append(row); write_summary(rows, started, False)
