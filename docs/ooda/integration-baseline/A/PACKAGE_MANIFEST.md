@@ -17,12 +17,12 @@ The report archive excludes `__pycache__`, bytecode, `.DS_Store`, editor swap/ba
 |---|---:|---|
 | `.github/workflows/aegis-current-candidate.yml` | 24198 | `f4b5785eb561e23d3834d6ed87f9f33b0c451dacd5b6a222303b3ca0b3f0ceee` |
 | `AEGIS_CURRENT_PRODUCT.json` | 455 | `589cc1043a37a9d130baa65701ff920bdf9c4d6797f1b3cd4d11513806799ac3` |
-| `AEGIS_PLAN_STATUS_v48_WIP_INTEGRATION_BASELINE_A.md` | 3769 | `5371c9940920f047150859889a85d3cc445ab8a1162a600cb831814f7d6bf378` |
-| `README.md` | 107262 | `32a53e131ce30293efca65d063037094ba4810702149d82363a1e98fbc7369c7` |
+| `AEGIS_PLAN_STATUS_v48_WIP_INTEGRATION_BASELINE_A.md` | 3821 | `913d8332d9565d81662918aa7e957be0965963223b62905d3de5415d5cf4bca2` |
+| `README.md` | 107330 | `31ed6b5ee4222533401b298de446336e745ec9a94d855fbbcac9ee8ec199d85f` |
 | `docs/archive/BACKLOG.md` | 7040 | `29ed270113aed93281a110bb5ea194dd4e1b2b4d4a6bd9cf46947e33854418d9` |
 | `docs/archive/DECISIONS.md` | 21995 | `6b9f8ee5347f8369e32b86a8fcd9cc8c30dedd329b7f5f8d88dacbe3aa009d16` |
 | `docs/archive/ROADMAP.md` | 3446 | `a34d512b6725006817511a3ac4e73db5a83e9f2003bb93620dffdb1523bcae58` |
-| `docs/archive/STATUS.md` | 13698 | `b59304eb4e6773dbc4a0e0f304ece720ae3faefd18cdf982d62e6c7219cdf623` |
+| `docs/archive/STATUS.md` | 13788 | `65bbf9f021b5a4905e068d062186b1b935f3ce7eea4350a55aebac92376a2492` |
 | `docs/ooda/integration-baseline/A/A_GATE.json` | 978 | `eba402d64e0fbdee640bc3b57552011d78324fadb9582844aa0a7c71511c6df1` |
 | `docs/ooda/integration-baseline/A/BASELINE_ORACLE.json` | 134917 | `7676b4329aef9b8fba1a89922287bb0f8be09a31173e597d84d09ff207077956` |
 | `docs/ooda/integration-baseline/A/BROAD_RUN_STOP_REPORT.md` | 2798 | `90c55ebafdc1d593415dbe370108039e72d52d24a8a9760f7ef42ffd1fd5ce71` |
@@ -39,7 +39,7 @@ The report archive excludes `__pycache__`, bytecode, `.DS_Store`, editor swap/ba
 | `docs/ooda/integration-baseline/A/FINAL_REGRESSION.json` | 17827 | `c55533a451da26c09378c83534e95badb35f63b6af74b259b73e85ee8b8094b3` |
 | `docs/ooda/integration-baseline/A/FINAL_REGRESSION_EFFECTIVE.json` | 21859 | `215f43e49e1372743c6ee5f24c101cfb47cf300276098b2f76a1e656dacbc8d9` |
 | `docs/ooda/integration-baseline/A/FINAL_REGRESSION_RAW.json` | 17827 | `c55533a451da26c09378c83534e95badb35f63b6af74b259b73e85ee8b8094b3` |
-| `docs/ooda/integration-baseline/A/FINAL_REPORT.md` | 11681 | `742f5cf3eeb6856e95791c18fc383d60f2f32a087b9c977ed01b5df855c168d8` |
+| `docs/ooda/integration-baseline/A/FINAL_REPORT.md` | 11778 | `4d092ec5fce17cccc6b2547953598a0bad7d38a5625765e360bdb0dd785b9262` |
 | `docs/ooda/integration-baseline/A/FUNCTION_HASHES.json` | 4115 | `16cad0a4fcf933ca9a890b87d9b5324d3372763d8f3d57d1a992a8a749e62d21` |
 | `docs/ooda/integration-baseline/A/FUNCTION_HASHES_CANDIDATE.json` | 5040 | `a88b60febd6fd9afbbb81449e604610db65ebcef744f1f9818a00111c685c407` |
 | `docs/ooda/integration-baseline/A/INPUT_CONTRACT.md` | 4170 | `373049739411bbf0a08ef51cda0d5678443c54071e6b429eb7e4e5bea9cf6004` |
@@ -488,6 +488,6 @@ The report archive excludes `__pycache__`, bytecode, `.DS_Store`, editor swap/ba
 | `docs/ooda/integration-baseline/A/run_u4_scenes_candidate.py` | 730 | `a1d1d775b777e0aa6e2380592a38a13497e0a7ae6f568f292c255c833906c608` |
 | `docs/ooda/integration-baseline/A/run_zero_execution_recovery.py` | 2792 | `7b88b7f60c7b3ccb599a594781666e0abe0cce7021c1390f6577e533d6fb0c13` |
 | `docs/ooda/integration-baseline/A/verify_remote_artifacts.py` | 2418 | `6fe9f750ce26a29ef393efcd4ec290daf65c3f71ec6e93a4f863797960af59a1` |
-| `docs/ooda/integration-baseline/A/CHECKSUMS.sha256` | 78996 | `9c39ce87543a4e1280140ee45cd6d49fa62501b9d144cfd126b50d265df98af3` |
+| `docs/ooda/integration-baseline/A/CHECKSUMS.sha256` | 78996 | `3ed6ee68bf30da16f980bb7f79b973bd61e35aab4eeed51115fe47e096f3f967` |
 
 The external package checksums are stored in `PACKAGE_CHECKSUMS_v48_WIP_INTEGRATION_BASELINE_A.txt`.

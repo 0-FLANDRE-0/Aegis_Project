@@ -7,7 +7,7 @@
 - `integration-baseline-a`에서 방어 소유권·호출 그래프와 기준 오라클을 동결했고, owner-addressed 불변 입력 DTO 및 advisory 명령 DTO를 `LEGACY_H1` provider로 연결했다. crew 입력은 owner-local 요약으로 제한되며 25/25 반복 결정성이 exact다. truth/RNG/save mutation은 0이다.
 - 보정 1차 광역은 누락된 `WIP_HELI_CG_A` fixture 때문에 첫 suite 0 assertion에서 중단했고 원시 실패 로그를 보존했다. 승인된 2차는 fixture와 모든 간접 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 기대값·허용오차·게임 상수 변경은 없다.
 - 실제 OODA 판단·처리량·반응 지연·평가 슬롯은 다음 단일 단계 `DEFENSE_OODA_A` 범위다. CIWS 로컬 즉응, A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이 단계에서 이동하지 않는다.
-- PR #79는 병합하지 않는다. 보정 후보의 최종 current-candidate Actions와 원격 artifact readback은 최종 HEAD에서 갱신한다. release·tag는 없다.
+- PR #79는 병합하지 않는다. 보정 패키지 head의 current-candidate PR run `43415982293`과 workflow_dispatch run `43417371723`은 모두 SUCCESS이며, 제품 HTML·실행 ZIP·리포트 ZIP 원격 readback도 전부 exact다. release·tag는 없다.
 
 # 직전 상태 (2026-11-09 SEEKER_CLOSE_A PR #78 폐쇄 보정 기준)
 
