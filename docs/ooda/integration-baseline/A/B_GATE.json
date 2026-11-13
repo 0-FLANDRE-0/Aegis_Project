@@ -1,0 +1,59 @@
+{
+  "schema": "AEGIS_INTEGRATION_BASELINE_B_GATE_A_1",
+  "stage": "COMMIT_B_OWNERSHIP_AND_ORACLE",
+  "baselineProduct": {
+    "file": "Aegis_SIM_v48_WIP_HP_A.html",
+    "bytes": 22200135,
+    "sha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa"
+  },
+  "browserOracle": {
+    "file": "BASELINE_ORACLE.json",
+    "owners": [
+      "DDG_119_LATE_FLIGHT_IIA",
+      "CG_52_LATE_TICONDEROGA"
+    ],
+    "activeForeignPairs": 2,
+    "scenarios": 14,
+    "repetitions": 2,
+    "exactRepeat": true,
+    "deterministicDigest": "c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf",
+    "comparisonExclusions": [
+      "wallClock",
+      "diagnosticDuration",
+      "lastBuildMs",
+      "lastAssessmentMs",
+      "lastPlanMs"
+    ],
+    "consoleErrors": 0,
+    "pageErrors": 0
+  },
+  "audit": {
+    "ownerAddressedPathsClassified": true,
+    "activeAliasesPinnedToActiveRuntime": true,
+    "foreignExecutionUsesLexicalOwnerRoots": true,
+    "upperDecisionTruthReads": 0,
+    "upperDecisionRngDraws": 0,
+    "remoteFireControl": false,
+    "ordnanceDatalink": false,
+    "localCiwsBehindOoda": false,
+    "unresolvedOwnerLeaks": 0,
+    "unresolvedTruthLeaks": 0
+  },
+  "observedSafetyReasons": [
+    "NETWORK_ASSIGNED_PEER",
+    "LOCAL_FCS_REQUIRED",
+    "REENGAGE_HYST",
+    "RESERVE",
+    "NO_LOCAL_SURFACE_TRACK"
+  ],
+  "inheritedBaselineDiagnostics": {
+    "runCoreUnitSelfTestsReturn": false,
+    "failures": [
+      "SARH WIP61 confidence continuity missing",
+      "SARH confidence still double-penalizes raw SNR"
+    ],
+    "classification": "RAW_HP_A_BASELINE_REPRODUCED_NOT_INTRODUCED_BY_THIS_STAGE"
+  },
+  "decision": "PASS_COMMIT_C_AUTHORIZED",
+  "productMutation": false
+}

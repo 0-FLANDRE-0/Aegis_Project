@@ -1,4 +1,12 @@
-## 최신 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
+## 최신 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선 완료 후보
+
+- PR #78 SEEKER_CLOSE_A가 merge commit `d5f43c5a`로 병합된 HP_A를 기준으로, 보정 후보 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)을 만들었다.
+- 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권과 호출 경계를 동결했다. 다음 `DEFENSE_OODA_A`가 교체할 `AEGIS_DEFENSE_DECISION_INPUT_A1` 읽기 전용 DTO와 advisory 명령 DTO를 `LEGACY_H1`에 연결했으며, crew 입력은 owner-local·deep-frozen 요약만 허용한다.
+- A3/Network/FCS/reserve/reengagement/실제 발사 gate와 CIWS 즉응 권위는 그대로다. truth 필드·provider RNG·저장 필드 추가는 모두 0이다. 보호 함수 31개 중 30개는 exact이고 `wip118BuildEngagementControl`만 의도한 adapter 연결로 변경됐다. 11개 경계 함수는 별도 해시로 고정했다.
+- 보정 광역 1차는 `WIP_HELI_CG_A` fixture 누락을 preflight에서 잡지 못해 첫 suite 0 assertion으로 즉시 중단했고, 실패 로그를 그대로 보존했다. 사용자가 승인한 2차는 전체 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보 bytes/SHA, 기대값, 허용오차, 게임 상수 변경은 0이다.
+- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. 보정 패키지 head의 PR Actions `43415982293`과 workflow_dispatch `43417371723`은 SUCCESS이고 세 원격 산출물 readback은 exact다. PR #79는 병합하지 않는다.
+
+## 직전 제품 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 
 - PR #76 U4를 검증된 head 그대로 merge commit `82617839`로 먼저 병합한 뒤 `hp-a`에서 작업했다. [실행 HTML](Aegis_SIM_v48_WIP_HP_A.html), [상태](AEGIS_PLAN_STATUS_v48_WIP_HP_A.md), [최종 보고서](docs/damage/hp/A/FINAL_REPORT.md), [원시·재현 증거](docs/damage/hp/A/).
 - 물리 상실은 기존 survival 상태기계만, 임무불능은 기존 장비·승조원 gate만 권위로 사용한다. 표시 HP는 단방향 파생값이며 reversible 상태에서는 최소 1, irreversible/lost에서만 0이다.

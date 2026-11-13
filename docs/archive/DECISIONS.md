@@ -171,3 +171,25 @@
 - 구형 radar master와 ECM 요청의 병존 장면은 `RADAR_MASTER_SILENT_ECM_ON`으로 부른다. 진짜 `ALL_RADIATION_SILENT`는 현재 UI의 ShipRuntime 권위 경로로 실행하며 요청을 보존해도 radar/ECM allocator/output/coupling/HOJ는 모두 0이어야 한다.
 - HP_A 제품 bytes/SHA는 바꾸지 않고 broad/MAX_THREAT를 반복하지 않는다. PR #78 전용 Actions가 19발 Chromium, 의미상 exact 증거 비교, HP_A 19/19 및 결정적 HTML-free 패키지를 실행한다.
 - PR #78의 의미상 exact 비교는 구조·문자열·불리언·정수·RNG·단계·종말 결과를 완전 exact로 비교한다. runner CPU/libm에 따른 유한 binary64 telemetry만 고정 `1e-12` 절대/상대 portability bound로 검사하고 drift 수·최대값·경로를 별도 receipt에 남긴다. 증거 반올림, 제품 코드, 게임/기존 회귀 허용오차 변경은 0이며 이 규칙은 EMITTER_A/U3의 동일 Chromium 제품 JSON exact 정책을 대체하지 않는다.
+
+## 2026-11-11 (SEEKER_CLOSE_A 병합 및 INTEGRATION_BASELINE_A)
+
+- 사용자는 PR #78 SEEKER_CLOSE_A를 일반 merge commit `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`로 병합했다. 검증 head는 `50a71069925ff485486e51cd153fc2f3600cd752`, 최종 Actions run `42574022086`은 두 job 모두 SUCCESS다.
+- PR #78은 제품 비변경이며 권위 제품은 HP_A 22,200,135 bytes / SHA-256 `9121c448…36fa`다. release/tag는 없다.
+- 다음 단계는 하나의 `INTEGRATION_BASELINE_A` 브랜치·PR에서 기존 방어 소유권과 호출 경계를 동결하고 owner-addressed 불변 입력 DTO, advisory 명령 DTO, exact `LEGACY_H1` provider만 연결한다.
+- 이 단계는 실제 OODA 처리량·반응 지연·평가 슬롯·현대화 수준을 구현하지 않는다. CIWS 즉응과 A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이동하거나 우회하지 않는다. 기준선 완료 뒤 별도 정리 단계 없이 `DEFENSE_OODA_A`로 간다.
+
+## 2026-11-11 (INTEGRATION_BASELINE_A 완료 후보)
+
+- 다음 OODA의 입력은 owner-addressed, deep-frozen `AEGIS_DEFENSE_DECISION_INPUT_A1`으로 고정한다. owner-local track id는 truth id가 아니며 hidden truth·renderer·실제 적 객체를 포함하지 않는다.
+- `AEGIS_DEFENSE_DECISION_COMMAND_A1`은 priority/order/salvo/HOLD/DEFER만 제안하는 advisory다. A3, Network G, FCS/SPG, reserve, reengagement, damage/EMCON 및 정식 release gate를 우회하지 않는다.
+- `LEGACY_H1`은 SHADOW 22건 mismatch 0 뒤 좁은 order/salvo/recommendation 소비만 ACTIVE로 전환했다. H1 radar/EW, H2/H3/H4, Network G, WIP118/119 safety와 CIWS 즉응 소유권은 이동하지 않는다.
+- 동결 후보 광역은 한 번만 시작한다. 최초 실행에서 sparse-checkout 모듈 누락 때문에 브라우저 전 실행 0인 suite는 원시 FAIL을 보존하고, 동일 후보 SHA에서 해당 suite의 최초 실제 실행만 별도 recovery로 허용한다. 이미 실행된 suite는 반복하지 않는다.
+- INTEGRATION_BASELINE_A는 PR #79 제출까지만 진행한다. 병합·release·tag는 사용자 결정이며 다음 실제 기능 단계는 `DEFENSE_OODA_A` 하나다.
+
+## 2026-11-13 (INTEGRATION_BASELINE_A 광역 2차 승인)
+
+- 사용자는 corrected candidate의 기존 bytes/SHA, 기대값, 허용오차와 게임 상수를 유지하는 조건으로 광역 회귀 2차 실행을 승인했다.
+- 실행 전 `WIP_HELI_CG_A` 기준 HTML과 모든 간접 fixture를 sparse checkout에 포함하고 전체 suite 입력 존재를 preflight한다. 1차 중단 로그와 영수증은 삭제하거나 PASS로 재분류하지 않는다.
+- 2차는 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보는 22,212,299 bytes / SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0` 그대로이며 기대값·허용오차·게임 상수 변경은 0이다.
+- 통과 뒤에만 manifest·패키지·원격 readback·Actions를 최종 갱신한다. PR #79는 병합하지 않고 release/tag도 만들지 않는다.

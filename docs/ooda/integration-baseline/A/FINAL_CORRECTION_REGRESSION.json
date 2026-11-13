@@ -1,0 +1,87 @@
+{
+  "schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_REGRESSION_1",
+  "complete": false,
+  "candidate": "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+  "candidateSha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0",
+  "candidateBytes": 22212299,
+  "baseline": "Aegis_SIM_v48_WIP_HP_A.html",
+  "baselineSha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
+  "threatAssumptionMode": "MAX_THREAT",
+  "broadRun": {
+    "runCount": 1,
+    "candidateFrozen": true,
+    "candidateSha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0"
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "rows": [
+    {
+      "suite": "static-integrity",
+      "status": "PASS",
+      "exitCode": 0,
+      "wallS": 0,
+      "expectedAssertions": 17,
+      "executedAssertions": 17,
+      "passedAssertions": 17,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "static-integrity.json"
+    },
+    {
+      "suite": "helicopter-flight",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+        "/workspace/Aegis_Project/docs/ooda/integration-baseline/A/evidence/final-correction/final-regression/helicopter-flight",
+        "--only",
+        "helicopter-flight"
+      ],
+      "exitCode": 1,
+      "wallS": 0.41628834099992673,
+      "status": "FAIL",
+      "expectedAssertions": 85,
+      "executedAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": null
+    }
+  ],
+  "native13": {
+    "suiteCount": 1,
+    "expectedSuiteCount": 13,
+    "expectedAssertions": 364,
+    "executedAssertions": 0,
+    "passedAssertions": 0
+  },
+  "coverage": {
+    "decisionContract": "static-integrity + contract oracle",
+    "hpOutcomeSave": "hp-contract",
+    "seekerCloseNineteenShots": "seeker-close",
+    "representativeRealFlights": [
+      "u4-seeker-scenes",
+      "harpoon-f1"
+    ],
+    "pairedDdgCg": [
+      "paired-hp-a",
+      "paired-determinism"
+    ],
+    "emconAndEsm": [
+      "current-emcon-ui",
+      "seeker-close"
+    ],
+    "browserUi": "ui213",
+    "actualWebgl": "webgl8"
+  },
+  "confirmedOnly": {
+    "staticAndLimitedFeatureOffEvidence": "INHERITED_PASS",
+    "performance": "UNVERIFIED"
+  },
+  "effectiveFailures": [
+    "helicopter-flight"
+  ],
+  "wallS": 0.5379719700003989,
+  "release": false
+}

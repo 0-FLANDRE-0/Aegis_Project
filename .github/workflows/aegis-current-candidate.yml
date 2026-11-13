@@ -9,6 +9,7 @@ on:
       - 'Aegis_SIM_v48_WIP_ESM_A.html'
       - 'Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html'
       - 'Aegis_SIM_v48_WIP_HP_A.html'
+      - 'Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html'
       - 'docs/electronic/emitter/A/build_product.py'
       - 'docs/electronic/emitter/A/build_stage_diagnostic.py'
       - 'docs/electronic/emitter/A/validate_current_product.py'
@@ -44,6 +45,14 @@ on:
       - 'docs/missile/seeker-unify/U4/**'
       - 'docs/damage/hp/A/**'
       - 'docs/missile/seeker-close/A/**'
+      - 'docs/ooda/integration-baseline/A/integration_baseline_patch.py'
+      - 'docs/ooda/integration-baseline/A/baseline_audit.py'
+      - 'docs/ooda/integration-baseline/A/baseline_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/contract_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/crew_contract_oracle.cjs'
+      - 'docs/ooda/integration-baseline/A/function_hash_gate.py'
+      - 'docs/ooda/integration-baseline/A/boundary_static_gate.py'
+      - 'docs/ooda/integration-baseline/A/actions_gate_validate.cjs'
       - 'Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
@@ -62,6 +71,14 @@ jobs:
     steps:
       - name: Check out repository once
         uses: actions/checkout@v4
+        with:
+          # Regression evidence is delivery material, never a candidate-gate input.
+          # Excluding only this 78 MB directory avoids checkout-timeout debt while
+          # keeping every product, builder, fixture and historical stage available.
+          sparse-checkout: |
+            /*
+            !/docs/ooda/integration-baseline/A/evidence/
+          sparse-checkout-cone-mode: false
 
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
@@ -131,6 +148,12 @@ jobs:
                 --out /tmp/aegis-current-candidate.html \
                 --receipt artifacts/current-candidate/rebuild.json
               ;;
+            INTEGRATION_BASELINE_A)
+              python3 docs/ooda/integration-baseline/A/integration_baseline_patch.py \
+                "$BASELINE_PATH" /tmp/aegis-current-candidate.html \
+                --js-output artifacts/current-candidate/main.js \
+                > artifacts/current-candidate/rebuild.txt
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
           cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
@@ -172,6 +195,20 @@ jobs:
                 --out artifacts/current-candidate/static-gate.json \
                 --tsv artifacts/current-candidate/hp-consumer-audit.tsv \
                 --main-out artifacts/current-candidate/main.js
+              ;;
+            INTEGRATION_BASELINE_A)
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                "$BASELINE_PATH" artifacts/current-candidate/function-hashes-baseline.json \
+                --stage INTEGRATION_BASELINE_A_ACTIONS_BASELINE
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/function-hashes-candidate.json \
+                --stage INTEGRATION_BASELINE_A_ACTIONS_CANDIDATE --require-new
+              python3 docs/ooda/integration-baseline/A/function_hash_gate.py \
+                artifacts/current-candidate/function-hashes-baseline.json \
+                artifacts/current-candidate/function-hashes-candidate.json \
+                artifacts/current-candidate/static-gate.json
+              python3 docs/ooda/integration-baseline/A/boundary_static_gate.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/boundary-static-gate.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
@@ -226,9 +263,14 @@ jobs:
               cp "$BASELINE_PATH" /tmp/aegis-current-baseline-diagnostic.html
               cp artifacts/current-candidate/rebuild.json artifacts/current-candidate/diagnostic-build.json
               ;;
+            INTEGRATION_BASELINE_A)
+              cp "$PRODUCT_PATH" /tmp/aegis-current-candidate-diagnostic.html
+              cp "$BASELINE_PATH" /tmp/aegis-current-baseline-diagnostic.html
+              cp artifacts/current-candidate/static-gate.json artifacts/current-candidate/diagnostic-build.json
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
-          if [ "$CANDIDATE_STAGE" != "ESM_A" ] && [ "$CANDIDATE_STAGE" != "SEEKER_UNIFY_U4" ] && [ "$CANDIDATE_STAGE" != "HP_A" ]; then
+          if [ "$CANDIDATE_STAGE" != "ESM_A" ] && [ "$CANDIDATE_STAGE" != "SEEKER_UNIFY_U4" ] && [ "$CANDIDATE_STAGE" != "HP_A" ] && [ "$CANDIDATE_STAGE" != "INTEGRATION_BASELINE_A" ]; then
             python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
                 --base "$BASELINE_PATH" \
                 --out /tmp/aegis-current-baseline-diagnostic.html \
@@ -287,6 +329,37 @@ jobs:
             HP_A)
               python3 docs/damage/hp/A/run_contract_gate.py \
                 "$PRODUCT_PATH" artifacts/current-candidate/browser-gate.json
+              ;;
+            INTEGRATION_BASELINE_A)
+              python3 -m http.server 8123 --bind 127.0.0.1 \
+                > artifacts/current-candidate/http-server.log 2>&1 &
+              server_pid=$!
+              trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+              node docs/ooda/integration-baseline/A/baseline_oracle.cjs \
+                "$BASELINE_PATH" "http://127.0.0.1:8123/$BASELINE_PATH" \
+                artifacts/current-candidate/baseline-oracle.json
+              node docs/ooda/integration-baseline/A/baseline_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/candidate-oracle.json
+              node docs/ooda/integration-baseline/A/contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/browser-gate.json
+              node docs/ooda/integration-baseline/A/contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/contract-repeat.json
+              node docs/ooda/integration-baseline/A/crew_contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/crew-contract.json
+              node docs/ooda/integration-baseline/A/crew_contract_oracle.cjs \
+                "$PRODUCT_PATH" "http://127.0.0.1:8123/$PRODUCT_PATH" \
+                artifacts/current-candidate/crew-contract-repeat.json
+              node docs/ooda/integration-baseline/A/actions_gate_validate.cjs \
+                artifacts/current-candidate/baseline-oracle.json \
+                artifacts/current-candidate/candidate-oracle.json \
+                artifacts/current-candidate/browser-gate.json \
+                artifacts/current-candidate/contract-repeat.json \
+                artifacts/current-candidate/crew-contract.json \
+                artifacts/current-candidate/crew-contract-repeat.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac

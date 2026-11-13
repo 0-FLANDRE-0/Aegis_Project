@@ -1,0 +1,1966 @@
+{
+  "schema": "AEGIS_INTEGRATION_BASELINE_CONTRACT_ORACLE_A_1",
+  "capturedFrom": {
+    "product": "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+    "bytes": 22212299,
+    "sha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0",
+    "browser": "156.0.8078.79",
+    "playwright": "1.62.1",
+    "fixedSeed": 1831565813
+  },
+  "owners": [
+    {
+      "own": {
+        "id": "SHIP_DDG119_OWN",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA"
+      },
+      "ally": {
+        "id": "SHIP_SCENARIO_ALLY_F",
+        "profileId": "CG_52_LATE_TICONDEROGA"
+      },
+      "fixture": {
+        "enemyId": 1,
+        "trackId": 300000001,
+        "rangeKm": 17,
+        "altM": 18,
+        "speedMps": 275,
+        "label": "Kh-35U"
+      },
+      "control": {
+        "recommendations": [
+          {
+            "trackId": 300000001,
+            "weapon": "ESSM",
+            "salvo": 2,
+            "recommendedRounds": 2,
+            "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+          }
+        ]
+      },
+      "provider": {
+        "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+        "commandSchema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+        "provider": "LEGACY_H1",
+        "mode": "ACTIVE",
+        "authority": "ADVISORY_ONLY",
+        "truthUsed": false,
+        "rngConsumed": false,
+        "saveFields": 0
+      },
+      "active": {
+        "input": {
+          "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "step": 12,
+          "simulationTimeS": 0.2,
+          "revision": 3,
+          "mode": "MANUAL",
+          "tracks": [
+            {
+              "trackId": 300000001,
+              "trackNumber": 1,
+              "measurement": {
+                "positionM": {
+                  "x": 16951.900630055017,
+                  "y": 7.058351704526424,
+                  "z": 24.0286413976605
+                },
+                "velocityMps": {
+                  "x": -276.6858400280346,
+                  "y": 33.80245790999775,
+                  "z": -38.234238097401125
+                },
+                "covariance": [
+                  56.3134619324174,
+                  0.041579489822841875,
+                  0.005570487250048556,
+                  0.09331512190863353,
+                  -0.06453652097903444,
+                  -0.25640106097027504,
+                  0.041579489822841875,
+                  22.399442707808323,
+                  0.0035534138946654867,
+                  -0.18306518408525307,
+                  148.85362066090437,
+                  0.07286952885453452,
+                  0.005570487250048556,
+                  0.0035534138946654867,
+                  51.11820198111488,
+                  -0.23508363969990395,
+                  0.07366486515025861,
+                  203.10390411083648,
+                  0.09331512190863353,
+                  -0.18306518408525307,
+                  -0.23508363969990395,
+                  2.3762513760595896,
+                  -4.260845232890254,
+                  -5.920019284847477,
+                  -0.06453652097903444,
+                  148.85362066090437,
+                  0.07366486515025861,
+                  -4.260845232890254,
+                  3648.8276477447766,
+                  1.5185534074165052,
+                  -0.25640106097027504,
+                  0.07286952885453452,
+                  203.10390411083648,
+                  -5.920019284847477,
+                  1.5185534074165052,
+                  4891.478558777558
+                ],
+                "measuredAtStep": 11,
+                "measuredAtS": 0.18333333333333332,
+                "ageS": 0.016666666666666666,
+                "sensorSource": "SPY1DV_HIGH_THREAT"
+              },
+              "lifecycle": {
+                "confirmed": true,
+                "sensorDetected": true,
+                "coasting": false,
+                "reacquiring": false,
+                "memory": false,
+                "assessmentState": "THREAT",
+                "lostAgeS": 0
+              },
+              "identification": {
+                "classification": "ASM",
+                "identity": "ASSUMED_HOSTILE",
+                "threatStatus": "THREAT",
+                "engagementAuthority": "MANUAL_ONLY"
+              },
+              "assessment": {
+                "state": "THREAT",
+                "cpaM": 3061.831712782483,
+                "cpaTimeS": 59.25963371286747,
+                "closureTgoS": 59.26048009443114,
+                "liveEngagement": 0,
+                "reengageRequired": false,
+                "trackPresent": true,
+                "coastFireControlUsable": false
+              },
+              "engagements": {
+                "sm2": 0,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 0,
+                "ram": 0,
+                "phalanx": 0
+              },
+              "network": {
+                "assignment": null,
+                "sources": [],
+                "fcsSource": "LOCAL_ONLY"
+              }
+            }
+          ],
+          "inventory": {
+            "installed": {
+              "sm2": 72,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 96,
+              "ram": 11,
+              "phalanx": 1550
+            },
+            "afterReserve": {
+              "sm2": 68,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 88,
+              "ram": 10
+            }
+          },
+          "support": {
+            "channels": [
+              {
+                "id": 0,
+                "moduleName": "AN/SPG-62(전방)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 1,
+                "moduleName": "AN/SPG-62(후방상단)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 2,
+                "moduleName": "AN/SPG-62(후방하단)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              }
+            ],
+            "activeAssignments": 0,
+            "plannedReservations": 0
+          },
+          "ship": {
+            "equipmentOffline": false,
+            "missionState": "OPERATIONAL",
+            "afloatState": "AFLOAT",
+            "displayHp": 100,
+            "crew": {
+              "mode": "OPERATIONAL",
+              "combatUnavailable": false,
+              "totals": {
+                "total": 310,
+                "fit": 310,
+                "injured": 0,
+                "dead": 0,
+                "evacuated": 0
+              },
+              "departments": {
+                "COMBAT": {
+                  "duty": 73,
+                  "fit": 85,
+                  "availability": 1
+                },
+                "OPERATIONS": {
+                  "duty": 60,
+                  "fit": 60,
+                  "availability": 1
+                }
+              }
+            },
+            "damage": {
+              "combatEff": 1,
+              "radarPowerFac": 1,
+              "ciwsPowerFac": 1,
+              "vlsPowerFac": 1,
+              "steerFac": 1,
+              "propulsionFac": 1,
+              "maxSpeedKt": 31
+            }
+          },
+          "network": {
+            "enabled": true,
+            "shareTracks": true,
+            "cooperativeDefense": true,
+            "remoteFireControl": false
+          },
+          "esmCues": [
+            {
+              "contactId": 600000004,
+              "emitterClass": "ACTIVE_SEEKER",
+              "band": "IJ",
+              "bearingRad": null,
+              "bearingSigmaRad": null,
+              "quality": 0.972152911136945,
+              "measuredAtS": 0.18333333333333332,
+              "ageS": 0.01666666666666669,
+              "source": "PASSIVE_RF_F"
+            }
+          ],
+          "operatorOverrides": {
+            "tacticalEnabled": true,
+            "manualRadar": false,
+            "manualEw": false,
+            "emcon": false
+          }
+        },
+        "diagnostics": {
+          "provider": "LEGACY_H1",
+          "mode": "ACTIVE",
+          "builds": 3,
+          "shadowComparisons": 9,
+          "shadowMismatchCount": 0,
+          "firstMismatch": null,
+          "validationFailures": 0,
+          "firstValidationFailure": null,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastStep": 12,
+          "lastInput": {
+            "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "step": 12,
+            "simulationTimeS": 0.2,
+            "revision": 2,
+            "mode": "MANUAL",
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "trackNumber": 1,
+                "measurement": {
+                  "positionM": {
+                    "x": 16951.900630055017,
+                    "y": 7.058351704526424,
+                    "z": 24.0286413976605
+                  },
+                  "velocityMps": {
+                    "x": -276.6858400280346,
+                    "y": 33.80245790999775,
+                    "z": -38.234238097401125
+                  },
+                  "covariance": [
+                    56.3134619324174,
+                    0.041579489822841875,
+                    0.005570487250048556,
+                    0.09331512190863353,
+                    -0.06453652097903444,
+                    -0.25640106097027504,
+                    0.041579489822841875,
+                    22.399442707808323,
+                    0.0035534138946654867,
+                    -0.18306518408525307,
+                    148.85362066090437,
+                    0.07286952885453452,
+                    0.005570487250048556,
+                    0.0035534138946654867,
+                    51.11820198111488,
+                    -0.23508363969990395,
+                    0.07366486515025861,
+                    203.10390411083648,
+                    0.09331512190863353,
+                    -0.18306518408525307,
+                    -0.23508363969990395,
+                    2.3762513760595896,
+                    -4.260845232890254,
+                    -5.920019284847477,
+                    -0.06453652097903444,
+                    148.85362066090437,
+                    0.07366486515025861,
+                    -4.260845232890254,
+                    3648.8276477447766,
+                    1.5185534074165052,
+                    -0.25640106097027504,
+                    0.07286952885453452,
+                    203.10390411083648,
+                    -5.920019284847477,
+                    1.5185534074165052,
+                    4891.478558777558
+                  ],
+                  "measuredAtStep": 11,
+                  "measuredAtS": 0.18333333333333332,
+                  "ageS": 0.016666666666666666,
+                  "sensorSource": "SPY1DV_HIGH_THREAT"
+                },
+                "lifecycle": {
+                  "confirmed": true,
+                  "sensorDetected": true,
+                  "coasting": false,
+                  "reacquiring": false,
+                  "memory": false,
+                  "assessmentState": "THREAT",
+                  "lostAgeS": 0
+                },
+                "identification": {
+                  "classification": "ASM",
+                  "identity": "ASSUMED_HOSTILE",
+                  "threatStatus": "THREAT",
+                  "engagementAuthority": "MANUAL_ONLY"
+                },
+                "assessment": {
+                  "state": "THREAT",
+                  "cpaM": 3061.831712782483,
+                  "cpaTimeS": 59.25963371286747,
+                  "closureTgoS": 59.26048009443114,
+                  "liveEngagement": 0,
+                  "reengageRequired": false,
+                  "trackPresent": true,
+                  "coastFireControlUsable": false
+                },
+                "engagements": {
+                  "sm2": 0,
+                  "sm2er": 0,
+                  "sm6": 0,
+                  "essm": 0,
+                  "ram": 0,
+                  "phalanx": 0
+                },
+                "network": {
+                  "assignment": null,
+                  "sources": [],
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              }
+            ],
+            "inventory": {
+              "installed": {
+                "sm2": 72,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 96,
+                "ram": 11,
+                "phalanx": 1550
+              },
+              "afterReserve": {
+                "sm2": 68,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 88,
+                "ram": 10
+              }
+            },
+            "support": {
+              "channels": [
+                {
+                  "id": 0,
+                  "moduleName": "AN/SPG-62(전방)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 1,
+                  "moduleName": "AN/SPG-62(후방상단)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 2,
+                  "moduleName": "AN/SPG-62(후방하단)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                }
+              ],
+              "activeAssignments": 0,
+              "plannedReservations": 0
+            },
+            "ship": {
+              "equipmentOffline": false,
+              "missionState": "OPERATIONAL",
+              "afloatState": "AFLOAT",
+              "displayHp": 100,
+              "crew": {
+                "mode": "OPERATIONAL",
+                "combatUnavailable": false,
+                "totals": {
+                  "total": 310,
+                  "fit": 310,
+                  "injured": 0,
+                  "dead": 0,
+                  "evacuated": 0
+                },
+                "departments": {
+                  "COMBAT": {
+                    "duty": 73,
+                    "fit": 85,
+                    "availability": 1
+                  },
+                  "OPERATIONS": {
+                    "duty": 60,
+                    "fit": 60,
+                    "availability": 1
+                  }
+                }
+              },
+              "damage": {
+                "combatEff": 1,
+                "radarPowerFac": 1,
+                "ciwsPowerFac": 1,
+                "vlsPowerFac": 1,
+                "steerFac": 1,
+                "propulsionFac": 1,
+                "maxSpeedKt": 31
+              }
+            },
+            "network": {
+              "enabled": true,
+              "shareTracks": true,
+              "cooperativeDefense": true,
+              "remoteFireControl": false
+            },
+            "esmCues": [
+              {
+                "contactId": 600000004,
+                "emitterClass": "ACTIVE_SEEKER",
+                "band": "IJ",
+                "bearingRad": null,
+                "bearingSigmaRad": null,
+                "quality": 0.972152911136945,
+                "measuredAtS": 0.18333333333333332,
+                "ageS": 0.01666666666666669,
+                "source": "PASSIVE_RF_F"
+              }
+            ],
+            "operatorOverrides": {
+              "tacticalEnabled": true,
+              "manualRadar": false,
+              "manualEw": false,
+              "emcon": false
+            }
+          },
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "LEGACY_H1",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "inputStep": 12,
+            "inputRevision": 2,
+            "trackOrder": [
+              300000001
+            ],
+            "priorities": [
+              {
+                "trackId": 300000001,
+                "score": 0
+              }
+            ],
+            "salvoOverrides": [
+              {
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "desiredSalvo": 2,
+                "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+              }
+            ],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "LEGACY_H1_EXACT"
+          },
+          "lastValidation": {
+            "ok": true,
+            "reason": null,
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "inputStep": 12,
+            "inputRevision": 2
+          }
+        },
+        "audit": {
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputFrozen": true,
+          "forbiddenPath": null,
+          "shadowMismatchCount": 0,
+          "rngMismatchCount": 0,
+          "validationFailures": 0,
+          "portOwnsSafety": false,
+          "portOwnsExecution": false,
+          "portOwnsImmediateCiws": false
+        }
+      },
+      "foreign": {
+        "input": {
+          "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "step": 12,
+          "simulationTimeS": 0.2,
+          "revision": 1,
+          "mode": "AUTO",
+          "tracks": [
+            {
+              "trackId": 1,
+              "trackNumber": 1,
+              "measurement": {
+                "positionM": {
+                  "x": 8.61574315652381,
+                  "y": -10.351918938968861,
+                  "z": 8
+                },
+                "velocityMps": {
+                  "x": -4.404205127130969,
+                  "y": 1.835884784528762,
+                  "z": 0
+                },
+                "covariance": [
+                  169.08454227113552,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  169.08454227113552,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  169.08454227113552,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  144,
+                  15490.187328082473,
+                  0,
+                  0,
+                  0,
+                  0,
+                  15490.187328082473,
+                  144,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1.44
+                ],
+                "measuredAtStep": 11,
+                "measuredAtS": 0.18333333333333332,
+                "ageS": 0.016666666666666666,
+                "sensorSource": "SPQ9B_SURFACE"
+              },
+              "lifecycle": {
+                "confirmed": false,
+                "sensorDetected": true,
+                "coasting": false,
+                "reacquiring": false,
+                "memory": false,
+                "assessmentState": "MONITOR",
+                "lostAgeS": null
+              },
+              "identification": {
+                "classification": "SURFACE",
+                "identity": "UNKNOWN",
+                "threatStatus": "MONITOR",
+                "engagementAuthority": "WITHHELD"
+              },
+              "assessment": null,
+              "engagements": {
+                "sm2": 0,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 0,
+                "ram": 0,
+                "phalanx": 0
+              },
+              "network": {
+                "assignment": null,
+                "sources": [],
+                "fcsSource": "LOCAL_ONLY"
+              }
+            }
+          ],
+          "inventory": {
+            "installed": {
+              "sm2": 98,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 96,
+              "ram": 0,
+              "phalanx": 1550
+            },
+            "afterReserve": {
+              "sm2": 94,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 88,
+              "ram": 0
+            }
+          },
+          "support": {
+            "channels": [
+              {
+                "id": 0,
+                "moduleName": "AN/SPG-62(1)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 1,
+                "moduleName": "AN/SPG-62(2)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 2,
+                "moduleName": "AN/SPG-62(3)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 3,
+                "moduleName": "AN/SPG-62(4)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              }
+            ],
+            "activeAssignments": 0,
+            "plannedReservations": 0
+          },
+          "ship": {
+            "equipmentOffline": false,
+            "missionState": "OPERATIONAL",
+            "afloatState": "AFLOAT",
+            "displayHp": 100,
+            "crew": {
+              "mode": "OPERATIONAL",
+              "combatUnavailable": false,
+              "totals": {
+                "total": 330,
+                "fit": 330,
+                "injured": 0,
+                "dead": 0,
+                "evacuated": 0
+              },
+              "departments": {
+                "COMBAT": {
+                  "duty": 78,
+                  "fit": 90,
+                  "availability": 1
+                },
+                "OPERATIONS": {
+                  "duty": 65,
+                  "fit": 65,
+                  "availability": 1
+                }
+              }
+            },
+            "damage": {
+              "combatEff": 1,
+              "radarPowerFac": 1,
+              "ciwsPowerFac": 1,
+              "vlsPowerFac": 1,
+              "steerFac": 1,
+              "propulsionFac": 1,
+              "maxSpeedKt": 32
+            }
+          },
+          "network": {
+            "enabled": true,
+            "shareTracks": true,
+            "cooperativeDefense": true,
+            "remoteFireControl": false
+          },
+          "esmCues": [
+            {
+              "contactId": 600000004,
+              "emitterClass": "ACTIVE_SEEKER",
+              "band": "IJ",
+              "bearingRad": null,
+              "bearingSigmaRad": null,
+              "quality": 0.9732607193876023,
+              "measuredAtS": 0.18333333333333332,
+              "ageS": 0.01666666666666669,
+              "source": "PASSIVE_RF_F"
+            }
+          ],
+          "operatorOverrides": {
+            "tacticalEnabled": true,
+            "manualRadar": false,
+            "manualEw": false,
+            "emcon": false
+          }
+        },
+        "diagnostics": {
+          "provider": "LEGACY_H1",
+          "mode": "ACTIVE",
+          "builds": 1,
+          "shadowComparisons": 2,
+          "shadowMismatchCount": 0,
+          "firstMismatch": null,
+          "validationFailures": 0,
+          "firstValidationFailure": null,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastStep": 0,
+          "lastInput": {
+            "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "step": 0,
+            "simulationTimeS": 0,
+            "revision": 0,
+            "mode": "AUTO",
+            "tracks": [],
+            "inventory": {
+              "installed": {
+                "sm2": 98,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 96,
+                "ram": 0,
+                "phalanx": 1550
+              },
+              "afterReserve": {
+                "sm2": 94,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 88,
+                "ram": 0
+              }
+            },
+            "support": {
+              "channels": [
+                {
+                  "id": 0,
+                  "moduleName": "AN/SPG-62(1)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 1,
+                  "moduleName": "AN/SPG-62(2)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 2,
+                  "moduleName": "AN/SPG-62(3)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 3,
+                  "moduleName": "AN/SPG-62(4)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                }
+              ],
+              "activeAssignments": 0,
+              "plannedReservations": 0
+            },
+            "ship": {
+              "equipmentOffline": false,
+              "missionState": "OPERATIONAL",
+              "afloatState": "AFLOAT",
+              "displayHp": 100,
+              "crew": {
+                "mode": "OPERATIONAL",
+                "combatUnavailable": false,
+                "totals": {
+                  "total": 330,
+                  "fit": 330,
+                  "injured": 0,
+                  "dead": 0,
+                  "evacuated": 0
+                },
+                "departments": {
+                  "COMBAT": {
+                    "duty": 78,
+                    "fit": 90,
+                    "availability": 1
+                  },
+                  "OPERATIONS": {
+                    "duty": 65,
+                    "fit": 65,
+                    "availability": 1
+                  }
+                }
+              },
+              "damage": {
+                "combatEff": 1,
+                "radarPowerFac": 1,
+                "ciwsPowerFac": 1,
+                "vlsPowerFac": 1,
+                "steerFac": 1,
+                "propulsionFac": 1,
+                "maxSpeedKt": 32
+              }
+            },
+            "network": {
+              "enabled": true,
+              "shareTracks": true,
+              "cooperativeDefense": true,
+              "remoteFireControl": false
+            },
+            "esmCues": [],
+            "operatorOverrides": {
+              "tacticalEnabled": true,
+              "manualRadar": false,
+              "manualEw": false,
+              "emcon": false
+            }
+          },
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "LEGACY_H1",
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputStep": 0,
+            "inputRevision": 0,
+            "trackOrder": [],
+            "priorities": [],
+            "salvoOverrides": [],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "LEGACY_H1_EXACT"
+          },
+          "lastValidation": {
+            "ok": true,
+            "reason": null,
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputStep": 0,
+            "inputRevision": 0
+          }
+        },
+        "audit": {
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "inputFrozen": true,
+          "forbiddenPath": null,
+          "shadowMismatchCount": 0,
+          "rngMismatchCount": 0,
+          "validationFailures": 0,
+          "portOwnsSafety": false,
+          "portOwnsExecution": false,
+          "portOwnsImmediateCiws": false
+        }
+      },
+      "validation": {
+        "consumedValidation": {
+          "ok": true,
+          "reason": null,
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12,
+          "inputRevision": 2
+        },
+        "valid": {
+          "ok": true,
+          "reason": null,
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12,
+          "inputRevision": 3
+        },
+        "ownerMismatch": {
+          "ok": false,
+          "reason": "OWNER_MISMATCH",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "stale": {
+          "ok": false,
+          "reason": "STALE_STEP",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "staleRevision": {
+          "ok": false,
+          "reason": "STALE_REVISION",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "unknownTrack": {
+          "ok": false,
+          "reason": "TRACK_ORDER",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "duplicateTrack": {
+          "ok": false,
+          "reason": "TRACK_ORDER",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "extraAuthority": {
+          "ok": false,
+          "reason": "COMMAND_FIELDS",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "mutable": {
+          "ok": false,
+          "reason": "COMMAND_MUTABLE",
+          "ownerEntityId": "SHIP_DDG119_OWN",
+          "inputStep": 12
+        },
+        "crossOwner": {
+          "ok": false,
+          "reason": "OWNER_MISMATCH",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "inputStep": 12
+        }
+      },
+      "forbidden": [],
+      "readOnly": {
+        "rngBefore": 2941935260,
+        "rngAfter": 2941935260,
+        "rngExact": true,
+        "saveBytesBefore": 581544,
+        "saveBytesAfter": 581544,
+        "saveExact": true,
+        "stepBefore": 0,
+        "stepAfter": 12
+      },
+      "browser": {
+        "consoleErrors": [],
+        "pageErrors": []
+      }
+    },
+    {
+      "own": {
+        "id": "SHIP_CG52_OWN",
+        "profileId": "CG_52_LATE_TICONDEROGA"
+      },
+      "ally": {
+        "id": "SHIP_SCENARIO_ALLY_F",
+        "profileId": "DDG_119_LATE_FLIGHT_IIA"
+      },
+      "fixture": {
+        "enemyId": 1,
+        "trackId": 300000001,
+        "rangeKm": 17,
+        "altM": 18,
+        "speedMps": 275,
+        "label": "Kh-35U"
+      },
+      "control": {
+        "recommendations": [
+          {
+            "trackId": 300000001,
+            "weapon": "ESSM",
+            "salvo": 2,
+            "recommendedRounds": 2,
+            "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+          }
+        ]
+      },
+      "provider": {
+        "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+        "commandSchema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+        "provider": "LEGACY_H1",
+        "mode": "ACTIVE",
+        "authority": "ADVISORY_ONLY",
+        "truthUsed": false,
+        "rngConsumed": false,
+        "saveFields": 0
+      },
+      "active": {
+        "input": {
+          "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "step": 12,
+          "simulationTimeS": 0.2,
+          "revision": 3,
+          "mode": "MANUAL",
+          "tracks": [
+            {
+              "trackId": 300000001,
+              "trackNumber": 1,
+              "measurement": {
+                "positionM": {
+                  "x": 16932.268653169438,
+                  "y": 2.2208421377756884,
+                  "z": 21.684370152780794
+                },
+                "velocityMps": {
+                  "x": -273.88203942606066,
+                  "y": 6.81107475579605,
+                  "z": 35.773091746256995
+                },
+                "covariance": [
+                  88.46533096309525,
+                  0.07572625445168864,
+                  -0.0036390464995518907,
+                  0.16454301076843048,
+                  -0.42676636565974047,
+                  -0.02053464144980528,
+                  0.07572625445168864,
+                  43.70602156654876,
+                  0.00016024909752888802,
+                  -0.44116996107524836,
+                  262.9629618465917,
+                  0.0024090957150020697,
+                  -0.0036390464995518907,
+                  0.00016024909752888802,
+                  66.24034957865472,
+                  0.021725949644955122,
+                  0.0025197965119165546,
+                  313.8747228811461,
+                  0.16454301076843048,
+                  -0.44116996107524836,
+                  0.021725949644955122,
+                  2.6961952433743255,
+                  -6.61595144330383,
+                  0.3126513685305099,
+                  -0.42676636565974047,
+                  262.9629618465917,
+                  0.0025197965119165546,
+                  -6.61595144330383,
+                  3950.4284512097206,
+                  0.036991393552806194,
+                  -0.02053464144980528,
+                  0.0024090957150020697,
+                  313.8747228811461,
+                  0.3126513685305099,
+                  0.036991393552806194,
+                  4673.331540793522
+                ],
+                "measuredAtStep": 10,
+                "measuredAtS": 0.16666666666666666,
+                "ageS": 0.03333333333333333,
+                "sensorSource": "SPY1DV_HIGH_THREAT"
+              },
+              "lifecycle": {
+                "confirmed": true,
+                "sensorDetected": true,
+                "coasting": true,
+                "reacquiring": false,
+                "memory": false,
+                "assessmentState": "THREAT",
+                "lostAgeS": 0
+              },
+              "identification": {
+                "classification": "ASM",
+                "identity": "ASSUMED_HOSTILE",
+                "threatStatus": "THREAT",
+                "engagementAuthority": "MANUAL_ONLY"
+              },
+              "assessment": {
+                "state": "THREAT",
+                "cpaM": 2262.5026185905895,
+                "cpaTimeS": 59.99807316334268,
+                "closureTgoS": 60.73888801535847,
+                "liveEngagement": 0,
+                "reengageRequired": false,
+                "trackPresent": true,
+                "coastFireControlUsable": false
+              },
+              "engagements": {
+                "sm2": 0,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 0,
+                "ram": 0,
+                "phalanx": 0
+              },
+              "network": {
+                "assignment": null,
+                "sources": [],
+                "fcsSource": "LOCAL_ONLY"
+              }
+            }
+          ],
+          "inventory": {
+            "installed": {
+              "sm2": 98,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 96,
+              "ram": 0,
+              "phalanx": 1550
+            },
+            "afterReserve": {
+              "sm2": 94,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 88,
+              "ram": 0
+            }
+          },
+          "support": {
+            "channels": [
+              {
+                "id": 0,
+                "moduleName": "AN/SPG-62(1)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 1,
+                "moduleName": "AN/SPG-62(2)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 2,
+                "moduleName": "AN/SPG-62(3)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 3,
+                "moduleName": "AN/SPG-62(4)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              }
+            ],
+            "activeAssignments": 0,
+            "plannedReservations": 0
+          },
+          "ship": {
+            "equipmentOffline": false,
+            "missionState": "OPERATIONAL",
+            "afloatState": "AFLOAT",
+            "displayHp": 100,
+            "crew": {
+              "mode": "OPERATIONAL",
+              "combatUnavailable": false,
+              "totals": {
+                "total": 330,
+                "fit": 330,
+                "injured": 0,
+                "dead": 0,
+                "evacuated": 0
+              },
+              "departments": {
+                "COMBAT": {
+                  "duty": 78,
+                  "fit": 90,
+                  "availability": 1
+                },
+                "OPERATIONS": {
+                  "duty": 65,
+                  "fit": 65,
+                  "availability": 1
+                }
+              }
+            },
+            "damage": {
+              "combatEff": 1,
+              "radarPowerFac": 1,
+              "ciwsPowerFac": 1,
+              "vlsPowerFac": 1,
+              "steerFac": 1,
+              "propulsionFac": 1,
+              "maxSpeedKt": 32
+            }
+          },
+          "network": {
+            "enabled": true,
+            "shareTracks": true,
+            "cooperativeDefense": true,
+            "remoteFireControl": false
+          },
+          "esmCues": [
+            {
+              "contactId": 600000004,
+              "emitterClass": "ACTIVE_SEEKER",
+              "band": "IJ",
+              "bearingRad": null,
+              "bearingSigmaRad": null,
+              "quality": 0.9721827788775791,
+              "measuredAtS": 0.18333333333333332,
+              "ageS": 0.01666666666666669,
+              "source": "PASSIVE_RF_F"
+            }
+          ],
+          "operatorOverrides": {
+            "tacticalEnabled": true,
+            "manualRadar": false,
+            "manualEw": false,
+            "emcon": false
+          }
+        },
+        "diagnostics": {
+          "provider": "LEGACY_H1",
+          "mode": "ACTIVE",
+          "builds": 3,
+          "shadowComparisons": 9,
+          "shadowMismatchCount": 0,
+          "firstMismatch": null,
+          "validationFailures": 0,
+          "firstValidationFailure": null,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastStep": 12,
+          "lastInput": {
+            "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "profileId": "CG_52_LATE_TICONDEROGA",
+            "step": 12,
+            "simulationTimeS": 0.2,
+            "revision": 2,
+            "mode": "MANUAL",
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "trackNumber": 1,
+                "measurement": {
+                  "positionM": {
+                    "x": 16932.268653169438,
+                    "y": 2.2208421377756884,
+                    "z": 21.684370152780794
+                  },
+                  "velocityMps": {
+                    "x": -273.88203942606066,
+                    "y": 6.81107475579605,
+                    "z": 35.773091746256995
+                  },
+                  "covariance": [
+                    88.46533096309525,
+                    0.07572625445168864,
+                    -0.0036390464995518907,
+                    0.16454301076843048,
+                    -0.42676636565974047,
+                    -0.02053464144980528,
+                    0.07572625445168864,
+                    43.70602156654876,
+                    0.00016024909752888802,
+                    -0.44116996107524836,
+                    262.9629618465917,
+                    0.0024090957150020697,
+                    -0.0036390464995518907,
+                    0.00016024909752888802,
+                    66.24034957865472,
+                    0.021725949644955122,
+                    0.0025197965119165546,
+                    313.8747228811461,
+                    0.16454301076843048,
+                    -0.44116996107524836,
+                    0.021725949644955122,
+                    2.6961952433743255,
+                    -6.61595144330383,
+                    0.3126513685305099,
+                    -0.42676636565974047,
+                    262.9629618465917,
+                    0.0025197965119165546,
+                    -6.61595144330383,
+                    3950.4284512097206,
+                    0.036991393552806194,
+                    -0.02053464144980528,
+                    0.0024090957150020697,
+                    313.8747228811461,
+                    0.3126513685305099,
+                    0.036991393552806194,
+                    4673.331540793522
+                  ],
+                  "measuredAtStep": 10,
+                  "measuredAtS": 0.16666666666666666,
+                  "ageS": 0.03333333333333333,
+                  "sensorSource": "SPY1DV_HIGH_THREAT"
+                },
+                "lifecycle": {
+                  "confirmed": true,
+                  "sensorDetected": true,
+                  "coasting": true,
+                  "reacquiring": false,
+                  "memory": false,
+                  "assessmentState": "THREAT",
+                  "lostAgeS": 0
+                },
+                "identification": {
+                  "classification": "ASM",
+                  "identity": "ASSUMED_HOSTILE",
+                  "threatStatus": "THREAT",
+                  "engagementAuthority": "MANUAL_ONLY"
+                },
+                "assessment": {
+                  "state": "THREAT",
+                  "cpaM": 2262.5026185905895,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 60.73888801535847,
+                  "liveEngagement": 0,
+                  "reengageRequired": false,
+                  "trackPresent": true,
+                  "coastFireControlUsable": false
+                },
+                "engagements": {
+                  "sm2": 0,
+                  "sm2er": 0,
+                  "sm6": 0,
+                  "essm": 0,
+                  "ram": 0,
+                  "phalanx": 0
+                },
+                "network": {
+                  "assignment": null,
+                  "sources": [],
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              }
+            ],
+            "inventory": {
+              "installed": {
+                "sm2": 98,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 96,
+                "ram": 0,
+                "phalanx": 1550
+              },
+              "afterReserve": {
+                "sm2": 94,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 88,
+                "ram": 0
+              }
+            },
+            "support": {
+              "channels": [
+                {
+                  "id": 0,
+                  "moduleName": "AN/SPG-62(1)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 1,
+                  "moduleName": "AN/SPG-62(2)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 2,
+                  "moduleName": "AN/SPG-62(3)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 3,
+                  "moduleName": "AN/SPG-62(4)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                }
+              ],
+              "activeAssignments": 0,
+              "plannedReservations": 0
+            },
+            "ship": {
+              "equipmentOffline": false,
+              "missionState": "OPERATIONAL",
+              "afloatState": "AFLOAT",
+              "displayHp": 100,
+              "crew": {
+                "mode": "OPERATIONAL",
+                "combatUnavailable": false,
+                "totals": {
+                  "total": 330,
+                  "fit": 330,
+                  "injured": 0,
+                  "dead": 0,
+                  "evacuated": 0
+                },
+                "departments": {
+                  "COMBAT": {
+                    "duty": 78,
+                    "fit": 90,
+                    "availability": 1
+                  },
+                  "OPERATIONS": {
+                    "duty": 65,
+                    "fit": 65,
+                    "availability": 1
+                  }
+                }
+              },
+              "damage": {
+                "combatEff": 1,
+                "radarPowerFac": 1,
+                "ciwsPowerFac": 1,
+                "vlsPowerFac": 1,
+                "steerFac": 1,
+                "propulsionFac": 1,
+                "maxSpeedKt": 32
+              }
+            },
+            "network": {
+              "enabled": true,
+              "shareTracks": true,
+              "cooperativeDefense": true,
+              "remoteFireControl": false
+            },
+            "esmCues": [
+              {
+                "contactId": 600000004,
+                "emitterClass": "ACTIVE_SEEKER",
+                "band": "IJ",
+                "bearingRad": null,
+                "bearingSigmaRad": null,
+                "quality": 0.9721827788775791,
+                "measuredAtS": 0.18333333333333332,
+                "ageS": 0.01666666666666669,
+                "source": "PASSIVE_RF_F"
+              }
+            ],
+            "operatorOverrides": {
+              "tacticalEnabled": true,
+              "manualRadar": false,
+              "manualEw": false,
+              "emcon": false
+            }
+          },
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "LEGACY_H1",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "inputStep": 12,
+            "inputRevision": 2,
+            "trackOrder": [
+              300000001
+            ],
+            "priorities": [
+              {
+                "trackId": 300000001,
+                "score": 0
+              }
+            ],
+            "salvoOverrides": [
+              {
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "desiredSalvo": 2,
+                "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+              }
+            ],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "LEGACY_H1_EXACT"
+          },
+          "lastValidation": {
+            "ok": true,
+            "reason": null,
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "inputStep": 12,
+            "inputRevision": 2
+          }
+        },
+        "audit": {
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputFrozen": true,
+          "forbiddenPath": null,
+          "shadowMismatchCount": 0,
+          "rngMismatchCount": 0,
+          "validationFailures": 0,
+          "portOwnsSafety": false,
+          "portOwnsExecution": false,
+          "portOwnsImmediateCiws": false
+        }
+      },
+      "foreign": {
+        "input": {
+          "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "step": 12,
+          "simulationTimeS": 0.2,
+          "revision": 1,
+          "mode": "AUTO",
+          "tracks": [
+            {
+              "trackId": 1,
+              "trackNumber": 1,
+              "measurement": {
+                "positionM": {
+                  "x": 16954.59249004741,
+                  "y": 6.928246780948666,
+                  "z": 8.874897986181233
+                },
+                "velocityMps": {
+                  "x": -278.61569789497884,
+                  "y": 65.17078015792794,
+                  "z": -76.27668737533746
+                },
+                "covariance": [
+                  27.262748554020895,
+                  0.13467670958083386,
+                  0.017360462809641652,
+                  0.25109669731234563,
+                  -5.576839220473187,
+                  0.2523539855655021,
+                  0.13467670958083386,
+                  23.003274350272633,
+                  -0.03912015877997502,
+                  -5.780890057630785,
+                  207.3719632294721,
+                  -0.5764999347466764,
+                  0.017360462809641652,
+                  -0.03912015877997502,
+                  44.48875110304986,
+                  0.26087495247928605,
+                  -0.5925284905650208,
+                  352.60126970882135,
+                  0.25109669731234563,
+                  -5.780890057630785,
+                  0.26087495247928605,
+                  3.816780149116561,
+                  -80.1707938648324,
+                  3.014743834248587,
+                  -5.576839220473187,
+                  207.3719632294721,
+                  -0.5925284905650208,
+                  -80.1707938648324,
+                  2869.8693950723923,
+                  -8.633267220036917,
+                  0.2523539855655021,
+                  -0.5764999347466764,
+                  352.60126970882135,
+                  3.014743834248587,
+                  -8.633267220036917,
+                  4838.581630154046
+                ],
+                "measuredAtStep": 11,
+                "measuredAtS": 0.18333333333333332,
+                "ageS": 0.016666666666666666,
+                "sensorSource": "SPY1DV_TRACK_CONFIRM_AIR"
+              },
+              "lifecycle": {
+                "confirmed": false,
+                "sensorDetected": true,
+                "coasting": false,
+                "reacquiring": false,
+                "memory": false,
+                "assessmentState": "MONITOR",
+                "lostAgeS": null
+              },
+              "identification": {
+                "classification": "ASM",
+                "identity": "UNKNOWN",
+                "threatStatus": "MONITOR",
+                "engagementAuthority": "WITHHELD"
+              },
+              "assessment": null,
+              "engagements": {
+                "sm2": 0,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 0,
+                "ram": 0,
+                "phalanx": 0
+              },
+              "network": {
+                "assignment": null,
+                "sources": [],
+                "fcsSource": "LOCAL_ONLY"
+              }
+            }
+          ],
+          "inventory": {
+            "installed": {
+              "sm2": 72,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 96,
+              "ram": 11,
+              "phalanx": 1550
+            },
+            "afterReserve": {
+              "sm2": 68,
+              "sm2er": 0,
+              "sm6": 0,
+              "essm": 88,
+              "ram": 10
+            }
+          },
+          "support": {
+            "channels": [
+              {
+                "id": 0,
+                "moduleName": "AN/SPG-62(전방)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 1,
+                "moduleName": "AN/SPG-62(후방상단)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              },
+              {
+                "id": 2,
+                "moduleName": "AN/SPG-62(후방하단)",
+                "health01": 1,
+                "assignedTrackId": null,
+                "reservationCount": 0
+              }
+            ],
+            "activeAssignments": 0,
+            "plannedReservations": 0
+          },
+          "ship": {
+            "equipmentOffline": false,
+            "missionState": "OPERATIONAL",
+            "afloatState": "AFLOAT",
+            "displayHp": 100,
+            "crew": {
+              "mode": "OPERATIONAL",
+              "combatUnavailable": false,
+              "totals": {
+                "total": 310,
+                "fit": 310,
+                "injured": 0,
+                "dead": 0,
+                "evacuated": 0
+              },
+              "departments": {
+                "COMBAT": {
+                  "duty": 73,
+                  "fit": 85,
+                  "availability": 1
+                },
+                "OPERATIONS": {
+                  "duty": 60,
+                  "fit": 60,
+                  "availability": 1
+                }
+              }
+            },
+            "damage": {
+              "combatEff": 1,
+              "radarPowerFac": 1,
+              "ciwsPowerFac": 1,
+              "vlsPowerFac": 1,
+              "steerFac": 1,
+              "propulsionFac": 1,
+              "maxSpeedKt": 31
+            }
+          },
+          "network": {
+            "enabled": true,
+            "shareTracks": true,
+            "cooperativeDefense": true,
+            "remoteFireControl": false
+          },
+          "esmCues": [
+            {
+              "contactId": 600000004,
+              "emitterClass": "ACTIVE_SEEKER",
+              "band": "IJ",
+              "bearingRad": null,
+              "bearingSigmaRad": null,
+              "quality": 0.97321746385608,
+              "measuredAtS": 0.18333333333333332,
+              "ageS": 0.01666666666666669,
+              "source": "PASSIVE_RF_F"
+            }
+          ],
+          "operatorOverrides": {
+            "tacticalEnabled": true,
+            "manualRadar": false,
+            "manualEw": false,
+            "emcon": false
+          }
+        },
+        "diagnostics": {
+          "provider": "LEGACY_H1",
+          "mode": "ACTIVE",
+          "builds": 1,
+          "shadowComparisons": 2,
+          "shadowMismatchCount": 0,
+          "firstMismatch": null,
+          "validationFailures": 0,
+          "firstValidationFailure": null,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastStep": 0,
+          "lastInput": {
+            "schema": "AEGIS_DEFENSE_DECISION_INPUT_A1",
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "profileId": "DDG_119_LATE_FLIGHT_IIA",
+            "step": 0,
+            "simulationTimeS": 0,
+            "revision": 0,
+            "mode": "AUTO",
+            "tracks": [],
+            "inventory": {
+              "installed": {
+                "sm2": 72,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 96,
+                "ram": 11,
+                "phalanx": 1550
+              },
+              "afterReserve": {
+                "sm2": 68,
+                "sm2er": 0,
+                "sm6": 0,
+                "essm": 88,
+                "ram": 10
+              }
+            },
+            "support": {
+              "channels": [
+                {
+                  "id": 0,
+                  "moduleName": "AN/SPG-62(전방)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 1,
+                  "moduleName": "AN/SPG-62(후방상단)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                },
+                {
+                  "id": 2,
+                  "moduleName": "AN/SPG-62(후방하단)",
+                  "health01": 1,
+                  "assignedTrackId": null,
+                  "reservationCount": 0
+                }
+              ],
+              "activeAssignments": 0,
+              "plannedReservations": 0
+            },
+            "ship": {
+              "equipmentOffline": false,
+              "missionState": "OPERATIONAL",
+              "afloatState": "AFLOAT",
+              "displayHp": 100,
+              "crew": {
+                "mode": "OPERATIONAL",
+                "combatUnavailable": false,
+                "totals": {
+                  "total": 310,
+                  "fit": 310,
+                  "injured": 0,
+                  "dead": 0,
+                  "evacuated": 0
+                },
+                "departments": {
+                  "COMBAT": {
+                    "duty": 73,
+                    "fit": 85,
+                    "availability": 1
+                  },
+                  "OPERATIONS": {
+                    "duty": 60,
+                    "fit": 60,
+                    "availability": 1
+                  }
+                }
+              },
+              "damage": {
+                "combatEff": 1,
+                "radarPowerFac": 1,
+                "ciwsPowerFac": 1,
+                "vlsPowerFac": 1,
+                "steerFac": 1,
+                "propulsionFac": 1,
+                "maxSpeedKt": 31
+              }
+            },
+            "network": {
+              "enabled": true,
+              "shareTracks": true,
+              "cooperativeDefense": true,
+              "remoteFireControl": false
+            },
+            "esmCues": [],
+            "operatorOverrides": {
+              "tacticalEnabled": true,
+              "manualRadar": false,
+              "manualEw": false,
+              "emcon": false
+            }
+          },
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "LEGACY_H1",
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputStep": 0,
+            "inputRevision": 0,
+            "trackOrder": [],
+            "priorities": [],
+            "salvoOverrides": [],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "LEGACY_H1_EXACT"
+          },
+          "lastValidation": {
+            "ok": true,
+            "reason": null,
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputStep": 0,
+            "inputRevision": 0
+          }
+        },
+        "audit": {
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "inputFrozen": true,
+          "forbiddenPath": null,
+          "shadowMismatchCount": 0,
+          "rngMismatchCount": 0,
+          "validationFailures": 0,
+          "portOwnsSafety": false,
+          "portOwnsExecution": false,
+          "portOwnsImmediateCiws": false
+        }
+      },
+      "validation": {
+        "consumedValidation": {
+          "ok": true,
+          "reason": null,
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12,
+          "inputRevision": 2
+        },
+        "valid": {
+          "ok": true,
+          "reason": null,
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12,
+          "inputRevision": 3
+        },
+        "ownerMismatch": {
+          "ok": false,
+          "reason": "OWNER_MISMATCH",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "stale": {
+          "ok": false,
+          "reason": "STALE_STEP",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "staleRevision": {
+          "ok": false,
+          "reason": "STALE_REVISION",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "unknownTrack": {
+          "ok": false,
+          "reason": "TRACK_ORDER",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "duplicateTrack": {
+          "ok": false,
+          "reason": "TRACK_ORDER",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "extraAuthority": {
+          "ok": false,
+          "reason": "COMMAND_FIELDS",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "mutable": {
+          "ok": false,
+          "reason": "COMMAND_MUTABLE",
+          "ownerEntityId": "SHIP_CG52_OWN",
+          "inputStep": 12
+        },
+        "crossOwner": {
+          "ok": false,
+          "reason": "OWNER_MISMATCH",
+          "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+          "inputStep": 12
+        }
+      },
+      "forbidden": [],
+      "readOnly": {
+        "rngBefore": 1298019021,
+        "rngAfter": 1298019021,
+        "rngExact": true,
+        "saveBytesBefore": 594161,
+        "saveBytesAfter": 594161,
+        "saveExact": true,
+        "stepBefore": 0,
+        "stepAfter": 12
+      },
+      "browser": {
+        "consoleErrors": [],
+        "pageErrors": []
+      }
+    }
+  ],
+  "deterministicDigest": "b3c3e8d3cd5005b9a5403e81bd3c0bd2c3a2d67d85f4d2a0feac80c355550234"
+}
