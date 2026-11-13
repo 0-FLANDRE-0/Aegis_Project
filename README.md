@@ -1,10 +1,10 @@
 ## 최신 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선 완료 후보
 
-- PR #78 SEEKER_CLOSE_A가 merge commit `d5f43c5a`로 병합된 HP_A를 기준으로, `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,211,451 bytes, SHA-256 `baf96f9a…d0b5b`)을 만들었다.
-- 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권과 호출 경계를 동결했다. 다음 `DEFENSE_OODA_A`가 교체할 `AEGIS_DEFENSE_DECISION_INPUT_A1` 읽기 전용 DTO와 advisory 명령 DTO를 `LEGACY_H1`에 연결했으며, SHADOW 22건 mismatch 0 뒤 좁은 H1 order/salvo 소비만 ACTIVE다.
-- A3/Network/FCS/reserve/reengagement/실제 발사 gate와 CIWS 즉응 권위는 그대로다. truth 필드·provider RNG·저장 필드 추가는 모두 0이다. 보호 함수 25개 중 24개는 exact이고 `wip118BuildEngagementControl`만 의도한 adapter 연결로 변경됐다.
-- 동결 후보 MAX_THREAT 광역은 한 번만 시작했다. 최초 실행에서 sparse checkout 모듈 누락으로 19개 suite가 브라우저 전 0건 실행된 원시 기록을 보존하고, 같은 SHA의 해당 0건 suite만 최초 실제 실행했다. 유효 결과는 782/782 PASS이며 기대값·허용오차 변경은 없다.
-- 산출물과 증거는 `docs/ooda/integration-baseline/A/`에 있다. PR #79의 최종 current-candidate Actions run `43011382037`은 SUCCESS다. 병합·release·tag 없이 사용자 결정을 기다린다.
+- PR #78 SEEKER_CLOSE_A가 merge commit `d5f43c5a`로 병합된 HP_A를 기준으로, 보정 후보 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)을 만들었다.
+- 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권과 호출 경계를 동결했다. 다음 `DEFENSE_OODA_A`가 교체할 `AEGIS_DEFENSE_DECISION_INPUT_A1` 읽기 전용 DTO와 advisory 명령 DTO를 `LEGACY_H1`에 연결했으며, crew 입력은 owner-local·deep-frozen 요약만 허용한다.
+- A3/Network/FCS/reserve/reengagement/실제 발사 gate와 CIWS 즉응 권위는 그대로다. truth 필드·provider RNG·저장 필드 추가는 모두 0이다. 보호 함수 31개 중 30개는 exact이고 `wip118BuildEngagementControl`만 의도한 adapter 연결로 변경됐다. 11개 경계 함수는 별도 해시로 고정했다.
+- 보정 광역 1차는 `WIP_HELI_CG_A` fixture 누락을 preflight에서 잡지 못해 첫 suite 0 assertion으로 즉시 중단했고, 실패 로그를 그대로 보존했다. 사용자가 승인한 2차는 전체 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보 bytes/SHA, 기대값, 허용오차, 게임 상수 변경은 0이다.
+- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. PR #79는 병합하지 않으며 최종 Actions와 원격 readback 결과를 같은 브랜치에 기록한다.
 
 ## 직전 제품 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 

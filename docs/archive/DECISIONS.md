@@ -186,3 +186,10 @@
 - `LEGACY_H1`은 SHADOW 22건 mismatch 0 뒤 좁은 order/salvo/recommendation 소비만 ACTIVE로 전환했다. H1 radar/EW, H2/H3/H4, Network G, WIP118/119 safety와 CIWS 즉응 소유권은 이동하지 않는다.
 - 동결 후보 광역은 한 번만 시작한다. 최초 실행에서 sparse-checkout 모듈 누락 때문에 브라우저 전 실행 0인 suite는 원시 FAIL을 보존하고, 동일 후보 SHA에서 해당 suite의 최초 실제 실행만 별도 recovery로 허용한다. 이미 실행된 suite는 반복하지 않는다.
 - INTEGRATION_BASELINE_A는 PR #79 제출까지만 진행한다. 병합·release·tag는 사용자 결정이며 다음 실제 기능 단계는 `DEFENSE_OODA_A` 하나다.
+
+## 2026-11-13 (INTEGRATION_BASELINE_A 광역 2차 승인)
+
+- 사용자는 corrected candidate의 기존 bytes/SHA, 기대값, 허용오차와 게임 상수를 유지하는 조건으로 광역 회귀 2차 실행을 승인했다.
+- 실행 전 `WIP_HELI_CG_A` 기준 HTML과 모든 간접 fixture를 sparse checkout에 포함하고 전체 suite 입력 존재를 preflight한다. 1차 중단 로그와 영수증은 삭제하거나 PASS로 재분류하지 않는다.
+- 2차는 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보는 22,212,299 bytes / SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0` 그대로이며 기대값·허용오차·게임 상수 변경은 0이다.
+- 통과 뒤에만 manifest·패키지·원격 readback·Actions를 최종 갱신한다. PR #79는 병합하지 않고 release/tag도 만들지 않는다.

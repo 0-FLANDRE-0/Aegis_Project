@@ -26,10 +26,11 @@
 7. **SEEKER_CLOSE_A** — 제품 비변경 진단·마감 완료, PR #78 병합 (`main@d5f43c5a`)
    - 현재 HP_A에서 보정된 종말 원인 19발과 채프/Nulka 배치→관측→gate→선택→최종 회복/유인을 분리 기록
    - 계약 결함 미재현으로 제품 수정·보상 튜닝·광역 재실행 없음
-8. **INTEGRATION_BASELINE_A 통합 기준선 고정** — 구현·검증 완료, PR #79 제출 후보
+8. **INTEGRATION_BASELINE_A 통합 기준선 고정** — 보정 구현·검증 785/785 완료, PR #79 제출 후보
    - 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권·호출 그래프 동결
    - owner-addressed 불변 입력 DTO + advisory 명령 DTO + exact `LEGACY_H1` provider
 9. **DEFENSE_OODA_A 교전·방어 OODA** — PR #79 병합 후 단일 다음 단계
 
 - SEEKER_CLOSE_A 문서 PR은 병합됐다. INTEGRATION_BASELINE_A도 별도 정리 단계를 만들지 않고 PR #79 병합 뒤 `DEFENSE_OODA_A`로 간다.
+- PR #79 보정 광역 1차의 fixture 누락 중단은 실패 증거로 보존한다. 사용자 승인 2차는 전체 간접 입력 preflight 뒤 한 번만 실행했으며 후보 bytes/SHA·기대값·허용오차·게임 상수는 바꾸지 않았다.
 - **적 항공기 재제작**은 시점 미정이다. 설계 메모는 `DESIGN_NOTES.md`에 있다.

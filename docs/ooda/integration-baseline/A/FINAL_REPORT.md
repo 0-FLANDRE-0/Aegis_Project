@@ -4,20 +4,20 @@
 
 The verified base is `main@d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`, the ordinary merge commit of PR #78 SEEKER_CLOSE_A. Its verified head was `50a71069925ff485486e51cd153fc2f3600cd752`; Actions run `42574022086` completed both jobs successfully. PR #78 did not change the product HTML.
 
-Work was performed only on `integration-baseline-a`. PR #79 is not merged. Final current-candidate Actions run `43011382037` completed successfully. No release or tag was created.
+Work was performed only on `integration-baseline-a`. PR #79 is not merged. The final corrected-head Actions result is recorded after packaging and remote readback. No release or tag was created.
 
 | Role | File | Bytes | SHA-256 |
 |---|---|---:|---|
 | Baseline | `Aegis_SIM_v48_WIP_HP_A.html` | 22,200,135 | `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa` |
-| Result | `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html` | 22,211,451 | `baf96f9a1350973d045c9ad4f9025a86c10eaeda3c1924ad52498c45b90d0b5b` |
+| Result | `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html` | 22,212,299 | `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0` |
 | Baseline packed main | index 13 | 40,927,903 | `0ea0f4535a4d193dc686ba4bba2ba86509a04ba310cad90992324e188996d464` |
-| Result packed main | index 13 | 40,956,705 | `ceac2691e092e0db37e3d54a10debfbd67a06ee1798e2859f1450d437ce29097` |
+| Result packed main | index 13 | 40,958,311 | `c95b6022dd28ff87f95cb2a02af6f082ee25653bcd372137cf6d722cc0e8764d` |
 
 Extraction is exact `data-c55-index="13"` text extraction, base64 decode and gzip decompression. Function hashes use exact UTF-8 source bytes with no normalization. Stage browser evidence used Chromium `151.0.7922.173` and Playwright `1.62.1`.
 
 ## 2. Change summary
 
-This stage does not implement a new OODA policy. It freezes the current defense boundary and adds two interfaces around the existing H1 upper-decision calls:
+This stage does not implement a new OODA policy. It freezes the current defense boundary and adds two interfaces around the existing H1 upper-decision calls. The final correction also limits crew data to an owner-local, deep-frozen operational summary and extends the protected boundary audit without changing weapon, sensor, damage, RNG or save behavior:
 
 - `AEGIS_DEFENSE_DECISION_INPUT_A1`: owner-addressed, observation-only and recursively frozen;
 - `AEGIS_DEFENSE_DECISION_COMMAND_A1`: advisory-only order/priority/salvo/HOLD/DEFER command;
@@ -28,19 +28,14 @@ The adapter is inside the player and foreign-owner lexical WIP118 closures. It d
 
 ## 3. Function-hash boundary
 
-The baseline freezes 25 protected functions. Candidate results are:
+The corrected gate freezes 31 protected functions. Candidate results are:
 
-- 24 protected functions exact;
+- 30 protected functions exact;
 - one intentional change: `wip118BuildEngagementControl`, 3,996 → 4,080 bytes, SHA `b4e96282…ed2bc1f` → `bdb0c13e…1a221a`;
-- six new, separately hashed functions:
-  - `defenseDecisionInputSnapshotA1` — `48419e84…701874`;
-  - `defenseDecisionLegacyCommandA1` — `2a32d952…3dc36`;
-  - `defenseDecisionLegacyBeginA1` — `b81a580b…e2bfe`;
-  - `defenseDecisionLegacySalvoA1` — `965f9a8c…cd25`;
-  - `defenseDecisionRecommendationOrderA1` — `073ee20b…3fcd`;
-  - `defenseDecisionValidateCommandA1` — `a25c58ca…396c`.
+- eleven new boundary functions are separately hashed, including `defenseDecisionCrewInputA1`, `defenseDecisionTrackInputA1`, the snapshot/legacy begin-salvo-finish adapters, validation, forbidden-path audit and recursive freeze helper;
+- all six HP/save authority boundaries are included in the 30 exact protected functions.
 
-The detailed exact hashes are in `FUNCTION_HASHES.json` and `FUNCTION_HASHES_CANDIDATE.json`.
+The corrected exact hashes and gate result are under `evidence/final-correction/commit-b/`.
 
 ## 4. Ownership result
 
@@ -80,7 +75,7 @@ The command cannot change identity/authority, create a reservation or lease, cal
 | Foreign-friendly CG/DDG | 2 | 4 | 0 |
 | Total | 8 | 22 | 0 |
 
-Baseline and candidate game-state oracle digests are both `c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf`. Diagnostic wall time and `lastBuildMs/lastAssessmentMs/lastPlanMs` are excluded; game state is not. The contract oracle repeated bit-identically at `fa669dbec3428206a3812cce0c8b10d58d75485af16d3433ff51dd12e6fe61f0`.
+Baseline and candidate game-state oracle digests are both `c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf`. Diagnostic wall time and `lastBuildMs/lastAssessmentMs/lastPlanMs` are excluded; game state is not. The corrected contract oracle repeated bit-identically at `b3c3e8d3cd5005b9a5403e81bd3c0bd2c3a2d67d85f4d2a0feac80c355550234`. The dedicated crew contract passed 25/25 and repeated at digest `649d34b03516568ed53ce934a161921b6293253c078377ca2a226ea8678fc4c7`.
 
 Contract audits found:
 
@@ -99,32 +94,44 @@ The baseline/candidate browser oracle records recommendation order, weapon and s
 
 The final paired suites add 42/42 HP_A baseline comparisons and 42/42 repeated determinism checks. HP outcome/save contract is 19/19. Current EMCON UI is 14/14, UI is 213/213 and actual WebGL is 29/29. No expectation or gameplay tolerance was changed.
 
-## 8. Frozen-candidate MAX_THREAT regression
+## 8. Corrected-candidate MAX_THREAT regression
 
-Candidate SHA was frozen before execution. The broad runner was started exactly once.
+The authoritative corrected candidate is 22,212,299 bytes at SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0`. Its bytes and SHA were pinned before either attempt and never changed.
 
-The raw one-shot receipt must be read literally: static integrity 14/14, U4 scenes 19/19 and SEEKER_CLOSE 26/26 ran and passed (59 total). Nineteen other suites returned before browser launch with zero assertions because the sparse checkout lacked `docs/multiship/G/browser_g.py` and `docs/missile/fuze-zem/A/browser_tools.py`. `FINAL_REGRESSION_RAW.json` preserves those failures unchanged.
+### Attempt 1 — preserved stop
 
-After restoring only those repository files, the 19 zero-execution suites received their first actual run on the exact same candidate SHA. Already executed suites were not repeated, and the broad runner was not restarted. That recovery passed 723/723. The reconciled effective result is therefore 782/782 with no effective failures.
+The first corrected broad attempt stopped immediately when `helicopter-flight` could not find the tracked `archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html` fixture. It executed zero assertions. The runner did not continue to later suites. The stop receipt, subprocess logs and preflight gap are preserved under `evidence/final-correction/final-regression/` and summarized in `BROAD_RUN_STOP_REPORT.md`; they remain failure evidence and are not counted as a pass.
 
-| Coverage | Assertions | Result | Evidence source |
-|---|---:|---|---|
-| Static integrity | 14/14 | PASS | raw one-shot |
-| Native 13 suites | 364/364 | PASS | zero-execution first actual run |
-| Paired HP_A + determinism | 84/84 | PASS | zero-execution first actual run |
-| Current EMCON UI | 14/14 | PASS | zero-execution first actual run |
-| UI | 213/213 | PASS | zero-execution first actual run |
-| Actual WebGL | 29/29 | PASS | zero-execution first actual run |
-| U4 seeker scenes | 19/19 | PASS | raw one-shot |
-| HP outcome/save | 19/19 | PASS | zero-execution first actual run |
-| SEEKER_CLOSE corrected matrix | 26/26 | PASS | raw one-shot |
-| **Total** | **782/782** | **PASS** | combined, same SHA |
+### Attempt 2 — user-authorized corrected rerun
 
-Raw wall time was 154.243 s. Zero-execution recovery wall time was 2,463.656 s. Expectations updated: 0. Tolerances changed: 0. `CONFIRMED_ONLY` performance was not run and remains `UNVERIFIED`.
+The user explicitly authorized one second broad run without changing candidate bytes/SHA, expectations, tolerances or game constants. Sparse checkout was expanded to the pinned WIP_HELI_CG_A fixture and all tracked `docs/` and `tests/` indirect inputs. Preflight then verified 12/12 conditions: product, baseline and fixture bytes/SHA; preservation of attempt 1; all explicit suite inputs; all tracked docs/tests materialized; the exact fixture sparse pattern; and 21-suite count.
 
-## 9. Raw versus effective classification
+Attempt 2 was executed exactly once. All 22 rows passed:
 
-The raw 19 failures are not product passes and were not rewritten: they remain `FAIL` with `executedAssertions: 0`. The effective receipt labels them `FAIL_PRE_BROWSER_ZERO_EXECUTION` and points to the separate recovery evidence. This is a checkout/runner setup defect, not a game-result difference. No failed gameplay assertion was reclassified, no suite with executed assertions was rerun, and no expectation was updated.
+| Coverage | Assertions | Result |
+|---|---:|---|
+| Static integrity | 17/17 | PASS |
+| Native 13 suites | 364/364 | PASS |
+| Paired HP_A + determinism | 84/84 | PASS |
+| Current EMCON UI | 14/14 | PASS |
+| UI | 213/213 | PASS |
+| Actual WebGL | 29/29 | PASS |
+| U4 seeker scenes | 19/19 | PASS |
+| HP outcome/save | 19/19 | PASS |
+| SEEKER_CLOSE corrected matrix | 26/26 | PASS |
+| **Total** | **785/785** | **PASS** |
+
+Wall time was 6,239.128 s. Expectations updated: 0. Tolerances changed: 0. Game constants changed: 0. `CONFIRMED_ONLY` performance was not run and remains `UNVERIFIED`.
+
+## 9. Evidence classification
+
+Three evidence generations remain separate:
+
+1. the historical pre-correction 782/782 evidence, which belongs to the earlier candidate and is not the corrected candidate's final proof;
+2. corrected attempt 1, which is an immutable zero-assertion infrastructure stop and remains FAIL;
+3. corrected attempt 2, the only authorized rerun, which passed 785/785 after exhaustive input preflight.
+
+No failed gameplay assertion was reclassified, no expectation or tolerance was changed, and the attempt-1 logs were not overwritten. `FINAL_CORRECTION_REGRESSION_ATTEMPT_2.json` is the authoritative corrected-candidate broad receipt.
 
 ## 10. Inherited debt and unimplemented scope
 
@@ -148,12 +155,12 @@ Sovremenny remains NAV-only with no active sensor, weapon or EW capability. No a
 | State | Result |
 |---|---|
 | IMPLEMENTED | Contracts, ownership freeze, LEGACY_H1 provider and narrow ACTIVE adapter complete |
-| TESTED | Stage oracles exact; effective broad 782/782; raw/recovery evidence both retained |
+| TESTED | Stage oracles exact; corrected attempt 2 broad 785/785; attempt 1 stop evidence retained |
 | APPROVED | Structural equivalence only; existing safety/execution/CIWS ownership preserved |
 | UNRESOLVED | Inherited debt and out-of-scope list in section 10 |
 | RELEASE | **NO** — PR #79 only, not merged, no tag |
 
 ## 12. Reproduction and artifacts
 
-Commands are in `REPRODUCE.md`. The deterministic builder reproduces the candidate byte-for-byte. `CHECKSUMS.sha256` and `PACKAGE_MANIFEST.md` describe the product and split archives. `REMOTE_RECEIPT.json` records post-push full-byte readback. PR #79 final current-candidate Actions run `43011382037` is SUCCESS.
+Commands are in `REPRODUCE.md`. The deterministic builder reproduces the candidate byte-for-byte. `CHECKSUMS.sha256` and `PACKAGE_MANIFEST.md` describe the product and split archives. `REMOTE_RECEIPT.json` records post-push full-byte readback. The final corrected-head Actions run is recorded there after the exact remote artifacts are verified.
 

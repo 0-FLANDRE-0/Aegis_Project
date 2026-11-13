@@ -6,7 +6,7 @@
 - Base main: `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`
 - Base merge: PR #78 SEEKER_CLOSE_A, Actions `42574022086` SUCCESS
 - Pull request: #79, not merged
-- Final candidate Actions: run `43011382037`, SUCCESS
+- Final candidate Actions: pending final corrected HEAD
 - Release/tag: none
 
 ## Products
@@ -14,8 +14,8 @@
 | Role | File | Bytes | SHA-256 |
 |---|---|---:|---|
 | Frozen baseline | `Aegis_SIM_v48_WIP_HP_A.html` | 22,200,135 | `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa` |
-| Candidate | `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html` | 22,211,451 | `baf96f9a1350973d045c9ad4f9025a86c10eaeda3c1924ad52498c45b90d0b5b` |
-| Candidate packed JS | `data-c55-index="13"` | 40,956,705 | `ceac2691e092e0db37e3d54a10debfbd67a06ee1798e2859f1450d437ce29097` |
+| Candidate | `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html` | 22,212,299 | `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0` |
+| Candidate packed JS | `data-c55-index="13"` | 40,958,311 | `c95b6022dd28ff87f95cb2a02af6f082ee25653bcd372137cf6d722cc0e8764d` |
 
 ## IMPLEMENTED
 
@@ -28,13 +28,15 @@
 ## TESTED
 
 - Baseline/candidate browser-oracle digest: exact `c57bfc4f…c9615bf`.
-- Contract repeat digest: exact `fa669dbe…fe61f0`.
+- Contract repeat digest: exact `b3c3e8d3…550234`.
+- Crew contract: 25/25, repeat digest exact `649d34b0…fc4c7`.
 - SHADOW: active DDG/CG 18 comparisons, foreign-friendly DDG/CG 4 comparisons, mismatch 0.
 - Forbidden truth fields 0; provider RNG mismatch 0; save mutation 0; browser/page errors 0.
-- Protected functions: 24/25 exact; only `wip118BuildEngagementControl` changed for the intended adapter. Six new port functions are separately hashed.
-- Frozen-candidate broad evidence: effective 782/782 PASS. Expectations changed 0; tolerances changed 0.
+- Protected functions: 30/31 exact; only `wip118BuildEngagementControl` changed for the intended adapter. Eleven boundary functions are separately hashed.
+- Final-correction broad attempt 1 stopped at the first suite with 0 assertions because `WIP_HELI_CG_A` was absent; the failure evidence is retained.
+- The authorized attempt 2 passed preflight 12/12 and broad coverage 785/785. Expectations changed 0; tolerances changed 0; game constants changed 0.
 
-The broad runner was started once. Its raw receipt is retained: 59 assertions ran and passed; 19 suites stopped before browser launch with zero assertions because two files were absent from the sparse checkout. Those two files were restored and only the zero-execution suites received their first actual run on the same candidate SHA, passing 723/723. The broad suite was not restarted and already-run suites were not repeated.
+The pre-correction 782/782 evidence remains historical. For the corrected candidate, attempt 1 and its stop receipt remain immutable. The user explicitly authorized one corrected rerun only after sparse-checkout and indirect-input preflight were complete; attempt 2 was run once and passed 785/785.
 
 ## APPROVED
 

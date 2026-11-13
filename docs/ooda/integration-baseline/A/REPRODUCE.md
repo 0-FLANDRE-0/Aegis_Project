@@ -58,23 +58,24 @@ python3 docs/ooda/integration-baseline/A/baseline_audit.py \
 
 Browser/Playwright versions and final gates are recorded in `FINAL_REPORT.md`; unexecuted tests are never marked PASS.
 
-## Frozen-candidate final regression
+## Corrected-candidate final regression
 
-The broad runner was invoked once:
+Attempt 1 is preserved under `evidence/final-correction/final-regression/`. It stopped at the first suite with zero assertions because the WIP_HELI_CG_A fixture was absent. Do not delete, rewrite or count that receipt as a pass.
 
-```bash
-python3 docs/ooda/integration-baseline/A/run_final_regression.py
+Before the user-authorized attempt 2, sparse checkout included this exact tracked fixture:
+
+```text
+/archive/v48/WIP_HELI_CG_A/Aegis_SIM_v48_WIP_HELI_CG_A.html
 ```
 
-`FINAL_REGRESSION_RAW.json` preserves that receipt. Nineteen suites had zero assertions because the sparse checkout did not contain `docs/multiship/G/browser_g.py` or `docs/missile/fuze-zem/A/browser_tools.py`. After restoring those tracked files, only those zero-execution suites received their first actual run:
+The attempt-2 runner performs a mandatory preflight over the pinned product, baseline, fixture, 32 explicit inputs, all 21 suite input maps and every tracked `docs/`/`tests/` indirect fixture. Its dry-run must execute zero broad suites. The authorized run was:
 
 ```bash
-python3 docs/ooda/integration-baseline/A/run_zero_execution_recovery.py
-
-python3 docs/ooda/integration-baseline/A/reconcile_final_regression.py
+PYTHONDONTWRITEBYTECODE=1 \
+  python3 -u docs/ooda/integration-baseline/A/run_final_regression.py
 ```
 
-Do not rerun the broad runner: the raw run count is one. The recovery command is only valid when every selected raw suite has `executedAssertions == 0` and the candidate SHA is exact.
+`FINAL_CORRECTION_REGRESSION_ATTEMPT_2.json` and `evidence/final-correction/final-regression-attempt-2/` preserve the only authorized second run. It passed 785/785. Do not rerun it; the final evidence count is attempt 1 stop plus one attempt-2 execution.
 
 ## Current-candidate Actions gate
 
@@ -84,6 +85,7 @@ The dedicated stage rebuilds the candidate from HP_A, compares exact bytes, audi
 
 ```bash
 python3 docs/ooda/integration-baseline/A/package_artifacts.py
+python3 docs/ooda/integration-baseline/A/package_contract_gate.py
 unzip -t Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A_HTML.zip
 unzip -t Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A_REPORT.zip
 ```
