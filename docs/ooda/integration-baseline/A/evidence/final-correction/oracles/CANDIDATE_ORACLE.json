@@ -1,0 +1,3968 @@
+{
+  "schema": "AEGIS_INTEGRATION_BASELINE_ORACLE_A_1",
+  "capturedFrom": {
+    "product": "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+    "bytes": 22212299,
+    "sha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0",
+    "browser": "156.0.8078.79",
+    "playwright": "1.62.1",
+    "fixedSeed": 1831565813
+  },
+  "semantics": {
+    "diagnosticTruthSetupOnly": true,
+    "liveDecisionInputsObservedOnly": true,
+    "excludedFromComparison": [
+      "wallClock",
+      "diagnosticDuration",
+      "lastBuildMs",
+      "lastAssessmentMs",
+      "lastPlanMs"
+    ],
+    "scenarios": [
+      "MANUAL_HOLD_ZERO_AUTO_FIRE",
+      "SINGLE_THREAT_NATIVE_SALVO",
+      "MULTI_THREAT_PRIORITY",
+      "H1_INVENTORY_DISTRIBUTION",
+      "REENGAGEMENT_AND_RESERVE",
+      "LOST_COAST_REACQUIRE",
+      "NETWORK_ASSIGNMENT_AND_LOCAL_FCS",
+      "EMERGENCY_LOCAL_DEFENSE",
+      "DAMAGE_MISSION_UNAVAILABLE",
+      "CIWS_CMS_LOCAL_RF",
+      "H2_MANEUVER_OVERRIDE",
+      "H3_SURFACE_CONSENT",
+      "H4_TEAM_FORMATION",
+      "DDG_CG_ACTIVE_FOREIGN_ROLE_PARITY"
+    ]
+  },
+  "owners": [
+    {
+      "profile": {
+        "own": {
+          "id": "DDG_119_LATE_FLIGHT_IIA",
+          "name": "USS Delbert D. Black",
+          "hullNumber": "DDG-119",
+          "revision": "V48_WIP15B_NULKA_RELOAD",
+          "vlsCells": 96,
+          "crew": 310
+        },
+        "ally": {
+          "id": "CG_52_LATE_TICONDEROGA",
+          "name": "USS Bunker Hill",
+          "hullNumber": "CG-52",
+          "revision": "BUNKERHILL_HARPOON_E_1",
+          "vlsCells": 122,
+          "crew": 330
+        },
+        "startup": {
+          "schema": "AEGIS_PREDEPARTURE_SHIP_STARTUP_V1",
+          "phase": "DEPARTED",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA",
+          "profileRevision": "V48_WIP15B_NULKA_RELOAD",
+          "entityId": "SHIP_DDG119_OWN",
+          "initializationCount": 1
+        }
+      },
+      "result": {
+        "owner": {
+          "ownId": "SHIP_DDG119_OWN",
+          "allyId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA"
+        },
+        "rng": {
+          "start": 1831565813,
+          "end": 20791347
+        },
+        "core": {
+          "callReturn": false,
+          "failures": [
+            "SARH WIP61 confidence continuity missing",
+            "SARH confidence still double-penalizes raw SNR"
+          ]
+        },
+        "isolation": {
+          "schema": "AEGIS_MULTI_SHIP_ISOLATION_A",
+          "pass": true,
+          "checks": {
+            "DDG_119_LATE_FLIGHT_IIA.independentModels": true,
+            "DDG_119_LATE_FLIGHT_IIA.independentBuffers": true,
+            "DDG_119_LATE_FLIGHT_IIA.independentInventory": true,
+            "DDG_119_LATE_FLIGHT_IIA.sharedImmutableProfile": true,
+            "DDG_119_LATE_FLIGHT_IIA.contextLive": true,
+            "DDG_119_LATE_FLIGHT_IIA.crewAndControlIndependent": true,
+            "DDG_119_LATE_FLIGHT_IIA.coreAccessorOwner": true,
+            "DDG_119_LATE_FLIGHT_IIA.gunRoutingBlocked": true,
+            "DDG_119_LATE_FLIGHT_IIA.crossBindingRejected": true,
+            "CG_52_LATE_TICONDEROGA.independentModels": true,
+            "CG_52_LATE_TICONDEROGA.independentBuffers": true,
+            "CG_52_LATE_TICONDEROGA.independentInventory": true,
+            "CG_52_LATE_TICONDEROGA.sharedImmutableProfile": true,
+            "CG_52_LATE_TICONDEROGA.contextLive": true,
+            "CG_52_LATE_TICONDEROGA.crewAndControlIndependent": true,
+            "CG_52_LATE_TICONDEROGA.coreAccessorOwner": true,
+            "CG_52_LATE_TICONDEROGA.gunRoutingBlocked": true,
+            "CG_52_LATE_TICONDEROGA.crossBindingRejected": true,
+            "playerUnchanged": true,
+            "combatRngUnchanged": true,
+            "playerAliasesPinned": true
+          },
+          "rows": [
+            {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "vlsCells": 96,
+              "crew": 310,
+              "interior": {
+                "schema": "AEGIS_SHIP_INTERIOR_AUDIT_V48_WIP06",
+                "hangarClearance": {
+                  "bays": 2,
+                  "clear": true,
+                  "conflicts": [],
+                  "clearHeightM": 5.2,
+                  "bayHeightM": 5.68,
+                  "doorClearHeightM": 5.73,
+                  "simulationEnvelopeOnly": true
+                },
+                "spaceCount": 138,
+                "macroSpaceCount": 138,
+                "portalCount": 160,
+                "equipmentCount": 70,
+                "deckCount": 11,
+                "upperStructureSpaces": 88,
+                "upperStructureDecks": 7,
+                "bridgeSpaces": 34,
+                "bridgeDecks": 5,
+                "hangarSpaces": 14,
+                "hangarDecks": 2,
+                "spySpaces": 14,
+                "exhaustTrunks": 12,
+                "mastTrunks": 3,
+                "watertightDoors": 22,
+                "fireDoors": 104,
+                "stairs": 16,
+                "ladders": 4,
+                "accessHatches": 8,
+                "uniqueSpaceIds": true,
+                "uniquePortalIds": true,
+                "uniqueEquipmentIds": true,
+                "endpointsValid": true,
+                "equipmentSpacesValid": true,
+                "routeable": 115,
+                "reached": 115,
+                "unreachable": []
+              },
+              "massKg": 9655997.633599998
+            },
+            {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "vlsCells": 122,
+              "crew": 330,
+              "interior": {
+                "schema": "AEGIS_CG52_INTERIOR_AUDIT_V2",
+                "spaceCount": 277,
+                "macroSpaceCount": 143,
+                "portalCount": 392,
+                "equipmentCount": 179,
+                "deckCount": 12,
+                "uniqueSpaceIds": true,
+                "uniquePortalIds": true,
+                "uniqueEquipmentIds": true,
+                "endpointsValid": true,
+                "equipmentSpacesValid": true,
+                "routeable": 238,
+                "reached": 238,
+                "unreachable": [],
+                "centersInside": true,
+                "disjointSpaces": true,
+                "overlaps": [],
+                "functionalSubdivision": true,
+                "legacyIdsRetained": true,
+                "maxLongitudinalRoomM": 10.560000000000002,
+                "independentCG52Layout": true,
+                "provenance": "SIM_TUNED_FUNCTIONAL_ZONING",
+                "hangarClearance": {
+                  "bays": 2,
+                  "clear": true,
+                  "conflicts": [],
+                  "clearHeightM": 5.2,
+                  "bayHeightM": 5.2,
+                  "simulationEnvelopeOnly": true
+                }
+              },
+              "massKg": 9754067.2
+            }
+          ]
+        },
+        "manualHold": {
+          "fixture": {
+            "enemyId": 1,
+            "trackId": 300000001,
+            "rangeKm": 15,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "mode": "MANUAL",
+          "missileDelta": 0,
+          "candidateRows": [],
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "allyModeAfter": "HOLD",
+          "allyFireLogCount": 0
+        },
+        "singleThreat": {
+          "fixture": {
+            "enemyId": 2,
+            "trackId": 300000002,
+            "rangeKm": 15,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "control": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000002,
+                "trackNumber": 2,
+                "assessment": "THREAT",
+                "threatScore": 66.4074439539375,
+                "rangeKm": 15,
+                "altM": 15,
+                "cpaM": 15.004949449436959,
+                "cpaTimeS": 57.69082551026361,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "mutation": {
+            "gameplayStateExact": true,
+            "rngExact": true,
+            "vlsExact": true,
+            "spgExact": true,
+            "interceptorExact": true,
+            "ciwsExact": true,
+            "trackExact": true,
+            "softKillStateExact": true,
+            "result": {
+              "revision": 2,
+              "step": 12,
+              "recommendations": [
+                {
+                  "trackId": 300000002,
+                  "trackNumber": 2,
+                  "label": "ASM T2",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 15,
+                  "altM": 15,
+                  "threatScore": 66.4074439539375,
+                  "assessment": "THREAT",
+                  "cpaM": 15.004949449436959,
+                  "cpaTimeS": 57.69082551026361,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 0,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 2,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 56.5,
+                    "interceptS": 9.615384615384615,
+                    "encounterAltM": 15,
+                    "availableG": 32.931201684263364,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.232800421065841,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000002,
+                      "startT": 6.065384615384615,
+                      "endT": 10.565384615384614,
+                      "terminalStartT": 6.815384615384615,
+                      "predictedCpaT": 9.815384615384614,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "multipleThreats": {
+          "fixture": {
+            "count": 3,
+            "trackIds": [
+              300000003,
+              300000004,
+              300000005
+            ],
+            "relCenterDeg": 20,
+            "spreadDeg": 22
+          },
+          "control": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000003,
+                "trackNumber": 3,
+                "assessment": "THREAT",
+                "threatScore": 63.14682267070129,
+                "rangeKm": 23.999999999999996,
+                "altM": 25,
+                "cpaM": 5400.655183023544,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000004,
+                "trackNumber": 4,
+                "assessment": "THREAT",
+                "threatScore": 62.95391968226918,
+                "rangeKm": 24.350000000000005,
+                "altM": 25,
+                "cpaM": 5750.651661287944,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 5.5,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000005,
+                "trackNumber": 5,
+                "assessment": "THREAT",
+                "threatScore": 62.761016686085746,
+                "rangeKm": 24.699999999999996,
+                "altM": 25,
+                "cpaM": 6100.648543640944,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 11,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          }
+        },
+        "inventoryDistribution": {
+          "fixture": {
+            "count": 4,
+            "trackIds": [
+              300000006,
+              300000007,
+              300000008,
+              300000009
+            ],
+            "relCenterDeg": 15,
+            "spreadDeg": 18
+          },
+          "sufficient": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000006,
+                "trackNumber": 6,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.7060944749737,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000009,
+                "trackNumber": 9,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.706094474975,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 5.5,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000007,
+                "trackNumber": 7,
+                "assessment": "THREAT",
+                "threatScore": 65.16507796511951,
+                "rangeKm": 18.35,
+                "altM": 20,
+                "cpaM": 1550.668496260298,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 11,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000008,
+                "trackNumber": 8,
+                "assessment": "THREAT",
+                "threatScore": 64.96007825233801,
+                "rangeKm": 18.7,
+                "altM": 20,
+                "cpaM": 1900.6447446272025,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 16.5,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "beforeReserve": {
+            "ok": true,
+            "total": 96,
+            "have": 96,
+            "reserve": 8,
+            "need": 1,
+            "reason": null
+          },
+          "low": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000006,
+                "trackNumber": 6,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.7060944749737,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000009,
+                "trackNumber": 9,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.706094474975,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 6,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000007,
+                "trackNumber": 7,
+                "assessment": "THREAT",
+                "threatScore": 65.16507796511951,
+                "rangeKm": 18.35,
+                "altM": 20,
+                "cpaM": 1550.668496260298,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 11.5,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000008,
+                "trackNumber": 8,
+                "assessment": "THREAT",
+                "threatScore": 64.96007825233801,
+                "rangeKm": 18.7,
+                "altM": 20,
+                "cpaM": 1900.6447446272025,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 17,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "afterReserve": {
+            "ok": false,
+            "total": 0,
+            "have": 0,
+            "reserve": 8,
+            "need": 1,
+            "reason": "RESERVE"
+          }
+        },
+        "reengagement": {
+          "fixture": {
+            "enemyId": 10,
+            "trackId": 300000010,
+            "rangeKm": 14,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "base": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000010,
+                "trackNumber": 10,
+                "assessment": "THREAT",
+                "threatScore": 67.02062993666965,
+                "rangeKm": 14,
+                "altM": 15,
+                "cpaM": 15.000706851351543,
+                "cpaTimeS": 53.84671393437842,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "evaluation": {
+            "ready": false,
+            "reason": "REENGAGE_HYST",
+            "text": "REENGAGE_HYST +1.3s",
+            "row": {
+              "trackId": 300000010,
+              "trackNumber": 10,
+              "label": "ASM T10",
+              "tag": "ASM-SK",
+              "type": "ASM",
+              "rangeKm": 14,
+              "altM": 15,
+              "threatScore": 67.02062993666965,
+              "assessment": "THREAT",
+              "cpaM": 15.000706851351543,
+              "cpaTimeS": 53.84671393437842,
+              "trackPresent": true,
+              "lostCoast": false,
+              "coastFireControlUsable": false,
+              "lostConfidence": null,
+              "liveEngagement": 0,
+              "reengageRequired": false,
+              "weapon": "ESSM",
+              "weaponLabel": "ESSM",
+              "salvo": 2,
+              "recommendedRounds": 2,
+              "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+              "canReengage": false,
+              "firePlan": {
+                "status": "READY",
+                "fireDelayS": 0,
+                "nezStartDelayS": 0,
+                "nezEndDelayS": 52.5,
+                "interceptS": 8.974358974358974,
+                "encounterAltM": 15,
+                "availableG": 32.931201684263364,
+                "targetEvasiveG": 4,
+                "gMargin": 8.232800421065841,
+                "channelId": 0,
+                "reservation": {
+                  "targetId": 300000010,
+                  "startT": 5.424358974358975,
+                  "endT": 9.924358974358974,
+                  "terminalStartT": 6.174358974358975,
+                  "predictedCpaT": 9.174358974358974,
+                  "weapon": "ESSM",
+                  "illId": 0
+                },
+                "requiresIlluminator": true
+              }
+            },
+            "descriptor": {
+              "id": "ESSM",
+              "label": "ESSM",
+              "profileId": "ESSM_BLK2_SIM",
+              "reserveRounds": 8,
+              "inventoryKey": "essmTotal",
+              "readyKey": "essmReady",
+              "profile": {
+                "id": "ESSM_BLK2_SIM",
+                "displayName": "ESSM Block 2",
+                "sourceBasis": "PUBLIC+USER_AUDITED+VIDEO_DERIVED+DERIVED_CONSTRAINED+SIM_TUNED",
+                "sourceConfidence": "mixed",
+                "role": "SHIP_SELF_DEFENSE_SHORT_MEDIUM_RANGE",
+                "seekerType": "DUAL_MODE_ARH_SARH",
+                "guidanceConcept": "INS_DL_MIDCOURSE_PLUS_ARH_OR_SARH_TERMINAL",
+                "navProfileId": "ESSM_INS_B1",
+                "launchType": "MK41_QUADPACK_VLS",
+                "launchTransientProfileId": "WIP156_MK41_HOT_LAUNCH_IN_CELL_SIM",
+                "requiresIlluminator": true,
+                "loftProfileId": "ESSM_BLK2_ADAPTIVE_LAUNCH_LOFT",
+                "sixDofProfileId": "ESSM_BLK2_6DOF_LITE",
+                "lengthM": 3.66,
+                "diameterM": 0.254,
+                "massKg": 280,
+                "refAreaM2": 0.05067074790974977,
+                "planningSpeedMps": 1300,
+                "speedCapPolicy": "AERO_EMERGENT_NO_GAMEPLAY_CAP",
+                "effectiveRangeKmGameplay": 50,
+                "maxFlightTimeS": 185,
+                "terminalRangeKm": 8,
+                "endgameRangeKm": 2.5,
+                "basePN": 4.5,
+                "terminalPN": 5.4,
+                "apnGain": 0.65,
+                "zemGain": 1.15,
+                "zemMaxG": 12,
+                "maxGSeaLevel": 44,
+                "maxGHighAlt": 34,
+                "finAuthority": 1.1,
+                "tvcEnabled": true,
+                "tvcDurationSec": 4,
+                "tvcMaxAngleDeg": 22,
+                "tvcSlewDegPerSec": 360,
+                "fuzeDetectRadiusM": 60,
+                "lethalRadiusM": 25,
+                "missionKillRadiusM": 60,
+                "autopilotLookaheadSec": 0.12,
+                "aero": {
+                  "liftRefM2": 0.13,
+                  "cdScale": 1,
+                  "dragModel": "ESSM_254MM_FRONTAL_MACH_CD_PLUS_6DOF_CONTROL_AND_MANEUVER_DRAG",
+                  "inducedDragK": 0.04
+                },
+                "propulsion": {
+                  "model": "CONCENTRIC_DUAL_FORMULATION_GRAIN_PROTOTYPE",
+                  "motor": "MK134_MOD0",
+                  "ispS": 258,
+                  "segments": [
+                    {
+                      "name": "DOCUMENTATION_ONLY_RUNTIME_RESOLVED_BY_WIP136",
+                      "reservoir": "sustain",
+                      "durationS": 8,
+                      "thrustStartN": 37730.35,
+                      "thrustEndN": 37730.35,
+                      "ispS": 258
+                    }
+                  ]
+                },
+                "notes": "WIP139 canonical candidate: Mk 134 Mod 0; 280 kg launch, 167.8 kg motor gross, 119.3 kg propellant, 48.5 kg motor inert, ~8 s observed burn; DERIVED_CONSTRAINED grain rRod≈18.1 mm / rAnnulusInner≈36.1 mm / rod burnout≈1.75 s. USER-SELECTED MODELED candidates: whole-motor Isp=258 s and JVC jettison mass=12.68 kg. WIP139 SIM-VALIDATED physical 6DOF limits: 48G optimal / 60G structural. Legacy v1 guidance altitude-proxy command cap remains 44→34G pending separate audit."
+              },
+              "layerKey": "ESSM_BLK2_SIM",
+              "requiresIlluminator": true
+            },
+            "brake": {
+              "ok": false,
+              "reason": "REENGAGE_HYST",
+              "stableS": 0.25,
+              "cooldownS": 1,
+              "waitS": 1.25
+            },
+            "limit": {
+              "trackId": 300000010,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalCount": 1,
+              "layerCount": 1,
+              "absoluteCap": 4,
+              "adaptiveCap": 4,
+              "budget": {
+                "ok": true,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "inventoryKey": "essmTotal",
+                "readyKey": "essmReady",
+                "total": 96,
+                "have": 96,
+                "reserve": 8,
+                "usableRounds": 88,
+                "threatCount": 1,
+                "roundsPerEngagement": 2,
+                "fairShareRounds": 88,
+                "rawCap": 44,
+                "adaptiveCap": 4,
+                "absoluteCap": 4
+              }
+            }
+          },
+          "limit": {
+            "trackId": 300000010,
+            "weapon": "ESSM",
+            "layerKey": "ESSM_BLK2_SIM",
+            "totalCount": 1,
+            "layerCount": 1,
+            "absoluteCap": 4,
+            "adaptiveCap": 4,
+            "budget": {
+              "ok": true,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "inventoryKey": "essmTotal",
+              "readyKey": "essmReady",
+              "total": 96,
+              "have": 96,
+              "reserve": 8,
+              "usableRounds": 88,
+              "threatCount": 1,
+              "roundsPerEngagement": 2,
+              "fairShareRounds": 88,
+              "rawCap": 44,
+              "adaptiveCap": 4,
+              "absoluteCap": 4
+            }
+          }
+        },
+        "lifecycle": {
+          "presentFixture": {
+            "enemyId": 11,
+            "trackId": 300000011,
+            "rangeKm": 16,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "present": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000011,
+                "trackNumber": 11,
+                "assessment": "THREAT",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "lost": {
+            "revision": 2,
+            "step": 36,
+            "recommendations": [
+              {
+                "trackId": 300000011,
+                "trackNumber": 11,
+                "assessment": "LOST",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "reacquiredFixture": {
+            "enemyId": 12,
+            "trackId": 300000012,
+            "rangeKm": 16,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "reacquired": {
+            "revision": 1,
+            "step": 36,
+            "recommendations": [
+              {
+                "trackId": 300000012,
+                "trackNumber": 12,
+                "assessment": "THREAT",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          }
+        },
+        "network": {
+          "timeS": 3.6,
+          "own": {
+            "peers": [
+              {
+                "entityId": "SHIP_SCENARIO_ALLY_F",
+                "lastSequence": 5,
+                "lastReceivedS": 3.3,
+                "connected": true,
+                "reason": null,
+                "shared": 0,
+                "cooperative": true
+              }
+            ],
+            "leases": [
+              {
+                "trackId": 300000013,
+                "primary": "SHIP_SCENARIO_ALLY_F",
+                "untilS": 5.2,
+                "stateAtS": 3.4,
+                "stateM": [
+                  25171.055167414725,
+                  -38.81724365945274,
+                  15.081834689991316,
+                  -299.91839143938785,
+                  -14.01344843376196,
+                  0.3753440094389804
+                ],
+                "covariance": [
+                  27.758130535189252,
+                  -4.241676698333918,
+                  -0.2242150950521965,
+                  7.062496996841418,
+                  -2.037818798013857,
+                  -0.09406804580592787,
+                  -4.241676698333918,
+                  254.46006584573473,
+                  -0.003267637321346849,
+                  -2.043310753965886,
+                  116.12726408638983,
+                  -0.0012199812001879723,
+                  -0.2242150950521965,
+                  -0.0032676373213468488,
+                  384.5903461355601,
+                  -0.1356113181689353,
+                  -0.0022494996843920308,
+                  171.10257931936746,
+                  7.062496996841418,
+                  -2.043310753965886,
+                  -0.1356113181689353,
+                  30.096380003324455,
+                  -0.9743011455358637,
+                  -0.059045980671700825,
+                  -2.037818798013857,
+                  116.12726408638983,
+                  -0.0022494996843920308,
+                  -0.9743011455358637,
+                  82.15175407250797,
+                  -0.0008450939595847952,
+                  -0.09406804580592787,
+                  -0.0012199812001879723,
+                  171.10257931936746,
+                  -0.059045980671700825,
+                  -0.0008450939595847952,
+                  104.79657999642302
+                ],
+                "domain": "AIR",
+                "issuer": "SHIP_DDG119_OWN"
+              }
+            ],
+            "stats": {
+              "sent": 6,
+              "received": 5,
+              "rejected": 0,
+              "associated": 25,
+              "created": 3,
+              "expired": 0,
+              "withheld": 0
+            }
+          },
+          "ally": {
+            "peers": [
+              {
+                "entityId": "SHIP_DDG119_OWN",
+                "lastSequence": 5,
+                "lastReceivedS": 3.3,
+                "connected": true,
+                "reason": null,
+                "shared": 0,
+                "cooperative": true
+              }
+            ],
+            "leases": [
+              {
+                "trackId": 2,
+                "fileId": 2,
+                "primary": "SHIP_SCENARIO_ALLY_F",
+                "untilS": 4.8,
+                "stateAtS": 3,
+                "stateM": [
+                  25291.647080727755,
+                  -23.693609240871563,
+                  36.631024142796974,
+                  -299.6060367380822,
+                  -9.089307387669164,
+                  11.659896315958708
+                ],
+                "covariance": [
+                  29.504575795777434,
+                  -7.337411524243254,
+                  -0.24849565145905378,
+                  6.993473150870698,
+                  -4.016481668528916,
+                  -0.12181178969528206,
+                  -7.3374115242432545,
+                  419.7274534848988,
+                  -0.001172941060687217,
+                  -4.0464769188646414,
+                  220.81942294572372,
+                  -0.000324235281699351,
+                  -0.24849565145905378,
+                  -0.001172941060687217,
+                  636.3057493256913,
+                  -0.15492086028662141,
+                  -0.0015146963720903367,
+                  332.03660787964975,
+                  6.993473150870698,
+                  -4.0464769188646414,
+                  -0.15492086028662141,
+                  42.730790248371996,
+                  -2.190983292835372,
+                  -0.07752563294006215,
+                  -4.016481668528916,
+                  220.81942294572372,
+                  -0.0015146963720903367,
+                  -2.190983292835372,
+                  158.6035404737055,
+                  -0.0005439541955395671,
+                  -0.12181178969528206,
+                  -0.000324235281699351,
+                  332.03660787964975,
+                  -0.07752563294006215,
+                  -0.0005439541955395671,
+                  216.57000135859974
+                ],
+                "domain": "AIR",
+                "issuer": "SHIP_DDG119_OWN"
+              }
+            ],
+            "stats": {
+              "sent": 6,
+              "received": 5,
+              "rejected": 0,
+              "associated": 27,
+              "created": 5,
+              "expired": 1,
+              "withheld": 0
+            }
+          },
+          "ownGate": {
+            "ok": false,
+            "reason": "NETWORK_ASSIGNED_PEER"
+          },
+          "allyGate": {
+            "ok": false,
+            "reason": "LOCAL_FCS_REQUIRED"
+          }
+        },
+        "immediateDefense": {
+          "localDefense": {
+            "checks": {
+              "uniqueMeasuredTiming": true,
+              "bearingOnlyHasNoRange": true,
+              "localOnlyHasNoActiveEvidence": true,
+              "staleLocalWithheld": true,
+              "sameMountAmbiguityWithheld": true,
+              "crossMountDuplicateSingle": true,
+              "crossMountManyToOneWithheld": true,
+              "multipleEmitterAmbiguityWithheld": true,
+              "cmsSeedNotDuplicated": true,
+              "unmatchedBearingWithheld": true,
+              "detachedAndNoIdAuthority": true
+            },
+            "pass": true
+          },
+          "ciws": [
+            {
+              "id": 1,
+              "label": "Phalanx",
+              "type": "GUN",
+              "state": "IDLE",
+              "ammo": 1550,
+              "firing": false,
+              "tracking": false,
+              "targetId": null,
+              "trackQuality": 0,
+              "fireRateRps": 75,
+              "shotAccumulator": 0,
+              "searchRangeKm": 15,
+              "trackRangeKm": 10,
+              "cueTrackRangeKm": 15,
+              "engageRangeKm": 3,
+              "localTrack": null
+            },
+            {
+              "id": 2,
+              "label": "SeaRAM",
+              "type": "RAM",
+              "state": "IDLE",
+              "ammo": 11,
+              "firing": false,
+              "tracking": false,
+              "targetId": null,
+              "trackQuality": 0,
+              "fireRateRps": null,
+              "shotAccumulator": 0,
+              "searchRangeKm": 15,
+              "trackRangeKm": 10,
+              "cueTrackRangeKm": 15,
+              "engageRangeKm": 9.6,
+              "localTrack": null
+            }
+          ],
+          "softKill": {
+            "auto": false,
+            "activeEaKey": null,
+            "schedulerFrameIndex": 0,
+            "eaAssignments": [],
+            "responses": [],
+            "lastAutoChaff": null,
+            "lastStep": 215,
+            "revision": 16
+          }
+        },
+        "damageUnavailable": {
+          "damageCandidate": "AN/SPG-62(전방)",
+          "damageBefore": false,
+          "damageSet": 100,
+          "damageAfter": false,
+          "spgBefore": {
+            "policy": {
+              "schedulerFrameS": 0.2,
+              "stabilizationLeadS": 0.75,
+              "cpaReleaseMarginS": 0.75,
+              "minWindowS": 0.5,
+              "minScore": 0.05
+            },
+            "meta": {
+              "lastPlanStep": 204,
+              "lastHardwareSig": "0:1:0|1:1:0|2:1:0",
+              "lastEngagementSig": "",
+              "revision": 16,
+              "failed": []
+            },
+            "live": [],
+            "byIlluminator": {
+              "0": [],
+              "1": [],
+              "2": []
+            }
+          },
+          "spgDamageAttempts": [
+            {
+              "illId": 0,
+              "installed": true
+            },
+            {
+              "illId": 1,
+              "installed": true
+            },
+            {
+              "illId": 2,
+              "installed": true
+            },
+            {
+              "illId": 3,
+              "installed": false
+            },
+            {
+              "illId": 4,
+              "installed": false
+            },
+            {
+              "illId": 5,
+              "installed": false
+            },
+            {
+              "illId": 6,
+              "installed": false
+            },
+            {
+              "illId": 7,
+              "installed": false
+            }
+          ],
+          "spgAfter": {
+            "policy": {
+              "schedulerFrameS": 0.2,
+              "stabilizationLeadS": 0.75,
+              "cpaReleaseMarginS": 0.75,
+              "minWindowS": 0.5,
+              "minScore": 0.05
+            },
+            "meta": {
+              "lastPlanStep": 216,
+              "lastHardwareSig": "0:0:1000|1:0:1000|2:0:1000",
+              "lastEngagementSig": "",
+              "revision": 19,
+              "failed": []
+            },
+            "live": [],
+            "byIlluminator": {
+              "0": [],
+              "1": [],
+              "2": []
+            }
+          },
+          "control": {
+            "revision": 18,
+            "step": 216,
+            "recommendations": [
+              {
+                "trackId": 300000013,
+                "trackNumber": 13,
+                "assessment": "THREAT",
+                "threatScore": 63.101335170737656,
+                "rangeKm": 25.108572913761442,
+                "altM": 6.095504530864613,
+                "cpaM": 7519.647481966908,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": null,
+                "salvo": 0,
+                "recommendedRounds": 0,
+                "salvoPolicy": null,
+                "firePlan": {
+                  "status": "UNAVAILABLE",
+                  "reason": "NO_CHANNEL",
+                  "fireDelayS": null,
+                  "channelId": null,
+                  "requiresIlluminator": null
+                }
+              },
+              {
+                "trackId": 300000012,
+                "trackNumber": 12,
+                "assessment": "LOST",
+                "threatScore": 41.258860971788444,
+                "rangeKm": 15.272,
+                "altM": 15,
+                "cpaM": 15.000001099354288,
+                "cpaTimeS": 58.73843945047522,
+                "weapon": null,
+                "salvo": 0,
+                "recommendedRounds": 0,
+                "salvoPolicy": null,
+                "firePlan": {
+                  "status": "UNAVAILABLE",
+                  "reason": "NO_CHANNEL",
+                  "fireDelayS": null,
+                  "channelId": null,
+                  "requiresIlluminator": null
+                }
+              }
+            ]
+          }
+        },
+        "hierarchy": {
+          "commands": {
+            "h1Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                "enabled": true,
+                "manualRadar": false,
+                "manualEw": false
+              }
+            },
+            "h2Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                "enabled": true,
+                "manualNav": false
+              }
+            },
+            "h2Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                "enabled": true,
+                "manualNav": false
+              }
+            },
+            "h3Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                "enabled": true
+              }
+            },
+            "h3Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                "enabled": true
+              }
+            },
+            "h3Reject": {
+              "ok": false,
+              "reason": "NO_LOCAL_SURFACE_TRACK",
+              "truthUsed": false
+            },
+            "h4Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "enabled": true,
+                "mission": "ESCORT",
+                "formation": "LINE_ASTERN",
+                "spacingM": 2000,
+                "surfaceRoe": "IDENTIFIED_ONLY"
+              }
+            },
+            "h4Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "enabled": true,
+                "mission": "ESCORT",
+                "formation": "LINE_ASTERN",
+                "spacingM": 2000,
+                "surfaceRoe": "IDENTIFIED_ONLY"
+              }
+            }
+          },
+          "snapshots": {
+            "h1": {
+              "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_DDG119_OWN",
+                  "settings": {
+                    "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                    "enabled": true,
+                    "manualRadar": false,
+                    "manualEw": false
+                  },
+                  "active": false,
+                  "posture": "DEGRADED",
+                  "sinceS": 3.8,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "scores": [
+                    {
+                      "posture": "DEGRADED",
+                      "score": 0.7
+                    },
+                    {
+                      "posture": "WATCH",
+                      "score": 0.55
+                    },
+                    {
+                      "posture": "CONSERVE",
+                      "score": 0.12
+                    },
+                    {
+                      "posture": "DEFEND",
+                      "score": 0
+                    },
+                    {
+                      "posture": "SATURATED",
+                      "score": 0
+                    }
+                  ],
+                  "priorities": [],
+                  "summary": {
+                    "localThreats": 0,
+                    "unserved": 0,
+                    "passiveSeekerAlerts": 0,
+                    "sharedAlerts": 0,
+                    "earliestTtiS": null,
+                    "availableRounds": 166,
+                    "inventory": {
+                      "sm2": 68,
+                      "sm2er": 0,
+                      "sm6": 0,
+                      "essm": 88,
+                      "ram": 10
+                    },
+                    "supportChannels": 3,
+                    "availableChannels": 0,
+                    "activeIlluminations": 0,
+                    "combatEfficiency": 1,
+                    "radarPower": 1,
+                    "ciwsPower": 1,
+                    "steering": 1,
+                    "emergency": false,
+                    "offline": false
+                  },
+                  "radarOwned": false,
+                  "ewOwned": false,
+                  "groupRadarPriority": false,
+                  "log": [
+                    {
+                      "step": 228,
+                      "from": "WATCH",
+                      "to": "DEGRADED",
+                      "score": 0.7
+                    }
+                  ]
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                    "enabled": true,
+                    "manualRadar": false,
+                    "manualEw": false
+                  },
+                  "active": true,
+                  "posture": "DEFEND",
+                  "sinceS": 2,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "scores": [
+                    {
+                      "posture": "DEFEND",
+                      "score": 0.22
+                    },
+                    {
+                      "posture": "CONSERVE",
+                      "score": 0.12
+                    },
+                    {
+                      "posture": "WATCH",
+                      "score": 0.1
+                    },
+                    {
+                      "posture": "DEGRADED",
+                      "score": 0
+                    },
+                    {
+                      "posture": "SATURATED",
+                      "score": 0
+                    }
+                  ],
+                  "priorities": [
+                    {
+                      "trackId": 2,
+                      "score": 0.22131077993451043,
+                      "ttiS": 81.31225485841792,
+                      "closureMps": 299.3921971824034,
+                      "speedMps": 299.53956345600074,
+                      "rangeKm": 24.344254639917292,
+                      "bearingRad": 0.019030607372013897,
+                      "unserved": false,
+                      "quality": 0.9621720973029354
+                    }
+                  ],
+                  "summary": {
+                    "localThreats": 1,
+                    "unserved": 0,
+                    "passiveSeekerAlerts": 1,
+                    "sharedAlerts": 0,
+                    "earliestTtiS": 81.31225485841792,
+                    "availableRounds": 181,
+                    "inventory": {
+                      "sm2": 94,
+                      "sm2er": 0,
+                      "sm6": 0,
+                      "essm": 87,
+                      "ram": 0
+                    },
+                    "supportChannels": 4,
+                    "availableChannels": 4,
+                    "activeIlluminations": 0,
+                    "combatEfficiency": 1,
+                    "radarPower": 1,
+                    "ciwsPower": 1,
+                    "steering": 1,
+                    "emergency": false,
+                    "offline": false
+                  },
+                  "radarOwned": true,
+                  "ewOwned": true,
+                  "groupRadarPriority": false,
+                  "log": [
+                    {
+                      "step": 120,
+                      "from": "WATCH",
+                      "to": "DEFEND",
+                      "score": 0.22
+                    }
+                  ]
+                }
+              ]
+            },
+            "h2": {
+              "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_DDG119_OWN",
+                  "settings": {
+                    "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                    "enabled": true,
+                    "manualNav": false
+                  },
+                  "active": false,
+                  "owned": false,
+                  "selected": "KEEP",
+                  "sinceS": 0,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "summary": {
+                    "reason": "INACTIVE",
+                    "localThreats": 0
+                  },
+                  "command": null,
+                  "candidates": [],
+                  "log": []
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                    "enabled": true,
+                    "manualNav": false
+                  },
+                  "active": true,
+                  "owned": true,
+                  "selected": "KEEP",
+                  "sinceS": 3.6,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "summary": {
+                    "reason": "KEEP",
+                    "localThreats": 1,
+                    "steering": 1,
+                    "propulsion": 1,
+                    "earliestTtiS": 81.51201903229796
+                  },
+                  "command": {
+                    "headingRad": -1.5708961226268476,
+                    "speedKt": 8,
+                    "rudderDeg": 0.04749969485092065
+                  },
+                  "candidates": [
+                    {
+                      "id": "KEEP",
+                      "headingRad": -1.5708961226268476,
+                      "speedKt": 8,
+                      "score": 0.7739484011367644,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5708961226268467,
+                      "predictedSpeedMps": 4.115552,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 855.4382316304581
+                        }
+                      ]
+                    },
+                    {
+                      "id": "SLOW",
+                      "headingRad": -1.5708961226268476,
+                      "speedKt": 8,
+                      "score": 0.7539484011367644,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5708961226268467,
+                      "predictedSpeedMps": 4.115552,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 855.4382316304581
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STOP",
+                      "headingRad": -1.5708961226268476,
+                      "speedKt": 0,
+                      "score": 0.7331184001127748,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5708961226268467,
+                      "predictedSpeedMps": 2.262744644564303,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 732.0563318478129
+                        }
+                      ]
+                    },
+                    {
+                      "id": "PORT30",
+                      "headingRad": -2.094494898225147,
+                      "speedKt": 14,
+                      "score": 0.7319202809976914,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.7039149052138747,
+                      "predictedSpeedMps": 6.462744644564304,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 1008.1115815273037
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STARBOARD30",
+                      "headingRad": -1.0472973470285485,
+                      "speedKt": 14,
+                      "score": 0.7230464114249435,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.4435397351468762,
+                      "predictedSpeedMps": 6.462744644564304,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 1005.9936084452688
+                        }
+                      ]
+                    },
+                    {
+                      "id": "PORT60",
+                      "headingRad": -2.618093673823445,
+                      "speedKt": 14,
+                      "score": 0.7119202809976913,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.7039149052138747,
+                      "predictedSpeedMps": 6.462744644564304,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 1008.1115815273037
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STARBOARD60",
+                      "headingRad": -0.5236985714302502,
+                      "speedKt": 14,
+                      "score": 0.7030464114249436,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.4435397351468762,
+                      "predictedSpeedMps": 6.462744644564304,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 1005.9936084452688
+                        }
+                      ]
+                    },
+                    {
+                      "id": "FAST",
+                      "headingRad": -1.5708961226268476,
+                      "speedKt": 28,
+                      "score": 0.7025598828793042,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5708961226268467,
+                      "predictedSpeedMps": 6.462744644564304,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 2,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ],
+                          "closeInOpen": [
+                            1
+                          ],
+                          "cpaM": 1010.1624091397604
+                        }
+                      ]
+                    }
+                  ],
+                  "log": [
+                    {
+                      "step": 84,
+                      "from": "KEEP",
+                      "to": "PORT30",
+                      "score": 0.7108572526503292
+                    }
+                  ]
+                }
+              ]
+            },
+            "h3": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "dataLink": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_DDG119_OWN",
+                  "settings": {
+                    "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                    "enabled": true
+                  },
+                  "active": false,
+                  "status": "WAIT",
+                  "reason": "ATTACK_AUTO_INACTIVE",
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "selectedTrackId": null,
+                  "consents": [],
+                  "plans": [],
+                  "log": []
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                    "enabled": true
+                  },
+                  "active": true,
+                  "status": "WAIT",
+                  "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "selectedTrackId": null,
+                  "consents": [],
+                  "plans": [],
+                  "log": []
+                }
+              ]
+            },
+            "h4": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ordnanceDatalink": false,
+              "policy": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "packet": "AEGIS_TEAM_PACKET_H4_1",
+                "periodTicks": 12,
+                "sendTicks": 30,
+                "latencyTicks": 18,
+                "freshS": 2,
+                "leaseS": 1.8,
+                "waitS": 2.4,
+                "salvoHoldS": 90,
+                "maxFiles": 96,
+                "maxBids": 16,
+                "maxQueue": 16,
+                "maxReceipts": 8,
+                "maxLog": 64,
+                "intentHoldS": 30
+              },
+              "ships": [
+                {
+                  "entityId": "SHIP_DDG119_OWN",
+                  "settings": {
+                    "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                    "enabled": true,
+                    "mission": "ESCORT",
+                    "formation": "LINE_ASTERN",
+                    "spacingM": 2000,
+                    "surfaceRoe": "IDENTIFIED_ONLY"
+                  },
+                  "active": true,
+                  "role": "LEADER",
+                  "reason": "LEAD_OWN_NAVIGATION",
+                  "evaluations": 23,
+                  "queued": 1,
+                  "peers": [
+                    {
+                      "senderId": "SHIP_SCENARIO_ALLY_F",
+                      "ageS": 0.5999999999999996,
+                      "mission": "ESCORT",
+                      "bids": 0,
+                      "receipts": 0
+                    }
+                  ],
+                  "formation": null,
+                  "leases": [],
+                  "receipts": [],
+                  "intents": [],
+                  "log": [
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    },
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    }
+                  ]
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                    "enabled": true,
+                    "mission": "ESCORT",
+                    "formation": "LINE_ASTERN",
+                    "spacingM": 2000,
+                    "surfaceRoe": "IDENTIFIED_ONLY"
+                  },
+                  "active": true,
+                  "role": "INDEPENDENT",
+                  "reason": "OPERATOR_TEAM_CHANGED",
+                  "evaluations": 23,
+                  "queued": 1,
+                  "peers": [
+                    {
+                      "senderId": "SHIP_DDG119_OWN",
+                      "ageS": 0.5999999999999996,
+                      "mission": "ESCORT",
+                      "bids": 0,
+                      "receipts": 0
+                    }
+                  ],
+                  "formation": null,
+                  "leases": [],
+                  "receipts": [],
+                  "intents": [],
+                  "log": [
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    },
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "finalState": {
+          "step": 306,
+          "rng": 20791347,
+          "shipHP": 100,
+          "hitCount": 0,
+          "missileCount": 0
+        },
+        "saveSnapshot": {
+          "bytes": 1317999,
+          "sha256": "2cc9dbdc33b75df12f00b11002586903824d0603ce53ca4fb786aba76ce8480d",
+          "schema": "AEGIS_OPERATIONAL_STATE_V48_WIP11A"
+        },
+        "browser": {
+          "consoleErrors": [],
+          "pageErrors": []
+        }
+      }
+    },
+    {
+      "profile": {
+        "own": {
+          "id": "CG_52_LATE_TICONDEROGA",
+          "name": "USS Bunker Hill",
+          "hullNumber": "CG-52",
+          "revision": "BUNKERHILL_HARPOON_E_1",
+          "vlsCells": 122,
+          "crew": 330
+        },
+        "ally": {
+          "id": "DDG_119_LATE_FLIGHT_IIA",
+          "name": "USS Delbert D. Black",
+          "hullNumber": "DDG-119",
+          "revision": "V48_WIP15B_NULKA_RELOAD",
+          "vlsCells": 96,
+          "crew": 310
+        },
+        "startup": {
+          "schema": "AEGIS_PREDEPARTURE_SHIP_STARTUP_V1",
+          "phase": "DEPARTED",
+          "profileId": "CG_52_LATE_TICONDEROGA",
+          "profileRevision": "BUNKERHILL_HARPOON_E_1",
+          "entityId": "SHIP_CG52_OWN",
+          "initializationCount": 1
+        }
+      },
+      "result": {
+        "owner": {
+          "ownId": "SHIP_CG52_OWN",
+          "allyId": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "CG_52_LATE_TICONDEROGA"
+        },
+        "rng": {
+          "start": 1831565813,
+          "end": 1256165774
+        },
+        "core": {
+          "callReturn": false,
+          "failures": [
+            "SARH WIP61 confidence continuity missing",
+            "SARH confidence still double-penalizes raw SNR"
+          ]
+        },
+        "isolation": {
+          "schema": "AEGIS_MULTI_SHIP_ISOLATION_A",
+          "pass": true,
+          "checks": {
+            "DDG_119_LATE_FLIGHT_IIA.independentModels": true,
+            "DDG_119_LATE_FLIGHT_IIA.independentBuffers": true,
+            "DDG_119_LATE_FLIGHT_IIA.independentInventory": true,
+            "DDG_119_LATE_FLIGHT_IIA.sharedImmutableProfile": true,
+            "DDG_119_LATE_FLIGHT_IIA.contextLive": true,
+            "DDG_119_LATE_FLIGHT_IIA.crewAndControlIndependent": true,
+            "DDG_119_LATE_FLIGHT_IIA.coreAccessorOwner": true,
+            "DDG_119_LATE_FLIGHT_IIA.gunRoutingBlocked": true,
+            "DDG_119_LATE_FLIGHT_IIA.crossBindingRejected": true,
+            "CG_52_LATE_TICONDEROGA.independentModels": true,
+            "CG_52_LATE_TICONDEROGA.independentBuffers": true,
+            "CG_52_LATE_TICONDEROGA.independentInventory": true,
+            "CG_52_LATE_TICONDEROGA.sharedImmutableProfile": true,
+            "CG_52_LATE_TICONDEROGA.contextLive": true,
+            "CG_52_LATE_TICONDEROGA.crewAndControlIndependent": true,
+            "CG_52_LATE_TICONDEROGA.coreAccessorOwner": true,
+            "CG_52_LATE_TICONDEROGA.gunRoutingBlocked": true,
+            "CG_52_LATE_TICONDEROGA.crossBindingRejected": true,
+            "playerUnchanged": true,
+            "combatRngUnchanged": true,
+            "playerAliasesPinned": true
+          },
+          "rows": [
+            {
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "vlsCells": 96,
+              "crew": 310,
+              "interior": {
+                "schema": "AEGIS_SHIP_INTERIOR_AUDIT_V48_WIP06",
+                "hangarClearance": {
+                  "bays": 2,
+                  "clear": true,
+                  "conflicts": [],
+                  "clearHeightM": 5.2,
+                  "bayHeightM": 5.68,
+                  "doorClearHeightM": 5.73,
+                  "simulationEnvelopeOnly": true
+                },
+                "spaceCount": 138,
+                "macroSpaceCount": 138,
+                "portalCount": 160,
+                "equipmentCount": 70,
+                "deckCount": 11,
+                "upperStructureSpaces": 88,
+                "upperStructureDecks": 7,
+                "bridgeSpaces": 34,
+                "bridgeDecks": 5,
+                "hangarSpaces": 14,
+                "hangarDecks": 2,
+                "spySpaces": 14,
+                "exhaustTrunks": 12,
+                "mastTrunks": 3,
+                "watertightDoors": 22,
+                "fireDoors": 104,
+                "stairs": 16,
+                "ladders": 4,
+                "accessHatches": 8,
+                "uniqueSpaceIds": true,
+                "uniquePortalIds": true,
+                "uniqueEquipmentIds": true,
+                "endpointsValid": true,
+                "equipmentSpacesValid": true,
+                "routeable": 115,
+                "reached": 115,
+                "unreachable": []
+              },
+              "massKg": 9655997.633599998
+            },
+            {
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "vlsCells": 122,
+              "crew": 330,
+              "interior": {
+                "schema": "AEGIS_CG52_INTERIOR_AUDIT_V2",
+                "spaceCount": 277,
+                "macroSpaceCount": 143,
+                "portalCount": 392,
+                "equipmentCount": 179,
+                "deckCount": 12,
+                "uniqueSpaceIds": true,
+                "uniquePortalIds": true,
+                "uniqueEquipmentIds": true,
+                "endpointsValid": true,
+                "equipmentSpacesValid": true,
+                "routeable": 238,
+                "reached": 238,
+                "unreachable": [],
+                "centersInside": true,
+                "disjointSpaces": true,
+                "overlaps": [],
+                "functionalSubdivision": true,
+                "legacyIdsRetained": true,
+                "maxLongitudinalRoomM": 10.560000000000002,
+                "independentCG52Layout": true,
+                "provenance": "SIM_TUNED_FUNCTIONAL_ZONING",
+                "hangarClearance": {
+                  "bays": 2,
+                  "clear": true,
+                  "conflicts": [],
+                  "clearHeightM": 5.2,
+                  "bayHeightM": 5.2,
+                  "simulationEnvelopeOnly": true
+                }
+              },
+              "massKg": 9754067.2
+            }
+          ]
+        },
+        "manualHold": {
+          "fixture": {
+            "enemyId": 1,
+            "trackId": 300000001,
+            "rangeKm": 15,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "mode": "MANUAL",
+          "missileDelta": 0,
+          "candidateRows": [],
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "allyModeAfter": "HOLD",
+          "allyFireLogCount": 0
+        },
+        "singleThreat": {
+          "fixture": {
+            "enemyId": 2,
+            "trackId": 300000002,
+            "rangeKm": 15,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "control": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000002,
+                "trackNumber": 2,
+                "assessment": "THREAT",
+                "threatScore": 66.4074439539375,
+                "rangeKm": 15,
+                "altM": 15,
+                "cpaM": 15.004949449436959,
+                "cpaTimeS": 57.69082551026361,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "mutation": {
+            "gameplayStateExact": true,
+            "rngExact": true,
+            "vlsExact": true,
+            "spgExact": true,
+            "interceptorExact": true,
+            "ciwsExact": true,
+            "trackExact": true,
+            "softKillStateExact": true,
+            "result": {
+              "revision": 2,
+              "step": 12,
+              "recommendations": [
+                {
+                  "trackId": 300000002,
+                  "trackNumber": 2,
+                  "label": "ASM T2",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 15,
+                  "altM": 15,
+                  "threatScore": 66.4074439539375,
+                  "assessment": "THREAT",
+                  "cpaM": 15.004949449436959,
+                  "cpaTimeS": 57.69082551026361,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 0,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 2,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 56.5,
+                    "interceptS": 9.615384615384615,
+                    "encounterAltM": 15,
+                    "availableG": 32.931201684263364,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.232800421065841,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000002,
+                      "startT": 6.065384615384615,
+                      "endT": 10.565384615384614,
+                      "terminalStartT": 6.815384615384615,
+                      "predictedCpaT": 9.815384615384614,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "multipleThreats": {
+          "fixture": {
+            "count": 3,
+            "trackIds": [
+              300000003,
+              300000004,
+              300000005
+            ],
+            "relCenterDeg": 20,
+            "spreadDeg": 22
+          },
+          "control": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000003,
+                "trackNumber": 3,
+                "assessment": "THREAT",
+                "threatScore": 63.14682267070129,
+                "rangeKm": 23.999999999999996,
+                "altM": 25,
+                "cpaM": 5400.655183023544,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000004,
+                "trackNumber": 4,
+                "assessment": "THREAT",
+                "threatScore": 62.95391968226918,
+                "rangeKm": 24.350000000000005,
+                "altM": 25,
+                "cpaM": 5750.651661287944,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 1,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000005,
+                "trackNumber": 5,
+                "assessment": "THREAT",
+                "threatScore": 62.761016686085746,
+                "rangeKm": 24.699999999999996,
+                "altM": 25,
+                "cpaM": 6100.648543640944,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 2,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          }
+        },
+        "inventoryDistribution": {
+          "fixture": {
+            "count": 4,
+            "trackIds": [
+              300000006,
+              300000007,
+              300000008,
+              300000009
+            ],
+            "relCenterDeg": 15,
+            "spreadDeg": 18
+          },
+          "sufficient": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000006,
+                "trackNumber": 6,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.7060944749737,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000009,
+                "trackNumber": 9,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.706094474975,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 1,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000007,
+                "trackNumber": 7,
+                "assessment": "THREAT",
+                "threatScore": 65.16507796511951,
+                "rangeKm": 18.35,
+                "altM": 20,
+                "cpaM": 1550.668496260298,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 2,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000008,
+                "trackNumber": 8,
+                "assessment": "THREAT",
+                "threatScore": 64.96007825233801,
+                "rangeKm": 18.7,
+                "altM": 20,
+                "cpaM": 1900.6447446272025,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 3,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "beforeReserve": {
+            "ok": true,
+            "total": 96,
+            "have": 96,
+            "reserve": 8,
+            "need": 1,
+            "reason": null
+          },
+          "low": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000006,
+                "trackNumber": 6,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.7060944749737,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000009,
+                "trackNumber": 9,
+                "assessment": "THREAT",
+                "threatScore": 65.37007766483286,
+                "rangeKm": 18,
+                "altM": 20,
+                "cpaM": 1200.706094474975,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 1,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000007,
+                "trackNumber": 7,
+                "assessment": "THREAT",
+                "threatScore": 65.16507796511951,
+                "rangeKm": 18.35,
+                "altM": 20,
+                "cpaM": 1550.668496260298,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 2,
+                  "requiresIlluminator": true
+                }
+              },
+              {
+                "trackId": 300000008,
+                "trackNumber": 8,
+                "assessment": "THREAT",
+                "threatScore": 64.96007825233801,
+                "rangeKm": 18.7,
+                "altM": 20,
+                "cpaM": 1900.6447446272025,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "SM2",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 3,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "afterReserve": {
+            "ok": false,
+            "total": 0,
+            "have": 0,
+            "reserve": 8,
+            "need": 1,
+            "reason": "RESERVE"
+          }
+        },
+        "reengagement": {
+          "fixture": {
+            "enemyId": 10,
+            "trackId": 300000010,
+            "rangeKm": 14,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "base": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000010,
+                "trackNumber": 10,
+                "assessment": "THREAT",
+                "threatScore": 67.02062993666965,
+                "rangeKm": 14,
+                "altM": 15,
+                "cpaM": 15.000706851351543,
+                "cpaTimeS": 53.84671393437842,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "evaluation": {
+            "ready": false,
+            "reason": "REENGAGE_HYST",
+            "text": "REENGAGE_HYST +1.3s",
+            "row": {
+              "trackId": 300000010,
+              "trackNumber": 10,
+              "label": "ASM T10",
+              "tag": "ASM-SK",
+              "type": "ASM",
+              "rangeKm": 14,
+              "altM": 15,
+              "threatScore": 67.02062993666965,
+              "assessment": "THREAT",
+              "cpaM": 15.000706851351543,
+              "cpaTimeS": 53.84671393437842,
+              "trackPresent": true,
+              "lostCoast": false,
+              "coastFireControlUsable": false,
+              "lostConfidence": null,
+              "liveEngagement": 0,
+              "reengageRequired": false,
+              "weapon": "ESSM",
+              "weaponLabel": "ESSM",
+              "salvo": 2,
+              "recommendedRounds": 2,
+              "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+              "canReengage": false,
+              "firePlan": {
+                "status": "READY",
+                "fireDelayS": 0,
+                "nezStartDelayS": 0,
+                "nezEndDelayS": 52.5,
+                "interceptS": 8.974358974358974,
+                "encounterAltM": 15,
+                "availableG": 32.931201684263364,
+                "targetEvasiveG": 4,
+                "gMargin": 8.232800421065841,
+                "channelId": 0,
+                "reservation": {
+                  "targetId": 300000010,
+                  "startT": 5.424358974358975,
+                  "endT": 9.924358974358974,
+                  "terminalStartT": 6.174358974358975,
+                  "predictedCpaT": 9.174358974358974,
+                  "weapon": "ESSM",
+                  "illId": 0
+                },
+                "requiresIlluminator": true
+              }
+            },
+            "descriptor": {
+              "id": "ESSM",
+              "label": "ESSM",
+              "profileId": "ESSM_BLK2_SIM",
+              "reserveRounds": 8,
+              "inventoryKey": "essmTotal",
+              "readyKey": "essmReady",
+              "profile": {
+                "id": "ESSM_BLK2_SIM",
+                "displayName": "ESSM Block 2",
+                "sourceBasis": "PUBLIC+USER_AUDITED+VIDEO_DERIVED+DERIVED_CONSTRAINED+SIM_TUNED",
+                "sourceConfidence": "mixed",
+                "role": "SHIP_SELF_DEFENSE_SHORT_MEDIUM_RANGE",
+                "seekerType": "DUAL_MODE_ARH_SARH",
+                "guidanceConcept": "INS_DL_MIDCOURSE_PLUS_ARH_OR_SARH_TERMINAL",
+                "navProfileId": "ESSM_INS_B1",
+                "launchType": "MK41_QUADPACK_VLS",
+                "launchTransientProfileId": "WIP156_MK41_HOT_LAUNCH_IN_CELL_SIM",
+                "requiresIlluminator": true,
+                "loftProfileId": "ESSM_BLK2_ADAPTIVE_LAUNCH_LOFT",
+                "sixDofProfileId": "ESSM_BLK2_6DOF_LITE",
+                "lengthM": 3.66,
+                "diameterM": 0.254,
+                "massKg": 280,
+                "refAreaM2": 0.05067074790974977,
+                "planningSpeedMps": 1300,
+                "speedCapPolicy": "AERO_EMERGENT_NO_GAMEPLAY_CAP",
+                "effectiveRangeKmGameplay": 50,
+                "maxFlightTimeS": 185,
+                "terminalRangeKm": 8,
+                "endgameRangeKm": 2.5,
+                "basePN": 4.5,
+                "terminalPN": 5.4,
+                "apnGain": 0.65,
+                "zemGain": 1.15,
+                "zemMaxG": 12,
+                "maxGSeaLevel": 44,
+                "maxGHighAlt": 34,
+                "finAuthority": 1.1,
+                "tvcEnabled": true,
+                "tvcDurationSec": 4,
+                "tvcMaxAngleDeg": 22,
+                "tvcSlewDegPerSec": 360,
+                "fuzeDetectRadiusM": 60,
+                "lethalRadiusM": 25,
+                "missionKillRadiusM": 60,
+                "autopilotLookaheadSec": 0.12,
+                "aero": {
+                  "liftRefM2": 0.13,
+                  "cdScale": 1,
+                  "dragModel": "ESSM_254MM_FRONTAL_MACH_CD_PLUS_6DOF_CONTROL_AND_MANEUVER_DRAG",
+                  "inducedDragK": 0.04
+                },
+                "propulsion": {
+                  "model": "CONCENTRIC_DUAL_FORMULATION_GRAIN_PROTOTYPE",
+                  "motor": "MK134_MOD0",
+                  "ispS": 258,
+                  "segments": [
+                    {
+                      "name": "DOCUMENTATION_ONLY_RUNTIME_RESOLVED_BY_WIP136",
+                      "reservoir": "sustain",
+                      "durationS": 8,
+                      "thrustStartN": 37730.35,
+                      "thrustEndN": 37730.35,
+                      "ispS": 258
+                    }
+                  ]
+                },
+                "notes": "WIP139 canonical candidate: Mk 134 Mod 0; 280 kg launch, 167.8 kg motor gross, 119.3 kg propellant, 48.5 kg motor inert, ~8 s observed burn; DERIVED_CONSTRAINED grain rRod≈18.1 mm / rAnnulusInner≈36.1 mm / rod burnout≈1.75 s. USER-SELECTED MODELED candidates: whole-motor Isp=258 s and JVC jettison mass=12.68 kg. WIP139 SIM-VALIDATED physical 6DOF limits: 48G optimal / 60G structural. Legacy v1 guidance altitude-proxy command cap remains 44→34G pending separate audit."
+              },
+              "layerKey": "ESSM_BLK2_SIM",
+              "requiresIlluminator": true
+            },
+            "brake": {
+              "ok": false,
+              "reason": "REENGAGE_HYST",
+              "stableS": 0.25,
+              "cooldownS": 1,
+              "waitS": 1.25
+            },
+            "limit": {
+              "trackId": 300000010,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalCount": 1,
+              "layerCount": 1,
+              "absoluteCap": 4,
+              "adaptiveCap": 4,
+              "budget": {
+                "ok": true,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "inventoryKey": "essmTotal",
+                "readyKey": "essmReady",
+                "total": 96,
+                "have": 96,
+                "reserve": 8,
+                "usableRounds": 88,
+                "threatCount": 1,
+                "roundsPerEngagement": 2,
+                "fairShareRounds": 88,
+                "rawCap": 44,
+                "adaptiveCap": 4,
+                "absoluteCap": 4
+              }
+            }
+          },
+          "limit": {
+            "trackId": 300000010,
+            "weapon": "ESSM",
+            "layerKey": "ESSM_BLK2_SIM",
+            "totalCount": 1,
+            "layerCount": 1,
+            "absoluteCap": 4,
+            "adaptiveCap": 4,
+            "budget": {
+              "ok": true,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "inventoryKey": "essmTotal",
+              "readyKey": "essmReady",
+              "total": 96,
+              "have": 96,
+              "reserve": 8,
+              "usableRounds": 88,
+              "threatCount": 1,
+              "roundsPerEngagement": 2,
+              "fairShareRounds": 88,
+              "rawCap": 44,
+              "adaptiveCap": 4,
+              "absoluteCap": 4
+            }
+          }
+        },
+        "lifecycle": {
+          "presentFixture": {
+            "enemyId": 11,
+            "trackId": 300000011,
+            "rangeKm": 16,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "present": {
+            "revision": 1,
+            "step": 12,
+            "recommendations": [
+              {
+                "trackId": 300000011,
+                "trackNumber": 11,
+                "assessment": "THREAT",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "lost": {
+            "revision": 2,
+            "step": 36,
+            "recommendations": [
+              {
+                "trackId": 300000011,
+                "trackNumber": 11,
+                "assessment": "LOST",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          },
+          "reacquiredFixture": {
+            "enemyId": 12,
+            "trackId": 300000012,
+            "rangeKm": 16,
+            "altM": 15,
+            "speedMps": 260,
+            "label": "Kh-35U"
+          },
+          "reacquired": {
+            "revision": 1,
+            "step": 36,
+            "recommendations": [
+              {
+                "trackId": 300000012,
+                "trackNumber": 12,
+                "assessment": "THREAT",
+                "threatScore": 65.79425785065756,
+                "rangeKm": 16,
+                "altM": 15,
+                "cpaM": 400.7817772843578,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": "ESSM",
+                "salvo": 2,
+                "recommendedRounds": 2,
+                "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                "firePlan": {
+                  "status": "READY",
+                  "reason": null,
+                  "fireDelayS": 0,
+                  "channelId": 0,
+                  "requiresIlluminator": true
+                }
+              }
+            ]
+          }
+        },
+        "network": {
+          "timeS": 3.6,
+          "own": {
+            "peers": [
+              {
+                "entityId": "SHIP_SCENARIO_ALLY_F",
+                "lastSequence": 5,
+                "lastReceivedS": 3.3,
+                "connected": true,
+                "reason": null,
+                "shared": 0,
+                "cooperative": true
+              }
+            ],
+            "leases": [
+              {
+                "trackId": 300000013,
+                "primary": "SHIP_SCENARIO_ALLY_F",
+                "untilS": 5.2,
+                "stateAtS": 3.4,
+                "stateM": [
+                  25169.47715210284,
+                  -32.44075968792656,
+                  10.416589595952253,
+                  -299.62194808808323,
+                  -12.195322477708071,
+                  -0.716095764876465
+                ],
+                "covariance": [
+                  15.792668666901012,
+                  -1.6072357957355239,
+                  0.18448853933754839,
+                  4.399582843918717,
+                  -0.7787301318778449,
+                  0.07467762575812974,
+                  -1.6072357957355237,
+                  103.36994867828012,
+                  0.0006519299655035114,
+                  -0.7819525853768464,
+                  46.79705921894738,
+                  0.00011707934917818513,
+                  0.18448853933754839,
+                  0.0006519299655035114,
+                  239.0519640520382,
+                  0.08460099370478603,
+                  0.0003227641034954709,
+                  99.94641644444935,
+                  4.399582843918717,
+                  -0.7819525853768464,
+                  0.08460099370478603,
+                  28.144505380261883,
+                  -0.39259567113107335,
+                  0.0362923701705324,
+                  -0.7787301318778449,
+                  46.79705921894738,
+                  0.0003227641034954709,
+                  -0.39259567113107335,
+                  49.42219248449789,
+                  0.000157824825527074,
+                  0.07467762575812974,
+                  0.00011707934917818513,
+                  99.94641644444935,
+                  0.0362923701705324,
+                  0.000157824825527074,
+                  69.8332419995055
+                ],
+                "domain": "AIR",
+                "issuer": "SHIP_CG52_OWN"
+              }
+            ],
+            "stats": {
+              "sent": 6,
+              "received": 5,
+              "rejected": 0,
+              "associated": 28,
+              "created": 2,
+              "expired": 0,
+              "withheld": 0
+            }
+          },
+          "ally": {
+            "peers": [
+              {
+                "entityId": "SHIP_CG52_OWN",
+                "lastSequence": 5,
+                "lastReceivedS": 3.3,
+                "connected": true,
+                "reason": null,
+                "shared": 0,
+                "cooperative": true
+              }
+            ],
+            "leases": [
+              {
+                "trackId": 1,
+                "fileId": 1,
+                "primary": "SHIP_SCENARIO_ALLY_F",
+                "untilS": 4.8,
+                "stateAtS": 3,
+                "stateM": [
+                  25290.176362604878,
+                  -19.40638867972928,
+                  5.282931383799978,
+                  -298.6056623312576,
+                  -8.097123147674814,
+                  -3.2790808265680873
+                ],
+                "covariance": [
+                  16.045662314908057,
+                  -2.135211648776287,
+                  0.31203289651146315,
+                  3.1912565111508338,
+                  -1.1531748652491074,
+                  0.1498258231807465,
+                  -2.135211648776287,
+                  132.7048584682003,
+                  -0.0007735452652533989,
+                  -1.1565965442524764,
+                  66.15898474843479,
+                  -0.000720538663915808,
+                  0.31203289651146315,
+                  -0.0007735452652533988,
+                  325.75027113472845,
+                  0.2161118838133509,
+                  0.0004709902618887051,
+                  156.8252616599562,
+                  3.1912565111508338,
+                  -1.1565965442524764,
+                  0.2161118838133509,
+                  39.73676861133191,
+                  -0.6274366135182203,
+                  0.10732549054657682,
+                  -1.1531748652491074,
+                  66.15898474843479,
+                  0.0004709902618887051,
+                  -0.6274366135182203,
+                  73.87476446227873,
+                  0.00018876810657783203,
+                  0.1498258231807465,
+                  -0.000720538663915808,
+                  156.8252616599562,
+                  0.10732549054657682,
+                  0.00018876810657783203,
+                  117.58167171993233
+                ],
+                "domain": "AIR",
+                "issuer": "SHIP_CG52_OWN"
+              }
+            ],
+            "stats": {
+              "sent": 6,
+              "received": 5,
+              "rejected": 0,
+              "associated": 14,
+              "created": 4,
+              "expired": 0,
+              "withheld": 0
+            }
+          },
+          "ownGate": {
+            "ok": false,
+            "reason": "NETWORK_ASSIGNED_PEER"
+          },
+          "allyGate": {
+            "ok": false,
+            "reason": "LOCAL_FCS_REQUIRED"
+          }
+        },
+        "immediateDefense": {
+          "localDefense": {
+            "checks": {
+              "uniqueMeasuredTiming": true,
+              "bearingOnlyHasNoRange": true,
+              "localOnlyHasNoActiveEvidence": true,
+              "staleLocalWithheld": true,
+              "sameMountAmbiguityWithheld": true,
+              "crossMountDuplicateSingle": true,
+              "crossMountManyToOneWithheld": true,
+              "multipleEmitterAmbiguityWithheld": true,
+              "cmsSeedNotDuplicated": true,
+              "unmatchedBearingWithheld": true,
+              "detachedAndNoIdAuthority": true
+            },
+            "pass": true
+          },
+          "ciws": [
+            {
+              "id": 1,
+              "label": "Phalanx(우현)",
+              "type": "GUN",
+              "state": "IDLE",
+              "ammo": 1550,
+              "firing": false,
+              "tracking": false,
+              "targetId": null,
+              "trackQuality": 0,
+              "fireRateRps": 75,
+              "shotAccumulator": 0,
+              "searchRangeKm": 15,
+              "trackRangeKm": 10,
+              "cueTrackRangeKm": 15,
+              "engageRangeKm": 3,
+              "localTrack": null
+            },
+            {
+              "id": 2,
+              "label": "Phalanx(좌현)",
+              "type": "GUN",
+              "state": "IDLE",
+              "ammo": 1550,
+              "firing": false,
+              "tracking": false,
+              "targetId": null,
+              "trackQuality": 0,
+              "fireRateRps": 75,
+              "shotAccumulator": 0,
+              "searchRangeKm": 15,
+              "trackRangeKm": 10,
+              "cueTrackRangeKm": 15,
+              "engageRangeKm": 3,
+              "localTrack": null
+            }
+          ],
+          "softKill": {
+            "auto": false,
+            "activeEaKey": null,
+            "schedulerFrameIndex": 0,
+            "eaAssignments": [],
+            "responses": [],
+            "lastAutoChaff": null,
+            "lastStep": 215,
+            "revision": 16
+          }
+        },
+        "damageUnavailable": {
+          "damageCandidate": "AN/SPG-62(1)",
+          "damageBefore": false,
+          "damageSet": 100,
+          "damageAfter": false,
+          "spgBefore": {
+            "policy": {
+              "schedulerFrameS": 0.2,
+              "stabilizationLeadS": 0.75,
+              "cpaReleaseMarginS": 0.75,
+              "minWindowS": 0.5,
+              "minScore": 0.05
+            },
+            "meta": {
+              "lastPlanStep": 204,
+              "lastHardwareSig": "0:1:0|1:1:0|2:1:0|3:1:0",
+              "lastEngagementSig": "",
+              "revision": 16,
+              "failed": []
+            },
+            "live": [],
+            "byIlluminator": {
+              "0": [],
+              "1": [],
+              "2": [],
+              "3": []
+            }
+          },
+          "spgDamageAttempts": [
+            {
+              "illId": 0,
+              "installed": true
+            },
+            {
+              "illId": 1,
+              "installed": true
+            },
+            {
+              "illId": 2,
+              "installed": true
+            },
+            {
+              "illId": 3,
+              "installed": true
+            },
+            {
+              "illId": 4,
+              "installed": false
+            },
+            {
+              "illId": 5,
+              "installed": false
+            },
+            {
+              "illId": 6,
+              "installed": false
+            },
+            {
+              "illId": 7,
+              "installed": false
+            }
+          ],
+          "spgAfter": {
+            "policy": {
+              "schedulerFrameS": 0.2,
+              "stabilizationLeadS": 0.75,
+              "cpaReleaseMarginS": 0.75,
+              "minWindowS": 0.5,
+              "minScore": 0.05
+            },
+            "meta": {
+              "lastPlanStep": 216,
+              "lastHardwareSig": "0:0:1000|1:0:1000|2:0:1000|3:0:1000",
+              "lastEngagementSig": "",
+              "revision": 20,
+              "failed": []
+            },
+            "live": [],
+            "byIlluminator": {
+              "0": [],
+              "1": [],
+              "2": [],
+              "3": []
+            }
+          },
+          "control": {
+            "revision": 18,
+            "step": 216,
+            "recommendations": [
+              {
+                "trackId": 300000013,
+                "trackNumber": 13,
+                "assessment": "THREAT",
+                "threatScore": 81.14733086471725,
+                "rangeKm": 25.104493200409447,
+                "altM": 9.453711184461154,
+                "cpaM": 9767.516061591852,
+                "cpaTimeS": 59.99807316334268,
+                "weapon": null,
+                "salvo": 0,
+                "recommendedRounds": 0,
+                "salvoPolicy": null,
+                "firePlan": {
+                  "status": "UNAVAILABLE",
+                  "reason": "NO_CHANNEL",
+                  "fireDelayS": null,
+                  "channelId": null,
+                  "requiresIlluminator": null
+                }
+              },
+              {
+                "trackId": 300000012,
+                "trackNumber": 12,
+                "assessment": "LOST",
+                "threatScore": 41.258860971788444,
+                "rangeKm": 15.272,
+                "altM": 15,
+                "cpaM": 15.000001099354288,
+                "cpaTimeS": 58.73843945047522,
+                "weapon": null,
+                "salvo": 0,
+                "recommendedRounds": 0,
+                "salvoPolicy": null,
+                "firePlan": {
+                  "status": "UNAVAILABLE",
+                  "reason": "NO_CHANNEL",
+                  "fireDelayS": null,
+                  "channelId": null,
+                  "requiresIlluminator": null
+                }
+              }
+            ]
+          }
+        },
+        "hierarchy": {
+          "commands": {
+            "h1Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                "enabled": true,
+                "manualRadar": false,
+                "manualEw": false
+              }
+            },
+            "h2Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                "enabled": true,
+                "manualNav": false
+              }
+            },
+            "h2Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                "enabled": true,
+                "manualNav": false
+              }
+            },
+            "h3Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                "enabled": true
+              }
+            },
+            "h3Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                "enabled": true
+              }
+            },
+            "h3Reject": {
+              "ok": false,
+              "reason": "NO_LOCAL_SURFACE_TRACK",
+              "truthUsed": false
+            },
+            "h4Own": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "enabled": true,
+                "mission": "ESCORT",
+                "formation": "LINE_ASTERN",
+                "spacingM": 2000,
+                "surfaceRoe": "IDENTIFIED_ONLY"
+              }
+            },
+            "h4Ally": {
+              "ok": true,
+              "settings": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "enabled": true,
+                "mission": "ESCORT",
+                "formation": "LINE_ASTERN",
+                "spacingM": 2000,
+                "surfaceRoe": "IDENTIFIED_ONLY"
+              }
+            }
+          },
+          "snapshots": {
+            "h1": {
+              "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_CG52_OWN",
+                  "settings": {
+                    "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                    "enabled": true,
+                    "manualRadar": false,
+                    "manualEw": false
+                  },
+                  "active": false,
+                  "posture": "DEGRADED",
+                  "sinceS": 4,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "scores": [
+                    {
+                      "posture": "DEGRADED",
+                      "score": 0.7975
+                    },
+                    {
+                      "posture": "DEFEND",
+                      "score": 0.6295000000000001
+                    },
+                    {
+                      "posture": "CONSERVE",
+                      "score": 0.12
+                    },
+                    {
+                      "posture": "WATCH",
+                      "score": 0.1
+                    },
+                    {
+                      "posture": "SATURATED",
+                      "score": 0
+                    }
+                  ],
+                  "priorities": [],
+                  "summary": {
+                    "localThreats": 0,
+                    "unserved": 0,
+                    "passiveSeekerAlerts": 1,
+                    "sharedAlerts": 0,
+                    "earliestTtiS": null,
+                    "availableRounds": 182,
+                    "inventory": {
+                      "sm2": 94,
+                      "sm2er": 0,
+                      "sm6": 0,
+                      "essm": 88,
+                      "ram": 0
+                    },
+                    "supportChannels": 4,
+                    "availableChannels": 0,
+                    "activeIlluminations": 0,
+                    "combatEfficiency": 1,
+                    "radarPower": 1,
+                    "ciwsPower": 1,
+                    "steering": 1,
+                    "emergency": false,
+                    "offline": false
+                  },
+                  "radarOwned": false,
+                  "ewOwned": false,
+                  "groupRadarPriority": false,
+                  "log": [
+                    {
+                      "step": 120,
+                      "from": "WATCH",
+                      "to": "DEFEND",
+                      "score": 0.6295000000000001
+                    },
+                    {
+                      "step": 240,
+                      "from": "DEFEND",
+                      "to": "DEGRADED",
+                      "score": 0.7975
+                    }
+                  ]
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_UTILITY_TACTICAL_H1_1",
+                    "enabled": true,
+                    "manualRadar": false,
+                    "manualEw": false
+                  },
+                  "active": true,
+                  "posture": "DEFEND",
+                  "sinceS": 2,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "scores": [
+                    {
+                      "posture": "DEFEND",
+                      "score": 0.22
+                    },
+                    {
+                      "posture": "CONSERVE",
+                      "score": 0.12
+                    },
+                    {
+                      "posture": "WATCH",
+                      "score": 0.1
+                    },
+                    {
+                      "posture": "DEGRADED",
+                      "score": 0
+                    },
+                    {
+                      "posture": "SATURATED",
+                      "score": 0
+                    }
+                  ],
+                  "priorities": [
+                    {
+                      "trackId": 1,
+                      "score": 0.22325323027360333,
+                      "ttiS": 81.72928837228702,
+                      "closureMps": 297.8244368240395,
+                      "speedMps": 297.9042167629414,
+                      "rangeKm": 24.340979281505902,
+                      "bearingRad": 0.018429353459158592,
+                      "unserved": false,
+                      "quality": 0.9765170749262153
+                    }
+                  ],
+                  "summary": {
+                    "localThreats": 1,
+                    "unserved": 0,
+                    "passiveSeekerAlerts": 0,
+                    "sharedAlerts": 0,
+                    "earliestTtiS": 81.72928837228702,
+                    "availableRounds": 165,
+                    "inventory": {
+                      "sm2": 68,
+                      "sm2er": 0,
+                      "sm6": 0,
+                      "essm": 87,
+                      "ram": 10
+                    },
+                    "supportChannels": 3,
+                    "availableChannels": 3,
+                    "activeIlluminations": 0,
+                    "combatEfficiency": 1,
+                    "radarPower": 1,
+                    "ciwsPower": 1,
+                    "steering": 1,
+                    "emergency": false,
+                    "offline": false
+                  },
+                  "radarOwned": true,
+                  "ewOwned": true,
+                  "groupRadarPriority": false,
+                  "log": [
+                    {
+                      "step": 120,
+                      "from": "WATCH",
+                      "to": "DEFEND",
+                      "score": 0.22
+                    }
+                  ]
+                }
+              ]
+            },
+            "h2": {
+              "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_CG52_OWN",
+                  "settings": {
+                    "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                    "enabled": true,
+                    "manualNav": false
+                  },
+                  "active": false,
+                  "owned": false,
+                  "selected": "KEEP",
+                  "sinceS": 0,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "summary": {
+                    "reason": "INACTIVE",
+                    "localThreats": 0
+                  },
+                  "command": null,
+                  "candidates": [],
+                  "log": []
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_MANEUVER_UTILITY_H2_1",
+                    "enabled": true,
+                    "manualNav": false
+                  },
+                  "active": true,
+                  "owned": true,
+                  "selected": "KEEP",
+                  "sinceS": 3.6,
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "summary": {
+                    "reason": "KEEP",
+                    "localThreats": 1,
+                    "steering": 1,
+                    "propulsion": 1,
+                    "earliestTtiS": 81.82905379350326
+                  },
+                  "command": {
+                    "headingRad": -1.5707963267948966,
+                    "speedKt": 8,
+                    "rudderDeg": 0
+                  },
+                  "candidates": [
+                    {
+                      "id": "PORT30",
+                      "headingRad": -2.094395102393195,
+                      "speedKt": 14,
+                      "score": 0.6981955893400367,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.6984108414744643,
+                      "predictedSpeedMps": 6.462096164305281,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 587.6354230951034
+                        }
+                      ]
+                    },
+                    {
+                      "id": "KEEP",
+                      "headingRad": -1.5707963267948966,
+                      "speedKt": 8,
+                      "score": 0.6969955301931163,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5707963267948966,
+                      "predictedSpeedMps": 4.115552,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 434.4412731263351
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STARBOARD30",
+                      "headingRad": -1.0471975511965983,
+                      "speedKt": 14,
+                      "score": 0.6918595075974928,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.4431818121153288,
+                      "predictedSpeedMps": 6.462096164305281,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 586.9219596691235
+                        }
+                      ]
+                    },
+                    {
+                      "id": "PORT60",
+                      "headingRad": -2.617993877991494,
+                      "speedKt": 14,
+                      "score": 0.6781955893400368,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.6984108414744643,
+                      "predictedSpeedMps": 6.462096164305281,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 587.6354230951034
+                        }
+                      ]
+                    },
+                    {
+                      "id": "SLOW",
+                      "headingRad": -1.5707963267948966,
+                      "speedKt": 8,
+                      "score": 0.6769955301931163,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5707963267948966,
+                      "predictedSpeedMps": 4.115552,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 434.4412731263351
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STARBOARD60",
+                      "headingRad": -0.5235987755982983,
+                      "speedKt": 14,
+                      "score": 0.6718595075974928,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.4431818121153288,
+                      "predictedSpeedMps": 6.462096164305281,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 586.9219596691235
+                        }
+                      ]
+                    },
+                    {
+                      "id": "FAST",
+                      "headingRad": -1.5707963267948966,
+                      "speedKt": 28,
+                      "score": 0.6701424344685609,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5707963267948966,
+                      "predictedSpeedMps": 6.462096164305281,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 590.3172749616805
+                        }
+                      ]
+                    },
+                    {
+                      "id": "STOP",
+                      "headingRad": -1.5707963267948966,
+                      "speedKt": 0,
+                      "score": 0.6206410546262929,
+                      "guard": {
+                        "ok": true,
+                        "reason": null
+                      },
+                      "coverage": 1,
+                      "supportRisk": 0,
+                      "supportCount": 0,
+                      "predictedHeadingRad": -1.5707963267948966,
+                      "predictedSpeedMps": 2.26209616430528,
+                      "horizonS": 30,
+                      "opportunities": [
+                        {
+                          "trackId": 1,
+                          "spgOpen": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "closeInOpen": [
+                            1,
+                            2
+                          ],
+                          "cpaM": 310.104640095135
+                        }
+                      ]
+                    }
+                  ],
+                  "log": []
+                }
+              ]
+            },
+            "h3": {
+              "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "dataLink": false,
+              "ships": [
+                {
+                  "entityId": "SHIP_CG52_OWN",
+                  "settings": {
+                    "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                    "enabled": true
+                  },
+                  "active": false,
+                  "status": "WAIT",
+                  "reason": "ATTACK_AUTO_INACTIVE",
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "selectedTrackId": null,
+                  "consents": [],
+                  "plans": [],
+                  "log": []
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_SURFACE_ATTACK_H3_1",
+                    "enabled": true
+                  },
+                  "active": true,
+                  "status": "WAIT",
+                  "reason": "ATTACK_CONSENT_OR_HOSTILE_TRACK_REQUIRED",
+                  "lastStep": 300,
+                  "evaluations": 23,
+                  "selectedTrackId": null,
+                  "consents": [],
+                  "plans": [],
+                  "log": []
+                }
+              ]
+            },
+            "h4": {
+              "schema": "AEGIS_TEAM_TACTICS_H4_1",
+              "truthUsed": false,
+              "remoteFireControl": false,
+              "ordnanceDatalink": false,
+              "policy": {
+                "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                "packet": "AEGIS_TEAM_PACKET_H4_1",
+                "periodTicks": 12,
+                "sendTicks": 30,
+                "latencyTicks": 18,
+                "freshS": 2,
+                "leaseS": 1.8,
+                "waitS": 2.4,
+                "salvoHoldS": 90,
+                "maxFiles": 96,
+                "maxBids": 16,
+                "maxQueue": 16,
+                "maxReceipts": 8,
+                "maxLog": 64,
+                "intentHoldS": 30
+              },
+              "ships": [
+                {
+                  "entityId": "SHIP_CG52_OWN",
+                  "settings": {
+                    "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                    "enabled": true,
+                    "mission": "ESCORT",
+                    "formation": "LINE_ASTERN",
+                    "spacingM": 2000,
+                    "surfaceRoe": "IDENTIFIED_ONLY"
+                  },
+                  "active": true,
+                  "role": "LEADER",
+                  "reason": "LEAD_OWN_NAVIGATION",
+                  "evaluations": 23,
+                  "queued": 1,
+                  "peers": [
+                    {
+                      "senderId": "SHIP_SCENARIO_ALLY_F",
+                      "ageS": 0.5999999999999996,
+                      "mission": "ESCORT",
+                      "bids": 0,
+                      "receipts": 0
+                    }
+                  ],
+                  "formation": null,
+                  "leases": [],
+                  "receipts": [],
+                  "intents": [],
+                  "log": [
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    },
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    }
+                  ]
+                },
+                {
+                  "entityId": "SHIP_SCENARIO_ALLY_F",
+                  "settings": {
+                    "schema": "AEGIS_TEAM_TACTICS_H4_1",
+                    "enabled": true,
+                    "mission": "ESCORT",
+                    "formation": "LINE_ASTERN",
+                    "spacingM": 2000,
+                    "surfaceRoe": "IDENTIFIED_ONLY"
+                  },
+                  "active": true,
+                  "role": "INDEPENDENT",
+                  "reason": "OPERATOR_TEAM_CHANGED",
+                  "evaluations": 23,
+                  "queued": 1,
+                  "peers": [
+                    {
+                      "senderId": "SHIP_CG52_OWN",
+                      "ageS": 0.5999999999999996,
+                      "mission": "ESCORT",
+                      "bids": 0,
+                      "receipts": 0
+                    }
+                  ],
+                  "formation": null,
+                  "leases": [],
+                  "receipts": [],
+                  "intents": [],
+                  "log": [
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    },
+                    {
+                      "step": 216,
+                      "action": "COMMAND",
+                      "reason": "OPERATOR_TEAM_CHANGED"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "finalState": {
+          "step": 306,
+          "rng": 1256165774,
+          "shipHP": 100,
+          "hitCount": 0,
+          "missileCount": 0
+        },
+        "saveSnapshot": {
+          "bytes": 1314319,
+          "sha256": "12cd827428a99e0b54cb6e98319617c9f5e0d96006badedcde5f9d236568dce9",
+          "schema": "AEGIS_OPERATIONAL_STATE_V48_WIP11A"
+        },
+        "browser": {
+          "consoleErrors": [],
+          "pageErrors": []
+        }
+      }
+    }
+  ],
+  "deterministicDigest": "c57bfc4ffa50adf3af6bb798dcb73d18758d32c5aec59d6469e1a80a6c9615bf"
+}

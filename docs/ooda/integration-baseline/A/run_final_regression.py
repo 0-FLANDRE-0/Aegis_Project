@@ -16,12 +16,12 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 PRODUCT = ROOT / "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html"
 BASELINE = ROOT / "Aegis_SIM_v48_WIP_HP_A.html"
-PRODUCT_BYTES = 22_211_451
-PRODUCT_SHA256 = "baf96f9a1350973d045c9ad4f9025a86c10eaeda3c1924ad52498c45b90d0b5b"
+PRODUCT_BYTES = 22_212_299
+PRODUCT_SHA256 = "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0"
 BASELINE_BYTES = 22_200_135
 BASELINE_SHA256 = "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa"
-OUT = HERE / "evidence" / "final-regression"
-SUMMARY = HERE / "FINAL_REGRESSION.json"
+OUT = HERE / "evidence" / "final-correction" / "final-regression"
+SUMMARY = HERE / "FINAL_CORRECTION_REGRESSION.json"
 
 NATIVE = {
     "helicopter-flight": ("native.json", 85), "aps153": ("native.json", 20),
@@ -127,13 +127,17 @@ def execute(name: str) -> dict:
 
 
 def static_integrity() -> dict:
-    c_gate = json.loads((HERE / "C_GATE.json").read_text())
-    baseline_oracle = json.loads((HERE / "BASELINE_ORACLE.json").read_text())
-    candidate_oracle = json.loads((HERE / "CANDIDATE_ORACLE.json").read_text())
-    contract = json.loads((HERE / "CONTRACT_ORACLE.json").read_text())
-    repeat = json.loads((HERE / "CONTRACT_ORACLE_REPEAT.json").read_text())
-    baseline_hashes = json.loads((HERE / "FUNCTION_HASHES.json").read_text())["functions"]
-    candidate_hashes = json.loads((HERE / "FUNCTION_HASHES_CANDIDATE.json").read_text())["functions"]
+    correction = HERE / "evidence" / "final-correction"
+    hash_gate = json.loads((correction / "commit-b" / "FUNCTION_HASH_GATE.json").read_text())
+    boundary_gate = json.loads((correction / "commit-b" / "BOUNDARY_STATIC_GATE.json").read_text())
+    baseline_oracle = json.loads((correction / "oracles" / "BASELINE_ORACLE.json").read_text())
+    candidate_oracle = json.loads((correction / "oracles" / "CANDIDATE_ORACLE.json").read_text())
+    contract = json.loads((correction / "oracles" / "CONTRACT_ORACLE.json").read_text())
+    repeat = json.loads((correction / "oracles" / "CONTRACT_ORACLE_REPEAT.json").read_text())
+    crew = json.loads((correction / "commit-a" / "CREW_CONTRACT_ORACLE.json").read_text())
+    crew_repeat = json.loads((correction / "commit-a" / "CREW_CONTRACT_ORACLE_REPEAT.json").read_text())
+    baseline_hashes = json.loads((correction / "commit-b" / "FUNCTION_HASHES_BASELINE.json").read_text())["functions"]
+    candidate_hashes = json.loads((correction / "commit-b" / "FUNCTION_HASHES_CANDIDATE.json").read_text())["functions"]
     common = set(baseline_hashes) & set(candidate_hashes)
     changed = sorted(name for name in common if baseline_hashes[name] != candidate_hashes[name])
     new = sorted(set(candidate_hashes) - set(baseline_hashes))
@@ -142,19 +146,22 @@ def static_integrity() -> dict:
         "productShaPinned": sha256(PRODUCT.read_bytes()) == PRODUCT_SHA256,
         "baselineBytesPinned": BASELINE.stat().st_size == BASELINE_BYTES,
         "baselineShaPinned": sha256(BASELINE.read_bytes()) == BASELINE_SHA256,
-        "commitCGatePass": c_gate.get("status") == "PASS",
+        "functionHashGatePass": hash_gate.get("status") == "PASS",
+        "boundaryStaticGatePass": boundary_gate.get("status") == "PASS",
         "baselineCandidateOracleExact": baseline_oracle["deterministicDigest"] == candidate_oracle["deterministicDigest"],
         "contractRepeatExact": contract["deterministicDigest"] == repeat["deterministicDigest"],
+        "crewContractRepeatExact": crew["deterministicDigest"] == crew_repeat["deterministicDigest"],
+        "crewContractAllPass": bool(crew.get("checks")) and all(crew["checks"].values()),
         "shadowMismatchZero": all((row[side]["diagnostics"]["shadowMismatchCount"] == 0) for row in contract["owners"] for side in ("active", "foreign")),
         "rngMismatchZero": all((row[side]["diagnostics"]["rngMismatchCount"] == 0) for row in contract["owners"] for side in ("active", "foreign")),
         "truthAuditZero": all((row[side]["diagnostics"]["truthAuditFailures"] == 0) for row in contract["owners"] for side in ("active", "foreign")),
         "readOnlyInputExact": all(row["readOnly"]["rngExact"] and row["readOnly"]["saveExact"] for row in contract["owners"]),
-        "protectedHashesExact": changed == ["wip118BuildEngagementControl"],
-        "newContractFunctionsExact": len(new) == 6 and all(name.startswith("defenseDecision") for name in new),
+        "protectedHashesExact": changed == ["wip118BuildEngagementControl"] and hash_gate.get("protectedCount") == 31 and len(hash_gate.get("protectedExact", [])) == 30,
+        "newContractFunctionsExact": len(new) == 11 and set(new) == set(hash_gate.get("newBoundaryFunctions", [])),
         "noSaveSchemaFields": all(row["provider"]["saveFields"] == 0 for row in contract["owners"]),
     }
     failed = [key for key, value in checks.items() if not value]
-    payload = {"schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_STATIC_1", "checks": checks, "intentionalChangedFunctions": changed, "newFunctions": new, "errors": []}
+    payload = {"schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_STATIC_1", "checks": checks, "intentionalChangedFunctions": changed, "newFunctions": new, "errors": []}
     path = OUT / "static-integrity.json"; path.write_text(strict(payload))
     return {"suite": "static-integrity", "status": "PASS" if not failed else "FAIL", "exitCode": 0 if not failed else 1, "wallS": 0, "expectedAssertions": len(checks), "executedAssertions": len(checks), "passedAssertions": sum(checks.values()), "failedAssertions": failed, "errors": [], "resultPath": str(path.relative_to(OUT))}
 
@@ -175,7 +182,7 @@ def write_summary(rows: list[dict], started: float, complete: bool) -> dict:
     failures = [row["suite"] for row in rows if row["status"] != "PASS"]
     native = [row for row in rows if row["suite"] in NATIVE]
     result = {
-        "schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_REGRESSION_1", "complete": complete,
+        "schema": "AEGIS_INTEGRATION_BASELINE_A_FINAL_CORRECTION_REGRESSION_1", "complete": complete,
         "candidate": PRODUCT.name, "candidateSha256": PRODUCT_SHA256, "candidateBytes": PRODUCT_BYTES,
         "baseline": BASELINE.name, "baselineSha256": BASELINE_SHA256, "threatAssumptionMode": "MAX_THREAT",
         "broadRun": {"runCount": 1, "candidateFrozen": True, "candidateSha256": PRODUCT_SHA256},
@@ -191,6 +198,18 @@ def write_summary(rows: list[dict], started: float, complete: bool) -> dict:
 def preflight() -> None:
     assert PRODUCT.stat().st_size == PRODUCT_BYTES and sha256(PRODUCT.read_bytes()) == PRODUCT_SHA256
     assert BASELINE.stat().st_size == BASELINE_BYTES and sha256(BASELINE.read_bytes()) == BASELINE_SHA256
+    required = [
+        ROOT / "docs/multiship/G/browser_g.py",
+        ROOT / "docs/missile/fuze-zem/A/browser_tools.py",
+        ROOT / "docs/pip/B/run_domain.py",
+        ROOT / "docs/map/E/verify_emcon_ui.py",
+        ROOT / "docs/contact/friendly/A/cpu2d_ui.py",
+        ROOT / "docs/envelope/D/run_observed_webgl.py",
+        ROOT / "docs/helicopter/F/verify_regression.py",
+        ROOT / "docs/damage/hp/A/run_contract_gate.py",
+    ]
+    missing = [str(path.relative_to(ROOT)) for path in required if not path.is_file()]
+    assert not missing, f"broad regression preflight missing modules: {missing}"
 
 
 def main() -> None:
@@ -203,7 +222,11 @@ def main() -> None:
     assert not any(OUT.iterdir()), "final broad regression is one-shot; output directory must be empty"
     started = time.perf_counter(); rows = [static_integrity()]; source_provenance(); write_summary(rows, started, False)
     for name in names:
-        rows.append(execute(name)); write_summary(rows, started, False)
+        row = execute(name); rows.append(row); write_summary(rows, started, False)
+        if row["executedAssertions"] == 0:
+            raise SystemExit(f"zero-assertion suite: {name}")
+        if row["status"] != "PASS":
+            raise SystemExit(f"broad regression stopped on failure: {name}")
     result = write_summary(rows, started, True)
     raise SystemExit(1 if result["effectiveFailures"] else 0)
 
