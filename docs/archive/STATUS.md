@@ -1,4 +1,11 @@
-# 현재 상태 (2026-11-13 INTEGRATION_BASELINE_A 보정 완료 후보 기준)
+# 현재 상태 (2026-11-18 DEFENSE_OODA_A 작업 기준)
+
+## DEFENSE_OODA_A 현재 인계
+
+- PR #79 INTEGRATION_BASELINE_A는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 병합됐다. 기준 제품은 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`, 22,212,299 bytes, SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0`다.
+- 최종 corrected-candidate Actions `43420335598`은 성공했다. 최초 광역 실행의 `WIP_HELI_CG_A` 누락·0 assertion 중단 증거는 삭제하거나 PASS로 재분류하지 않는다.
+- 다음 단일 단계는 `defense-ooda-a`의 `DEFENSE_OODA_A`다. owner별 처리 슬롯·fixed-step 지연·승조원/손상/현대화 처리량과 관측 기반 우선순위·native 상한 이하 살보 권고만 담당한다.
+- A3, Network G, FCS/SPG, reserve, re-engagement, EMCON, damage, release와 C55/RAM/Phalanx 즉응 경로의 권위는 기존 위치에 남긴다. 병합·release·tag는 하지 않는다.
 
 ## 통합 방어 기준선 현재 인계
 
@@ -7,7 +14,7 @@
 - `integration-baseline-a`에서 방어 소유권·호출 그래프와 기준 오라클을 동결했고, owner-addressed 불변 입력 DTO 및 advisory 명령 DTO를 `LEGACY_H1` provider로 연결했다. crew 입력은 owner-local 요약으로 제한되며 25/25 반복 결정성이 exact다. truth/RNG/save mutation은 0이다.
 - 보정 1차 광역은 누락된 `WIP_HELI_CG_A` fixture 때문에 첫 suite 0 assertion에서 중단했고 원시 실패 로그를 보존했다. 승인된 2차는 fixture와 모든 간접 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 기대값·허용오차·게임 상수 변경은 없다.
 - 실제 OODA 판단·처리량·반응 지연·평가 슬롯은 다음 단일 단계 `DEFENSE_OODA_A` 범위다. CIWS 로컬 즉응, A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이 단계에서 이동하지 않는다.
-- PR #79는 병합하지 않는다. 보정 패키지 head의 current-candidate PR run `43415982293`과 workflow_dispatch run `43417371723`은 모두 SUCCESS이며, 제품 HTML·실행 ZIP·리포트 ZIP 원격 readback도 전부 exact다. release·tag는 없다.
+- PR #79는 merge commit `68911e39…`로 병합됐다. 보정 패키지 head의 current-candidate PR run `43415982293`, workflow_dispatch `43417371723`, 최종 corrected-candidate run `43420335598`은 SUCCESS이며 제품 HTML·실행 ZIP·리포트 ZIP 원격 readback도 전부 exact다. release·tag는 없다.
 
 # 직전 상태 (2026-11-09 SEEKER_CLOSE_A PR #78 폐쇄 보정 기준)
 

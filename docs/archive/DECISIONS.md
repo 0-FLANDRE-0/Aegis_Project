@@ -193,3 +193,10 @@
 - 실행 전 `WIP_HELI_CG_A` 기준 HTML과 모든 간접 fixture를 sparse checkout에 포함하고 전체 suite 입력 존재를 preflight한다. 1차 중단 로그와 영수증은 삭제하거나 PASS로 재분류하지 않는다.
 - 2차는 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보는 22,212,299 bytes / SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0` 그대로이며 기대값·허용오차·게임 상수 변경은 0이다.
 - 통과 뒤에만 manifest·패키지·원격 readback·Actions를 최종 갱신한다. PR #79는 병합하지 않고 release/tag도 만들지 않는다.
+
+## 2026-11-18 (PR #79 병합 및 DEFENSE_OODA_A 착수)
+
+- 사용자는 PR #79 INTEGRATION_BASELINE_A를 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 병합했다. 최종 corrected-candidate Actions run `43420335598`은 SUCCESS이며, 1차 광역 실행의 fixture 누락·0 assertion 중단 증거는 계속 보존한다.
+- 다음 단계는 별도 정리나 후속 단계를 만들지 않고 하나의 `defense-ooda-a` 브랜치·PR에서 수행하는 `DEFENSE_OODA_A`다.
+- OODA는 owner-local 관측 DTO로 평가 순서·CIC 처리량/슬롯·fixed-step 반응 지연·현대화/승조원/손상 처리 능력·native 상한 이하 살보 권고만 만든다. A3/FCS/SPG/Network/reserve/EMCON/damage/release 및 C55 즉응 권위는 이동하지 않는다.
+- 공개 근거가 없는 처리량 값은 `SIM_TUNED_GAMEPLAY_NOT_REAL_CIC_SPEC`이며 동적 전투 시험 전에 ShipProfile 및 ledger에 동결한다. SHADOW 게이트와 fallback 0을 확인한 뒤에만 ACTIVE 전환을 허용한다.

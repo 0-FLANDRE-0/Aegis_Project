@@ -1,10 +1,17 @@
-## 최신 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선 완료 후보
+## 최신 작업 — DEFENSE_OODA_A 함별 방어 판단 구현 중
+
+- PR #79 `INTEGRATION_BASELINE_A`는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 `main`에 병합됐다. 권위 기준 제품은 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)이다.
+- `defense-ooda-a`는 이 기준선의 owner-addressed 관측 DTO와 advisory 명령 DTO를 그대로 사용해 DDG/CG 공통 OODA 엔진을 구현한다. A3/FCS/SPG/Network/reserve/EMCON/release 및 매 fixed tick CIWS 권위는 이동하지 않는다.
+- 프로필·상태·저장 계약과 게임용 처리량 값은 동적 전투 시험 전에 `docs/ooda/defense/A/`에 동결한다. 구현은 `LEGACY_H1 ACTIVE + DEFENSE_OODA_A SHADOW` 게이트를 통과한 뒤에만 ACTIVE로 전환한다.
+- PR #79의 최종 성공 Actions는 `43420335598`이며, 첫 광역 실행의 `WIP_HELI_CG_A` 누락·0 assertion 중단 증거도 역사적 실패로 보존한다. DEFENSE_OODA_A는 PR까지만 진행하고 병합·release·tag는 사용자 결정으로 남긴다.
+
+## 직전 병합 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선
 
 - PR #78 SEEKER_CLOSE_A가 merge commit `d5f43c5a`로 병합된 HP_A를 기준으로, 보정 후보 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)을 만들었다.
 - 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권과 호출 경계를 동결했다. 다음 `DEFENSE_OODA_A`가 교체할 `AEGIS_DEFENSE_DECISION_INPUT_A1` 읽기 전용 DTO와 advisory 명령 DTO를 `LEGACY_H1`에 연결했으며, crew 입력은 owner-local·deep-frozen 요약만 허용한다.
 - A3/Network/FCS/reserve/reengagement/실제 발사 gate와 CIWS 즉응 권위는 그대로다. truth 필드·provider RNG·저장 필드 추가는 모두 0이다. 보호 함수 31개 중 30개는 exact이고 `wip118BuildEngagementControl`만 의도한 adapter 연결로 변경됐다. 11개 경계 함수는 별도 해시로 고정했다.
 - 보정 광역 1차는 `WIP_HELI_CG_A` fixture 누락을 preflight에서 잡지 못해 첫 suite 0 assertion으로 즉시 중단했고, 실패 로그를 그대로 보존했다. 사용자가 승인한 2차는 전체 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보 bytes/SHA, 기대값, 허용오차, 게임 상수 변경은 0이다.
-- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. 보정 패키지 head의 PR Actions `43415982293`과 workflow_dispatch `43417371723`은 SUCCESS이고 세 원격 산출물 readback은 exact다. PR #79는 병합하지 않는다.
+- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. 보정 패키지 head의 PR Actions `43415982293`, workflow_dispatch `43417371723`, 최종 corrected-candidate run `43420335598`은 SUCCESS이고 세 원격 산출물 readback은 exact다. PR #79는 merge commit `68911e39…`로 병합됐으며 release/tag는 없다.
 
 ## 직전 제품 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 

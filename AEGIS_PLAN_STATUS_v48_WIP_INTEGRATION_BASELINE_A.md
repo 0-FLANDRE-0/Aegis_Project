@@ -5,8 +5,8 @@
 - Branch: `integration-baseline-a`
 - Base main: `d5f43c5a7d3550efb2f45d10aaf4195fb60955ae`
 - Base merge: PR #78 SEEKER_CLOSE_A, Actions `42574022086` SUCCESS
-- Pull request: #79, not merged
-- Corrected package-head Actions: PR run `43415982293` SUCCESS; workflow_dispatch run `43417371723` SUCCESS
+- Pull request: #79, merged as `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`
+- Corrected package-head Actions: PR run `43415982293` SUCCESS; workflow_dispatch run `43417371723` SUCCESS; final corrected-candidate run `43420335598` SUCCESS
 - Release/tag: none
 
 ## Products
@@ -59,6 +59,6 @@ The pre-correction 782/782 evidence remains historical. For the corrected candid
 ## RELEASE
 
 - `RELEASE: NO`
-- PR #79 is the review boundary. Do not merge, release or tag without the user's decision.
-- After merge, proceed directly to `DEFENSE_OODA_A`; do not create an intermediate cleanup stage.
+- PR #79 was merged by the user as merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`.
+- Proceed directly to `DEFENSE_OODA_A`; no intermediate cleanup stage was created. No release/tag was created.
 
