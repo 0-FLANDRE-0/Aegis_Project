@@ -109,7 +109,7 @@ def patch(text: str, stage: str) -> str:
     text = replace_count(text, "saveFields:0,", "saveFields:1,", 1, "public save field")
     text = replace_count(text,
         "input:defenseDecisionInputForOwnerA1,diagnostics:defenseDecisionDiagnosticsForOwnerA1,ships:",
-        "input:defenseDecisionInputForOwnerA1,diagnostics:defenseDecisionDiagnosticsForOwnerA1,ooda:id=>{const r=defenseDecisionOwnerA1(id);return r?defenseOodaSnapshotA(r):null;},selfTest:defenseOodaContractSelfTestA,ships:",
+        "input:defenseDecisionInputForOwnerA1,diagnostics:defenseDecisionDiagnosticsForOwnerA1,ooda:id=>{const r=defenseDecisionOwnerA1(id);return r?defenseOodaSnapshotA(r):null;},selfTest:defenseOodaContractSelfTestA,engineSelfTest:defenseOodaEngineSelfTestA,ships:",
         1, "public OODA API")
 
     # Active and foreign save/export/validation/restore. The overall operational
