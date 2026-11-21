@@ -55,6 +55,7 @@ function defenseDecisionShadowCompareA(state,path,legacy,ooda,allowed=true){
 function defenseDecisionAppendSalvoA(command,row){return deepFreezeShipProfileV48Wip09({...command,salvoOverrides:[...command.salvoOverrides,row]});}
 function defenseDecisionLegacyBeginA1(rows){
   const r=ACTIVE_SHIP_RUNTIME,state=defenseDecisionDiagnosticStateA1(r),rngBefore=defenseDecisionRngStampA1(r),input=defenseDecisionInputSnapshotA1(),legacy=defenseDecisionLegacyCommandA1(input,rows),legacyValidation=defenseDecisionValidateCommandA1(r,input,legacy),ooda=DEFENSE_OODA_IMPLEMENTATION_MODE_A==='OFF'?null:defenseOodaCommandA(r,input),oodaValidation=ooda?defenseDecisionValidateCommandA1(r,input,ooda):{ok:false,reason:'OODA_DISABLED'};
+  if(ooda&&!oodaValidation.ok){const rejected=defenseOodaEnsureStateA(r);if(rejected)rejected.diagnostics.rejected++;}
   if(ooda)defenseDecisionShadowCompareA(state,'trackOrder',legacy.trackOrder,ooda.trackOrder,true);
   let command=legacy,validation=legacyValidation,usedFallback=false;
   if(DEFENSE_OODA_IMPLEMENTATION_MODE_A==='ACTIVE'){if(oodaValidation.ok){command=ooda;validation=oodaValidation;}else{usedFallback=true;const s=defenseOodaEnsureStateA(r);if(s)s.diagnostics.fallback++;}}
@@ -105,6 +106,14 @@ def patch(text: str, stage: str) -> str:
         text = regex_replace(text,
             r"function defenseDecisionLegacyBeginA1\(rows\)\{.*?function wip118SalvoPolicy\(th,weapon,assessment,plan,decision=null\)\{.*?\}",
             ADAPTER.strip(), 2, "OODA adapter")
+        text = replace_count(text,
+            "shadowMismatchCount:q.shadowMismatchCount,firstMismatch:",
+            "shadowMismatchCount:q.shadowMismatchCount,allowedShadowDifferenceCount:q.allowedShadowDifferenceCount??0,firstAllowedShadowDifference:q.firstAllowedShadowDifference?jsonSafeCloneV48Wip11A(q.firstAllowedShadowDifference):null,firstMismatch:",
+            1, "OODA diagnostic allowed difference")
+        text = replace_count(text,
+            "shadowMismatchCount:0,firstMismatch:null,validationFailures:",
+            "shadowMismatchCount:0,allowedShadowDifferenceCount:0,firstAllowedShadowDifference:null,firstMismatch:null,validationFailures:",
+            2, "OODA diagnostic allowed difference default")
 
     text = replace_count(text, "saveFields:0,", "saveFields:1,", 1, "public save field")
     text = replace_count(text,
