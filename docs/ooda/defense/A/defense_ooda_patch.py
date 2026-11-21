@@ -82,6 +82,8 @@ function wip118SalvoPolicy(th,weapon,assessment,plan,decision=null){const native
 def patch(text: str, stage: str) -> str:
     mode = {"A": "OFF", "B": "OFF", "C": "SHADOW", "D": "ACTIVE"}[stage]
     runtime = (HERE / "defense_ooda_runtime.js").read_text().replace("__DEFENSE_OODA_MODE__", mode)
+    if stage == "D":
+        runtime += "\n\n" + (HERE / "defense_ooda_ui.js").read_text()
     text = replace_count(text, RUNTIME_MARKER, runtime.rstrip() + "\n\n" + RUNTIME_MARKER, 1, "runtime insertion")
 
     text = replace_count(text,
@@ -120,6 +122,15 @@ def patch(text: str, stage: str) -> str:
         "input:defenseDecisionInputForOwnerA1,diagnostics:defenseDecisionDiagnosticsForOwnerA1,ships:",
         "input:defenseDecisionInputForOwnerA1,diagnostics:defenseDecisionDiagnosticsForOwnerA1,ooda:id=>{const r=defenseDecisionOwnerA1(id);return r?defenseOodaSnapshotA(r):null;},selfTest:defenseOodaContractSelfTestA,engineSelfTest:defenseOodaEngineSelfTestA,ships:",
         1, "public OODA API")
+    if stage == "D":
+        text = replace_count(text,
+            "engineSelfTest:defenseOodaEngineSelfTestA,ships:",
+            "engineSelfTest:defenseOodaEngineSelfTestA,statusText:defenseOodaDiagnosticTextA,ships:",
+            1, "public read-only OODA diagnostic")
+        text = replace_count(text,
+            "portOwnsImmediateCiws:false};}});",
+            "portOwnsImmediateCiws:false};}});\ndefenseOodaInstallDiagnosticUiA();",
+            1, "install OODA diagnostic UI")
 
     # Active and foreign save/export/validation/restore. The overall operational
     # schema stays V2; this is an optional field migrated before validation.

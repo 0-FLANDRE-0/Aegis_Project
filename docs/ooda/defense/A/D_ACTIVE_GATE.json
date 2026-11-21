@@ -1,0 +1,2950 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_ACTIVE_ORACLE_1",
+  "product": {
+    "file": "Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+    "bytes": 22226343,
+    "sha256": "1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d"
+  },
+  "browser": "156.0.8078.79",
+  "playwright": "1.62.1",
+  "seed": 481803,
+  "checks": {
+    "scenes": true,
+    "repeatExact": true,
+    "profiles": true
+  },
+  "sceneChecks": [
+    {
+      "activeProvider": true,
+      "advisoryOnly": true,
+      "bothOwnersReady": true,
+      "ownerLocal": true,
+      "actualUsesOoda": true,
+      "noUnauthorizedReleaseBeforeReady": true,
+      "noForbiddenMismatch": true,
+      "currentTrackOnly": true,
+      "commandSchemaOnly": true,
+      "manualHoldNoLaunch": true,
+      "networkGatePreserved": true,
+      "readOnlyUi": true,
+      "engineSelfTest": true,
+      "contractSelfTest": true,
+      "localCiwsIndependent": true,
+      "auditClean": true,
+      "noBrowserErrors": true
+    },
+    {
+      "activeProvider": true,
+      "advisoryOnly": true,
+      "bothOwnersReady": true,
+      "ownerLocal": true,
+      "actualUsesOoda": true,
+      "noUnauthorizedReleaseBeforeReady": true,
+      "noForbiddenMismatch": true,
+      "currentTrackOnly": true,
+      "commandSchemaOnly": true,
+      "manualHoldNoLaunch": true,
+      "networkGatePreserved": true,
+      "readOnlyUi": true,
+      "engineSelfTest": true,
+      "contractSelfTest": true,
+      "localCiwsIndependent": true,
+      "auditClean": true,
+      "noBrowserErrors": true
+    }
+  ],
+  "scenes": [
+    {
+      "consoleErrors": [],
+      "pageErrors": [],
+      "result": {
+        "profileIndex": 0,
+        "own": {
+          "id": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA"
+        },
+        "ally": {
+          "id": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "CG_52_LATE_TICONDEROGA"
+        },
+        "provider": {
+          "provider": "DEFENSE_OODA_A",
+          "mode": "ACTIVE",
+          "authority": "ADVISORY_ONLY",
+          "truthUsed": false,
+          "rngConsumed": false
+        },
+        "fixture": {
+          "enemyId": 1,
+          "trackId": 300000001,
+          "rangeKm": 24,
+          "altM": 25,
+          "speedMps": 260,
+          "label": "Kh-35U"
+        },
+        "ui": {
+          "button": true,
+          "dialog": true,
+          "opened": true,
+          "text": "DEFENSE_OODA_A · READ ONLY\nSHIP_DDG119_OWN · DDG_119_LATE_FLIGHT_IIA\n  provider DEFENSE_OODA_A · mode ACTIVE · phase OBSERVE\n  capacity 0.000 · slots 0/0 · queue 0\n  next ready — · reason —\n  fallback 0 · rejected 0\nSHIP_SCENARIO_ALLY_F · CG_52_LATE_TICONDEROGA · 미지원",
+          "apiText": "DEFENSE_OODA_A · READ ONLY\nSHIP_DDG119_OWN · DDG_119_LATE_FLIGHT_IIA\n  provider DEFENSE_OODA_A · mode ACTIVE · phase OBSERVE\n  capacity 0.000 · slots 0/0 · queue 0\n  next ready — · reason —\n  fallback 0 · rejected 0\nSHIP_SCENARIO_ALLY_F · CG_52_LATE_TICONDEROGA · 미지원",
+          "readOnly": true
+        },
+        "samples": [
+          {
+            "step": 0,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "trackIds": []
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0,
+                "slots": 0,
+                "reason": "NOT_EVALUATED"
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 0,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": null,
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 0,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": null,
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 12,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 12,
+              "revision": 2,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 12,
+              "revision": 1,
+              "mode": "AUTO",
+              "trackIds": [
+                1
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 49,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 1,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 12,
+                "revision": 1,
+                "reason": "OODA_DEFER",
+                "digest": "47937890"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 2,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": {
+                "step": 0,
+                "revision": 0,
+                "reason": "OODA_DEFER",
+                "digest": "68a81e38"
+              },
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 1,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 2,
+              "shadowComparisons": 4,
+              "allowedShadowDifferenceCount": 2,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 12,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 12,
+                "inputRevision": 1,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 49,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 1,
+              "shadowComparisons": 2,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 0,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 0,
+                "inputRevision": 0,
+                "trackOrder": [],
+                "priorityTrackIds": [],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": null,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 36,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 36,
+              "revision": 4,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 36,
+              "revision": 3,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 49,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 1,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 36,
+                "revision": 3,
+                "reason": "OODA_DEFER",
+                "digest": "b17da3e9"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 4,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 120,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 23,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 24,
+                "revision": 2,
+                "reason": "OODA_DEFER",
+                "digest": "77b55601"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 3,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 4,
+              "shadowComparisons": 8,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 36,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 36,
+                "inputRevision": 3,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 49,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 3,
+              "shadowComparisons": 6,
+              "allowedShadowDifferenceCount": 1,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 24,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 24,
+                "inputRevision": 2,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 108,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 60,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 60,
+              "revision": 6,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 60,
+              "revision": 5,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 49
+                }
+              ],
+              "lastCommand": {
+                "step": 60,
+                "revision": 5,
+                "reason": "OODA_READY",
+                "digest": "34e4f7c2"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 120,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 37,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 48,
+                "revision": 4,
+                "reason": "OODA_DEFER",
+                "digest": "5a7f945c"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 6,
+              "shadowComparisons": 13,
+              "allowedShadowDifferenceCount": 6,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 60,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 60,
+                "inputRevision": 5,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 5,
+              "shadowComparisons": 10,
+              "allowedShadowDifferenceCount": 3,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 48,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 48,
+                "inputRevision": 4,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 108,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 84,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 84,
+              "revision": 8,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 84,
+              "revision": 7,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 49
+                }
+              ],
+              "lastCommand": {
+                "step": 84,
+                "revision": 7,
+                "reason": "OODA_READY",
+                "digest": "2ec8ffe9"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 120,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 13,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 72,
+                "revision": 6,
+                "reason": "OODA_DEFER",
+                "digest": "b2ebc06b"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 7,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 8,
+              "shadowComparisons": 19,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 84,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 84,
+                "inputRevision": 7,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 7,
+              "shadowComparisons": 14,
+              "allowedShadowDifferenceCount": 5,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 72,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 72,
+                "inputRevision": 6,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 108,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 120,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 120,
+              "revision": 11,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 120,
+              "revision": 10,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 49
+                }
+              ],
+              "lastCommand": {
+                "step": 120,
+                "revision": 10,
+                "reason": "OODA_READY",
+                "digest": "663f03a7"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 108
+                }
+              ],
+              "lastCommand": {
+                "step": 108,
+                "revision": 9,
+                "reason": "OODA_READY",
+                "digest": "79b51698"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 9,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 11,
+              "shadowComparisons": 28,
+              "allowedShadowDifferenceCount": 11,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 120,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 120,
+                "inputRevision": 10,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 10,
+              "shadowComparisons": 21,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 108,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 108,
+                "inputRevision": 9,
+                "trackOrder": [
+                  2
+                ],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 1,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 180,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 180,
+              "revision": 16,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 180,
+              "revision": 15,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 49
+                }
+              ],
+              "lastCommand": {
+                "step": 180,
+                "revision": 15,
+                "reason": "OODA_READY",
+                "digest": "9fde4077"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 108
+                }
+              ],
+              "lastCommand": {
+                "step": 168,
+                "revision": 14,
+                "reason": "OODA_READY",
+                "digest": "10fc6940"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 9,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 16,
+              "shadowComparisons": 43,
+              "allowedShadowDifferenceCount": 16,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 180,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 180,
+                "inputRevision": 15,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 15,
+              "shadowComparisons": 36,
+              "allowedShadowDifferenceCount": 13,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 168,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 168,
+                "inputRevision": 14,
+                "trackOrder": [
+                  2
+                ],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 2,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 240,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 240,
+              "revision": 21,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 240,
+              "revision": 20,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 49
+                }
+              ],
+              "lastCommand": {
+                "step": 240,
+                "revision": 20,
+                "reason": "OODA_READY",
+                "digest": "8cd77d76"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 108
+                }
+              ],
+              "lastCommand": {
+                "step": 228,
+                "revision": 19,
+                "reason": "OODA_READY",
+                "digest": "7044b0d4"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 9,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 21,
+              "shadowComparisons": 58,
+              "allowedShadowDifferenceCount": 21,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 240,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 240,
+                "inputRevision": 20,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 20,
+              "shadowComparisons": 51,
+              "allowedShadowDifferenceCount": 18,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 228,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 228,
+                "inputRevision": 19,
+                "trackOrder": [
+                  2
+                ],
+                "priorityTrackIds": [
+                  2
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 2,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          }
+        ],
+        "timing": {
+          "firstOwnReady": 60,
+          "firstAllyReady": 120,
+          "firstRelease": 120
+        },
+        "networkProbe": {
+          "ok": false,
+          "reason": "NETWORK_PROTECTED_IDENTITY"
+        },
+        "manualHold": {
+          "manualMissileDelta": 0,
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "foreignFireDelta": 0
+        },
+        "engineSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+          "pass": true,
+          "checks": {
+            "deterministic": true,
+            "ddgSlots": true,
+            "readyAfter48": true,
+            "cgModernization": true,
+            "degradedCapacity": true,
+            "combatUnavailable": true,
+            "boundedQueue": true,
+            "urgentPreemption": true,
+            "sameIdPreservedNewIdReset": true,
+            "saveLoadMidPhase": true,
+            "manualHold": true,
+            "nativeSalvoUpperBound": true,
+            "invalidCommandRejected": true,
+            "staleCommandRejected": true,
+            "advisoryOnly": true,
+            "downlinkIsProvenanceOnly": true,
+            "fixedStepScaleExact": true,
+            "fallbackPathPresent": true,
+            "rngUnchanged": true
+          },
+          "repeatDigest": "2d47ce7b"
+        },
+        "contractSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_CONTRACT_TEST_A1",
+          "pass": true,
+          "checks": {
+            "profiles": true,
+            "source": true,
+            "saveValid": true,
+            "duplicateRejected": true,
+            "providerValues": true,
+            "noRng": true
+          }
+        },
+        "localDefense": {
+          "pass": true,
+          "checks": {
+            "uniqueMeasuredTiming": true,
+            "bearingOnlyHasNoRange": true,
+            "localOnlyHasNoActiveEvidence": true,
+            "staleLocalWithheld": true,
+            "sameMountAmbiguityWithheld": true,
+            "crossMountDuplicateSingle": true,
+            "crossMountManyToOneWithheld": true,
+            "multipleEmitterAmbiguityWithheld": true,
+            "cmsSeedNotDuplicated": true,
+            "unmatchedBearingWithheld": true,
+            "detachedAndNoIdAuthority": true
+          }
+        },
+        "audits": [
+          {
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "inputFrozen": true,
+            "forbiddenPath": null,
+            "shadowMismatchCount": 0,
+            "rngMismatchCount": 0,
+            "validationFailures": 0,
+            "portOwnsSafety": false,
+            "portOwnsExecution": false,
+            "portOwnsImmediateCiws": false
+          },
+          {
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputFrozen": true,
+            "forbiddenPath": null,
+            "shadowMismatchCount": 0,
+            "rngMismatchCount": 0,
+            "validationFailures": 0,
+            "portOwnsSafety": false,
+            "portOwnsExecution": false,
+            "portOwnsImmediateCiws": false
+          }
+        ]
+      }
+    },
+    {
+      "consoleErrors": [],
+      "pageErrors": [],
+      "result": {
+        "profileIndex": 1,
+        "own": {
+          "id": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA"
+        },
+        "ally": {
+          "id": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA"
+        },
+        "provider": {
+          "provider": "DEFENSE_OODA_A",
+          "mode": "ACTIVE",
+          "authority": "ADVISORY_ONLY",
+          "truthUsed": false,
+          "rngConsumed": false
+        },
+        "fixture": {
+          "enemyId": 1,
+          "trackId": 300000001,
+          "rangeKm": 24,
+          "altM": 25,
+          "speedMps": 260,
+          "label": "Kh-35U"
+        },
+        "ui": {
+          "button": true,
+          "dialog": true,
+          "opened": true,
+          "text": "DEFENSE_OODA_A · READ ONLY\nSHIP_CG52_OWN · CG_52_LATE_TICONDEROGA\n  provider DEFENSE_OODA_A · mode ACTIVE · phase OBSERVE\n  capacity 0.000 · slots 0/0 · queue 0\n  next ready — · reason —\n  fallback 0 · rejected 0\nSHIP_SCENARIO_ALLY_F · DDG_119_LATE_FLIGHT_IIA · 미지원",
+          "apiText": "DEFENSE_OODA_A · READ ONLY\nSHIP_CG52_OWN · CG_52_LATE_TICONDEROGA\n  provider DEFENSE_OODA_A · mode ACTIVE · phase OBSERVE\n  capacity 0.000 · slots 0/0 · queue 0\n  next ready — · reason —\n  fallback 0 · rejected 0\nSHIP_SCENARIO_ALLY_F · DDG_119_LATE_FLIGHT_IIA · 미지원",
+          "readOnly": true
+        },
+        "samples": [
+          {
+            "step": 0,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "trackIds": []
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0,
+                "slots": 0,
+                "reason": "NOT_EVALUATED"
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 0,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": null,
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 0,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": null,
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 12,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 12,
+              "revision": 2,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 12,
+              "revision": 1,
+              "mode": "AUTO",
+              "trackIds": [
+                1
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 12,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 12,
+                "revision": 1,
+                "reason": "OODA_DEFER",
+                "digest": "08edffc0"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 2,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": {
+                "step": 0,
+                "revision": 0,
+                "reason": "OODA_DEFER",
+                "digest": "68a81e38"
+              },
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 1,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 2,
+              "shadowComparisons": 4,
+              "allowedShadowDifferenceCount": 2,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 12,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 12,
+                "inputRevision": 1,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 85,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 1,
+              "shadowComparisons": 2,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 0,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 0,
+                "inputRevision": 0,
+                "trackOrder": [],
+                "priorityTrackIds": [],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": null,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 36,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 36,
+              "revision": 4,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 36,
+              "revision": 3,
+              "mode": "AUTO",
+              "trackIds": [
+                1
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 26,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 36,
+                "revision": 3,
+                "reason": "OODA_DEFER",
+                "digest": "2412f0a4"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 4,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 72,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 24,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 24,
+                "revision": 2,
+                "reason": "OODA_DEFER",
+                "digest": "13bea96a"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 3,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 4,
+              "shadowComparisons": 8,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 36,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 36,
+                "inputRevision": 3,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 85,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 3,
+              "shadowComparisons": 6,
+              "allowedShadowDifferenceCount": 2,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 24,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 24,
+                "inputRevision": 2,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 60,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 60,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 60,
+              "revision": 6,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 60,
+              "revision": 5,
+              "mode": "AUTO",
+              "trackIds": [
+                1
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 2,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 60,
+                "revision": 5,
+                "reason": "OODA_DEFER",
+                "digest": "2ab479f3"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 6,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "DECIDE",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 72,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "DECIDE",
+                  "remainingSteps": 12,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 48,
+                "revision": 4,
+                "reason": "OODA_DEFER",
+                "digest": "6d15a96a"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 6,
+              "shadowComparisons": 12,
+              "allowedShadowDifferenceCount": 6,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 60,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 60,
+                "inputRevision": 5,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 85,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 5,
+              "shadowComparisons": 10,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 48,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 48,
+                "inputRevision": 4,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 60,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 84,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 84,
+              "revision": 8,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 84,
+              "revision": 7,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "DECIDE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "DECIDE",
+                  "remainingSteps": 1,
+                  "slot": 0,
+                  "readyStep": null
+                }
+              ],
+              "lastCommand": {
+                "step": 84,
+                "revision": 7,
+                "reason": "OODA_DEFER",
+                "digest": "8b479b37"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 8,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 72,
+                "revision": 6,
+                "reason": "OODA_READY",
+                "digest": "44cda309"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 8,
+              "shadowComparisons": 16,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 84,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 84,
+                "inputRevision": 7,
+                "trackOrder": [],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [],
+                "advisoryHold": true,
+                "deferUntilStep": 85,
+                "reason": "OODA_DEFER"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 7,
+              "shadowComparisons": 16,
+              "allowedShadowDifferenceCount": 6,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 72,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 72,
+                "inputRevision": 6,
+                "trackOrder": [
+                  1
+                ],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 0,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 120,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 120,
+              "revision": 11,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 120,
+              "revision": 10,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 85
+                }
+              ],
+              "lastCommand": {
+                "step": 120,
+                "revision": 10,
+                "reason": "OODA_READY",
+                "digest": "5ce67f06"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 8,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 108,
+                "revision": 9,
+                "reason": "OODA_READY",
+                "digest": "e6525368"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 11,
+              "shadowComparisons": 25,
+              "allowedShadowDifferenceCount": 11,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 120,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 120,
+                "inputRevision": 10,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 10,
+              "shadowComparisons": 25,
+              "allowedShadowDifferenceCount": 9,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 108,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 108,
+                "inputRevision": 9,
+                "trackOrder": [
+                  1
+                ],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 1,
+            "ownFireCount": 0,
+            "allyFireCount": 0
+          },
+          {
+            "step": 180,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 180,
+              "revision": 16,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002,
+                300000003,
+                300000004
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 180,
+              "revision": 15,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 85
+                }
+              ],
+              "lastCommand": {
+                "step": 180,
+                "revision": 15,
+                "reason": "OODA_READY",
+                "digest": "4a3aab56"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 8,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 168,
+                "revision": 14,
+                "reason": "OODA_READY",
+                "digest": "e8e135f6"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 16,
+              "shadowComparisons": 40,
+              "allowedShadowDifferenceCount": 16,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 180,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 180,
+                "inputRevision": 15,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 15,
+              "shadowComparisons": 40,
+              "allowedShadowDifferenceCount": 14,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 168,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 168,
+                "inputRevision": 14,
+                "trackOrder": [
+                  1
+                ],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 2,
+            "ownFireCount": 0,
+            "allyFireCount": 1
+          },
+          {
+            "step": 240,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 240,
+              "revision": 21,
+              "mode": "AUTO",
+              "trackIds": [
+                300000001,
+                300000002,
+                300000003,
+                300000004
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 240,
+              "revision": 20,
+              "mode": "AUTO",
+              "trackIds": [
+                1,
+                2
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 85
+                }
+              ],
+              "lastCommand": {
+                "step": 240,
+                "revision": 20,
+                "reason": "OODA_READY",
+                "digest": "dffc1dcf"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 8,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "readyStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 228,
+                "revision": 19,
+                "reason": "OODA_READY",
+                "digest": "18abaf6a"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 21,
+              "shadowComparisons": 55,
+              "allowedShadowDifferenceCount": 21,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 240,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 240,
+                "inputRevision": 20,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorityTrackIds": [
+                  300000001
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "DEFENSE_OODA_A",
+              "mode": "ACTIVE",
+              "builds": 20,
+              "shadowComparisons": 55,
+              "allowedShadowDifferenceCount": 19,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 228,
+              "lastCommand": {
+                "provider": "DEFENSE_OODA_A",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 228,
+                "inputRevision": 19,
+                "trackOrder": [
+                  1
+                ],
+                "priorityTrackIds": [
+                  1
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "OODA_NATIVE_BOUND"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "OODA_READY"
+              }
+            },
+            "interceptorCount": 2,
+            "ownFireCount": 0,
+            "allyFireCount": 1
+          }
+        ],
+        "timing": {
+          "firstOwnReady": 120,
+          "firstAllyReady": 84,
+          "firstRelease": 120
+        },
+        "networkProbe": {
+          "ok": true
+        },
+        "manualHold": {
+          "manualMissileDelta": 0,
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "foreignFireDelta": 0
+        },
+        "engineSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+          "pass": true,
+          "checks": {
+            "deterministic": true,
+            "ddgSlots": true,
+            "readyAfter48": true,
+            "cgModernization": true,
+            "degradedCapacity": true,
+            "combatUnavailable": true,
+            "boundedQueue": true,
+            "urgentPreemption": true,
+            "sameIdPreservedNewIdReset": true,
+            "saveLoadMidPhase": true,
+            "manualHold": true,
+            "nativeSalvoUpperBound": true,
+            "invalidCommandRejected": true,
+            "staleCommandRejected": true,
+            "advisoryOnly": true,
+            "downlinkIsProvenanceOnly": true,
+            "fixedStepScaleExact": true,
+            "fallbackPathPresent": true,
+            "rngUnchanged": true
+          },
+          "repeatDigest": "2d47ce7b"
+        },
+        "contractSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_CONTRACT_TEST_A1",
+          "pass": true,
+          "checks": {
+            "profiles": true,
+            "source": true,
+            "saveValid": true,
+            "duplicateRejected": true,
+            "providerValues": true,
+            "noRng": true
+          }
+        },
+        "localDefense": {
+          "pass": true,
+          "checks": {
+            "uniqueMeasuredTiming": true,
+            "bearingOnlyHasNoRange": true,
+            "localOnlyHasNoActiveEvidence": true,
+            "staleLocalWithheld": true,
+            "sameMountAmbiguityWithheld": true,
+            "crossMountDuplicateSingle": true,
+            "crossMountManyToOneWithheld": true,
+            "multipleEmitterAmbiguityWithheld": true,
+            "cmsSeedNotDuplicated": true,
+            "unmatchedBearingWithheld": true,
+            "detachedAndNoIdAuthority": true
+          }
+        },
+        "audits": [
+          {
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "inputFrozen": true,
+            "forbiddenPath": null,
+            "shadowMismatchCount": 0,
+            "rngMismatchCount": 0,
+            "validationFailures": 0,
+            "portOwnsSafety": false,
+            "portOwnsExecution": false,
+            "portOwnsImmediateCiws": false
+          },
+          {
+            "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+            "inputFrozen": true,
+            "forbiddenPath": null,
+            "shadowMismatchCount": 0,
+            "rngMismatchCount": 0,
+            "validationFailures": 0,
+            "portOwnsSafety": false,
+            "portOwnsExecution": false,
+            "portOwnsImmediateCiws": false
+          }
+        ]
+      }
+    }
+  ],
+  "repeatDigest": "e460b74441be80770086c14a00335f192f1fb7daacec8fa0695fa6a25bbc349b",
+  "pass": true
+}
