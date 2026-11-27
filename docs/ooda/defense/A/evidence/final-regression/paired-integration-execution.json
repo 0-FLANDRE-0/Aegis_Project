@@ -1,0 +1,31 @@
+{
+  "suite": "paired-integration",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-u",
+    "/workspace/Aegis_Project/docs/helicopter/F/verify_regression.py",
+    "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+    "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+    "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/paired-integration",
+    "--baseline-only",
+    "--exclude-defense-ooda-a"
+  ],
+  "exitCode": 1,
+  "wallS": 231.8468593040002,
+  "status": "FAIL",
+  "expectedAssertions": 42,
+  "executedAssertions": 42,
+  "passedAssertions": 34,
+  "failedAssertions": [
+    "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+    "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+    "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+    "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+    "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+    "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+    "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+    "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+  ],
+  "errors": [],
+  "resultPath": "paired-integration/baseline-comparison.json"
+}
