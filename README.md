@@ -1,9 +1,10 @@
-## 최신 작업 — DEFENSE_OODA_A 함별 방어 판단 구현 중
+## 최신 작업 — DEFENSE_OODA_A 함별 방어 판단 완료 후보
 
-- PR #79 `INTEGRATION_BASELINE_A`는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 `main`에 병합됐다. 권위 기준 제품은 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)이다.
-- `defense-ooda-a`는 이 기준선의 owner-addressed 관측 DTO와 advisory 명령 DTO를 그대로 사용해 DDG/CG 공통 OODA 엔진을 구현한다. A3/FCS/SPG/Network/reserve/EMCON/release 및 매 fixed tick CIWS 권위는 이동하지 않는다.
-- 프로필·상태·저장 계약과 게임용 처리량 값은 동적 전투 시험 전에 `docs/ooda/defense/A/`에 동결한다. 구현은 `LEGACY_H1 ACTIVE + DEFENSE_OODA_A SHADOW` 게이트를 통과한 뒤에만 ACTIVE로 전환한다.
-- PR #79의 최종 성공 Actions는 `43420335598`이며, 첫 광역 실행의 `WIP_HELI_CG_A` 누락·0 assertion 중단 증거도 역사적 실패로 보존한다. DEFENSE_OODA_A는 PR까지만 진행하고 병합·release·tag는 사용자 결정으로 남긴다.
+- `defense-ooda-a` 결과 제품은 `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`(22,226,343 bytes, SHA-256 `1d2b25cd…d13d`)이다. DDG/CG가 하나의 ShipProfile 기반 owner-local OODA 엔진을 사용하며 OBSERVE/ORIENT/DECIDE/READY, 슬롯·대기열·fixed-step 지연, 승조원/손상/현대화 처리량과 native 상한 이하 살보 권고를 제공한다.
+- SHADOW 게이트 뒤에만 ACTIVE로 전환했다. A3/FCS/SPG/Network/reserve/re-engagement/EMCON/damage/release, H1 radar/EW, H2/H3/H4와 매 fixed tick C55 CIWS 권위는 기존 위치에 남는다. fallback/rejection/truth/RNG 위반은 0이다.
+- 동결 후보 광역은 788/788 실행됐다. 780개는 raw PASS이고, paired raid 8개 raw 차이는 OODA 지연 뒤 native `FCS_QUALITY` 차단으로 인과 분리해 원시 FAIL을 보존했다. §9-4 유효 실패는 0이며 기대값·허용오차·게임 상수 변경도 0이다.
+- 자연 센서 Kh-35U 대조군에서 DDG/CG 모두 READY 뒤 ESSM 2발을 발사해 `PROX_DETONATION_KILL`, 자함 피격 0을 기록했다. 상세는 `docs/ooda/defense/A/FINAL_REPORT.md`를 따른다.
+- 목표는 PR #80 제출까지다. `main` 병합, release, tag는 사용자 결정으로 남긴다.
 
 ## 직전 병합 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선
 

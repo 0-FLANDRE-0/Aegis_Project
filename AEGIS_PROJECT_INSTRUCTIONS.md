@@ -2,16 +2,16 @@
 
 이 문서는 AEGIS 함정 방위 시뮬레이터를 이어서 개발할 때 사용하는 고정 작업 규칙이다. 대화 기억보다 현재 제공된 최신 HTML, 상태 계획표, 이 문서를 우선 기준으로 삼는다.
 
-## 현재 인계 기준 (2026-11-09)
+## 현재 인계 기준 (2026-11-27)
 
-- 병합 기준: `main@82617839e64ea6b70d33ca55b13b3114cca62f3e` (PR #76 SEEKER_UNIFY_U4 merge commit). 기준 제품은 `Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html`, SHA-256 `00d36aad194990b742bed3816de7eaca31ca135aef27fcf1f94106df3a6fc498`다.
-- 현재 검토 후보는 `hp-a`의 `Aegis_SIM_v48_WIP_HP_A.html`, 22,200,135 bytes, SHA-256 `9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa`다.
-- 물리 생존·부유는 기존 survival state/lost/irreversible, 임무불능은 기존 equipment-offline/crew-combatUnavailable, 표시 HP는 단방향 파생 projection이다. reversible이면 표시 HP는 최소 1이고 irreversible/lost에서만 0이다.
-- 저장된 `shipHP`는 호환 필드이며 권위 복원에 쓰지 않는다. survival 물리 snapshot을 복원하고 outcome을 재계산한다. 플레이어와 NPC는 같은 계약을 사용하며 mission kill, irreversible loss, sunk 사건을 분리한다.
-- 피해·침수·종강도·승조원·무장·RNG 계수는 변경하지 않았다. 관련 보호 함수 바이트가 U4와 exact이고 최종 정적 감사에서 잘못된 HP 권위 소비자는 0건이다.
-- 동결 후보 MAX_THREAT 광역은 정확히 한 번 실행했다. native 364/364, 후보 결정성 42/42, 현재 EMCON 14/14, UI 213/213, WebGL 29/29 PASS. paired raw 6건은 survival 저장 계약 차이로 분류하되 원시 실패·기대값을 보존했고, U4 byte pin으로 실행 전 중단된 장면은 pin만 바꾼 단일 복구에서 19/19 PASS다. 광역 재실행은 없다.
-- 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`이다. candidate workflow는 exact rebuild·정적/제한 계약만 실행하며 one-shot 광역을 반복하지 않는다.
-- 이 후보는 release가 아니며 HP_A PR 병합·tag·release는 사용자 결정 전 금지한다. 병합 뒤 순서는 `통합 기준선 고정 → 교전·방어 OODA`다.
+- 병합 기준은 `main@68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`(PR #79 INTEGRATION_BASELINE_A merge commit)다. 기준 제품은 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`, 22,212,299 bytes, SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0`다.
+- 현재 검토 후보는 `defense-ooda-a`의 `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`, 22,226,343 bytes, SHA-256 `1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d`다.
+- DDG/CG는 같은 owner-local fixed-step OODA 엔진과 각 ShipProfile의 동결 처리량 값을 사용한다. OODA는 평가 순서, 슬롯·대기열, OBSERVE/ORIENT/DECIDE 지연, 승조원/손상/현대화 처리량과 native 상한 이하 advisory 살보만 담당한다.
+- A3, Network G, FCS/SPG, reserve, re-engagement, EMCON, damage, release, H1 radar/EW, H2/H3/H4 및 C55 local CIWS 권위는 이동하지 않았다. provider는 truth/RNG를 소비하지 않고 fallback/rejection은 최종 검증에서 0이다.
+- owner-local `AEGIS_DEFENSE_OODA_STATE_A1`만 save/load하며 raw 관측 DTO, truth, renderer 객체, 함수, RNG 상태는 저장하지 않는다. invalid import는 zero-mutation이고 구 save는 clean state로 이전한다.
+- 동결 후보 MAX_THREAT 광역은 한 번 실행해 788개를 모두 수행했다. raw 780 PASS/8 FAIL이며, 8건은 단발 raid 측정에서 OODA 지연 뒤 native FCS 품질이 만료된 ACTIVE 차이로 원시 FAIL을 보존한다. §9-4 유효 실패는 0이고 기대값·허용오차·게임 상수 변경은 없다.
+- 자연 센서 Kh-35U 대조군은 DDG/CG 모두 READY 뒤 ESSM 2발, `PROX_DETONATION_KILL`, 자함 피격 0을 기록했다. 현재 후보 권위는 `AEGIS_CURRENT_PRODUCT.json`, 상세 증거는 `docs/ooda/defense/A/FINAL_REPORT.md`다.
+- 이 후보는 release가 아니다. PR #80 생성까지만 진행하며 `main` 병합·release·tag는 사용자 결정 전 금지한다. candidate workflow는 exact rebuild·정적/계약·SHADOW/ACTIVE 제한 게이트만 실행하고 one-shot 광역을 반복하지 않는다.
 
 ## 1. 기준 파일과 버전 규칙
 

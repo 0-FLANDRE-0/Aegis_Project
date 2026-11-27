@@ -200,3 +200,11 @@
 - 다음 단계는 별도 정리나 후속 단계를 만들지 않고 하나의 `defense-ooda-a` 브랜치·PR에서 수행하는 `DEFENSE_OODA_A`다.
 - OODA는 owner-local 관측 DTO로 평가 순서·CIC 처리량/슬롯·fixed-step 반응 지연·현대화/승조원/손상 처리 능력·native 상한 이하 살보 권고만 만든다. A3/FCS/SPG/Network/reserve/EMCON/damage/release 및 C55 즉응 권위는 이동하지 않는다.
 - 공개 근거가 없는 처리량 값은 `SIM_TUNED_GAMEPLAY_NOT_REAL_CIC_SPEC`이며 동적 전투 시험 전에 ShipProfile 및 ledger에 동결한다. SHADOW 게이트와 fallback 0을 확인한 뒤에만 ACTIVE 전환을 허용한다.
+
+## 2026-11-27 (DEFENSE_OODA_A 완료 후보)
+
+- DDG/CG는 함명 분기 없이 하나의 owner-local OODA 엔진과 각 ShipProfile의 동결 프로필을 사용한다. 게임용 처리량 값은 `SIM_TUNED_GAMEPLAY_NOT_REAL_CIC_SPEC`이며 동적 결과에 맞춰 변경하지 않았다.
+- `DEFENSE_OODA_A`는 SHADOW 게이트 뒤 네 H1 상위 판단 소비 경계에서만 ACTIVE로 전환한다. A3/FCS/SPG/Network/reserve/re-engagement/EMCON/damage/release, H1 radar/EW, H2/H3/H4와 fixed-tick C55 local defense 권위는 기존 위치에 유지한다.
+- 광역 paired raid의 여덟 raw assertion은 PASS로 다시 쓰거나 기대값을 갱신하지 않는다. 단발 진단 측정에서 legacy는 즉시 7발을 쓰지만 ACTIVE는 동결 서비스 지연 뒤 native `FCS_QUALITY`가 거부한 인과를 증명했고, 자연 센서 대조군은 DDG/CG 모두 READY 뒤 정상 격추했다. 따라서 원시 FAIL과 §9-4 `EXPECTED_ACTIVE_DIAGNOSTIC_DELTA`/effective PASS를 함께 보존한다.
+- 최종 광역은 frozen candidate에서 한 번만 실행했다. 788개 전부 수행, raw 780 PASS/8 FAIL, effective failure 0이며 기대값·허용오차·게임 상수 변경은 0이다. 완료 suite 재실행도 0이다.
+- 결과 제품은 22,226,343 bytes, SHA-256 `1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d`다. PR #80 생성까지만 진행하고 병합·release·tag는 사용자 결정으로 남긴다.

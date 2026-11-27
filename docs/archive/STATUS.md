@@ -1,11 +1,14 @@
-# 현재 상태 (2026-11-18 DEFENSE_OODA_A 작업 기준)
+# 현재 상태 (2026-11-27 DEFENSE_OODA_A 완료 후보 기준)
 
 ## DEFENSE_OODA_A 현재 인계
 
-- PR #79 INTEGRATION_BASELINE_A는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 병합됐다. 기준 제품은 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`, 22,212,299 bytes, SHA-256 `655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0`다.
-- 최종 corrected-candidate Actions `43420335598`은 성공했다. 최초 광역 실행의 `WIP_HELI_CG_A` 누락·0 assertion 중단 증거는 삭제하거나 PASS로 재분류하지 않는다.
-- 다음 단일 단계는 `defense-ooda-a`의 `DEFENSE_OODA_A`다. owner별 처리 슬롯·fixed-step 지연·승조원/손상/현대화 처리량과 관측 기반 우선순위·native 상한 이하 살보 권고만 담당한다.
-- A3, Network G, FCS/SPG, reserve, re-engagement, EMCON, damage, release와 C55/RAM/Phalanx 즉응 경로의 권위는 기존 위치에 남긴다. 병합·release·tag는 하지 않는다.
+- PR #79 INTEGRATION_BASELINE_A는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 병합됐다. 그 기준에서 `defense-ooda-a` 단일 브랜치로 작업했다.
+- 결과 제품은 `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`, 22,226,343 bytes, SHA-256 `1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d`다. deterministic stage-D builder가 bytes exact로 재생성한다.
+- DDG/CG 공통 owner-local OODA는 ShipProfile 기반 슬롯·대기열·fixed-step OBSERVE/ORIENT/DECIDE/READY, 승조원/손상/현대화 처리량과 관측 기반 우선순위·native 상한 이하 advisory 살보를 ACTIVE로 제공한다.
+- SHADOW가 먼저 통과했다. A3, Network G, FCS/SPG, reserve, re-engagement, EMCON, damage, release와 C55/RAM/Phalanx 즉응 권위는 기존 위치에 남고 fallback/rejection/truth/RNG 위반은 0이다.
+- 동결 후보 광역은 788/788 실행했다. raw 780 PASS/8 FAIL이며 paired raid 8건은 원시 상태를 유지한 채 동결 OODA 지연 후 native `FCS_QUALITY` 차단으로 분류했다. §9-4 effective failure 0, 기대값·허용오차·게임 상수 변경 0이다.
+- 자연 센서 Kh-35U 대조군은 DDG/CG 모두 READY 뒤 ESSM 2발과 `PROX_DETONATION_KILL`, 자함 피격 0을 기록했다. 상세는 `docs/ooda/defense/A/FINAL_REPORT.md`다.
+- PR #80 제출 후보이며 merge/release/tag는 없다. 사용자 결정 전 `main`에 병합하지 않는다.
 
 ## 통합 방어 기준선 현재 인계
 

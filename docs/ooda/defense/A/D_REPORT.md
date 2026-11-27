@@ -1,5 +1,9 @@
 # DEFENSE_OODA_A Commit D — ACTIVE gate report
 
+Historical checkpoint notice: the pending final gate described below has since
+completed. The authoritative closure result is `FINAL_REPORT.md` and
+`FINAL_REGRESSION.json`; this file otherwise preserves the Commit-D checkpoint.
+
 ## Frozen candidate
 
 - Product: `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`
