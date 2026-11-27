@@ -1,6 +1,6 @@
 {
-  "schema": "AEGIS_DEFENSE_OODA_A_FINAL_REGRESSION_1",
-  "complete": false,
+  "schema": "AEGIS_DEFENSE_OODA_A_FINAL_REGRESSION_2",
+  "complete": true,
   "candidate": "Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
   "candidateSha256": "1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d",
   "candidateBytes": 22226343,
@@ -10,7 +10,10 @@
   "broadRun": {
     "runCount": 1,
     "oneShot": true,
-    "candidateFrozen": true
+    "candidateFrozen": true,
+    "continuedAfterPolicyClassification": true,
+    "completedSuitesRerun": [],
+    "resumeReceipt": "evidence/final-regression/resume-preflight.json"
   },
   "expectedValuesUpdated": false,
   "tolerancesChanged": false,
@@ -331,8 +334,150 @@
       ],
       "errors": [],
       "resultPath": "paired-integration/baseline-comparison.json"
+    },
+    {
+      "suite": "paired-determinism",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/helicopter/F/verify_regression.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/paired-determinism",
+        "--baseline-only"
+      ],
+      "exitCode": 0,
+      "wallS": 241.808654584,
+      "status": "PASS",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 42,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "paired-determinism/baseline-comparison.json"
+    },
+    {
+      "suite": "current-emcon-ui",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/map/E/verify_emcon_ui.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/current-emcon-ui"
+      ],
+      "exitCode": 0,
+      "wallS": 53.68596483300007,
+      "status": "PASS",
+      "expectedAssertions": 14,
+      "executedAssertions": 14,
+      "passedAssertions": 14,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "current-emcon-ui/ui.json"
+    },
+    {
+      "suite": "ui213",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/contact/friendly/A/cpu2d_ui.py"
+      ],
+      "exitCode": 0,
+      "wallS": 659.0920045350001,
+      "status": "PASS",
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "map/E/evidence/d-ui/ui.json"
+    },
+    {
+      "suite": "webgl8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/envelope/D/run_observed_webgl.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/webgl8"
+      ],
+      "exitCode": 0,
+      "wallS": 431.1065481420003,
+      "status": "PASS",
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "webgl8/observed-world.json"
+    },
+    {
+      "suite": "u4-seeker-scenes",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/ooda/integration-baseline/A/run_u4_scenes_candidate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/u4-seeker-scenes/scenes.json"
+      ],
+      "exitCode": 0,
+      "wallS": 64.74591541099971,
+      "status": "PASS",
+      "expectedAssertions": 19,
+      "executedAssertions": 19,
+      "passedAssertions": 19,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "u4-seeker-scenes/scenes.json"
+    },
+    {
+      "suite": "hp-contract",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/damage/hp/A/run_contract_gate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/hp-contract/contract-gate.json"
+      ],
+      "exitCode": 0,
+      "wallS": 203.77400308699998,
+      "status": "PASS",
+      "expectedAssertions": 19,
+      "executedAssertions": 19,
+      "passedAssertions": 19,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "hp-contract/contract-gate.json"
+    },
+    {
+      "suite": "seeker-close",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/ooda/integration-baseline/A/run_seeker_close_candidate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/seeker-close"
+      ],
+      "exitCode": 0,
+      "wallS": 164.52295610299961,
+      "status": "PASS",
+      "expectedAssertions": 26,
+      "executedAssertions": 26,
+      "passedAssertions": 26,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "seeker-close/SUMMARY.json"
     }
   ],
+  "rawFailures": [
+    "paired-integration"
+  ],
+  "pairedActiveDelta": {
+    "rawStatus": "FAIL",
+    "classification": "EXPECTED_ACTIVE_DIAGNOSTIC_DELTA",
+    "effectiveReleaseGate": "PASS",
+    "evidence": "evidence/active-delta/PAIRED_ACTIVE_DELTA_CLASSIFICATION.json"
+  },
   "native13": {
     "suiteCount": 13,
     "expectedSuiteCount": 13,
@@ -340,10 +485,16 @@
     "executedAssertions": 364,
     "passedAssertions": 364
   },
+  "assertions": {
+    "expectedRaw": 788,
+    "executedRaw": 788,
+    "passedRaw": 780,
+    "failedRaw": 8
+  },
   "coverage": {
-    "defenseOoda": "static-integrity + D ACTIVE/contract/engine gates",
+    "defenseOoda": "static-integrity + D ACTIVE/contract/engine + natural terminal gates",
     "pairedDdgCg": [
-      "paired-integration",
+      "paired-integration (raw observational delta)",
       "paired-determinism"
     ],
     "hpOutcomeSave": "hp-contract",
@@ -359,11 +510,6 @@
     "browserUi": "ui213",
     "actualWebgl": "webgl8"
   },
-  "pairedNormalization": {
-    "excludedField": "defenseOodaA",
-    "scope": "new owner-local decision phase only",
-    "separateContractEvidence": "D_CONTRACT_GATE.json"
-  },
   "confirmedOnly": {
     "staticAndLimitedFeatureOffEvidence": "INHERITED_PASS",
     "performance": "UNVERIFIED"
@@ -377,9 +523,7 @@
     "CONFIRMED_ONLY_PERFORMANCE_UNVERIFIED",
     "LEGACY_SARH_SELFTEST_DIAGNOSTIC_DEBT"
   ],
-  "effectiveFailures": [
-    "paired-integration"
-  ],
-  "wallS": 2097.598295635,
+  "effectiveFailures": [],
+  "wallS": 3917.083630694,
   "release": false
 }
