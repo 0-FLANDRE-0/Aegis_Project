@@ -1,0 +1,3873 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_NATURAL_TERMINAL_GATE_1",
+  "candidate": {
+    "file": "Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+    "bytes": 22226343,
+    "sha256": "1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d"
+  },
+  "seed": 481804,
+  "scenario": {
+    "source": "NATIVE_SENSOR_NO_SYNTHETIC_TRACK",
+    "label": "Kh-35U",
+    "rangeKm": 12,
+    "altM": 25,
+    "speedMps": 260,
+    "fixedTickHz": 60
+  },
+  "checks": {
+    "pageErrors": true,
+    "DDG_119_LATE_FLIGHT_IIA.naturalTrack": true,
+    "DDG_119_LATE_FLIGHT_IIA.oodaReady": true,
+    "DDG_119_LATE_FLIGHT_IIA.nativeVlsRelease": true,
+    "DDG_119_LATE_FLIGHT_IIA.releaseAfterReady": true,
+    "DDG_119_LATE_FLIGHT_IIA.terminalOutcome": true,
+    "DDG_119_LATE_FLIGHT_IIA.terminalIsInterceptNotShipHit": true,
+    "DDG_119_LATE_FLIGHT_IIA.oodaInvariants": true,
+    "DDG_119_LATE_FLIGHT_IIA.faultFree": true,
+    "CG_52_LATE_TICONDEROGA.naturalTrack": true,
+    "CG_52_LATE_TICONDEROGA.oodaReady": true,
+    "CG_52_LATE_TICONDEROGA.nativeVlsRelease": true,
+    "CG_52_LATE_TICONDEROGA.releaseAfterReady": true,
+    "CG_52_LATE_TICONDEROGA.terminalOutcome": true,
+    "CG_52_LATE_TICONDEROGA.terminalIsInterceptNotShipHit": true,
+    "CG_52_LATE_TICONDEROGA.oodaInvariants": true,
+    "CG_52_LATE_TICONDEROGA.faultFree": true
+  },
+  "pass": true,
+  "errors": [],
+  "scenes": [
+    {
+      "profile": "DDG_119_LATE_FLIGHT_IIA",
+      "setup": {
+        "ownerId": "SHIP_DDG119_OWN",
+        "enemyId": 1,
+        "provider": "DEFENSE_OODA_A",
+        "mode": "ACTIVE",
+        "before": {
+          "shipHP": 100,
+          "shipHitCount": 0
+        }
+      },
+      "timing": {
+        "firstTrackStep": 120,
+        "firstReadyStep": 120,
+        "firstReleaseStep": 120,
+        "terminalStep": 840
+      },
+      "maxFireLog": 2,
+      "maxInterceptors": 2,
+      "samples": [
+        {
+          "step": 120,
+          "input": {
+            "step": 120,
+            "revision": 11,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_SPG_HANDOFF",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_SEARCH",
+                "ageS": 0.13333333333333333
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 120,
+              "inputRevision": 10,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999678799999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 1.0000000000000013,
+              "closestM": null,
+              "x": 0.0762587464949248,
+              "y": 0.1299558728553936,
+              "z": 31.36707375369483,
+              "targetSource": "DL_TRACK"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 0.19999999999999998,
+              "closestM": null,
+              "x": -0.010712506106541148,
+              "y": 0.128675012158377,
+              "z": 10.802783698532565,
+              "targetSource": null
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 43.618331788268755,
+            "y": -0.0006250319879060182,
+            "z": 15.100923801751266,
+            "vx": -0.9958635959980655,
+            "vy": -0.004726182191645894,
+            "vz": -6.044681947988475
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 240,
+          "input": {
+            "step": 240,
+            "revision": 21,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.03333333333333333
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 240,
+              "inputRevision": 20,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999678799999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 2.9999999999999942,
+              "closestM": null,
+              "x": 1.3145214604451412,
+              "y": 0.08086931342714046,
+              "z": 51.57404633199851,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 2.199999999999997,
+              "closestM": null,
+              "x": 0.6287562342098705,
+              "y": 0.1359128013932866,
+              "z": 51.288545880932965,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 41.61900138367104,
+            "y": -0.0006257134041922463,
+            "z": 6.997488090307799,
+            "vx": -1.001630961956799,
+            "vy": -0.03822176647667512,
+            "vz": -2.0361663063763715
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 360,
+          "input": {
+            "step": 360,
+            "revision": 31,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.08333333333333333
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 360,
+              "inputRevision": 30,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999678899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 4.999999999999988,
+              "closestM": null,
+              "x": 4.470328401395885,
+              "y": -0.09281985227790206,
+              "z": 63.310606044326455,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 4.19999999999999,
+              "closestM": null,
+              "x": 2.804095838131049,
+              "y": -0.06073414546314578,
+              "z": 60.29124196087938,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 39.61347161784858,
+            "y": 0.0187796827521833,
+            "z": 5.414856695939607,
+            "vx": -1.0027860801476662,
+            "vy": 0.064438013892625,
+            "vz": -0.007051541235364827
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 480,
+          "input": {
+            "step": 480,
+            "revision": 41,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.21666666666666667
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 480,
+              "inputRevision": 40,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999668899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 6.9999999999999805,
+              "closestM": null,
+              "x": 10.378508660343963,
+              "y": -0.027010823706305295,
+              "z": 47.594929820932734,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 6.199999999999983,
+              "closestM": null,
+              "x": 7.221164725750877,
+              "y": -0.04813015825602467,
+              "z": 49.69085530148153,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 37.60885137913968,
+            "y": -0.036046383005917795,
+            "z": 5.8148109787151965,
+            "vx": -1.0023259180917088,
+            "vy": -0.06748407194653377,
+            "vz": 0.24654072806723604
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 600,
+          "input": {
+            "step": 600,
+            "revision": 51,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.03333333333333333
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 600,
+              "inputRevision": 50,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999668899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 9.000000000000027,
+              "closestM": null,
+              "x": 19.262053425402375,
+              "y": -0.039795422576237686,
+              "z": 28.28780846017924,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 8.199999999999987,
+              "closestM": null,
+              "x": 14.98218992808303,
+              "y": -0.054355852556292175,
+              "z": 31.18901674982724,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 35.60754800999138,
+            "y": 0.038292586504245205,
+            "z": 6.1169319323776135,
+            "vx": -1.0010424530754045,
+            "vy": 0.06598612145558605,
+            "vz": 0.055282851514244793
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 720,
+          "input": {
+            "step": 720,
+            "revision": 61,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.16666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 720,
+              "inputRevision": 60,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 999668999999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000001,
+                "label": "ASM T1",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 11.000000000000126,
+              "closestM": null,
+              "x": 27.44281822567528,
+              "y": -0.0004619324805069415,
+              "z": 14.480414774543723,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 10.200000000000086,
+              "closestM": null,
+              "x": 23.49837859145694,
+              "y": -0.006318130793829637,
+              "z": 18.324220164750688,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 33.60992810638909,
+            "y": -0.04611859784587373,
+            "z": 6.1502518371155475,
+            "vx": -0.9995001499892134,
+            "vy": -0.06528383572646419,
+            "vz": -0.013414822095929061
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 840,
+          "input": {
+            "step": 840,
+            "revision": 71,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": "DESTROYED",
+                "authority": "WITHHELD",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.7166666666666667
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_SEARCH",
+                "ageS": 0.13333333333333333
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 4,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 5,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "inputStep": 840,
+              "inputRevision": 70,
+              "trackOrder": [
+                300000001
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000001,
+                  "score": 997678998899
+                }
+              ],
+              "salvoOverrides": [],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [],
+            "fireLog": [
+              {
+                "t": 1,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 1.8,
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000001,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000001,
+              "seekerLockId": null,
+              "lifeS": 12.200000000000186,
+              "closestM": null,
+              "x": 30.908133870887625,
+              "y": -0.022487555155721282,
+              "z": 8.61375837774578,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": null,
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": [
+              {
+                "id": 1,
+                "isESSM": true,
+                "targetId": 300000001,
+                "closestM": 3.7645550561162135,
+                "engagementDomain": "AIR",
+                "contactDetonated": false,
+                "proxDetonated": true,
+                "missedTarget": false,
+                "burstMissM": 3.7645550561162135,
+                "life": 12.316666666666858,
+                "core": "v1",
+                "predCPA": 0,
+                "deathReason": "PROX_DETONATION_KILL",
+                "zM": 5.661287874296021,
+                "speedMps": 892.4681927844829,
+                "v1Phase": "ENDGAME",
+                "gCmd": 2296.0049372303693,
+                "gAch": 48,
+                "_pipSnapAltM": null,
+                "_pipSnapTgo": null,
+                "_pipSnapRangeKm": null,
+                "_pipSnapTgtAltM": null,
+                "_pipSnapTgtVzMps": null,
+                "cpaDistM": null,
+                "cpaAltM": null,
+                "cpaTgtAltM": null,
+                "cpaMslVzMps": null,
+                "cpaMslSpeedMps": null,
+                "cpaAvailableG": null,
+                "cpaCommandG": null,
+                "cpaSaturated": false,
+                "t2AvailableG": null,
+                "t2CommandG": null,
+                "t2AltM": null,
+                "t2SpeedMps": null,
+                "t2GRatio": null,
+                "pipAltErrorM": null,
+                "climbingIntercept": false
+              }
+            ]
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        }
+      ],
+      "final": {
+        "step": 840,
+        "input": {
+          "step": 840,
+          "revision": 71,
+          "tracks": [
+            {
+              "trackId": 300000001,
+              "classification": null,
+              "assessment": "DESTROYED",
+              "authority": "WITHHELD",
+              "source": "SPY1DV_MISSILE_SUPPORT",
+              "ageS": 0.7166666666666667
+            },
+            {
+              "trackId": 300000002,
+              "classification": null,
+              "assessment": null,
+              "authority": "WITHHELD",
+              "source": "SPY1DV_SURFACE_SEARCH",
+              "ageS": 0.13333333333333333
+            }
+          ]
+        },
+        "ooda": {
+          "phase": "READY",
+          "queueLength": 1,
+          "usedSlots": 0,
+          "totalSlots": 4,
+          "nextReadyStep": null,
+          "diagnostics": {
+            "queued": 1,
+            "evaluated": 1,
+            "preempted": 0,
+            "deferred": 5,
+            "fallback": 0,
+            "rejected": 0,
+            "overflow": 0
+          }
+        },
+        "provider": {
+          "provider": "DEFENSE_OODA_A",
+          "mode": "ACTIVE",
+          "validationFailures": 0,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "DEFENSE_OODA_A",
+            "ownerEntityId": "SHIP_DDG119_OWN",
+            "inputStep": 840,
+            "inputRevision": 70,
+            "trackOrder": [
+              300000001
+            ],
+            "priorities": [
+              {
+                "trackId": 300000001,
+                "score": 997678998899
+              }
+            ],
+            "salvoOverrides": [],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "OODA_READY"
+          }
+        },
+        "autonomy": {
+          "candidateRows": [],
+          "fireLog": [
+            {
+              "t": 1,
+              "trackId": 300000001,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalEngagement": 1,
+              "layerEngagement": 1,
+              "engagement": 1,
+              "round": 1,
+              "limitBefore": {
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalCount": 0,
+                "layerCount": 0,
+                "absoluteCap": 4,
+                "adaptiveCap": 4,
+                "budget": {
+                  "ok": true,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "inventoryKey": "essmTotal",
+                  "readyKey": "essmReady",
+                  "total": 95,
+                  "have": 95,
+                  "reserve": 8,
+                  "usableRounds": 87,
+                  "threatCount": 1,
+                  "roundsPerEngagement": 2,
+                  "fairShareRounds": 87,
+                  "rawCap": 44,
+                  "adaptiveCap": 4,
+                  "absoluteCap": 4
+                }
+              },
+              "mode": "AUTO"
+            },
+            {
+              "t": 1.8,
+              "trackId": 300000001,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalEngagement": 1,
+              "layerEngagement": 1,
+              "engagement": 1,
+              "round": 2,
+              "limitBefore": {
+                "trackId": 300000001,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalCount": 1,
+                "layerCount": 1,
+                "absoluteCap": 4,
+                "adaptiveCap": 4,
+                "budget": {
+                  "ok": true,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "inventoryKey": "essmTotal",
+                  "readyKey": "essmReady",
+                  "total": 94,
+                  "have": 94,
+                  "reserve": 8,
+                  "usableRounds": 86,
+                  "threatCount": 1,
+                  "roundsPerEngagement": 1,
+                  "fairShareRounds": 86,
+                  "rawCap": 86,
+                  "adaptiveCap": 4,
+                  "absoluteCap": 4
+                }
+              },
+              "mode": "AUTO"
+            }
+          ],
+          "totalAutoRounds": {
+            "SM2": 0,
+            "SM2ER": 0,
+            "SM6": 0,
+            "ESSM": 2
+          }
+        },
+        "interceptors": [
+          {
+            "id": 2,
+            "isESSM": true,
+            "dead": false,
+            "deathReason": null,
+            "assignedTargetId": 300000001,
+            "seekerLockId": null,
+            "lifeS": 12.200000000000186,
+            "closestM": null,
+            "x": 30.908133870887625,
+            "y": -0.022487555155721282,
+            "z": 8.61375837774578,
+            "targetSource": "ARH_RF_EKF"
+          }
+        ],
+        "truth": null,
+        "afterAction": {
+          "shipHP": 100,
+          "shipHitCount": 0,
+          "shipLastOutcome": null,
+          "interceptHistory": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "targetId": 300000001,
+              "closestM": 3.7645550561162135,
+              "engagementDomain": "AIR",
+              "contactDetonated": false,
+              "proxDetonated": true,
+              "missedTarget": false,
+              "burstMissM": 3.7645550561162135,
+              "life": 12.316666666666858,
+              "core": "v1",
+              "predCPA": 0,
+              "deathReason": "PROX_DETONATION_KILL",
+              "zM": 5.661287874296021,
+              "speedMps": 892.4681927844829,
+              "v1Phase": "ENDGAME",
+              "gCmd": 2296.0049372303693,
+              "gAch": 48,
+              "_pipSnapAltM": null,
+              "_pipSnapTgo": null,
+              "_pipSnapRangeKm": null,
+              "_pipSnapTgtAltM": null,
+              "_pipSnapTgtVzMps": null,
+              "cpaDistM": null,
+              "cpaAltM": null,
+              "cpaTgtAltM": null,
+              "cpaMslVzMps": null,
+              "cpaMslSpeedMps": null,
+              "cpaAvailableG": null,
+              "cpaCommandG": null,
+              "cpaSaturated": false,
+              "t2AvailableG": null,
+              "t2CommandG": null,
+              "t2AltM": null,
+              "t2SpeedMps": null,
+              "t2GRatio": null,
+              "pipAltErrorM": null,
+              "climbingIntercept": false
+            }
+          ]
+        },
+        "core": [],
+        "faults": [
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "profile": "CG_52_LATE_TICONDEROGA",
+      "setup": {
+        "ownerId": "SHIP_CG52_OWN",
+        "enemyId": 1,
+        "provider": "DEFENSE_OODA_A",
+        "mode": "ACTIVE",
+        "before": {
+          "shipHP": 100,
+          "shipHitCount": 0
+        }
+      },
+      "timing": {
+        "firstTrackStep": 120,
+        "firstReadyStep": 120,
+        "firstReleaseStep": 120,
+        "terminalStep": 960
+      },
+      "maxFireLog": 2,
+      "maxInterceptors": 2,
+      "samples": [
+        {
+          "step": 120,
+          "input": {
+            "step": 120,
+            "revision": 11,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.21666666666666667
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_PRECISION_LOCK",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 120,
+              "inputRevision": 10,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999698899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "REENGAGE_HYST",
+                "text": "REENGAGE_HYST +1.5s",
+                "fireDelayS": 0,
+                "recommendedRounds": 1,
+                "limit": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 87,
+                    "rawCap": 87,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                }
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 1
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 0.19999999999999998,
+              "closestM": null,
+              "x": 0.00422242490637197,
+              "y": 0.2353088385676976,
+              "z": 8.998693124284241,
+              "targetSource": null
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 43.618331788268755,
+            "y": -0.0006250319879060182,
+            "z": 15.100923801751266,
+            "vx": -0.9958635959980655,
+            "vy": -0.004726182191645894,
+            "vz": -6.044681947988475
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 240,
+          "input": {
+            "step": 240,
+            "revision": 21,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.26666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_SPG_HANDOFF",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 240,
+              "inputRevision": 20,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999688799999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 2.199999999999997,
+              "closestM": null,
+              "x": 0.6411410614295148,
+              "y": 0.24142684057442268,
+              "z": 50.13569849036121,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 1.4,
+              "closestM": null,
+              "x": 0.21610776412071464,
+              "y": 0.23234088685159984,
+              "z": 38.24540669274913,
+              "targetSource": "DL_TRACK"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 41.61900138367104,
+            "y": -0.0006257134041922463,
+            "z": 6.997488090307799,
+            "vx": -1.001630961956799,
+            "vy": -0.03822176647667512,
+            "vz": -2.0361663063763715
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 360,
+          "input": {
+            "step": 360,
+            "revision": 31,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_TRACK",
+                "ageS": 0.31666666666666665
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 360,
+              "inputRevision": 30,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999668899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 4.19999999999999,
+              "closestM": null,
+              "x": 2.842991945060081,
+              "y": 0.23059123525194747,
+              "z": 52.2346251023921,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 3.399999999999993,
+              "closestM": null,
+              "x": 1.7796309377891206,
+              "y": 0.17861173518433932,
+              "z": 66.69032125661982,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 39.61347161784858,
+            "y": 0.0187796827521833,
+            "z": 5.414856695939607,
+            "vx": -1.0027860801476662,
+            "vy": 0.064438013892625,
+            "vz": -0.007051541235364827
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 480,
+          "input": {
+            "step": 480,
+            "revision": 41,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPQ9B_SURFACE_PRECISION",
+                "ageS": 0.7166666666666667
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 480,
+              "inputRevision": 40,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999668899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 6.199999999999983,
+              "closestM": null,
+              "x": 7.37784010425881,
+              "y": 0.4178277738980321,
+              "z": 40.76171676150687,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 5.399999999999986,
+              "closestM": null,
+              "x": 5.380251086899783,
+              "y": 0.3860476002383767,
+              "z": 67.55920578054734,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 37.60885137913968,
+            "y": -0.036046383005917795,
+            "z": 5.8148109787151965,
+            "vx": -1.0023259180917088,
+            "vy": -0.06748407194653377,
+            "vz": 0.24654072806723604
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 600,
+          "input": {
+            "step": 600,
+            "revision": 51,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPQ9B_SURFACE_PRECISION",
+                "ageS": 0.7166666666666667
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 600,
+              "inputRevision": 50,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999668899999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 8.199999999999987,
+              "closestM": null,
+              "x": 15.243072364248967,
+              "y": 0.2885963899461674,
+              "z": 23.395777558326728,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 7.399999999999979,
+              "closestM": null,
+              "x": 11.929971300529814,
+              "y": 0.2521778045055839,
+              "z": 44.14734545214204,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 35.60754800999138,
+            "y": 0.038292586504245205,
+            "z": 6.1169319323776135,
+            "vx": -1.0010424530754045,
+            "vy": 0.06598612145558605,
+            "vz": 0.055282851514244793
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 720,
+          "input": {
+            "step": 720,
+            "revision": 61,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_SEARCH",
+                "ageS": 0.13333333333333333
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 720,
+              "inputRevision": 60,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999668999999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 10.200000000000086,
+              "closestM": null,
+              "x": 23.83172052857016,
+              "y": 0.16042904401145186,
+              "z": 13.60768940895384,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 9.400000000000047,
+              "closestM": null,
+              "x": 20.925922454875554,
+              "y": 0.16119893734093624,
+              "z": 24.432410491887953,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 33.60992810638909,
+            "y": -0.04611859784587373,
+            "z": 6.1502518371155475,
+            "vx": -0.9995001499892134,
+            "vy": -0.06528383572646419,
+            "vz": -0.013414822095929061
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 840,
+          "input": {
+            "step": 840,
+            "revision": 71,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPY1DV_SURFACE_SEARCH",
+                "ageS": 0.6666666666666666
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "THREAT",
+                "authority": "AUTO_AUTHORIZED",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 0.016666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 840,
+              "inputRevision": 70,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 999668999999
+                }
+              ],
+              "salvoOverrides": [
+                {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "desiredSalvo": 2,
+                  "reason": "OODA_NATIVE_BOUND"
+                }
+              ],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [
+              {
+                "trackId": 300000002,
+                "label": "ASM T2",
+                "weapon": "ESSM",
+                "ready": false,
+                "reason": "IN_FLIGHT",
+                "text": "LOOK / IN-FLIGHT",
+                "fireDelayS": 0,
+                "recommendedRounds": 0,
+                "limit": null
+              }
+            ],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 12.200000000000186,
+              "closestM": null,
+              "x": 31.285078205535164,
+              "y": 0.024052921546902594,
+              "z": 7.7339135955451646,
+              "targetSource": "ARH_RF_EKF"
+            },
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 11.400000000000146,
+              "closestM": null,
+              "x": 28.86260003766197,
+              "y": 0.03133826151098283,
+              "z": 10.024506703468871,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": {
+            "id": 1,
+            "label": "Kh-35U",
+            "alive": true,
+            "deathReason": null,
+            "x": 31.615626981731527,
+            "y": 0.04191026102425566,
+            "z": 6.098930818439491,
+            "vx": -0.9980767624376061,
+            "vy": 0.06454891162903473,
+            "vz": -0.01704327991619173
+          },
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": []
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        },
+        {
+          "step": 960,
+          "input": {
+            "step": 960,
+            "revision": 81,
+            "tracks": [
+              {
+                "trackId": 300000001,
+                "classification": null,
+                "assessment": null,
+                "authority": "WITHHELD",
+                "source": "SPQ9B_SURFACE_PRECISION",
+                "ageS": 0.7166666666666667
+              },
+              {
+                "trackId": 300000002,
+                "classification": null,
+                "assessment": "DESTROYED",
+                "authority": "WITHHELD",
+                "source": "SPY1DV_MISSILE_SUPPORT",
+                "ageS": 1.9666666666666666
+              }
+            ]
+          },
+          "ooda": {
+            "phase": "READY",
+            "queueLength": 1,
+            "usedSlots": 0,
+            "totalSlots": 3,
+            "nextReadyStep": null,
+            "diagnostics": {
+              "queued": 1,
+              "evaluated": 1,
+              "preempted": 0,
+              "deferred": 9,
+              "fallback": 0,
+              "rejected": 0,
+              "overflow": 0
+            }
+          },
+          "provider": {
+            "provider": "DEFENSE_OODA_A",
+            "mode": "ACTIVE",
+            "validationFailures": 0,
+            "rngMismatchCount": 0,
+            "truthAuditFailures": 0,
+            "lastCommand": {
+              "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+              "provider": "DEFENSE_OODA_A",
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "inputStep": 960,
+              "inputRevision": 80,
+              "trackOrder": [
+                300000002
+              ],
+              "priorities": [
+                {
+                  "trackId": 300000002,
+                  "score": 997778998899
+                }
+              ],
+              "salvoOverrides": [],
+              "advisoryHold": false,
+              "deferUntilStep": null,
+              "reason": "OODA_READY"
+            }
+          },
+          "autonomy": {
+            "candidateRows": [],
+            "fireLog": [
+              {
+                "t": 1.8,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 1,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 0,
+                  "layerCount": 0,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 95,
+                    "have": 95,
+                    "reserve": 8,
+                    "usableRounds": 87,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 2,
+                    "fairShareRounds": 87,
+                    "rawCap": 44,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              },
+              {
+                "t": 2.6,
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalEngagement": 1,
+                "layerEngagement": 1,
+                "engagement": 1,
+                "round": 2,
+                "limitBefore": {
+                  "trackId": 300000002,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "totalCount": 1,
+                  "layerCount": 1,
+                  "absoluteCap": 4,
+                  "adaptiveCap": 4,
+                  "budget": {
+                    "ok": true,
+                    "weapon": "ESSM",
+                    "layerKey": "ESSM_BLK2_SIM",
+                    "inventoryKey": "essmTotal",
+                    "readyKey": "essmReady",
+                    "total": 94,
+                    "have": 94,
+                    "reserve": 8,
+                    "usableRounds": 86,
+                    "threatCount": 1,
+                    "roundsPerEngagement": 1,
+                    "fairShareRounds": 86,
+                    "rawCap": 86,
+                    "adaptiveCap": 4,
+                    "absoluteCap": 4
+                  }
+                },
+                "mode": "AUTO"
+              }
+            ],
+            "totalAutoRounds": {
+              "SM2": 0,
+              "SM2ER": 0,
+              "SM6": 0,
+              "ESSM": 2
+            }
+          },
+          "interceptors": [
+            {
+              "id": 2,
+              "isESSM": true,
+              "dead": false,
+              "deathReason": null,
+              "assignedTargetId": 300000002,
+              "seekerLockId": null,
+              "lifeS": 13.400000000000245,
+              "closestM": null,
+              "x": 35.44010419999775,
+              "y": 0.5722323961191155,
+              "z": 14.38839397957286,
+              "targetSource": "ARH_RF_EKF"
+            }
+          ],
+          "truth": null,
+          "afterAction": {
+            "shipHP": 100,
+            "shipHitCount": 0,
+            "shipLastOutcome": null,
+            "interceptHistory": [
+              {
+                "id": 1,
+                "isESSM": true,
+                "targetId": 300000002,
+                "closestM": 2.250597903906955,
+                "engagementDomain": "AIR",
+                "contactDetonated": false,
+                "proxDetonated": true,
+                "missedTarget": false,
+                "burstMissM": 2.250597903906955,
+                "life": 12.266666666666856,
+                "core": "v1",
+                "predCPA": 0,
+                "deathReason": "PROX_DETONATION_KILL",
+                "zM": 5.794255974089062,
+                "speedMps": 879.1691735974038,
+                "v1Phase": "ENDGAME",
+                "gCmd": 2222.7428349065203,
+                "gAch": 48,
+                "_pipSnapAltM": null,
+                "_pipSnapTgo": null,
+                "_pipSnapRangeKm": null,
+                "_pipSnapTgtAltM": null,
+                "_pipSnapTgtVzMps": null,
+                "cpaDistM": null,
+                "cpaAltM": null,
+                "cpaTgtAltM": null,
+                "cpaMslVzMps": null,
+                "cpaMslSpeedMps": null,
+                "cpaAvailableG": null,
+                "cpaCommandG": null,
+                "cpaSaturated": false,
+                "t2AvailableG": null,
+                "t2CommandG": null,
+                "t2AltM": null,
+                "t2SpeedMps": null,
+                "t2GRatio": null,
+                "pipAltErrorM": null,
+                "climbingIntercept": false
+              }
+            ]
+          },
+          "core": [],
+          "faults": [
+            null,
+            null
+          ]
+        }
+      ],
+      "final": {
+        "step": 960,
+        "input": {
+          "step": 960,
+          "revision": 81,
+          "tracks": [
+            {
+              "trackId": 300000001,
+              "classification": null,
+              "assessment": null,
+              "authority": "WITHHELD",
+              "source": "SPQ9B_SURFACE_PRECISION",
+              "ageS": 0.7166666666666667
+            },
+            {
+              "trackId": 300000002,
+              "classification": null,
+              "assessment": "DESTROYED",
+              "authority": "WITHHELD",
+              "source": "SPY1DV_MISSILE_SUPPORT",
+              "ageS": 1.9666666666666666
+            }
+          ]
+        },
+        "ooda": {
+          "phase": "READY",
+          "queueLength": 1,
+          "usedSlots": 0,
+          "totalSlots": 3,
+          "nextReadyStep": null,
+          "diagnostics": {
+            "queued": 1,
+            "evaluated": 1,
+            "preempted": 0,
+            "deferred": 9,
+            "fallback": 0,
+            "rejected": 0,
+            "overflow": 0
+          }
+        },
+        "provider": {
+          "provider": "DEFENSE_OODA_A",
+          "mode": "ACTIVE",
+          "validationFailures": 0,
+          "rngMismatchCount": 0,
+          "truthAuditFailures": 0,
+          "lastCommand": {
+            "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+            "provider": "DEFENSE_OODA_A",
+            "ownerEntityId": "SHIP_CG52_OWN",
+            "inputStep": 960,
+            "inputRevision": 80,
+            "trackOrder": [
+              300000002
+            ],
+            "priorities": [
+              {
+                "trackId": 300000002,
+                "score": 997778998899
+              }
+            ],
+            "salvoOverrides": [],
+            "advisoryHold": false,
+            "deferUntilStep": null,
+            "reason": "OODA_READY"
+          }
+        },
+        "autonomy": {
+          "candidateRows": [],
+          "fireLog": [
+            {
+              "t": 1.8,
+              "trackId": 300000002,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalEngagement": 1,
+              "layerEngagement": 1,
+              "engagement": 1,
+              "round": 1,
+              "limitBefore": {
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalCount": 0,
+                "layerCount": 0,
+                "absoluteCap": 4,
+                "adaptiveCap": 4,
+                "budget": {
+                  "ok": true,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "inventoryKey": "essmTotal",
+                  "readyKey": "essmReady",
+                  "total": 95,
+                  "have": 95,
+                  "reserve": 8,
+                  "usableRounds": 87,
+                  "threatCount": 1,
+                  "roundsPerEngagement": 2,
+                  "fairShareRounds": 87,
+                  "rawCap": 44,
+                  "adaptiveCap": 4,
+                  "absoluteCap": 4
+                }
+              },
+              "mode": "AUTO"
+            },
+            {
+              "t": 2.6,
+              "trackId": 300000002,
+              "weapon": "ESSM",
+              "layerKey": "ESSM_BLK2_SIM",
+              "totalEngagement": 1,
+              "layerEngagement": 1,
+              "engagement": 1,
+              "round": 2,
+              "limitBefore": {
+                "trackId": 300000002,
+                "weapon": "ESSM",
+                "layerKey": "ESSM_BLK2_SIM",
+                "totalCount": 1,
+                "layerCount": 1,
+                "absoluteCap": 4,
+                "adaptiveCap": 4,
+                "budget": {
+                  "ok": true,
+                  "weapon": "ESSM",
+                  "layerKey": "ESSM_BLK2_SIM",
+                  "inventoryKey": "essmTotal",
+                  "readyKey": "essmReady",
+                  "total": 94,
+                  "have": 94,
+                  "reserve": 8,
+                  "usableRounds": 86,
+                  "threatCount": 1,
+                  "roundsPerEngagement": 1,
+                  "fairShareRounds": 86,
+                  "rawCap": 86,
+                  "adaptiveCap": 4,
+                  "absoluteCap": 4
+                }
+              },
+              "mode": "AUTO"
+            }
+          ],
+          "totalAutoRounds": {
+            "SM2": 0,
+            "SM2ER": 0,
+            "SM6": 0,
+            "ESSM": 2
+          }
+        },
+        "interceptors": [
+          {
+            "id": 2,
+            "isESSM": true,
+            "dead": false,
+            "deathReason": null,
+            "assignedTargetId": 300000002,
+            "seekerLockId": null,
+            "lifeS": 13.400000000000245,
+            "closestM": null,
+            "x": 35.44010419999775,
+            "y": 0.5722323961191155,
+            "z": 14.38839397957286,
+            "targetSource": "ARH_RF_EKF"
+          }
+        ],
+        "truth": null,
+        "afterAction": {
+          "shipHP": 100,
+          "shipHitCount": 0,
+          "shipLastOutcome": null,
+          "interceptHistory": [
+            {
+              "id": 1,
+              "isESSM": true,
+              "targetId": 300000002,
+              "closestM": 2.250597903906955,
+              "engagementDomain": "AIR",
+              "contactDetonated": false,
+              "proxDetonated": true,
+              "missedTarget": false,
+              "burstMissM": 2.250597903906955,
+              "life": 12.266666666666856,
+              "core": "v1",
+              "predCPA": 0,
+              "deathReason": "PROX_DETONATION_KILL",
+              "zM": 5.794255974089062,
+              "speedMps": 879.1691735974038,
+              "v1Phase": "ENDGAME",
+              "gCmd": 2222.7428349065203,
+              "gAch": 48,
+              "_pipSnapAltM": null,
+              "_pipSnapTgo": null,
+              "_pipSnapRangeKm": null,
+              "_pipSnapTgtAltM": null,
+              "_pipSnapTgtVzMps": null,
+              "cpaDistM": null,
+              "cpaAltM": null,
+              "cpaTgtAltM": null,
+              "cpaMslVzMps": null,
+              "cpaMslSpeedMps": null,
+              "cpaAvailableG": null,
+              "cpaCommandG": null,
+              "cpaSaturated": false,
+              "t2AvailableG": null,
+              "t2CommandG": null,
+              "t2AltM": null,
+              "t2SpeedMps": null,
+              "t2GRatio": null,
+              "pipAltErrorM": null,
+              "climbingIntercept": false
+            }
+          ]
+        },
+        "core": [],
+        "faults": [
+          null,
+          null
+        ]
+      }
+    }
+  ]
+}

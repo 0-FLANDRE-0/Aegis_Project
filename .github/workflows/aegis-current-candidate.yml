@@ -10,6 +10,7 @@ on:
       - 'Aegis_SIM_v48_WIP_SEEKER_UNIFY_U4.html'
       - 'Aegis_SIM_v48_WIP_HP_A.html'
       - 'Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html'
+      - 'Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html'
       - 'docs/electronic/emitter/A/build_product.py'
       - 'docs/electronic/emitter/A/build_stage_diagnostic.py'
       - 'docs/electronic/emitter/A/validate_current_product.py'
@@ -53,6 +54,9 @@ on:
       - 'docs/ooda/integration-baseline/A/function_hash_gate.py'
       - 'docs/ooda/integration-baseline/A/boundary_static_gate.py'
       - 'docs/ooda/integration-baseline/A/actions_gate_validate.cjs'
+      - 'docs/ooda/defense/A/**'
+      - 'Aegis_SIM_v48_WIP_DEFENSE_OODA_A_HTML.zip'
+      - 'Aegis_SIM_v48_WIP_DEFENSE_OODA_A_REPORT.zip'
       - 'Aegis_SIM_v48_WIP_SEEKER_CLOSE_A_REPORT.zip'
       - '.github/workflows/aegis-current-candidate.yml'
       - 'docs/pip/B/browser_backend.py'
@@ -78,6 +82,7 @@ jobs:
           sparse-checkout: |
             /*
             !/docs/ooda/integration-baseline/A/evidence/
+            !/docs/ooda/defense/A/evidence/
           sparse-checkout-cone-mode: false
 
       - name: Set up Node.js 22
@@ -154,6 +159,12 @@ jobs:
                 --js-output artifacts/current-candidate/main.js \
                 > artifacts/current-candidate/rebuild.txt
               ;;
+            DEFENSE_OODA_A)
+              python3 docs/ooda/defense/A/defense_ooda_patch.py \
+                "$BASELINE_PATH" /tmp/aegis-current-candidate.html \
+                --stage D --js-output artifacts/current-candidate/main.js \
+                > artifacts/current-candidate/rebuild.txt
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
           cmp "$PRODUCT_PATH" /tmp/aegis-current-candidate.html
@@ -205,6 +216,27 @@ jobs:
                 --stage INTEGRATION_BASELINE_A_ACTIONS_CANDIDATE --require-new
               python3 docs/ooda/integration-baseline/A/function_hash_gate.py \
                 artifacts/current-candidate/function-hashes-baseline.json \
+                artifacts/current-candidate/function-hashes-candidate.json \
+                artifacts/current-candidate/static-gate.json
+              python3 docs/ooda/integration-baseline/A/boundary_static_gate.py \
+                "$PRODUCT_PATH" artifacts/current-candidate/boundary-static-gate.json
+              ;;
+            DEFENSE_OODA_A)
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                Aegis_SIM_v48_WIP_HP_A.html \
+                artifacts/current-candidate/function-hashes-hp.json \
+                --stage DEFENSE_OODA_A_ACTIONS_HP
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                "$BASELINE_PATH" \
+                artifacts/current-candidate/function-hashes-integration.json \
+                --stage DEFENSE_OODA_A_ACTIONS_BASELINE --require-new
+              python3 docs/ooda/integration-baseline/A/baseline_audit.py \
+                "$PRODUCT_PATH" \
+                artifacts/current-candidate/function-hashes-candidate.json \
+                --stage DEFENSE_OODA_A_ACTIONS_CANDIDATE --require-new
+              python3 docs/ooda/defense/A/d_hash_gate.py \
+                artifacts/current-candidate/function-hashes-hp.json \
+                artifacts/current-candidate/function-hashes-integration.json \
                 artifacts/current-candidate/function-hashes-candidate.json \
                 artifacts/current-candidate/static-gate.json
               python3 docs/ooda/integration-baseline/A/boundary_static_gate.py \
@@ -268,9 +300,18 @@ jobs:
               cp "$BASELINE_PATH" /tmp/aegis-current-baseline-diagnostic.html
               cp artifacts/current-candidate/static-gate.json artifacts/current-candidate/diagnostic-build.json
               ;;
+            DEFENSE_OODA_A)
+              cp "$PRODUCT_PATH" /tmp/aegis-current-candidate-diagnostic.html
+              cp "$BASELINE_PATH" /tmp/aegis-current-baseline-diagnostic.html
+              python3 docs/ooda/defense/A/defense_ooda_patch.py \
+                "$BASELINE_PATH" /tmp/aegis-current-ooda-shadow.html \
+                --stage C \
+                > artifacts/current-candidate/shadow-rebuild.txt
+              cp artifacts/current-candidate/static-gate.json artifacts/current-candidate/diagnostic-build.json
+              ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac
-          if [ "$CANDIDATE_STAGE" != "ESM_A" ] && [ "$CANDIDATE_STAGE" != "SEEKER_UNIFY_U4" ] && [ "$CANDIDATE_STAGE" != "HP_A" ] && [ "$CANDIDATE_STAGE" != "INTEGRATION_BASELINE_A" ]; then
+          if [ "$CANDIDATE_STAGE" != "ESM_A" ] && [ "$CANDIDATE_STAGE" != "SEEKER_UNIFY_U4" ] && [ "$CANDIDATE_STAGE" != "HP_A" ] && [ "$CANDIDATE_STAGE" != "INTEGRATION_BASELINE_A" ] && [ "$CANDIDATE_STAGE" != "DEFENSE_OODA_A" ]; then
             python3 docs/electronic/emitter/A/build_stage_diagnostic.py \
                 --base "$BASELINE_PATH" \
                 --out /tmp/aegis-current-baseline-diagnostic.html \
@@ -360,6 +401,29 @@ jobs:
                 artifacts/current-candidate/contract-repeat.json \
                 artifacts/current-candidate/crew-contract.json \
                 artifacts/current-candidate/crew-contract-repeat.json
+              ;;
+            DEFENSE_OODA_A)
+              (
+                cd /tmp
+                python3 -m http.server 8123 --bind 127.0.0.1 \
+                  > "$GITHUB_WORKSPACE/artifacts/current-candidate/http-server.log" 2>&1
+              ) &
+              server_pid=$!
+              trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+              active_url=http://127.0.0.1:8123/aegis-current-candidate-diagnostic.html
+              shadow_url=http://127.0.0.1:8123/aegis-current-ooda-shadow.html
+              node docs/ooda/defense/A/contract_oracle.cjs \
+                "$PRODUCT_PATH" "$active_url" \
+                artifacts/current-candidate/contract-gate.json ACTIVE
+              node docs/ooda/defense/A/engine_oracle.cjs \
+                "$PRODUCT_PATH" "$active_url" \
+                artifacts/current-candidate/engine-gate.json ACTIVE
+              node docs/ooda/defense/A/active_oracle.cjs \
+                "$PRODUCT_PATH" "$active_url" \
+                artifacts/current-candidate/active-gate.json
+              node docs/ooda/defense/A/shadow_oracle.cjs \
+                /tmp/aegis-current-ooda-shadow.html "$shadow_url" \
+                artifacts/current-candidate/shadow-gate.json
               ;;
             *) echo "unknown candidate stage: $CANDIDATE_STAGE" >&2; exit 2 ;;
           esac

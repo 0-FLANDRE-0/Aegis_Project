@@ -1,4 +1,14 @@
-# 현재 상태 (2026-11-13 INTEGRATION_BASELINE_A 보정 완료 후보 기준)
+# 현재 상태 (2026-11-27 DEFENSE_OODA_A 완료 후보 기준)
+
+## DEFENSE_OODA_A 현재 인계
+
+- PR #79 INTEGRATION_BASELINE_A는 merge commit `68911e39eb2e1bd1196bbe7c3bedfb4ad9312fc2`로 병합됐다. 그 기준에서 `defense-ooda-a` 단일 브랜치로 작업했다.
+- 결과 제품은 `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`, 22,226,343 bytes, SHA-256 `1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d`다. deterministic stage-D builder가 bytes exact로 재생성한다.
+- DDG/CG 공통 owner-local OODA는 ShipProfile 기반 슬롯·대기열·fixed-step OBSERVE/ORIENT/DECIDE/READY, 승조원/손상/현대화 처리량과 관측 기반 우선순위·native 상한 이하 advisory 살보를 ACTIVE로 제공한다.
+- SHADOW가 먼저 통과했다. A3, Network G, FCS/SPG, reserve, re-engagement, EMCON, damage, release와 C55/RAM/Phalanx 즉응 권위는 기존 위치에 남고 fallback/rejection/truth/RNG 위반은 0이다.
+- 동결 후보 광역은 788/788 실행했다. raw 780 PASS/8 FAIL이며 paired raid 8건은 원시 상태를 유지한 채 동결 OODA 지연 후 native `FCS_QUALITY` 차단으로 분류했다. §9-4 effective failure 0, 기대값·허용오차·게임 상수 변경 0이다.
+- 자연 센서 Kh-35U 대조군은 DDG/CG 모두 READY 뒤 ESSM 2발과 `PROX_DETONATION_KILL`, 자함 피격 0을 기록했다. 상세는 `docs/ooda/defense/A/FINAL_REPORT.md`다.
+- PR #80 제출 후보이며 merge/release/tag는 없다. 사용자 결정 전 `main`에 병합하지 않는다.
 
 ## 통합 방어 기준선 현재 인계
 
@@ -7,7 +17,7 @@
 - `integration-baseline-a`에서 방어 소유권·호출 그래프와 기준 오라클을 동결했고, owner-addressed 불변 입력 DTO 및 advisory 명령 DTO를 `LEGACY_H1` provider로 연결했다. crew 입력은 owner-local 요약으로 제한되며 25/25 반복 결정성이 exact다. truth/RNG/save mutation은 0이다.
 - 보정 1차 광역은 누락된 `WIP_HELI_CG_A` fixture 때문에 첫 suite 0 assertion에서 중단했고 원시 실패 로그를 보존했다. 승인된 2차는 fixture와 모든 간접 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 기대값·허용오차·게임 상수 변경은 없다.
 - 실제 OODA 판단·처리량·반응 지연·평가 슬롯은 다음 단일 단계 `DEFENSE_OODA_A` 범위다. CIWS 로컬 즉응, A3/Network/FCS/reserve/reengagement/발사 안전 권위는 이 단계에서 이동하지 않는다.
-- PR #79는 병합하지 않는다. 보정 패키지 head의 current-candidate PR run `43415982293`과 workflow_dispatch run `43417371723`은 모두 SUCCESS이며, 제품 HTML·실행 ZIP·리포트 ZIP 원격 readback도 전부 exact다. release·tag는 없다.
+- PR #79는 merge commit `68911e39…`로 병합됐다. 보정 패키지 head의 current-candidate PR run `43415982293`, workflow_dispatch `43417371723`, 최종 corrected-candidate run `43420335598`은 SUCCESS이며 제품 HTML·실행 ZIP·리포트 ZIP 원격 readback도 전부 exact다. release·tag는 없다.
 
 # 직전 상태 (2026-11-09 SEEKER_CLOSE_A PR #78 폐쇄 보정 기준)
 

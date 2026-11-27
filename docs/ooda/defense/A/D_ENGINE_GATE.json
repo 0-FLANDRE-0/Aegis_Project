@@ -1,0 +1,171 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_ENGINE_ORACLE_1",
+  "product": {
+    "file": "Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+    "bytes": 22226343,
+    "sha256": "1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d"
+  },
+  "expectedMode": "ACTIVE",
+  "provider": {
+    "provider": "DEFENSE_OODA_A",
+    "mode": "ACTIVE"
+  },
+  "checks": {
+    "firstPass": true,
+    "repeatPass": true,
+    "repeatExact": true,
+    "providerExpected": true,
+    "noBrowserErrors": true
+  },
+  "first": {
+    "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+    "checks": {
+      "deterministic": true,
+      "ddgSlots": true,
+      "readyAfter48": true,
+      "cgModernization": true,
+      "degradedCapacity": true,
+      "combatUnavailable": true,
+      "boundedQueue": true,
+      "urgentPreemption": true,
+      "sameIdPreservedNewIdReset": true,
+      "saveLoadMidPhase": true,
+      "manualHold": true,
+      "nativeSalvoUpperBound": true,
+      "invalidCommandRejected": true,
+      "staleCommandRejected": true,
+      "advisoryOnly": true,
+      "downlinkIsProvenanceOnly": true,
+      "fixedStepScaleExact": true,
+      "fallbackPathPresent": true,
+      "rngUnchanged": true
+    },
+    "first": {
+      "c0": "OODA_DEFER",
+      "s0": {
+        "slots": 4,
+        "used": 4,
+        "queue": 6
+      },
+      "c48": {
+        "reason": "OODA_READY",
+        "ready": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "s48": {
+        "evaluated": 4
+      },
+      "cg": {
+        "slots": 3
+      },
+      "degraded": {
+        "capacity": 0.5,
+        "slots": 2,
+        "remaining": 24
+      },
+      "hold": {
+        "hold": true,
+        "reason": "COMBAT_UNAVAILABLE"
+      },
+      "saturation": {
+        "queue": 64,
+        "overflow": 6
+      },
+      "preemption": {
+        "count": 1,
+        "urgentSlot": 3
+      },
+      "continuity": {
+        "seq0": 1,
+        "seqSame": 1,
+        "seqNew": 2
+      },
+      "save": {
+        "stateExact": true,
+        "commandExact": true,
+        "remaining": 24
+      },
+      "policy": {
+        "manualHold": true,
+        "salvoReduced": 1,
+        "salvoReengage": 2,
+        "nativeSalvo": 2,
+        "invalidReason": "COMMAND_FIELDS",
+        "staleReason": "STALE_STEP",
+        "commandKeys": [
+          "advisoryHold",
+          "deferUntilStep",
+          "inputRevision",
+          "inputStep",
+          "ownerEntityId",
+          "priorities",
+          "provider",
+          "reason",
+          "salvoOverrides",
+          "schema",
+          "trackOrder"
+        ],
+        "remote": {
+          "ready": [
+            51
+          ],
+          "providerKeys": [
+            "advisoryHold",
+            "deferUntilStep",
+            "inputRevision",
+            "inputStep",
+            "ownerEntityId",
+            "priorities",
+            "provider",
+            "reason",
+            "salvoOverrides",
+            "schema",
+            "trackOrder"
+          ],
+          "inputExact": true,
+          "authority": "WITHHELD",
+          "fcsSource": "LOCAL_ONLY"
+        },
+        "scale": {
+          "scale1": {
+            "reason": "OODA_READY",
+            "order": [
+              61
+            ],
+            "phase": "READY",
+            "remaining": 0,
+            "readyStep": 48
+          },
+          "scale8": {
+            "reason": "OODA_READY",
+            "order": [
+              61
+            ],
+            "phase": "READY",
+            "remaining": 0,
+            "readyStep": 48
+          },
+          "scale16": {
+            "reason": "OODA_READY",
+            "order": [
+              61
+            ],
+            "phase": "READY",
+            "remaining": 0,
+            "readyStep": 48
+          }
+        }
+      }
+    },
+    "repeatDigest": "364ef239",
+    "pass": true
+  },
+  "secondDigest": "c84790c338e73cbbc914380c23d0262687890e50f5ba0be630c05e792fb52b6c",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "pass": true
+}

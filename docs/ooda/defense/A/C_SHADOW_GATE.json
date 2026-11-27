@@ -1,0 +1,3600 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_SHADOW_ORACLE_1",
+  "product": {
+    "file": "ooda-c.html",
+    "bytes": 22223187,
+    "sha256": "6f9cd9307247e7489c1a1bf62368461462a2481bd77b734e7138d17d205eb006"
+  },
+  "browser": "156.0.8078.79",
+  "playwright": "1.62.1",
+  "seed": 481802,
+  "checks": {
+    "scenes": false,
+    "repeatExact": false,
+    "profiles": true
+  },
+  "sceneChecks": [
+    {
+      "shadowProvider": true,
+      "advisoryOnly": true,
+      "bothOwnersReady": true,
+      "ownerLocal": true,
+      "actualStayedLegacy": true,
+      "onlyAllowedDifferences": true,
+      "noValidationRngTruthFallback": true,
+      "currentTrackOnly": true,
+      "commandSchemaOnly": true,
+      "manualHoldNoLaunch": false,
+      "engineSelfTest": true,
+      "localCiwsIndependent": true,
+      "noBrowserErrors": true
+    },
+    {
+      "shadowProvider": true,
+      "advisoryOnly": true,
+      "bothOwnersReady": true,
+      "ownerLocal": true,
+      "actualStayedLegacy": true,
+      "onlyAllowedDifferences": true,
+      "noValidationRngTruthFallback": true,
+      "currentTrackOnly": true,
+      "commandSchemaOnly": true,
+      "manualHoldNoLaunch": false,
+      "engineSelfTest": true,
+      "localCiwsIndependent": true,
+      "noBrowserErrors": true
+    }
+  ],
+  "scenes": [
+    {
+      "result": {
+        "profileIndex": 0,
+        "own": {
+          "id": "SHIP_DDG119_OWN",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA"
+        },
+        "ally": {
+          "id": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "CG_52_LATE_TICONDEROGA"
+        },
+        "provider": {
+          "provider": "LEGACY_H1",
+          "mode": "SHADOW",
+          "authority": "ADVISORY_ONLY",
+          "truthUsed": false,
+          "rngConsumed": false
+        },
+        "fixture": {
+          "enemyId": 1,
+          "trackId": 300000001,
+          "rangeKm": 24,
+          "altM": 25,
+          "speedMps": 260,
+          "label": "Kh-35U"
+        },
+        "samples": [
+          {
+            "step": 0,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "WITHHELD",
+                  "ageS": 0,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "tracks": []
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0,
+                "slots": 0,
+                "reason": "NOT_EVALUATED"
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 0,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": null,
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 0,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": null,
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 83.08797607347107,
+                "harmlessThresholdM": 1583.087976073471
+              },
+              "revision": 0,
+              "lastStep": -1,
+              "lastBuildMs": 0,
+              "lastAssessmentMs": 0,
+              "assessments": [],
+              "recommendations": [],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 12,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 12,
+              "revision": 2,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 12,
+              "revision": 1,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 49,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 1,
+                  "slot": 0,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": null,
+                  "lastSeenStep": 12
+                }
+              ],
+              "lastCommand": {
+                "step": 12,
+                "revision": 1,
+                "reason": "OODA_DEFER",
+                "digest": "d5488613"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 2,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": {
+                "step": 0,
+                "revision": 0,
+                "reason": "OODA_DEFER",
+                "digest": "68a81e38"
+              },
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 1,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 2,
+              "shadowComparisons": 6,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 12,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 12,
+                "inputRevision": 1,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.1978309145794445
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 1,
+              "shadowComparisons": 2,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 0,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 0,
+                "inputRevision": 0,
+                "trackOrder": [],
+                "priorities": [],
+                "salvoOverrides": [],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 83.08797607347107,
+                "harmlessThresholdM": 1583.087976073471
+              },
+              "revision": 2,
+              "lastStep": 12,
+              "lastBuildMs": 3.1999999997206032,
+              "lastAssessmentMs": 0.599999999627471,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 8359.875752287939,
+                  "linearCpaM": 8359.37516495113,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 92.14315327051877,
+                  "cpaResolved": false,
+                  "thresholdM": 1583.087976073471,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 12,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23952.47567260923,
+                      "y": -1.1701224766864522,
+                      "z": 24.107621710652154,
+                      "vx": -259.91280455683557,
+                      "vy": 0.7016967679167414,
+                      "vz": -3.0997751964438507
+                    },
+                    "cov": {
+                      "posSigmaM": 3.237361575440372,
+                      "altSigmaM": 5.143560181079067,
+                      "velSigmaMps": 46.97734174424408
+                    },
+                    "accel": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_PRECISION_LOCK",
+                    "lastThreatScore": 78.79336406305984,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 12
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 12
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.952475701190547,
+                  "altM": 24.107621710652154,
+                  "threatScore": 78.79336406305984,
+                  "assessment": "THREAT",
+                  "cpaM": 8359.875752287939,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 91,
+                    "interceptS": 15.354978306718666,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 11.804978306718665,
+                      "endT": 16.304978306718667,
+                      "terminalStartT": 12.554978306718665,
+                      "predictedCpaT": 15.554978306718665,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 36,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 36,
+              "revision": 4,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.03333333333333333,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 36,
+              "revision": 3,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.3333333333333333,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 2,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 49,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 1,
+                  "slot": 0,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": null,
+                  "lastSeenStep": 36
+                }
+              ],
+              "lastCommand": {
+                "step": 36,
+                "revision": 3,
+                "reason": "OODA_DEFER",
+                "digest": "3393e65b"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 4,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 120,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 23,
+                  "slot": 0,
+                  "enqueuedStep": 24,
+                  "startedStep": 24,
+                  "readyStep": null,
+                  "lastSeenStep": 24
+                }
+              ],
+              "lastCommand": {
+                "step": 24,
+                "revision": 2,
+                "reason": "OODA_DEFER",
+                "digest": "77b55601"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 3,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 4,
+              "shadowComparisons": 12,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 36,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 36,
+                "inputRevision": 3,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.21152254600213458
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 3,
+              "shadowComparisons": 7,
+              "allowedShadowDifferenceCount": 2,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 24,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 24,
+                "inputRevision": 2,
+                "trackOrder": [
+                  2
+                ],
+                "priorities": [
+                  {
+                    "trackId": 2,
+                    "score": 0
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 83.08797607347107,
+                "harmlessThresholdM": 1583.087976073471
+              },
+              "revision": 4,
+              "lastStep": 36,
+              "lastBuildMs": 3,
+              "lastAssessmentMs": 0.2999999998137355,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 10870.358576905774,
+                  "linearCpaM": 8429.357762599504,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 91.59977937786654,
+                  "cpaResolved": false,
+                  "thresholdM": 1583.087976073471,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 36,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": 0.2828852465527391,
+                    "y": -2.4970470145970944,
+                    "z": -1.769992190369728
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23850.663194356966,
+                      "y": -1.0573722536516186,
+                      "z": 14.183349359917841,
+                      "vx": -258.62310386280484,
+                      "vy": 0.16162831702499147,
+                      "vz": -21.38725398884712
+                    },
+                    "cov": {
+                      "posSigmaM": 2.5748516692681327,
+                      "altSigmaM": 4.322894563958713,
+                      "velSigmaMps": 12.090345372322535
+                    },
+                    "accel": {
+                      "x": 0.2828852465527391,
+                      "y": -2.4970470145970944,
+                      "z": -1.769992190369728
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 78.79923838374135,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 36
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 36
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.850663217795223,
+                  "altM": 14.183349359917841,
+                  "threatScore": 78.79923838374135,
+                  "assessment": "THREAT",
+                  "cpaM": 10870.358576905774,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 90.5,
+                    "interceptS": 15.30226802887594,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 1,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 12.15226802887594,
+                      "endT": 16.652268028875937,
+                      "terminalStartT": 12.90226802887594,
+                      "predictedCpaT": 15.90226802887594,
+                      "weapon": "ESSM",
+                      "illId": 1
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 72,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 72,
+              "revision": 7,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.18333333333333332,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 72,
+              "revision": 6,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 2,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.16666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": 49,
+                  "lastSeenStep": 72
+                }
+              ],
+              "lastCommand": {
+                "step": 72,
+                "revision": 6,
+                "reason": "OODA_READY",
+                "digest": "9ddb2f2e"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 120,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 25,
+                  "slot": 0,
+                  "enqueuedStep": 24,
+                  "startedStep": 24,
+                  "readyStep": null,
+                  "lastSeenStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 60,
+                "revision": 5,
+                "reason": "OODA_DEFER",
+                "digest": "edb02b9d"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 6,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 7,
+              "shadowComparisons": 21,
+              "allowedShadowDifferenceCount": 12,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 72,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 72,
+                "inputRevision": 6,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.21598718554026303
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 6,
+              "shadowComparisons": 16,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 60,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 60,
+                "inputRevision": 5,
+                "trackOrder": [
+                  2
+                ],
+                "priorities": [
+                  {
+                    "trackId": 2,
+                    "score": 0.2962613161618425
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 83.08797607347107,
+                "harmlessThresholdM": 1583.087976073471
+              },
+              "revision": 7,
+              "lastStep": 72,
+              "lastBuildMs": 3.2000000001862645,
+              "lastAssessmentMs": 0.20000000018626451,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 13201.039983823193,
+                  "linearCpaM": 8017.226736216407,
+                  "cpaTimeS": 48.296890906046016,
+                  "closureTgoS": 90.67963147538035,
+                  "cpaResolved": false,
+                  "thresholdM": 1583.087976073471,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 72,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": -0.9051889411725407,
+                    "y": -1.1486745793483362,
+                    "z": 7.279220151600097
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23693.894332394302,
+                      "y": -0.24895171611482547,
+                      "z": 21.490274873680875,
+                      "vx": -261.2850293424891,
+                      "vy": 1.3868020363823201,
+                      "vz": -0.2098697998317972
+                    },
+                    "cov": {
+                      "posSigmaM": 1.8863722628067565,
+                      "altSigmaM": 3.1377193734827626,
+                      "velSigmaMps": 4.562353544812222
+                    },
+                    "accel": {
+                      "x": -0.9051889411725407,
+                      "y": -1.1486745793483362,
+                      "z": 7.279220151600097
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 77.98838330513885,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 72
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 72
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.693894333702165,
+                  "altM": 21.490274873680875,
+                  "threatScore": 77.98838330513885,
+                  "assessment": "THREAT",
+                  "cpaM": 13201.039983823193,
+                  "cpaTimeS": 48.296890906046016,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 72.5,
+                    "interceptS": 15.175890871138789,
+                    "encounterAltM": 856.5354071498397,
+                    "availableG": 33.708092309243355,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.427023077310839,
+                    "channelId": 1,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 12.625890871138788,
+                      "endT": 17.12589087113879,
+                      "terminalStartT": 13.375890871138788,
+                      "predictedCpaT": 16.37589087113879,
+                      "weapon": "ESSM",
+                      "illId": 1
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 120,
+            "ownInput": {
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 120,
+              "revision": 11,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.23333333333333334,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 120,
+              "revision": 10,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.8,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 2,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_DDG119_OWN",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": 49,
+                  "lastSeenStep": 120
+                }
+              ],
+              "lastCommand": {
+                "step": 120,
+                "revision": 10,
+                "reason": "OODA_READY",
+                "digest": "663f03a7"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 2,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 24,
+                  "startedStep": 24,
+                  "readyStep": 108,
+                  "lastSeenStep": 108
+                }
+              ],
+              "lastCommand": {
+                "step": 108,
+                "revision": 9,
+                "reason": "OODA_READY",
+                "digest": "79b51698"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 9,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 11,
+              "shadowComparisons": 33,
+              "allowedShadowDifferenceCount": 16,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 120,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_DDG119_OWN",
+                "inputStep": 120,
+                "inputRevision": 10,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.21706921643254817
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 10,
+              "shadowComparisons": 28,
+              "allowedShadowDifferenceCount": 15,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 108,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 108,
+                "inputRevision": 9,
+                "trackOrder": [
+                  2
+                ],
+                "priorities": [
+                  {
+                    "trackId": 2,
+                    "score": 0.3092779452324229
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 2,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 83.08797607347107,
+                "harmlessThresholdM": 1583.087976073471
+              },
+              "revision": 11,
+              "lastStep": 120,
+              "lastBuildMs": 1,
+              "lastAssessmentMs": 0,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 8306.870627481021,
+                  "linearCpaM": 7810.208089005414,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 89.80787074269564,
+                  "cpaResolved": false,
+                  "thresholdM": 1583.087976073471,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 120,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": -0.6044961547685643,
+                    "y": -1.4585740920342702,
+                    "z": 2.473018149572579
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23484.289138465356,
+                      "y": -1.7240275128355917,
+                      "z": 13.133596961233783,
+                      "vx": -261.3618168878529,
+                      "vy": -0.4468222124205865,
+                      "vz": -5.950860921453828
+                    },
+                    "cov": {
+                      "posSigmaM": 1.609080512841051,
+                      "altSigmaM": 2.4915677812297847,
+                      "velSigmaMps": 2.6419828732991664
+                    },
+                    "accel": {
+                      "x": -0.6044961547685643,
+                      "y": -1.4585740920342702,
+                      "z": 2.473018149572579
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 77.59377055867888,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 120
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 120
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.48428920174747,
+                  "altM": 13.133596961233783,
+                  "threatScore": 77.59377055867888,
+                  "assessment": "THREAT",
+                  "cpaM": 8306.870627481021,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 88.5,
+                    "interceptS": 15.04086970449848,
+                    "encounterAltM": 203.36015323545436,
+                    "availableG": 33.12080047899792,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.28020011974948,
+                    "channelId": 1,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 13.29086970449848,
+                      "endT": 17.79086970449848,
+                      "terminalStartT": 14.04086970449848,
+                      "predictedCpaT": 17.04086970449848,
+                      "weapon": "ESSM",
+                      "illId": 1
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          }
+        ],
+        "manualHold": {
+          "manualMissileDelta": -1,
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "foreignFireDelta": 0
+        },
+        "engineSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+          "checks": {
+            "deterministic": true,
+            "ddgSlots": true,
+            "readyAfter48": true,
+            "cgModernization": true,
+            "degradedCapacity": true,
+            "combatUnavailable": true,
+            "boundedQueue": true,
+            "urgentPreemption": true,
+            "sameIdPreservedNewIdReset": true,
+            "saveLoadMidPhase": true,
+            "manualHold": true,
+            "nativeSalvoUpperBound": true,
+            "invalidCommandRejected": true,
+            "advisoryOnly": true,
+            "fallbackPathPresent": true,
+            "rngUnchanged": true
+          },
+          "first": {
+            "c0": "OODA_DEFER",
+            "s0": {
+              "slots": 4,
+              "used": 4,
+              "queue": 6
+            },
+            "c48": {
+              "reason": "OODA_READY",
+              "ready": [
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "s48": {
+              "evaluated": 4
+            },
+            "cg": {
+              "slots": 3
+            },
+            "degraded": {
+              "capacity": 0.5,
+              "slots": 2,
+              "remaining": 24
+            },
+            "hold": {
+              "hold": true,
+              "reason": "COMBAT_UNAVAILABLE"
+            },
+            "saturation": {
+              "queue": 64,
+              "overflow": 6
+            },
+            "preemption": {
+              "count": 1,
+              "urgentSlot": 3
+            },
+            "continuity": {
+              "seq0": 1,
+              "seqSame": 1,
+              "seqNew": 2
+            },
+            "save": {
+              "stateExact": true,
+              "commandExact": true,
+              "remaining": 24
+            },
+            "policy": {
+              "manualHold": true,
+              "salvoReduced": 1,
+              "salvoReengage": 2,
+              "nativeSalvo": 2,
+              "invalidReason": "COMMAND_FIELDS",
+              "commandKeys": [
+                "advisoryHold",
+                "deferUntilStep",
+                "inputRevision",
+                "inputStep",
+                "ownerEntityId",
+                "priorities",
+                "provider",
+                "reason",
+                "salvoOverrides",
+                "schema",
+                "trackOrder"
+              ]
+            }
+          },
+          "repeatDigest": "29fdc826",
+          "pass": true
+        },
+        "localDefense": {
+          "checks": {
+            "uniqueMeasuredTiming": true,
+            "bearingOnlyHasNoRange": true,
+            "localOnlyHasNoActiveEvidence": true,
+            "staleLocalWithheld": true,
+            "sameMountAmbiguityWithheld": true,
+            "crossMountDuplicateSingle": true,
+            "crossMountManyToOneWithheld": true,
+            "multipleEmitterAmbiguityWithheld": true,
+            "cmsSeedNotDuplicated": true,
+            "unmatchedBearingWithheld": true,
+            "detachedAndNoIdAuthority": true
+          },
+          "pass": true
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": []
+    },
+    {
+      "result": {
+        "profileIndex": 1,
+        "own": {
+          "id": "SHIP_CG52_OWN",
+          "profileId": "CG_52_LATE_TICONDEROGA"
+        },
+        "ally": {
+          "id": "SHIP_SCENARIO_ALLY_F",
+          "profileId": "DDG_119_LATE_FLIGHT_IIA"
+        },
+        "provider": {
+          "provider": "LEGACY_H1",
+          "mode": "SHADOW",
+          "authority": "ADVISORY_ONLY",
+          "truthUsed": false,
+          "rngConsumed": false
+        },
+        "fixture": {
+          "enemyId": 1,
+          "trackId": 300000001,
+          "rangeKm": 24,
+          "altM": 25,
+          "speedMps": 260,
+          "label": "Kh-35U"
+        },
+        "samples": [
+          {
+            "step": 0,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "WITHHELD",
+                  "ageS": 0,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 0,
+              "revision": 0,
+              "mode": "AUTO",
+              "tracks": []
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0,
+                "slots": 0,
+                "reason": "NOT_EVALUATED"
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 0,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": null,
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 0,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": null,
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 0,
+              "shadowComparisons": 0,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": -1,
+              "lastCommand": null
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 87.2268152348296,
+                "harmlessThresholdM": 1587.2268152348297
+              },
+              "revision": 0,
+              "lastStep": -1,
+              "lastBuildMs": 0,
+              "lastAssessmentMs": 0,
+              "assessments": [],
+              "recommendations": [],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 12,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 12,
+              "revision": 2,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 12,
+              "revision": 1,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "ASM",
+                  "authority": "WITHHELD",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "OBSERVE",
+                  "remainingSteps": 12,
+                  "slot": 0,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": null,
+                  "lastSeenStep": 12
+                }
+              ],
+              "lastCommand": {
+                "step": 12,
+                "revision": 1,
+                "reason": "OODA_DEFER",
+                "digest": "530480b6"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 2,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "OBSERVE",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 0,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [],
+              "lastCommand": {
+                "step": 0,
+                "revision": 0,
+                "reason": "OODA_DEFER",
+                "digest": "68a81e38"
+              },
+              "diagnostics": {
+                "queued": 0,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 1,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 2,
+              "shadowComparisons": 6,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 12,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 12,
+                "inputRevision": 1,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.19742766457965433
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 1,
+              "shadowComparisons": 2,
+              "allowedShadowDifferenceCount": 0,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 0,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 0,
+                "inputRevision": 0,
+                "trackOrder": [],
+                "priorities": [],
+                "salvoOverrides": [],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 87.2268152348296,
+                "harmlessThresholdM": 1587.2268152348297
+              },
+              "revision": 2,
+              "lastStep": 12,
+              "lastBuildMs": 6.100000000093132,
+              "lastAssessmentMs": 0.20000000018626451,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 9194.71715617515,
+                  "linearCpaM": 9194.307779221625,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 87.60464078490573,
+                  "cpaResolved": false,
+                  "thresholdM": 1587.2268152348297,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 12,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23951.866571187868,
+                      "y": 5.2914214515119395,
+                      "z": 28.084714906606354,
+                      "vx": -258.7853281482429,
+                      "vy": 48.04013447268734,
+                      "vz": -38.547407929570475
+                    },
+                    "cov": {
+                      "posSigmaM": 3.891351736919805,
+                      "altSigmaM": 5.144232817456724,
+                      "velSigmaMps": 47.17215161541008
+                    },
+                    "accel": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_PRECISION_LOCK",
+                    "lastThreatScore": 79.79982025838356,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 12
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 12
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.95186715567552,
+                  "altM": 28.084714906606354,
+                  "threatScore": 79.79982025838356,
+                  "assessment": "THREAT",
+                  "cpaM": 9194.71715617515,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 86.5,
+                    "interceptS": 15.365384442569473,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 11.815384442569473,
+                      "endT": 16.315384442569474,
+                      "terminalStartT": 12.565384442569473,
+                      "predictedCpaT": 15.565384442569473,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 36,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 36,
+              "revision": 4,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.03333333333333333,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 36,
+              "revision": 3,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.1,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 26,
+                  "slot": 0,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": null,
+                  "lastSeenStep": 36
+                }
+              ],
+              "lastCommand": {
+                "step": 36,
+                "revision": 3,
+                "reason": "OODA_DEFER",
+                "digest": "2fc0ea5a"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 4,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "ORIENT",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 4,
+              "nextReadyStep": 72,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "ORIENT",
+                  "remainingSteps": 24,
+                  "slot": 0,
+                  "enqueuedStep": 12,
+                  "startedStep": 12,
+                  "readyStep": null,
+                  "lastSeenStep": 24
+                }
+              ],
+              "lastCommand": {
+                "step": 24,
+                "revision": 2,
+                "reason": "OODA_DEFER",
+                "digest": "13bea96a"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 3,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 4,
+              "shadowComparisons": 12,
+              "allowedShadowDifferenceCount": 8,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 36,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 36,
+                "inputRevision": 3,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.21172699871688855
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 3,
+              "shadowComparisons": 8,
+              "allowedShadowDifferenceCount": 4,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 24,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 24,
+                "inputRevision": 2,
+                "trackOrder": [
+                  1
+                ],
+                "priorities": [
+                  {
+                    "trackId": 1,
+                    "score": 0.29549842951671634
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 87.2268152348296,
+                "harmlessThresholdM": 1587.2268152348297
+              },
+              "revision": 4,
+              "lastStep": 36,
+              "lastBuildMs": 3,
+              "lastAssessmentMs": 0.6000000000931323,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 7606.339401942655,
+                  "linearCpaM": 8274.2419644748,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 91.5906992139666,
+                  "cpaResolved": false,
+                  "thresholdM": 1587.2268152348297,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "lastSeenStep": 36,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": -0.5766091465646164,
+                    "y": 0.8712559047747116,
+                    "z": -0.6755958257281374
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23847.44851234547,
+                      "y": 0.4467846717106583,
+                      "z": 26.606509595445008,
+                      "vx": -259.93820129553114,
+                      "vy": -0.0298924400884637,
+                      "vz": -10.73766572539287
+                    },
+                    "cov": {
+                      "posSigmaM": 3.1637026357957443,
+                      "altSigmaM": 4.323693517282176,
+                      "velSigmaMps": 12.124956531396743
+                    },
+                    "accel": {
+                      "x": -0.5766091465646164,
+                      "y": 0.8712559047747116,
+                      "z": -0.6755958257281374
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 80.36341128626202,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 36
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 36
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.847448516530747,
+                  "altM": 26.606509595445008,
+                  "threatScore": 80.36341128626202,
+                  "assessment": "THREAT",
+                  "cpaM": 7606.339401942655,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 1,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 1,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 90.5,
+                    "interceptS": 15.287314168826498,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 12.137314168826498,
+                      "endT": 16.6373141688265,
+                      "terminalStartT": 12.887314168826498,
+                      "predictedCpaT": 15.887314168826498,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 72,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 72,
+              "revision": 7,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.26666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 72,
+              "revision": 6,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.21666666666666667,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 2,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "DECIDE",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 1,
+              "totalSlots": 3,
+              "nextReadyStep": 85,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "DECIDE",
+                  "remainingSteps": 13,
+                  "slot": 0,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": null,
+                  "lastSeenStep": 72
+                }
+              ],
+              "lastCommand": {
+                "step": 72,
+                "revision": 6,
+                "reason": "OODA_DEFER",
+                "digest": "768f4ca6"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 0,
+                "preempted": 0,
+                "deferred": 7,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 12,
+                  "startedStep": 12,
+                  "readyStep": 60,
+                  "lastSeenStep": 60
+                }
+              ],
+              "lastCommand": {
+                "step": 60,
+                "revision": 5,
+                "reason": "OODA_READY",
+                "digest": "dd16c4af"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 7,
+              "shadowComparisons": 21,
+              "allowedShadowDifferenceCount": 14,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 72,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 72,
+                "inputRevision": 6,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.2157508698973385
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 6,
+              "shadowComparisons": 17,
+              "allowedShadowDifferenceCount": 9,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 60,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 60,
+                "inputRevision": 5,
+                "trackOrder": [
+                  1
+                ],
+                "priorities": [
+                  {
+                    "trackId": 1,
+                    "score": 0.3050957902646497
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 87.2268152348296,
+                "harmlessThresholdM": 1587.2268152348297
+              },
+              "revision": 7,
+              "lastStep": 72,
+              "lastBuildMs": 4.7000000001862645,
+              "lastAssessmentMs": 0,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 8883.663208811438,
+                  "linearCpaM": 8108.754399848051,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 90.65905179652313,
+                  "cpaResolved": false,
+                  "thresholdM": 1587.2268152348297,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 2,
+                  "reengageRequired": false,
+                  "lastSeenStep": 72,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": -0.648596029520508,
+                    "y": 1.8651785864471948,
+                    "z": -1.9528157762657388
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23690.76423442538,
+                      "y": 2.0188569247509687,
+                      "z": 16.580984551006352,
+                      "vx": -260.48502271206155,
+                      "vy": 2.303579449729007,
+                      "vz": -14.63121913322187
+                    },
+                    "cov": {
+                      "posSigmaM": 2.307235464413584,
+                      "altSigmaM": 3.1381755913923244,
+                      "velSigmaMps": 4.56737196399988
+                    },
+                    "accel": {
+                      "x": -0.648596029520508,
+                      "y": 1.8651785864471948,
+                      "z": -1.9528157762657388
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 80.61372590157816,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 72
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 72
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.69076432044589,
+                  "altM": 16.580984551006352,
+                  "threatScore": 80.61372590157816,
+                  "assessment": "THREAT",
+                  "cpaM": 8883.663208811438,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 2,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 0,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 89.5,
+                    "interceptS": 15.181569516367366,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 12.631569516367366,
+                      "endT": 17.131569516367367,
+                      "terminalStartT": 13.381569516367366,
+                      "predictedCpaT": 16.381569516367367,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          },
+          {
+            "step": 120,
+            "ownInput": {
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "step": 120,
+              "revision": 11,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 300000001,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.016666666666666666,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 300000002,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.3333333333333333,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "allyInput": {
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "step": 120,
+              "revision": 10,
+              "mode": "AUTO",
+              "tracks": [
+                {
+                  "trackId": 1,
+                  "classification": "ASM",
+                  "authority": "AUTO_AUTHORIZED",
+                  "ageS": 0.03333333333333333,
+                  "sourceCount": 1,
+                  "fcsSource": "LOCAL_ONLY"
+                },
+                {
+                  "trackId": 2,
+                  "classification": "SURFACE",
+                  "authority": "WITHHELD",
+                  "ageS": 0.6666666666666666,
+                  "sourceCount": 0,
+                  "fcsSource": "LOCAL_ONLY"
+                }
+              ]
+            },
+            "ownOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_CG52_OWN",
+              "profileId": "CG_52_LATE_TICONDEROGA",
+              "phase": "READY",
+              "capacity": {
+                "value": 0.8,
+                "slots": 3,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 3,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 300000001,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 1,
+                  "startedStep": 1,
+                  "readyStep": 85,
+                  "lastSeenStep": 120
+                }
+              ],
+              "lastCommand": {
+                "step": 120,
+                "revision": 10,
+                "reason": "OODA_READY",
+                "digest": "abdce585"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 8,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "allyOoda": {
+              "schema": "AEGIS_DEFENSE_OODA_STATE_A1",
+              "revision": 1,
+              "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+              "profileId": "DDG_119_LATE_FLIGHT_IIA",
+              "phase": "READY",
+              "capacity": {
+                "value": 1,
+                "slots": 4,
+                "reason": "AVAILABLE",
+                "crewBottleneck": 1,
+                "damageFactor": 1
+              },
+              "queueLength": 1,
+              "usedSlots": 0,
+              "totalSlots": 4,
+              "nextReadyStep": null,
+              "rows": [
+                {
+                  "trackId": 1,
+                  "sequence": 1,
+                  "phase": "READY",
+                  "remainingSteps": 0,
+                  "slot": null,
+                  "enqueuedStep": 12,
+                  "startedStep": 12,
+                  "readyStep": 60,
+                  "lastSeenStep": 108
+                }
+              ],
+              "lastCommand": {
+                "step": 108,
+                "revision": 9,
+                "reason": "OODA_READY",
+                "digest": "e6525368"
+              },
+              "diagnostics": {
+                "queued": 1,
+                "evaluated": 1,
+                "preempted": 0,
+                "deferred": 5,
+                "fallback": 0,
+                "rejected": 0,
+                "overflow": 0
+              },
+              "migration": "NONE"
+            },
+            "ownDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 11,
+              "shadowComparisons": 33,
+              "allowedShadowDifferenceCount": 19,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 120,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_CG52_OWN",
+                "inputStep": 120,
+                "inputRevision": 10,
+                "trackOrder": [
+                  300000001
+                ],
+                "priorities": [
+                  {
+                    "trackId": 300000001,
+                    "score": 0.217325076858892
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 300000001,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 2,
+                    "reason": "SHOOT_SHOOT_LOOK_HIGH_THREAT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "allyDiagnostics": {
+              "provider": "LEGACY_H1",
+              "mode": "SHADOW",
+              "builds": 10,
+              "shadowComparisons": 29,
+              "allowedShadowDifferenceCount": 13,
+              "shadowMismatchCount": 0,
+              "validationFailures": 0,
+              "rngMismatchCount": 0,
+              "truthAuditFailures": 0,
+              "lastStep": 108,
+              "lastCommand": {
+                "schema": "AEGIS_DEFENSE_DECISION_COMMAND_A1",
+                "provider": "LEGACY_H1",
+                "ownerEntityId": "SHIP_SCENARIO_ALLY_F",
+                "inputStep": 108,
+                "inputRevision": 9,
+                "trackOrder": [
+                  1
+                ],
+                "priorities": [
+                  {
+                    "trackId": 1,
+                    "score": 0.3122800721502792
+                  }
+                ],
+                "salvoOverrides": [
+                  {
+                    "trackId": 1,
+                    "weapon": "ESSM",
+                    "desiredSalvo": 1,
+                    "reason": "SHOOT_LOOK_SHOOT"
+                  }
+                ],
+                "advisoryHold": false,
+                "deferUntilStep": null,
+                "reason": "LEGACY_H1_EXACT"
+              }
+            },
+            "control": {
+              "policy": {
+                "schedulerFrameS": 0.2,
+                "accelTauS": 2,
+                "accelClampG": 5,
+                "harmlessMarginM": 1500,
+                "harmlessPersistS": 4,
+                "accelTraceSamples": 240,
+                "cpaMaxHorizonS": 60,
+                "cpaCoarseStepS": 0.5,
+                "targetEvasiveGDefault": 4,
+                "targetEvasiveGSupersonic": 5,
+                "targetEvasiveGSeaSkimmer": 4,
+                "interceptorGAdvantage": 2,
+                "nezScanStepS": 0.5,
+                "nezMaxLookaheadS": 120,
+                "lookAssessmentS": 1.5,
+                "reengageSafetyS": 1,
+                "killPlausibilityWindowS": 1.5,
+                "bdaDirectBreakupConfirmS": 0.35,
+                "bdaFuzeNoReturnConfirmS": 1.5,
+                "bdaEventMemoryS": 4,
+                "bdaDestroyedDisplayHoldS": 1.25,
+                "lostConfidenceTauS": 6,
+                "lostFireControlHoldS": 4,
+                "lostCoastMaxS": 12,
+                "lostAliasMaxS": 6,
+                "lostAccelUncertaintyG": 0.75,
+                "shipEnvelopeRadiusM": 87.2268152348296,
+                "harmlessThresholdM": 1587.2268152348297
+              },
+              "revision": 11,
+              "lastStep": 120,
+              "lastBuildMs": 3.099999999627471,
+              "lastAssessmentMs": 0.2999999998137355,
+              "assessments": [
+                {
+                  "trackId": 300000001,
+                  "state": "THREAT",
+                  "cpaM": 6054.599481991298,
+                  "linearCpaM": 7719.767489123763,
+                  "cpaTimeS": 59.99807316334268,
+                  "closureTgoS": 89.07957670295494,
+                  "cpaResolved": false,
+                  "thresholdM": 1587.2268152348297,
+                  "harmlessStableS": 0,
+                  "farNow": false,
+                  "observedSeaImpact": false,
+                  "everEngaged": true,
+                  "liveEngagement": 2,
+                  "reengageRequired": false,
+                  "lastSeenStep": 120,
+                  "trackPresent": true,
+                  "accel": {
+                    "x": -1.5426705015154294,
+                    "y": 1.8363647121846847,
+                    "z": 0.19104056224933919
+                  },
+                  "lastObservation": {
+                    "trackMetadata": {
+                      "schema": "TRACK_RECORD_V37_A3",
+                      "metadataOnly": false,
+                      "trackId": 300000001,
+                      "trackUid": "TRK-1",
+                      "trackNumber": 1,
+                      "associationDomain": "ASM",
+                      "classification": "ASM",
+                      "identity": "ASSUMED_HOSTILE",
+                      "threatStatus": "THREAT",
+                      "engagementAuthority": "AUTO_AUTHORIZED",
+                      "operatorIdentity": null,
+                      "authorityReason": "HOSTILE_INTENT",
+                      "observedSurfaceExtent": null,
+                      "identificationEvidence": "LOCAL_SENSOR",
+                      "surfaceSensorContributors": null,
+                      "stateRevision": 1
+                    },
+                    "si": {
+                      "x": 23481.668576383752,
+                      "y": 5.017639908899735,
+                      "z": 11.656332157561772,
+                      "vx": -263.15199238432615,
+                      "vy": 3.5568611842978264,
+                      "vz": -10.35667693972167
+                    },
+                    "cov": {
+                      "posSigmaM": 1.9223225089607738,
+                      "altSigmaM": 2.4914961932645747,
+                      "velSigmaMps": 2.8459568264240396
+                    },
+                    "accel": {
+                      "x": -1.5426705015154294,
+                      "y": 1.8363647121846847,
+                      "z": 0.19104056224933919
+                    },
+                    "classification": "ASM",
+                    "trackNumber": 1,
+                    "sensorSource": "SPY1DV_SPG_HANDOFF",
+                    "lastThreatScore": 80.91080874893295,
+                    "lastTag": "ASM-SK",
+                    "lastObservedStep": 120
+                  },
+                  "lostStep": null,
+                  "lostAgeS": 0,
+                  "killPlausibility": null,
+                  "bdaEvent": null,
+                  "bdaResolvedByReturnStep": null,
+                  "lastAssessmentStep": 120
+                }
+              ],
+              "recommendations": [
+                {
+                  "trackId": 300000001,
+                  "trackNumber": 1,
+                  "label": "ASM T1",
+                  "tag": "ASM-SK",
+                  "type": "ASM",
+                  "rangeKm": 23.481669112476617,
+                  "altM": 11.656332157561772,
+                  "threatScore": 80.91080874893295,
+                  "assessment": "THREAT",
+                  "cpaM": 6054.599481991298,
+                  "cpaTimeS": 59.99807316334268,
+                  "trackPresent": true,
+                  "lostCoast": false,
+                  "coastFireControlUsable": false,
+                  "lostConfidence": null,
+                  "liveEngagement": 2,
+                  "reengageRequired": false,
+                  "weapon": "ESSM",
+                  "weaponLabel": "ESSM",
+                  "salvo": 2,
+                  "recommendedRounds": 0,
+                  "salvoPolicy": "SHOOT_SHOOT_LOOK_HIGH_THREAT",
+                  "canReengage": false,
+                  "firePlan": {
+                    "status": "READY",
+                    "fireDelayS": 0,
+                    "nezStartDelayS": 0,
+                    "nezEndDelayS": 88,
+                    "interceptS": 15.021957880961194,
+                    "encounterAltM": 0,
+                    "availableG": 32.915707819383435,
+                    "targetEvasiveG": 4,
+                    "gMargin": 8.228926954845859,
+                    "channelId": 0,
+                    "reservation": {
+                      "targetId": 300000001,
+                      "startT": 13.271957880961194,
+                      "endT": 17.771957880961196,
+                      "terminalStartT": 14.021957880961194,
+                      "predictedCpaT": 17.021957880961196,
+                      "weapon": "ESSM",
+                      "illId": 0
+                    },
+                    "requiresIlluminator": true
+                  }
+                }
+              ],
+              "recentInterceptEvents": [],
+              "aliasLog": []
+            }
+          }
+        ],
+        "manualHold": {
+          "manualMissileDelta": -2,
+          "holdResult": {
+            "ok": true,
+            "mode": "HOLD"
+          },
+          "foreignFireDelta": 0
+        },
+        "engineSelfTest": {
+          "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+          "checks": {
+            "deterministic": true,
+            "ddgSlots": true,
+            "readyAfter48": true,
+            "cgModernization": true,
+            "degradedCapacity": true,
+            "combatUnavailable": true,
+            "boundedQueue": true,
+            "urgentPreemption": true,
+            "sameIdPreservedNewIdReset": true,
+            "saveLoadMidPhase": true,
+            "manualHold": true,
+            "nativeSalvoUpperBound": true,
+            "invalidCommandRejected": true,
+            "advisoryOnly": true,
+            "fallbackPathPresent": true,
+            "rngUnchanged": true
+          },
+          "first": {
+            "c0": "OODA_DEFER",
+            "s0": {
+              "slots": 4,
+              "used": 4,
+              "queue": 6
+            },
+            "c48": {
+              "reason": "OODA_READY",
+              "ready": [
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            "s48": {
+              "evaluated": 4
+            },
+            "cg": {
+              "slots": 3
+            },
+            "degraded": {
+              "capacity": 0.5,
+              "slots": 2,
+              "remaining": 24
+            },
+            "hold": {
+              "hold": true,
+              "reason": "COMBAT_UNAVAILABLE"
+            },
+            "saturation": {
+              "queue": 64,
+              "overflow": 6
+            },
+            "preemption": {
+              "count": 1,
+              "urgentSlot": 3
+            },
+            "continuity": {
+              "seq0": 1,
+              "seqSame": 1,
+              "seqNew": 2
+            },
+            "save": {
+              "stateExact": true,
+              "commandExact": true,
+              "remaining": 24
+            },
+            "policy": {
+              "manualHold": true,
+              "salvoReduced": 1,
+              "salvoReengage": 2,
+              "nativeSalvo": 2,
+              "invalidReason": "COMMAND_FIELDS",
+              "commandKeys": [
+                "advisoryHold",
+                "deferUntilStep",
+                "inputRevision",
+                "inputStep",
+                "ownerEntityId",
+                "priorities",
+                "provider",
+                "reason",
+                "salvoOverrides",
+                "schema",
+                "trackOrder"
+              ]
+            }
+          },
+          "repeatDigest": "29fdc826",
+          "pass": true
+        },
+        "localDefense": {
+          "checks": {
+            "uniqueMeasuredTiming": true,
+            "bearingOnlyHasNoRange": true,
+            "localOnlyHasNoActiveEvidence": true,
+            "staleLocalWithheld": true,
+            "sameMountAmbiguityWithheld": true,
+            "crossMountDuplicateSingle": true,
+            "crossMountManyToOneWithheld": true,
+            "multipleEmitterAmbiguityWithheld": true,
+            "cmsSeedNotDuplicated": true,
+            "unmatchedBearingWithheld": true,
+            "detachedAndNoIdAuthority": true
+          },
+          "pass": true
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": []
+    }
+  ],
+  "repeatDigest": "dfede70b17047b9f60fcffbd53dc0120a163efc98b71385ab19387530c8761bf",
+  "pass": false
+}

@@ -1,10 +1,18 @@
-## 최신 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선 완료 후보
+## 최신 작업 — DEFENSE_OODA_A 함별 방어 판단 완료 후보
+
+- `defense-ooda-a` 결과 제품은 `Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html`(22,226,343 bytes, SHA-256 `1d2b25cd…d13d`)이다. DDG/CG가 하나의 ShipProfile 기반 owner-local OODA 엔진을 사용하며 OBSERVE/ORIENT/DECIDE/READY, 슬롯·대기열·fixed-step 지연, 승조원/손상/현대화 처리량과 native 상한 이하 살보 권고를 제공한다.
+- SHADOW 게이트 뒤에만 ACTIVE로 전환했다. A3/FCS/SPG/Network/reserve/re-engagement/EMCON/damage/release, H1 radar/EW, H2/H3/H4와 매 fixed tick C55 CIWS 권위는 기존 위치에 남는다. fallback/rejection/truth/RNG 위반은 0이다.
+- 동결 후보 광역은 788/788 실행됐다. 780개는 raw PASS이고, paired raid 8개 raw 차이는 OODA 지연 뒤 native `FCS_QUALITY` 차단으로 인과 분리해 원시 FAIL을 보존했다. §9-4 유효 실패는 0이며 기대값·허용오차·게임 상수 변경도 0이다.
+- 자연 센서 Kh-35U 대조군에서 DDG/CG 모두 READY 뒤 ESSM 2발을 발사해 `PROX_DETONATION_KILL`, 자함 피격 0을 기록했다. 상세는 `docs/ooda/defense/A/FINAL_REPORT.md`를 따른다.
+- 목표는 PR #80 제출까지다. `main` 병합, release, tag는 사용자 결정으로 남긴다.
+
+## 직전 병합 작업 — INTEGRATION_BASELINE_A 통합 방어 기준선
 
 - PR #78 SEEKER_CLOSE_A가 merge commit `d5f43c5a`로 병합된 HP_A를 기준으로, 보정 후보 `Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html`(22,212,299 bytes, SHA-256 `655d2bda…30b0`)을 만들었다.
 - 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권과 호출 경계를 동결했다. 다음 `DEFENSE_OODA_A`가 교체할 `AEGIS_DEFENSE_DECISION_INPUT_A1` 읽기 전용 DTO와 advisory 명령 DTO를 `LEGACY_H1`에 연결했으며, crew 입력은 owner-local·deep-frozen 요약만 허용한다.
 - A3/Network/FCS/reserve/reengagement/실제 발사 gate와 CIWS 즉응 권위는 그대로다. truth 필드·provider RNG·저장 필드 추가는 모두 0이다. 보호 함수 31개 중 30개는 exact이고 `wip118BuildEngagementControl`만 의도한 adapter 연결로 변경됐다. 11개 경계 함수는 별도 해시로 고정했다.
 - 보정 광역 1차는 `WIP_HELI_CG_A` fixture 누락을 preflight에서 잡지 못해 첫 suite 0 assertion으로 즉시 중단했고, 실패 로그를 그대로 보존했다. 사용자가 승인한 2차는 전체 입력 preflight 12/12 뒤 정확히 한 번 실행해 22개 묶음 785/785 PASS했다. 후보 bytes/SHA, 기대값, 허용오차, 게임 상수 변경은 0이다.
-- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. 보정 패키지 head의 PR Actions `43415982293`과 workflow_dispatch `43417371723`은 SUCCESS이고 세 원격 산출물 readback은 exact다. PR #79는 병합하지 않는다.
+- 산출물·1차 중단 로그·2차 전체 증거는 `docs/ooda/integration-baseline/A/`에 함께 있다. 보정 패키지 head의 PR Actions `43415982293`, workflow_dispatch `43417371723`, 최종 corrected-candidate run `43420335598`은 SUCCESS이고 세 원격 산출물 readback은 exact다. PR #79는 merge commit `68911e39…`로 병합됐으며 release/tag는 없다.
 
 ## 직전 제품 작업 — HP_A 함정 생존·임무불능·표시 HP 계약 정정
 

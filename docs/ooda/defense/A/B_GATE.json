@@ -1,0 +1,91 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_ENGINE_ORACLE_1",
+  "product": {
+    "file": "ooda-b.html",
+    "bytes": 22220143,
+    "sha256": "ff9ba7868fa1f25f862f6ebef8c43a2fb303e3bb954eaa395631fcc7d1643bcc"
+  },
+  "provider": {
+    "provider": "LEGACY_H1",
+    "mode": "OFF"
+  },
+  "checks": {
+    "firstPass": true,
+    "repeatPass": true,
+    "repeatExact": true,
+    "providerStillOff": true,
+    "noBrowserErrors": true
+  },
+  "first": {
+    "schema": "AEGIS_DEFENSE_OODA_ENGINE_TEST_A1",
+    "checks": {
+      "deterministic": true,
+      "ddgSlots": true,
+      "readyAfter48": true,
+      "cgModernization": true,
+      "degradedCapacity": true,
+      "combatUnavailable": true,
+      "boundedQueue": true,
+      "urgentPreemption": true,
+      "sameIdPreservedNewIdReset": true,
+      "saveLoadMidPhase": true,
+      "rngUnchanged": true
+    },
+    "first": {
+      "c0": "OODA_DEFER",
+      "s0": {
+        "slots": 4,
+        "used": 4,
+        "queue": 6
+      },
+      "c48": {
+        "reason": "OODA_READY",
+        "ready": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "s48": {
+        "evaluated": 4
+      },
+      "cg": {
+        "slots": 3
+      },
+      "degraded": {
+        "capacity": 0.5,
+        "slots": 2,
+        "remaining": 24
+      },
+      "hold": {
+        "hold": true,
+        "reason": "COMBAT_UNAVAILABLE"
+      },
+      "saturation": {
+        "queue": 64,
+        "overflow": 6
+      },
+      "preemption": {
+        "count": 1,
+        "urgentSlot": 3
+      },
+      "continuity": {
+        "seq0": 1,
+        "seqSame": 1,
+        "seqNew": 2
+      },
+      "save": {
+        "stateExact": true,
+        "commandExact": true,
+        "remaining": 24
+      }
+    },
+    "repeatDigest": "b61dbd1c",
+    "pass": true
+  },
+  "secondDigest": "42abaadce78298b81331594641cdca123506e4f9f1894a9b6f40ebd3371c7641",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "pass": true
+}

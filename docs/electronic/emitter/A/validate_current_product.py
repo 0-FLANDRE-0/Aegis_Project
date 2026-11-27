@@ -45,6 +45,11 @@ STAGE_POLICY = {
         "pullRequest": 79,
         "baselineSha256": "9121c44884ff808b295a4ddff61af93a3ed47f6e8c63956acf7a3339d24836fa",
     },
+    "DEFENSE_OODA_A": {
+        "branch": "defense-ooda-a",
+        "pullRequest": 80,
+        "baselineSha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0",
+    },
 }
 
 

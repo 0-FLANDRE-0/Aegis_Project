@@ -1,0 +1,529 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_FINAL_REGRESSION_2",
+  "complete": true,
+  "candidate": "Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+  "candidateSha256": "1d2b25cd22813c0187d8578e1cd1489f821222674ecb01cddd344f98da88d13d",
+  "candidateBytes": 22226343,
+  "baseline": "Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+  "baselineSha256": "655d2bdaa8e30e4788334373ea0f87d162ba4de84e1119b8c42f7ad855bd30b0",
+  "threatAssumptionMode": "MAX_THREAT",
+  "broadRun": {
+    "runCount": 1,
+    "oneShot": true,
+    "candidateFrozen": true,
+    "continuedAfterPolicyClassification": true,
+    "completedSuitesRerun": [],
+    "resumeReceipt": "evidence/final-regression/resume-preflight.json"
+  },
+  "expectedValuesUpdated": false,
+  "tolerancesChanged": false,
+  "gameConstantsChanged": false,
+  "rows": [
+    {
+      "suite": "static-integrity",
+      "status": "PASS",
+      "exitCode": 0,
+      "wallS": 0,
+      "expectedAssertions": 20,
+      "executedAssertions": 20,
+      "passedAssertions": 20,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "static-integrity.json"
+    },
+    {
+      "suite": "helicopter-flight",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/helicopter-flight",
+        "--only",
+        "helicopter-flight"
+      ],
+      "exitCode": 0,
+      "wallS": 466.71319168699983,
+      "status": "PASS",
+      "expectedAssertions": 85,
+      "executedAssertions": 85,
+      "passedAssertions": 85,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "helicopter-flight/native.json"
+    },
+    {
+      "suite": "aps153",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/aps153",
+        "--only",
+        "aps153"
+      ],
+      "exitCode": 0,
+      "wallS": 146.64667033100022,
+      "status": "PASS",
+      "expectedAssertions": 20,
+      "executedAssertions": 20,
+      "passedAssertions": 20,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "aps153/native.json"
+    },
+    {
+      "suite": "isar-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/isar-native",
+        "--only",
+        "isar-native"
+      ],
+      "exitCode": 0,
+      "wallS": 160.16248679,
+      "status": "PASS",
+      "expectedAssertions": 36,
+      "executedAssertions": 36,
+      "passedAssertions": 36,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-native/native.json"
+    },
+    {
+      "suite": "isar-classes",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/isar-classes",
+        "--only",
+        "isar-classes"
+      ],
+      "exitCode": 0,
+      "wallS": 69.64966278200018,
+      "status": "PASS",
+      "expectedAssertions": 8,
+      "executedAssertions": 8,
+      "passedAssertions": 8,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-classes/classes.json"
+    },
+    {
+      "suite": "isar-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/isar-clock",
+        "--only",
+        "isar-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 125.06444593700007,
+      "status": "PASS",
+      "expectedAssertions": 12,
+      "executedAssertions": 12,
+      "passedAssertions": 12,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-clock/clock.json"
+    },
+    {
+      "suite": "isar-ui",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/isar-ui",
+        "--only",
+        "isar-ui"
+      ],
+      "exitCode": 0,
+      "wallS": 130.913102171,
+      "status": "PASS",
+      "expectedAssertions": 38,
+      "executedAssertions": 38,
+      "passedAssertions": 38,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "isar-ui/ui.json"
+    },
+    {
+      "suite": "emcon-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/emcon-native",
+        "--only",
+        "emcon-native"
+      ],
+      "exitCode": 0,
+      "wallS": 89.48529082699997,
+      "status": "PASS",
+      "expectedAssertions": 27,
+      "executedAssertions": 27,
+      "passedAssertions": 27,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "emcon-native/native.json"
+    },
+    {
+      "suite": "harpoon-f1",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/harpoon-f1",
+        "--only",
+        "harpoon-f1"
+      ],
+      "exitCode": 0,
+      "wallS": 91.94482498199977,
+      "status": "PASS",
+      "expectedAssertions": 46,
+      "executedAssertions": 46,
+      "passedAssertions": 46,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-f1/native.json"
+    },
+    {
+      "suite": "harpoon-clock",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/harpoon-clock",
+        "--only",
+        "harpoon-clock"
+      ],
+      "exitCode": 0,
+      "wallS": 145.20658811500016,
+      "status": "PASS",
+      "expectedAssertions": 24,
+      "executedAssertions": 24,
+      "passedAssertions": 24,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "harpoon-clock/ui-clock.json"
+    },
+    {
+      "suite": "sov-native",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/sov-native",
+        "--only",
+        "sov-native"
+      ],
+      "exitCode": 0,
+      "wallS": 76.67629277200012,
+      "status": "PASS",
+      "expectedAssertions": 30,
+      "executedAssertions": 30,
+      "passedAssertions": 30,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-native/native.json"
+    },
+    {
+      "suite": "sov-casualty",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/sov-casualty",
+        "--only",
+        "sov-casualty"
+      ],
+      "exitCode": 0,
+      "wallS": 106.4412910469996,
+      "status": "PASS",
+      "expectedAssertions": 13,
+      "executedAssertions": 13,
+      "passedAssertions": 13,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-casualty/casualty.json"
+    },
+    {
+      "suite": "sov-deployment",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/sov-deployment",
+        "--only",
+        "sov-deployment"
+      ],
+      "exitCode": 0,
+      "wallS": 148.56950212500033,
+      "status": "PASS",
+      "expectedAssertions": 15,
+      "executedAssertions": 15,
+      "passedAssertions": 15,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-deployment/deployment.json"
+    },
+    {
+      "suite": "sov-visual",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/pip/B/run_domain.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/sov-visual",
+        "--only",
+        "sov-visual"
+      ],
+      "exitCode": 0,
+      "wallS": 106.88265625899976,
+      "status": "PASS",
+      "expectedAssertions": 10,
+      "executedAssertions": 10,
+      "passedAssertions": 10,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "sov-visual/visual.json"
+    },
+    {
+      "suite": "paired-integration",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-u",
+        "/workspace/Aegis_Project/docs/helicopter/F/verify_regression.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_INTEGRATION_BASELINE_A.html",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/paired-integration",
+        "--baseline-only",
+        "--exclude-defense-ooda-a"
+      ],
+      "exitCode": 1,
+      "wallS": 231.8468593040002,
+      "status": "FAIL",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 34,
+      "failedAssertions": [
+        "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+        "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+        "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+        "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+        "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+        "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+        "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState"
+      ],
+      "errors": [],
+      "resultPath": "paired-integration/baseline-comparison.json"
+    },
+    {
+      "suite": "paired-determinism",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/helicopter/F/verify_regression.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/paired-determinism",
+        "--baseline-only"
+      ],
+      "exitCode": 0,
+      "wallS": 241.808654584,
+      "status": "PASS",
+      "expectedAssertions": 42,
+      "executedAssertions": 42,
+      "passedAssertions": 42,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "paired-determinism/baseline-comparison.json"
+    },
+    {
+      "suite": "current-emcon-ui",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/map/E/verify_emcon_ui.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/current-emcon-ui"
+      ],
+      "exitCode": 0,
+      "wallS": 53.68596483300007,
+      "status": "PASS",
+      "expectedAssertions": 14,
+      "executedAssertions": 14,
+      "passedAssertions": 14,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "current-emcon-ui/ui.json"
+    },
+    {
+      "suite": "ui213",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/contact/friendly/A/cpu2d_ui.py"
+      ],
+      "exitCode": 0,
+      "wallS": 659.0920045350001,
+      "status": "PASS",
+      "expectedAssertions": 213,
+      "executedAssertions": 213,
+      "passedAssertions": 213,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "map/E/evidence/d-ui/ui.json"
+    },
+    {
+      "suite": "webgl8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/envelope/D/run_observed_webgl.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/webgl8"
+      ],
+      "exitCode": 0,
+      "wallS": 431.1065481420003,
+      "status": "PASS",
+      "expectedAssertions": 29,
+      "executedAssertions": 29,
+      "passedAssertions": 29,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "webgl8/observed-world.json"
+    },
+    {
+      "suite": "u4-seeker-scenes",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/ooda/integration-baseline/A/run_u4_scenes_candidate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/u4-seeker-scenes/scenes.json"
+      ],
+      "exitCode": 0,
+      "wallS": 64.74591541099971,
+      "status": "PASS",
+      "expectedAssertions": 19,
+      "executedAssertions": 19,
+      "passedAssertions": 19,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "u4-seeker-scenes/scenes.json"
+    },
+    {
+      "suite": "hp-contract",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/damage/hp/A/run_contract_gate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/hp-contract/contract-gate.json"
+      ],
+      "exitCode": 0,
+      "wallS": 203.77400308699998,
+      "status": "PASS",
+      "expectedAssertions": 19,
+      "executedAssertions": 19,
+      "passedAssertions": 19,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "hp-contract/contract-gate.json"
+    },
+    {
+      "suite": "seeker-close",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-u",
+        "/workspace/Aegis_Project/docs/ooda/integration-baseline/A/run_seeker_close_candidate.py",
+        "/workspace/Aegis_Project/Aegis_SIM_v48_WIP_DEFENSE_OODA_A.html",
+        "/workspace/Aegis_Project/docs/ooda/defense/A/evidence/final-regression/seeker-close"
+      ],
+      "exitCode": 0,
+      "wallS": 164.52295610299961,
+      "status": "PASS",
+      "expectedAssertions": 26,
+      "executedAssertions": 26,
+      "passedAssertions": 26,
+      "failedAssertions": [],
+      "errors": [],
+      "resultPath": "seeker-close/SUMMARY.json"
+    }
+  ],
+  "rawFailures": [
+    "paired-integration"
+  ],
+  "pairedActiveDelta": {
+    "rawStatus": "FAIL",
+    "classification": "EXPECTED_ACTIVE_DIAGNOSTIC_DELTA",
+    "effectiveReleaseGate": "PASS",
+    "evidence": "evidence/active-delta/PAIRED_ACTIVE_DELTA_CLASSIFICATION.json"
+  },
+  "native13": {
+    "suiteCount": 13,
+    "expectedSuiteCount": 13,
+    "expectedAssertions": 364,
+    "executedAssertions": 364,
+    "passedAssertions": 364
+  },
+  "assertions": {
+    "expectedRaw": 788,
+    "executedRaw": 788,
+    "passedRaw": 780,
+    "failedRaw": 8
+  },
+  "coverage": {
+    "defenseOoda": "static-integrity + D ACTIVE/contract/engine + natural terminal gates",
+    "pairedDdgCg": [
+      "paired-integration (raw observational delta)",
+      "paired-determinism"
+    ],
+    "hpOutcomeSave": "hp-contract",
+    "seekerCloseNineteenShots": "seeker-close",
+    "representativeRealFlights": [
+      "u4-seeker-scenes",
+      "harpoon-f1"
+    ],
+    "emconAndEsm": [
+      "current-emcon-ui",
+      "seeker-close"
+    ],
+    "browserUi": "ui213",
+    "actualWebgl": "webgl8"
+  },
+  "confirmedOnly": {
+    "staticAndLimitedFeatureOffEvidence": "INHERITED_PASS",
+    "performance": "UNVERIFIED"
+  },
+  "inheritedDebt": [
+    "CIWS_SEED_419025_FAIL",
+    "CG_VS_FRIENDLY_PAIRED_OBSERVER_DELTA_2",
+    "WIP12D_CIWS_FIXED_STEP_SCALE_DEBT",
+    "CHROMIUM_MEMORY_CRASH_AND_CHECKOUT_TIMEOUT_DEBT",
+    "KH32_60KM_POPULATION_NOT_RUN",
+    "CONFIRMED_ONLY_PERFORMANCE_UNVERIFIED",
+    "LEGACY_SARH_SELFTEST_DIAGNOSTIC_DEBT"
+  ],
+  "effectiveFailures": [],
+  "wallS": 3917.083630694,
+  "release": false
+}

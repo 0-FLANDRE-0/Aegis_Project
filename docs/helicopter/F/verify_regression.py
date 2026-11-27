@@ -53,6 +53,11 @@ def baseline(a):
     if isinstance(value,list):return [physical(v)for v in value]
     return value
 '''
+    if getattr(a, 'exclude_defense_ooda_a', False):
+        # DEFENSE_OODA_A owns this newly saved owner-local decision phase only.
+        # The dedicated OODA save/load gates validate it; the cold-aircraft
+        # paired physical comparison remains exact for every pre-existing field.
+        normalizer = normalizer.replace("['performance','aviation']", "['performance','aviation','defenseOodaA']")
     start,end=source.index('def physical('),source.index('def main(')
     source=source[:start]+normalizer+source[end:]
     needle='dynamics:d.shipDynamics(),rng:'
@@ -98,6 +103,9 @@ def baseline(a):
     finally:
         sys.argv = previous_argv
     report = json.loads((a.out / 'baseline-comparison.json').read_text())
+    report['normalization'] = {'excludeDefenseOodaA': bool(getattr(a, 'exclude_defense_ooda_a', False)),
+                               'reason': 'owner-local decision phase is validated by DEFENSE_OODA_A contract gates'}
+    (a.out / 'baseline-comparison.json').write_text(json.dumps(report, indent=2) + '\n')
     # Progress is useful while running, but duplicates the complete final case
     # report and is not part of the published evidence set.
     (a.out / 'baseline-comparison-progress.json').unlink(missing_ok=True)
@@ -170,6 +178,7 @@ def main():
     p.add_argument('--baseline-only', action='store_true')
     p.add_argument('--approved-raid-baseline', type=Path, help='Explicit CLEAN_A category-(a) reference; guarded by reviewed game-core hash')
     p.add_argument('--approved-air-origin-baselines', type=Path, help='Only five explicitly approved AIR_ORIGIN_A expectations, guarded by exact HTML/core hashes')
+    p.add_argument('--exclude-defense-ooda-a', action='store_true', help='Exclude only the newly saved DEFENSE_OODA_A owner-local phase from paired physical equality')
     a = p.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
     if a.clock_only:

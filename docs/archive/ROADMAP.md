@@ -26,11 +26,14 @@
 7. **SEEKER_CLOSE_A** — 제품 비변경 진단·마감 완료, PR #78 병합 (`main@d5f43c5a`)
    - 현재 HP_A에서 보정된 종말 원인 19발과 채프/Nulka 배치→관측→gate→선택→최종 회복/유인을 분리 기록
    - 계약 결함 미재현으로 제품 수정·보상 튜닝·광역 재실행 없음
-8. **INTEGRATION_BASELINE_A 통합 기준선 고정** — 보정 구현·검증 785/785 완료, PR #79 제출 후보
+8. **INTEGRATION_BASELINE_A 통합 기준선 고정** — 보정 구현·검증 785/785 완료, PR #79 사용자 병합 (`main@68911e39`)
    - 기존 AUTO/H1/H2/H3/H4/Network/CIWS 소유권·호출 그래프 동결
    - owner-addressed 불변 입력 DTO + advisory 명령 DTO + exact `LEGACY_H1` provider
-9. **DEFENSE_OODA_A 교전·방어 OODA** — PR #79 병합 후 단일 다음 단계
+9. **DEFENSE_OODA_A 교전·방어 OODA** — 구현·검증 완료, PR #80 제출 후보
+   - DDG/CG 공통 owner-local fixed-step OODA, ShipProfile 처리량/슬롯/대기열/지연, native 상한 이하 advisory 살보
+   - SHADOW→ACTIVE, save/load, 자연 센서 종말 대조군과 동결 후보 광역 유효 게이트 PASS
 
-- SEEKER_CLOSE_A 문서 PR은 병합됐다. INTEGRATION_BASELINE_A도 별도 정리 단계를 만들지 않고 PR #79 병합 뒤 `DEFENSE_OODA_A`로 간다.
+- SEEKER_CLOSE_A 문서 PR과 INTEGRATION_BASELINE_A PR #79가 병합됐다. 별도 정리 단계를 만들지 않고 `DEFENSE_OODA_A`를 완료 후보까지 진행했다.
 - PR #79 보정 광역 1차의 fixture 누락 중단은 실패 증거로 보존한다. 사용자 승인 2차는 전체 간접 입력 preflight 뒤 한 번만 실행했으며 후보 bytes/SHA·기대값·허용오차·게임 상수는 바꾸지 않았다.
+- DEFENSE_OODA_A 광역 paired raid 8개는 raw FAIL을 유지한 채 ACTIVE OODA 지연과 native FCS 품질 차단으로 분류했다. 자연 센서 대조군은 DDG/CG 모두 정상 종말 격추했고 안전 권위 우회는 0이다.
 - **적 항공기 재제작**은 시점 미정이다. 설계 메모는 `DESIGN_NOTES.md`에 있다.

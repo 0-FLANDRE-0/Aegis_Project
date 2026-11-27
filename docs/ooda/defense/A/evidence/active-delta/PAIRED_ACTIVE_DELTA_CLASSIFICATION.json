@@ -1,0 +1,72 @@
+{
+  "schema": "AEGIS_DEFENSE_OODA_A_PAIRED_ACTIVE_DELTA_CLASSIFICATION_1",
+  "policy": {
+    "source": "DEFENSE_OODA_A_INSTRUCTIONS.md §9-4",
+    "rule": "SHADOW requires exact combat results; ACTIVE permits causal timing/outcome deltas while safety invariants remain mandatory."
+  },
+  "rawSuite": {
+    "name": "paired-integration",
+    "status": "FAIL",
+    "failedAssertions": [
+      "CG_52_LATE_TICONDEROGA:raid:raidInventoryDeltaBounded",
+      "CG_52_LATE_TICONDEROGA:raid:sameCombatRng",
+      "CG_52_LATE_TICONDEROGA:raid:sameExistingObserverState",
+      "CG_52_LATE_TICONDEROGA:raid:samePhysicalState",
+      "DDG_119_LATE_FLIGHT_IIA:raid:raidInventoryDeltaBounded",
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameCombatRng",
+      "DDG_119_LATE_FLIGHT_IIA:raid:sameExistingObserverState",
+      "DDG_119_LATE_FLIGHT_IIA:raid:samePhysicalState"
+    ],
+    "preserved": true
+  },
+  "classification": "EXPECTED_ACTIVE_DIAGNOSTIC_DELTA",
+  "effectiveReleaseGate": "PASS",
+  "cause": "The inherited raid supplies one diagnostic measurement. Legacy H1 releases immediately; DEFENSE_OODA_A reaches READY after its frozen service delay, when the one-shot track no longer meets downstream WIP119 FCS quality. No OODA authority or radar ownership is added to bypass that gate.",
+  "naturalControl": "With a native sensor-updated Kh-35U track, both DDG and CG reached OODA READY, released two native ESSM rounds after READY, and recorded PROX_DETONATION_KILL with zero ship hits.",
+  "checks": {
+    "rawFailureSetExact": true,
+    "rawErrorsZero": true,
+    "idleAndDamagedExact": true,
+    "raidDamageLayoutOffboardAndFaultsPreserved": true,
+    "raidWindowHasNoResolvedCombatOutcome": true,
+    "legacySevenRoundsCandidateZero": true,
+    "candidateReplayExplainsFcsExpiry": true,
+    "naturalTerminalDdgCgPass": true,
+    "activeInvariantGatesPass": true
+  },
+  "expectationsUpdated": false,
+  "tolerancesChanged": false,
+  "gameConstantsChanged": false,
+  "evidence": [
+    {
+      "path": "docs/ooda/defense/A/evidence/final-regression/paired-integration/baseline-comparison.json",
+      "bytes": 16513835,
+      "sha256": "49727f4b2caf7ffdf94b0ce92c618b3713173a64c8c03ab92d8e73446667cf8b"
+    },
+    {
+      "path": "docs/ooda/defense/A/evidence/active-delta/PAIRED_ACTIVE_DELTA_DIAGNOSTIC.json",
+      "bytes": 200024,
+      "sha256": "dfabc59131c7503d938ec7c1756754511d8cbaaab95c4126222b78317ff22ea5"
+    },
+    {
+      "path": "docs/ooda/defense/A/evidence/active-terminal/NATURAL_TERMINAL_GATE.json",
+      "bytes": 121369,
+      "sha256": "74642c5161b5a76f1029dee3f9474bfc13205977b5e9846a93b8ed8a5882aeed"
+    },
+    {
+      "path": "docs/ooda/defense/A/D_ACTIVE_GATE.json",
+      "bytes": 94263,
+      "sha256": "b45be15dc1231c535d23587de6e3bc385d9e43550bdbf7d6fe68825dcd48e5fa"
+    },
+    {
+      "path": "docs/ooda/defense/A/D_CONTRACT_GATE.json",
+      "bytes": 21389,
+      "sha256": "2d0fccfb38cfaea38efab072f847add16edff05eea2d6769d25f25259cc8dcc6"
+    },
+    {
+      "path": "docs/ooda/defense/A/D_ENGINE_GATE.json",
+      "bytes": 3965,
+      "sha256": "dd1e840a9ff56d654cd11f3b787a15b534f00ab8a009dd139ab969308e591bec"
+    }
+  ]
+}
